@@ -10,6 +10,9 @@ const NavBar = () => {
 };
 
 const Container = styled.nav`
+  height: 80px;
+  display: flex;
+  align-items: center;
 `;
 
 export default NavBar;

@@ -4,8 +4,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Landing from '../views/Landing';
-import UserAccount from '../views/UserAccount';
+import Landing from "../views/Landing";
+import UserAccount from "../views/UserAccount";
 
 export interface IProps {
   children?: any;

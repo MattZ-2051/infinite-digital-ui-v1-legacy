@@ -1,13 +1,7 @@
-export interface IProps {
-    
-}
- 
+export interface IProps {}
+
 const AuthLayout: React.FC<IProps> = () => {
-    return (
-        <div>
-            AuthLayout
-        </div>
-    );
-}
- 
+  return <div>AuthLayout</div>;
+};
+
 export default AuthLayout;

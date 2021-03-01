@@ -3,10 +3,12 @@ import { useDispatch } from "react-redux";
 import { ThunkAction } from "redux-thunk";
 
 import globalSlice from './global/globalSlice';
+import sessionSlice from './session/sessionSlice';
 
 const store = configureStore({
   reducer: {
     global: globalSlice,
+    session: sessionSlice,
   },
 });
 

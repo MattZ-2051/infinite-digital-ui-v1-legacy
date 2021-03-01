@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import JosefinSans from '../assets/fonts/josefin-sans-v17-latin-regular.woff';
+import { createGlobalStyle } from "styled-components";
+import JosefinSans from "../assets/fonts/josefin-sans-v17-latin-regular.woff";
 
 const GlobalStyle = createGlobalStyle`
  :root {
@@ -24,6 +24,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'josefin-sans', sans-serif;
     font-size: 16px;
   }
+
+  input[type="text"] {
+    height: 45px;
+  }
 `;
- 
+
 export default GlobalStyle;

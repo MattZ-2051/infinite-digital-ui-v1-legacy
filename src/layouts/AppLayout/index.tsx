@@ -1,6 +1,7 @@
-import NavBar from 'components/NavBar';
+import NavBar from "components/NavBar";
 import Footer from "components/Footer";
 import styled from "styled-components/macro";
+import ModalController from "components/ModalController";
 
 export interface IProps {
   children: JSX.Element;
@@ -9,8 +10,9 @@ export interface IProps {
 const AppLayout: React.FC<IProps> = ({ children }) => {
   return (
     <Container>
+      <ModalController />
       <Header>
-          INFINITE
+        <Logo>INFINITE</Logo>
         <NavBar />
       </Header>
       <Main>{children}</Main>
@@ -21,8 +23,21 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
 
 const Container = styled.div``;
 
-const Main = styled.main``;
+const Main = styled.main`
+  padding: 75px;
+`;
 
-const Header = styled.header``;
+const Header = styled.header`
+  background-color: black;
+  padding: 0 50px 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Logo = styled.div`
+  color: white;
+  font-size: 20px;
+`;
 
 export default AppLayout;
