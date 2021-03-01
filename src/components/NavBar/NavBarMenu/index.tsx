@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import { useAppSelector, useAppDispatch } from "hooks/store";
+import { useAppDispatch } from "hooks/store";
 import { openModal } from "store/global/globalSlice";
 
 export interface NavBarMenuProps {}
@@ -7,13 +7,11 @@ export interface NavBarMenuProps {}
 const NavBarMenu: React.FC<NavBarMenuProps> = () => {
   const dispatch = useAppDispatch();
 
-  const openLoginModal = () => {
+  const openModalByName = (name: any, data: any): any => {
     dispatch(
       openModal({
-        LOGIN: {
-          user: 1,
-          accessLevel: 1,
-        },
+        name,
+        data,
       })
     );
   };
@@ -29,9 +27,12 @@ const NavBarMenu: React.FC<NavBarMenuProps> = () => {
         <MenuItem>|</MenuItem>
         <MenuItem>0 Items</MenuItem>
         <MenuItem>
-          LOG IN <button onClick={openLoginModal}>login</button>
+          LOG IN <button onClick={() => openModalByName("LOGIN", {})}>login</button>
         </MenuItem>
-        <MenuItem>SIGN UP</MenuItem>
+        <MenuItem>
+          SIGN UP{" "}
+          <button onClick={() => openModalByName("SIGN_UP", {})}>sign Up</button>
+        </MenuItem>
         <MenuItem>Zoom</MenuItem>
         <MenuItem>M</MenuItem>
       </Menu>

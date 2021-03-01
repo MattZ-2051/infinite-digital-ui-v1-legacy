@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import styled from "styled-components/macro";
 import Modal, { ModalProps } from "@material-ui/core/Modal";
 
