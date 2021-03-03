@@ -1,5 +1,5 @@
-import { Route, Redirect } from "react-router-dom";
-import { getToken } from "lib/utils/auth";
+import { Route, Redirect } from 'react-router-dom';
+import { getToken } from 'lib/utils/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }): any => {
   const token = getToken();
@@ -12,10 +12,11 @@ const PrivateRoute = ({ component: Component, ...rest }): any => {
           return <Component {...routeProps} />;
         }
 
-        return ( //TODO: revisar porque uso un modal
+        return (
+          // TODO: Review redirect: Now is using a modal not a route
           <Redirect
             to={{
-              pathname: "/sign-in",
+              pathname: '/sign-in',
               state: { from: routeProps.location },
             }}
           />

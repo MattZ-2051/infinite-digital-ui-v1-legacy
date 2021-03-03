@@ -29,3 +29,7 @@ export const getToken = () => {
   }
   return null;
 };
+
+export function deleteToken() {
+  localStorage.removeItem(tokenKey);
+}

@@ -1,1 +1,1 @@
-import { axiosInstance } from "../coreService";
+import { axiosInstance } from '../coreService';

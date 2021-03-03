@@ -1,15 +1,12 @@
-import React from "react";
-import styled from "styled-components/macro";
-import Modal, { ModalProps } from "@material-ui/core/Modal";
+import React from 'react';
+import styled from 'styled-components/macro';
+//Local
+import Modal, { ModalProps } from '@material-ui/core/Modal';
 
-const ModalComponent: any = ({children, ...props}) => {
+const ModalComponent = ({ children, ...props }) => {
   return (
-    <ModalContainer
-      {...(props as any)}
-    >
-      <ModalBody>
-        {children}
-      </ModalBody>
+    <ModalContainer {...(props as any)}>
+      <ModalBody>{children}</ModalBody>
     </ModalContainer>
   );
 };

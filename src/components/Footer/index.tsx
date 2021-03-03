@@ -1,7 +1,6 @@
-import styled from "styled-components/macro";
-export interface IProps {}
+import styled from 'styled-components/macro';
 
-const Footer: React.FC<IProps> = () => {
+const Footer = () => {
   return (
     <StyledFooter>
       Copyright © 2020 Citizens Reserve, Inc. All Rights Reserved.

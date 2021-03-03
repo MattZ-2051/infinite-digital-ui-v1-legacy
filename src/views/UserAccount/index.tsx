@@ -1,13 +1,11 @@
-export interface IProps {
-    
-}
- 
+export interface IProps {}
+
 const UserAccount: React.FC<IProps> = () => {
-    return (
-        <div>
-            UserAccount
-        </div>
-    );
-}
- 
+  return (
+    <div>
+      <h1>User Account</h1>
+    </div>
+  );
+};
+
 export default UserAccount;

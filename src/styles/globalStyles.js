@@ -1,11 +1,17 @@
-import { createGlobalStyle } from "styled-components";
-import JosefinSans from "../assets/fonts/josefin-sans-v17-latin-regular.woff";
+import { createGlobalStyle } from 'styled-components';
+import JosefinSans from '../assets/fonts/josefin-sans-v17-latin-regular.woff';
 
 const GlobalStyle = createGlobalStyle`
  :root {
     // Colors
-    --red: #ff1616;
-    --grey-light: #f5f5f5;
+    --red: #fa2215;
+    --brown: #e7dbab;
+    --light-green-1: #ebebeb;
+    --light-green-2: #d9d9d9;
+    --light-green-3: #a6a6a6;
+    --light-green-4: #737373;
+    --light-green-5: #23201f;
+    --light-green-6: #050506;
   }
 
   @font-face {
@@ -25,9 +31,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
   }
 
-  input[type="text"] {
+  /* input[type="text"] {
     height: 45px;
-  }
+  } */
 `;
 
 export default GlobalStyle;

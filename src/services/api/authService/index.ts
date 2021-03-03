@@ -1,5 +1,5 @@
-import { axiosInstance } from "../coreService";
-import { setToken } from "lib/utils/auth";
+import { axiosInstance } from '../coreService';
+import { setToken } from 'lib/utils/auth';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID as string;
 const REALM = process.env.REACT_APP_REALM as string;
@@ -11,13 +11,13 @@ export const logIn = async (
 ): Promise<any | undefined> => {
   const params = new URLSearchParams(); // Needed for application/x-www-form-urlencoded
 
-  params.append("client_id", CLIENT_ID);
-  params.append("username", username);
-  params.append("password", password);
-  params.append("grant_type", "password");
+  params.append('client_id', CLIENT_ID);
+  params.append('username', username);
+  params.append('password', password);
+  params.append('grant_type', 'password');
 
   const response = await axiosInstance.request({
-    method: "POST",
+    method: 'POST',
     url: `${API_AUTH_URL}/auth/realms/${REALM}/protocol/openid-connect/token`,
     data: params,
   });

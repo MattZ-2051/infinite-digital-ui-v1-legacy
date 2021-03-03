@@ -1,7 +1,8 @@
-import NavBar from "components/NavBar";
-import Footer from "components/Footer";
-import styled from "styled-components/macro";
-import ModalController from "components/ModalController";
+import NavBar from 'components/NavBar';
+import Footer from 'components/Footer';
+import styled from 'styled-components/macro';
+import ModalController from 'components/ModalController';
+import Link from '@material-ui/core/Link';
 
 export interface IProps {
   children: JSX.Element;
@@ -12,7 +13,7 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
     <Container>
       <ModalController />
       <Header>
-        <Logo>INFINITE</Logo>
+        <Logo href="/#">INFINITE</Logo>
         <NavBar />
       </Header>
       <Main>{children}</Main>
@@ -35,9 +36,11 @@ const Header = styled.header`
   justify-content: space-between;
 `;
 
-const Logo = styled.div`
-  color: white;
-  font-size: 20px;
+const Logo = styled(Link)`
+  && {
+    color: white;
+    font-size: 20px;
+  }
 `;
 
 export default AppLayout;

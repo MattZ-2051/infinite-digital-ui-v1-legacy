@@ -1,10 +1,9 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import GlobalStyle from "styles/globalStyles";
-import AppLayout from "./layouts/AppLayout";
-import Router from "./router";
+import { BrowserRouter } from 'react-router-dom';
+import GlobalStyle from 'styles/globalStyles';
+import AppLayout from './layouts/AppLayout';
+import Router from './router';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <BrowserRouter>
       <GlobalStyle />

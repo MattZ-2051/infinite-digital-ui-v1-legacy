@@ -1,13 +1,17 @@
-import styled from "styled-components/macro";
-import { useAppDispatch } from "hooks/store";
-import { openModal } from "store/global/globalSlice";
+import Link from '@material-ui/core/Link';
+import styled from 'styled-components/macro';
+import { useAppDispatch } from 'hooks/store';
+import { openModal } from 'store/global/globalSlice';
+import CartItems from '../CartItems';
 
-export interface NavBarMenuProps {}
+// Icons
+import MenuIcon from '@material-ui/icons/Menu';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
-const NavBarMenu: React.FC<NavBarMenuProps> = () => {
+const NavBarMenu = () => {
   const dispatch = useAppDispatch();
 
-  const openModalByName = (name: any, data: any): any => {
+  const openModalByName = (name: string, data: object): void => {
     dispatch(
       openModal({
         name,
@@ -19,22 +23,31 @@ const NavBarMenu: React.FC<NavBarMenuProps> = () => {
   return (
     <Container>
       <Menu>
-        <MenuItem>Marketplace</MenuItem>
-        <MenuItem>Drop Boxes</MenuItem>
-        <MenuItem>Closets</MenuItem>
-        <MenuItem>Account</MenuItem>
-        <MenuItem>Notifications</MenuItem>
-        <MenuItem>|</MenuItem>
-        <MenuItem>0 Items</MenuItem>
-        <MenuItem>
-          LOG IN <button onClick={() => openModalByName("LOGIN", {})}>login</button>
-        </MenuItem>
-        <MenuItem>
-          SIGN UP{" "}
-          <button onClick={() => openModalByName("SIGN_UP", {})}>sign Up</button>
-        </MenuItem>
-        <MenuItem>Zoom</MenuItem>
-        <MenuItem>M</MenuItem>
+        <Item>Marketplace</Item>
+        <Item>Drop Boxes</Item>
+        <Item>Closets</Item>
+        <Item>Account</Item>
+        <Item>Notifications</Item>
+        <Item>|</Item>
+        <Item>
+          <CartItems />
+        </Item>
+        <Item>
+          <StyledLink href="#" onClick={() => openModalByName('LOGIN', {})}>
+            LOG IN
+          </StyledLink>
+        </Item>
+        <Item>
+          <StyledLink href="#" onClick={() => openModalByName('SIGN_UP', {})}>
+            SIGN UP
+          </StyledLink>
+        </Item>
+        <Item>
+          <ZoomInIcon />
+        </Item>
+        <Item>
+          <MenuIcon />
+        </Item>
       </Menu>
     </Container>
   );
@@ -53,8 +66,16 @@ const Menu = styled.ul`
   align-items: center;
 `;
 
-const MenuItem = styled.li`
+const Item = styled.li`
   margin: 10px;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  && {
+    color: white;
+  }
 `;
 
 export default NavBarMenu;

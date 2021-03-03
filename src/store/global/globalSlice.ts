@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState: {
     modals: [] as any,
   },
@@ -11,11 +11,15 @@ export const globalSlice = createSlice({
     },
     closeModal: (state, action) => {
       state.modals = state.modals.filter(
-        (modal) => modal.name !== action.payload.name
+        (modal: { name: string; data: object }) =>
+          modal.name !== action.payload.name
       );
+    },
+    closeAllModals: (state) => {
+      state.modals = [];
     },
   },
 });
 
-export const { openModal, closeModal } = globalSlice.actions;
+export const { openModal, closeModal, closeAllModals } = globalSlice.actions;
 export default globalSlice.reducer;
