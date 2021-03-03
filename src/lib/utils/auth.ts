@@ -1,3 +1,5 @@
+const tokenKey = 'infinite-auth';
+
 export const setToken = ({
   access_token,
   refresh_token,
@@ -5,7 +7,7 @@ export const setToken = ({
   refresh_expires_in,
 }) => {
   localStorage.setItem(
-    "infinite-auth",
+    tokenKey,
     JSON.stringify({
       access_token,
       refresh_token,
@@ -13,4 +15,17 @@ export const setToken = ({
       refresh_expires_in,
     })
   );
+};
+
+export const getToken = () => {
+  const storedToken = localStorage.getItem(tokenKey);
+  if (storedToken) {
+    try {
+      const token = JSON.parse(storedToken);
+      return token;
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 };
