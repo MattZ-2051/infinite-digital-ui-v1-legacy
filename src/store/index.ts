@@ -1,15 +1,41 @@
-import { configureStore, Action } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux'
+import { configureStore, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { ThunkAction } from 'redux-thunk';
-
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import globalSlice from './global/globalSlice';
 import sessionSlice from './session/sessionSlice';
 
+const rootReducer = combineReducers({
+  global: globalSlice,
+  session: sessionSlice,
+});
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 const store = configureStore({
-  reducer: {
-    global: globalSlice,
-    session: sessionSlice,
-  },
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  })
 });
 
 export type RootState = ReturnType<typeof store.getState>;
