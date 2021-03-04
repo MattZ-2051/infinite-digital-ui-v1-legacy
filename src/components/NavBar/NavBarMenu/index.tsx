@@ -1,15 +1,19 @@
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import styled from 'styled-components/macro';
 import { useAppDispatch } from 'hooks/store';
 import { openModal } from 'store/global/globalSlice';
 import CartItems from '../CartItems';
+import { useAppSelector } from 'hooks/store';
+import {
+  Link
+} from "react-router-dom";
 
 // Icons
 import MenuIcon from '@material-ui/icons/Menu';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
 const NavBarMenu = () => {
   const dispatch = useAppDispatch();
+  const isAuth = useAppSelector((state) => state.session.user.isAuthenticated);
 
   const openModalByName = (name: string, data: object): void => {
     dispatch(
@@ -32,19 +36,29 @@ const NavBarMenu = () => {
         <Item>
           <CartItems />
         </Item>
+
         <Item>
-          <StyledLink href="#" onClick={() => openModalByName('LOGIN', {})}>
-            LOG IN
-          </StyledLink>
+          {isAuth ? (
+            <StyledLink
+              to="/sign-out"
+            >
+              LOG OUT
+            </StyledLink>
+          ) : (
+            <StyledLink to="/" onClick={() => openModalByName('LOGIN', {})}>
+              LOG IN
+            </StyledLink>
+          )}
         </Item>
-        <Item>
-          <StyledLink href="#" onClick={() => openModalByName('SIGN_UP', {})}>
-            SIGN UP
-          </StyledLink>
-        </Item>
-        <Item>
-          <ZoomInIcon />
-        </Item>
+
+        {!isAuth && (
+          <Item>
+            <StyledLink to="/" onClick={() => openModalByName('SIGN_UP', {})}>
+              SIGN UP
+            </StyledLink>
+          </Item>
+        )}
+
         <Item>
           <MenuIcon />
         </Item>

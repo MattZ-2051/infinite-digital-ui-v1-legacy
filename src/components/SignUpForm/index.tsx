@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 // Material-UI
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
@@ -10,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
 import { registerUser } from 'store/session/sessionThunks';
 import { closeAllModals } from 'store/global/globalSlice';
+import { clearError } from 'store/session/sessionSlice';
+import { authUser } from 'store/session/sessionThunks';
 
 interface IFormInput {
   email: string;
@@ -19,6 +22,7 @@ interface IFormInput {
 }
 
 const SignUpForm = () => {
+  let history = useHistory();
   const { register, handleSubmit, errors, watch } = useForm<IFormInput>();
   const errorMessage = useAppSelector((state) => state.session.error);
   const formState = useAppSelector((state) => state.session.loading);
@@ -31,9 +35,17 @@ const SignUpForm = () => {
       registerUser({ email: data.email, username: data.username, password: data.password })
     );
 
+    // Register completed -> autoLogin
     if (registerUser.fulfilled.match(resultAction)) {
+      const resultAction: any = await dispatch(
+        authUser({ username: data.username, password: data.password })
+      );
+  
+      if (authUser.fulfilled.match(resultAction)) {
+        history.push('user-account');
+        dispatch(closeAllModals());
+      }
       dispatch(closeAllModals());
-      // TODO: autoLogin
     }
   };
 
@@ -54,7 +66,7 @@ const SignUpForm = () => {
           margin="normal"
           variant="outlined"
           name="email"
-          inputRef={register({ required: true, maxLength: 20 })}
+          inputRef={register({ required: true })}
         />
       </div>
 
@@ -167,11 +179,6 @@ const StyledTextField = styled(TextField)`
       }
     }
   }
-`;
-
-const ForgotPassword = styled.span`
-  text-align: right;
-  display: block;
 `;
 
 export default SignUpForm;

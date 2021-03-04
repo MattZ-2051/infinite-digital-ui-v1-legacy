@@ -33,9 +33,7 @@ export const authUser = createAsyncThunk<
 });
 
 export const registerUser = createAsyncThunk<
-  // Return type of the payload creator
   IPayload,
-  // First argument to the payload creator
   IAuthData,
   {
     rejectValue: IError;
@@ -46,7 +44,7 @@ export const registerUser = createAsyncThunk<
     return response.data;
   } catch (err) {
     return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description,
+      errorMessage: err.response.data.message,
     } as IError);
   }
 });

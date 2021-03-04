@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authUser } from './sessionThunks';
+import { authUser, registerUser } from './sessionThunks';
 
 interface UsersState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
@@ -17,9 +17,16 @@ export const sessionSlice = createSlice({
       tokens: {},
     },
   } as UsersState,
-  reducers: {},
+  reducers: {
+    clearError: (state): void => { state.error = null },
+    logout: (state) => {
+      state.user.isAuthenticated = false;
+      state.user.tokens = {};
+    }
+  },
   extraReducers: (builder) => {
-    builder.addCase(authUser.pending, (state, action) => {
+    // AUTH
+    builder.addCase(authUser.pending, (state) => {
       if (state.loading === 'idle') {
         state.loading = 'pending';
       }
@@ -41,7 +48,25 @@ export const sessionSlice = createSlice({
       state.user.tokens = payload;
       state.user.isAuthenticated = true;
     });
+    
+    // REGISTER
+    builder.addCase(registerUser.pending, (state) => {
+      if (state.loading === 'idle') {
+        state.loading = 'pending';
+      }
+    });
+    builder.addCase(registerUser.rejected, (state, action: any) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      if (action.payload) {
+        state.error = action.payload.errorMessage || 'One or more fields have an error. Please check and try again.';
+      } else {
+        state.error = action.error;
+      }
+    });
   },
 });
 
+export const { clearError, logout } = sessionSlice.actions;
 export default sessionSlice.reducer;
