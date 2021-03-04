@@ -33,3 +33,25 @@ export const logIn = async (
 
   return response;
 };
+
+export const register = async (
+  email: string,
+  password: string,
+  username: string,
+  profilePhotoUrl?: string,
+): Promise<any | undefined> => {
+  const params = new URLSearchParams(); // Needed for application/x-www-form-urlencoded
+
+  params.append('email', email);
+  params.append('username', username);
+  params.append('password', password); //^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})
+  params.append('profilePhotoUrl', 'https://place-puppy.com/300x300'); // TODO hardcoded
+
+  const response = await axiosInstance.request({
+    method: 'POST',
+    url: 'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com/users',
+    data: params,
+  });
+
+  return response;
+};

@@ -9,11 +9,11 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 // Local
 import { useAppDispatch, useAppSelector } from 'hooks/store';
-import { authUser } from 'store/session/sessionSlice';
+import { authUser } from 'store/session/sessionThunks';
 import { closeAllModals } from 'store/global/globalSlice';
 
 interface IFormInput {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -26,7 +26,7 @@ const SignInForm = () => {
 
   const onSubmit = async (data: IFormInput) => {
     const resultAction: any = await dispatch(
-      authUser({ email: data.email, password: data.password })
+      authUser({ username: data.username, password: data.password })
     );
 
     if (authUser.fulfilled.match(resultAction)) {
@@ -42,30 +42,29 @@ const SignInForm = () => {
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
       <div>
-        {errors.email && (
+        {errors.username && (
           <span style={{ color: 'red' }}>This field is required</span>
         )}
         <StyledTextField
-          value="user1@example.com"
           id="outlined-full-width"
-          label="Email address"
+          label="Username"
           fullWidth
           margin="normal"
           // InputLabelProps={{
           //   shrink: true,
           // }}
           variant="outlined"
-          name="email"
+          name="username"
           inputRef={register({ required: true, maxLength: 20 })}
         />
       </div>
 
       <div>
         {errors.password && (
-          <span style={{ color: 'red' }}>This field is required</span>
+          <span style={{ color: 'red' }}>{errors.password.message}</span>
         )}
         <StyledTextField
-          value="Safest@123"
+          type="password"
           id="outlined-full-width"
           label="Password"
           fullWidth
@@ -75,7 +74,13 @@ const SignInForm = () => {
           // }}
           variant="outlined"
           name="password"
-          inputRef={register({ required: true, maxLength: 20 })}
+          inputRef={register({
+            required: true,
+            minLength: {
+              value: 6,
+              message: 'Password must have at least 6 characters',
+            },
+          })}
           helperText={
             <ForgotPassword>
               <Link href="#" color="inherit" onClick={() => {}}>

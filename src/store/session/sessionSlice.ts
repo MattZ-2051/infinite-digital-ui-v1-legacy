@@ -1,35 +1,5 @@
-import { logIn } from 'services/api/authService';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-interface IAuthData {
-  email: string;
-  password: string;
-}
-
-interface IError {
-  errorMessage: string;
-}
-
-interface IPayload {}
-
-export const authUser = createAsyncThunk<
-  // Return type of the payload creator
-  IPayload,
-  // First argument to the payload creator
-  IAuthData,
-  {
-    rejectValue: IError;
-  }
->('user/auth', async (data: any, thunkApi) => {
-  try {
-    const response = await logIn(data.email, data.password);
-    return response.data;
-  } catch (err) {
-    return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description,
-    } as IError);
-  }
-});
+import { createSlice } from '@reduxjs/toolkit';
+import { authUser } from './sessionThunks';
 
 interface UsersState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
