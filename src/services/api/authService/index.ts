@@ -38,7 +38,7 @@ export const register = async (
   email: string,
   password: string,
   username: string,
-  profilePhotoUrl?: string,
+  profilePhotoUrl?: string
 ): Promise<any | undefined> => {
   const params = new URLSearchParams(); // Needed for application/x-www-form-urlencoded
 
@@ -49,9 +49,27 @@ export const register = async (
 
   const response = await axiosInstance.request({
     method: 'POST',
-    url: 'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com/users',
+    url:
+      'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com/users',
     data: params,
   });
 
+  return response;
+};
+
+export const refreshAccessToken = async (
+  refreshToken: string
+): Promise<any | undefined> => {
+  const params = new URLSearchParams();
+
+  params.append('client_id', CLIENT_ID);
+  params.append('refresh_token', refreshToken);
+  params.append('grant_type', 'refresh_token');
+
+  const response = await axiosInstance.request({
+    method: 'POST',
+    url: `${API_AUTH_URL}/auth/realms/${REALM}/protocol/openid-connect/token`,
+    data: params,
+  });
   return response;
 };

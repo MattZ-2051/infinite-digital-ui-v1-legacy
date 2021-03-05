@@ -1,4 +1,4 @@
-const tokenKey = 'infinite-auth';
+const tokenKey = process.env.REACT_APP_API_TOKEN_KEY as string;
 
 export const setToken = ({
   access_token,
