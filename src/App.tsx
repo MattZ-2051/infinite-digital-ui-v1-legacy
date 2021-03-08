@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import GlobalStyle from 'styles/globalStyles';
 import AppLayout from './layouts/AppLayout';
 import Router from './router';
@@ -6,6 +7,7 @@ import Router from './router';
 const App = () => {
   return (
     <BrowserRouter>
+      <CssBaseline />
       <GlobalStyle />
       <AppLayout>
         <Router />

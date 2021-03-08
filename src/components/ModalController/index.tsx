@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from 'hooks/store';
 import { closeModal } from 'store/global/globalSlice';
 import Modal from '../Modal';
-import SignInForm from '../SignInForm';
-import SignUpForm from '../SignUpForm';
+import SignInForm from '../SignInModal';
+import SignUpForm from '../SignUpModal';
 
 const modals = {
   LOGIN: <SignInForm />,

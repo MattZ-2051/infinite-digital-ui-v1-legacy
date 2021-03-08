@@ -16,7 +16,7 @@ const PrivateRoute = ({ component: Component, ...rest }): any => {
           // TODO: Review redirect: Now is using a modal not a route
           <Redirect
             to={{
-              pathname: '/sign-in',
+              pathname: '/login',
               state: { from: routeProps.location },
             }}
           />

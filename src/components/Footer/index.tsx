@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 const Footer = () => {
   return (
     <StyledFooter>
-      Copyright © 2020 Citizens Reserve, Inc. All Rights Reserved.
+      INFINITE© 2021 All rights reserved.
     </StyledFooter>
   );
 };

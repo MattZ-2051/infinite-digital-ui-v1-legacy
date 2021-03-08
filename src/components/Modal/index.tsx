@@ -12,6 +12,7 @@ const ModalComponent = ({ children, ...props }) => {
 };
 
 const ModalContainer: any = styled(Modal)`
+  z-index: 1400 !important;
   display: flex;
   align-items: center;
   justify-content: center;
