@@ -1,27 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState: {
-    value: 6,
+    modals: [] as any,
   },
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 100;
+    openModal: (state, action) => {
+      state.modals.push(action.payload);
     },
-    decrement: (state) => {
-      state.value -= 5;
+    closeModal: (state, action) => {
+      state.modals = state.modals.filter(
+        (modal: { name: string; data: object }) =>
+          modal.name !== action.payload.name
+      );
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    closeAllModals: (state) => {
+      state.modals = [];
     },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = globalSlice.actions;
+export const { openModal, closeModal, closeAllModals } = globalSlice.actions;
 export default globalSlice.reducer;

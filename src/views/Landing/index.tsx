@@ -1,7 +1,11 @@
 export interface IProps {}
 
 const Landing: React.FC<IProps> = () => {
-  return <div>Landing</div>;
+  return (
+    <div>
+      <h2>Landing view</h2>
+    </div>
+  );
 };
 
 export default Landing;

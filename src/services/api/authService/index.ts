@@ -1,45 +1,75 @@
-import axios, { AxiosResponse } from "axios";
+import { axiosInstance } from '../coreService';
+import { setToken } from 'lib/utils/auth';
 
-const realm = "suku-dev"; //suku-master
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID as string;
+const REALM = process.env.REACT_APP_REALM as string;
+const API_AUTH_URL = process.env.REACT_APP_API_AUTH_URL as string;
 
-export const logIn = async (): Promise<any | undefined> => {
+export const logIn = async (
+  username: string,
+  password: string
+): Promise<any | undefined> => {
   const params = new URLSearchParams(); // Needed for application/x-www-form-urlencoded
-  const clientId = "infinite-digital-ui";
-  const username = "user1@example.com";
-  const password = "Safest@123";
 
-  params.append("client_id", clientId);
-  params.append("username", username);
-  params.append("password", password);
-  params.append("grant_type", "password");
+  params.append('client_id', CLIENT_ID);
+  params.append('username', username);
+  params.append('password', password);
+  params.append('grant_type', 'password');
 
-  const realm = "suku-dev"; //suku-master
-  const response = await axios.request({
-    method: "POST",
-    url: `https://sso.suku.app/auth/realms/${realm}/protocol/openid-connect/token`,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
+  const response = await axiosInstance.request({
+    method: 'POST',
+    url: `${API_AUTH_URL}/auth/realms/${REALM}/protocol/openid-connect/token`,
+    data: params,
+  });
+
+  const {
+    access_token,
+    refresh_token,
+    expires_in,
+    refresh_expires_in,
+  } = response.data;
+
+  setToken({ access_token, refresh_token, expires_in, refresh_expires_in });
+
+  return response;
+};
+
+export const register = async (
+  email: string,
+  password: string,
+  username: string,
+  profilePhotoUrl?: string
+): Promise<any | undefined> => {
+  const params = new URLSearchParams(); // Needed for application/x-www-form-urlencoded
+
+  params.append('email', email);
+  params.append('username', username);
+  params.append('password', password); //^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})
+  params.append('profilePhotoUrl', 'https://place-puppy.com/300x300'); // TODO hardcoded
+
+  const response = await axiosInstance.request({
+    method: 'POST',
+    url:
+      'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com/users',
+    data: params,
+  });
+
+  return response;
+};
+
+export const refreshAccessToken = async (
+  refreshToken: string
+): Promise<any | undefined> => {
+  const params = new URLSearchParams();
+
+  params.append('client_id', CLIENT_ID);
+  params.append('refresh_token', refreshToken);
+  params.append('grant_type', 'refresh_token');
+
+  const response = await axiosInstance.request({
+    method: 'POST',
+    url: `${API_AUTH_URL}/auth/realms/${REALM}/protocol/openid-connect/token`,
     data: params,
   });
   return response;
 };
-
-export async function refresh(
-  refreshToken: string,
-  clientId = "infinite-backend"
-): Promise<AxiosResponse<any> | undefined> {
-  const params = new URLSearchParams();
-  params.append("client_id", clientId);
-  params.append("refresh_token", refreshToken);
-  params.append("grant_type", "refresh_token");
-  const response = await axios.request({
-    method: "POST",
-    url: `https://sso.suku.app/auth/realms/${realm}/protocol/openid-connect/token`,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: params,
-  });
-  return response;
-}
