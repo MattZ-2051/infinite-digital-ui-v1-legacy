@@ -1,4 +1,6 @@
-// Use: <PrivateRoute path="/user-account" roles={['admin', 'editor']} component={componentName} />
+// Not in use now
+// Example: <PrivateRoute path="/user-account" roles={['admin', 'editor']} component={componentName} />
+
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 

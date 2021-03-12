@@ -1,26 +1,22 @@
-import { Route, Redirect } from 'react-router-dom';
-import { getToken } from 'lib/utils/auth';
+import { Route } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const PrivateRoute = ({ component: Component, ...rest }): any => {
-  const token = getToken();
 
+  const {
+    isAuthenticated,
+    loginWithRedirect
+  } = useAuth0();
+ 
   return (
     <Route
       {...rest}
       render={(routeProps) => {
-        if (token) {
+        if (isAuthenticated) {
           return <Component {...routeProps} />;
         }
 
-        return (
-          // TODO: Review redirect: Now is using a modal not a route
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: routeProps.location },
-            }}
-          />
-        );
+        loginWithRedirect();
       }}
     />
   );

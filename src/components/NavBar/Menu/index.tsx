@@ -1,12 +1,13 @@
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { useAppSelector } from 'hooks/store';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
-const Menu = () => {
-  const isAuth = useAppSelector((state) => state.session.user.isAuthenticated);
-  let location = useLocation();
+interface IProps {
+  login: Function;
+  isAuthenticated: boolean;
+}
 
+const Menu = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
       <ListMenu>
@@ -17,38 +18,21 @@ const Menu = () => {
           <StyledLink to="marketplace">Marketplace</StyledLink>
         </Item>
 
-        {isAuth && (
+        {isAuthenticated && (
           <>
             <Item>
               <StyledLink to="/my-collection">My Collection</StyledLink>
             </Item>
-            <Item>
-              <StyledLink to="sign-out">Logout</StyledLink>
-            </Item>
           </>
         )}
 
-        {!isAuth && (
+        {!isAuthenticated && (
           <>
             <Item>
-              <StyledLink
-                to={{
-                  pathname: '/sign-up',
-                  state: { background: location },
-                }}
-              >
-                Sign Up
-              </StyledLink>
+              <StyledButton onClick={() => login()}>Sign Up</StyledButton>
             </Item>
             <Item>
-              <StyledLink
-                to={{
-                  pathname: '/login',
-                  state: { background: location },
-                }}
-              >
-                Log In
-              </StyledLink>
+              <StyledButton onClick={() => login()}>Log In</StyledButton>
             </Item>
           </>
         )}
@@ -79,6 +63,16 @@ const Item = styled.li`
 const StyledLink = styled(Link)`
   && {
     color: white;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  && {
+    color: white;
+    text-transform: none;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
   }
 `;
 

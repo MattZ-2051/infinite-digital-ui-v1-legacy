@@ -1,17 +1,25 @@
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { useAppSelector } from 'hooks/store';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
-export interface IProps {}
+interface IProps {
+  login: Function;
+  logout: Function;
+  isAuthenticated: boolean;
+}
 
-const MobileMenu = () => {
-  const isAuth = useAppSelector((state) => state.session.user.isAuthenticated);
-  let location = useLocation();
-
+const MobileMenu = ({ login, logout, isAuthenticated }: IProps) => {
   return (
     <>
-      <Title>Hello John!</Title>
+      {isAuthenticated && <Title>Hello John!</Title>}
+
+      {!isAuthenticated && (
+        <AuthButtonsWrapper>
+          <StyledButton onClick={() => login()}>Sign Up</StyledButton> |{' '}
+          <StyledButton onClick={() => login()}>Sign In</StyledButton>
+        </AuthButtonsWrapper>
+      )}
+
       <ListMenu>
         <Item>
           <StyledLink to="drop-boxes">Drop Boxes</StyledLink>
@@ -20,42 +28,18 @@ const MobileMenu = () => {
           <StyledLink to="marketplace">Marketplace</StyledLink>
         </Item>
 
-        {isAuth && (
+        {isAuthenticated && (
           <>
             <Item>
-              <StyledLink to="/my-collection">My Collection</StyledLink>
-            </Item>
-            <Item>
-              <StyledLink to="sign-out">Logout</StyledLink>
-            </Item>
-          </>
-        )}
-
-        {!isAuth && (
-          <>
-            <Item>
-              <StyledLink
-                to={{
-                  pathname: '/sign-up',
-                  state: { background: location },
-                }}
-              >
-                Sign Up
-              </StyledLink>
-            </Item>
-            <Item>
-              <StyledLink
-                to={{
-                  pathname: '/login',
-                  state: { background: location },
-                }}
-              >
-                Log In
-              </StyledLink>
+              <StyledLink to="my-collection">My Collection</StyledLink>
             </Item>
           </>
         )}
       </ListMenu>
+
+      {isAuthenticated && (
+        <StyledButtonLogout onClick={() => logout()}>Log Out</StyledButtonLogout>
+      )}
     </>
   );
 };
@@ -82,6 +66,31 @@ const StyledLink = styled(Link)`
   && {
     color: white;
   }
+`;
+
+const StyledButton = styled(Button)`
+  && {
+    color: white;
+    text-transform: none;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+const StyledButtonLogout = styled(Button)`
+  && {
+    color: white;
+    text-transform: none;
+    margin: 0;
+    padding: 0;
+    justify-content: end;
+  }
+`;
+
+
+const AuthButtonsWrapper = styled.div`
+  margin-bottom: 40px;
 `;
 
 export default MobileMenu;
