@@ -21,7 +21,7 @@ const RouterComponent = () => {
         <Route exact path="/" component={Landing} />
         <Route exact path="/drop-boxes" component={DropBoxes} />
         <Route exact path="/marketplace" component={MarketPlace} />
-        <PrivateRoute path="/user-account" component={UserAccount} />
+        <Route path="/user-account" component={UserAccount} />
         <PrivateRoute path="/sign-out" component={SignOut} />
         <PrivateRoute path="/my-collection" component={MyCollection} />
       </Switch>

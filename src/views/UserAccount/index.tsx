@@ -1,11 +1,17 @@
+import styled from 'styled-components/macro';
+
 export interface IProps {}
 
 const UserAccount: React.FC<IProps> = () => {
   return (
-    <div>
+    <Container>
       <h2>User Account</h2>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.main`
+  padding: var(--desktop-view-padding);
+`;
 
 export default UserAccount;

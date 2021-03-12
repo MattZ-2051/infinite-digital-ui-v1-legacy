@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import JosefinSans from '../assets/fonts/josefin-sans-v17-latin-regular.woff';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -29,14 +28,10 @@ const GlobalStyle = createGlobalStyle`
     --grey-60: #666666;
     --grey-80: #333333;
     --grey-90: #222222;
-  }
 
-  /* @font-face {
-    font-family: 'josefin-sans';
-    font-style: normal;
-    font-weight: 400;
-    src: url(${JosefinSans}) format('woff');
-  } */
+    // Paddings
+    --desktop-view-padding: 48px 80px 48px 80px;
+  }
 
   html {
     background: var(--grey-light);
@@ -73,11 +68,6 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     cursor: pointer;
   }
-
-
-  /* input[type="text"] {
-    height: 45px;
-  } */
 `;
 
 export default GlobalStyle;

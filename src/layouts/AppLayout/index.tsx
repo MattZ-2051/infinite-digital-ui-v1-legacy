@@ -12,7 +12,7 @@ export interface IProps {
 
 const AppLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <Container>
+    <>
       <Notification />
       <Header>
         <Link to="/">
@@ -20,17 +20,11 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
         </Link>
         <NavBar />
       </Header>
-      <Main>{children}</Main>
+      {children}
       <Footer />
-    </Container>
+    </>
   );
 };
-
-const Container = styled.div``;
-
-const Main = styled.main`
-  padding: 75px;
-`;
 
 const Header = styled.header`
   position: relative;
