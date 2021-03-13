@@ -11,6 +11,7 @@ const FeatureProducts: React.FC<IProps> = () => {
 
 const Container = styled.section`
   padding: 0 0 0 0;
+  height: 720px;
 `;
 
 export default FeatureProducts;

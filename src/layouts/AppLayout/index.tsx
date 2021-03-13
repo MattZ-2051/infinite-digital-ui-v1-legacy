@@ -34,6 +34,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid white;
 
   @media screen and (max-width: 960px) {
     padding: 0 32px 0 32px;
