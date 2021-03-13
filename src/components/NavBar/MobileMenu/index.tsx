@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from 'components/Button';
 
 interface IProps {
-  login: Function;
-  logout: Function;
+  login: Function; // TODO: change type
+  logout: Function; // TODO: change type
   isAuthenticated: boolean;
 }
 
@@ -15,30 +15,47 @@ const MobileMenu = ({ login, logout, isAuthenticated }: IProps) => {
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
-          <StyledButton onClick={() => login()}>Sign Up</StyledButton> |{' '}
-          <StyledButton onClick={() => login()}>Sign In</StyledButton>
+          <Button type="link" color="white" size="big" onClick={() => login()}>
+            Sign Up
+          </Button>{' '}
+          |{' '}
+          <Button type="link" color="white" size="big" onClick={() => login()}>
+            Sign In
+          </Button>
         </AuthButtonsWrapper>
       )}
 
       <ListMenu>
         <Item>
-          <StyledLink to="drop-boxes">Drop Boxes</StyledLink>
+          <Button type="link" color="white" to="drop-boxes">
+            Drop Boxes
+          </Button>
         </Item>
         <Item>
-          <StyledLink to="marketplace">Marketplace</StyledLink>
+          <Button type="link" color="white" to="marketplace">
+            Marketplace
+          </Button>
         </Item>
 
         {isAuthenticated && (
           <>
             <Item>
-              <StyledLink to="my-collection">My Collection</StyledLink>
+              <Button type="link" color="white" to="my-collection">
+                My Collection
+              </Button>
             </Item>
           </>
         )}
       </ListMenu>
 
       {isAuthenticated && (
-        <StyledButtonLogout onClick={() => logout()}>Log Out</StyledButtonLogout>
+        <Button
+          type="icon"
+          icon={ExitToAppIcon}
+          color="white"
+          onClick={() => logout()}
+          style={{position: 'absolute', bottom: '40px', right: '40px'}}
+        />
       )}
     </>
   );
@@ -61,33 +78,6 @@ const Item = styled.li`
   align-items: center;
   margin-bottom: 32px;
 `;
-
-const StyledLink = styled(Link)`
-  && {
-    color: white;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  && {
-    color: white;
-    text-transform: none;
-    font-size: 18px;
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const StyledButtonLogout = styled(Button)`
-  && {
-    color: white;
-    text-transform: none;
-    margin: 0;
-    padding: 0;
-    justify-content: end;
-  }
-`;
-
 
 const AuthButtonsWrapper = styled.div`
   margin-bottom: 40px;

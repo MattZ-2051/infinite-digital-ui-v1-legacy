@@ -1,9 +1,8 @@
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import Button from 'components/Button';
 
 interface IProps {
-  login: Function;
+  login: Function; // TODO: change type
   isAuthenticated: boolean;
 }
 
@@ -12,16 +11,22 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
     <Container>
       <ListMenu>
         <Item>
-          <StyledLink to="drop-boxes">Drop Boxes</StyledLink>
+          <Button type='link' to="drop-boxes" color="white">
+            Drop Boxes
+          </Button>
         </Item>
         <Item>
-          <StyledLink to="marketplace">Marketplace</StyledLink>
+          <Button type='link' to="marketplace" color="white">
+            Marketplace
+          </Button>
         </Item>
 
         {isAuthenticated && (
           <>
             <Item>
-              <StyledLink to="/my-collection">My Collection</StyledLink>
+              <Button type='link' to="my-collection" color="white">
+                My Collection
+              </Button>
             </Item>
           </>
         )}
@@ -29,10 +34,14 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
         {!isAuthenticated && (
           <>
             <Item>
-              <StyledButton onClick={() => login()}>Sign Up</StyledButton>
+              <Button type='link' onClick={() => login()} color="white" size="medium">
+                Sign Up
+              </Button>
             </Item>
             <Item>
-              <StyledButton onClick={() => login()}>Log In</StyledButton>
+              <Button type='link' onClick={() => login()} color="white" size="medium">
+                Log In
+              </Button>
             </Item>
           </>
         )}
@@ -58,22 +67,6 @@ const Item = styled.li`
   margin-left: 32px;
   display: flex;
   align-items: center;
-`;
-
-const StyledLink = styled(Link)`
-  && {
-    color: white;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  && {
-    color: white;
-    text-transform: none;
-    font-size: 1rem;
-    margin: 0;
-    padding: 0;
-  }
 `;
 
 export default Menu;

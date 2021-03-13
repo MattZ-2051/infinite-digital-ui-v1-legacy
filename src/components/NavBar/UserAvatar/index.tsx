@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom';
 // Icons
 import PersonIcon from '@material-ui/icons/Person';
 
-export interface IProps {}
+export interface IProps {
+  [rest: string]: any;
+}
 
-const UserAvatar: React.FC<IProps> = () => {
+const UserAvatar: React.FC<IProps> = ({ ...rest }) => {
   return (
-    <Link to="/user-account">
+    <Link to="/user-account" {...rest}>
       <Badge badgeContent={99} overlap="circle">
         <Avatar>
           <PersonIcon fontSize="large" />

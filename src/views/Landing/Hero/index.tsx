@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+
 export interface IProps {}
 
 const Hero: React.FC<IProps> = () => {

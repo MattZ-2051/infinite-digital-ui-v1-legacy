@@ -9,6 +9,8 @@ import Hidden from '@material-ui/core/Hidden';
 import { useAuth0 } from '@auth0/auth0-react';
 import MuiIconButton from '@material-ui/core/IconButton';
 
+import Button from 'components/Button';
+
 // Icons
 import IconMenu from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -36,7 +38,11 @@ const NavBar = () => {
   return (
     <>
       <Drawer open={isOpen} anchor="right" onClose={() => setIsOpen(false)}>
-        <MobileMenu login={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated} />
+        <MobileMenu
+          login={loginWithRedirect}
+          logout={logout}
+          isAuthenticated={isAuthenticated}
+        />
       </Drawer>
 
       <Container>
@@ -44,25 +50,34 @@ const NavBar = () => {
           <Menu login={loginWithRedirect} isAuthenticated={isAuthenticated} />
         </Hidden>
 
-        {isAuthenticated && <UserAvatar />}
+        {isAuthenticated && <UserAvatar style={{marginRight: '15px'}} />}
 
         {isAuthenticated && (
           <Hidden smDown>
-            <Avatar onClick={() => logout()}>
-              <ExitToAppIcon />
-            </Avatar>
+            <Button
+              type="icon"
+              icon={ExitToAppIcon}
+              color="white"
+              onClick={() => logout()}
+            />
           </Hidden>
         )}
 
         <Hidden mdUp>
           {isOpen ? (
-            <IconButton aria-label="close" onClick={toggleDrawer}>
-                <CloseIcon />
-            </IconButton>
+            <Button
+              type="icon"
+              icon={CloseIcon}
+              color="white"
+              onClick={toggleDrawer}
+            />
           ) : (
-            <IconButton onClick={toggleDrawer}>
-              <IconMenu />
-            </IconButton>
+            <Button
+              type="icon"
+              icon={IconMenu}
+              color="white"
+              onClick={toggleDrawer}
+            />
           )}
         </Hidden>
       </Container>
