@@ -9,7 +9,7 @@ export interface IProps {
   type?: 'button' | 'icon' | 'link';
   color?: 'white' | 'black';
   radius?: number;
-  icon?: any; //TODO: change type
+  icon?: any;
   size?: 'small' | 'medium' | 'big'; // 24 32 40
   to?: string;
   rect?: boolean;
@@ -48,7 +48,7 @@ const ButtonComponent = ({
       )}
 
       {type === 'icon' && (
-        <IconButton color={color} {...rest}>
+        <IconButton color={color} {...rest} radius={radius}>
           <Icon />
         </IconButton>
       )}
@@ -93,10 +93,11 @@ const IconButtonBlack = css`
   }
 `;
 
-const IconButton = styled(({ color, ...rest }) => <MuiIconButton {...rest} />)`
+const IconButton = styled(({ color, radius, ...rest }) => <MuiIconButton {...rest} />)`
   && {
     height: 32px;
     width: 32px;
+    border-radius: ${(props) => (props.radius ? `${props.radius}px` : '50%')};
 
     .MuiSvgIcon-root {
       font-size: 15px;
