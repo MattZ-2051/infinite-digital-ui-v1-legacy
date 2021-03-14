@@ -1,11 +1,12 @@
 import Button from 'components/Button';
 import styled from 'styled-components/macro';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import Divider from 'components/Divider';
 
 const Footer = () => {
   return (
     <StyledFooter>
-      <FooterTop>
+      <Divider gap={24}>
         <Button type="link" to="/" color="white" size="small">
           FAQ
         </Button>
@@ -21,31 +22,33 @@ const Footer = () => {
         <Button type="link" to="/" color="white" size="small">
           +
         </Button>
-      </FooterTop>
+      </Divider>
+
       <FooterBottom>
-        <div>
+        <Divider gap={24}>
           <Button type="link" to="/" color="white" size="small">
             Privacy Policy
           </Button>
-          &nbsp;
+
           <Button
             type="link"
             to="/"
             color="white"
             size="small"
-            style={{ marginLeft: '24px' }}
           >
             Terms & Conditions
           </Button>
-        </div>
+        </Divider>
+
         <div>INFINITE© 2021 All rights reserved.</div>
-        <IconsMenu>
+
+        <Divider gap={16}>
           <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
           <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
           <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
           <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
           <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
-        </IconsMenu>
+        </Divider>
       </FooterBottom>
     </StyledFooter>
   );
@@ -64,10 +67,14 @@ const StyledFooter = styled.footer`
 `;
 
 const FooterTop = styled.nav`
-  max-width: 210px;
+  /* max-width: 210px;
   display: flex;
   justify-content: space-between;
-  padding: 8px 0 8px 0;
+  padding: 8px 0 8px 0; */
+
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-gap: var(--gap);
 `;
 
 const FooterBottom = styled.div`
@@ -75,13 +82,6 @@ const FooterBottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const IconsMenu = styled.div`
-  max-width: 224px;
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
 `;
 
 export default Footer;
