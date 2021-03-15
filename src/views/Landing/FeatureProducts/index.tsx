@@ -14,7 +14,7 @@ const FeatureProducts: React.FC<IProps> = () => {
         <h2>ADIDAS Kaptir</h2>
         <h3>Super Fire (Black)</h3>
         <p>2 listings for sale</p>
-        <p> Listings from $900 to $1,200</p>
+        <p style={{marginBottom: '20px'}}>Listings from $900 to $1,200</p>
 
         <Button type="button" color="white">
           Get yours now
@@ -37,7 +37,7 @@ const Container = styled.section`
 
 const Content = styled.div`
   display: inline-grid;
-  grid-gap: 10px;
+  grid-gap: 12px;
   height: auto;
   font-weight: 600;
   color: white;
