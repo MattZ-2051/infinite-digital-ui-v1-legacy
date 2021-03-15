@@ -9,8 +9,8 @@ const Landing: React.FC<IProps> = () => {
   return (
     <main>
       <Hero />
-      <FeatureProducts />
       <FeatureBoxes />
+      <FeatureProducts />
       <LatestProducts />
     </main>
   );

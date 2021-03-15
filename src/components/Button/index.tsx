@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export interface IProps {
   children?: string;
-  type?: 'button' | 'icon' | 'link';
+  type: 'button' | 'icon' | 'link';
   color?: 'white' | 'black';
   radius?: number;
   icon?: any;
@@ -30,7 +30,7 @@ const ButtonComponent = ({
   return (
     <>
       {type === 'button' && (
-        <Button {...rest} variant="contained" endIcon={<ArrowForwardIosIcon />}>
+        <Button {...rest} color={color} variant="contained" endIcon={<ArrowForwardIosIcon />}>
           {children}
         </Button>
       )}
@@ -56,27 +56,8 @@ const ButtonComponent = ({
   );
 };
 
-const Button = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
-  && {
-    height: 40px;
-    background-color: black;
-    box-shadow: none;
-    color: white;
-    font-weight: 600;
-    padding: 10px 24px 10px 24px;
-
-    &:hover {
-      box-shadow: none;
-      background-color: var(--grey-40);
-    }
-    .MuiSvgIcon-root {
-      font-size: 15px;
-    }
-  }
-`;
-
 // IconButton
-const IconButtonWhite = css`
+const ButtonWhite = css`
   background-color: #ffffff;
   color: #000000;
   &:hover {
@@ -85,11 +66,42 @@ const IconButtonWhite = css`
   }
 `;
 
-const IconButtonBlack = css`
+const ButtonBlack = css`
   background-color: #000000;
   color: #ffffff;
   &:hover {
     background-color: var(--grey-40);
+  }
+`;
+
+const Button = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
+  && {
+    height: 40px;
+    background-color: black;
+    box-shadow: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 24px 10px 24px;
+    font-size: 1rem;
+
+    &:hover {
+      box-shadow: none;
+      background-color: var(--grey-40);
+    }
+    .MuiSvgIcon-root {
+      font-size: 15px;
+    }
+
+    ${(props) => {
+      switch (props.color) {
+        case 'black':
+          return ButtonBlack;
+        case 'white':
+          return ButtonWhite;
+        default:
+          return ButtonBlack;
+      }
+    }};
   }
 `;
 
@@ -106,11 +118,11 @@ const IconButton = styled(({ color, radius, ...rest }) => <MuiIconButton {...res
     ${(props) => {
       switch (props.color) {
         case 'black':
-          return IconButtonBlack;
+          return ButtonBlack;
         case 'white':
-          return IconButtonWhite;
+          return ButtonWhite;
         default:
-          return IconButtonBlack;
+          return ButtonBlack;
       }
     }};
   }

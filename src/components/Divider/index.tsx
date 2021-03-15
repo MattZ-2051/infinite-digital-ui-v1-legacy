@@ -1,19 +1,24 @@
 import styled from 'styled-components/macro';
 
 export interface IProps {
-  children: React.ReactChild[];
+  children: React.ReactNode | false;
   gap: number;
+  tag?: 'div' | 'span' | 'nav';
 }
 
-const Divider: React.FC<IProps> = ({ gap, children }) => {
-  return <Container style={{ ['--gap' as string]: `${gap}px` }}>{children}</Container>;
+const Divider = ({ children, gap, tag = 'div'}: IProps) => {
+  return (
+    <Container as={tag as any} style={{ ['--gap' as string]: `${gap}px` }}>
+      {children}
+    </Container>
+  );
 };
 
-const Container = styled.nav`
+const Container = styled.div`
   display: inline-grid;
   grid-auto-flow: column;
-  grid-gap: var(--gap);
   grid-auto-columns: max-content;
+  grid-gap: var(--gap);
 `;
 
 export default Divider;

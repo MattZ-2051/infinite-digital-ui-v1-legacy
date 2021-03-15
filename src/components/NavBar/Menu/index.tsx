@@ -1,51 +1,52 @@
 import styled from 'styled-components/macro';
+import Divider from 'components/Divider';
 import Button from 'components/Button';
 
 interface IProps {
-  login: Function; // TODO: change type
+  login: () => void;
   isAuthenticated: boolean;
 }
 
 const Menu = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
-      <ListMenu>
-        <Item>
-          <Button type='link' to="drop-boxes" color="white">
-            Drop Boxes
-          </Button>
-        </Item>
-        <Item>
-          <Button type='link' to="marketplace" color="white">
-            Marketplace
-          </Button>
-        </Item>
+      <Divider gap={32}>
+        <Button type="link" to="drop-boxes" color="white">
+          Drop Boxes
+        </Button>
+
+        <Button type="link" to="marketplace" color="white">
+          Marketplace
+        </Button>
 
         {isAuthenticated && (
-          <>
-            <Item>
-              <Button type='link' to="my-collection" color="white">
-                My Collection
-              </Button>
-            </Item>
-          </>
+          <Button type="link" to="my-collection" color="white">
+            My Collection
+          </Button>
         )}
 
         {!isAuthenticated && (
           <>
-            <Item>
-              <Button type='link' onClick={() => login()} color="white" size="medium">
-                Sign Up
-              </Button>
-            </Item>
-            <Item>
-              <Button type='link' onClick={() => login()} color="white" size="medium">
-                Log In
-              </Button>
-            </Item>
+            <Button
+              type="link"
+              onClick={() => login()}
+              color="white"
+              size="medium"
+            >
+              Sign Up
+            </Button>
+
+            <Button
+              type="link"
+              onClick={() => login()}
+              color="white"
+              size="medium"
+            >
+              Log In
+            </Button>
           </>
         )}
-      </ListMenu>
+      </Divider>
     </Container>
   );
 };
@@ -53,20 +54,6 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
 const Container = styled.div`
   background-color: black;
   color: white;
-`;
-
-const ListMenu = styled.ul`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-`;
-
-const Item = styled.li`
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
 `;
 
 export default Menu;

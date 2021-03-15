@@ -47,14 +47,19 @@ const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {
     margin: 0;
   }
-  h1 { font-size: 4rem; }
-  h2 { font-size: 3rem; }
-  h3 { font-size: 2rem; }
-  h4 { font-size: 1.5rem; }
-  h5 { font-size: 1.25rem; }
+  h1 { font-size: 4rem; font-weight: 200; }
+  h2 { font-size: 3rem; font-weight: 700; }
+  h3 { font-size: 2rem; font-weight: 700; }
+  h4 { font-size: 1.5rem; font-weight: 600; }
+  h5 { font-size: 1.25rem; font-weight: 600; }
+
+  strong {
+    font-weight: 600;
+  }
 
   p {
     font-size: 1rem;
+    font-weight: 400;
   }
 
   q {
@@ -63,11 +68,21 @@ const GlobalStyle = createGlobalStyle`
 
   small {
     font-size: 0.75rem;
+    font-weight: 500;
   }
 
   a {
-    text-decoration: none;
+    text-decoration: underline;
     cursor: pointer;
+    font-weight: 600;
+    color: black;
+    
+    &:active {
+      color: black;
+    }
+    &:hover {
+      text-decoration: none;
+    }
   }
 `;
 
