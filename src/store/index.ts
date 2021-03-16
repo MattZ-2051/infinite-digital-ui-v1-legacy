@@ -15,10 +15,12 @@ import {
 import storage from 'redux-persist/lib/storage'
 import globalSlice from './global/globalSlice';
 import sessionSlice from './session/sessionSlice';
+import productSlice from './product/productSlice';
 
 const rootReducer = combineReducers({
   global: globalSlice,
   session: sessionSlice,
+  products: productSlice,
 });
 
 const persistConfig = {

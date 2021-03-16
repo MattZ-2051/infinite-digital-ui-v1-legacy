@@ -19,7 +19,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
-    getAccessTokenSilently,
     loginWithRedirect,
     logout,
     isAuthenticated,
@@ -28,12 +27,6 @@ const NavBar = () => {
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-
-  // const getToken = () => {
-  //   getAccessTokenSilently()
-  //     .then((token) => console.log(token))
-  //     .catch((err) => console.log(err));
-  // };
 
   return (
     <>

@@ -1,15 +1,11 @@
 import axios from 'axios';
 
 const config = {
-  //baseURL: 'https://api.example.com',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
+  baseURL:
+    'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com',
 };
 const axiosInstance = axios.create(config);
 
-// const createAxiosResponseInterceptor = () => {
-
-// }
+// const createAxiosResponseInterceptor = () => {};
 
 export { axiosInstance };
