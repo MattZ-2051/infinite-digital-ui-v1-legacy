@@ -4,7 +4,6 @@ export interface IProps {}
 const LatestProducts: React.FC<IProps> = () => {
   return (
     <Container>
-      <h2>LatestProducts</h2>
     </Container>
   );
 };
