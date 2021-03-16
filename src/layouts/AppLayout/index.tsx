@@ -15,10 +15,12 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
     <>
       <Notification />
       <Header>
-        <Link to="/">
-          <InfiniteLogo fill="white" width="170px" />
-        </Link>
-        <NavBar />
+        <HeaderContent>
+          <Link to="/">
+            <InfiniteLogo fill="white" width="170px" />
+          </Link>
+          <NavBar />
+        </HeaderContent>
       </Header>
       {children}
       <Footer />
@@ -30,11 +32,16 @@ const Header = styled.header`
   position: relative;
   z-index: 1320;
   background-color: black;
-  padding: 0 50px 0 50px;
+  border-bottom: 1px solid white;
+`;
+
+const HeaderContent = styled.div`
+  max-width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid white;
+  margin: auto;
+  padding: 0 50px 0 50px;
 
   @media screen and (max-width: 960px) {
     padding: 0 32px 0 32px;
