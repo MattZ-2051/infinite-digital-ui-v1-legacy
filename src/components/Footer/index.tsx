@@ -2,6 +2,7 @@ import Button from 'components/Button';
 import styled from 'styled-components/macro';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Divider from 'components/Divider';
+import Hidden from '@material-ui/core/Hidden';
 
 const Footer = () => {
   return (
@@ -38,7 +39,9 @@ const Footer = () => {
             </Button>
           </Divider>
 
-          <div>INFINITE© 2021 All rights reserved.</div>
+          <Hidden smDown>
+            <div>INFINITE© 2021 All rights reserved.</div>
+          </Hidden>
 
           <Divider gap={16} tag="nav">
             <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
@@ -47,6 +50,11 @@ const Footer = () => {
             <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
             <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
           </Divider>
+
+          <Hidden mdUp>
+            <div>INFINITE© 2021 All rights reserved.</div>
+          </Hidden>
+
         </FooterBottom>
       </FooterContent>
     </StyledFooter>
@@ -74,6 +82,10 @@ const FooterContent = styled.div`
 
 const FooterTop = styled.div`
   padding: 8px 0 8px 0;
+  
+  @media screen and (max-width: 960px) {
+    text-align: center;
+  }
 `;
 
 const FooterBottom = styled.div`
@@ -81,6 +93,12 @@ const FooterBottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 960px) {
+    display: grid;
+    justify-content: center;
+    grid-gap: 20px;
+  }
 `;
 
 export default Footer;
