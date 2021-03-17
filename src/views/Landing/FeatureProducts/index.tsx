@@ -2,13 +2,18 @@ import styled from 'styled-components/macro';
 import Button from 'components/Button';
 import bg from 'assets/img/backgrounds/hero-bg3.jpeg';
 
-export interface IProps {}
+export interface IProps {
+  listing: any;
+}
 
-const FeatureProducts: React.FC<IProps> = () => {
+const FeatureProducts: React.FC<IProps> = ({ listing }) => {
+
+  const featureProduct = listing[0];
+  console.log(featureProduct)
+
   return (
     <OuterContainer>
       <InnerContainer>
-
         <Image />
 
         <Content>
