@@ -2,16 +2,22 @@ import styled from 'styled-components/macro';
 import Button from 'components/Button';
 import heroImg from 'assets/img/backgrounds/hero-bg.jpeg';
 
-export interface IProps {}
+interface IProps {
+  login: () => void;
+  isAuthenticated: boolean;
+}
 
-const Hero: React.FC<IProps> = () => {
+const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
       <Title>Collect - Connect - Curate</Title>
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
-      <Button type="button" color="white">
-       START YOUR COLLECTOY TODAY
-      </Button>
+
+      {!isAuthenticated && (
+        <Button type="button" color="white" onClick={() => login()}>
+          START YOUR COLLECTOY TODAY
+        </Button>
+      )}
     </Container>
   );
 };
