@@ -1,6 +1,6 @@
 import Hero from './Hero';
-import FeatureProducts from './FeatureProducts';
-import FeatureBoxes from './FeatureBoxes';
+import FeatureProducts from './Featured/FeatureProducts';
+import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
 
 export interface IProps {}

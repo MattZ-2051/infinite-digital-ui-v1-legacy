@@ -83,6 +83,7 @@ const Button = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     font-weight: 600;
     padding: 10px 24px 10px 24px;
     font-size: 1rem;
+    width: max-content;
 
     &:hover {
       box-shadow: none;

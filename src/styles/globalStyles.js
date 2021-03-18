@@ -98,12 +98,6 @@ const GlobalStyle = createGlobalStyle`
     height: 100% !important;
   }
 
-  .slick-dots {
-    bottom: 25px;
-    text-align: left;
-    margin-left: 22px;
-  }
-
   .slick-dots li button:before {
     font-size: 13px;
   }

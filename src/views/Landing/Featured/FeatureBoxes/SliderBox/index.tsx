@@ -10,7 +10,7 @@ export interface IProps {}
 const Box: React.FC<IProps> = () => {
   return (
     <Container>
-      <Content>
+      <ProductDetails>
         <h5>FEATURED INFINITE</h5>
         <h2>Gold DROP BOX</h2>
         <h3>Infinite Launch Series 1</h3>
@@ -29,13 +29,12 @@ const Box: React.FC<IProps> = () => {
           Get yours now
         </Button>
 
-        <p style={{marginTop: '10px'}}>
+        <p style={{ marginTop: '10px' }}>
           Each box contains 3 products. <br />
           <Link to="/">Click Here</Link> to learn more.
         </p>
-      </Content>
-
-      <Image />
+      </ProductDetails>
+      <ImageContainer />
     </Container>
   );
 };
@@ -55,11 +54,11 @@ const Container = styled.div`
   @media screen and (max-width: 600px) {
     flex-direction: column-reverse;
     height: auto;
-    padding: 50px 32px 50px 32px;
+    padding: 50px 32px 60px 32px;
   }
 `;
 
-const Content = styled.div`
+const ProductDetails = styled.div`
   display: inline-grid;
   grid-gap: 12px;
   height: auto;
@@ -81,17 +80,18 @@ const Content = styled.div`
   }
 `;
 
-const Image = styled.div`
+const ImageContainer = styled.div`
+  height: 720px;
   background-repeat: no-repeat;
   background-position: center;
   background-image: url(${bg});
-  height: 720px;
   width: calc(100% - 340px);
   background-size: contain;
   margin-left: 25px;
 
   @media screen and (max-width: 960px) {
     width: calc(100% - 280px);
+    height: 540px;
   }
 
   @media screen and (max-width: 600px) {

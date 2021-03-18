@@ -1,47 +1,40 @@
 import styled from 'styled-components/macro';
+// Local
 import Button from 'components/Button';
+// Assets
 import bg from 'assets/img/backgrounds/hero-bg3.jpeg';
 
 export interface IProps {}
 
-const FeatureProducts: React.FC<IProps> = () => {
+const Box: React.FC<IProps> = () => {
   return (
-    <OuterContainer>
-      <InnerContainer>
+    <Container>
+      <ImageContainer />
 
-        <Image />
+      <ProductDetails>
+        <h5>MARKETPLACE FEATURE</h5>
+        <div>SKU: 3319SE</div>
 
-        <Content>
-          <h5>MARKETPLACE FEATURE</h5>
-          <div>SKU: 3319SE</div>
+        <h2>ADIDAS Kaptir</h2>
+        <h3>Super Fire (Black)</h3>
+        <p>2 listings for sale</p>
+        <p style={{ marginBottom: '20px' }}>Listings from $900 to $1,200</p>
 
-          <h2>ADIDAS Kaptir</h2>
-          <h3>Super Fire (Black)</h3>
-          <p>2 listings for sale</p>
-          <p style={{ marginBottom: '20px' }}>Listings from $900 to $1,200</p>
-
-          <Button type="button" color="white">
-            Get yours now
-          </Button>
-        </Content>
-      </InnerContainer>
-    </OuterContainer>
+        <Button type="button" color="white">
+          Get yours now
+        </Button>
+      </ProductDetails>
+    </Container>
   );
 };
 
-const OuterContainer = styled.section`
-  width: 100%;
-  background-color: #000000;
-`;
-
-const InnerContainer = styled.div`
-  height: 720px;
+const Container = styled.div`
+  height: 100%;
   max-width: 1440px;
-  margin: auto;
   padding: 0 50px 0 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  margin: auto;
 
   @media screen and (max-width: 1280px) {
     padding: 0 32px 0 32px;
@@ -50,16 +43,15 @@ const InnerContainer = styled.div`
   @media screen and (max-width: 600px) {
     flex-direction: column;
     height: auto;
-    padding: 50px 32px 50px 32px;
+    padding: 50px 32px 60px 32px;
   }
 `;
 
-const Content = styled.div`
+const ProductDetails = styled.div`
   display: inline-grid;
   grid-gap: 12px;
   height: auto;
   font-weight: 600;
-  color: white;
   min-width: 340px;
 
   @media screen and (max-width: 960px) {
@@ -77,17 +69,18 @@ const Content = styled.div`
   }
 `;
 
-const Image = styled.div`
+const ImageContainer = styled.div`
+  height: 720px;
   background-repeat: no-repeat;
   background-position: center;
   background-image: url(${bg});
-  height: 720px;
   width: calc(100% - 340px);
   background-size: contain;
   margin-right: 25px;
 
   @media screen and (max-width: 960px) {
     width: calc(100% - 280px);
+    height: 540px;
   }
 
   @media screen and (max-width: 600px) {
@@ -97,4 +90,4 @@ const Image = styled.div`
   }
 `;
 
-export default FeatureProducts;
+export default Box;
