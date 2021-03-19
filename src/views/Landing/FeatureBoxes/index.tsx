@@ -7,7 +7,7 @@ export interface IProps {}
 
 const FeatureBoxes: React.FC<IProps> = () => {
   return (
-    <OuterContainer>
+    <OuterContainer id="feature-products">
       <InnerContainer>
         <Content>
           <h5>FEATURED INFINITE</h5>
