@@ -13,7 +13,7 @@ const FeatureBoxes: React.FC<IProps> = () => {
   };
 
   return (
-    <Container>
+    <Container id="feature-products">
       <Slider {...settings}>
         <SliderBox />
         <SliderBox />

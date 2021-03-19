@@ -13,7 +13,7 @@ export interface IProps {}
 
 const Landing: React.FC<IProps> = () => {
   const { getAccessTokenSilently } = useAuth0();
-  const listing = useAppSelector((state) => state.listings).listings;
+  // const listing = useAppSelector((state) => state.listings).listings;
   const dispatch = useAppDispatch();
 
   const {
