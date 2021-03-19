@@ -1,8 +1,19 @@
-import Button from 'components/Button';
 import styled from 'styled-components/macro';
-import TwitterIcon from '@material-ui/icons/Twitter';
+// Local
+import Button from 'components/Button';
 import Divider from 'components/Divider';
 import Hidden from '@material-ui/core/Hidden';
+// Icons
+import SvgIcon from '@material-ui/core/SvgIcon';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import RedditIcon from '@material-ui/icons/Reddit';
+import { ReactComponent as tictocIcon } from 'assets/svg/logos/tictoc.svg';
+import { ReactComponent as instagramIcon } from 'assets/svg/logos/instagram.svg';
+import { ReactComponent as discordIcon } from 'assets/svg/logos/discord.svg';
+
+const TicTocIcon = () =>  <SvgIcon viewBox="0 -1 14 19" component={tictocIcon} />;
+const InstagramIcon = () =>  <SvgIcon viewBox="0 0 15 16" component={instagramIcon} />;
+const DiscordIcon = () =>  <SvgIcon viewBox="0 0 15 16" component={discordIcon} />;
 
 const Footer = () => {
   return (
@@ -10,15 +21,15 @@ const Footer = () => {
       <FooterContent>
         <FooterTop>
           <Divider gap={24} tag="nav">
-            <Button type="link" to="/" color="white" size="small">
+            <Button type="link" to="/" color="grey" size="small">
               FAQ
             </Button>
 
-            <Button type="link" to="/" color="white" size="small">
+            <Button type="link" to="/" color="grey" size="small">
               Help
             </Button>
 
-            <Button type="link" to="/" color="white" size="small">
+            <Button type="link" to="/" color="grey" size="small">
               Thanks
             </Button>
 
@@ -30,29 +41,29 @@ const Footer = () => {
 
         <FooterBottom>
           <Divider gap={24} tag="nav">
-            <Button type="link" to="/" color="white" size="small">
+            <Button type="link" to="/" color="grey" size="small">
               Privacy Policy
             </Button>
 
-            <Button type="link" to="/" color="white" size="small">
+            <Button type="link" to="/" color="grey" size="small">
               Terms & Conditions
             </Button>
           </Divider>
 
           <Hidden smDown>
-            <div>INFINITE© 2021 All rights reserved.</div>
+            <div style={{color: 'var(--grey-40)'}}>INFINITE© 2021 All rights reserved.</div>
           </Hidden>
-
+    
           <Divider gap={16} tag="nav">
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} />
+            <Button type="icon" icon={TwitterIcon} color="white" radius={8} onClick={()=> window.open('https://twitter.com/get_infinite', '_blank')} />
+            <Button type="icon" icon={InstagramIcon} color="white" radius={8} onClick={()=> window.open('https://www.instagram.com/get_infinite/', '_blank')} />
+            <Button type="icon" icon={TicTocIcon} color="white" radius={8} onClick={()=> window.open('https://www.tiktok.com/@get_infinite?lang=en', '_blank')} />
+            <Button type="icon" icon={RedditIcon} color="white" radius={8} onClick={()=> window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')} />
+            <Button type="icon" icon={DiscordIcon} color="white" radius={8} />
           </Divider>
 
           <Hidden mdUp>
-            <div>INFINITE© 2021 All rights reserved.</div>
+            <div style={{color: 'var(--grey-40)'}}>INFINITE© 2021 All rights reserved.</div>
           </Hidden>
 
         </FooterBottom>

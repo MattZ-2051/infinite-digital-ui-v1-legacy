@@ -1,3 +1,5 @@
+import { useAuth0 } from '@auth0/auth0-react';
+// Local
 import Hero from './Hero';
 import FeatureProducts from './Featured/FeatureProducts';
 import FeatureBoxes from './Featured/FeatureBoxes';
@@ -6,9 +8,15 @@ import LatestProducts from './LatestProducts';
 export interface IProps {}
 
 const Landing: React.FC<IProps> = () => {
+
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+  } = useAuth0();
+
   return (
     <main>
-      <Hero />
+      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeatureBoxes />
       <FeatureProducts />
       <LatestProducts />

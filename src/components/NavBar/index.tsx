@@ -4,36 +4,35 @@ import Drawer from 'components/Drawer';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import UserAvatar from './UserAvatar';
-import MuiAvatar from '@material-ui/core/Avatar';
 import Hidden from '@material-ui/core/Hidden';
 import { useAuth0 } from '@auth0/auth0-react';
-import MuiIconButton from '@material-ui/core/IconButton';
-
 import Button from 'components/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 // Icons
 import IconMenu from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'black',
+    fontSize: 11,
+  },
+  arrow: {
+    color: theme.palette.common.white,
+  },
+}))(Tooltip);
+
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const {
-    getAccessTokenSilently,
-    loginWithRedirect,
-    logout,
-    isAuthenticated,
-  } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-
-  // const getToken = () => {
-  //   getAccessTokenSilently()
-  //     .then((token) => console.log(token))
-  //     .catch((err) => console.log(err));
-  // };
 
   return (
     <>
@@ -50,16 +49,20 @@ const NavBar = () => {
           <Menu login={loginWithRedirect} isAuthenticated={isAuthenticated} />
         </Hidden>
 
-        {isAuthenticated && <UserAvatar style={{marginRight: '15px'}} />}
+        {isAuthenticated && <UserAvatar style={{ marginRight: '15px' }} />}
 
         {isAuthenticated && (
           <Hidden smDown>
-            <Button
-              type="icon"
-              icon={ExitToAppIcon}
-              color="white"
-              onClick={() => logout()}
-            />
+            <LightTooltip title="Log Out" arrow>
+              <div>
+                <Button
+                  type="icon"
+                  icon={ExitToAppIcon}
+                  color="white"
+                  onClick={() => logout()}
+                />
+              </div>
+            </LightTooltip>
           </Hidden>
         )}
 
@@ -91,26 +94,9 @@ const Container = styled.nav`
   align-items: center;
 `;
 
-const Avatar = styled(MuiAvatar)`
-  margin-left: 15px;
-  cursor: pointer;
-
-  && {
-    height: 32px;
-    width: 32px;
-    background-color: white;
-    color: black;
-  }
-`;
-
-const IconButton = styled(MuiIconButton)`
-  && {
-    height: 32px;
-    width: 32px;
-    background-color: white;
-    color: black;
-    margin-left: 15px;
-  }
-`;
+// const LightTooltip = styled(Tooltip)`
+//   background-color: blue;
+//   z-index: 2000;
+// `;
 
 export default NavBar;
