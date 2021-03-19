@@ -3,8 +3,11 @@ import ProductPanel from 'components/ProductPanel';
 import Button from 'components/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
+import { useAppSelector } from 'hooks/store';
 
-const DropBoxes = ({ dropBoxArr }) => {
+const DropBoxes = () => {
+  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
+
   return (
     <>
       <HeaderContainer>
@@ -12,7 +15,7 @@ const DropBoxes = ({ dropBoxArr }) => {
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
-        {dropBoxArr.map((el, index) => {
+        {dropBoxes instanceof Array && dropBoxes.map((el, index) => {
           if (index >= 16) return null;
           return (
             <ProductDiv first={index === 0 ? true : false}>
