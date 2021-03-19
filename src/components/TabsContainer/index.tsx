@@ -12,7 +12,7 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
     margin: auto;
     width: ${(props) => props.width ? `${props.width}` : '100%'};
   }
-  .PrivateTabIndicator-colorSecondary-3 {
+  .MuiTabs-indicator {
     background-color: black !important;
     height: 3px;
   }
@@ -20,6 +20,10 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
   @media screen and (max-width: 600px) {
     .MuiTab-wrapper {
       font-size: 1rem;
+    }
+    .MuiTabs-centered {
+      justify-content: space-around;
+      margin: auto;
     }
   }
 }
