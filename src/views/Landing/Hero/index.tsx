@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 // Local
-import Button from 'components/Button';
+import Button from 'components/Button/Button';
 import heroImg from 'assets/img/backgrounds/hero-bg.jpeg';
 // Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';

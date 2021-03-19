@@ -8,41 +8,20 @@ import Hero from './Hero';
 import FeatureProducts from './Featured/FeatureProducts';
 import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
-
-import { getProducts } from 'store/product/productThunks';
 import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
-import { useSelector } from 'react-redux';
 
-export interface IProps {
-}
-
-
-export const listingSelector = (state) => state.listings.listings;
-export const dropBoxSelector = (state) => state.dropBoxes.dropBoxes;
-
-const Landing: React.FC<IProps> = () => {
-  const { getAccessTokenSilently } = useAuth0();
-  // const listing = useAppSelector((state) => state.listings).listings;
+const Landing = () => {
   const dispatch = useAppDispatch();
-  const listings = useSelector(listingSelector);
-  const dropBoxes = useSelector(dropBoxSelector);
-
-  const send = async () => {
-    const token = await getAccessTokenSilently();
-    dispatch(getProducts({ token: token }));
-  };
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-  } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const listings = useAppSelector((state) => state.listings).listings;
+  const dropBoxes = useAppSelector((state) => state.dropBoxes).dropBoxes;
 
   useEffect(() => {
     (async () => {
-      // const token = await getAccessTokenSilently();
       dispatch(getListingsThunk({ token: '' }));
-      dispatch(getDropBoxesThunk({ token: '' }))
+      dispatch(getDropBoxesThunk({ token: '' }));
     })();
-  }, [dispatch, getAccessTokenSilently]);
+  }, [dispatch]);
 
   return (
     <main>

@@ -1,23 +1,19 @@
 import styled from 'styled-components';
-import ProductPanel from "../../../../components/ProductPanel";
-import Button from '../../../../components/Button';
+import ProductPanel from 'components/ProductPanel';
+import Button from 'components/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import dropBoxImg from '../../../../assets/img/backgrounds/drop-box-image.jpg';
-
+import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 
 const DropBoxes = ({ dropBoxArr }) => {
-
   return (
     <>
       <HeaderContainer>
-        <Header >
-          Latest Products
-        </Header>
+        <Header>Latest Products</Header>
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
         {dropBoxArr.map((el, index) => {
-          if (index >= 16) return null
+          if (index >= 16) return null;
           return (
             <ProductDiv first={index === 0 ? true : false}>
               <ProductPanel
@@ -30,16 +26,15 @@ const DropBoxes = ({ dropBoxArr }) => {
                 price={el.config.price}
               />
             </ProductDiv>
-          )
+          );
         })}
       </ProductContainer>
     </>
-  )
-}
-
+  );
+};
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
-  padding: ${props => props.first ? '0 24px 0 0' : '0 24px'}
+  padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};
 `;
 
 const HeaderContainer = styled.div`

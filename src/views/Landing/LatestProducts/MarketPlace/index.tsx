@@ -1,23 +1,18 @@
 import styled from 'styled-components';
-import ProductPanel from "../../../../components/ProductPanel";
-import Button from '../../../../components/Button';
+import ProductPanel from 'components/ProductPanel';
+import Button from 'components/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { IProps as PanelProps } from '../../../../components/ProductPanel';
-
 
 const MarketPlace = ({ panelPropsArr }) => {
-
   return (
     <>
       <HeaderContainer>
-        <Header >
-          Latest Products
-        </Header>
+        <Header>Latest Products</Header>
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
         {panelPropsArr.map((el, index) => {
-          if (index >= 16) return null
+          if (index >= 16) return null;
           return (
             <ProductDiv first={index === 0 ? true : false}>
               <ProductPanel
@@ -30,16 +25,15 @@ const MarketPlace = ({ panelPropsArr }) => {
                 price={el.price}
               />
             </ProductDiv>
-          )
+          );
         })}
       </ProductContainer>
     </>
-  )
-}
-
+  );
+};
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
-  padding: ${props => props.first ? '0 24px 0 0' : '0 24px'}
+  padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};
 `;
 
 const HeaderContainer = styled.div`
