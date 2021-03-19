@@ -10,6 +10,10 @@ export interface IProps {
   listingsArr: any;
 }
 
+// TODO: Example
+const { listings } = useAppSelector((state) => state.listings);
+const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
+
 const LatestProducts: React.FC<IProps> = ({ dropBoxArr, listingsArr }: any) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 

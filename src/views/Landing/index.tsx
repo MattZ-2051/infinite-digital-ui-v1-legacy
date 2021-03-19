@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { useAppDispatch } from 'hooks/store';
 import { getListingsThunk } from 'store/listing/listingThunks';
 // Components
 import Hero from './Hero';
@@ -13,8 +13,6 @@ import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
 const Landing = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const listings = useAppSelector((state) => state.listings).listings;
-  const dropBoxes = useAppSelector((state) => state.dropBoxes).dropBoxes;
 
   useEffect(() => {
     (async () => {
@@ -28,7 +26,7 @@ const Landing = () => {
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeatureBoxes />
       <FeatureProducts />
-      <LatestProducts dropBoxArr={dropBoxes} listingsArr={listings} />
+      <LatestProducts />
     </main>
   );
 };
