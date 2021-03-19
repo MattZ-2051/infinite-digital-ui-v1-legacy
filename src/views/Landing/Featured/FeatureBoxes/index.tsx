@@ -2,12 +2,13 @@ import Slider from 'react-slick';
 import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useAppSelector } from 'hooks/store';
 // Local
 import SliderBox from './SliderBox';
 
-export interface IProps {}
+const FeatureBoxes = () => {
+  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
 
-const FeatureBoxes: React.FC<IProps> = () => {
   const settings = {
     dots: true,
   };
@@ -15,9 +16,8 @@ const FeatureBoxes: React.FC<IProps> = () => {
   return (
     <Container id="feature-products">
       <Slider {...settings}>
-        <SliderBox />
-        <SliderBox />
-        <SliderBox />
+      {dropBoxes instanceof Array &&
+          dropBoxes.map((dropBox) => <SliderBox dropBox={dropBox} />)}
       </Slider>
     </Container>
   );

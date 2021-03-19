@@ -1,26 +1,26 @@
 import styled from 'styled-components/macro';
 // Local
 import Button from 'components/Button';
-// Assets
-import bg from 'assets/img/backgrounds/hero-bg3.jpeg';
 
 export interface IProps {
-  
+  product: any;
 }
 
-const SlideBox: React.FC<IProps> = () => {
+const SlideBox: React.FC<IProps> = ({ product }) => {
   return (
     <Container>
-      <ImageContainer />
+      <ImageContainer url={product.product?.sku?.imageUrls[0]} />
 
       <ProductDetails>
         <h5>MARKETPLACE FEATURE</h5>
-        <div>SKU: 3319SE</div>
+        <div>SKU: {product.product?.sku?._id} </div>
 
-        <h2>ADIDAS Kaptir</h2>
-        <h3>Super Fire (Black)</h3>
-        <p>2 listings for sale</p>
-        <p style={{ marginBottom: '20px' }}>Listings from $900 to $1,200</p>
+        <h2>{product.product?.sku?.name}</h2>
+        <h3>{product.product?.sku?.description}</h3>
+        <p>{product.product?.sku?.totalSupply} listings for sale</p>
+        <p style={{ marginBottom: '20px' }}>
+          Listings from ${product?.price} to ${product?.price}
+        </p>
 
         <Button type="button" color="white">
           Get yours now
@@ -71,11 +71,15 @@ const ProductDetails = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+interface ImageContainerProps {
+  readonly url: 'string';
+};
+
+const ImageContainer = styled.div<ImageContainerProps>`
   height: 720px;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url(${bg});
+  background-image: url('${props => props.url}');
   width: calc(100% - 340px);
   background-size: contain;
   margin-right: 25px;

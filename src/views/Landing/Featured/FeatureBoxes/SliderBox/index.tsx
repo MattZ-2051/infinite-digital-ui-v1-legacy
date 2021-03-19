@@ -5,24 +5,26 @@ import Button from 'components/Button';
 // Assets
 import bg from 'assets/img/backgrounds/hero-bg2.jpeg';
 
-export interface IProps {}
+export interface IProps {
+  dropBox: any;
+}
 
-const SlideBox: React.FC<IProps> = () => {
+const SlideBox: React.FC<IProps> = ({ dropBox }) => {
   return (
     <Container>
       <ProductDetails>
         <h5>FEATURED INFINITE</h5>
-        <h2>Gold DROP BOX</h2>
-        <h3>Infinite Launch Series 1</h3>
+        <h2>{dropBox.config.name}</h2>
+        <h3>{dropBox.config.description}</h3>
 
         <p style={{ fontSize: '18px' }}>
-          Only <span style={{ fontSize: '35px', fontWeight: 'bold' }}>7</span>{' '}
+          Only <span style={{ fontSize: '35px', fontWeight: 'bold' }}>{dropBox.config.totalSupply}</span>{' '}
           left
         </p>
 
         <p style={{ fontSize: '24px' }}>
           Price{' '}
-          <span style={{ fontSize: '45px', fontWeight: 'bold' }}>$50</span>
+          <span style={{ fontSize: '45px', fontWeight: 'bold' }}>${dropBox.config.price}</span>
         </p>
 
         <Button type="button" color="black">
@@ -34,7 +36,7 @@ const SlideBox: React.FC<IProps> = () => {
           <Link to="/">Click Here</Link> to learn more.
         </p>
       </ProductDetails>
-      <ImageContainer />
+      <ImageContainer url={dropBox.config?.imageUrl}/>
     </Container>
   );
 };
@@ -80,11 +82,15 @@ const ProductDetails = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+interface ImageContainerProps {
+  readonly url: 'string';
+};
+
+const ImageContainer = styled.div<ImageContainerProps>`
   height: 720px;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url(${bg});
+  background-image: url('${props => props.url}');
   width: calc(100% - 340px);
   background-size: contain;
   margin-left: 25px;

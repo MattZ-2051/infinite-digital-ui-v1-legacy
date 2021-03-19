@@ -4,17 +4,17 @@ import Tab from '../../../components/Tab';
 import Tabs from '../../../components/TabsContainer';
 import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
+import { useAppSelector } from 'hooks/store';
 
 export interface IProps {
-  dropBoxArr: any;
-  listingsArr: any;
+  //dropBoxArr: any;
+  //listingsArr: any;
 }
 
-// TODO: Example
-const { listings } = useAppSelector((state) => state.listings);
-const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
+const LatestProducts: React.FC<IProps> = ({ dropBoxArr = [], listingsArr = [] }: any) => {
+  const { listings } = useAppSelector((state) => state.listings);
+  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
 
-const LatestProducts: React.FC<IProps> = ({ dropBoxArr, listingsArr }: any) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   if ((dropBoxArr || listingsArr) === [] || !dropBoxArr || !listingsArr)
