@@ -9,13 +9,28 @@ import FeatureProducts from './Featured/FeatureProducts';
 import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
 
-export interface IProps {}
+import { getProducts } from 'store/product/productThunks';
+import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
+import { useSelector } from 'react-redux';
+
+export interface IProps {
+}
+
+
+export const listingSelector = (state) => state.listings.listings;
+export const dropBoxSelector = (state) => state.dropBoxes.dropBoxes;
 
 const Landing: React.FC<IProps> = () => {
   const { getAccessTokenSilently } = useAuth0();
   // const listing = useAppSelector((state) => state.listings).listings;
   const dispatch = useAppDispatch();
+  const listings = useSelector(listingSelector);
+  const dropBoxes = useSelector(dropBoxSelector);
 
+  const send = async () => {
+    const token = await getAccessTokenSilently();
+    dispatch(getProducts({ token: token }));
+  };
   const {
     isAuthenticated,
     loginWithRedirect,
@@ -25,6 +40,7 @@ const Landing: React.FC<IProps> = () => {
     (async () => {
       // const token = await getAccessTokenSilently();
       dispatch(getListingsThunk({ token: '' }));
+      dispatch(getDropBoxesThunk({ token: '' }))
     })();
   }, [dispatch, getAccessTokenSilently]);
 
@@ -33,7 +49,7 @@ const Landing: React.FC<IProps> = () => {
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeatureBoxes />
       <FeatureProducts />
-      <LatestProducts />
+      <LatestProducts dropBoxArr={dropBoxes} listingsArr={listings} />
     </main>
   );
 };

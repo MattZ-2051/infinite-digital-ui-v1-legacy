@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export interface IProps {
   children?: string;
-  type: 'button' | 'icon' | 'link';
+  type: 'button' | 'icon' | 'link' | 'iconLink';
   color?: 'white' | 'black' | 'grey';
   radius?: number;
   icon?: any;
@@ -48,13 +48,46 @@ const ButtonComponent = ({
       )}
 
       {type === 'icon' && (
-        <IconButton color={color} {...rest} radius={radius}>
-          <Icon />
-        </IconButton>
+        <>
+          <IconButton color={color} {...rest} radius={radius}>
+            <Icon />
+          </IconButton>
+
+        </>
+      )}
+
+      {type === 'iconLink' && (
+        <>
+          <IconLinkDiv>
+            <IconLinkTag href="/marketplace">
+              <IconLinkText>See More</IconLinkText>
+              <IconLinkButton color={color} {...rest} radius={radius} >
+                <Icon />
+              </IconLinkButton>
+            </IconLinkTag>
+          </IconLinkDiv>
+        </>
       )}
     </>
   );
 };
+
+
+// Icon Link Button with Text
+const IconLinkTag = styled.a`
+  text-decoration: none;
+`;
+
+const IconLinkDiv = styled.div`
+  padding-top: 40px;
+`;
+
+const IconLinkText = styled.span`
+  padding-right: 10px;
+  font-weight: 600;
+  font-size: 14px
+`;
+
 
 // IconButton
 const ButtonWhite = css`
@@ -94,15 +127,15 @@ const Button = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     }
 
     ${(props) => {
-      switch (props.color) {
-        case 'black':
-          return ButtonBlack;
-        case 'white':
-          return ButtonWhite;
-        default:
-          return ButtonBlack;
-      }
-    }};
+    switch (props.color) {
+      case 'black':
+        return ButtonBlack;
+      case 'white':
+        return ButtonWhite;
+      default:
+        return ButtonBlack;
+    }
+  }};
   }
 `;
 
@@ -117,16 +150,39 @@ const IconButton = styled(({ color, radius, ...rest }) => <MuiIconButton {...res
     }
 
     ${(props) => {
-      switch (props.color) {
-        case 'black':
-          return ButtonBlack;
-        case 'white':
-          return ButtonWhite;
-        default:
-          return ButtonBlack;
-      }
-    }};
+    switch (props.color) {
+      case 'black':
+        return ButtonBlack;
+      case 'white':
+        return ButtonWhite;
+      default:
+        return ButtonBlack;
+    }
+  }};
   }
+`;
+
+const IconLinkButton = styled(({ color, radius, ...rest }) => <MuiIconButton {...rest} />)`
+&& {
+  height: 40px;
+  width: 40px;
+  border-radius: ${(props) => (props.radius ? `${props.radius}px` : '50%')};
+
+  .MuiSvgIcon-root {
+    font-size: 15px;
+  }
+
+  ${(props) => {
+    switch (props.color) {
+      case 'black':
+        return ButtonBlack;
+      case 'white':
+        return ButtonWhite;
+      default:
+        return ButtonBlack;
+    }
+  }};
+}
 `;
 
 // LinkButton
@@ -160,30 +216,30 @@ const LinkButton = styled(({ color, size, ...rest }) => <MuiButton {...rest} />)
     background: none;
     text-transform: none;
     font-size: ${(props) => {
-      switch (props.size) {
-        case 'small':
-          return '12px';
-        case 'medium':
-          return '1rem';
-        case 'big':
-          return '18px';
-        default:
-          return '1rem';
-      }
-    }};
+    switch (props.size) {
+      case 'small':
+        return '12px';
+      case 'medium':
+        return '1rem';
+      case 'big':
+        return '18px';
+      default:
+        return '1rem';
+    }
+  }};
 
     ${(props) => {
-      switch (props.color) {
-        case 'black':
-          return LinkButtonBlack;
-        case 'white':
-          return LinkButtonWhite;
-        case 'grey':
-          return LinkButtonGrey;
-        default:
-          return LinkButtonBlack;
-      }
-    }};
+    switch (props.color) {
+      case 'black':
+        return LinkButtonBlack;
+      case 'white':
+        return LinkButtonWhite;
+      case 'grey':
+        return LinkButtonGrey;
+      default:
+        return LinkButtonBlack;
+    }
+  }};
   }
 `;
 
