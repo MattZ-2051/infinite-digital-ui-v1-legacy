@@ -19,7 +19,10 @@ const scrollToProducts = () => {
 const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
-      <Title>Collect - Connect - Curate</Title>
+      <Title>
+        Collect <span>-</span> Connect <span>-</span> Curate
+      </Title>
+
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
 
       {!isAuthenticated && (
@@ -55,24 +58,23 @@ const Container = styled.section`
   @media screen and (max-width: 960px) {
     font-size: 0.9rem;
   }
-
-  @media screen and (max-width: 600px) {
-    font-size: 0.5rem;
-  }
 `;
 
 const Title = styled.h1`
-  margin-bottom: 15px;
-
+  margin-bottom: 10%;
+ 
   @media screen and (max-width: 600px) {
-    font-weight: 600;
+    word-spacing: 100vw;
+    span {
+      display: none;
+    }
   }
 `;
 
 const Subtitle = styled.h2`
   font-weight: 500;
   font-size: 2.3em;
-  margin-bottom: 32px;
+  margin-bottom: 12%;
 `;
 
 const ArrowButton = styled.div`
