@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export interface IProps {
   children?: string;
   type: 'button' | 'icon' | 'link';
-  color?: 'white' | 'black';
+  color?: 'white' | 'black' | 'grey';
   radius?: number;
   icon?: any;
   size?: 'small' | 'medium' | 'big'; // 24 32 40
@@ -83,6 +83,7 @@ const Button = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     font-weight: 600;
     padding: 10px 24px 10px 24px;
     font-size: 1rem;
+    width: max-content;
 
     &:hover {
       box-shadow: none;
@@ -112,7 +113,7 @@ const IconButton = styled(({ color, radius, ...rest }) => <MuiIconButton {...res
     border-radius: ${(props) => (props.radius ? `${props.radius}px` : '50%')};
 
     .MuiSvgIcon-root {
-      font-size: 15px;
+      font-size: 18px;
     }
 
     ${(props) => {
@@ -143,6 +144,13 @@ const LinkButtonBlack = css`
   }
 `;
 
+const LinkButtonGrey = css`
+  color: var(--grey-40);
+  &:hover {
+    color: white;
+  }
+`;
+
 const LinkButton = styled(({ color, size, ...rest }) => <MuiButton {...rest} />)`
   && {
     min-width: 0;
@@ -170,6 +178,8 @@ const LinkButton = styled(({ color, size, ...rest }) => <MuiButton {...rest} />)
           return LinkButtonBlack;
         case 'white':
           return LinkButtonWhite;
+        case 'grey':
+          return LinkButtonGrey;
         default:
           return LinkButtonBlack;
       }

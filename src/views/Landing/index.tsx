@@ -5,8 +5,8 @@ import { useAppDispatch, useAppSelector } from 'hooks/store';
 import { getListingsThunk } from 'store/listing/listingThunks';
 // Components
 import Hero from './Hero';
-import FeatureProducts from './FeatureProducts';
-import FeatureBoxes from './FeatureBoxes';
+import FeatureProducts from './Featured/FeatureProducts';
+import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
 
 export interface IProps {}
@@ -15,6 +15,11 @@ const Landing: React.FC<IProps> = () => {
   const { getAccessTokenSilently } = useAuth0();
   const listing = useAppSelector((state) => state.listings).listings;
   const dispatch = useAppDispatch();
+
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+  } = useAuth0();
 
   useEffect(() => {
     (async () => {
@@ -25,9 +30,9 @@ const Landing: React.FC<IProps> = () => {
 
   return (
     <main>
-      <Hero />
+      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeatureBoxes />
-      <FeatureProducts listing={listing} />
+      <FeatureProducts />
       <LatestProducts />
     </main>
   );

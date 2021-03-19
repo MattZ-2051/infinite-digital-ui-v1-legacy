@@ -85,6 +85,22 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: none;
     }
   }
+
+  // Slick-Slider plugin
+  .slick-slider,
+  .slick-list,
+  .slick-slide,
+  .slick-track {
+      height: 100% !important;
+  }
+
+  .slick-slide > div {
+    height: 100% !important;
+  }
+
+  .slick-dots li button:before {
+    font-size: 13px;
+  }
 `;
 
 export default GlobalStyle;
