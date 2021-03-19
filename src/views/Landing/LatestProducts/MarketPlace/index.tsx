@@ -2,8 +2,12 @@ import styled from 'styled-components';
 import ProductPanel from 'components/ProductPanel';
 import Button from 'components/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useAppSelector } from 'hooks/store';
 
-const MarketPlace = ({ panelPropsArr }) => {
+const MarketPlace = () => {
+
+  const { listings } = useAppSelector((state) => state.listings);
+
   return (
     <>
       <HeaderContainer>
@@ -11,7 +15,7 @@ const MarketPlace = ({ panelPropsArr }) => {
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
-        {panelPropsArr.map((el, index) => {
+        {listings instanceof Array && listings.map((el, index) => {
           if (index >= 16) return null;
           return (
             <ProductDiv first={index === 0 ? true : false}>
