@@ -4,34 +4,36 @@ import Tab from '../../../components/Tab';
 import Tabs from '../../../components/TabsContainer';
 import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export interface IProps {
-  dropBoxArr: any;
-  listingsArr: any;
-}
+export interface IProps { }
 
 // TODO: Example
-const { listings } = useAppSelector((state) => state.listings);
-const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
 
-const LatestProducts: React.FC<IProps> = ({ dropBoxArr, listingsArr }: any) => {
+const LatestProducts: React.FC<IProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
-  if ((dropBoxArr || listingsArr) === [] || !dropBoxArr || !listingsArr)
-    return null;
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectedTab(newValue);
   };
   return (
     <Container>
-      <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
+      {isAuthenticated && (
+        <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
+          <Tab label="Marketplace" disableFocusRipple disableRipple />
+          <Tab label="My Collection" disableFocusRipple disableRipple />
+        </Tabs>
+      )}
+
+      <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
         <Tab label="Drop Boxes" disableFocusRipple disableRipple />
         <Tab label="Marketplace" disableFocusRipple disableRipple />
-        <Tab label="My Collection" disableFocusRipple disableRipple />
       </Tabs>
 
-      {selectedTab === 0 && <DropBoxes dropBoxArr={dropBoxArr} />}
-      {selectedTab === 1 && <MarketPlace panelPropsArr={listingsArr} />}
+      {selectedTab === 0 && <DropBoxes />}
+      {selectedTab === 1 && <MarketPlace />}
       {selectedTab === 2 && <h1>My Collection</h1>}
     </Container>
   );
