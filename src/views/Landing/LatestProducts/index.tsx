@@ -1,18 +1,16 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Tab from '../../../components/Tab';
-import Tabs from '../../../components/TabsContainer';
+import Tab from 'components/Tab';
+import Tabs from 'components/TabsContainer';
 import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export interface IProps { }
-
-// TODO: Example
+export interface IProps {}
 
 const LatestProducts: React.FC<IProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectedTab(newValue);

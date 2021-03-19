@@ -15,22 +15,23 @@ const DropBoxes = () => {
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
-        {dropBoxes instanceof Array && dropBoxes.map((el, index) => {
-          if (index >= 16) return null;
-          return (
-            <ProductDiv first={index === 0 ? true : false}>
-              <ProductPanel
-                imageSrc={el.config.imageUrl ? el.config.imageUrl : dropBoxImg}
-                releaseDate={el.config.createdAt}
-                title={el.config.name}
-                series={el.config.series}
-                skuNum={el.config.id}
-                quantity={el.config.amount}
-                price={el.config.price}
-              />
-            </ProductDiv>
-          );
-        })}
+        {dropBoxes instanceof Array &&
+          dropBoxes.map((el, index) => {
+            if (index >= 16) return null;
+            return (
+              <ProductDiv first={index === 0 ? true : false}>
+                <ProductPanel
+                  imageSrc={el.config.imageUrl || dropBoxImg}
+                  releaseDate={el.config.createdAt}
+                  title={el.config.name}
+                  series={el.config.series}
+                  skuNum={el.config.id}
+                  quantity={el.config.amount}
+                  price={el.config.price}
+                />
+              </ProductDiv>
+            );
+          })}
       </ProductContainer>
     </>
   );
@@ -74,17 +75,15 @@ const ProductContainer = styled.div`
     height: 0.4em;
   }
   ::-webkit-scrollbar-button {
-      width: 0.1em;
+    width: 0.1em;
   }
   ::-webkit-scrollbar-track-piece {
   }
   ::-webkit-scrollbar-thumb {
-      background: var(--grey-40);
-      width: 1px !important;
-      border-radius: 10px;
-  }​
-
-
+    background: var(--grey-40);
+    width: 1px !important;
+    border-radius: 10px;
+  }
 `;
 
 export default DropBoxes;

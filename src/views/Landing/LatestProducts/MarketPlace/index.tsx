@@ -5,7 +5,6 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useAppSelector } from 'hooks/store';
 
 const MarketPlace = () => {
-
   const { listings } = useAppSelector((state) => state.listings);
 
   return (
@@ -15,22 +14,23 @@ const MarketPlace = () => {
         <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
       </HeaderContainer>
       <ProductContainer>
-        {listings instanceof Array && listings.map((el, index) => {
-          if (index >= 16) return null;
-          return (
-            <ProductDiv first={index === 0 ? true : false}>
-              <ProductPanel
-                imageSrc={el.product.sku.graphicUrl}
-                releaseDate={el.product.createdAt}
-                title={el.product.sku.name}
-                series={el.product.sku.series}
-                skuNum={el.product.sku.id}
-                quantity={el.product.sku.totalSupply}
-                price={el.price}
-              />
-            </ProductDiv>
-          );
-        })}
+        {listings instanceof Array &&
+          listings.map((el, index) => {
+            if (index >= 16) return null;
+            return (
+              <ProductDiv first={index === 0 ? true : false}>
+                <ProductPanel
+                  imageSrc={el.product.sku.graphicUrl}
+                  releaseDate={el.product.createdAt}
+                  title={el.product.sku.name}
+                  series={el.product.sku.series}
+                  skuNum={el.product.sku.id}
+                  quantity={el.product.sku.totalSupply}
+                  price={el.price}
+                />
+              </ProductDiv>
+            );
+          })}
       </ProductContainer>
     </>
   );
@@ -86,7 +86,7 @@ const ProductContainer = styled.div`
         background: var(--grey-40);
         width: 1px !important;
         border-radius: 10px;
-    }​
+    }
   }
 `;
 export default MarketPlace;
