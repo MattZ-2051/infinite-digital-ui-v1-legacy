@@ -28,6 +28,8 @@ const DropBoxes = () => {
                   skuNum={el.config.id}
                   quantity={el.config.amount}
                   price={el.config.price}
+                  type={'dropBox'}
+                  backgroundColor="black"
                 />
               </ProductDiv>
             );

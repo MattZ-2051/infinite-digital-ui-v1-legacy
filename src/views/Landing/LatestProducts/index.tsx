@@ -45,6 +45,7 @@ const Container = styled.section`
   bottom: 40px;
   max-width: 1440px;
   margin: auto;
+  border-radius: 10px;
 `;
 
 export default LatestProducts;
