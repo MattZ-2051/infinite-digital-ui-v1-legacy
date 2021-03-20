@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Button from 'components/Button';
+// Local
+import TextButton from 'components/Buttons/TextButton';
+import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
   login: Function; // TODO: change type
@@ -15,46 +17,43 @@ const MobileMenu = ({ login, logout, isAuthenticated }: IProps) => {
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
-          <Button type="link" color="white" size="big" onClick={() => login()}>
+          <TextButton color="white" size="big" onClick={() => login()}>
             Sign Up
-          </Button>{' '}
+          </TextButton>{' '}
           |{' '}
-          <Button type="link" color="white" size="big" onClick={() => login()}>
+          <TextButton color="white" size="big" onClick={() => login()}>
             Sign In
-          </Button>
+          </TextButton>
         </AuthButtonsWrapper>
       )}
 
       <ListMenu>
         <Item>
-          <Button type="link" color="white" to="drop-boxes">
+          <TextButton type="link" color="white" to="drop-boxes">
             Drop Boxes
-          </Button>
+          </TextButton>
         </Item>
         <Item>
-          <Button type="link" color="white" to="marketplace">
+          <TextButton type="link" color="white" to="marketplace">
             Marketplace
-          </Button>
+          </TextButton>
         </Item>
 
         {isAuthenticated && (
-          <>
-            <Item>
-              <Button type="link" color="white" to="my-collection">
-                My Collection
-              </Button>
-            </Item>
-          </>
+          <Item>
+            <TextButton type="link" color="white" to="my-collection">
+              My Collection
+            </TextButton>
+          </Item>
         )}
       </ListMenu>
 
       {isAuthenticated && (
-        <Button
-          type="icon"
+        <IconButton
           icon={ExitToAppIcon}
           color="white"
           onClick={() => logout()}
-          style={{position: 'absolute', bottom: '40px', right: '40px'}}
+          style={{ position: 'absolute', bottom: '40px', right: '40px' }}
         />
       )}
     </>

@@ -1,15 +1,14 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 const Banner = () => {
   return (
-    <BannerDiv>
-      <img src="src/assets/img/icons/fire_Icon.png" alt='' />
-    </BannerDiv>
-  )
-}
+    <Container>
+      <img src="src/assets/img/icons/fire_Icon.png" alt="" />
+    </Container>
+  );
+};
 
-
-const BannerDiv = styled.div`
+const Container = styled.div`
   border-left: 32px solid black;
   border-right: 32px solid black;
   border-bottom: 20px solid white;

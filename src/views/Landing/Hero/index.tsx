@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 // Local
-import Button from 'components/Button/Button';
+import Button from 'components/Buttons/Button';
 import heroImg from 'assets/img/backgrounds/hero-bg.jpeg';
 // Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -26,7 +26,7 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
 
       {!isAuthenticated && (
-        <Button type="button" color="white" onClick={() => login()}>
+        <Button color="white" onClick={() => login()}>
           START YOUR COLLECTOY TODAY
         </Button>
       )}

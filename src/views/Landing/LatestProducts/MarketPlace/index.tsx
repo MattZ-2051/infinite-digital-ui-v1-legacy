@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import ProductPanel from 'components/ProductPanel';
-import Button from 'components/Button';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import CircularButton from 'components/Buttons/CircularButton';
 import { useAppSelector } from 'hooks/store';
 
 const MarketPlace = () => {
@@ -11,7 +10,7 @@ const MarketPlace = () => {
     <>
       <HeaderContainer>
         <Header>Latest Products</Header>
-        <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
+        <CircularButton to="marketplace" label="See More" />
       </HeaderContainer>
       <ProductContainer>
         {listings instanceof Array &&
@@ -63,7 +62,7 @@ const Header = styled.h3`
 `;
 
 const ProductContainer = styled.div`
-&& {
+  && {
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
@@ -78,14 +77,14 @@ const ProductContainer = styled.div`
       height: 0.4em;
     }
     ::-webkit-scrollbar-button {
-        width: 0.1em;
+      width: 0.1em;
     }
     ::-webkit-scrollbar-track-piece {
     }
     ::-webkit-scrollbar-thumb {
-        background: var(--grey-40);
-        width: 1px !important;
-        border-radius: 10px;
+      background: var(--grey-40);
+      width: 1px !important;
+      border-radius: 10px;
     }
   }
 `;

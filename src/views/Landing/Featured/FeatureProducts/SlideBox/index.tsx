@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 // Local
-import Button from 'components/Button';
+import Button from 'components/Buttons/Button';
 
 export interface IProps {
   product: any;
@@ -22,7 +22,7 @@ const SlideBox: React.FC<IProps> = ({ product }) => {
           Listings from ${product?.price} to ${product?.price}
         </p>
 
-        <Button type="button" color="white">
+        <Button color="white">
           Get yours now
         </Button>
       </ProductDetails>

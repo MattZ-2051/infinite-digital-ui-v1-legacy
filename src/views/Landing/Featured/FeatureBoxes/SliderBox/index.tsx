@@ -1,9 +1,7 @@
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 // Local
-import Button from 'components/Button';
-// Assets
-import bg from 'assets/img/backgrounds/hero-bg2.jpeg';
+import Button from 'components/Buttons/Button';
 
 export interface IProps {
   dropBox: any;
@@ -27,7 +25,7 @@ const SlideBox: React.FC<IProps> = ({ dropBox }) => {
           <span style={{ fontSize: '45px', fontWeight: 'bold' }}>${dropBox.config.price}</span>
         </p>
 
-        <Button type="button" color="black">
+        <Button color="black">
           Get yours now
         </Button>
 

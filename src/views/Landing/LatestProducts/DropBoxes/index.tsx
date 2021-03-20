@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import ProductPanel from 'components/ProductPanel';
-import Button from 'components/Button';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
+import CircularButton from 'components/Buttons/CircularButton';
 
 const DropBoxes = () => {
   const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
@@ -12,7 +11,7 @@ const DropBoxes = () => {
     <>
       <HeaderContainer>
         <Header>Latest Products</Header>
-        <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
+        <CircularButton to="marketplace" label="See More" />
       </HeaderContainer>
       <ProductContainer>
         {dropBoxes instanceof Array &&

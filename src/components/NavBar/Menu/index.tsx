@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import Divider from 'components/Divider';
-import Button from 'components/Button';
+import Button from 'components/Buttons/Button';
 
 interface IProps {
   login: () => void;
@@ -11,37 +11,27 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
       <Divider gap={32}>
-        <Button type="link" to="drop-boxes" color="white">
+        <Button to="drop-boxes" color="white">
           Drop Boxes
         </Button>
 
-        <Button type="link" to="marketplace" color="white">
+        <Button to="marketplace" color="white">
           Marketplace
         </Button>
 
         {isAuthenticated && (
-          <Button type="link" to="my-collection" color="white">
+          <Button to="my-collection" color="white">
             My Collection
           </Button>
         )}
 
         {!isAuthenticated && (
           <>
-            <Button
-              type="link"
-              onClick={() => login()}
-              color="white"
-              size="medium"
-            >
+            <Button onClick={() => login()} color="white" size="medium">
               Sign Up
             </Button>
 
-            <Button
-              type="link"
-              onClick={() => login()}
-              color="white"
-              size="medium"
-            >
+            <Button onClick={() => login()} color="white" size="medium">
               Log In
             </Button>
           </>
