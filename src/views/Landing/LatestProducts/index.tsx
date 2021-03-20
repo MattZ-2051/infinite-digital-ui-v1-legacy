@@ -6,7 +6,7 @@ import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export interface IProps {}
+export interface IProps { }
 
 const LatestProducts: React.FC<IProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
@@ -24,11 +24,13 @@ const LatestProducts: React.FC<IProps> = () => {
           <Tab label="My Collection" disableFocusRipple disableRipple />
         </Tabs>
       )}
+      {!isAuthenticated && (
+        <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
+          <Tab label="Marketplace" disableFocusRipple disableRipple />
+        </Tabs>
+      )}
 
-      <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
-        <Tab label="Drop Boxes" disableFocusRipple disableRipple />
-        <Tab label="Marketplace" disableFocusRipple disableRipple />
-      </Tabs>
 
       {selectedTab === 0 && <DropBoxes />}
       {selectedTab === 1 && <MarketPlace />}
