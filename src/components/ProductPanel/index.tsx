@@ -53,6 +53,7 @@ export default function ProductPanel(
 const StyledCard = styled(Card)`
   min-width: 302px;
   height: 470px;
+  transition: 0.3s;
   &:hover {
     transform: scale(1.05);
   }
