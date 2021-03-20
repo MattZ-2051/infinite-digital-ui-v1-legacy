@@ -61,7 +61,11 @@ const Container = styled.section`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 10%;
+  margin-bottom: 32px;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 10%;
+  }
  
   @media screen and (max-width: 600px) {
     word-spacing: 100vw;
@@ -74,7 +78,11 @@ const Title = styled.h1`
 const Subtitle = styled.h2`
   font-weight: 500;
   font-size: 2.3em;
-  margin-bottom: 12%;
+  margin-bottom: 32px;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 12%;
+  }
 `;
 
 const ArrowButton = styled.div`
