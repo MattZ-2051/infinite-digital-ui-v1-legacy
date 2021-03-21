@@ -4,6 +4,7 @@ import Button from 'components/Button';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
+import DropBoxPanel from 'components/ProductPanel/DropBoxPanel';
 
 const DropBoxes = () => {
   const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
@@ -20,7 +21,7 @@ const DropBoxes = () => {
             if (index >= 16) return null;
             return (
               <ProductDiv first={index === 0 ? true : false}>
-                <ProductPanel
+                <DropBoxPanel
                   imageSrc={el.config.imageUrl || dropBoxImg}
                   releaseDate={el.config.createdAt}
                   title={el.config.name}
@@ -28,7 +29,7 @@ const DropBoxes = () => {
                   skuNum={el.config.id}
                   quantity={el.config.amount}
                   price={el.config.price}
-                  type={'dropBox'}
+                  type='dropBox'
                   backgroundColor="black"
                 />
               </ProductDiv>
