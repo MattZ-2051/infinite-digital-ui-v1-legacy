@@ -7,14 +7,6 @@ const AllMarketPlace = () => {
   return (
     <div>
       <ProductContainer>
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
-        <ProductPanel />
       </ProductContainer>
     </div>
   )
