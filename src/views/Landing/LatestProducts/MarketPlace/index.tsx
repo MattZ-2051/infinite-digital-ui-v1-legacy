@@ -27,7 +27,9 @@ const MarketPlace = () => {
                   skuNum={el.product.sku.id}
                   quantity={el.product.sku.totalSupply}
                   price={el.price}
-                  type='common-black'
+                  type='legendary'
+                  header="black"
+                  backgroundColor="white"
                 />
               </ProductDiv>
             );
