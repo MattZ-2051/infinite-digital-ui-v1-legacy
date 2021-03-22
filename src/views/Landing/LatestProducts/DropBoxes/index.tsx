@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import ProductPanel from 'components/ProductPanel';
-import Button from 'components/Button';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
 import DropBoxPanel from 'components/ProductPanel/DropBoxPanel';
+import CircularButton from 'components/Buttons/CircularButton';
 
 const DropBoxes = () => {
   const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
@@ -13,14 +12,14 @@ const DropBoxes = () => {
     <>
       <HeaderContainer>
         <Header>Latest Products</Header>
-        <Button type="iconLink" color="black" icon={ArrowForwardIosIcon} />
+        <CircularButton to="marketplace" label="See More" />
       </HeaderContainer>
       <ProductContainer>
         {dropBoxes instanceof Array &&
           dropBoxes.map((el, index) => {
             if (index >= 16) return null;
             return (
-              <ProductDiv first={index === 0 ? true : false}>
+              <ProductDiv first={index === 0 ? true : false} key={el._id}>
                 <DropBoxPanel
                   imageSrc={el.config.imageUrl || dropBoxImg}
                   releaseDate={el.config.createdAt}

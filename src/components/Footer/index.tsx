@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 // Local
-import Button from 'components/Button';
+import IconButton from 'components/Buttons/IconButton';
+import TextButton from 'components/Buttons/TextButton';
 import Divider from 'components/Divider';
 import Hidden from '@material-ui/core/Hidden';
 // Icons
@@ -21,33 +22,33 @@ const Footer = () => {
       <FooterContent>
         <FooterTop>
           <Divider gap={24} tag="nav">
-            <Button type="link" to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               FAQ
-            </Button>
+            </TextButton>
 
-            <Button type="link" to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Help
-            </Button>
+            </TextButton>
 
-            <Button type="link" to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Thanks
-            </Button>
+            </TextButton>
 
-            <Button type="link" to="/" color="white" size="small">
+            <TextButton to="/" color="white" size="small">
               +
-            </Button>
+            </TextButton>
           </Divider>
         </FooterTop>
 
         <FooterBottom>
           <Divider gap={24} tag="nav">
-            <Button type="link" to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Privacy Policy
-            </Button>
+            </TextButton>
 
-            <Button type="link" to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Terms & Conditions
-            </Button>
+            </TextButton>
           </Divider>
 
           <Hidden smDown>
@@ -55,11 +56,11 @@ const Footer = () => {
           </Hidden>
     
           <Divider gap={16} tag="nav">
-            <Button type="icon" icon={TwitterIcon} color="white" radius={8} onClick={()=> window.open('https://twitter.com/get_infinite', '_blank')} />
-            <Button type="icon" icon={InstagramIcon} color="white" radius={8} onClick={()=> window.open('https://www.instagram.com/get_infinite/', '_blank')} />
-            <Button type="icon" icon={TicTocIcon} color="white" radius={8} onClick={()=> window.open('https://www.tiktok.com/@get_infinite?lang=en', '_blank')} />
-            <Button type="icon" icon={RedditIcon} color="white" radius={8} onClick={()=> window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')} />
-            <Button type="icon" icon={DiscordIcon} color="white" radius={8} />
+            <IconButton icon={TwitterIcon} color="white" radius={8} onClick={()=> window.open('https://twitter.com/get_infinite', '_blank')} />
+            <IconButton icon={InstagramIcon} color="white" radius={8} onClick={()=> window.open('https://www.instagram.com/get_infinite/', '_blank')} />
+            <IconButton icon={TicTocIcon} color="white" radius={8} onClick={()=> window.open('https://www.tiktok.com/@get_infinite?lang=en', '_blank')} />
+            <IconButton icon={RedditIcon} color="white" radius={8} onClick={()=> window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')} />
+            <IconButton icon={DiscordIcon} color="white" radius={8} />
           </Divider>
 
           <Hidden mdUp>

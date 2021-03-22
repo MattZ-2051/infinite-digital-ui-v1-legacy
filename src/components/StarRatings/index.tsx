@@ -3,7 +3,6 @@ import Box from '@material-ui/core/Box';
 import styled from 'styled-components/macro';
 
 export default function StarRatings() {
-
   return (
     <RatingDiv>
       <RatingBox component="fieldset" mb={3} borderColor="transparent">
@@ -12,7 +11,6 @@ export default function StarRatings() {
     </RatingDiv>
   );
 }
-
 
 const Star = styled(Rating)`
   && {
@@ -33,7 +31,7 @@ const RatingBox = styled(Box)`
     background-color: black;
     width: 112px;
     border-radius: 16px;
-    height: 20px
+    height: 20px;
   }
 `;
 

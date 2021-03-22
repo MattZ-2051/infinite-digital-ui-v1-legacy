@@ -17,16 +17,16 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
     height: 3px;
   }
 
-  @media screen and (max-width: 600px) {
-    .MuiTab-wrapper {
-      font-size: 1rem;
+    @media screen and (max-width: 600px) {
+      .MuiTab-wrapper {
+        font-size: 1rem;
+      }
     }
     .MuiTabs-centered {
       justify-content: space-around;
       margin: auto;
     }
   }
-}
 `;
 
 export default Tabs;

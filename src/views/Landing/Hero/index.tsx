@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 // Local
-import Button from 'components/Button/Button';
+import Button from 'components/Buttons/Button';
 import heroImg from 'assets/img/backgrounds/hero-bg.jpeg';
 // Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -26,7 +26,7 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
 
       {!isAuthenticated && (
-        <Button type="button" color="white" onClick={() => login()}>
+        <Button color="white" onClick={() => login()}>
           START YOUR COLLECTOY TODAY
         </Button>
       )}
@@ -61,7 +61,11 @@ const Container = styled.section`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 10%;
+  margin-bottom: 32px;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 10%;
+  }
  
   @media screen and (max-width: 600px) {
     word-spacing: 100vw;
@@ -74,7 +78,11 @@ const Title = styled.h1`
 const Subtitle = styled.h2`
   font-weight: 500;
   font-size: 2.3em;
-  margin-bottom: 12%;
+  margin-bottom: 32px;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 12%;
+  }
 `;
 
 const ArrowButton = styled.div`

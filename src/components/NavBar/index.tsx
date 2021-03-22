@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
+import Hidden from '@material-ui/core/Hidden';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@material-ui/core/styles';
+import { useAuth0 } from '@auth0/auth0-react';
+
+// Local
 import Drawer from 'components/Drawer';
+import IconButton from 'components/Buttons/IconButton';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import UserAvatar from './UserAvatar';
-import Hidden from '@material-ui/core/Hidden';
-import { useAuth0 } from '@auth0/auth0-react';
-import Button from 'components/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles } from '@material-ui/core/styles';
 
 // Icons
 import IconMenu from '@material-ui/icons/Menu';
@@ -55,8 +57,7 @@ const NavBar = () => {
           <Hidden smDown>
             <LightTooltip title="Log Out" arrow>
               <div>
-                <Button
-                  type="icon"
+                <IconButton
                   icon={ExitToAppIcon}
                   color="white"
                   onClick={() => logout()}
@@ -68,19 +69,9 @@ const NavBar = () => {
 
         <Hidden mdUp>
           {isOpen ? (
-            <Button
-              type="icon"
-              icon={CloseIcon}
-              color="white"
-              onClick={toggleDrawer}
-            />
+            <IconButton icon={CloseIcon} color="white" onClick={toggleDrawer} />
           ) : (
-            <Button
-              type="icon"
-              icon={IconMenu}
-              color="white"
-              onClick={toggleDrawer}
-            />
+            <IconButton icon={IconMenu} color="white" onClick={toggleDrawer} />
           )}
         </Hidden>
       </Container>

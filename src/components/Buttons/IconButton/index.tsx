@@ -1,27 +1,29 @@
 import styled, { css } from 'styled-components/macro';
-import MuiButton from '@material-ui/core/Button';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import MuiIconButton from '@material-ui/core/IconButton';
 
 export interface IProps {
   children?: string;
-  color?: string;
+  color?: 'white' | 'black' | 'grey';
+  radius?: number;
+  icon?: any;
+  label?: string;
+  size?: 'small' | 'medium' | 'big'; // 24 32 40
   [rest: string]: any;
 }
 
-const Button = ({
+const ButtonComponent = ({
   children,
+  icon: Icon,
+  label,
+  radius,
+  size,
   color,
   ...rest
 }: IProps) => {
   return (
-    <StyledButton
-      {...rest}
-      color={color}
-      variant="contained"
-      endIcon={<ArrowForwardIosIcon />}
-    >
-      {children}
-    </StyledButton>
+    <IconButton radius={radius} color={color} size={size} {...rest}>
+      <Icon />
+    </IconButton>
   );
 };
 
@@ -42,23 +44,16 @@ const ButtonBlack = css`
   }
 `;
 
-const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
+const IconButton = styled(({ radius, color, size, ...rest }) => (
+  <MuiIconButton {...rest} />
+))`
   && {
-    height: 40px;
-    background-color: black;
-    box-shadow: none;
-    color: white;
-    font-weight: 600;
-    padding: 10px 24px 10px 24px;
-    font-size: 1rem;
-    width: max-content;
+    height: 32px;
+    width: 32px;
+    border-radius: ${(props) => (props.radius ? `${props.radius}px` : '50%')};
 
-    &:hover {
-      box-shadow: none;
-      background-color: var(--grey-40);
-    }
     .MuiSvgIcon-root {
-      font-size: 15px;
+      font-size: 18px;
     }
 
     ${(props) => {
@@ -74,4 +69,4 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
   }
 `;
 
-export default Button;
+export default ButtonComponent;
