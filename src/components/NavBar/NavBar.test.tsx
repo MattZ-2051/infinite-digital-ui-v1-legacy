@@ -17,9 +17,11 @@ describe('<NavBar />', () => {
     expect(screen.getByTestId('navbar_toggle-drawer')).toBeVisible();
   });
 
-  test('open the drawer', async () => {
+  test('toggle the drawer', async () => {
     render(wrapper(true));
     const drawerBtn = screen.getByTestId('navbar_toggle-drawer');
+    expect(screen.queryByTestId('drawer')).not.toBeInTheDocument();
+
     fireEvent.click(drawerBtn);
     expect(screen.getByTestId('drawer')).toBeInTheDocument();
   });
