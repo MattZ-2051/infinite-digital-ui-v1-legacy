@@ -17,7 +17,7 @@ const FeatureBoxes = () => {
     <Container id="feature-products">
       <Slider {...settings}>
       {dropBoxes instanceof Array &&
-          dropBoxes.map((dropBox) => <SliderBox dropBox={dropBox} />)}
+          dropBoxes.map((dropBox, key) => <SliderBox key={key} dropBox={dropBox} />)}
       </Slider>
     </Container>
   );

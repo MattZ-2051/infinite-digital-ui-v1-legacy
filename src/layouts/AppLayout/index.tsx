@@ -1,8 +1,11 @@
-import NavBar from 'components/NavBar';
-import Footer from 'components/Footer';
 import styled from 'styled-components/macro';
 import { Link as LinkComponent } from 'react-router-dom';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+// Local
 import Notification from 'components/Notification';
+import NavBar from 'components/NavBar';
+import Footer from 'components/Footer';
 
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
 
@@ -11,6 +14,9 @@ export interface IProps {
 }
 
 const AppLayout: React.FC<IProps> = ({ children }) => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <>
       <Notification />
@@ -19,7 +25,7 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
           <Link to="/">
             <InfiniteLogo fill="white" width="170px" />
           </Link>
-          <NavBar />
+          <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
       {children}
