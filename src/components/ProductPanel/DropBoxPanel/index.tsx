@@ -30,19 +30,19 @@ const DropBoxPanel = (
           image={imageSrc ? imageSrc : productImg}
         />
         <CardContent style={{ backgroundColor: `${backgroundColor}`, color: backgroundColor === 'black' ? 'white' : 'black' }}>
-          <p style={{ fontWeight: 400, fontSize: "12px", lineHeight: '19.2px', color: "var(--grey-40)" }}>{releaseDate ? releaseDate : 'Coming Soon'}</p>
-          <h4>
+          <p style={{ fontWeight: 400, fontSize: "12px", color: "var(--grey-40)" }}>{releaseDate ? releaseDate?.split('T')[0] : 'Coming Soon'}</p>
+          <p style={{ fontSize: '24px', fontWeight: 600 }}>
             {title ? title.slice(0, 10) : 'Red Mouth'}
-          </h4>
-          <p style={{ fontWeight: 600, fontSize: '14px', lineHeight: '22.4px' }}>
+          </p>
+          <p style={{ fontWeight: 600, fontSize: '14px' }}>
             ADIDAS - {series ? series : 'Series - 03'}
           </p>
-          <p style={{ fontWeight: 400, fontSize: '14px', lineHeight: '22.4px', color: 'var(--grey-40)' }}>
+          <p style={{ fontWeight: 400, fontSize: '14px', color: 'var(--grey-40)' }}>
             Sku: {skuNum ? skuNum : 'sku'}
           </p>
-          <StyledCardDiv style={{ paddingTop: '8px' }}>
-            <p style={{ display: 'flex', fontWeight: 400, fontSize: '14px', lineHeight: '22.4px' }}>Only <h4 style={{ padding: '0 5px' }}>{quantity ? quantity : '20'}</h4> left</p>
-            <p style={{ display: 'flex', fontWeight: 400, fontSize: '14px', lineHeight: '22.4px' }}>Starting from <h4 style={{ paddingLeft: '5px' }}>{price ? `$${price}` : '$200'}</h4></p>
+          <StyledCardDiv>
+            <p style={{ display: 'flex', fontWeight: 400, fontSize: '14px', alignItems: 'center' }}>Only <span style={{ padding: '0 5px', fontSize: '24px' }}>{quantity ? quantity : '20'}</span> left</p>
+            <p style={{ display: 'flex', fontWeight: 400, fontSize: '14px', alignItems: 'center' }}>Starting from <span style={{ paddingLeft: '5px', fontSize: '24px' }}>{price ? `$${price}` : '$200'}</span></p>
           </StyledCardDiv>
         </CardContent>
       </CardActionArea>
