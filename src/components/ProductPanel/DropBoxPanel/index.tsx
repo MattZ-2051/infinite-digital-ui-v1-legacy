@@ -29,8 +29,8 @@ const DropBoxPanel = (
         <StyledCardImg
           image={imageSrc ? imageSrc : productImg}
         />
-        <CardContent style={{ backgroundColor: `${backgroundColor}`, color: backgroundColor === 'black' ? 'white' : 'black' }}>
-          <p style={{ fontWeight: 400, fontSize: "12px", color: "var(--grey-40)" }}>{releaseDate ? releaseDate?.split('T')[0] : 'Coming Soon'}</p>
+        <CardContent style={{ backgroundColor: `${backgroundColor}`, color: backgroundColor === 'black' ? 'white' : 'black', }}>
+          <p style={{ fontWeight: 400, fontSize: "12px", color: "var(--grey-40)", margin: '0' }}>{releaseDate ? releaseDate?.split('T')[0] : 'Coming Soon'}</p>
           <p style={{ fontSize: '24px', fontWeight: 600 }}>
             {title ? title.slice(0, 10) : 'Red Mouth'}
           </p>
