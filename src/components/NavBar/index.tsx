@@ -63,7 +63,7 @@ const NavBar = ({ isSmall }: IProps) => {
                 <IconButton
                   icon={ExitToAppIcon}
                   color="white"
-                  onClick={() => logout()}
+                  onClick={() => logout({ returnTo: window.location.origin })}
                 />
               </div>
             </LightTooltip>

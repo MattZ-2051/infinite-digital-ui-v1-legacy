@@ -48,7 +48,7 @@ describe('<Landing />', () => {
     ],
   };
 
-  test('display the initial requested and stored data', async () => {
+  test('load and display the data', async () => {
     // getListings.mockResolvedValue(Promise.resolve(fakeData));
     getListings.mockImplementation(async () => {
       return listingMock;

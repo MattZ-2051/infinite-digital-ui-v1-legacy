@@ -6,7 +6,7 @@ import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
   login: () => void;
-  logout: () => void;
+  logout: (redirect?: {}) => void;
   isAuthenticated: boolean;
   user: { name: string };
 }
@@ -55,7 +55,7 @@ const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
         <IconButton
           icon={ExitToAppIcon}
           color="white"
-          onClick={() => logout()}
+          onClick={() => logout({ returnTo: window.location.origin })}
           style={{ position: 'absolute', bottom: '40px', right: '40px' }}
           data-testid="logout-btn"
         />
