@@ -33,7 +33,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Auth0Provider {...providerConfig}>
+        <Auth0Provider
+          {...providerConfig}
+          useRefreshTokens={true}
+          cacheLocation="localstorage"
+        >
           <App />
         </Auth0Provider>
       </PersistGate>
