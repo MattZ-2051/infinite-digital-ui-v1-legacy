@@ -26,7 +26,7 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
 
       {!isAuthenticated && (
-        <Button color="white" onClick={() => login()}>
+        <Button color="white" onClick={() => login()} data-testid="start-collection-btn">
           START YOUR COLLECTOY TODAY
         </Button>
       )}
@@ -35,7 +35,6 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
         <ArrowDropDownIcon fontSize="large" style={{ color: 'white' }} />
         <ArrowDropDownIcon fontSize="large" style={{ color: 'black' }} />
       </ArrowButton>
-        
     </Container>
   );
 };

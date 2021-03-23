@@ -11,7 +11,6 @@ export const dropBoxSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getDropBoxesThunk.fulfilled, (state, {payload}) => {
-      console.log('Payload', payload)
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }

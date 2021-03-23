@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 export interface IProps {
   children?: string;
   color?: 'white' | 'black' | 'grey';
-  to?: string;
+  to?: string | undefined;
   [rest: string]: any;
 }
 
@@ -15,10 +16,13 @@ const ButtonComponent = ({
   to,
   ...rest
 }: IProps) => {
+
+  let location: any = useLocation();
+  
   return (
     <TextButton
       component={Link}
-      to={to}
+      to={to || location.pathname}
       color={color}
       {...rest}
     >

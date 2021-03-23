@@ -5,15 +5,18 @@ import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
-  login: Function; // TODO: change type
-  logout: Function; // TODO: change type
+  login: () => void;
+  logout: (redirect?: {}) => void;
   isAuthenticated: boolean;
+  user: { name: string };
 }
 
-const MobileMenu = ({ login, logout, isAuthenticated }: IProps) => {
+const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
   return (
     <>
-      {isAuthenticated && <Title>Hello John!</Title>}
+      {isAuthenticated && (
+        <Title data-testid="user-name">Hello {user?.name}!</Title>
+      )}
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
@@ -52,8 +55,9 @@ const MobileMenu = ({ login, logout, isAuthenticated }: IProps) => {
         <IconButton
           icon={ExitToAppIcon}
           color="white"
-          onClick={() => logout()}
+          onClick={() => logout({ returnTo: window.location.origin })}
           style={{ position: 'absolute', bottom: '40px', right: '40px' }}
+          data-testid="logout-btn"
         />
       )}
     </>
