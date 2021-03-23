@@ -19,7 +19,7 @@ const DropBoxes = () => {
           dropBoxes.map((el, index) => {
             if (index >= 16) return null;
             return (
-              <ProductDiv first={index === 0 ? true : false} key={el._id}>
+              <ProductDiv first={index === 0 ? true : false} >
                 <DropBoxPanel
                   imageSrc={el.config.imageUrl || dropBoxImg}
                   releaseDate={el.config.createdAt}
@@ -30,6 +30,7 @@ const DropBoxes = () => {
                   price={el.config.price}
                   type='dropBox'
                   backgroundColor="black"
+                  key={el._id}
                 />
               </ProductDiv>
             );
