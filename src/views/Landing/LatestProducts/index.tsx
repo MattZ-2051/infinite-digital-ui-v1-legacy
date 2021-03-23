@@ -5,6 +5,7 @@ import Tabs from 'components/TabsContainer';
 import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
 import { useAuth0 } from '@auth0/auth0-react';
+import MyCollection from 'views/Landing/LatestProducts/MyCollection';
 
 export interface IProps { }
 
@@ -34,7 +35,7 @@ const LatestProducts: React.FC<IProps> = () => {
 
       {selectedTab === 0 && <DropBoxes />}
       {selectedTab === 1 && <MarketPlace />}
-      {selectedTab === 2 && <h1>My Collection</h1>}
+      {selectedTab === 2 && <MyCollection />}
     </Container>
   );
 };
