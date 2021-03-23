@@ -17,7 +17,7 @@ const MarketPlace = () => {
           listings.map((el, index) => {
             if (index >= 16) return null;
             return (
-              <ProductDiv first={index === 0 ? true : false} key={el._id}>
+              <ProductDiv first={index === 0 ? true : false} >
                 <ProductPanel
                   imageSrc={el.product.sku.graphicUrl}
                   releaseDate={el.product.createdAt}
@@ -29,6 +29,7 @@ const MarketPlace = () => {
                   type='legendary'
                   header="black"
                   backgroundColor="white"
+                  key={el._id}
                 />
               </ProductDiv>
             );
