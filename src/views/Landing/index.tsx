@@ -26,7 +26,7 @@ const Landing = () => {
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeatureBoxes />
       <FeatureProducts />
-      <LatestProducts />
+      <LatestProducts isAuthenticated={isAuthenticated} />
     </main>
   );
 };
