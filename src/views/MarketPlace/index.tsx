@@ -3,6 +3,7 @@ import Tabs from '../../components/TabsContainer';
 import Tab from '../../components/Tab';
 import styled from 'styled-components';
 import AllMarketPlace from './AllMarketPlace';
+import SearchBar from 'components/SearchBar';
 
 export interface IProps { }
 
@@ -28,6 +29,7 @@ const MarketPlace: React.FC<IProps> = () => {
         {selectedTab === 1 && (<h1>Released</h1>)}
         {selectedTab === 2 && (<h1>Upcoming</h1>)}
         {selectedTab === 3 && (<h1>Sold Out</h1>)}
+        <SearchBar />
       </Container>
     </>
   );
