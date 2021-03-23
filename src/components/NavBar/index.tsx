@@ -4,14 +4,12 @@ import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 import { useAuth0 } from '@auth0/auth0-react';
-
 // Local
 import Drawer from 'components/Drawer';
 import IconButton from 'components/Buttons/IconButton';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import UserAvatar from './UserAvatar';
-
 // Icons
 import IconMenu from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
@@ -28,9 +26,13 @@ const LightTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
-const NavBar = () => {
+interface IProps {
+  isSmall: boolean;
+}
+
+const NavBar = ({ isSmall }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
@@ -43,6 +45,7 @@ const NavBar = () => {
           login={loginWithRedirect}
           logout={logout}
           isAuthenticated={isAuthenticated}
+          user={user}
         />
       </Drawer>
 
@@ -51,7 +54,7 @@ const NavBar = () => {
           <Menu login={loginWithRedirect} isAuthenticated={isAuthenticated} />
         </Hidden>
 
-        {isAuthenticated && <UserAvatar style={{ marginRight: '15px' }} />}
+        {isAuthenticated && <UserAvatar style={{ marginRight: '15px' }}  data-testid="navbar_avatar"/>}
 
         {isAuthenticated && (
           <Hidden smDown>
@@ -60,20 +63,21 @@ const NavBar = () => {
                 <IconButton
                   icon={ExitToAppIcon}
                   color="white"
-                  onClick={() => logout()}
+                  onClick={() => logout({ returnTo: window.location.origin })}
                 />
               </div>
             </LightTooltip>
           </Hidden>
         )}
 
-        <Hidden mdUp>
-          {isOpen ? (
-            <IconButton icon={CloseIcon} color="white" onClick={toggleDrawer} />
-          ) : (
-            <IconButton icon={IconMenu} color="white" onClick={toggleDrawer} />
-          )}
-        </Hidden>
+        {isSmall && (
+          <IconButton
+            icon={isOpen ? CloseIcon : IconMenu}
+            color="white"
+            onClick={toggleDrawer}
+            data-testid="navbar_toggle-drawer"
+          />
+        )}
       </Container>
     </>
   );

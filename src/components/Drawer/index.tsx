@@ -1,12 +1,8 @@
 import styled from 'styled-components/macro';
 import Drawer from '@material-ui/core/Drawer';
 
-const DrawerComponent = (props: any) => {
-  return (
-    <StyledDrawer {...props}>
-      {props.children}
-    </StyledDrawer>
-  );
+const DrawerComponent = ({ children, ...rest }) => {
+  return <StyledDrawer {...rest} data-testid="drawer">{children}</StyledDrawer>;
 };
 
 const StyledDrawer = styled(Drawer)`

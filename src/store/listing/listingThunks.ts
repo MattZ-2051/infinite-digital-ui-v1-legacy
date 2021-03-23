@@ -23,6 +23,9 @@ export const getListingsThunk = createAsyncThunk<
 >('listings/get', async (data, thunkApi) => {
   try {
     const response = await getListings(data.token);
+    //console.log('response thunk :', response);
+    //console.log('response thunkx data :', response.data);
+
     return response.data;
   } catch (err) {
     return thunkApi.rejectWithValue({

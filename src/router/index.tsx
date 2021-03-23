@@ -11,15 +11,13 @@ const RouterComponent = () => {
   let background = location.state && location.state.background;
 
   return (
-    <>
-      <Switch location={background || location}>
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/drop-boxes" component={DropBoxes} />
-        <Route exact path="/marketplace" component={MarketPlace} />
-        <PrivateRoute path="/user-account" component={UserAccount} />
-        <PrivateRoute path="/my-collection" component={MyCollection} />
-      </Switch>
-    </>
+    <Switch location={background || location}>
+      <Route exact path="/" component={Landing} />
+      <Route exact path="/drop-boxes" component={DropBoxes} />
+      <Route exact path="/marketplace" component={MarketPlace} />
+      <PrivateRoute path="/user-account" component={UserAccount} />
+      <PrivateRoute path="/my-collection" component={MyCollection} />
+    </Switch>
   );
 };
 
