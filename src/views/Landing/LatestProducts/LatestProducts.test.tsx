@@ -35,27 +35,4 @@ describe('<LatestProducts />', () => {
     expect(getByTestId("myCollectionTab").textContent).toBe('My Colllection')
   })
 
-  //   test('show start collection Button if the user is not logged in', async () => {
-  //     renderComponent(false);
-  //     expect(screen.getByText('START YOUR COLLECTOY TODAY')).toBeVisible();
-  //   });
-
-  //   test('calls the login function on start-collection button click', async () => {
-  //     const login = jest.fn();
-  //     renderComponent(false, login);
-  //     fireEvent.click(screen.getByTestId('start-collection-btn'));
-  //     expect(login).toHaveBeenCalled();
-  //   });
-  // });
-
-  // cleanup after each test is run
-  // // cleanup unmounts everything from the DOM after tests are run
-  // afterEach(cleanup)
-
-  // test("", () => {
-
-
-  //   // debug();
-
-  //   expect(true).toBeTruthy();
 });
