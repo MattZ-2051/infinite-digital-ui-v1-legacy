@@ -24,12 +24,13 @@ const DropBoxPanel = (
   { backgroundColor, imageSrc, releaseDate, title, series, skuNum, quantity, price, type }
     : IProps) => {
   return (
-    <StyledCard>
+    <StyledCard data-testid='panel-container'>
       <CardActionArea>
         <StyledCardImg
           image={imageSrc ? imageSrc : productImg}
+          data-testid='panel-img'
         />
-        <CardContent style={{ backgroundColor: `${backgroundColor}`, color: backgroundColor === 'black' ? 'white' : 'black', }}>
+        <CardContent data-testid='panel-content' style={{ backgroundColor: `${backgroundColor}`, color: backgroundColor === 'black' ? 'white' : 'black', }}>
           <p style={{ fontWeight: 400, fontSize: "12px", color: "var(--grey-40)", margin: '0' }}>{releaseDate ? releaseDate?.split('T')[0] : 'Coming Soon'}</p>
           <p style={{ fontSize: '24px', fontWeight: 600 }}>
             {title ? title.slice(0, 10) : 'Red Mouth'}
