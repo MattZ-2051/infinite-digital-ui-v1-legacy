@@ -12,7 +12,7 @@ const DropBoxes = () => {
     <>
       <HeaderContainer>
         <Header>Latest Products</Header>
-        <CircularButton to="marketplace" label="See More" />
+        <CircularButton to="drop-boxes" label="See More" />
       </HeaderContainer>
       <ProductContainer>
         {dropBoxes instanceof Array &&
