@@ -5,9 +5,13 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export interface IProps {
   width?: string;
-  type?: string;
-  label?: string;
+  type: string;
+  label: string;
   options?: string[];
+}
+
+export interface StyleProps {
+  width?: string
 }
 
 
@@ -33,9 +37,9 @@ const FilterBox = ({ label, type, options }: IProps) => {
           </FilterDiv>
           <HiddenDiv hidden={open}>
             {options instanceof Array &&
-              options.map((option) => {
+              options.map((option, index) => {
                 return (
-                  <DropDownDiv style={{ height: '38px' }}>
+                  <DropDownDiv style={{ height: '38px' }} key={index}>
                     <DropDownSpan>{option}</DropDownSpan>
                   </DropDownDiv>
                 )
@@ -51,7 +55,7 @@ const FilterBox = ({ label, type, options }: IProps) => {
   )
 }
 
-const FilterContainer = styled.div<IProps>`
+const FilterContainer = styled.div<StyleProps>`
   height: 40px;
   background-color: #F4F4F4;
   width: ${(props) => `${props.width}` || '301px'}
@@ -70,7 +74,7 @@ const FilterDiv = styled.div`
   }
 `;
 
-const HiddenDiv = styled.div<IProps>`
+const HiddenDiv = styled.div<StyleProps>`
   background-color: #F4F4F4;
   color: black;
   width: ${(props) => `${props.width}` || '301px'}

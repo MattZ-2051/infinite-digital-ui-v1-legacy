@@ -34,7 +34,7 @@ const MarketPlace: React.FC<IProps> = () => {
         </ContainerHead>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
           <SearchBar />
-          <FilterBox type="dropDown" options={options} label="Sort By" width="120px" />
+          <FilterBox type="dropDown" options={options} label="Sort By" width="120px" data-testid='sortByFilter' />
         </div>
         {selectedTab === 0 && (<AllMarketPlace />)}
         {selectedTab === 1 && (<h1>Released</h1>)}
