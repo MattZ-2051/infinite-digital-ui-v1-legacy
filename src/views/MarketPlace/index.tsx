@@ -4,9 +4,14 @@ import Tab from '../../components/Tab';
 import styled from 'styled-components';
 import AllMarketPlace from './AllMarketPlace';
 import SearchBar from 'components/SearchBar';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from 'components/Buttons/IconButton';
+import FilterBox from 'components/FilterBox';
 
 export interface IProps { }
 
+
+const options = ['test1', 'test2', 'test3']
 const MarketPlace: React.FC<IProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -23,13 +28,19 @@ const MarketPlace: React.FC<IProps> = () => {
             <Tab label="Released" disableFocusRipple disableRipple />
             <Tab label="Upcoming" disableFocusRipple disableRipple />
             <Tab label="Sold Out" disableFocusRipple disableRipple />
+            <IconButton icon={FilterListIcon} color="black" size="big" style={{ verticalAlign: 'middle' }} />
+
           </Tabs>
         </ContainerHead>
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+          <SearchBar />
+          <FilterBox type="dropDown" options={options} label="Sort By" width="120px" />
+        </div>
         {selectedTab === 0 && (<AllMarketPlace />)}
         {selectedTab === 1 && (<h1>Released</h1>)}
         {selectedTab === 2 && (<h1>Upcoming</h1>)}
         {selectedTab === 3 && (<h1>Sold Out</h1>)}
-        <SearchBar />
+
       </Container>
     </>
   );

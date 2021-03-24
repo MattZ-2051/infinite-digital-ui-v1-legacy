@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ProductPanel from '../../../components/ProductPanel';
+import ProductPanel from 'components/ProductPanel';
 
 const AllMarketPlace = () => {
 
