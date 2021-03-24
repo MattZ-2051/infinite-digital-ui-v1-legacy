@@ -29,6 +29,10 @@ const SearchBarInput = styled.input`
   width: 100%;
   border: none;
   background-color: #F4F4F4;
+  font-size: 14px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default SearchBar;
