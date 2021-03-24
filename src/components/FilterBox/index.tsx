@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
-import React from 'react';
+import React, { useState } from 'react';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export interface IProps {
   width?: string;
@@ -10,43 +12,82 @@ export interface IProps {
 
 
 const FilterBox = ({ label, type, options }: IProps) => {
+
+  const [open, setOpen] = useState<boolean | undefined>(true);
+
+  const handleChange = () => {
+    setOpen(!open);
+  }
   return (
-    <StyledFilterContainer>
+    <FilterContainer>
       {type === 'dropDown' && (
-        <StyledDropDown>
-          <option disabled selected>
-            {label || "Enter Label"}
-          </option>
-          {options instanceof Array &&
-            options.map((option, index) => {
-              return (
-                <option value={option} key={index}>
-                  {option}
-                </option>
-              )
-            })}
-        </StyledDropDown>
+        <>
+          <FilterDiv >
+            <span style={{ color: '#888888', }}>{label || "Enter Label"}</span>
+            {open
+              ?
+              <KeyboardArrowDownIcon style={{ color: 'black' }} onClick={handleChange} />
+              :
+              <KeyboardArrowUpIcon style={{ color: 'black' }} onClick={handleChange} />
+            }
+          </FilterDiv>
+          <HiddenDiv hidden={open}>
+            {options instanceof Array &&
+              options.map((option) => {
+                return (
+                  <DropDownDiv style={{ height: '38px' }}>
+                    <DropDownSpan>{option}</DropDownSpan>
+                  </DropDownDiv>
+                )
+              })}
+          </HiddenDiv>
+        </>
       )}
       {type === 'date' && (
         <input style={{ border: 'none', color: 'black', backgroundColor: '#F4F4F4' }} type="date" placeholder={label} />
       )}
 
-    </StyledFilterContainer>
+    </FilterContainer>
   )
 }
 
-const StyledFilterContainer = styled.div<IProps>`
+const FilterContainer = styled.div<IProps>`
   height: 40px;
   background-color: #F4F4F4;
+  width: ${(props) => `${props.width}` || '301px'}
+
 `;
 
-const StyledDropDown = styled.select<IProps>`
-  padding: 12px;
+const FilterDiv = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 9px 16px;
+  justify-content: space-between;
   color: #888888;
   background-color: #F4F4F4;
-  border: none;
-  cursor: pointer;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const HiddenDiv = styled.div<IProps>`
+  background-color: #F4F4F4;
+  color: black;
   width: ${(props) => `${props.width}` || '301px'}
+
+`;
+
+const DropDownSpan = styled.span`
+
+`;
+
+const DropDownDiv = styled.div`
+  padding: 9px 16px;
+  :hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
 `;
 
 
