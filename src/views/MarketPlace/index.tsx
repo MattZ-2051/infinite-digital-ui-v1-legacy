@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Tabs from '../../components/TabsContainer';
 import Tab from '../../components/Tab';
 import styled from 'styled-components';
@@ -14,13 +14,14 @@ export interface IProps { }
 
 const options = ['test1', 'test2', 'test3']
 
-const filters = ['ADIDAS', 'filter1', 'filter2'];
 const MarketPlace: React.FC<IProps> = () => {
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [searchFilters, setSearchFilters] = useState<string[]>(['test'])
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectedTab(newValue);
   };
+
   return (
     <>
       <Container >
@@ -40,12 +41,12 @@ const MarketPlace: React.FC<IProps> = () => {
           <FilterBox type="dropDown" options={options} label="Sort By" width="120px" data-testid='sortByFilter' />
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }} >
-          {filters.length === 0
+          {searchFilters.length === 0
             ? null
             : (
               <>
                 <p style={{ fontSize: '14px' }}>Searching For:</p>
-                {filters.map((filter) => {
+                {searchFilters.map((filter) => {
                   return (
                     <FilterChip label={filter} />
                   )
