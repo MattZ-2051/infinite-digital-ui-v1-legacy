@@ -7,11 +7,14 @@ import SearchBar from 'components/SearchBar';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from 'components/Buttons/IconButton';
 import FilterBox from 'components/FilterBox';
+import FilterChip from 'components/FilterChip';
 
 export interface IProps { }
 
 
 const options = ['test1', 'test2', 'test3']
+
+const filters = ['ADIDAS', 'filter1', 'filter2'];
 const MarketPlace: React.FC<IProps> = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -32,9 +35,24 @@ const MarketPlace: React.FC<IProps> = () => {
 
           </Tabs>
         </ContainerHead>
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }} >
           <SearchBar />
           <FilterBox type="dropDown" options={options} label="Sort By" width="120px" data-testid='sortByFilter' />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }} >
+          {filters.length === 0
+            ? null
+            : (
+              <>
+                <p style={{ fontSize: '14px' }}>Searching For:</p>
+                {filters.map((filter) => {
+                  return (
+                    <FilterChip label={filter} />
+                  )
+                })}
+              </>
+            )
+          }
         </div>
         {selectedTab === 0 && (<AllMarketPlace />)}
         {selectedTab === 1 && (<h1>Released</h1>)}
@@ -48,6 +66,7 @@ const MarketPlace: React.FC<IProps> = () => {
 
 const Container = styled.div`
   padding: 46px 80px 0 80px;
+  height: 100vh;
 `;
 
 const ContainerHead = styled.div`

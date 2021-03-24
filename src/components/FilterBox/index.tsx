@@ -77,7 +77,8 @@ const FilterDiv = styled.div`
 const HiddenDiv = styled.div<StyleProps>`
   background-color: #F4F4F4;
   color: black;
-  width: ${(props) => `${props.width}` || '301px'}
+  width: ${(props) => `${props.width}` || '301px'};
+  border-top: 1.5px solid #888888;
 
 `;
 
