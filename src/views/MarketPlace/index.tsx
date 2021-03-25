@@ -13,7 +13,7 @@ import RangeSlider from 'components/RangeSlider';
 export interface IProps { }
 
 
-const options = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6']
+const options = ['Series 001', 'Series 002', 'Series 003', 'Series 004', 'Series 005', 'Series 006']
 
 const MarketPlace: React.FC<IProps> = () => {
 
@@ -24,6 +24,7 @@ const MarketPlace: React.FC<IProps> = () => {
           <h2>MarketPlace</h2>
           <SearchBar />
           <RangeSlider />
+          <FilterBox type="dropDown" options={options} label="Series" />
         </ContainerHead>
       </Container>
     </>
