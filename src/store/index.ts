@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux'
-import { configureStore, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { ThunkAction } from 'redux-thunk';
+import { combineReducers } from "redux";
+import { configureStore, Action, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { ThunkAction } from "redux-thunk";
 import {
   persistStore,
   persistReducer,
@@ -10,38 +10,39 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import globalSlice from './global/globalSlice';
-import sessionSlice from './session/sessionSlice';
-import productSlice from './product/productSlice';
-import listingSlice from './listing/listingSlice';
-import dropBoxSlice from './dropBox/dropBoxSlice';
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import globalSlice from "./global/globalSlice";
+import sessionSlice from "./session/sessionSlice";
+import productSlice from "./product/productSlice";
+import listingSlice from "./listing/listingSlice";
+import dropBoxSlice from "./dropBox/dropBoxSlice";
+import marketPlaceSlice from "./marketPlace/marketPlaceSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
   session: sessionSlice,
   products: productSlice,
   listings: listingSlice,
-  dropBoxes: dropBoxSlice
+  dropBoxes: dropBoxSlice,
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
-  storage
-}
+  storage,
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }
-  })
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -12,54 +12,17 @@ import FilterChip from 'components/FilterChip';
 export interface IProps { }
 
 
-const options = ['test1', 'test2', 'test3']
+const options = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6']
 
 const MarketPlace: React.FC<IProps> = () => {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [searchFilters, setSearchFilters] = useState<string[]>(['test'])
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setSelectedTab(newValue);
-  };
 
   return (
     <>
       <Container >
         <ContainerHead>
           <h2>MarketPlace</h2>
-          <Tabs value={selectedTab} onChange={handleChange} centered width="100%">
-            <Tab label="All" disableFocusRipple disableRipple />
-            <Tab label="Released" disableFocusRipple disableRipple />
-            <Tab label="Upcoming" disableFocusRipple disableRipple />
-            <Tab label="Sold Out" disableFocusRipple disableRipple />
-            <IconButton icon={FilterListIcon} color="black" size="big" style={{ verticalAlign: 'middle' }} />
-
-          </Tabs>
+          <FilterBox options={options} label="Filter" type="dropDown" />
         </ContainerHead>
-        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }} >
-          <SearchBar />
-          <FilterBox type="dropDown" options={options} label="Sort By" width="120px" data-testid='sortByFilter' />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center' }} >
-          {searchFilters.length === 0
-            ? null
-            : (
-              <>
-                <p style={{ fontSize: '14px' }}>Searching For:</p>
-                {searchFilters.map((filter) => {
-                  return (
-                    <FilterChip label={filter} />
-                  )
-                })}
-              </>
-            )
-          }
-        </div>
-        {selectedTab === 0 && (<AllMarketPlace />)}
-        {selectedTab === 1 && (<h1>Released</h1>)}
-        {selectedTab === 2 && (<h1>Upcoming</h1>)}
-        {selectedTab === 3 && (<h1>Sold Out</h1>)}
-
       </Container>
     </>
   );
