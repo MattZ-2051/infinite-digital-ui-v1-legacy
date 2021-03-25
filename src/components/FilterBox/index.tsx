@@ -4,18 +4,15 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export interface IProps {
-  width?: string;
   type: string;
   label: string;
   options?: string[];
-}
-
-export interface StyleProps {
-  width?: string
+  width?: string;
 }
 
 
-const FilterBox = ({ label, type, options }: IProps) => {
+
+const FilterBox = ({ label, type, options, width }: IProps) => {
 
   const [open, setOpen] = useState<boolean | undefined>(true);
 
@@ -23,7 +20,7 @@ const FilterBox = ({ label, type, options }: IProps) => {
     setOpen(!open);
   }
   return (
-    <FilterContainer>
+    <FilterContainer style={{ width: width || '301px' }}>
       {type === 'dropDown' && (
         <>
           <FilterDiv >
@@ -35,7 +32,7 @@ const FilterBox = ({ label, type, options }: IProps) => {
               <KeyboardArrowUpIcon style={{ color: 'black' }} onClick={handleChange} />
             }
           </FilterDiv>
-          <HiddenDiv hidden={open}>
+          <HiddenDiv hidden={open} style={{ width: width || '301px' }}>
             {options instanceof Array &&
               options.map((option, index) => {
                 return (
@@ -55,10 +52,9 @@ const FilterBox = ({ label, type, options }: IProps) => {
   )
 }
 
-const FilterContainer = styled.div<StyleProps>`
+const FilterContainer = styled.div`
   height: 40px;
   background-color: #F4F4F4;
-  width: ${(props) => `${props.width}` || '301px'}
 
 `;
 
@@ -74,16 +70,15 @@ const FilterDiv = styled.div`
   }
 `;
 
-const HiddenDiv = styled.div<StyleProps>`
+const HiddenDiv = styled.div`
   background-color: #F4F4F4;
   color: black;
-  width: ${(props) => `${props.width}` || '301px'};
   border-top: 1.5px solid #888888;
-
+  overflow-y: auto;
+  max-height: 190px;
 `;
 
 const DropDownSpan = styled.span`
-
 `;
 
 const DropDownDiv = styled.div`
