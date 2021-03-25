@@ -1,0 +1,72 @@
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider'
+import styled from 'styled-components';
+
+
+function valuetext(value: number) {
+  return `${value}°C`;
+}
+
+export default function RangeSlider() {
+  const [value, setValue] = React.useState<number[]>([0, 1000]);
+
+  const handleChange = (event: any, newValue: number | number[]) => {
+    setValue(newValue as number[]);
+  };
+
+  return (
+    <div style={{ width: '278px' }}>
+      <Typography id="range-slider" gutterBottom >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '18px', fontWeight: 400, color: '#9E9E9E' }}>Price Range</span>
+          <span style={{ color: 'black', fontSize: '14px' }}>From ${value[0]} to ${value[1]}</span>
+        </div>
+      </Typography>
+      <StyledSlider
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        aria-labelledby="range-slider"
+        getAriaValueText={valuetext}
+        max={1000}
+        min={0}
+      />
+    </div>
+  );
+}
+
+const StyledSlider = styled(Slider)`
+  .MuiSlider-root {
+    color: black;
+  }
+  .MuiSlider-thumb {
+    border: 2px solid black;
+    color: white;
+    width: 15px;
+    height: 15px;
+    box-shadow: none;
+  }
+
+  .MuiSlider-thumb:hover {
+    color: black;
+    box-shadow: 0px 0px 0px 8px rgb(0 0 0 / 16%);
+  }
+
+  .MuiSlider-track {
+    color: black;
+  }
+
+  .MuiSlider-rail {
+    background-color: black;
+  }
+
+  .MuiSlider-valueLabel	{
+    color: black;
+  }
+
+  .Mui-focusVisible	{
+    color: black;
+  }
+`;

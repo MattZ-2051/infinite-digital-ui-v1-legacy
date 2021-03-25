@@ -8,6 +8,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from 'components/Buttons/IconButton';
 import FilterBox from 'components/FilterBox';
 import FilterChip from 'components/FilterChip';
+import RangeSlider from 'components/RangeSlider';
 
 export interface IProps { }
 
@@ -21,7 +22,8 @@ const MarketPlace: React.FC<IProps> = () => {
       <Container >
         <ContainerHead>
           <h2>MarketPlace</h2>
-          <FilterBox options={options} label="Filter" type="dropDown" />
+          <SearchBar />
+          <RangeSlider />
         </ContainerHead>
       </Container>
     </>
