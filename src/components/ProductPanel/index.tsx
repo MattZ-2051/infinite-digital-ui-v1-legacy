@@ -27,7 +27,7 @@ export const StyledCard = styled(Card)`
   max-height: 470px;
   overflow: initial;
   border-radius: 20px;
-  box-shadow: 3px 3px 5px 4px #ccc;
+  box-shadow: 2px 2px 3px 1px #ccc;
 
 `;
 
