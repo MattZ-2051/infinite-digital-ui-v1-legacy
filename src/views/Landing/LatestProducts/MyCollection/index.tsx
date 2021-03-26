@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
-import ProductPanel from 'components/ProductPanel';
 
 const MyCollection = () => {
   return (
@@ -10,13 +9,7 @@ const MyCollection = () => {
         <CircularButton to="my-collection" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        <ProductDiv first={true} >
-          <ProductPanel
-            type='legendary'
-            header="black"
-            backgroundColor="white"
-          />
-        </ProductDiv>
+        <ProductDiv first={true} ></ProductDiv>
       </ProductContainer>
     </>
   )

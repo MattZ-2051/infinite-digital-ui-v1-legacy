@@ -1,31 +1,50 @@
-import React, { useState } from 'react';
-import Tabs from '../../components/TabsContainer';
-import Tab from '../../components/Tab';
+import React from 'react';
 import styled from 'styled-components';
-import AllMarketPlace from './AllMarketPlace';
-import SearchBar from 'components/SearchBar';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import IconButton from 'components/Buttons/IconButton';
-import FilterBox from 'components/FilterBox';
-import FilterChip from 'components/FilterChip';
-import RangeSlider from 'components/RangeSlider';
+import SkuTile from 'components/ProductPanel/SkuTile';
+import { useAppSelector } from 'hooks/store';
 
-export interface IProps { }
+interface IProps { }
 
+// test options for dropdown filter
 
-const options = ['Series 001', 'Series 002', 'Series 003', 'Series 004', 'Series 005', 'Series 006']
+// const options = ['Series 001', 'Series 002', 'Series 003', 'Series 004', 'Series 005', 'Series 006']
 
 const MarketPlace: React.FC<IProps> = () => {
+
+  const { listings } = useAppSelector((state) => state.listings);
 
   return (
     <>
       <Container >
         <ContainerHead>
           <h2>MarketPlace</h2>
-          <SearchBar />
-          <RangeSlider />
-          <FilterBox type="dropDown" options={options} label="Series" />
         </ContainerHead>
+        <div style={{ display: 'flex', width: '100' }}>
+
+          {/* <SkuTile status="upcoming" skuRarity="rare" />
+        <SkuTile status="unique" skuRarity="uncommon" />
+        <SkuTile status="mult-listing" skuRarity="legendary" />
+        <SkuTile status="dropbox" skuRarity="epic" /> */}
+          {listings instanceof Array && listings.map((listing) => {
+
+            const sku = listing.product.sku
+            return (
+
+              <div style={{ padding: '0 10px' }}>
+                <SkuTile
+                  status={sku.status}
+                  skuRarity="rare"
+                  skuImg={sku.graphicUrl}
+                  skuName={sku.name}
+                  skuSeries={sku.series}
+                  skuSupply={sku.circulatingSupply
+
+                  }
+                />
+              </div>
+            )
+          })}
+        </div>
       </Container>
     </>
   );
