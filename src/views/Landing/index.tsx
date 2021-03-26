@@ -24,7 +24,9 @@ const Landing = () => {
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
+      {/* Temporary comment see issue #86 for more details
       <FeatureBoxes />
+      */}
       <FeatureProducts />
       <LatestProducts isAuthenticated={isAuthenticated} />
     </main>
