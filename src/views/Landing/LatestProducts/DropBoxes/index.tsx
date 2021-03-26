@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ProductPanel from 'components/ProductPanel';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
 import DropBoxPanel from 'components/ProductPanel/DropBoxPanel';
