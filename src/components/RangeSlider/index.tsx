@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import styled from 'styled-components';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 
 function valuetext(value: number) {
@@ -11,28 +13,36 @@ function valuetext(value: number) {
 
 export default function RangeSlider() {
   const [value, setValue] = React.useState<number[]>([0, 1000]);
+  const [open, setOpen] = React.useState<boolean | undefined>(true);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
 
+  const handleOpen = () => {
+    setOpen(!open)
+  }
+
   return (
     <div style={{ width: '278px' }}>
       <Typography id="range-slider" gutterBottom >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={handleOpen}>
           <span style={{ fontSize: '18px', fontWeight: 400, color: '#9E9E9E' }}>Price Range</span>
           <span style={{ color: 'black', fontSize: '14px' }}>From ${value[0]} to ${value[1]}</span>
+          {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </div>
       </Typography>
-      <StyledSlider
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay="auto"
-        aria-labelledby="range-slider"
-        getAriaValueText={valuetext}
-        max={1000}
-        min={0}
-      />
+      <div hidden={open}>
+        <StyledSlider
+          value={value}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
+          aria-labelledby="range-slider"
+          getAriaValueText={valuetext}
+          max={1000}
+          min={0}
+        />
+      </div>
     </div>
   );
 }
