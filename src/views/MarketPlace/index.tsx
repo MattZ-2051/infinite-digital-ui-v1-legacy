@@ -41,7 +41,7 @@ const MarketPlace: React.FC<IProps> = () => {
               <span style={{ fontSize: '24px', fontWeight: 500, color: '#9e9e9e' }}>Filter by</span>
               <FilterChip type="clear" label="Clear All" />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 16px' }}>
               <div style={{ padding: '0 5px' }}>
                 <FilterBox type="date" width="100px" />
               </div>
@@ -65,19 +65,18 @@ const MarketPlace: React.FC<IProps> = () => {
             {listings instanceof Array && listings.map((listing) => {
 
               const sku = listing.product.sku
+              console.log(listing)
               return (
 
                 <div style={{ padding: '0 10px' }}>
-                  <SkuTile
+                  {/* <SkuTile
                     status={sku.status}
                     skuRarity="rare"
                     skuImg={sku.graphicUrl}
                     skuName={sku.name}
                     skuSeries={sku.series}
-                    skuSupply={sku.circulatingSupply
-
-                    }
-                  />
+                    skuSupply={sku.circulatingSupply}
+                  /> */}
                 </div>
               )
             })}

@@ -77,7 +77,7 @@ export const FilterDiv = styled.div`
   border-radius: 20px;
   :hover {
     cursor: pointer;
-    background-color: #c4c4c4;
+    background-color: #D6D6D6;
     border-radius: 20px;
     color: black;
   }
@@ -97,7 +97,7 @@ export const DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   :hover {
-    background-color: #c4c4c4;
+    background-color: #D6D6D6;
     color: white;
     cursor: pointer;
     color: black;
