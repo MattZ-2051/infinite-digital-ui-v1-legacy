@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
   blacklist: ['products', 'listings', 'dropBoxes', 'marketplace'],
