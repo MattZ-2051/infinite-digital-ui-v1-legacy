@@ -14,7 +14,7 @@ import Sort from './Sort';
 
 export interface IProps {
   type: string;
-  label: string;
+  label?: string;
   options?: string[];
   width?: string;
 }

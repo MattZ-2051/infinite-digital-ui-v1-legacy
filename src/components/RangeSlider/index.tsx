@@ -24,10 +24,10 @@ export default function RangeSlider() {
   }
 
   return (
-    <div style={{ width: '278px' }}>
+    <div style={{ width: '301px', padding: '9px 16px' }}>
       <Typography id="range-slider" gutterBottom >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={handleOpen}>
-          <span style={{ fontSize: '18px', fontWeight: 400, color: '#9E9E9E' }}>Price Range</span>
+          <span style={{ fontSize: '18px', fontWeight: 500, color: '#9E9E9E' }}>Price Range</span>
           <span style={{ color: 'black', fontSize: '14px' }}>From ${value[0]} to ${value[1]}</span>
           {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </div>

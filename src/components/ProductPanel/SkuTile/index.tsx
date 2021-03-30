@@ -30,7 +30,7 @@ const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: I
             {skuName}
           </p>
           <StyledCardDiv style={{ paddingTop: '8px' }}>
-            <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em' }}>{skuSeries?.slice(0, 5)}</p>
+            <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em' }}># {skuSeries?.slice(0, 5)}</p>
             {status === 'upcoming' && (
               <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em' }}>{skuSupply} Dropping</p>
             )}

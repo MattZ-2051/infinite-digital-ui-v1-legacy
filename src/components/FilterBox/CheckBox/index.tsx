@@ -18,7 +18,7 @@ const CheckBox = ({ label, width, options }) => {
   return (
     <>
       <FilterDiv onClick={handleChange}  >
-        <span style={{ color: '#888888', }}>{label || "Enter Label"}</span>
+        <span style={{ color: '#888888', fontSize: '18px' }}>{label || "Enter Label"}</span>
         {open
           ?
           <KeyboardArrowDownIcon style={{ color: 'black' }} />
