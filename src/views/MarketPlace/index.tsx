@@ -13,9 +13,6 @@ import {
 
 export interface IProps {}
 
-
-const options = ['Series 001', 'Series 002', 'Series 003', 'Series 004', 'Series 005', 'Series 006']
-
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
   const dispatch = useAppDispatch();
