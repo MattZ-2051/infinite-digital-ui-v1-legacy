@@ -41,6 +41,8 @@ const MarketPlace: React.FC<IProps> = () => {
               <span style={{ fontSize: '24px', fontWeight: 500, color: '#9e9e9e' }}>Filter by</span>
               <FilterChip type="clear" label="Clear All" />
             </div>
+            <FilterChip label="label" />
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 16px' }}>
               <div style={{ padding: '0 5px' }}>
                 <FilterBox type="date" width="100px" />
@@ -56,7 +58,7 @@ const MarketPlace: React.FC<IProps> = () => {
               <FilterBox type="dropdown" label="Series" options={options} />
             </div>
           </div>
-          <div style={{ display: 'flex', width: '100' }}>
+          <div style={{ display: 'flex', width: '100%' }}>
 
             {/* <SkuTile status="upcoming" skuRarity="rare" />
         <SkuTile status="unique" skuRarity="uncommon" />
@@ -69,14 +71,15 @@ const MarketPlace: React.FC<IProps> = () => {
               return (
 
                 <div style={{ padding: '0 10px' }}>
-                  {/* <SkuTile
-                    status={sku.status}
-                    skuRarity="rare"
-                    skuImg={sku.graphicUrl}
-                    skuName={sku.name}
-                    skuSeries={sku.series}
-                    skuSupply={sku.circulatingSupply}
-                  /> */}
+                  <SkuTile
+                    // status={sku.status}
+                    // skuRarity="rare"
+                    // skuImg={sku.graphicUrl}
+                    // skuName={sku.name}
+                    // skuSeries={sku.series}
+                    // skuSupply={sku.circulatingSupply}
+                    status='upcoming'
+                  />
                 </div>
               )
             })}

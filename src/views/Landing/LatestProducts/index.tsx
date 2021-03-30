@@ -19,7 +19,7 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
   return (
     <Container>
       {isAuthenticated && (
-        <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
+        <Tabs value={selectedTab} onChange={handleChange} centered width="90%" >
           {/* Temporary comment see issue #86 for more details
           <Tab label="Drop Boxes" disableFocusRipple disableRipple data-testid="dropBoxTab" />
           */}

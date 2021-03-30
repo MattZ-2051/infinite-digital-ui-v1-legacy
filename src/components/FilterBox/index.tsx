@@ -1,6 +1,4 @@
 import styled from 'styled-components/macro';
-import React, { useState } from 'react';
-
 import Checkbox from '@material-ui/core/Checkbox';
 import RangeSlider from 'components/RangeSlider';
 import {
@@ -105,8 +103,10 @@ export const DropDownDiv = styled.div`
 `;
 
 export const DatePickers = styled(KeyboardDatePicker)`
-  .MuiPickersDay-daySelected {
-    background-color: black;
+ && {
+    .MuiPickersDay-daySelected {
+      background-color: black;
+    }
   }
 `;
 
