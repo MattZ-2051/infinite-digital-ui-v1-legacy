@@ -21,6 +21,7 @@ const MarketPlace: React.FC<IProps> = () => {
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
+  const isMounted = useRef(true);
 
   // Create the url query-string using the redux stored filters
   const createQueryString = (filters: {}) => {
@@ -53,17 +54,18 @@ const MarketPlace: React.FC<IProps> = () => {
   };
 
   useEffect(() => {
-    //TODO ver si hacer un replace la primera vez
-
-    // Avoid regenerating the url if the user press the browser back button
-    if (regenerateUrl.current) {
-      const queryString = createQueryString(activeFilters);
-      history.push(`/marketplace?${queryString.toString()}`);
+    if (isMounted.current) {
+      isMounted.current = false;
     } else {
-      regenerateUrl.current = true;
+      // Avoid regenerating the url if the user press the browser back button
+      if (regenerateUrl.current) {
+        const queryString = createQueryString(activeFilters);
+        history.push(`/marketplace?${queryString.toString()}`);
+      } else {
+        regenerateUrl.current = true;
+      }
     }
-
-    // dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
+    dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
   }, [activeFilters]);
 
   const toggleFilters = () => {
