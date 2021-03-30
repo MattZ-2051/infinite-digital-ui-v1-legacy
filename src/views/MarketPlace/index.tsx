@@ -1,18 +1,84 @@
-import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // Local
+import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
+import { useAppDispatch, useAppSelector } from 'hooks/store';
 import Filters from './Filters';
+import {
+  getDefaultParams,
+  updateFilters,
+} from 'store/marketplace/marketplaceSlice';
 
 export interface IProps {}
 
 const MarketPlace: React.FC<IProps> = () => {
-  const [filtersVisible, setFiltersVisible] = useState(false);
+  let history = useHistory();
+  const dispatch = useAppDispatch();
+  const [filtersVisible, setFiltersVisible] = useState(true); // TODO set to false later
   const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const activeFilters = useAppSelector((store) => store.marketplace.filters);
+  const urlQueryString = window.location.search;
+  const regenerateUrl = useRef(true);
+
+  // Create the url query-string using the redux stored filters
+  const createQueryString = (filters: {}) => {
+    const params = new URLSearchParams();
+
+    Object.keys(filters).forEach((categoryName) => {
+      const categoryValue = filters[categoryName];
+
+      if (categoryValue && categoryValue.length) {
+        if (categoryValue instanceof Array) {
+          switch (categoryName) {
+            case 'date':
+              params.append('startDate', categoryValue[0]);
+              params.append('endDate', categoryValue[1]);
+              break;
+            case 'price':
+              params.append('minPrice', categoryValue[0]);
+              params.append('maxPrice', categoryValue[1]);
+              break;
+            default:
+              params.append(categoryName, categoryValue.join('+'));
+              break;
+          }
+        } else {
+          params.append(categoryName, categoryValue);
+        }
+      }
+    });
+    return params;
+  };
+
+  useEffect(() => {
+    //TODO ver si hacer un replace la primera vez
+
+    // Avoid regenerating the url if the user press the browser back button
+    if (regenerateUrl.current) {
+      const queryString = createQueryString(activeFilters);
+      history.push(`/marketplace?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+    }
+
+    // dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
+  }, [activeFilters]);
 
   const toggleFilters = () => {
     setFiltersVisible((filtersVisible) => !filtersVisible);
   };
+
+  useEffect(() => {
+    return history.listen(() => {
+      if (history.action === 'POP') {
+        regenerateUrl.current = false;
+        const urlParams = getDefaultParams();
+        dispatch(updateFilters(urlParams));
+      }
+    });
+  }, [history]);
 
   return (
     <Container>
@@ -23,10 +89,14 @@ const MarketPlace: React.FC<IProps> = () => {
           <button onClick={toggleFilters}>Sidebar</button>
         </ToggleFilter>
 
-        <div>Sort by: Most Popular</div>
+        <div>
+          Sort by:
+          <button>Most Popular</button>
+          <button>New releases</button>
+        </div>
       </Header>
 
-      {(filtersVisible && matchesMobile) && <Filters />}
+      {filtersVisible && matchesMobile && <Filters />}
 
       <Main>
         <Sidebar>
@@ -39,8 +109,6 @@ const MarketPlace: React.FC<IProps> = () => {
             <ProductPanel>2</ProductPanel>
             <ProductPanel>3</ProductPanel>
             <ProductPanel>4</ProductPanel>
-            <ProductPanel>5</ProductPanel>
-            <ProductPanel>6</ProductPanel>
           </ProductsGrid>
         </Content>
       </Main>
