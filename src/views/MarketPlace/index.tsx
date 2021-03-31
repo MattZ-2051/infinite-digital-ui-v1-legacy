@@ -24,6 +24,7 @@ const MarketPlace: React.FC<IProps> = () => {
   const [filtersVisible, setFiltersVisible] = useState(true); // TODO set to false later
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
+  const skus = useAppSelector((store) => store.marketplace.skus);
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
