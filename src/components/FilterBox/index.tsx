@@ -10,27 +10,29 @@ export interface IProps {
   width?: string;
 }
 
-
-
 const FilterBox = ({ label, type, options, width }: IProps) => {
-
   const [open, setOpen] = useState<boolean | undefined>(true);
 
   const handleChange = () => {
     setOpen(!open);
-  }
+  };
   return (
     <FilterContainer style={{ width: width || '301px' }}>
       {type === 'dropDown' && (
         <>
-          <FilterDiv >
-            <span style={{ color: '#888888', }}>{label || "Enter Label"}</span>
-            {open
-              ?
-              <KeyboardArrowDownIcon style={{ color: 'black' }} onClick={handleChange} />
-              :
-              <KeyboardArrowUpIcon style={{ color: 'black' }} onClick={handleChange} />
-            }
+          <FilterDiv>
+            <span style={{ color: '#888888' }}>{label || 'Enter Label'}</span>
+            {open ? (
+              <KeyboardArrowDownIcon
+                style={{ color: 'black' }}
+                onClick={handleChange}
+              />
+            ) : (
+              <KeyboardArrowUpIcon
+                style={{ color: 'black' }}
+                onClick={handleChange}
+              />
+            )}
           </FilterDiv>
           <HiddenDiv hidden={open} style={{ width: width || '301px' }}>
             {options instanceof Array &&
@@ -39,23 +41,25 @@ const FilterBox = ({ label, type, options, width }: IProps) => {
                   <DropDownDiv style={{ height: '38px' }} key={index}>
                     <DropDownSpan>{option}</DropDownSpan>
                   </DropDownDiv>
-                )
+                );
               })}
           </HiddenDiv>
         </>
       )}
       {type === 'date' && (
-        <input style={{ border: 'none', color: 'black', backgroundColor: '#F4F4F4' }} type="date" placeholder={label} />
+        <input
+          style={{ border: 'none', color: 'black', backgroundColor: '#F4F4F4' }}
+          type="date"
+          placeholder={label}
+        />
       )}
-
     </FilterContainer>
-  )
-}
+  );
+};
 
 const FilterContainer = styled.div`
   height: 40px;
-  background-color: #F4F4F4;
-
+  background-color: #f4f4f4;
 `;
 
 const FilterDiv = styled.div`
@@ -64,22 +68,21 @@ const FilterDiv = styled.div`
   padding: 9px 16px;
   justify-content: space-between;
   color: #888888;
-  background-color: #F4F4F4;
+  background-color: #f4f4f4;
   :hover {
     cursor: pointer;
   }
 `;
 
 const HiddenDiv = styled.div`
-  background-color: #F4F4F4;
+  background-color: #f4f4f4;
   color: black;
   border-top: 1.5px solid #888888;
   overflow-y: auto;
   max-height: 190px;
 `;
 
-const DropDownSpan = styled.span`
-`;
+const DropDownSpan = styled.span``;
 
 const DropDownDiv = styled.div`
   padding: 9px 16px;
@@ -90,5 +93,4 @@ const DropDownDiv = styled.div`
   }
 `;
 
-
-export default FilterBox
+export default FilterBox;

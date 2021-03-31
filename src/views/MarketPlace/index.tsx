@@ -100,7 +100,10 @@ const MarketPlace: React.FC<IProps> = () => {
       <Header>
         <h2>MarketPlace</h2>
 
-        <SearchInput handleFilter={handleFilter} activeFilters={activeFilters} />
+        <SearchInput
+          handleFilter={handleFilter}
+          activeFilters={activeFilters}
+        />
 
         <ToggleFilter>
           <button onClick={toggleFilters}>Sidebar</button>

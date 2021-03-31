@@ -47,11 +47,11 @@ export const getDefaultParams = () => {
         filters.status = paramValue as ReleaseStatus;
         break;
       case 'search':
-      filters.search = paramValue;
-      break;
+        filters.search = paramValue;
+        break;
       default:
         if (filters[paramName]) filters[paramName] = paramValue.split('+');
-      break;
+        break;
     }
   }
   return filters;

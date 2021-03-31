@@ -17,8 +17,8 @@ import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 
 export interface IProps {
-  activeFilters: any,
-  handleFilter: (name: string, data: string) => void
+  activeFilters: any;
+  handleFilter: (name: string, data: string) => void;
 }
 
 const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
@@ -33,10 +33,16 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
   return (
     <Container>
       <Menu handleFilter={handleFilter} />
-      <SelectedFilters />
+      <SelectedFilters
+        handleFilter={handleFilter}
+        activeFilters={activeFilters}
+      />
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
-      <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
+      <PriceRange
+        handleFilter={handleFilter}
+        defaultFilter={activeFilters.price}
+      />
       <Category handleFilter={handleFilter} />
       <Brand />
       <Series />
