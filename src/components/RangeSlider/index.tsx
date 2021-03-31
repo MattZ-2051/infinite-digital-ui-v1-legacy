@@ -18,7 +18,6 @@ export default function RangeSlider({ onChangeCommittedFunc }) {
   }
 
   return (
-    <div style={{ width: '301px', padding: '9px 16px' }}>
-    </div>
+    <div></div>
   );
 }
