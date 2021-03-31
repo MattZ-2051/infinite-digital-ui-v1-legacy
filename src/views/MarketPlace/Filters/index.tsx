@@ -13,7 +13,7 @@ import Date from './Date';
 import Category from './Category';
 import Brand from './Brand';
 import Series from './Series';
-import Range from './Range';
+import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 
 export interface IProps {
@@ -36,7 +36,7 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
       <SelectedFilters />
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
-      <Range handleFilter={handleFilter} defaultFilter={activeFilters.price} />
+      <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
       <Category handleFilter={handleFilter} />
       <Brand />
       <Series />
