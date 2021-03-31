@@ -15,6 +15,7 @@ export interface IProps {
 }
 
 const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
+
   const [value, setValue] = React.useState<number[]>([0, 1000]);
   const [isHidden, setIsHidden] = React.useState<boolean | undefined>(true);
 

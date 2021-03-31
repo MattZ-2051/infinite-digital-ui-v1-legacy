@@ -15,7 +15,7 @@ import {
 // Components
 import SearchInput from './Filters/SearchInput';
 
-export interface IProps {}
+export interface IProps { }
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
@@ -165,8 +165,6 @@ const Sidebar = styled.aside`
   width: 300px;
   min-width: 300px;
   // height: 50vh;
-  background-color: #bbbbbb;
-  border: 1px solid #7614e6;
   margin-right: 24px;
 
   @media screen and (max-width: 1140px) {
