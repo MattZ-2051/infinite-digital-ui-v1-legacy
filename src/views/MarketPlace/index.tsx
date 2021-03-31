@@ -14,6 +14,7 @@ import {
 } from 'store/marketplace/marketplaceSlice';
 // Components
 import SearchInput from './Filters/SearchInput';
+import SortByFilter from './Filters/SortByFilter';
 
 export interface IProps { }
 
@@ -106,11 +107,12 @@ const MarketPlace: React.FC<IProps> = () => {
           <button onClick={toggleFilters}>Sidebar</button>
         </ToggleFilter>
 
-        <div>
+        {/* <div>
           Sort by:
           <button>Most Popular</button>
           <button>New releases</button>
-        </div>
+        </div> */}
+        <SortByFilter options={['Release Date', 'Rarity', 'Price']} />
       </Header>
 
       {filtersVisible && matchesMobile && (
@@ -151,6 +153,7 @@ const Header = styled.div`
   width: 100%;
   justify-content: space-between;
   border: 1px solid #14e642;
+  align-items: center;
 `;
 
 const Main = styled.main`
