@@ -15,6 +15,7 @@ import {
 // Components
 import SearchInput from './Filters/SearchInput';
 import SortByFilter from './Filters/SortByFilter';
+import SkuTile from 'components/ProductTiles/SkuTile';
 
 export interface IProps { }
 
@@ -28,6 +29,8 @@ const MarketPlace: React.FC<IProps> = () => {
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
+
+  console.log(skus);
 
   // Create the url query-string using the redux stored filters
   const createQueryString = (filters: {}) => {
@@ -127,10 +130,20 @@ const MarketPlace: React.FC<IProps> = () => {
 
         <Content>
           <ProductsGrid>
-            <ProductPanel>1</ProductPanel>
-            <ProductPanel>2</ProductPanel>
-            <ProductPanel>3</ProductPanel>
-            <ProductPanel>4</ProductPanel>
+            {skus instanceof Array &&
+              skus.map((sku) => {
+                return (
+                  <SkuTile
+                    status={sku.status}
+                    skuImg={sku.graphicUrl}
+                    skuName={sku.name}
+                    skuSeries={sku.series.name}
+                    skuSupply={sku.circulatingSupply}
+                    key={sku.id}
+                  />
+                )
+              })
+            }
           </ProductsGrid>
         </Content>
       </Main>

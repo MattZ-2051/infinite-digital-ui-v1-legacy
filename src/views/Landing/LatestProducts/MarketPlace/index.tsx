@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ProductPanel from 'components/ProductPanel';
 import CircularButton from 'components/Buttons/CircularButton';
 import { useAppSelector } from 'hooks/store';
 
@@ -18,19 +17,6 @@ const MarketPlace = () => {
             if (index >= 16) return null;
             return (
               <ProductDiv first={index === 0 ? true : false} >
-                <ProductPanel
-                  imageSrc={el.product.sku.graphicUrl}
-                  releaseDate={el.product.createdAt}
-                  title={el.product.sku.name}
-                  series={el.product.sku.series}
-                  skuNum={el.product.sku.id}
-                  quantity={el.product.sku.totalSupply}
-                  price={el.price}
-                  type='legendary'
-                  header="black"
-                  backgroundColor="white"
-                  key={el._id}
-                />
               </ProductDiv>
             );
           })}
