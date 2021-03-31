@@ -18,6 +18,14 @@ const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
   const [value, setValue] = React.useState<number[]>([0, 1000]);
   const [open, setOpen] = React.useState<boolean | undefined>(true);
 
+  useEffect(() => {
+    if (defaultFilter.length) {
+      return setValue([...defaultFilter]);
+    } else {
+      return setValue([10, 50]);
+    }
+  }, [defaultFilter]);
+
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
