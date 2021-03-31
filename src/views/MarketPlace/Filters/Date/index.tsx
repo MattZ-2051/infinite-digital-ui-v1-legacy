@@ -26,38 +26,46 @@ const DateFilter: React.FC<IProps> = ({ handleFilter }) => {
   return (
     <Container>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="dd/MM/yy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Start Date"
-          value={selectedStartDate}
-          onChange={setStartDate}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="dd/MM/yy"
-          margin="normal"
-          id="date-picker-inline"
-          label="End Date"
-          value={selectedEndDate}
-          onChange={handleDate}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+        <div style={{ paddingRight: '10px' }}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="dd/MM/yy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Start Date"
+            value={selectedStartDate}
+            onChange={setStartDate}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+        </div>
+        <div>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="dd/MM/yy"
+            margin="normal"
+            id="date-picker-inline"
+            label="End Date"
+            value={selectedEndDate}
+            onChange={handleDate}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+        </div>
       </MuiPickersUtilsProvider>
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
+`;
 
 export default DateFilter;
