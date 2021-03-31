@@ -32,7 +32,7 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   return (
     <Container>
-      <Menu handleFilter={handleFilter} />
+      <Menu handleFilter={handleFilter} activeFilterStatus={activeFilters.status} />
       <SelectedFilters />
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
