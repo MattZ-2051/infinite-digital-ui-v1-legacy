@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
-import { StoreRounded } from '@material-ui/icons';
 // Local
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { useAppDispatch } from 'hooks/store';
 import {
   updateFilter,
   restoreFilters,
 } from 'store/marketplace/marketplaceSlice';
-import SelectedFilters from './SelectedFilters';
 
 // Components
 import Menu from './Menu';
@@ -17,24 +14,16 @@ import Category from './Category';
 import Brand from './Brand';
 import Series from './Series';
 import Range from './Range';
+import SelectedFilters from './SelectedFilters';
 
-export interface IProps {}
+export interface IProps {
+  activeFilters: any,
+  handleFilter: (name: string, data: string) => void
+}
 
-const Filters: React.FC<IProps> = () => {
+const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
   const dispatch = useAppDispatch();
-  const activeFilters = useAppSelector((store) => store.marketplace.filters);
   let history = useHistory();
-
-  // console.log('activeFilters: ', activeFilters);
-
-  const handleFilter = (name: string, value: any) => {
-    const payload = {
-      filterName: name,
-      filterValue: value,
-    };
-
-    dispatch(updateFilter(payload));
-  };
 
   const clearFilters = () => {
     history.push('/marketplace');

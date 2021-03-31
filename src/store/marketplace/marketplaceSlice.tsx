@@ -10,6 +10,7 @@ interface IFilters {
   category: string[];
   brand: string[];
   series: string[];
+  search: string;
 }
 
 const defaultFilters: IFilters = {
@@ -19,10 +20,11 @@ const defaultFilters: IFilters = {
   category: [],
   brand: [],
   series: [],
+  search: '',
 };
 
 export const getDefaultParams = () => {
-  console.log('%c getDefaultParams ', 'background: #222; color: #bada55');
+  // console.log('%c getDefaultParams ', 'background: #222; color: #bada55');
 
   const queryString = window.location.search;
   const urlParams: any = new URLSearchParams(queryString);
@@ -44,9 +46,12 @@ export const getDefaultParams = () => {
       case 'status':
         filters.status = paramValue as ReleaseStatus;
         break;
+      case 'search':
+      filters.search = paramValue;
+      break;
       default:
-        filters[paramName] = paramValue.split('+'); //TODO: Verify if the filter exists
-        break;
+        if (filters[paramName]) filters[paramName] = paramValue.split('+');
+      break;
     }
   }
   return filters;

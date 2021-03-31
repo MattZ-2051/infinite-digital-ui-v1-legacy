@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 
-export interface IProps {}
+export interface IProps {
+  activeFilters: any,
+  handleFilter: (name: string, data: string) => void;
+}
 
-const Search: React.FC<IProps> = () => {
-  const [searchValue, setSearchValue] = useState('');
+const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
+  const [searchValue, setSearchValue] = useState(activeFilters.search || '');
   const [debouncedValue, setDebouncedValue] = useState('');
 
   const handleInput = (e: any) => {
@@ -23,7 +26,7 @@ const Search: React.FC<IProps> = () => {
   );
 
   useUpdateEffect(() => {
-    console.log('updeteo');
+    handleFilter('search', debouncedValue);
   }, [debouncedValue]);
 
   return (
@@ -36,4 +39,4 @@ const Search: React.FC<IProps> = () => {
   );
 };
 
-export default Search;
+export default SearchInput;

@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components/macro';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import styled from 'styled-components/macro';
 // Local
 import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
@@ -9,8 +9,11 @@ import Filters from './Filters';
 import {
   getDefaultParams,
   updateFilters,
+  restoreFilters,
+  updateFilter,
 } from 'store/marketplace/marketplaceSlice';
-import Search from './Filters/Search';
+// Components
+import SearchInput from './Filters/SearchInput';
 
 export interface IProps {}
 
@@ -66,7 +69,7 @@ const MarketPlace: React.FC<IProps> = () => {
         regenerateUrl.current = true;
       }
     }
-    dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
+    // dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
   }, [activeFilters]);
 
   const toggleFilters = () => {
@@ -83,12 +86,21 @@ const MarketPlace: React.FC<IProps> = () => {
     });
   }, [history]);
 
+  const handleFilter = (name: string, value: any) => {
+    const payload = {
+      filterName: name,
+      filterValue: value,
+    };
+
+    dispatch(updateFilter(payload));
+  };
+
   return (
     <Container>
       <Header>
         <h2>MarketPlace</h2>
 
-        <Search />
+        <SearchInput handleFilter={handleFilter} activeFilters={activeFilters} />
 
         <ToggleFilter>
           <button onClick={toggleFilters}>Sidebar</button>
@@ -101,11 +113,13 @@ const MarketPlace: React.FC<IProps> = () => {
         </div>
       </Header>
 
-      {filtersVisible && matchesMobile && <Filters />}
+      {filtersVisible && matchesMobile && (
+        <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
+      )}
 
       <Main>
         <Sidebar>
-          <Filters />
+          <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
         </Sidebar>
 
         <Content>
