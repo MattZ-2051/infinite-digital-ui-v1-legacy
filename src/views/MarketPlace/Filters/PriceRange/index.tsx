@@ -25,6 +25,9 @@ const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
   const handleOpen = () => {
     setOpen(!open)
   }
+  const handleCommit = () => {
+    handleFilter('price', [...value]);
+  };
 
   return (
     <div style={{ width: '301px', padding: '9px 16px' }}>
@@ -43,6 +46,7 @@ const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
           aria-labelledby="range-slider"
           max={1000}
           min={0}
+          onChangeCommitted={handleCommit}
         />
       </div>
     </div>
