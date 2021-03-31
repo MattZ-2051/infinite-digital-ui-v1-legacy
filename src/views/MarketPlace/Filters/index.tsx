@@ -8,6 +8,7 @@ import {
   updateFilter,
   restoreFilters,
 } from 'store/marketplace/marketplaceSlice';
+import SelectedFilters from './SelectedFilters';
 
 // Components
 import Menu from './Menu';
@@ -43,6 +44,7 @@ const Filters: React.FC<IProps> = () => {
   return (
     <Container>
       <Menu handleFilter={handleFilter} />
+      <SelectedFilters />
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
       <Range handleFilter={handleFilter} defaultFilter={activeFilters.price} />

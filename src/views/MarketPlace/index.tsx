@@ -10,6 +10,7 @@ import {
   getDefaultParams,
   updateFilters,
 } from 'store/marketplace/marketplaceSlice';
+import Search from './Filters/Search';
 
 export interface IProps {}
 
@@ -86,6 +87,8 @@ const MarketPlace: React.FC<IProps> = () => {
     <Container>
       <Header>
         <h2>MarketPlace</h2>
+
+        <Search />
 
         <ToggleFilter>
           <button onClick={toggleFilters}>Sidebar</button>

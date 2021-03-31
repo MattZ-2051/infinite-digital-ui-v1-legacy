@@ -1,37 +1,40 @@
 import styled from 'styled-components/macro';
-import React, { useState } from 'react';
-import Chip from '@material-ui/core/Chip';
-
-
+import ClearIcon from '@material-ui/icons/Clear';
 export interface IProps {
-  label: string
+  label: string;
+  type?: 'clear' | 'chip'
 }
-
-const FilterChip = ({ label }: IProps) => {
-
+const FilterChip = ({ label, type }: IProps) => {
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
   };
-
   return (
-    <div style={{ padding: '0px 5px' }}>
-      <StyledChip
-        label={label || "Enter Label"}
-        onDelete={handleDelete}
-      />
-    </div>
+    <>
+      {type !== 'clear' && (
+        <StyledDiv>
+          <span style={{ fontSize: '16px', fontWeight: 400 }}>{label}</span>
+          <ClearIcon onClick={handleDelete} style={{ width: '20px', marginLeft: '5px', marginBottom: '2px' }} />
+        </StyledDiv>
+      )}
+      {type === 'clear' && (
+        <StyledDiv style={{ backgroundColor: '#fafafa', color: 'black' }}>
+          <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
+          <ClearIcon onClick={handleDelete} style={{ width: '20px', marginBottom: '5px', marginLeft: '5px' }} />
+        </StyledDiv>
+      )}
+    </>
   )
 }
-
-const StyledChip = styled(Chip)`
+const StyledDiv = styled.div`
   background-color: black;
   color: white;
-  height: 23px;
-  width: 86px;
+  width: fit-content;
+  border-radius: 20px;
+  height: 32px;
   font-size: 12px;
-  width: 100%;
-  .MuiChip-deleteIcon {
-    color: white;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
 `;
 export default FilterChip;
