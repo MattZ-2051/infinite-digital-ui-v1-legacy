@@ -13,7 +13,8 @@ const MarketPlace = () => {
         <CircularButton to="marketplace" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        {listings instanceof Array &&
+        <h1>Products</h1>
+        {/* {listings instanceof Array &&
           listings.map((el, index) => {
             if (index >= 16) return null;
             return (
@@ -29,7 +30,7 @@ const MarketPlace = () => {
                 />
               </ProductDiv>
             );
-          })}
+          })} */}
       </ProductContainer>
     </>
   );

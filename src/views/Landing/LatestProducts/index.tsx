@@ -19,22 +19,26 @@ const LatestProducts: React.FC<IProps> = () => {
     <Container>
       {isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
+          {/* Temporary comment to hide DropBoxes see issue #86
           <Tab label="Drop Boxes" disableFocusRipple disableRipple />
+           */}
           <Tab label="Marketplace" disableFocusRipple disableRipple />
           <Tab label="My Collection" disableFocusRipple disableRipple />
         </Tabs>
       )}
       {!isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
+          {/* Temporary comment to hide DropBoxes see issue #86
           <Tab label="Drop Boxes" disableFocusRipple disableRipple />
+          */}
           <Tab label="Marketplace" disableFocusRipple disableRipple />
         </Tabs>
       )}
 
 
-      {selectedTab === 0 && <DropBoxes />}
-      {selectedTab === 1 && <MarketPlace />}
-      {selectedTab === 2 && <h1>My Collection</h1>}
+      {/* {selectedTab === 0 && <DropBoxes />} */}
+      {selectedTab === 0 && <MarketPlace />}
+      {selectedTab === 1 && <h1>My Collection</h1>}
     </Container>
   );
 };
