@@ -80,7 +80,7 @@ const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCatego
                       }
                       label={option}
                       labelPlacement="end"
-                      style={{ color: '#9e9e9e' }}
+                      style={{ color: `${selectedItems.current.indexOf(option) !== -1 ? 'black' : '#9e9e9e'}` }}
                       color='default'
                     />
                   </FormGroup>
