@@ -34,9 +34,14 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   return (
     <Container>
-      <Menu handleFilter={handleFilter} activeFilterStatus={activeFilters.status} />
+      <Menu
+        handleFilter={handleFilter}
+        activeFilterStatus={activeFilters.status}
+      />
       <ClearAllFilterContainer>
-        <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>Filter by</span>
+        <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>
+          Filter by
+        </span>
         <FilterChip type="clear" onClick={clearFilters} />
       </ClearAllFilterContainer>
 
@@ -45,10 +50,31 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
         activeFilters={activeFilters}
       />
       <Date handleFilter={handleFilter} />
-      <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
-      <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} filterCategory='category' activeFilters={activeFilters.category} />
-      <DropDownCheckFilter label="Brand" options={['brand1', 'brand 2', 'brand 3']} handleFilter={handleFilter} filterCategory="brand" activeFilters={activeFilters.brand} />
-      <DropDownCheckFilter label="Series" options={['series1', 'series 2', 'series 3']} handleFilter={handleFilter} filterCategory='series' activeFilters={activeFilters.series} />
+      <PriceRange
+        handleFilter={handleFilter}
+        defaultFilter={activeFilters.price}
+      />
+      <DropDownCheckFilter
+        label="Category"
+        options={['category1', 'category2', 'category3']}
+        handleFilter={handleFilter}
+        filterCategory="category"
+        activeFilters={activeFilters.category}
+      />
+      <DropDownCheckFilter
+        label="Brand"
+        options={['brand1', 'brand 2', 'brand 3']}
+        handleFilter={handleFilter}
+        filterCategory="brand"
+        activeFilters={activeFilters.brand}
+      />
+      <DropDownCheckFilter
+        label="Series"
+        options={['series1', 'series 2', 'series 3']}
+        handleFilter={handleFilter}
+        filterCategory="series"
+        activeFilters={activeFilters.series}
+      />
     </Container>
   );
 };

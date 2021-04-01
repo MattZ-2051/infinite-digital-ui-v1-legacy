@@ -113,11 +113,6 @@ const MarketPlace: React.FC<IProps> = () => {
           <button onClick={toggleFilters}>Sidebar</button>
         </ToggleFilter>
 
-        {/* <div>
-          Sort by:
-          <button>Most Popular</button>
-          <button>New releases</button>
-        </div> */}
         <SortByFilter options={['Release Date', 'Rarity', 'Price high to low', 'Price low to high']} handleFilter={handleFilter} activeFilterSort={activeFilters.sort} />
       </Header>
 
