@@ -15,6 +15,7 @@ import Brand from './Brand';
 import Series from './Series';
 import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
+import DropDownCheckFilter from './DropDownCheckFilter';
 
 export interface IProps {
   activeFilters: any;
@@ -32,28 +33,23 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   return (
     <Container>
-      <Menu handleFilter={handleFilter} />
+      <Menu handleFilter={handleFilter} activeFilterStatus={activeFilters.status} />
       <SelectedFilters
         handleFilter={handleFilter}
         activeFilters={activeFilters}
       />
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
-      <PriceRange
-        handleFilter={handleFilter}
-        defaultFilter={activeFilters.price}
-      />
-      <Category handleFilter={handleFilter} />
-      <Brand />
-      <Series />
+      <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
+      <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} />
+      <DropDownCheckFilter label="Brand" options={['brand1', 'brand 2', 'brand 3']} handleFilter={handleFilter} />
+      <DropDownCheckFilter label="Series" options={['series1', 'series 2', 'series 3']} handleFilter={handleFilter} />
     </Container>
   );
 };
 
 const Container = styled.div`
   width: 100%;
-  background-color: #bbbbbb;
-  border: 1px solid #7614e6;
 `;
 
 export default Filters;

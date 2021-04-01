@@ -14,8 +14,10 @@ import {
 } from 'store/marketplace/marketplaceSlice';
 // Components
 import SearchInput from './Filters/SearchInput';
+import SortByFilter from './Filters/SortByFilter';
+import SkuTile from 'components/ProductTiles/SkuTile';
 
-export interface IProps {}
+export interface IProps { }
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
@@ -23,9 +25,12 @@ const MarketPlace: React.FC<IProps> = () => {
   const [filtersVisible, setFiltersVisible] = useState(true); // TODO set to false later
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
+  const skus = useAppSelector((store) => store.marketplace.skus);
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
+
+  console.log(skus);
 
   // Create the url query-string using the redux stored filters
   const createQueryString = (filters: {}) => {
@@ -109,11 +114,12 @@ const MarketPlace: React.FC<IProps> = () => {
           <button onClick={toggleFilters}>Sidebar</button>
         </ToggleFilter>
 
-        <div>
+        {/* <div>
           Sort by:
           <button>Most Popular</button>
           <button>New releases</button>
-        </div>
+        </div> */}
+        <SortByFilter options={['Release Date', 'Rarity', 'Price']} />
       </Header>
 
       {filtersVisible && matchesMobile && (
@@ -127,10 +133,20 @@ const MarketPlace: React.FC<IProps> = () => {
 
         <Content>
           <ProductsGrid>
-            <ProductPanel>1</ProductPanel>
-            <ProductPanel>2</ProductPanel>
-            <ProductPanel>3</ProductPanel>
-            <ProductPanel>4</ProductPanel>
+            {skus instanceof Array &&
+              skus.map((sku) => {
+                return (
+                  <SkuTile
+                    status={sku.status}
+                    skuImg={sku.graphicUrl}
+                    skuName={sku.name}
+                    skuSeries={sku.series.name}
+                    skuSupply={sku.circulatingSupply}
+                    key={sku.id}
+                  />
+                )
+              })
+            }
           </ProductsGrid>
         </Content>
       </Main>
@@ -154,6 +170,7 @@ const Header = styled.div`
   width: 100%;
   justify-content: space-between;
   border: 1px solid #14e642;
+  align-items: center;
 `;
 
 const Main = styled.main`
@@ -168,8 +185,6 @@ const Sidebar = styled.aside`
   width: 300px;
   min-width: 300px;
   // height: 50vh;
-  background-color: #bbbbbb;
-  border: 1px solid #7614e6;
   margin-right: 24px;
 
   @media screen and (max-width: 1140px) {
