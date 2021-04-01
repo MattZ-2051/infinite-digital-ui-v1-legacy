@@ -11,6 +11,7 @@ interface IFilters {
   brand: string[];
   series: string[];
   search: string;
+  sort: string;
 }
 
 const defaultFilters: IFilters = {
@@ -21,6 +22,7 @@ const defaultFilters: IFilters = {
   brand: [],
   series: [],
   search: '',
+  sort: '',
 };
 
 export const getDefaultParams = () => {

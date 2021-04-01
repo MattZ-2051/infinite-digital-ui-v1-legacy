@@ -14,9 +14,10 @@ interface IProps {
   width?: string;
   options?: string[];
   handleFilter: (name: string, data: any) => void;
+  filterCategory: 'category' | 'brand' | 'series';
 }
 
-const DropDownCheckFilter = ({ label, width, options, handleFilter }: IProps) => {
+const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCategory }: IProps) => {
 
   const selectedItems = useRef<any>([]);
 
@@ -32,7 +33,7 @@ const DropDownCheckFilter = ({ label, width, options, handleFilter }: IProps) =>
         (item: string) => item !== name
       );
     }
-    handleFilter('category', [...selectedItems.current]);
+    handleFilter(filterCategory, [...selectedItems.current]);
   };
 
   const [open, setOpen] = useState<boolean | undefined>(true);

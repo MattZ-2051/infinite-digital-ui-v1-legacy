@@ -30,8 +30,6 @@ const MarketPlace: React.FC<IProps> = () => {
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
 
-  console.log(skus);
-
   // Create the url query-string using the redux stored filters
   const createQueryString = (filters: {}) => {
     const params = new URLSearchParams();
@@ -119,7 +117,7 @@ const MarketPlace: React.FC<IProps> = () => {
           <button>Most Popular</button>
           <button>New releases</button>
         </div> */}
-        <SortByFilter options={['Release Date', 'Rarity', 'Price']} />
+        <SortByFilter options={['Release Date', 'Rarity', 'Price']} handleFilter={handleFilter} />
       </Header>
 
       {filtersVisible && matchesMobile && (

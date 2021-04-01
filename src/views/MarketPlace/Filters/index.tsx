@@ -41,9 +41,9 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
       <button onClick={clearFilters}>Clear all</button>
       <Date handleFilter={handleFilter} />
       <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
-      <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} />
-      <DropDownCheckFilter label="Brand" options={['brand1', 'brand 2', 'brand 3']} handleFilter={handleFilter} />
-      <DropDownCheckFilter label="Series" options={['series1', 'series 2', 'series 3']} handleFilter={handleFilter} />
+      <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} filterCategory='category' />
+      <DropDownCheckFilter label="Brand" options={['brand1', 'brand 2', 'brand 3']} handleFilter={handleFilter} filterCategory="brand" />
+      <DropDownCheckFilter label="Series" options={['series1', 'series 2', 'series 3']} handleFilter={handleFilter} filterCategory='series' />
     </Container>
   );
 };

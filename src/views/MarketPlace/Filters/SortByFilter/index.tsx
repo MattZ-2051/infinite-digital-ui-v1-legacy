@@ -2,16 +2,38 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { useRef } from 'react';
+
 
 interface IProps {
   options: string[];
   width?: string;
+  handleFilter: (name: string, data: any) => void;
 }
 
-const SortByFilter = ({ width, options }: IProps) => {
+const SortByFilter = ({ width, options, handleFilter }: IProps) => {
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(options[0]);
+  const selectedItems = useRef<any>([]);
+
+  const handleCheck = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const name = target.children[0].innerHTML;
+
+    console.log(e.currentTarget.children[0].innerHTML)
+
+    if (name) {
+      selectedItems.current.push(name);
+    } else {
+      selectedItems.current = selectedItems.current.filter(
+        (item: string) => item !== name
+      );
+    }
+    handleFilter('sort', name);
+    setNewLabel(name)
+    setIsHidden(true);
+  };
 
   const handleChange = () => {
     setIsHidden(!isHidden);
@@ -25,14 +47,14 @@ const SortByFilter = ({ width, options }: IProps) => {
 
   return (
     <>
-      <div style={{ display: 'flex', width: '225px', alignItems: 'center' }} onClick={handleChange}  >
+      <div style={{ display: 'flex', width: '225px', alignItems: 'center' }}>
         <span style={{ color: '#888888', fontWeight: 500, fontSize: '18px', lineHeight: '22.7px', paddingRight: '8px' }}>Sort by:</span>
         <span style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}>{newLabel}</span>
         {isHidden
           ?
-          <DownArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} />
+          <DownArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} onClick={handleChange} />
           :
-          <UpArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} />
+          <UpArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} onClick={handleChange} />
         }
       </div>
       <>
@@ -40,8 +62,8 @@ const SortByFilter = ({ width, options }: IProps) => {
           {options instanceof Array &&
             options.map((option, index) => {
               return (
-                <DropDownDiv onClick={() => { setNewLabel(option); setIsHidden(true) }} style={{ height: '38px' }} key={index}>
-                  <DropDownSpan >{option}</DropDownSpan>
+                <DropDownDiv onClick={handleCheck} style={{ height: '38px' }} key={index} id={option}>
+                  <DropDownSpan>{option}</DropDownSpan>
                 </DropDownDiv>
               )
             })}

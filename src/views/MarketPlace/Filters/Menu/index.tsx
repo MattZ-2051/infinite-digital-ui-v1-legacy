@@ -8,8 +8,6 @@ export interface IProps {
 
 const MenuFilter: React.FC<IProps> = ({ handleFilter, activeFilterStatus }) => {
 
-  console.log(activeFilterStatus)
-
   return (
     <ButtonFilters>
       <Li>
