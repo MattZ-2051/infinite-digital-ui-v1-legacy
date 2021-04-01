@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useRef } from 'react';
+import { useEffectOnce } from 'react-use';
 
 
 interface IProps {
@@ -15,11 +16,16 @@ interface IProps {
   options?: string[];
   handleFilter: (name: string, data: any) => void;
   filterCategory: 'category' | 'brand' | 'series';
+  activeFilters: any;
 }
 
-const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCategory }: IProps) => {
+const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCategory, activeFilters }: IProps) => {
 
   const selectedItems = useRef<any>([]);
+
+  useEffectOnce(() => {
+    selectedItems.current.push(...activeFilters)
+  });
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -56,6 +62,7 @@ const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCatego
       <HiddenDiv hidden={open} style={{ width: width || '301px' }}>
         {options instanceof Array &&
           options.map((option, index) => {
+
             return (
               <div style={{ padding: '6px 16px' }} key={index}>
                 <FormControl component="fieldset">
@@ -67,7 +74,7 @@ const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCatego
                         style={{ color: 'black' }}
                         id={option}
                         name={option}
-                        checked={selectedItems.current[`${option}`]}
+                        checked={activeFilters.indexOf(option) !== -1}
                         onChange={handleCheck}
                       />
                       }

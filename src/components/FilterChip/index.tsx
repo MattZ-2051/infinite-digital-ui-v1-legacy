@@ -19,7 +19,7 @@ const FilterChip = ({ label, type, onClick }: IProps) => {
       {type === 'clear' && (
         <StyledDiv onClick={onClick} style={{ backgroundColor: '#fafafa', color: 'black' }}>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
-          <ClearIcon onClick={onClick} style={{ width: '20px', marginBottom: '5px', marginLeft: '5px' }} />
+          <Clear onClick={onClick} />
         </StyledDiv>
       )}
     </>
@@ -37,5 +37,15 @@ const StyledDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 15px;
+`;
+
+const Clear = styled(ClearIcon)`
+  width: 20px;
+  margin-bottom: 3px;
+  margin-left: 5px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 export default FilterChip;
