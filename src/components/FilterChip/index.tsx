@@ -1,13 +1,16 @@
 import styled from 'styled-components/macro';
 import ClearIcon from '@material-ui/icons/Clear';
+
 export interface IProps {
-  label: string;
-  type?: 'clear' | 'chip'
+  label?: string;
+  type?: 'clear' | 'chip';
+  onClick?: () => void;
 }
-const FilterChip = ({ label, type }: IProps) => {
+const FilterChip = ({ label, type, onClick }: IProps) => {
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
   };
+
   return (
     <>
       {type !== 'clear' && (
@@ -17,7 +20,7 @@ const FilterChip = ({ label, type }: IProps) => {
         </StyledDiv>
       )}
       {type === 'clear' && (
-        <StyledDiv style={{ backgroundColor: '#fafafa', color: 'black' }}>
+        <StyledDiv onClick={onClick} style={{ backgroundColor: '#fafafa', color: 'black' }}>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
           <ClearIcon onClick={handleDelete} style={{ width: '20px', marginBottom: '5px', marginLeft: '5px' }} />
         </StyledDiv>
@@ -25,6 +28,7 @@ const FilterChip = ({ label, type }: IProps) => {
     </>
   )
 }
+
 const StyledDiv = styled.div`
   background-color: black;
   color: white;

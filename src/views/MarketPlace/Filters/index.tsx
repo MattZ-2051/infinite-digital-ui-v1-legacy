@@ -16,6 +16,7 @@ import Series from './Series';
 import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
+import FilterChip from 'components/FilterChip';
 
 export interface IProps {
   activeFilters: any;
@@ -38,7 +39,7 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
         handleFilter={handleFilter}
         activeFilters={activeFilters}
       />
-      <button onClick={clearFilters}>Clear all</button>
+      <FilterChip type="clear" onClick={clearFilters} />
       <Date handleFilter={handleFilter} />
       <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
       <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} filterCategory='category' />

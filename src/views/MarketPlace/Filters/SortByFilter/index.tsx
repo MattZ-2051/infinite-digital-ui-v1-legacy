@@ -15,10 +15,16 @@ interface IProps {
 const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps) => {
 
   const getCurrentFilterOption = (el) => {
-    return el === activeFilterSort
+    if (el === activeFilterSort) {
+      return el
+    } else {
+      return 'Release Date'
+    }
   }
 
-  let currentLabel = options.filter(getCurrentFilterOption);
+  let currentLabel = options.filter(getCurrentFilterOption)
+
+  console.log(currentLabel)
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
@@ -49,6 +55,7 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
   }
 
   options = options.filter(getNewOptions);
+
 
   return (
     <div style={{ position: 'relative' }}>
