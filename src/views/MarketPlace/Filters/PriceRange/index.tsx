@@ -39,7 +39,7 @@ const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
   };
 
   return (
-    <div style={{ width: '301px', padding: '9px 16px' }}>
+    <div style={{ width: '301px', padding: '5px 0' }}>
       <Typography id="range-slider" gutterBottom >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={handleOpen}>
           <span style={{ fontSize: '18px', fontWeight: 500, color: '#9E9E9E' }}>Price Range</span>

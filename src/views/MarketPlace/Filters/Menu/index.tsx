@@ -47,7 +47,7 @@ const MenuFilter: React.FC<IProps> = ({ handleFilter, activeFilterStatus }) => {
 
 const ButtonFilters = styled.ul`
   list-style-type: none;
-  padding: 9px 16px;
+  padding: 0;
   font-size: 24px;
   small {
             font - size: 16px;

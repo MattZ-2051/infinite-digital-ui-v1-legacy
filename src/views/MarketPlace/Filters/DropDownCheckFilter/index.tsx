@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -43,7 +43,7 @@ const DropDownCheckFilter = ({ label, width, options, handleFilter, filterCatego
   }
 
   return (
-    <div style={{ width: width || '301px' }}>
+    <div style={{ width: width || '301px', marginRight: '50px' }}>
       <FilterDiv onClick={handleChange}  >
         <span style={{ color: '#888888', fontSize: '18px' }}>{label || "Enter Label"}</span>
         {open
@@ -124,7 +124,7 @@ export const Check = styled(Checkbox)`
 
 export const FilterDiv = styled.div`
   display: flex;
-  padding: 9px 16px;
+  padding: 8px 10px;
   align-items: center;
   justify-content: space-between;
   color: #888888;

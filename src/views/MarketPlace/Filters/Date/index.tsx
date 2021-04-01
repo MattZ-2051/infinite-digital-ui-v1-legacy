@@ -65,7 +65,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 16px;
+  padding: 5px 0;
 `;
 
 export default DateFilter;

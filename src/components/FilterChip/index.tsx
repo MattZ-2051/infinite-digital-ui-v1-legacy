@@ -7,22 +7,19 @@ export interface IProps {
   onClick?: () => void;
 }
 const FilterChip = ({ label, type, onClick }: IProps) => {
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
-  };
 
   return (
     <>
       {type !== 'clear' && (
         <StyledDiv>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>{label}</span>
-          <ClearIcon onClick={handleDelete} style={{ width: '20px', marginLeft: '5px', marginBottom: '2px' }} />
+          <ClearIcon onClick={onClick} style={{ width: '20px', marginLeft: '5px', marginBottom: '2px' }} />
         </StyledDiv>
       )}
       {type === 'clear' && (
         <StyledDiv onClick={onClick} style={{ backgroundColor: '#fafafa', color: 'black' }}>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
-          <ClearIcon onClick={handleDelete} style={{ width: '20px', marginBottom: '5px', marginLeft: '5px' }} />
+          <ClearIcon onClick={onClick} style={{ width: '20px', marginBottom: '5px', marginLeft: '5px' }} />
         </StyledDiv>
       )}
     </>

@@ -35,11 +35,15 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
   return (
     <Container>
       <Menu handleFilter={handleFilter} activeFilterStatus={activeFilters.status} />
+      <ClearAllFilterContainer>
+        <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>Filter by</span>
+        <FilterChip type="clear" onClick={clearFilters} />
+      </ClearAllFilterContainer>
+
       <SelectedFilters
         handleFilter={handleFilter}
         activeFilters={activeFilters}
       />
-      <FilterChip type="clear" onClick={clearFilters} />
       <Date handleFilter={handleFilter} />
       <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
       <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} filterCategory='category' />
@@ -53,4 +57,9 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const ClearAllFilterContainer = styled.div`
+  display: flex;
+  justfify-content: space-between;
+  align-items: center;
+`;
 export default Filters;

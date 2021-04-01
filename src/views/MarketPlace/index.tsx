@@ -145,6 +145,10 @@ const MarketPlace: React.FC<IProps> = () => {
                 )
               })
             }
+            <SkuTile status="upcoming" />
+            <SkuTile status="mult-listing" />
+            <SkuTile status="no-sale" />
+            <SkuTile status="unique" />
           </ProductsGrid>
         </Content>
       </Main>

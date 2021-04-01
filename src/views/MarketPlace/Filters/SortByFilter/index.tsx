@@ -24,8 +24,6 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
 
   let currentLabel = options.filter(getCurrentFilterOption)
 
-  console.log(currentLabel)
-
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
   const selectedItems = useRef<any>([]);
