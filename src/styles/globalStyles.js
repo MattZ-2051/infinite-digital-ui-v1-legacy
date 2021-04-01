@@ -34,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    background: var(--grey-light);
     font-size: 14px;
   }
 
@@ -42,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: 'josefin-sans', sans-serif;
     font-size: 1rem;
+    background: white;
   }
 
   h1, h2, h3, h4, h5, h6 {

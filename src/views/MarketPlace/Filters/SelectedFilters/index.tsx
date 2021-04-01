@@ -81,6 +81,8 @@ const SelectedFilters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
               />
             );
             break;
+          case 'sort':
+            break;
           default:
             chipElements.push(
               <Chip

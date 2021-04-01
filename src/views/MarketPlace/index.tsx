@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components/macro';
+import Pagination from '@material-ui/lab/Pagination';
 // Local
 import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
@@ -150,6 +151,11 @@ const MarketPlace: React.FC<IProps> = () => {
             <SkuTile status="no-sale" />
             <SkuTile status="unique" />
           </ProductsGrid>
+
+          <PaginationContainer>
+            <Pagination count={10} variant="outlined"  />
+          </PaginationContainer>
+          
         </Content>
       </Main>
     </Container>
@@ -218,6 +224,12 @@ const ProductPanel = styled.div`
   background-color: grey;
   border: 1px solid #4a4a4a;
   font-size: 70px;
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 export default MarketPlace;

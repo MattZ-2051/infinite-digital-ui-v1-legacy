@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
+import styled from 'styled-components';
 
 export interface IProps {
   activeFilters: any,
@@ -14,7 +15,7 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
     const element = e.target;
     //const inputName = element.name;
     const inputValue = element.value;
-    setSearchValue(inputValue);
+    setSearchValue(inputValue); // replace(/[^A-Za-z]/g,'')
   };
 
   const [, cancel] = useDebounce(
@@ -27,10 +28,11 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   useUpdateEffect(() => {
     handleFilter('search', debouncedValue);
+    
   }, [debouncedValue]);
 
   return (
-    <input
+    <Input
       onChange={handleInput}
       name="search"
       value={searchValue}
@@ -38,5 +40,15 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
     />
   );
 };
+
+const Input = styled.input`
+  height: 40px;
+  min-width: 380px;
+  border-radius: 30px;
+  background-color: #f8f8f8;
+  border: none;
+  outline: none;
+  text-indent: 20px;
+`;
 
 export default SearchInput;
