@@ -19,7 +19,6 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
   }
 
   let currentLabel = options.filter(getCurrentFilterOption);
-  console.log(currentLabel)
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
@@ -52,7 +51,7 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
   options = options.filter(getNewOptions);
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <div style={{ display: 'flex', width: '225px', alignItems: 'center' }}>
         <span style={{ color: '#888888', fontWeight: 500, fontSize: '18px', lineHeight: '22.7px', paddingRight: '8px' }}>Sort by:</span>
         <span style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}>{newLabel}</span>
@@ -75,7 +74,7 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
             })}
         </HiddenDiv>
       </>
-    </>
+    </div>
   )
 }
 
@@ -98,7 +97,6 @@ export const FilterContainer = styled.div`
   height: 40px;
   background-color: #fafafa;
   border-radius: 20px;
-
 `;
 
 export const FilterDiv = styled.div`
@@ -119,10 +117,11 @@ export const FilterDiv = styled.div`
 `;
 
 export const HiddenDiv = styled.div`
-  background-color: #fafafa;
+  background-color: lightblue;
   color: black;
   overflow-y: auto;
   max-height: 190px;
+  position: absolute;
 `;
 
 export const DropDownSpan = styled.span`
