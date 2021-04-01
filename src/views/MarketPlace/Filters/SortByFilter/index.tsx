@@ -9,19 +9,25 @@ interface IProps {
   options: string[];
   width?: string;
   handleFilter: (name: string, data: any) => void;
+  activeFilterSort: string;
 }
 
-const SortByFilter = ({ width, options, handleFilter }: IProps) => {
+const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps) => {
+
+  const getCurrentFilterOption = (el) => {
+    return el === activeFilterSort
+  }
+
+  let currentLabel = options.filter(getCurrentFilterOption);
+  console.log(currentLabel)
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
-  const [newLabel, setNewLabel] = useState<string | undefined>(options[0]);
+  const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
   const selectedItems = useRef<any>([]);
 
   const handleCheck = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     const name = target.children[0].innerHTML;
-
-    console.log(e.currentTarget.children[0].innerHTML)
 
     if (name) {
       selectedItems.current.push(name);
@@ -62,7 +68,7 @@ const SortByFilter = ({ width, options, handleFilter }: IProps) => {
           {options instanceof Array &&
             options.map((option, index) => {
               return (
-                <DropDownDiv onClick={handleCheck} style={{ height: '38px' }} key={index} id={option}>
+                <DropDownDiv onClick={handleCheck} style={{ height: '38px' }} key={index}>
                   <DropDownSpan>{option}</DropDownSpan>
                 </DropDownDiv>
               )

@@ -117,7 +117,7 @@ const MarketPlace: React.FC<IProps> = () => {
           <button>Most Popular</button>
           <button>New releases</button>
         </div> */}
-        <SortByFilter options={['Release Date', 'Rarity', 'Price']} handleFilter={handleFilter} />
+        <SortByFilter options={['Release Date', 'Rarity', 'Price']} handleFilter={handleFilter} activeFilterSort={activeFilters.sort} />
       </Header>
 
       {filtersVisible && matchesMobile && (

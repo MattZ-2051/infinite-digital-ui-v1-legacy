@@ -51,6 +51,9 @@ export const getDefaultParams = () => {
       case 'search':
         filters.search = paramValue;
         break;
+      case 'sort':
+        filters.sort = paramValue
+        break;
       default:
         if (filters[paramName]) filters[paramName] = paramValue.split('+');
         break;
