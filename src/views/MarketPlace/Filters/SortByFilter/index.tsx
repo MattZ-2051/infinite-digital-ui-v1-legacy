@@ -57,7 +57,7 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
   return (
     <div style={{ position: 'relative' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span style={{ color: '#888888', fontWeight: 500, fontSize: '18px', lineHeight: '22.7px', paddingRight: '8px' }}>Sort by:</span>
+        <span style={{ color: '#9e9e9e', fontWeight: 500, fontSize: '18px', lineHeight: '22.7px', paddingRight: '8px' }}>Sort by:</span>
         <span style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}>{newLabel}</span>
         {isHidden
           ?
@@ -120,6 +120,7 @@ export const FilterDiv = styled.div`
     background-color: #D6D6D6;
     border-radius: 20px;
     color: black;
+    box-shadow: 2px 2px 3px 1px #ccc;
   }
 `;
 
@@ -137,6 +138,7 @@ export const HiddenDiv = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 10px;
+  box-shadow: 2px 2px 8px 2px #ccc;
 `;
 
 export const DropDownSpan = styled.span`

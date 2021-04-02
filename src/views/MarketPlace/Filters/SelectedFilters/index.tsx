@@ -14,6 +14,7 @@ const SelectedFilters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
       case 'category':
       case 'brand':
       case 'series':
+      case 'rarity':
         filterValues = activeFilters[filterCategory].filter(
           (el: string) => el !== value
         );
@@ -57,6 +58,7 @@ const SelectedFilters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
           case 'category':
           case 'brand':
           case 'series':
+          case 'rarity':
             createFilterCategoryChips(
               category,
               activeFilters[category],

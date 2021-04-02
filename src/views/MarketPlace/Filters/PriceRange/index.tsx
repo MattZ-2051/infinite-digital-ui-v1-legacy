@@ -39,13 +39,13 @@ const RangeFilter: React.FC<IProps> = ({ handleFilter, defaultFilter }) => {
   };
 
   return (
-    <div style={{ width: '301px', padding: '5px 0' }}>
+    <div style={{ width: '320px', marginLeft: '-10px' }}>
       <Typography id="range-slider" gutterBottom >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={handleOpen}>
+        <SliderContainer onClick={handleOpen}>
           <span style={{ fontSize: '18px', fontWeight: 500, color: '#9E9E9E' }}>Price Range</span>
           <span style={{ color: 'black', fontSize: '14px' }}>From ${value[0]} to ${value[1]}</span>
-          {isHidden ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-        </div>
+          {isHidden ? <DownArrow /> : <UpArrow />}
+        </SliderContainer>
       </Typography>
       <div hidden={isHidden}>
         <StyledSlider
@@ -93,6 +93,33 @@ const StyledSlider = styled(Slider)`
 
   .Mui-focusVisible	{
     color: black;
+  }
+`;
+
+const SliderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  :hover {
+    cursor: pointer;
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    color: black;
+  }
+`;
+
+const DownArrow = styled(KeyboardArrowDownIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+const UpArrow = styled(KeyboardArrowUpIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
   }
 `;
 

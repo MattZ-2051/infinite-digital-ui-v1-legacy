@@ -124,7 +124,6 @@ const MarketPlace: React.FC<IProps> = () => {
         <Sidebar>
           <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
         </Sidebar>
-
         <Content>
           <ProductsGrid>
             {skus instanceof Array &&
@@ -142,15 +141,15 @@ const MarketPlace: React.FC<IProps> = () => {
               })
             }
             <SkuTile status="upcoming" />
-            <SkuTile status="mult-listing" />
-            <SkuTile status="no-sale" />
-            <SkuTile status="unique" />
+            <SkuTile status="mult-listing" skuRarity="uncommon" />
+            <SkuTile status="no-sale" skuRarity="epic" />
+            <SkuTile status="unique" skuRarity="legendary" />
           </ProductsGrid>
 
           <PaginationContainer>
-            <Pagination count={10} variant="outlined"  />
+            <Pagination count={10} variant="outlined" />
           </PaginationContainer>
-          
+
         </Content>
       </Main>
     </Container>
@@ -172,7 +171,6 @@ const Header = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  border: 1px solid #14e642;
   align-items: center;
 `;
 
@@ -208,7 +206,7 @@ const ProductsGrid = styled.div`
   grid-gap: 24px;
   grid-template-columns: repeat(auto-fit, 300px);
   justify-content: space-evenly;
-  border: 1px solid #00824c;
+  margin-top: 20px;
 `;
 
 const ProductPanel = styled.div`

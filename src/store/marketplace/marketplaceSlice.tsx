@@ -12,6 +12,7 @@ interface IFilters {
   series: string[];
   search: string;
   sort: string;
+  rarity: string[];
 }
 
 const defaultFilters: IFilters = {
@@ -23,6 +24,7 @@ const defaultFilters: IFilters = {
   series: [],
   search: '',
   sort: '',
+  rarity: []
 };
 
 export const getDefaultParams = () => {

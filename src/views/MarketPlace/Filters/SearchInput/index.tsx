@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
+import SearchIcon from '@material-ui/icons/Search';
 
 export interface IProps {
   activeFilters: any,
@@ -28,27 +29,43 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   useUpdateEffect(() => {
     handleFilter('search', debouncedValue);
-    
+
   }, [debouncedValue]);
 
   return (
-    <Input
-      onChange={handleInput}
-      name="search"
-      value={searchValue}
-      type="text"
-    />
+    <>
+      <InputDiv>
+        <SearchIcon style={{ color: '#9E9E9E', marginLeft: '15px' }} />
+        <Input
+          onChange={handleInput}
+          name="search"
+          value={searchValue}
+          type="text"
+          placeholder="Search by brand, series, name, SKU or type"
+        />
+      </InputDiv>
+    </>
   );
 };
 
-const Input = styled.input`
+const InputDiv = styled.div`
   height: 40px;
   min-width: 380px;
   border-radius: 30px;
   background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+`;
+
+const Input = styled.input`
   border: none;
   outline: none;
   text-indent: 20px;
+  height: 40px;
+  min-width: 380px;
+  background-color: #f8f8f8;
+  border-radius: 30px;
+
 `;
 
 export default SearchInput;

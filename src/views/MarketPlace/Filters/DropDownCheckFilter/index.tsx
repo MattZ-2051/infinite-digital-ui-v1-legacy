@@ -7,13 +7,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useRef } from 'react';
+import { useEffectOnce } from 'react-use';
 
 interface IProps {
   label?: string;
   width?: string;
   options?: string[];
   handleFilter: (name: string, data: any) => void;
-  filterCategory: 'category' | 'brand' | 'series';
+  filterCategory: 'category' | 'brand' | 'series' | 'rarity';
   activeFilters: any;
 }
 
@@ -25,7 +26,12 @@ const DropDownCheckFilter = ({
   filterCategory,
   activeFilters,
 }: IProps) => {
+
   const selectedItems = useRef<any>([]);
+
+  useEffectOnce(() => {
+    selectedItems.current.push(...activeFilters)
+  });
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -46,45 +52,37 @@ const DropDownCheckFilter = ({
   };
 
   return (
-    <div style={{ width: width || '301px', marginRight: '50px' }}>
-      <FilterDiv onClick={handleChange}>
-        <span style={{ color: '#888888', fontSize: '18px' }}>
-          {label || 'Enter Label'}
-        </span>
-        {open ? (
-          <DownArrow style={{ color: 'black' }} />
-        ) : (
-          <UpArrow style={{ color: 'black' }} />
-        )}
+    <div style={{ width: width || '311px', padding: '5px 0' }}>
+      <FilterDiv onClick={handleChange}  >
+        <span style={{ color: '#888888', fontSize: '18px' }}>{label || "Enter Label"}</span>
+        {open
+          ? <DownArrow style={{ color: 'black' }} />
+          : <UpArrow style={{ color: 'black' }} />
+        }
       </FilterDiv>
-      <HiddenDiv hidden={open} style={{ width: width || '301px' }}>
+      <HiddenDiv hidden={open} style={{ width: width || '311px' }}>
         {options instanceof Array &&
           options.map((option, index) => {
             return (
-              <div style={{ padding: '6px 16px' }} key={index}>
+              <div style={{ padding: '8px 10px', marginLeft: '-10px' }} key={index}>
                 <FormControl component="fieldset">
                   <FormGroup aria-label="position" row>
                     <FormControlLabel
                       value="start"
-                      control={
-                        <Check
-                          style={{ color: 'black' }}
-                          id={option}
-                          name={option}
-                          checked={activeFilters.indexOf(option) !== -1}
-                          onChange={handleCheck}
-                        />
+                      control=
+                      {<Check
+                        style={{ color: 'black' }}
+                        id={option}
+                        name={option}
+                        checked={activeFilters.indexOf(option) !== -1}
+                        onChange={handleCheck}
+                        color='default'
+                      />
                       }
                       label={option}
                       labelPlacement="end"
-                      style={{
-                        color: `${
-                          selectedItems.current.indexOf(option) !== -1
-                            ? 'black'
-                            : '#9e9e9e'
-                        }`,
-                      }}
-                      color="default"
+                      style={{ color: `${activeFilters.indexOf(option) !== -1 ? 'black' : '#9e9e9e'}` }}
+                      color='default'
                     />
                   </FormGroup>
                 </FormControl>
@@ -120,35 +118,27 @@ export const Check = styled(Checkbox)`
   .Mui-checked {
     color: black;
   }
-
-  .MuiCheckbox-root {
-    &:hover {
-      color: black;
-      box-shadow: 0px 0px 0px 8px rgb(0 30 10 / 16%);
-      background-color: blue;
-    }
-  }
 `;
 
 export const FilterDiv = styled.div`
   display: flex;
   padding: 8px 10px;
+  margin-left: -10px;
   align-items: center;
   justify-content: space-between;
   color: #888888;
-  background-color: #fafafa;
+  background-color: white;
   border: none;
   border-radius: 20px;
   :hover {
     cursor: pointer;
-    background-color: #d6d6d6;
+    background-color: #f4f4f4;
     border-radius: 20px;
     color: black;
   }
 `;
 
 export const HiddenDiv = styled.div`
-  background-color: #fafafa;
   color: black;
   overflow-y: auto;
   max-height: 190px;
@@ -160,7 +150,7 @@ export const DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   :hover {
-    background-color: #d6d6d6;
+    background-color: #E5E5E5;
     color: white;
     cursor: pointer;
     color: black;

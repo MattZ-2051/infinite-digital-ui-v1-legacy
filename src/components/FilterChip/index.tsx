@@ -17,7 +17,7 @@ const FilterChip = ({ label, type, onClick }: IProps) => {
         </StyledDiv>
       )}
       {type === 'clear' && (
-        <StyledDiv onClick={onClick} style={{ backgroundColor: '#fafafa', color: 'black' }}>
+        <StyledDiv onClick={onClick} style={{ backgroundColor: 'transparent', color: 'black', display: 'flex', alignItems: 'flex-end', paddingBottom: '2px' }}>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
           <Clear onClick={onClick} />
         </StyledDiv>
