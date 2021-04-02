@@ -17,13 +17,15 @@ import {
 import SearchInput from './Filters/SearchInput';
 import SortByFilter from './Filters/SortByFilter';
 import SkuTile from 'components/ProductTiles/SkuTile';
+import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
+import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
-export interface IProps { }
+export interface IProps {}
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
   const dispatch = useAppDispatch();
-  const [filtersVisible, setFiltersVisible] = useState(true); // TODO set to false later
+  const [filtersVisible, setFiltersVisible] = useState(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const skus = useAppSelector((store) => store.marketplace.skus);
@@ -109,11 +111,20 @@ const MarketPlace: React.FC<IProps> = () => {
           activeFilters={activeFilters}
         />
 
-        <ToggleFilter>
-          <button onClick={toggleFilters}>Sidebar</button>
+        <ToggleFilter onClick={toggleFilters}>
+          {filtersVisible ? <CloseIcon /> : <FilterIcon />}
         </ToggleFilter>
 
-        <SortByFilter options={['Release Date', 'Rarity', 'Price high to low', 'Price low to high']} handleFilter={handleFilter} activeFilterSort={activeFilters.sort} />
+        <SortByFilter
+          options={[
+            'Release Date',
+            'Rarity',
+            'Price high to low',
+            'Price low to high',
+          ]}
+          handleFilter={handleFilter}
+          activeFilterSort={activeFilters.sort}
+        />
       </Header>
 
       {filtersVisible && matchesMobile && (
@@ -137,9 +148,8 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuSupply={sku.circulatingSupply}
                     key={sku.id}
                   />
-                )
-              })
-            }
+                );
+              })}
             <SkuTile status="upcoming" />
             <SkuTile status="mult-listing" skuRarity="uncommon" />
             <SkuTile status="no-sale" skuRarity="epic" />
@@ -149,7 +159,6 @@ const MarketPlace: React.FC<IProps> = () => {
           <PaginationContainer>
             <Pagination count={10} variant="outlined" />
           </PaginationContainer>
-
         </Content>
       </Main>
     </Container>
@@ -172,6 +181,10 @@ const Header = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 1140px) {
+    flex-direction: column;
+  }
 `;
 
 const Main = styled.main`
@@ -195,8 +208,23 @@ const Sidebar = styled.aside`
 
 const ToggleFilter = styled.div`
   display: none;
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: #dadada;
+  }
+
   @media screen and (max-width: 1140px) {
     display: block;
+    margin: 10px 0 10px 0;
+    display: flex;
   }
 `;
 
