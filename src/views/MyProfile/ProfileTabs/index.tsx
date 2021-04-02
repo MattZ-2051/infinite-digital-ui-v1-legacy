@@ -33,7 +33,7 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       )}
       {userStatus === 'issuer' && (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <Tabs value={selectedTab} onChange={handleChange} width="100%" style={{ paddingBottom: '20px' }}>
               <Tab label="My Releases" disableFocusRipple disableRipple />
               <Tab label="My Items" disableFocusRipple disableRipple />
@@ -46,7 +46,7 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       )}
       {userStatus === 'not-logged-in' && (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <Tabs value={selectedTab} onChange={handleChange} width="100%" style={{ paddingBottom: '20px' }}>
               <Tab label="Releases" disableFocusRipple disableRipple />
             </Tabs>
