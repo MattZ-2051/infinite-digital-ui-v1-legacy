@@ -21,7 +21,7 @@ const ProfileInfo = () => {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
         <EditIconContainer>
-          <EditIcon style={{ fontSize: '16px' }} />
+          <EditIcon style={{ fontSize: '14px' }} />
         </EditIconContainer>
       </div>
       <ButtonContainer>
@@ -36,8 +36,8 @@ const ProfileInfo = () => {
 }
 
 const EditIconContainer = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background-color: black;
   border-radius: 50%;
   display: flex;
