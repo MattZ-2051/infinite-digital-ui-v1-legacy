@@ -1,12 +1,26 @@
 import styled from 'styled-components';
 
-const ProfileButton = () => {
+interface IProps {
+  label: string;
+}
+
+const ProfileButton = ({ label }: IProps) => {
 
   return (
-    <Button>My Wallet</Button>
+    <Button>{label}</Button>
   )
 }
 
-const Button = styled.button``;
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  color: white;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 export default ProfileButton
