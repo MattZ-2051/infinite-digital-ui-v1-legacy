@@ -19,7 +19,7 @@ const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: I
         <StyledCardImg
           image={skuImg || productImg}
         />
-        <CardContent style={{ backgroundColor: 'white', padding: '16px 16px 0 16px', borderRadius: '20px' }}>
+        <CardContent style={{ backgroundColor: 'white', padding: '5px 16px 0 16px', borderRadius: '20px' }}>
           <StyledCardDiv>
             <p style={{ fontWeight: 500, fontSize: '16px', lineHeight: '20.24px', color: '#9E9E9E' }}>
               {'Issuer Name'}
@@ -76,8 +76,8 @@ const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: I
         </div>
       )}
       {status === 'no-sale' && (
-        <div style={{ position: 'relative', backgroundColor: 'black', width: '270px', height: '56px', color: 'white', borderRadius: '35px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0px 25px', bottom: '25px' }}>
-          <span style={{ fontWeight: 500, fontSize: '24px', lineHeight: '32px', color: '#9E9E9E', margin: 'auto' }}>No one selling</span>
+        <div style={{ position: 'relative', backgroundColor: '#e5e5e5', width: '270px', height: '56px', color: 'white', borderRadius: '35px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0px 25px', bottom: '25px' }}>
+          <span style={{ fontWeight: 500, fontSize: '24px', lineHeight: '32px', backgroundColor: '#e5e5e5', margin: 'auto', color: '#9E9E9E' }}>No one selling</span>
         </div>
       )}
 

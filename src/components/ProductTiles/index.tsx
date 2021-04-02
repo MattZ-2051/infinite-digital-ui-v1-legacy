@@ -24,7 +24,7 @@ const ProductPanel = () => {
 export const StyledCard = styled(Card)`
   max-width: 302px;
   min-width: 302px;
-  min-height: 450px;
+  min-height: 430px;
   overflow: initial;
   border-radius: 20px;
   box-shadow: 2px 2px 3px 1px #ccc;
