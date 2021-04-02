@@ -73,7 +73,7 @@ const StyledDiv = styled.div`
 const LegendaryStyle = styled.p`
   font-size: 16px;
   padding-left: 8px;
-  background: "-webkit-linear-gradient(45deg, #FF9412 0%, #FFF72D 98.96%)" ;
+  background: -webkit-linear-gradient(45deg, #FF9412 0%, #FFF72D 98.96%);
   padding-top: 0.25rem;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
