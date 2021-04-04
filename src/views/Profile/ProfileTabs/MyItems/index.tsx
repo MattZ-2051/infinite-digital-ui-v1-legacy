@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 const MyItems = () => {
   return (
     <MyItemsContainer>
-      <TileContainer>
+      <TileContainer style={{ paddingRight: '10px', paddingLeft: '0' }}>
         <SkuTile status="upcoming" skuRarity="rare" />
       </TileContainer>
       <TileContainer>
@@ -13,7 +13,7 @@ const MyItems = () => {
       <TileContainer>
         <SkuTile status="no-sale" skuRarity="uncommon" />
       </TileContainer>
-      <TileContainer>
+      <TileContainer style={{ paddingRight: '0', paddingLeft: '10px' }}>
         <SkuTile status="unique" skuRarity="epic" />
       </TileContainer>
     </MyItemsContainer>
