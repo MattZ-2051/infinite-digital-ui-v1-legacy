@@ -7,7 +7,7 @@ import FilterBox from 'components/FilterBox';
 import MyReleases from './MyReleases';
 
 interface IProps {
-  userStatus?: 'loggedInIssuer' | 'loggedIn' | 'notCurrentUserProfile';
+  userStatus?: 'loggedInIssuer' | 'loggedIn' | 'notCurrentUserProfile' | 'notCurrentUserProfileIssuer';
 }
 
 const ProfileTabs = ({ userStatus }: IProps) => {
@@ -44,7 +44,7 @@ const ProfileTabs = ({ userStatus }: IProps) => {
           {selectedTab === 1 && <MyItems />}
         </>
       )}
-      {userStatus === 'notCurrentUserProfile' && (
+      {userStatus === 'notCurrentUserProfileIssuer' && (
         <>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <Tabs value={selectedTab} onChange={handleChange} width="100%" style={{ paddingBottom: '20px' }}>
@@ -55,6 +55,17 @@ const ProfileTabs = ({ userStatus }: IProps) => {
           </div>
           {selectedTab === 0 && <MyReleases />}
           {selectedTab === 1 && <MyItems />}
+        </>
+      )}
+      {userStatus === 'notCurrentUserProfile' && (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <Tabs value={selectedTab} onChange={handleChange} width="100%" style={{ paddingBottom: '20px' }}>
+              <Tab label="Items" disableFocusRipple disableRipple />
+            </Tabs>
+            <FilterBox type="sort" label="Most Popular" />
+          </div>
+          {selectedTab === 0 && <MyItems />}
         </>
       )}
 
