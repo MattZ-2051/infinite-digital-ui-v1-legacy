@@ -6,7 +6,7 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import EditIcon from '@material-ui/icons/Edit';
 
 interface IProps {
-  userStatus?: 'loggedInIssuer' | 'notCurrentUserProfile' | 'loggedIn';
+  userStatus?: 'loggedInIssuer' | 'notCurrentUserProfile' | 'loggedIn' | 'notCurrentUserProfileIssuer';
 }
 
 const ProfileInfo = ({ userStatus }: IProps) => {
