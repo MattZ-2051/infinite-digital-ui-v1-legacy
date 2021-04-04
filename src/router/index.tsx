@@ -5,7 +5,7 @@ import DropBoxes from 'views/DropBoxes';
 import MarketPlace from 'views/MarketPlace';
 import UserAccount from 'views/UserAccount';
 import MyCollection from 'views/MyCollection';
-import MyProfile from 'views/MyProfile';
+import MyProfile from 'views/Profile';
 
 const RouterComponent = () => {
   let location: any = useLocation();
