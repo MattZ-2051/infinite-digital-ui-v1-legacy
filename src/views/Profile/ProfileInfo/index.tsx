@@ -47,7 +47,7 @@ const ProfileInfo = ({ userStatus }: IProps) => {
               <ChangeImgIcon />
             </ChangeImgIconContainer>
             : null}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
             <EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
