@@ -102,6 +102,12 @@ const MarketPlace: React.FC<IProps> = () => {
     dispatch(updateFilter(payload));
   };
 
+  useEffect(() => {
+    (async () => {
+      dispatch(getSkusThunk({ token: '', queryParams: '' }));
+    })();
+  }, [dispatch]);
+
   return (
     <Container>
       <Header>
@@ -142,22 +148,24 @@ const MarketPlace: React.FC<IProps> = () => {
               skus.map((sku) => {
                 return (
                   <SkuTile
-                    status={sku.status}
+                    status={sku.status || 'upcoming'}
                     skuImg={sku.graphicUrl}
+                    skuRarity={sku.rarity}
                     skuName={sku.name}
                     skuSeries={sku.series.name}
                     skuSupply={sku.circulatingSupply}
                     key={sku.id}
+                    skuStartDate="2021-04-05T18:03:02.439Z"
                   />
                 );
               })}
-            {/* <SkuTile status="upcoming" />
-            <SkuTile status="mult-listing" skuRarity="uncommon" />
-            <SkuTile status="no-sale" skuRarity="epic" />
-            <SkuTile status="unique" skuRarity="legendary" /> */}
+            {/* <SkuTile status="upcoming" skuStartDate="2021-04-05T18:03:02.439Z" />
+            <SkuTile status="mult-listing" skuRarity="uncommon" skuStartDate="2021-04-05T18:03:02.439Z" />
+            <SkuTile status="no-sale" skuRarity="epic" skuStartDate="2021-04-05T18:03:02.439Z" />
+            <SkuTile status="unique" skuRarity="legendary" skuStartDate="2021-04-05T18:03:02.439Z" />
             <ProductTile status="no-active-listing" />
             <ProductTile status="active-listing" />
-            <ProductTile status="purchased" />
+            <ProductTile status="purchased" /> */}
           </ProductsGrid>
 
           <PaginationContainer>
