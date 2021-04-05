@@ -17,10 +17,11 @@ import {
 import SearchInput from './Filters/SearchInput';
 import SortByFilter from './Filters/SortByFilter';
 import SkuTile from 'components/ProductTiles/SkuTile';
+import ProductTile from 'components/ProductTiles/ProductTile';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
-export interface IProps {}
+export interface IProps { }
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
@@ -150,10 +151,13 @@ const MarketPlace: React.FC<IProps> = () => {
                   />
                 );
               })}
-            <SkuTile status="upcoming" />
+            {/* <SkuTile status="upcoming" />
             <SkuTile status="mult-listing" skuRarity="uncommon" />
             <SkuTile status="no-sale" skuRarity="epic" />
-            <SkuTile status="unique" skuRarity="legendary" />
+            <SkuTile status="unique" skuRarity="legendary" /> */}
+            <ProductTile status="no-active-listing" />
+            <ProductTile status="active-listing" />
+            <ProductTile status="purchased" />
           </ProductsGrid>
 
           <PaginationContainer>
@@ -169,7 +173,7 @@ const Container = styled.div`
   width: 1440px;
   margin: auto;
   padding: 48px 80px 48px 80px;
-  
+
   @media screen and (max-width: 1440px) {
     width: 100%;
   }
