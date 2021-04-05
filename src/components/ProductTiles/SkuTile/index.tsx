@@ -8,11 +8,23 @@ interface IProps {
   skuName?: string;
   skuSeries?: string;
   skuRarity?: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
-  status?: 'upcoming' | 'unique' | 'mult-listing' | 'dropbox' | 'no-sale';
+  status?: 'upcoming' | 'unique' | 'mult-listing' | 'no-sale';
   skuSupply?: number;
+  skuStartDate: string;
+  skuMinPrice?: string;
 }
 
-const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: IProps) => {
+const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply, skuStartDate, skuMinPrice }: IProps) => {
+
+  const currentTime = new Date().getTime();
+  const skuStartDateTime = new Date(skuStartDate).getTime();
+
+  // const checkStatus = () => {
+  //   if (skuStartDateTime > currentTime) {
+  //     status = "upcoming"
+  //   } else if (skuStartDateTime < currentTime && skuSupply)
+  // }
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: 'fit-content' }}>
       <StyledCard>
@@ -40,9 +52,6 @@ const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: I
             {status === 'mult-listing' && (
               <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', }}>22 For Sale</p>
             )}
-            {status === 'dropbox' && (
-              <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', }}>Contains 3 Items</p>
-            )}
             {status === 'no-sale' && (
               <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', }}>Owned by 88 people</p>
             )}
@@ -67,12 +76,6 @@ const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuSupply }: I
         <div style={{ position: 'relative', backgroundColor: 'black', width: '270px', height: '56px', color: 'white', borderRadius: '35px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0px 25px', bottom: '25px' }}>
           <span style={{ fontWeight: 400, fontSize: '16px', lineHeight: '20.24px', color: '#c4c4c4', height: '20px' }}>Lowest Price:</span>
           <span style={{ fontWeight: 500, fontSize: '24px', lineHeight: '32px', height: '32px' }}>$240</span>
-        </div>
-      )}
-      {status === 'dropbox' && (
-        <div style={{ position: 'relative', backgroundColor: 'black', width: '270px', height: '56px', color: 'white', borderRadius: '35px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0px 25px', bottom: '25px' }}>
-          <span style={{ fontWeight: 400, fontSize: '16px', lineHeight: '20.24px', color: '#c4c4c4', height: '20px' }}>Drop Price:</span>
-          <span style={{ fontWeight: 500, fontSize: '24px', lineHeight: '32px', height: '32px' }}>$400</span>
         </div>
       )}
       {status === 'no-sale' && (
