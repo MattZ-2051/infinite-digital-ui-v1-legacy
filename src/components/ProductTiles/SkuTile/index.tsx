@@ -1,8 +1,9 @@
-import { StyledCard, StyledCardDiv, StyledCardImg } from '../index';
+import { StyledCard, StyledCardDiv, StyledCardImg, RedeemIcon } from '../index';
 import productImg from 'assets/img/backgrounds/product-image.jpeg'
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
-import { useEffectOnce } from 'react-use';
+import redeemableIcon from 'assets/img/icons/redeemable-icon.png'
+import alreadyRedeemedIcon from 'assets/img/icons/redeemed-icon.png'
 
 interface IProps {
   skuImg?: string;
@@ -15,13 +16,18 @@ interface IProps {
   skuMinPrice: number;
   skuCirculatingSupply?: number;
   skuTotalSupplyUpcoming?: number;
+  redeemable?: boolean
 }
 
-const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuTotalSupplyLeft, skuStartDate, skuMinPrice, skuCirculatingSupply, skuTotalSupplyUpcoming }: IProps) => {
+const SkuTile = ({ skuRarity, skuImg, skuName, skuSeries, status, skuTotalSupplyLeft, skuStartDate, skuMinPrice, skuCirculatingSupply, skuTotalSupplyUpcoming, redeemable }: IProps) => {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: 'fit-content' }}>
       <StyledCard>
+        {redeemable
+          ? <RedeemIcon src={redeemableIcon} />
+          : <RedeemIcon src={alreadyRedeemedIcon} />
+        }
         <StyledCardImg
           image={skuImg || productImg}
         />
