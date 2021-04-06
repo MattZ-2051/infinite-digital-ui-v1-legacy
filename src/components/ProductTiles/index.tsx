@@ -28,6 +28,7 @@ export const StyledCard = styled(Card)`
   overflow: initial;
   border-radius: 20px;
   box-shadow: 2px 2px 3px 1px #ccc;
+  position: relative;
 `;
 
 export const StyledCardDiv = styled.div`
@@ -40,6 +41,13 @@ export const StyledCardImg = styled(CardMedia)`
   height: 240px;
   width: 302px;
   border-radius: 20px 20px 0 0;
+`;
+
+export const RedeemIcon = styled.img`
+  position: absolute;
+  width: 40px;
+  right: 5%;
+  top 3%;
 `;
 
 export default ProductPanel;
