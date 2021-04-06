@@ -14,8 +14,8 @@ const MyProfile: React.FC<IProps> = () => {
 
   return (
     <Container>
-      <ProfileInfo userStatus="loggedIn" />
-      <ProfileTabs userStatus="loggedIn" />
+      <ProfileInfo userStatus="loggedInIssuer" />
+      <ProfileTabs userStatus="loggedInIssuer" />
     </Container>
   )
 }

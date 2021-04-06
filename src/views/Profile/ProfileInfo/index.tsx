@@ -24,7 +24,7 @@ const ProfileInfo = ({ userStatus }: IProps) => {
               <ChangeImgIcon />
             </ChangeImgIconContainer>
             : null}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
             <EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -65,7 +65,7 @@ const ProfileInfo = ({ userStatus }: IProps) => {
       {userStatus === 'notCurrentUserProfile' && (
         <>
           <AccountIcon />
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
           </div>
         </>
@@ -127,7 +127,7 @@ const ChangeImgIconContainer = styled.div`
   height: 32px;
   background-color: black;
   border-radius: 50%;
-  top: 35%;
+  top: 31%;
   :hover {
     cursor: pointer;
     transform: scale(1.1);
