@@ -21,9 +21,10 @@ export const getSkusThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('skus/get', async (data, thunkApi) => {
+>('skus/tiles/get', async (data, thunkApi) => {
   try {
     const response = await getSkus(data.queryParams);
+    console.log(response.data)
     return response.data;
   } catch (err) {
     return thunkApi.rejectWithValue({
