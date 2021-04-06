@@ -146,16 +146,64 @@ const MarketPlace: React.FC<IProps> = () => {
           <ProductsGrid>
             {skus instanceof Array &&
               skus.map((sku) => {
+
+                let status: 'upcoming' | 'unique' | 'active' | 'no-sale' = 'upcoming';
+
+                const currentTime = new Date().getTime();
+                const skuStartDateTime = new Date(sku.minStartDate || "2021-04-12T19:03:02.439Z").getTime();
+                let skuUpcomingTime: string = '';
+
+                function calcDiff(date1, date2) {
+
+                  var diff = (date2 - date1) / 1000;
+                  diff = Math.abs(Math.floor(diff));
+
+                  var days = Math.floor(diff / (24 * 60 * 60));
+                  var leftSec = diff - days * 24 * 60 * 60;
+
+                  var hrs = Math.floor(leftSec / (60 * 60));
+                  var leftSec = leftSec - hrs * 60 * 60;
+
+                  var min = Math.floor(leftSec / (60));
+                  var leftSec = leftSec - min * 60;
+
+                  return days + "d" + ' ' + hrs + "hr" + ' ' + min + 'm';
+
+                }
+
+                const checkStatus = () => {
+                  if (skuStartDateTime > currentTime) {
+                    status = "upcoming";
+                    skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+                    return
+                  } else if (sku.totalSupplyLeft > 0) {
+                    status = "active";
+                    return
+                  } else if (sku.minSkuPrice === 0 || !sku.minSkuPrice) {
+                    status = "no-sale";
+                    return
+                  } else {
+                    status = 'upcoming'
+                    skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+                    return
+                  }
+                }
+
+                checkStatus();
+
                 return (
                   <SkuTile
-                    status={sku.status || 'upcoming'}
+                    key={sku._id}
                     skuImg={sku.graphicUrl}
                     skuRarity={sku.rarity}
                     skuName={sku.name}
+                    status={status}
                     skuSeries={sku.series.name}
-                    skuSupply={sku.circulatingSupply}
-                    key={sku.id}
-                    skuStartDate="2021-04-05T18:03:02.439Z"
+                    skuTotalSupplyLeft={sku.totalSupplyLeft}
+                    skuCirculatingSupply={sku.circulatingSupply}
+                    skuStartDate={skuUpcomingTime}
+                    skuMinPrice={sku.minSkuPrice}
+                    skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
                   />
                 );
               })}
