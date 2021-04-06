@@ -144,6 +144,9 @@ const MarketPlace: React.FC<IProps> = () => {
         </Sidebar>
         <Content>
           <ProductsGrid>
+            {/*
+              Sku Tile data from store being rendered with Sku Tiles
+
             {skus instanceof Array &&
               skus.map((sku) => {
 
@@ -206,14 +209,15 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
                   />
                 );
-              })}
-            {/* <SkuTile status="upcoming" skuStartDate="2021-04-05T18:03:02.439Z" />
-            <SkuTile status="mult-listing" skuRarity="uncommon" skuStartDate="2021-04-05T18:03:02.439Z" />
-            <SkuTile status="no-sale" skuRarity="epic" skuStartDate="2021-04-05T18:03:02.439Z" />
-            <SkuTile status="unique" skuRarity="legendary" skuStartDate="2021-04-05T18:03:02.439Z" />
-            <ProductTile status="no-active-listing" />
-            <ProductTile status="active-listing" />
-            <ProductTile status="purchased" /> */}
+              })} */}
+
+
+            {/*
+              Product Tile components test
+
+            <ProductTile status="no-active-listing" redeemable={true} />
+            <ProductTile status="active-listing" redeemable={false} />
+            <ProductTile status="purchased" redeemable={true} /> */}
           </ProductsGrid>
 
           <PaginationContainer>
