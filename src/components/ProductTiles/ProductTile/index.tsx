@@ -1,7 +1,10 @@
-import { StyledCard, StyledCardDiv, StyledCardImg } from '../index';
+import { StyledCard, StyledCardDiv, StyledCardImg, RedeemIcon } from '../index';
+import styled from 'styled-components';
 import productImg from 'assets/img/backgrounds/product-image.jpeg'
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
+import redeemableIcon from 'assets/img/icons/redeemable-icon.png'
+import alreadyRedeemedIcon from 'assets/img/icons/redeemed-icon.png'
 
 interface IProps {
   skuImg?: string;
@@ -10,15 +13,21 @@ interface IProps {
   skuRarity?: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
   status?: 'no-active-listing' | 'active-listing' | 'purchased';
   productSerialNumber?: number;
+  redeemable?: boolean;
 }
 
-const ProductTile = ({ skuRarity, skuImg, skuName, skuSeries, status, productSerialNumber }: IProps) => {
+const ProductTile = ({ skuRarity, skuImg, skuName, skuSeries, status, productSerialNumber, redeemable }: IProps) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: 'fit-content' }}>
       <StyledCard>
+        {redeemable
+          ? <RedeemIcon src={redeemableIcon} />
+          : <RedeemIcon src={alreadyRedeemedIcon} />
+        }
         <StyledCardImg
           image={skuImg || productImg}
         />
+
         <CardContent style={{ backgroundColor: 'white', padding: '5px 16px 0 16px', borderRadius: '20px' }}>
           <StyledCardDiv>
             <p style={{ fontWeight: 500, fontSize: '16px', lineHeight: '20.24px', color: '#9E9E9E' }}>
@@ -68,6 +77,5 @@ const ProductTile = ({ skuRarity, skuImg, skuName, skuSeries, status, productSer
 
   )
 }
-
 
 export default ProductTile;
