@@ -5,6 +5,7 @@ import DropBoxes from 'views/DropBoxes';
 import MarketPlace from 'views/MarketPlace';
 import UserAccount from 'views/UserAccount';
 import MyCollection from 'views/MyCollection';
+import MarketPlaceSku from 'views/MarketPlaceSku';
 
 const RouterComponent = () => {
   let location: any = useLocation();
@@ -13,8 +14,9 @@ const RouterComponent = () => {
   return (
     <Switch location={background || location}>
       <Route exact path="/" component={Landing} />
-      <Route exact path="/drop-boxes" component={DropBoxes} />
+      <Route path="/drop-boxes" component={DropBoxes} />
       <Route exact path="/marketplace" component={MarketPlace} />
+      <Route path="/marketplace/:skuid" component={MarketPlaceSku} />
       <PrivateRoute path="/user-account" component={UserAccount} />
       <PrivateRoute path="/my-collection" component={MyCollection} />
     </Switch>
