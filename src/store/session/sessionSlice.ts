@@ -1,27 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import { getUserInfoThunk } from "./sessionThunks";
 
 interface UsersState {
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  loading: "idle" | "pending" | "succeeded" | "failed";
   error: null | string;
-  user: Object,
+  user: Object;
 }
 
 export const sessionSlice = createSlice({
-  name: 'session',
+  name: "session",
   initialState: {
-    loading: 'idle',
+    loading: "idle",
     error: null,
-    user: {
-    },
+    user: {},
   } as UsersState,
   reducers: {
-    clearError: (state): void => { state.error = null },
+    clearError: (state): void => {
+      state.error = null;
+    },
     logout: (state) => {
       state.user = {};
-    }
+    },
   },
-  // extraReducers: (builder) => {
-  // },
+  extraReducers: (builder) => {
+    builder.addCase(getUserInfoThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === "pending") {
+        state.loading = "idle";
+      }
+      //console.log('payload: ', payload)
+      state.user = payload;
+    });
+  },
 });
 
 export const { clearError } = sessionSlice.actions;

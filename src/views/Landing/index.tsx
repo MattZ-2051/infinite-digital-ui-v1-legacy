@@ -9,10 +9,13 @@ import FeatureProducts from './Featured/FeatureProducts';
 import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
 import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, user } = useAuth0();
+
+  console.log(user)
 
   useEffect(() => {
     (async () => {
@@ -21,6 +24,13 @@ const Landing = () => {
     })();
   }, [dispatch]);
 
+  useEffect(() => {
+    (async () => {
+      if (user) {
+        dispatch(getUserInfoThunk({ token: '', userId: user.sub }))
+      }
+    })();
+  }, [user])
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
