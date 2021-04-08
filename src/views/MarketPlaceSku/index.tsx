@@ -5,6 +5,7 @@ import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.sv
 // Local
 import ImageGallery from 'components/ImageGallery';
 import { getSku } from 'services/api/sku';
+import ModalPayment from './components/ModalPayment';
 
 export interface SkuDetailProps {}
 
@@ -70,6 +71,9 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
 
   return (
     <div>
+
+      <ModalPayment />
+
       <HeaderContainer>
         <HeaderContent>
           <HeaderLeft>
