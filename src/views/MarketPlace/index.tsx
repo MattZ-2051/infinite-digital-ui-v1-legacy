@@ -212,12 +212,12 @@ const MarketPlace: React.FC<IProps> = () => {
               })} */}
 
 
-            {/*
-              Product Tile components test
+
+            {/* Product Tile components test */}
 
             <ProductTile status="no-active-listing" redeemable={true} />
             <ProductTile status="active-listing" redeemable={false} />
-            <ProductTile status="purchased" redeemable={true} /> */}
+            <ProductTile status="purchased" redeemable={true} />
           </ProductsGrid>
 
           <PaginationContainer>
