@@ -71,12 +71,13 @@ const DropDownCheckFilter = ({
                       value="start"
                       control=
                       {<Check
-                        style={{ color: 'black' }}
+                        style={{ color: 'black', backgroundColor: 'transparent' }}
                         id={option}
                         name={option}
                         checked={activeFilters.indexOf(option) !== -1}
                         onChange={handleCheck}
                         color='default'
+                        disableRipple
                       />
                       }
                       label={option}

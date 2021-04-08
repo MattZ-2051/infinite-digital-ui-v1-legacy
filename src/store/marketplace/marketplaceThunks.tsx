@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSkus } from 'services/api/sku';
 
- // Return type of the payload creator
-interface IResponse {}
+// Return type of the payload creator
+interface IResponse { }
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -21,7 +21,7 @@ export const getSkusThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('skus/get', async (data, thunkApi) => {
+>('skus/tiles/get', async (data, thunkApi) => {
   try {
     const response = await getSkus(data.queryParams);
     return response.data;

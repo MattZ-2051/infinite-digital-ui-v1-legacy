@@ -17,10 +17,11 @@ import {
 import SearchInput from './Filters/SearchInput';
 import SortByFilter from './Filters/SortByFilter';
 import SkuTile from 'components/ProductTiles/SkuTile';
+import ProductTile from 'components/ProductTiles/ProductTile';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
-export interface IProps {}
+export interface IProps { }
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
@@ -101,6 +102,12 @@ const MarketPlace: React.FC<IProps> = () => {
     dispatch(updateFilter(payload));
   };
 
+  useEffect(() => {
+    (async () => {
+      dispatch(getSkusThunk({ token: '', queryParams: '' }));
+    })();
+  }, [dispatch]);
+
   return (
     <Container>
       <Header>
@@ -137,23 +144,80 @@ const MarketPlace: React.FC<IProps> = () => {
         </Sidebar>
         <Content>
           <ProductsGrid>
+            {/*
+              Sku Tile data from store being rendered with Sku Tiles
+
             {skus instanceof Array &&
               skus.map((sku) => {
+
+                let status: 'upcoming' | 'unique' | 'active' | 'no-sale' = 'upcoming';
+
+                const currentTime = new Date().getTime();
+                const skuStartDateTime = new Date(sku.minStartDate || "2021-04-12T19:03:02.439Z").getTime();
+                let skuUpcomingTime: string = '';
+
+                function calcDiff(date1, date2) {
+
+                  var diff = (date2 - date1) / 1000;
+                  diff = Math.abs(Math.floor(diff));
+
+                  var days = Math.floor(diff / (24 * 60 * 60));
+                  var leftSec = diff - days * 24 * 60 * 60;
+
+                  var hrs = Math.floor(leftSec / (60 * 60));
+                  var leftSec = leftSec - hrs * 60 * 60;
+
+                  var min = Math.floor(leftSec / (60));
+                  var leftSec = leftSec - min * 60;
+
+                  return days + "d" + ' ' + hrs + "hr" + ' ' + min + 'm';
+
+                }
+
+                const checkStatus = () => {
+                  if (skuStartDateTime > currentTime) {
+                    status = "upcoming";
+                    skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+                    return
+                  } else if (sku.totalSupplyLeft > 0) {
+                    status = "active";
+                    return
+                  } else if (sku.minSkuPrice === 0 || !sku.minSkuPrice) {
+                    status = "no-sale";
+                    return
+                  } else {
+                    status = 'upcoming'
+                    skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+                    return
+                  }
+                }
+
+                checkStatus();
+
                 return (
                   <SkuTile
-                    status={sku.status}
+                    key={sku._id}
                     skuImg={sku.graphicUrl}
+                    skuRarity={sku.rarity}
                     skuName={sku.name}
+                    status={status}
                     skuSeries={sku.series.name}
-                    skuSupply={sku.circulatingSupply}
-                    key={sku.id}
+                    skuTotalSupplyLeft={sku.totalSupplyLeft}
+                    skuCirculatingSupply={sku.circulatingSupply}
+                    skuStartDate={skuUpcomingTime}
+                    skuMinPrice={sku.minSkuPrice}
+                    skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
                   />
                 );
-              })}
-            <SkuTile status="upcoming" />
-            <SkuTile status="mult-listing" skuRarity="uncommon" />
-            <SkuTile status="no-sale" skuRarity="epic" />
-            <SkuTile status="unique" skuRarity="legendary" />
+              })} */}
+
+
+            {/*
+              Product Tile components test
+
+            <ProductTile status="no-active-listing" redeemable={true} />
+            <ProductTile status="active-listing" redeemable={false} />
+            <ProductTile status="purchased" redeemable={true} /> */}
           </ProductsGrid>
 
           <PaginationContainer>
@@ -169,7 +233,7 @@ const Container = styled.div`
   width: 1440px;
   margin: auto;
   padding: 48px 80px 48px 80px;
-  
+
   @media screen and (max-width: 1440px) {
     width: 100%;
   }
