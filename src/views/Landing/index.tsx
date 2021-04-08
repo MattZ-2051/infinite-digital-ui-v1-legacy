@@ -24,7 +24,9 @@ const Landing = () => {
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
+      {/* Temporary comment to hide DropBoxes see issue #86
       <FeatureBoxes />
+      */}
       <FeatureProducts />
       <LatestProducts />
     </main>
