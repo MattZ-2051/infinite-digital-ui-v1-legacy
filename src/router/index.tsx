@@ -18,7 +18,8 @@ const RouterComponent = () => {
       <Route exact path="/marketplace" component={MarketPlace} />
       <PrivateRoute path="/user-account" component={UserAccount} />
       <PrivateRoute path="/my-collection" component={MyCollection} />
-      <Route exact path="/wallet/:userId" component={Wallet} />
+      {/* Change to Private Route when bug is fixed */}
+      <Route path="/wallet/:userId" component={Wallet} />
     </Switch>
   );
 };
