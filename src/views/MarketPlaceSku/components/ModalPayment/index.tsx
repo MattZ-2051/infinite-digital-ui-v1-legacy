@@ -13,12 +13,16 @@ const ModalPayment: React.FC<ModalProps> = () => {
   const Content: any = () => (
     <>
       <S.ImageContainer>
-        <S.CloseButton><CloseModal /></S.CloseButton>
+        <S.CloseButton>
+          <CloseModal style={{ cursor: 'pointer' }} />
+        </S.CloseButton>
       </S.ImageContainer>
 
       <S.Header>
-      
-        <S.Title> <img src={alertIcon} alt="" /> Whoops, Insuficient funds!</S.Title>
+        <S.Title>
+          {' '}
+          <img src={alertIcon} alt="" /> Whoops, Insuficient funds!
+        </S.Title>
         <S.SubTitle>Your wallet balance $80</S.SubTitle>
       </S.Header>
 
@@ -32,14 +36,18 @@ const ModalPayment: React.FC<ModalProps> = () => {
           </S.Rarity>
         </S.DetailRow>
 
-        <S.DetailRow style={{fontSize: '20px'}}>
+        <S.DetailRow style={{ fontSize: '20px' }}>
           <span>K8IROS 8.1 — BK Shadow</span>
           <span>$120</span>
         </S.DetailRow>
 
         <S.DetailRow>
-          <span>Size 11 / <Redeemable /> Redeemable</span>
-          <div><span style={{color: '#9E9E9E'}}>Serial:</span> #2445</div>
+          <span>
+            Size 11 / <Redeemable /> Redeemable
+          </span>
+          <div>
+            <span style={{ color: '#9E9E9E' }}>Serial:</span> #2445
+          </div>
         </S.DetailRow>
       </S.Detail>
 
@@ -49,7 +57,17 @@ const ModalPayment: React.FC<ModalProps> = () => {
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           You need more founds to make this purchase.
         </p>
-        <Button>Add Funds</Button>
+        <Button
+          style={{
+            height: '56px',
+            borderRadius: '24px',
+            width: '100%',
+            textDecoration: 'none',
+            textTransform: 'capitalize',
+          }}
+        >
+          Add Funds
+        </Button>
       </S.Footer>
     </>
   );
