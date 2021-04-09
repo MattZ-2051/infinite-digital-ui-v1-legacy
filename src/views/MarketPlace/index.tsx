@@ -144,8 +144,8 @@ const MarketPlace: React.FC<IProps> = () => {
         </Sidebar>
         <Content>
           <ProductsGrid>
-            {/*
-              Sku Tile data from store being rendered with Sku Tiles
+
+            {/* Sku Tile data from store being rendered with Sku Tiles */}
 
             {skus instanceof Array &&
               skus.map((sku) => {
@@ -209,15 +209,15 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
                   />
                 );
-              })} */}
+              })}
 
 
 
             {/* Product Tile components test */}
-
+            {/*
             <ProductTile status="no-active-listing" redeemable={true} />
             <ProductTile status="active-listing" redeemable={false} />
-            <ProductTile status="purchased" redeemable={true} />
+            <ProductTile status="purchased" redeemable={true} /> */}
           </ProductsGrid>
 
           <PaginationContainer>
