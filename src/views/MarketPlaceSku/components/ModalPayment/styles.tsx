@@ -13,6 +13,11 @@ export const ImageContainer = styled.div`
   background-color: #f4f4f4;
   border-radius: 12px 12px 0 0;
   margin-bottom: 34px;
+
+  img {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+  }
 `;
 
 export const Header = styled.div`

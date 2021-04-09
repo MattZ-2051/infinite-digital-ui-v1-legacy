@@ -4,6 +4,7 @@ import * as S from './styles';
 // Local
 import Button from 'components/Buttons/Button';
 import alertIcon from 'assets/img/icons/alert-icon.png';
+import shoeImg from 'assets/temp/shoe.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 
@@ -13,6 +14,7 @@ const ModalPayment: React.FC<ModalProps> = () => {
   const Content: any = () => (
     <>
       <S.ImageContainer>
+        <img src={shoeImg} alt="" />
         <S.CloseButton>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
