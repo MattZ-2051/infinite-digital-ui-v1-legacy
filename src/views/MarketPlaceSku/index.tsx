@@ -113,12 +113,15 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
 
               <LineDivider />
 
-              {skuDetails?.redeemable && (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <RedeemableIcon /> &nbsp; Redeemable
+              </div>
+
+              {/* {skuDetails?.redeemable && (
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                   <RedeemableIcon /> &nbsp; Redeemable
                 </div>
-              )}
-              
+              )} */}
             </ProductDetail>
 
             <UpcomingBox>
@@ -137,8 +140,8 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
         <Description>
           <SectionTitle>Description</SectionTitle>
 
-          {skuDetails?.description}
-          {/* <p>The Perception Shoe is now a Reality.</p>
+          {/* {skuDetails?.description} */}
+          <p>The Perception Shoe is now a Reality.</p>
           <p>
             This groundbreaking Basketball Shoe disrupts what used to be the
             expected. This true on-court performance shoe, which is equally as
@@ -157,7 +160,7 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
             responsiveness while being ridiculously light. The external lateral
             heel TPU midsole frame lends additional stability while enhancing
             the benefits of KronoFoam.
-          </p> */}
+          </p>
         </Description>
 
         <Listing>
