@@ -9,3 +9,12 @@ export const getSkus = async (token: string) => {
 
   return response;
 };
+
+export const getFeaturedSkuTiles = async () => {
+  const response = await axiosInstance.request({
+    method: 'GET',
+    url: '/skus/tiles?featured=true',
+  });
+
+  return response;
+};
