@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Transaction from './Transaction';
 
@@ -9,7 +10,10 @@ const Wallet = () => {
   return (
     <Container>
       <PageHeaderContainer>
-        My Wallet
+        <Link to="/marketplace/sdfsdf" style={{ color: 'white' }}>Back To Profile</Link>
+        <HeaderText>
+          My Wallet
+        </HeaderText>
       </PageHeaderContainer>
       <PageContentContainer>
         <TotalBalanceContainer>
@@ -17,7 +21,7 @@ const Wallet = () => {
             <Tab style={{ borderBottom: '3px solid black' }}>
               Total Balance
             </Tab>
-            <div style={{ borderBottom: '3px solid #D8D8D8', paddingTop: '10px' }}></div>
+            <div style={{ borderBottom: '3px solid #D8D8D8', paddingTop: '10px', width: '80%' }}></div>
           </div>
           <BalanceAmount>$4500</BalanceAmount>
           <AvailableAmount>
@@ -95,25 +99,35 @@ const Tab = styled.span`
 
 const PageHeaderContainer = styled.div`
   background-color: black;
-  height: 30%;
+  height: 25%;
   color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+  justify-content: flex-end;
 `;
 
 const TotalBalanceContainer = styled.div`
   background-color: #F4F4F4;
-  padding: 48px;
   display: flex;
   flex-direction: column;
 `;
 
 const LatestTransactionsContainer = styled.div`
-  padding: 48px;
+  padding-left: 48px;
 `;
 
 const PageContentContainer = styled.div`
-  height: 70%;
+  height: 75%;
   display: grid;
   grid-template-columns: 30% 70%;
+  padding: 48px;
+`;
+
+const HeaderText = styled.span`
+  font-size: 30px;
+  font-weight: 600;
+  padding-top: 32px;
 `;
 
 const ActionButton = styled.button`
