@@ -14,7 +14,7 @@ const FeatureProducts = () => {
   };
 
   return (
-    <Container>
+    <Container id="feature-products">
       <Slider {...settings}>
         {features instanceof Array &&
           features.map((product, key) => <SlideBox key={key} product={product} />)}

@@ -11,9 +11,8 @@ interface IProps {
 }
 
 const scrollToProducts = () => {
-  document
-    .querySelector('#feature-products')
-    ?.scrollIntoView({ behavior: 'smooth' });
+  const FeaturedBoxNode = document.querySelector('#feature-products')!;
+  FeaturedBoxNode.scrollIntoView({ behavior: 'smooth' });
 };
 
 const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
