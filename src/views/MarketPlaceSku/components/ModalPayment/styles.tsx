@@ -10,7 +10,7 @@ export const ImageContainer = styled.div`
   margin: -20px -20px 0 -20px;
   position: relative;
   height: 254px;
-  background-color: grey;
+  background-color: #f4f4f4;
   border-radius: 12px 12px 0 0;
   margin-bottom: 34px;
 `;
@@ -29,6 +29,7 @@ export const Detail = styled.div`
 export const DetailRow = styled.div`
   display: flex;
   justify-content: space-between;
+  color: black;
 `;
 
 export const Footer = styled.div`
@@ -36,9 +37,26 @@ export const Footer = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: 20px;
+  font-size: 22px;
+`;
+
+export const SubTitle = styled.h5`
+  font-size: 14px;
+  color: #E74C3C;
 `;
 
 export const Rarity = styled.div`
-  color: green;
+ color: #00EB7C;
+ font-size: 15px;
+ display: flex;
+    align-items: center;
+
+ span {
+  background: linear-gradient(41.72deg, #00EB7C -14.01%, #11D6EC 90.62%);
+   width: 12px;
+   height: 12px;
+   display: block;
+   margin-right: 5px;
+   border-radius: 50%;
+ }
 `;
