@@ -14,14 +14,14 @@ const MyProfile: React.FC<IProps> = () => {
 
   return (
     <Container>
-      <ProfileInfo userStatus="loggedInIssuer" />
-      <ProfileTabs userStatus="loggedInIssuer" />
+      <ProfileInfo userStatus="notCurrentUserProfileIssuer" />
+      <ProfileTabs userStatus="notCurrentUserProfileIssuer" />
     </Container>
   )
 }
 
 const Container = styled.div`
-  height: 100%;
+  height: 70%;
 `;
 
 export default MyProfile;

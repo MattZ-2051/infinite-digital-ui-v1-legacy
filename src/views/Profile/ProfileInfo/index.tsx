@@ -11,29 +11,22 @@ interface IProps {
 
 const ProfileInfo = ({ userStatus }: IProps) => {
 
-  const [showEditIcon, setShowEditIcon] = useState<boolean | undefined>(false);
-
   return (
-    <ProfileInfoContainer>
+    <Container>
 
       {userStatus === 'loggedInIssuer' && (
         <>
-          <AccountIcon onMouseEnter={() => setShowEditIcon(true)} onMouseLeave={() => setShowEditIcon(false)} />
-          {showEditIcon ?
-            <ChangeImgIconContainer onMouseEnter={() => setShowEditIcon(true)}>
-              <ChangeImgIcon />
-            </ChangeImgIconContainer>
-            : null}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
+          <AccountIcon />
+          <UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
             <EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
             </EditIconContainer>
-          </div>
+          </UsernameIconContainer>
           <ButtonContainer>
             <ProfileButton label="My Account" />
             <div style={{ padding: '0 10px' }}>
-              <div style={{ width: '2px', height: '16px', backgroundColor: 'lightgray' }}></div>
+              <ButtonDivider></ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
           </ButtonContainer>
@@ -41,22 +34,16 @@ const ProfileInfo = ({ userStatus }: IProps) => {
       )}
       {userStatus === 'loggedIn' && (
         <>
-          <AccountIcon onMouseEnter={() => setShowEditIcon(true)} onMouseLeave={() => setShowEditIcon(false)} />
-          {showEditIcon ?
-            <ChangeImgIconContainer onMouseEnter={() => setShowEditIcon(true)}>
-              <ChangeImgIcon />
-            </ChangeImgIconContainer>
-            : null}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
+          <UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
             <EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
             </EditIconContainer>
-          </div>
+          </UsernameIconContainer>
           <ButtonContainer>
             <ProfileButton label="My Account" />
             <div style={{ padding: '0 10px' }}>
-              <div style={{ width: '2px', height: '16px', backgroundColor: 'lightgray' }}></div>
+              <ButtonDivider></ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
           </ButtonContainer>
@@ -64,13 +51,16 @@ const ProfileInfo = ({ userStatus }: IProps) => {
       )}
       {userStatus === 'notCurrentUserProfile' && (
         <>
-          <AccountIcon />
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '16px' }}>
-            <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
-          </div>
+          <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
         </>
       )}
-    </ProfileInfoContainer>
+      {userStatus === 'notCurrentUserProfileIssuer' && (
+        <>
+          <AccountIcon />
+          <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
+        </>
+      )}
+    </Container>
 
   )
 }
@@ -85,14 +75,14 @@ const EditIconContainer = styled.div`
   align-items: center;
 `;
 
-const ProfileInfoContainer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background: -webkit-linear-gradient(45deg, #FF9412 0%, #FFF72D 98.96%);;
   color: white;
   width: 100%;
-  height: 40vh;
+  height: 30vh;
   flex-direction: column;
   position: relative;
 `;
@@ -109,29 +99,19 @@ const ButtonContainer = styled.div`
 
 const AccountIcon = styled(AccountCircleIcon)`
   font-size: 120px;
-  :hover {
-    opacity: 0.6;
-    cursor: pointer;
-  }
 `;
 
-const ChangeImgIcon = styled(CropOriginalIcon)`
+const ButtonDivider = styled.div`
+  width: 2px;
+  height: 16px;
+  background-color: lightgray;
 `;
 
-const ChangeImgIconContainer = styled.div`
-  position: absolute;
+const UsernameIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
-  height: 32px;
-  background-color: black;
-  border-radius: 50%;
-  top: 31%;
-  :hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
+  padding-bottom: 16px;
 `;
 
 export default ProfileInfo;

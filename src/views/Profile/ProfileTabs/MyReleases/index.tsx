@@ -13,9 +13,6 @@ const MyReleases = () => {
       <TileContainer>
         <SkuTile status="no-sale" skuRarity="uncommon" />
       </TileContainer>
-      <TileContainer style={{ paddingRight: '0', paddingLeft: '10px' }}>
-        <SkuTile status="unique" skuRarity="epic" />
-      </TileContainer>
     </MyReleasesContainer>
 
   )

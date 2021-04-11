@@ -15,6 +15,7 @@ const Button = styled.button`
   border: none;
   background-color: transparent;
   color: white;
+  font-weight: 600;
   :focus {
     outline: none;
   }
