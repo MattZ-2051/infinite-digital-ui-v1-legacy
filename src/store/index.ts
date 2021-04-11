@@ -3,7 +3,6 @@ import { configureStore, Action, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { ThunkAction } from "redux-thunk";
 import {
-  persistStore,
   persistReducer,
   FLUSH,
   REHYDRATE,
@@ -18,7 +17,7 @@ import sessionSlice from "./session/sessionSlice";
 import productSlice from "./product/productSlice";
 import listingSlice from "./listing/listingSlice";
 import dropBoxSlice from "./dropBox/dropBoxSlice";
-import marketPlaceSlice from "./marketPlace/marketPlaceSlice";
+import landingSlice from "./landing/landingSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
@@ -26,6 +25,7 @@ const rootReducer = combineReducers({
   products: productSlice,
   listings: listingSlice,
   dropBoxes: dropBoxSlice,
+  landing: landingSlice,
 });
 
 const persistConfig = {

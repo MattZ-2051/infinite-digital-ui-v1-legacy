@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
 import { useAppDispatch } from 'hooks/store';
-import { getListingsThunk } from 'store/listing/listingThunks';
+import { getFeaturesThunk } from 'store/landing/landingThunks';
 // Components
 import Hero from './Hero';
 import FeatureProducts from './Featured/FeatureProducts';
-import FeatureBoxes from './Featured/FeatureBoxes';
+// import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './LatestProducts';
 import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
 
@@ -16,8 +16,8 @@ const Landing = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getListingsThunk({ token: '' }));
-      dispatch(getDropBoxesThunk({ token: '' }));
+      dispatch(getFeaturesThunk(''));
+      // dispatch(getDropBoxesThunk({ token: '' }));
     })();
   }, [dispatch]);
 
