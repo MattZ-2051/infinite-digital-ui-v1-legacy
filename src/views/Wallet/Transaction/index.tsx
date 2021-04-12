@@ -28,7 +28,7 @@ const Transaction = ({ date, transactionDetail, amount, transactionType, skuName
               You added funds from your credit card ending in
             </span>
             <span style={{ color: 'black', paddingLeft: '5px' }}>
-              {transactionDetail || 'creditcardid'}
+              {transactionDetail || 'creditCardId'}
             </span>
           </>
         )}
@@ -53,7 +53,7 @@ const Transaction = ({ date, transactionDetail, amount, transactionType, skuName
                 You withdrew funds to your bank account ending in
               </span>
               <span style={{ color: 'black', paddingLeft: '5px' }}>
-                {transactionDetail || 'creditcardid'}
+                {transactionDetail || 'creditCardId'}
               </span>
             </div>
           </>
