@@ -113,7 +113,6 @@ const PageHeaderContainer = styled.div`
 `;
 
 const TotalBalanceContainer = styled.div`
-  background-color: #F4F4F4;
   display: flex;
   flex-direction: column;
   padding: 48px;
