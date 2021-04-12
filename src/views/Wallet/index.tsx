@@ -56,9 +56,16 @@ const Wallet = () => {
               </Tab>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          <Transaction />
-          <Transaction />
-          <Transaction />
+          {selectedTab === 0 && (
+            <>
+              <Transaction transactionType='cc-deposit' />
+              <Transaction transactionType='coinbase' />
+              <Transaction transactionType='withdraw' />
+              <Transaction transactionType='sale' />
+              <Transaction transactionType='purchase' />
+            </>
+          )}
+
         </LatestTransactionsContainer>
       </PageContentContainer>
     </Container>
