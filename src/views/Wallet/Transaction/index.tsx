@@ -94,7 +94,7 @@ const Transaction = ({ date, transactionDetail, amount, transactionType, skuName
         )}
       </TransactionDescription>
       <TransactionDetail>
-        <span>{date || 'Mar 30, 2021'}</span>
+        <span style={{ color: '#9E9E9E' }}>{date || 'Mar 30, 2021'}</span>
       </TransactionDetail>
       <TransactionDetail>
         {transactionType === 'coinbase' && (
