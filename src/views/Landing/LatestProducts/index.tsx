@@ -4,13 +4,14 @@ import Tab from 'components/Tab';
 import Tabs from 'components/TabsContainer';
 import MarketPlace from './MarketPlace';
 import DropBoxes from './DropBoxes';
-import { useAuth0 } from '@auth0/auth0-react';
+import MyCollection from 'views/Landing/LatestProducts/MyCollection';
 
-export interface IProps { }
+export interface IProps {
+  isAuthenticated: boolean;
+}
 
-const LatestProducts: React.FC<IProps> = () => {
+const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const { isAuthenticated } = useAuth0();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setSelectedTab(newValue);
@@ -19,26 +20,21 @@ const LatestProducts: React.FC<IProps> = () => {
     <Container>
       {isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
-          {/* Temporary comment to hide DropBoxes see issue #86
-          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
-           */}
-          <Tab label="Marketplace" disableFocusRipple disableRipple />
-          <Tab label="My Collection" disableFocusRipple disableRipple />
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple data-testid="dropBoxTab" />
+          <Tab label="Marketplace" disableFocusRipple disableRipple data-testid="marketplaceTab" />
+          <Tab label="My Collection" disableFocusRipple disableRipple data-testid="myCollectionTab" />
         </Tabs>
       )}
       {!isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
-          {/* Temporary comment to hide DropBoxes see issue #86
-          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
-          */}
-          <Tab label="Marketplace" disableFocusRipple disableRipple />
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple data-testid="dropBoxTab" />
+          <Tab label="Marketplace" disableFocusRipple disableRipple data-testid="marketplaceTab" />
         </Tabs>
       )}
 
-
-      {/* {selectedTab === 0 && <DropBoxes />} */}
-      {selectedTab === 0 && <MarketPlace />}
-      {selectedTab === 1 && <h1>My Collection</h1>}
+      {selectedTab === 0 && <DropBoxes />}
+      {selectedTab === 1 && <MarketPlace />}
+      {selectedTab === 2 && <MyCollection />}
     </Container>
   );
 };
@@ -49,6 +45,7 @@ const Container = styled.section`
   bottom: 40px;
   max-width: 1440px;
   margin: auto;
+  border-radius: 10px;
 `;
 
 export default LatestProducts;

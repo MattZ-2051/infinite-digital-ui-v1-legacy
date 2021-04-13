@@ -1,43 +1,20 @@
 import styled from 'styled-components';
-import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
-import { useAppSelector } from 'hooks/store';
-import DropBoxPanel from 'components/ProductTiles/DropBoxPanel';
 import CircularButton from 'components/Buttons/CircularButton';
 
-const DropBoxes = () => {
-  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
-
+const MyCollection = () => {
   return (
     <>
       <HeaderContainer>
-        <Header>Latest Products</Header>
-        <CircularButton to="drop-boxes" label="See More" />
+        <Header>My Items</Header>
+        <CircularButton to="my-collection" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        {dropBoxes instanceof Array &&
-          dropBoxes.map((el, index) => {
-            if (index >= 16) return null;
-            return (
-              <ProductDiv first={index === 0 ? true : false} >
-                <DropBoxPanel
-                  imageSrc={el.config.imageUrl || dropBoxImg}
-                  releaseDate={el.config.createdAt}
-                  title={el.config.name}
-                  series={el.config.series}
-                  skuNum={el.config.id}
-                  quantity={el.config.amount}
-                  price={el.config.price}
-                  type='dropBox'
-                  backgroundColor="black"
-                  key={el._id}
-                />
-              </ProductDiv>
-            );
-          })}
+        <ProductDiv first={true} >
+        </ProductDiv>
       </ProductContainer>
     </>
-  );
-};
+  )
+}
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
   padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};
@@ -88,4 +65,4 @@ const ProductContainer = styled.div`
   }
 `;
 
-export default DropBoxes;
+export default MyCollection;

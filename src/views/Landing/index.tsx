@@ -28,7 +28,7 @@ const Landing = () => {
       <FeatureBoxes />
       */}
       <FeatureProducts />
-      <LatestProducts />
+      <LatestProducts isAuthenticated={isAuthenticated} />
     </main>
   );
 };
