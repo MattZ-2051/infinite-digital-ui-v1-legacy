@@ -2,25 +2,6 @@ import Card from '@material-ui/core/Card';
 import styled from 'styled-components/macro';
 import CardMedia from '@material-ui/core/CardMedia';
 
-export interface IProps {
-  imageSrc?: string;
-  releaseDate?: string;
-  title?: string;
-  company?: string;
-  series?: string;
-  skuNum?: string;
-  quantity?: number;
-  price?: number;
-  type?: string;
-  header?: 'black' | 'white';
-}
-
-const ProductPanel = () => {
-  return (
-    <div></div>
-  )
-}
-
 export const StyledCard = styled(Card)`
   max-width: 302px;
   min-width: 302px;
@@ -31,7 +12,7 @@ export const StyledCard = styled(Card)`
   position: relative;
 `;
 
-export const StyledCardDiv = styled.div`
+export const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -47,7 +28,5 @@ export const RedeemIcon = styled.img`
   position: absolute;
   width: 40px;
   right: 5%;
-  top 3%;
+  top 2%;
 `;
-
-export default ProductPanel;

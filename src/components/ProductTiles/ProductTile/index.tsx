@@ -1,4 +1,4 @@
-import { StyledCard, StyledCardDiv, StyledCardImg, RedeemIcon } from '../index';
+import { StyledCard, Row, StyledCardImg, RedeemIcon } from '../index';
 import styled from 'styled-components';
 import productImg from 'assets/img/backgrounds/product-image.jpeg'
 import CardContent from '@material-ui/core/CardContent';
@@ -29,16 +29,16 @@ const ProductTile = ({ skuRarity, skuImg, skuName, skuSeries, status, productSer
         />
 
         <CardContent style={{ backgroundColor: 'white', padding: '5px 16px 0 16px', borderRadius: '20px' }}>
-          <StyledCardDiv>
+          <Row>
             <p style={{ fontWeight: 500, fontSize: '16px', lineHeight: '20.24px', color: '#9E9E9E' }}>
               {'Issuer Name'}
             </p>
             <Rarity type={skuRarity || 'rare'} />
-          </StyledCardDiv>
+          </Row>
           <p style={{ fontSize: '26px', fontWeight: 500, lineHeight: '32px', letterSpacing: '0em', margin: '0', paddingTop: '8px' }}>
             {skuName?.slice(0, 10) || 'Sku Name'}
           </p>
-          <StyledCardDiv style={{ paddingTop: '8px' }}>
+          <Row style={{ paddingTop: '8px' }}>
             <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em' }}># {skuSeries?.slice(0, 5) || '604ab'}</p>
             {status === 'no-active-listing' && (
               <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', color: '#9e9e9e', }}>Serial: <span style={{ color: 'black', paddingLeft: '5px' }}>{'XY271'}</span></p>
@@ -49,7 +49,7 @@ const ProductTile = ({ skuRarity, skuImg, skuName, skuSeries, status, productSer
             {status === 'purchased' && (
               <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em' }}>Owned by 88 people</p>
             )}
-          </StyledCardDiv>
+          </Row>
         </CardContent>
       </StyledCard>
       {status === 'no-active-listing' && (
