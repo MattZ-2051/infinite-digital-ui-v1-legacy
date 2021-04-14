@@ -7,6 +7,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import coinbaseIcon from 'assets/img/icons/coinbase.png'
 import sukuIcon from 'assets/img/icons/suku-icon.png'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ModalComponent from 'components/Modal';
 
 function getModalStyle() {
   const top = 50;
@@ -23,8 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       position: 'absolute',
-      width: '565px',
-      height: '511px',
+      width: '522px',
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
       padding: '48px',
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Wallet = () => {
 
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
 
   const handleClose = () => {
     setIsModalOpen(false)
@@ -151,9 +151,9 @@ const Wallet = () => {
               <Transaction transactionType='purchase' />
             </>
           )}
-          <Modal open={isModalOpen} onClose={handleClose} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
+          <ModalComponent open={isModalOpen} onClose={handleClose}>
             {body}
-          </Modal>
+          </ModalComponent>
         </LatestTransactionsContainer>
       </PageContentContainer>
     </Container>
