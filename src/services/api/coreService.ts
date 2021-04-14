@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const config = {
   baseURL:
-    'https://backend-dev.goinfinite.io',
+    process.env.REACT_APP_API_ENDPOINT as string,
 };
 const axiosInstance = axios.create(config);
 
