@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import Transaction from './Transaction';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import coinbaseIcon from 'assets/img/icons/coinbase.png'
+import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png'
 import sukuIcon from 'assets/img/icons/suku-icon.png'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import circleIcon from 'assets/img/icons/circle-icon.png';
 import ModalComponent from 'components/Modal';
 
 function getModalStyle() {
@@ -62,7 +63,7 @@ const Wallet = () => {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '15% 55% 30%', paddingTop: '40px', borderBottom: '1px solid #EBEBEB', paddingBottom: '21px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={coinbaseIcon} />
+          <img src={circleIcon} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{ fontSize: '16px', fontWeight: 600 }}>Circle</span>
