@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Transaction from './Transaction';
-import Modal from '@material-ui/core/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png'
 import sukuIcon from 'assets/img/icons/suku-icon.png'
