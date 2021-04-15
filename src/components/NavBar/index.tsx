@@ -19,6 +19,8 @@ const NavBar = ({ isSmall }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
+  console.log(isAuthenticated);
+
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
