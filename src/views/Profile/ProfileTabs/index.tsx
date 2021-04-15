@@ -74,7 +74,13 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       {userStatus === "notCurrentUserProfileIssuer" && (
         <>
           <div style={{ position: "relative", paddingBottom: "30px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <div>
                 <Tab
                   style={{
@@ -151,7 +157,7 @@ const Tab = styled.span`
   font-weight: 600;
   font-size: 22px;
   line-height: 27.83px;
-  padding-bottom: 15px;
+  padding-bottom: 14px;
   border: none;
   position: relative;
   :hover {

@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import styled from 'styled-components/macro';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { useRef } from 'react';
-
+import { useState } from "react";
+import styled from "styled-components/macro";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { useRef } from "react";
 
 interface IProps {
   options: string[];
@@ -12,17 +11,21 @@ interface IProps {
   activeFilterSort: string;
 }
 
-const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps) => {
-
+const SortByFilter = ({
+  width,
+  options,
+  handleFilter,
+  activeFilterSort,
+}: IProps) => {
   const getCurrentFilterOption = (el) => {
     if (el === activeFilterSort) {
-      return el
+      return el;
     } else {
-      return 'Release Date'
+      return "Release Date";
     }
-  }
+  };
 
-  let currentLabel = options.filter(getCurrentFilterOption)
+  let currentLabel = options.filter(getCurrentFilterOption);
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
@@ -39,50 +42,75 @@ const SortByFilter = ({ width, options, handleFilter, activeFilterSort }: IProps
         (item: string) => item !== name
       );
     }
-    handleFilter('sort', name);
-    setNewLabel(name)
+    handleFilter("sort", name);
+    setNewLabel(name);
     setIsHidden(true);
   };
 
   const handleChange = () => {
     setIsHidden(!isHidden);
-  }
+  };
 
   const getNewOptions = (el) => {
-    return (el !== newLabel)
-  }
+    return el !== newLabel;
+  };
 
   options = options.filter(getNewOptions);
 
   return (
-    <div style={{ position: 'relative' }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span style={{ color: '#9e9e9e', fontWeight: 500, fontSize: '18px', lineHeight: '22.7px', paddingRight: '8px' }}>Sort by:</span>
-        <span style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}>{newLabel}</span>
-        {isHidden
-          ?
-          <DownArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} onClick={handleChange} />
-          :
-          <UpArrow style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }} onClick={handleChange} />
-        }
+    <div style={{ position: "relative", paddingBottom: "10px" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span
+          style={{
+            color: "#9e9e9e",
+            fontWeight: 500,
+            fontSize: "18px",
+            lineHeight: "22.7px",
+            paddingRight: "8px",
+          }}
+        >
+          Sort by:
+        </span>
+        <span
+          style={{ fontWeight: 500, fontSize: "18px", lineHeight: "22.7px" }}
+        >
+          {newLabel}
+        </span>
+        {isHidden ? (
+          <DownArrow
+            style={{ color: "black", fontSize: "35px", marginBottom: "5px" }}
+            onClick={handleChange}
+          />
+        ) : (
+          <UpArrow
+            style={{ color: "black", fontSize: "35px", marginBottom: "5px" }}
+            onClick={handleChange}
+          />
+        )}
       </div>
       <>
-        {isHidden ? null :
+        {isHidden ? null : (
           <HiddenDiv>
             {options instanceof Array &&
               options.map((option, index) => {
                 return (
-                  <DropDownDiv onClick={handleCheck} style={{ height: '38px' }} key={index}>
-                    <p style={{ fontWeight: 400, fontSize: '16px' }}>{option}</p>
+                  <DropDownDiv
+                    onClick={handleCheck}
+                    style={{ height: "38px" }}
+                    key={index}
+                  >
+                    <p style={{ fontWeight: 400, fontSize: "16px" }}>
+                      {option}
+                    </p>
                   </DropDownDiv>
-                )
+                );
               })}
           </HiddenDiv>
-        }
+        )}
       </>
     </div>
-  )
-}
+  );
+};
 
 const DownArrow = styled(KeyboardArrowDownIcon)`
   :hover {
@@ -97,7 +125,6 @@ const UpArrow = styled(KeyboardArrowUpIcon)`
     cursor: pointer;
   }
 `;
-
 
 export const FilterContainer = styled.div`
   height: 40px;
@@ -141,8 +168,7 @@ export const HiddenDiv = styled.div`
   box-shadow: 2px 2px 8px 2px #ccc;
 `;
 
-export const DropDownSpan = styled.span`
-`;
+export const DropDownSpan = styled.span``;
 
 export const DropDownDiv = styled.div`
   padding: 9px 16px;
