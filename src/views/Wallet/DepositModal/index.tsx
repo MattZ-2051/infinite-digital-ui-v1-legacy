@@ -58,7 +58,7 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
             <span style={{ fontSize: '16px', fontWeight: 600 }}>Circle</span>
             <span style={{ fontSize: '16px', color: '#9e9e9e' }}>Pay with credit card</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}><ArrowForwardIosIcon /></div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}><ArrowForwardIosIcon className="icon__arrow" /></div>
         </RowContainer>
         <RowContainer>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -68,7 +68,7 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
             <span style={{ fontSize: '16px', fontWeight: 600 }}>Coinbase</span>
             <span style={{ fontSize: '16px', color: '#9e9e9e' }}>Pay with cryptocurrency</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}><ArrowForwardIosIcon /></div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}><ArrowForwardIosIcon className="icon__arrow" /></div>
         </RowContainer>
         <RowContainer>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -106,6 +106,12 @@ const RowContainer = styled.div`
   :hover {
     border-bottom: 1px solid black;
     cursor: pointer;
+  }
+  .icon__arrow {
+    color: #9e9e9e
+  }
+  :hover .icon__arrow {
+    color: black;
   }
 `;
 
