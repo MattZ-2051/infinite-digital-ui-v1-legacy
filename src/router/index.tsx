@@ -2,8 +2,9 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import PrivateRoute from 'router/PrivateRoute';
 import Landing from 'views/Landing';
 import MarketPlace from 'views/MarketPlace';
-
 import Wallet from 'views/Wallet';
+
+const UnderConstruction = () => <h1>Under construction :)</h1>;
 
 const RouterComponent = () => {
   let location: any = useLocation();
@@ -12,8 +13,16 @@ const RouterComponent = () => {
   return (
     <Switch location={background || location}>
       <Route exact path="/" component={Landing} />
+
+      {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
+      <Route path="/marketplace/:skuid" component={UnderConstruction} />
+
+      {/* User */}
       <PrivateRoute path="/wallet/:userId" component={Wallet} />
+
+      {/* All */}
+      <Route path="/example" component={UnderConstruction} />
     </Switch>
   );
 };
