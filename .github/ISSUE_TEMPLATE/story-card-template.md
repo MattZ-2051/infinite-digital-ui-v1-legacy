@@ -1,8 +1,8 @@
 ---
 name: Story Card Template
 about: Use this template when creating a story card
-title: ''
-labels: ''
+title: x.x - <Description of card or Figma Screen>
+labels: ".FE"
 assignees: ''
 
 ---
