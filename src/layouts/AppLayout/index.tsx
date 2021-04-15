@@ -6,6 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import Notification from 'components/Notification';
 import NavBar from 'components/NavBar';
 import Footer from 'components/Footer';
+import Beta from 'components/Beta';
 
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
 
@@ -22,9 +23,14 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
       <Notification />
       <Header>
         <HeaderContent>
-          <Link to="/">
-            <InfiniteLogo fill="white" width="170px" />
-          </Link>
+          <HeaderLeft>
+            <Link to="/">
+              <InfiniteLogo fill="white" width="170px" />
+            </Link>
+            <div style={{ paddingLeft: '15px', paddingBottom: '10px' }}>
+              <Beta />
+            </div>
+          </HeaderLeft>
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
@@ -39,6 +45,11 @@ const Header = styled.header`
   z-index: 1320;
   background-color: black;
   border-bottom: 1px solid white;
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const HeaderContent = styled.div`
