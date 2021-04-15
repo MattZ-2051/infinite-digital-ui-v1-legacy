@@ -81,7 +81,8 @@ const Wallet = () => {
           )}
           {selectedTab === 1 && (
             <>
-              <ActiveBids />
+              <ActiveBids bidType="not-exceeded" />
+              <ActiveBids bidType="exceeded" />
             </>
           )}
         </LatestTransactionsContainer>
