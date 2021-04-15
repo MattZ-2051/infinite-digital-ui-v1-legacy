@@ -1,13 +1,17 @@
-import { BrowserRouter } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import GlobalStyle from 'styles/globalStyles';
-import AppLayout from './layouts/AppLayout';
-import Router from './router';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import GlobalStyle from "styles/globalStyles";
+import { useAppSelector, useAppDispatch } from "hooks/store";
+import { increment } from "store/global/globalSlice";
+import AppLayout from "./layouts/AppLayout";
+import Router from "./router";
 
-const App = () => {
+const App: React.FC = () => {
+  const dispatch = useAppDispatch();
+  dispatch(increment());
+
   return (
     <BrowserRouter>
-      <CssBaseline />
       <GlobalStyle />
       <AppLayout>
         <Router />

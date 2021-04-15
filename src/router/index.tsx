@@ -1,23 +1,24 @@
-import { Switch, Route, useLocation } from 'react-router-dom';
-import PrivateRoute from 'router/PrivateRoute';
-import Landing from 'views/Landing';
-import DropBoxes from 'views/DropBoxes';
-import MarketPlace from 'views/MarketPlace';
-import UserAccount from 'views/UserAccount';
-import MyCollection from 'views/MyCollection';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Landing from '../views/Landing';
+import UserAccount from '../views/UserAccount';
 
-const RouterComponent = () => {
-  let location: any = useLocation();
-  let background = location.state && location.state.background;
+export interface IProps {
+  children?: any;
+}
 
+const RouterComponent: React.FC<IProps> = () => {
   return (
-    <Switch location={background || location}>
-      <Route exact path="/" component={Landing} />
-      <Route exact path="/drop-boxes" component={DropBoxes} />
-      <Route exact path="/marketplace" component={MarketPlace} />
-      <PrivateRoute path="/user-account" component={UserAccount} />
-      <PrivateRoute path="/my-collection" component={MyCollection} />
-    </Switch>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/user-account" component={UserAccount} />
+      </Switch>
+    </Router>
   );
 };
 
