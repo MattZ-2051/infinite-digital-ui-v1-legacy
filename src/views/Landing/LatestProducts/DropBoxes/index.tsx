@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
-import DropBoxPanel from 'components/ProductPanel/DropBoxPanel';
+import DropBoxPanel from 'components/ProductTiles/DropBoxPanel';
 import CircularButton from 'components/Buttons/CircularButton';
 
 const DropBoxes = () => {

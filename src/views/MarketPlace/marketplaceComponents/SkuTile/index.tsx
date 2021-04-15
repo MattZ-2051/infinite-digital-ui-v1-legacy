@@ -1,0 +1,94 @@
+import Tile from 'components/ProductTiles/Tile';
+
+interface SkuProps {
+  skuImg: string;
+  skuName: string;
+  skuSeries: string;
+  skuRarity: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
+  skuTotalSupplyLeft: number;
+  skuStartDate: string;
+  skuMinPrice: number;
+  skuCirculatingSupply?: number;
+  skuTotalSupplyUpcoming?: number;
+  redeemable: boolean
+  skuIssuer: string;
+}
+
+const SkuTile = (
+  { skuRarity,
+    skuImg,
+    skuName,
+    skuSeries,
+    skuTotalSupplyLeft,
+    skuStartDate,
+    skuMinPrice,
+    skuCirculatingSupply,
+    skuTotalSupplyUpcoming,
+    skuIssuer }
+    : SkuProps
+) => {
+
+  const currentTime = new Date().getTime();
+  const skuStartDateTime = new Date(skuStartDate || "2021-04-12T19:03:02.439Z").getTime();
+  let status: string = '';
+  let skuUpcomingTime: string = '';
+  let bottomRightText: any = '';
+  let pillInfo: any = '';
+
+  function calcDiff(currentDate, skuStartDate) {
+
+    var diff = (skuStartDate - currentDate) / 1000;
+    diff = Math.abs(Math.floor(diff));
+
+    var days = Math.floor(diff / (24 * 60 * 60));
+    var leftSec = diff - days * 24 * 60 * 60;
+
+    var hrs = Math.floor(leftSec / (60 * 60));
+    var leftSec = leftSec - hrs * 60 * 60;
+
+    var min = Math.floor(leftSec / (60));
+    var leftSec = leftSec - min * 60;
+
+    return days + "d" + ' ' + hrs + "hr" + ' ' + min + 'm';
+
+  }
+
+  const checkStatus = () => {
+    if (skuStartDateTime > currentTime) {
+      status = "upcoming";
+      bottomRightText = skuTotalSupplyUpcoming;
+      skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+      pillInfo = skuUpcomingTime;
+      return
+    } else if (skuTotalSupplyLeft > 0) {
+      status = "active";
+      bottomRightText = skuTotalSupplyLeft;
+      pillInfo = skuMinPrice;
+      return
+    } else if (skuMinPrice === 0 || !skuMinPrice) {
+      status = "no-sale";
+      bottomRightText = skuCirculatingSupply;
+      return
+    } else {
+      return
+    }
+  }
+
+  checkStatus();
+
+  return (
+    <Tile
+      topLeft={skuIssuer}
+      skuRarity={skuRarity}
+      middle={skuName}
+      bottomLeft={skuSeries}
+      bottomRight={bottomRightText}
+      status={status}
+      redeemable={false}
+      pillInfo={pillInfo}
+      skuImg={skuImg}
+    />
+  )
+}
+
+export default SkuTile;

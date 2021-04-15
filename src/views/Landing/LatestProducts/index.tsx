@@ -20,26 +20,21 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
     <Container>
       {isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
-          {/* Temporary comment to hide DropBoxes see issue #86
-          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
-           */}
-          <Tab label="Marketplace" disableFocusRipple disableRipple />
-          <Tab label="My Collection" disableFocusRipple disableRipple />
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple data-testid="dropBoxTab" />
+          <Tab label="Marketplace" disableFocusRipple disableRipple data-testid="marketplaceTab" />
+          <Tab label="My Collection" disableFocusRipple disableRipple data-testid="myCollectionTab" />
         </Tabs>
       )}
       {!isAuthenticated && (
         <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
-          {/* Temporary comment to hide DropBoxes see issue #86
-          <Tab label="Drop Boxes" disableFocusRipple disableRipple />
-          */}
-          <Tab label="Marketplace" disableFocusRipple disableRipple />
+          <Tab label="Drop Boxes" disableFocusRipple disableRipple data-testid="dropBoxTab" />
+          <Tab label="Marketplace" disableFocusRipple disableRipple data-testid="marketplaceTab" />
         </Tabs>
       )}
 
-
-      {/* {selectedTab === 0 && <DropBoxes />} */}
-      {selectedTab === 0 && <MarketPlace />}
-      {selectedTab === 1 && <h1>My Collection</h1>}
+      {selectedTab === 0 && <DropBoxes />}
+      {selectedTab === 1 && <MarketPlace />}
+      {selectedTab === 2 && <MyCollection />}
     </Container>
   );
 };

@@ -9,7 +9,8 @@ const MyCollection = () => {
         <CircularButton to="my-collection" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        <ProductDiv first={true} ></ProductDiv>
+        <ProductDiv first={true} >
+        </ProductDiv>
       </ProductContainer>
     </>
   )

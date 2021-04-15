@@ -6,6 +6,7 @@ import MarketPlace from 'views/MarketPlace';
 import UserAccount from 'views/UserAccount';
 import MyCollection from 'views/MyCollection';
 import MyProfile from 'views/Profile';
+import Wallet from 'views/Wallet';
 
 const RouterComponent = () => {
   let location: any = useLocation();
@@ -19,6 +20,8 @@ const RouterComponent = () => {
       <Route exact path="/marketplace/:username" component={MyProfile} />
       <PrivateRoute path="/user-account" component={UserAccount} />
       <PrivateRoute path="/my-collection" component={MyCollection} />
+      {/* Change to Private Route when bug is fixed */}
+      <Route path="/wallet/:userId" component={Wallet} />
     </Switch>
   );
 };

@@ -18,7 +18,6 @@ export interface IProps {
 }
 
 const FilterBox = ({ label, type, options, width }: IProps) => {
-
   return (
     <FilterContainer style={{ width: width || '301px' }}>
       {type === 'dropdown' && (
@@ -38,10 +37,9 @@ const FilterBox = ({ label, type, options, width }: IProps) => {
       {type === 'sort' && (
         <Sort />
       )}
-
     </FilterContainer>
-  )
-}
+  );
+};
 
 export const FilterContainer = styled.div`
   height: 40px;

@@ -1,4 +1,4 @@
-import SkuTile from 'components/ProductPanel/SkuTile';
+import SkuTile from 'components/ProductTiles/SkuTile';
 import styled from 'styled-components/macro';
 
 const MyReleases = () => {

@@ -18,6 +18,7 @@ import productSlice from "./product/productSlice";
 import listingSlice from "./listing/listingSlice";
 import dropBoxSlice from "./dropBox/dropBoxSlice";
 import landingSlice from "./landing/landingSlice";
+import marketplaceSlice from "./marketPlace/marketplaceSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
@@ -26,12 +27,14 @@ const rootReducer = combineReducers({
   listings: listingSlice,
   dropBoxes: dropBoxSlice,
   landing: landingSlice,
+  marketplace: marketplaceSlice,
 });
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  blacklist: ["products", "listings", "dropBoxes", "marketplace"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
