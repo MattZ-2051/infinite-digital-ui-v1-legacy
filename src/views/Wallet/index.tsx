@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Transaction from './Transaction';
+import DepositModal from './DepositModal';
 
 const Wallet = () => {
 
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0)
+  const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
+
+  const handleClose = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleOpen = () => {
+    setIsModalOpen(true)
+  }
 
   return (
     <Container>
@@ -31,7 +41,7 @@ const Wallet = () => {
               $3750 (after active bids)
           </AvailableAmount>
           <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
-            <ActionButton>
+            <ActionButton onClick={handleOpen}>
               Deposit
           </ActionButton>
           </div>
@@ -65,9 +75,9 @@ const Wallet = () => {
               <Transaction transactionType='purchase' />
             </>
           )}
-
         </LatestTransactionsContainer>
       </PageContentContainer>
+      <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
     </Container>
   )
 }
@@ -148,6 +158,9 @@ const ActionButton = styled.button`
     background-color: black;
     color: white;
     cursor: pointer;
+  }
+  :focus {
+    outline: none;
   }
 `;
 
