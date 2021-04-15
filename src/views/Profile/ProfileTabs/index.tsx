@@ -5,11 +5,7 @@ import MyReleases from "./MyReleases";
 import SortByFilter from "./SortByFilter";
 
 interface IProps {
-  userStatus?:
-    | "loggedInIssuer"
-    | "loggedIn"
-    | "notCurrentUserProfile"
-    | "notCurrentUserProfileIssuer";
+  userStatus?: string;
 }
 
 const ProfileTabs = ({ userStatus }: IProps) => {
@@ -21,18 +17,33 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       {userStatus === "loggedIn" && (
         <>
           <div style={{ position: "relative", paddingBottom: "30px" }}>
-            <Tab
+            <div
               style={{
-                borderBottom: `${
-                  selectedTab === 0 ? "2px solid black" : "none"
-                }`,
-                color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
-              onClick={() => setSelectedTab(0)}
             >
-              My Items
-            </Tab>
-            <span style={{ padding: "0 20px" }}></span>
+              <div>
+                <Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 0 ? "2px solid black" : "none"
+                    }`,
+                    color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                  }}
+                  onClick={() => setSelectedTab(0)}
+                >
+                  My Items
+                </Tab>
+              </div>
+              <span style={{ padding: "0 20px" }}></span>
+              <SortByFilter
+                options={["Latest"]}
+                handleFilter={placeHolderFunc}
+                activeFilterSort={""}
+              />
+            </div>
             <GrayLine style={{ width: "100%" }}></GrayLine>
           </div>
 
@@ -42,29 +53,44 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       {userStatus === "loggedInIssuer" && (
         <>
           <div style={{ position: "relative", paddingBottom: "30px" }}>
-            <Tab
+            <div
               style={{
-                borderBottom: `${
-                  selectedTab === 0 ? "2px solid black" : "none"
-                }`,
-                color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
-              onClick={() => setSelectedTab(0)}
             >
-              My Releases
-            </Tab>
-            <span style={{ padding: "0 20px" }}></span>
-            <Tab
-              style={{
-                borderBottom: `${
-                  selectedTab === 1 ? "2px solid black" : "none"
-                }`,
-                color: `${selectedTab === 1 ? "black" : "#9e9e9e"}`,
-              }}
-              onClick={() => setSelectedTab(1)}
-            >
-              My Items
-            </Tab>
+              <div>
+                <Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 0 ? "2px solid black" : "none"
+                    }`,
+                    color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                  }}
+                  onClick={() => setSelectedTab(0)}
+                >
+                  My Releases
+                </Tab>
+                <span style={{ padding: "0 20px" }}></span>
+                <Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 1 ? "2px solid black" : "none"
+                    }`,
+                    color: `${selectedTab === 1 ? "black" : "#9e9e9e"}`,
+                  }}
+                  onClick={() => setSelectedTab(1)}
+                >
+                  My Items
+                </Tab>
+              </div>
+              <SortByFilter
+                options={["Latest"]}
+                handleFilter={placeHolderFunc}
+                activeFilterSort={""}
+              />
+            </div>
             <GrayLine style={{ width: "100%" }}></GrayLine>
           </div>
           {selectedTab === 0 && <MyReleases />}
@@ -112,6 +138,7 @@ const ProfileTabs = ({ userStatus }: IProps) => {
                 activeFilterSort={""}
               />
             </div>
+
             <GrayLine style={{ width: "100%" }}></GrayLine>
           </div>
           {selectedTab === 0 && <MyReleases />}
@@ -121,18 +148,34 @@ const ProfileTabs = ({ userStatus }: IProps) => {
       {userStatus === "notCurrentUserProfile" && (
         <>
           <div style={{ position: "relative", paddingBottom: "30px" }}>
-            <Tab
+            <div
               style={{
-                borderBottom: `${
-                  selectedTab === 0 ? "2px solid black" : "none"
-                }`,
-                color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
-              onClick={() => setSelectedTab(0)}
             >
-              Items
-            </Tab>
-            <span style={{ padding: "0 20px" }}></span>
+              <div>
+                <Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 0 ? "2px solid black" : "none"
+                    }`,
+                    color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                  }}
+                  onClick={() => setSelectedTab(0)}
+                >
+                  Items
+                </Tab>
+              </div>
+              <span style={{ padding: "0 20px" }}></span>
+              <SortByFilter
+                options={["Latest"]}
+                handleFilter={placeHolderFunc}
+                activeFilterSort={""}
+              />
+            </div>
+
             <GrayLine style={{ width: "100%" }}></GrayLine>
           </div>
           {selectedTab === 0 && <MyItems />}

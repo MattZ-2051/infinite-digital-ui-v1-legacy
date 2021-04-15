@@ -1,69 +1,74 @@
-import { useState } from 'react'
-import styled from 'styled-components/macro';
-import ProfileButton from 'components/Buttons/ProfileButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import EditIcon from '@material-ui/icons/Edit';
+import { useState } from "react";
+import styled from "styled-components/macro";
+import ProfileButton from "components/Buttons/ProfileButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import CropOriginalIcon from "@material-ui/icons/CropOriginal";
+import EditIcon from "@material-ui/icons/Edit";
 
 interface IProps {
-  userStatus?: 'loggedInIssuer' | 'notCurrentUserProfile' | 'loggedIn' | 'notCurrentUserProfileIssuer';
+  userStatus?: string;
 }
 
 const ProfileInfo = ({ userStatus }: IProps) => {
-
   return (
     <Container>
-
-      {userStatus === 'loggedInIssuer' && (
+      {userStatus === "loggedInIssuer" && (
         <>
           <AccountIcon />
           <UsernameIconContainer>
-            <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
+            <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+              @username
+            </span>
             <EditIconContainer>
-              <EditIcon style={{ fontSize: '14px' }} />
+              <EditIcon style={{ fontSize: "14px" }} />
             </EditIconContainer>
           </UsernameIconContainer>
           <ButtonContainer>
             <ProfileButton label="My Account" />
-            <div style={{ padding: '0 10px' }}>
+            <div style={{ padding: "0 10px" }}>
               <ButtonDivider></ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
           </ButtonContainer>
         </>
       )}
-      {userStatus === 'loggedIn' && (
+      {userStatus === "loggedIn" && (
         <>
           <UsernameIconContainer>
-            <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
+            <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+              @username
+            </span>
             <EditIconContainer>
-              <EditIcon style={{ fontSize: '14px' }} />
+              <EditIcon style={{ fontSize: "14px" }} />
             </EditIconContainer>
           </UsernameIconContainer>
           <ButtonContainer>
             <ProfileButton label="My Account" />
-            <div style={{ padding: '0 10px' }}>
+            <div style={{ padding: "0 10px" }}>
               <ButtonDivider></ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
           </ButtonContainer>
         </>
       )}
-      {userStatus === 'notCurrentUserProfile' && (
+      {userStatus === "notCurrentUserProfile" && (
         <>
-          <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
+          <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+            @username
+          </span>
         </>
       )}
-      {userStatus === 'notCurrentUserProfileIssuer' && (
+      {userStatus === "notCurrentUserProfileIssuer" && (
         <>
           <AccountIcon />
-          <span style={{ paddingRight: '10px', fontSize: '24px' }}>@username</span>
+          <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+            @username
+          </span>
         </>
       )}
     </Container>
-
-  )
-}
+  );
+};
 
 const EditIconContainer = styled.div`
   width: 24px;
@@ -79,7 +84,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: -webkit-linear-gradient(45deg, #FF9412 0%, #FFF72D 98.96%);;
+  background: -webkit-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
   color: white;
   width: 100%;
   height: 30vh;
