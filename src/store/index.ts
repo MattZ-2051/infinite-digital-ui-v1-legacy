@@ -14,18 +14,12 @@ import {
 import storage from "redux-persist/lib/storage";
 import globalSlice from "./global/globalSlice";
 import sessionSlice from "./session/sessionSlice";
-import productSlice from "./product/productSlice";
-import listingSlice from "./listing/listingSlice";
-import dropBoxSlice from "./dropBox/dropBoxSlice";
 import landingSlice from "./landing/landingSlice";
 import marketplaceSlice from "./marketplace/marketplaceSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
   session: sessionSlice,
-  products: productSlice,
-  listings: listingSlice,
-  dropBoxes: dropBoxSlice,
   landing: landingSlice,
   marketplace: marketplaceSlice,
 });

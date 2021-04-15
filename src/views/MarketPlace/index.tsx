@@ -1,33 +1,33 @@
-import { useHistory } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import styled from 'styled-components/macro';
-import Pagination from '@material-ui/lab/Pagination';
+import { useHistory } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import styled from "styled-components/macro";
+import Pagination from "@material-ui/lab/Pagination";
 // Local
-import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
-import { useAppDispatch, useAppSelector } from 'hooks/store';
-import Filters from './marketplaceComponents/Filters';
+import { getSkusThunk } from "store/marketplace/marketplaceThunks";
+import { useAppDispatch, useAppSelector } from "hooks/store";
+import Filters from "./components/Filters";
 import {
   getDefaultParams,
   updateFilters,
   restoreFilters,
   updateFilter,
-} from 'store/marketplace/marketplaceSlice';
+} from "store/marketplace/marketplaceSlice";
 // Components
-import SearchInput from './marketplaceComponents/Filters/SearchInput';
-import SortByFilter from './marketplaceComponents/Filters/SortByFilter';
-import ProductTile from './marketplaceComponents/ProductTile'
-import SkuTile from './marketplaceComponents/SkuTile'
-import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
-import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
+import SearchInput from "./components/Filters/SearchInput";
+import SortByFilter from "./components/Filters/SortByFilter";
+import ProductTile from "./components/ProductTile";
+import SkuTile from "./components/SkuTile";
+import { ReactComponent as FilterIcon } from "assets/svg/icons/filters.svg";
+import { ReactComponent as CloseIcon } from "assets/svg/icons/close.svg";
 
-interface IProps { }
+interface IProps {}
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
   const dispatch = useAppDispatch();
   const [filtersVisible, setFiltersVisible] = useState(false);
-  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const matchesMobile = useMediaQuery("(max-width:1140px)");
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const skus = useAppSelector((store) => store.marketplace.skus);
   const urlQueryString = window.location.search;
@@ -44,16 +44,16 @@ const MarketPlace: React.FC<IProps> = () => {
       if (categoryValue && categoryValue.length) {
         if (categoryValue instanceof Array) {
           switch (categoryName) {
-            case 'date':
-              params.append('startDate', categoryValue[0]);
-              params.append('endDate', categoryValue[1]);
+            case "date":
+              params.append("startDate", categoryValue[0]);
+              params.append("endDate", categoryValue[1]);
               break;
-            case 'price':
-              params.append('minPrice', categoryValue[0]);
-              params.append('maxPrice', categoryValue[1]);
+            case "price":
+              params.append("minPrice", categoryValue[0]);
+              params.append("maxPrice", categoryValue[1]);
               break;
             default:
-              params.append(categoryName, categoryValue.join('+'));
+              params.append(categoryName, categoryValue.join("+"));
               break;
           }
         } else {
@@ -85,7 +85,7 @@ const MarketPlace: React.FC<IProps> = () => {
 
   useEffect(() => {
     return history.listen(() => {
-      if (history.action === 'POP') {
+      if (history.action === "POP") {
         regenerateUrl.current = false;
         const urlParams = getDefaultParams();
         dispatch(updateFilters(urlParams));
@@ -104,11 +104,9 @@ const MarketPlace: React.FC<IProps> = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getSkusThunk({ token: '', queryParams: '' }));
+      dispatch(getSkusThunk({ token: "", queryParams: "" }));
     })();
   }, [dispatch]);
-
-  const { listings } = useAppSelector((state) => state.listings);
 
   return (
     <Container>
@@ -126,10 +124,10 @@ const MarketPlace: React.FC<IProps> = () => {
 
         <SortByFilter
           options={[
-            'Release Date',
-            'Rarity',
-            'Price high to low',
-            'Price low to high',
+            "Release Date",
+            "Rarity",
+            "Price high to low",
+            "Price low to high",
           ]}
           handleFilter={handleFilter}
           activeFilterSort={activeFilters.sort}
@@ -146,7 +144,6 @@ const MarketPlace: React.FC<IProps> = () => {
         </Sidebar>
         <Content>
           <ProductsGrid>
-
             {/* Sku Tile data from store being rendered with Sku Tiles */}
 
             {skus instanceof Array &&
@@ -171,8 +168,8 @@ const MarketPlace: React.FC<IProps> = () => {
             <ProductTile
               redeemable={true}
               name="Product Name"
-              img={''}
-              series={'series'}
+              img={""}
+              series={"series"}
               rarity="epic"
               productSerialNumber={1234}
               issuer="adidas"

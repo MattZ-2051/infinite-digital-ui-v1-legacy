@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+// import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 export interface IProps {
   children?: string;
@@ -17,7 +17,7 @@ const Button = ({
     <StyledButton
       {...rest}
       color={color}
-      endIcon={<ArrowForwardIosIcon />}
+      // endIcon={<ArrowForwardIosIcon />}
     >
       {children}
     </StyledButton>

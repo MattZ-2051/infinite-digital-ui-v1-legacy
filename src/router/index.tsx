@@ -1,12 +1,12 @@
-import { Switch, Route, useLocation } from 'react-router-dom';
-import PrivateRoute from 'router/PrivateRoute';
-import Landing from 'views/Landing';
-import DropBoxes from 'views/DropBoxes';
-import MarketPlace from 'views/MarketPlace';
-import UserAccount from 'views/UserAccount';
-import MyCollection from 'views/MyCollection';
-import MyProfile from 'views/Profile';
-import Wallet from 'views/Wallet';
+import { Switch, Route, useLocation } from "react-router-dom";
+import PrivateRoute from "router/PrivateRoute";
+import Landing from "views/Landing";
+import MarketPlace from "views/MarketPlace";
+import MarketPlaceSku from "views/MarketPlace/MarketPlaceSku";
+import Wallet from "views/Wallet";
+import Profile from "views/Profile";
+
+const UnderConstruction = () => <h1>Under construction :)</h1>;
 
 const RouterComponent = () => {
   let location: any = useLocation();
@@ -15,13 +15,17 @@ const RouterComponent = () => {
   return (
     <Switch location={background || location}>
       <Route exact path="/" component={Landing} />
-      <Route exact path="/drop-boxes" component={DropBoxes} />
+
+      {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
-      <Route exact path="/marketplace/:username" component={MyProfile} />
-      <PrivateRoute path="/user-account" component={UserAccount} />
-      <PrivateRoute path="/my-collection" component={MyCollection} />
-      {/* Change to Private Route when bug is fixed */}
-      <Route path="/wallet/:userId" component={Wallet} />
+      <Route path="/marketplace/:skuid" component={MarketPlaceSku} />
+
+      {/* User */}
+      <PrivateRoute path="/wallet/:userId" component={Wallet} />
+      <Route path="/collection/:userId" component={Profile} />
+
+      {/* All */}
+      <Route path="/example" component={UnderConstruction} />
     </Switch>
   );
 };

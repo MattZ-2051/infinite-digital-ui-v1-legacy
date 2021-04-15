@@ -7,18 +7,18 @@ import { useAppSelector } from 'hooks/store';
 import SliderBox from './SliderBox';
 
 const FeatureBoxes = () => {
-  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
+  // const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
 
-  const settings = {
-    dots: true,
-  };
+  // const settings = {
+  //   dots: true,
+  // };
 
   return (
     <Container id="feature-products">
-      <Slider {...settings}>
+      {/* <Slider {...settings}>
       {dropBoxes instanceof Array &&
           dropBoxes.map((dropBox, key) => <SliderBox key={key} dropBox={dropBox} />)}
-      </Slider>
+      </Slider> */}
     </Container>
   );
 };

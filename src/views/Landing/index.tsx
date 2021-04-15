@@ -4,11 +4,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch } from 'hooks/store';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
 // Components
-import Hero from './Hero';
-import FeatureProducts from './Featured/FeatureProducts';
+import Hero from './components/Hero';
+import FeatureProducts from './components/Featured/FeatureProducts';
 // import FeatureBoxes from './Featured/FeatureBoxes';
-import LatestProducts from './LatestProducts';
-import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
+import LatestProducts from './components/LatestProducts';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
