@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
-import '../../../../jest/matchMedia.mock';
+import '../../../../../jest/matchMedia.mock';
 import { BrowserRouter } from 'react-router-dom';
 import store from 'store';
 import { Provider } from 'react-redux';
