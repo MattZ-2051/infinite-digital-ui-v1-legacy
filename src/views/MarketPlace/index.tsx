@@ -6,7 +6,7 @@ import Pagination from '@material-ui/lab/Pagination';
 // Local
 import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
-import Filters from './marketplaceComponents/Filters';
+import Filters from './components/Filters';
 import {
   getDefaultParams,
   updateFilters,
@@ -14,10 +14,10 @@ import {
   updateFilter,
 } from 'store/marketplace/marketplaceSlice';
 // Components
-import SearchInput from './marketplaceComponents/Filters/SearchInput';
-import SortByFilter from './marketplaceComponents/Filters/SortByFilter';
-import ProductTile from './marketplaceComponents/ProductTile'
-import SkuTile from './marketplaceComponents/SkuTile'
+import SearchInput from './components/Filters/SearchInput';
+import SortByFilter from './components/Filters/SortByFilter';
+import ProductTile from './components/ProductTile'
+import SkuTile from './components/SkuTile'
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
