@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const config = {
   baseURL:
-    'http://infinite-digital-dev.eba-7pjrtnms.us-east-1.elasticbeanstalk.com',
+    process.env.REACT_APP_API_ENDPOINT as string,
 };
 const axiosInstance = axios.create(config);
 

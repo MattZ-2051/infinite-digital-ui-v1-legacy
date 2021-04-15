@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import ProductPanel from 'components/ProductPanel';
 import dropBoxImg from 'assets/img/backgrounds/drop-box-image.jpg';
 import { useAppSelector } from 'hooks/store';
+import DropBoxPanel from 'components/ProductTiles/DropBoxPanel';
 import CircularButton from 'components/Buttons/CircularButton';
 
 const DropBoxes = () => {
@@ -11,15 +11,15 @@ const DropBoxes = () => {
     <>
       <HeaderContainer>
         <Header>Latest Products</Header>
-        <CircularButton to="marketplace" label="See More" />
+        <CircularButton to="drop-boxes" label="See More" />
       </HeaderContainer>
       <ProductContainer>
         {dropBoxes instanceof Array &&
           dropBoxes.map((el, index) => {
             if (index >= 16) return null;
             return (
-              <ProductDiv first={index === 0 ? true : false}>
-                <ProductPanel
+              <ProductDiv first={index === 0 ? true : false} >
+                <DropBoxPanel
                   imageSrc={el.config.imageUrl || dropBoxImg}
                   releaseDate={el.config.createdAt}
                   title={el.config.name}
@@ -27,6 +27,9 @@ const DropBoxes = () => {
                   skuNum={el.config.id}
                   quantity={el.config.amount}
                   price={el.config.price}
+                  type='dropBox'
+                  backgroundColor="black"
+                  key={el._id}
                 />
               </ProductDiv>
             );
