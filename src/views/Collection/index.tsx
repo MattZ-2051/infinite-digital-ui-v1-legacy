@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
-import ProfileInfo from "./ProfileInfo";
-import ProfileTabs from "./ProfileTabs";
+import UserCollectionInfo from "./UserCollectioinInfo";
+import UserCollectionTabs from "./UserCollectionTabs";
 import { useAppSelector } from "hooks/store";
 import { useHistory } from "react-router-dom";
 
 interface IProps {}
 
-const MyProfile: React.FC<IProps> = () => {
+const Collection: React.FC<IProps> = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   // const user = useAppSelector(store => store.session.user);
   const history = useHistory();
@@ -37,8 +37,8 @@ const MyProfile: React.FC<IProps> = () => {
 
   return (
     <Container>
-      <ProfileInfo userStatus={userStatus} />
-      <ProfileTabs userStatus={userStatus} />
+      <UserCollectionInfo userStatus={userStatus} />
+      <UserCollectionTabs userStatus={userStatus} />
     </Container>
   );
 };
@@ -47,4 +47,4 @@ const Container = styled.div`
   height: 70%;
 `;
 
-export default MyProfile;
+export default Collection;

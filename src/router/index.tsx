@@ -4,7 +4,7 @@ import Landing from "views/Landing";
 import MarketPlace from "views/MarketPlace";
 import MarketPlaceSku from "views/MarketPlace/MarketPlaceSku";
 import Wallet from "views/Wallet";
-import Profile from "views/Profile";
+import Collection from "views/Collection";
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -22,7 +22,7 @@ const RouterComponent = () => {
 
       {/* User */}
       <PrivateRoute path="/wallet/:userId" component={Wallet} />
-      <Route path="/collection/:userId" component={Profile} />
+      <Route path="/collection/:userId" component={Collection} />
 
       {/* All */}
       <Route path="/example" component={UnderConstruction} />

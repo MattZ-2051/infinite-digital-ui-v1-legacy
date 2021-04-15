@@ -8,7 +8,7 @@ interface IProps {
   userStatus?: string;
 }
 
-const ProfileTabs = ({ userStatus }: IProps) => {
+const UserCollectionTabs = ({ userStatus }: IProps) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
 
   const placeHolderFunc = () => {};
@@ -211,4 +211,4 @@ const Tab = styled.span`
   }
 `;
 
-export default ProfileTabs;
+export default UserCollectionTabs;

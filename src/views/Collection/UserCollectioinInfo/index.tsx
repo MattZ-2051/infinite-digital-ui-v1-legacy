@@ -9,7 +9,7 @@ interface IProps {
   userStatus?: string;
 }
 
-const ProfileInfo = ({ userStatus }: IProps) => {
+const UserCollectioinInfo = ({ userStatus }: IProps) => {
   return (
     <Container>
       {userStatus === "loggedInIssuer" && (
@@ -119,4 +119,4 @@ const UsernameIconContainer = styled.div`
   padding-bottom: 16px;
 `;
 
-export default ProfileInfo;
+export default UserCollectioinInfo;
