@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { useHistory } from "react-router-dom";
 
 interface IProps {
   bidType: "exceeded" | "not-exceeded";
@@ -12,6 +13,12 @@ const activeColor = {
 };
 
 const ActiveBids = ({ bidType }: IProps) => {
+  const history = useHistory();
+
+  const handleRouteChange = () => {
+    history.push("/productpage");
+  };
+
   return (
     <Container>
       <TransactionDetail>
@@ -66,7 +73,11 @@ const ActiveBids = ({ bidType }: IProps) => {
             Expires in 2h 47m
           </TransactionDescription>
         </div>
-        <ArrowIcon style={{ marginLeft: "10px" }} />
+        <ArrowIcon
+          style={{ marginLeft: "10px" }}
+          onClick={handleRouteChange}
+          className="redirect"
+        />
       </div>
     </Container>
   );
@@ -89,6 +100,10 @@ const TransactionDetail = styled.div`
 const ArrowIcon = styled(ArrowForwardIosIcon)`
   color: #9e9e9e;
   margin-bottom: 3px;
+  :hover.redirect {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 const Name = styled.span`
