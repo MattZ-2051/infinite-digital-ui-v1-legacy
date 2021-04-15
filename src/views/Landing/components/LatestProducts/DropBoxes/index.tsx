@@ -5,7 +5,7 @@ import DropBoxPanel from 'components/ProductTiles/DropBoxPanel';
 import CircularButton from 'components/Buttons/CircularButton';
 
 const DropBoxes = () => {
-  const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
+  // const { dropBoxes } = useAppSelector((state) => state.dropBoxes);
 
   return (
     <>
@@ -13,7 +13,7 @@ const DropBoxes = () => {
         <Header>Latest Products</Header>
         <CircularButton to="drop-boxes" label="See More" />
       </HeaderContainer>
-      <ProductContainer>
+      {/* <ProductContainer>
         {dropBoxes instanceof Array &&
           dropBoxes.map((el, index) => {
             if (index >= 16) return null;
@@ -34,7 +34,7 @@ const DropBoxes = () => {
               </ProductDiv>
             );
           })}
-      </ProductContainer>
+      </ProductContainer> */}
     </>
   );
 };

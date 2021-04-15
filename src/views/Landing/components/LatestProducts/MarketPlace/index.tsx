@@ -3,7 +3,7 @@ import CircularButton from 'components/Buttons/CircularButton';
 import { useAppSelector } from 'hooks/store';
 
 const MarketPlace = () => {
-  const { listings } = useAppSelector((state) => state.listings);
+  // const { listings } = useAppSelector((state) => state.listings);
 
   return (
     <>

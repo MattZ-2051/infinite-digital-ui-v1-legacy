@@ -8,7 +8,6 @@ import Hero from './components/Hero';
 import FeatureProducts from './components/Featured/FeatureProducts';
 // import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './components/LatestProducts';
-import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
