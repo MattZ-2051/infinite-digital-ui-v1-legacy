@@ -6,7 +6,7 @@ import { useAppDispatch } from 'hooks/store';
 import {
   updateFilter,
   restoreFilters,
-} from 'store/marketPlace/marketplaceSlice';
+} from 'store/marketplace/marketplaceSlice';
 
 // Components
 import Menu from './Menu';

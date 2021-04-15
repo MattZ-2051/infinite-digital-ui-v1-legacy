@@ -4,7 +4,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 // Local
-import { getSkusThunk } from 'store/marketPlace/marketplaceThunks';
+import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
 import Filters from './marketplaceComponents/Filters';
 import {
@@ -12,7 +12,7 @@ import {
   updateFilters,
   restoreFilters,
   updateFilter,
-} from 'store/marketPlace/marketplaceSlice';
+} from 'store/marketplace/marketplaceSlice';
 // Components
 import SearchInput from './marketplaceComponents/Filters/SearchInput';
 import SortByFilter from './marketplaceComponents/Filters/SortByFilter';

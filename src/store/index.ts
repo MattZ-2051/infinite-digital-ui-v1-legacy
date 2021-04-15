@@ -18,7 +18,7 @@ import productSlice from "./product/productSlice";
 import listingSlice from "./listing/listingSlice";
 import dropBoxSlice from "./dropBox/dropBoxSlice";
 import landingSlice from "./landing/landingSlice";
-import marketplaceSlice from "./marketPlace/marketplaceSlice";
+import marketplaceSlice from "./marketplace/marketplaceSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
