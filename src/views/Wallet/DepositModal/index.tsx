@@ -42,7 +42,7 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <ExitIconDiv>
-        <img src={exitIcon} onClick={handleClose} />
+        <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </ExitIconDiv>
       <div style={{ padding: '0 40px 40px 40px' }}>
         <span style={{ fontSize: '22px', fontWeight: 600, borderBottom: '2px solid black', paddingBottom: '14px' }}>Select a payment to deposit</span>
@@ -105,6 +105,7 @@ const RowContainer = styled.div`
   padding-bottom: 21px;
   :hover {
     border-bottom: 1px solid black;
+    cursor: pointer;
   }
 `;
 
@@ -113,6 +114,10 @@ const ExitIconDiv = styled.div`
   justify-content: flex-end;
   align-items: center;
   padding-right: 16px;
+  :hover .icon__exit {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 export default DepositModal;
