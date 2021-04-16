@@ -21,7 +21,7 @@ import SkuTile from "./components/SkuTile";
 import { ReactComponent as FilterIcon } from "assets/svg/icons/filters.svg";
 import { ReactComponent as CloseIcon } from "assets/svg/icons/close.svg";
 
-interface IProps {}
+export interface IProps {}
 
 const MarketPlace: React.FC<IProps> = () => {
   let history = useHistory();
@@ -160,7 +160,7 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuMinPrice={sku.minSkuPrice}
                     skuStartDate={sku.startDate}
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
-                    skuIssuer={sku.issuer.username}
+                    skuIssuer={"adidas"}
                     redeemable={false}
                   />
                 );
