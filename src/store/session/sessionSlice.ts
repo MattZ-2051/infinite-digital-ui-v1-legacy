@@ -15,7 +15,7 @@ export const sessionSlice = createSlice({
     loading: "idle",
     error: null,
     user: {},
-    userCollection: {},
+    userCollection: [],
   } as UsersState,
   reducers: {
     clearError: (state): void => {
@@ -23,7 +23,7 @@ export const sessionSlice = createSlice({
     },
     logout: (state) => {
       state.user = {};
-      state.userCollection = {};
+      state.userCollection = [];
     },
   },
   extraReducers: (builder) => {
