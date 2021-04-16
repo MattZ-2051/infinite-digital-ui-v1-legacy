@@ -13,7 +13,9 @@ export const getUserInfo = async (userId: string, token: string) => {
 export const getUserCollection = async (userId: string, token: string) => {
   const response = await axiosInstance.request({
     method: "GET",
-    url: `/products?owner=${userId}&includeFuntions=true`,
+    url: `/products`,
+    params: { owner: userId, includeFunctions: true },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   return response;

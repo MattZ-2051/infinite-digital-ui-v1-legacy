@@ -34,14 +34,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    background: var(--grey-light);
-    font-size: 14px;
+    font-size: 16px;
   }
 
   body {
     margin: 0;
     font-family: 'josefin-sans', sans-serif;
     font-size: 1rem;
+    background: white;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -100,6 +100,36 @@ const GlobalStyle = createGlobalStyle`
 
   .slick-dots li button:before {
     font-size: 13px;
+  }
+
+  // Mui Calendar
+  .MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
+    border-radius: 30px;
+
+    .MuiPickersDay-day.MuiPickersDay-current {
+      background-color: #686868;
+      color: white;
+    }
+
+    .MuiPickersCalendarHeader-dayLabel {
+      font-size: 1rem;
+      color: #9E9E9E;
+    }
+
+    .MuiTypography-body1 {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .MuiPickersDay-daySelected {
+      background-color: black;
+    }
+
+    .MuiIconButton-label{
+      p.MuiTypography-root {
+        font-weight: 700;
+      }
+    }
   }
 `;
 

@@ -1,39 +1,43 @@
 import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 // Local
-import { useAppDispatch } from "hooks/store";
-import { getListingsThunk } from "store/listing/listingThunks";
 // Components
-import Hero from "./Hero";
-import FeatureProducts from "./Featured/FeatureProducts";
-import FeatureBoxes from "./Featured/FeatureBoxes";
-import LatestProducts from "./LatestProducts";
-import { getDropBoxesThunk } from "store/dropBox/dropBoxThunks";
 import {
   getUserInfoThunk,
   getUserCollectionThunk,
 } from "store/session/sessionThunks";
+import { useAppDispatch, useAppSelector } from "hooks/store";
+import { getFeaturesThunk } from "store/landing/landingThunks";
+// Components
+import Hero from "./components/Hero";
+import FeatureProducts from "./components/Featured/FeatureProducts";
+// import FeatureBoxes from './Featured/FeatureBoxes';
+import LatestProducts from "./components/LatestProducts";
 
 const Landing = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const loggedInUser = useAppSelector((state) => state.session.user);
 
-  console.log(user);
+  console.log("logged in user", loggedInUser);
 
   useEffect(() => {
     (async () => {
-      dispatch(getListingsThunk({ token: "" }));
-      dispatch(getDropBoxesThunk({ token: "" }));
+      dispatch(getFeaturesThunk(""));
     })();
   }, [dispatch]);
 
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       if (user) {
         dispatch(getUserInfoThunk({ token: "", userId: user.sub }));
-        dispatch(getUserCollectionThunk({ token: "", userId: user.sub }));
       }
-    })();
+      if (loggedInUser) {
+        dispatch(getUserCollectionThunk({ token: "", userId: user.id }));
+      }
+    };
+
+    fetchData();
   }, [user]);
   return (
     <main>
@@ -42,7 +46,7 @@ const Landing = () => {
       <FeatureBoxes />
       */}
       <FeatureProducts />
-      <LatestProducts />
+      <LatestProducts isAuthenticated={isAuthenticated} />
     </main>
   );
 };

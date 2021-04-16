@@ -11,6 +11,7 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
     justify-content: space-between;
     margin: auto;
     width: ${(props) => props.width ? `${props.width}` : '100%'};
+    align-items: center;
   }
   .MuiTabs-indicator {
     background-color: black !important;
