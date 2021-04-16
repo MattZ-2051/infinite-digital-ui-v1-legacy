@@ -4,9 +4,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 // Local
 import Notification from 'components/Notification';
-import NavBar from 'components/NavBar';
-import Footer from 'components/Footer';
+import NavBar from 'components/Layout/NavBar';
+import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
+import Toast from 'components/Toast';
 
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
 
@@ -34,6 +35,8 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
+      <Toast isVisible={false}/>
+
       {children}
       <Footer />
     </>
@@ -44,7 +47,6 @@ const Header = styled.header`
   position: relative;
   z-index: 1320;
   background-color: black;
-  border-bottom: 1px solid white;
 `;
 
 const HeaderLeft = styled.div`
