@@ -84,7 +84,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: -webkit-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
+  background: black;
   color: white;
   width: 100%;
   height: 30vh;
