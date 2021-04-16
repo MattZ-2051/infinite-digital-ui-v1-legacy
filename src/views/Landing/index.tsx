@@ -33,7 +33,9 @@ const Landing = () => {
         dispatch(getUserInfoThunk({ token: "", userId: user.sub }));
       }
       if (loggedInUser) {
-        dispatch(getUserCollectionThunk({ token: "", userId: user.id }));
+        dispatch(
+          getUserCollectionThunk({ token: "", userId: loggedInUser["id"] })
+        );
       }
     };
 

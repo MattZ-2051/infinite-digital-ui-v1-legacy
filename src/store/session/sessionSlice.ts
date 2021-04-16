@@ -5,8 +5,8 @@ import { getUserCollectionThunk } from "./sessionThunks";
 interface UsersState {
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: null | string;
-  user: Object;
-  userCollection: Object;
+  user: any;
+  userCollection: any;
 }
 
 export const sessionSlice = createSlice({

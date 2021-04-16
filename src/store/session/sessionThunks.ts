@@ -43,7 +43,7 @@ export const getUserCollectionThunk = createAsyncThunk<
   }
 >("user/userCollection/get", async (data, thunkApi) => {
   try {
-    const response = await getUserInfo(data.userId, data.token);
+    const response = await getUserCollection(data.userId, data.token);
     console.log("response thunk :", response);
     console.log("response thunkx data :", response.data);
 
