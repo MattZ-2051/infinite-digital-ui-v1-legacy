@@ -9,3 +9,12 @@ export const getUserInfo = async (userId: string, token: string) => {
 
   return response;
 };
+
+export const getUserCollection = async (userId: string, token: string) => {
+  const response = await axiosInstance.request({
+    method: "GET",
+    url: `/products?owner=${userId}&includeFuntions=true`,
+  });
+
+  return response;
+};

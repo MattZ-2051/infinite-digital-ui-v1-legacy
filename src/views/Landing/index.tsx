@@ -1,36 +1,40 @@
-import { useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 // Local
-import { useAppDispatch } from 'hooks/store';
-import { getListingsThunk } from 'store/listing/listingThunks';
+import { useAppDispatch } from "hooks/store";
+import { getListingsThunk } from "store/listing/listingThunks";
 // Components
-import Hero from './Hero';
-import FeatureProducts from './Featured/FeatureProducts';
-import FeatureBoxes from './Featured/FeatureBoxes';
-import LatestProducts from './LatestProducts';
-import { getDropBoxesThunk } from 'store/dropBox/dropBoxThunks';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
+import Hero from "./Hero";
+import FeatureProducts from "./Featured/FeatureProducts";
+import FeatureBoxes from "./Featured/FeatureBoxes";
+import LatestProducts from "./LatestProducts";
+import { getDropBoxesThunk } from "store/dropBox/dropBoxThunks";
+import {
+  getUserInfoThunk,
+  getUserCollectionThunk,
+} from "store/session/sessionThunks";
 
 const Landing = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
 
-  console.log(user)
+  console.log(user);
 
   useEffect(() => {
     (async () => {
-      dispatch(getListingsThunk({ token: '' }));
-      dispatch(getDropBoxesThunk({ token: '' }));
+      dispatch(getListingsThunk({ token: "" }));
+      dispatch(getDropBoxesThunk({ token: "" }));
     })();
   }, [dispatch]);
 
   useEffect(() => {
     (async () => {
       if (user) {
-        dispatch(getUserInfoThunk({ token: '', userId: user.sub }))
+        dispatch(getUserInfoThunk({ token: "", userId: user.sub }));
+        dispatch(getUserCollectionThunk({ token: "", userId: user.sub }));
       }
     })();
-  }, [user])
+  }, [user]);
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />

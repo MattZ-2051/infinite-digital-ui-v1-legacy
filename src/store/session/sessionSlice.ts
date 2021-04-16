@@ -5,6 +5,7 @@ interface UsersState {
   loading: "idle" | "pending" | "succeeded" | "failed";
   error: null | string;
   user: Object;
+  userCollection: Object;
 }
 
 export const sessionSlice = createSlice({
@@ -13,6 +14,7 @@ export const sessionSlice = createSlice({
     loading: "idle",
     error: null,
     user: {},
+    userCollection: {},
   } as UsersState,
   reducers: {
     clearError: (state): void => {
@@ -20,6 +22,7 @@ export const sessionSlice = createSlice({
     },
     logout: (state) => {
       state.user = {};
+      state.userCollection = {};
     },
   },
   extraReducers: (builder) => {
