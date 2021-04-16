@@ -35,7 +35,11 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
-      <Toast isVisible={false}/>
+
+      <Toast isVisible={false} status={'success'}>
+        This is a simple error message. Can we help you to{' '}
+        <a style={{ color: 'black' }}>fix the problem?</a>
+      </Toast>
 
       {children}
       <Footer />
