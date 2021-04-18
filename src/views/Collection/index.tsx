@@ -12,7 +12,6 @@ const Collection: React.FC<IProps> = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   // const user = useAppSelector(store => store.session.user);
   const history = useHistory();
-
   const dummyUserId = history.location.pathname.split("/")[2];
 
   let userStatus: any = "loggedIn";
