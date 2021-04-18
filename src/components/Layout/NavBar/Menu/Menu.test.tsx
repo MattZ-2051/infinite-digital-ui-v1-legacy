@@ -1,4 +1,4 @@
-import '../../../../jest/matchMedia.mock';
+import '../../../../../jest/matchMedia.mock';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import store from 'store';
