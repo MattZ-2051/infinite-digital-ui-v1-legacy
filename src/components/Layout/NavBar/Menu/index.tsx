@@ -6,13 +6,12 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UserProfileMenu from '../UserProfileMenu';
 
 interface IProps {
-  login: () => void;
+  login: (options?: { screen_hint: string }) => void;
   isAuthenticated: boolean;
 }
 
 const Menu = ({ login, isAuthenticated }: IProps) => {
-
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false)
+  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
   return (
     <Container>
@@ -43,7 +42,11 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
 
         {!isAuthenticated && (
           <>
-            <TextButton onClick={() => login()} color="white" size="medium">
+            <TextButton
+              onClick={() => login({ screen_hint: 'signup' })}
+              color="white"
+              size="medium"
+            >
               Sign Up
             </TextButton>
 
@@ -64,7 +67,7 @@ const Container = styled.div`
 
 const AcountInfoContainer = styled.div`
   display: flex;
-  align-items; center;
+  align-items: center;
   position: relative;
 `;
 
