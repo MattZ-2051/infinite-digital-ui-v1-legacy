@@ -1,10 +1,10 @@
-import SkuTile from 'components/ProductTiles/SkuTile';
-import styled from 'styled-components/macro';
+import SkuTile from "components/ProductTiles/SkuTile";
+import styled from "styled-components/macro";
 
 const MyReleases = () => {
   return (
     <MyReleasesContainer>
-      <TileContainer style={{ paddingRight: '10px', paddingLeft: '0' }}>
+      <TileContainer style={{ paddingRight: "10px", paddingLeft: "0" }}>
         <SkuTile status="upcoming" skuRarity="rare" />
       </TileContainer>
       <TileContainer>
@@ -14,9 +14,8 @@ const MyReleases = () => {
         <SkuTile status="no-sale" skuRarity="uncommon" />
       </TileContainer>
     </MyReleasesContainer>
-
-  )
-}
+  );
+};
 
 const TileContainer = styled.div`
   padding: 0 10px;
@@ -25,6 +24,7 @@ const TileContainer = styled.div`
 const MyReleasesContainer = styled.div`
   display: flex;
   overflow: auto;
+  width: 100%;
 `;
 
 export default MyReleases;
