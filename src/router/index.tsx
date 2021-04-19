@@ -4,6 +4,7 @@ import Landing from "views/Landing";
 import MarketPlace from "views/MarketPlace";
 import MarketPlaceSku from "views/MarketPlace/MarketPlaceSku";
 import Wallet from "views/Wallet";
+import CCDeposit from "views/Wallet/CCDeposit";
 import AddFunds from "views/Wallet/CCDeposit/AddFunds";
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
@@ -24,8 +25,8 @@ const RouterComponent = () => {
       <PrivateRoute exact path="/wallet/:userId" component={Wallet} />
       <PrivateRoute
         exact
-        path="/wallet/:userId/deposit/addfunds"
-        component={AddFunds}
+        path="/wallet/:userId/deposit"
+        component={CCDeposit}
       />
       {/* All */}
       <Route path="/example" component={UnderConstruction} />
