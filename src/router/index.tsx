@@ -4,10 +4,10 @@ import Landing from "views/Landing";
 import MarketPlace from "views/MarketPlace";
 import MarketPlaceSku from "views/MarketPlace/MarketPlaceSku";
 import Wallet from "views/Wallet";
-import CCDeposit from "views/Wallet/CCDeposit";
 import AddFunds from "views/Wallet/CCDeposit/AddFunds";
 import SuccessPage from "views/Wallet/CCDeposit/SuccessPage";
 import ErrorPage from "views/Wallet/CCDeposit/ErrorPage";
+import AddCC from "views/Wallet/AddCC";
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -37,8 +37,8 @@ const RouterComponent = () => {
       />
       <PrivateRoute
         exact
-        path="/wallet/:userId/deposit/success"
-        component={SuccessPage}
+        path="/wallet/:userId/addCreditCard"
+        component={AddCC}
       />
       <PrivateRoute
         exact
