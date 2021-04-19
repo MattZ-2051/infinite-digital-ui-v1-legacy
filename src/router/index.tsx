@@ -4,6 +4,7 @@ import Landing from 'views/Landing';
 import MarketPlace from 'views/MarketPlace';
 import MarketPlaceSku from 'views/MarketPlace/MarketPlaceSku';
 import Wallet from 'views/Wallet';
+import Collectors from 'views/Sku/Collectors';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -17,7 +18,8 @@ const RouterComponent = () => {
 
       {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
-      <Route path="/marketplace/:skuid" component={MarketPlaceSku} />
+      <Route exact path="/marketplace/:skuid" component={MarketPlaceSku} />
+      <Route path="/marketplace/:skuid/collectors" component={Collectors} />
 
       {/* User */}
       <PrivateRoute path="/wallet/:userId" component={Wallet} />
