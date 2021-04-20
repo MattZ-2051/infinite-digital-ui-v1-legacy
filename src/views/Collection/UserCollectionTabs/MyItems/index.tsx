@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components/macro";
-import { useAppDispatch, useAppSelector } from "hooks/store";
-import { getUserCollectionThunk } from "store/session/sessionThunks";
-import SkuTile from "components/ProductTiles/SkuTile";
-import ProductTile from "../../../MarketPlace/components/ProductTile";
-import { getUserCollection } from "services/api/userService";
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components/macro';
+import { useAppSelector } from 'hooks/store';
+import ProductTile from '../../../MarketPlace/components/ProductTile';
+import { getUserCollection } from 'services/api/userService';
 
 const MyItems = () => {
   const mockItems = useAppSelector(
     (state) => state.session.userCollection.collectors
   );
   const history = useHistory();
-  const id = history.location.pathname.split("/")[2];
+  const id = history.location.pathname.split('/')[2];
   const [userItems, setUserItems] = useState<any>(null);
 
   useEffect(() => {
     async function fetchData() {
       //TODO change enpoint this is a mock server endpoint
-      const res = await getUserCollection("", id);
+      const res = await getUserCollection('', id);
       if (res) {
         setUserItems(res.data.collectors);
       }
@@ -126,17 +124,17 @@ const MyItems = () => {
     <MyItemsContainer>
       {userItems instanceof Array &&
         userItems.map((item, index) => {
-          let type: string = "active-listing";
+          let type: string = 'active-listing';
           let sku = item.sku;
-          if (item.listing.status === "active") {
-            type = "active-listing";
+          if (item.listing.status === 'active') {
+            type = 'active-listing';
           } else {
-            type = "no-active-listing";
+            type = 'no-active-listing';
           }
 
           return (
             <TileContainer
-              style={{ paddingLeft: `${index === 0 ? "0px" : "10px"}` }}
+              style={{ paddingLeft: `${index === 0 ? '0px' : '10px'}` }}
             >
               <ProductTile
                 redeemable={true}
@@ -146,7 +144,7 @@ const MyItems = () => {
                 rarity={sku.rarity}
                 series={sku.series.name}
                 productSerialNumber={item.serialNumber}
-                issuer={"adidas"}
+                issuer={'adidas'}
                 key={item.id}
                 purchasedDate="1k"
               />

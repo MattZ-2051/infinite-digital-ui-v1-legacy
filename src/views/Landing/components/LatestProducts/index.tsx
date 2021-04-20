@@ -1,10 +1,9 @@
-import React from "react";
-import styled from "styled-components/macro";
-import Tab from "components/Tab";
-import Tabs from "components/TabsContainer";
-import MarketPlace from "./MarketPlace";
-import DropBoxes from "./DropBoxes";
-import MyCollection from "views/Landing/components/LatestProducts/MyCollection";
+import React from 'react';
+import styled from 'styled-components/macro';
+import Tab from 'components/Tab';
+import Tabs from 'components/TabsContainer';
+import MarketPlace from './MarketPlace';
+import MyCollection from 'views/Landing/components/LatestProducts/MyCollection';
 
 export interface IProps {
   isAuthenticated: boolean;
