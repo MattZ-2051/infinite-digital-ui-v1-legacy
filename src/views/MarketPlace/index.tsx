@@ -154,13 +154,13 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuImg={sku.graphicUrl}
                     skuRarity={sku.rarity}
                     skuName={sku.name}
-                    skuSeries={sku.series.name}
+                    skuSeries={sku.series?.name}
                     skuTotalSupplyLeft={sku.totalSupplyLeft}
                     skuCirculatingSupply={sku.circulatingSupply}
                     skuMinPrice={sku.minSkuPrice}
                     skuStartDate={sku.startDate}
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
-                    skuIssuer={"adidas"}
+                    skuIssuer={sku.issuer?.username || "adidas"}
                     redeemable={false}
                   />
                 );

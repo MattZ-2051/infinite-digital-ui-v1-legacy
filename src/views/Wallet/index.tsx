@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Transaction from "./Transaction";
+import DepositModal from "./DepositModal";
+import ActiveBids from "./ActiveBids";
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOpen = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <Container>
@@ -26,7 +37,7 @@ const Wallet = () => {
             $3750 (after active bids)
           </AvailableAmount>
           <div style={{ paddingBottom: "12px", paddingTop: "36px" }}>
-            <ActionButton>Deposit</ActionButton>
+            <ActionButton onClick={handleOpen}>Deposit</ActionButton>
           </div>
           <div style={{ paddingTop: "12px" }}>
             <ActionButton>Withdrawal</ActionButton>
@@ -36,8 +47,9 @@ const Wallet = () => {
           <div style={{ position: "relative" }}>
             <Tab
               style={{
-                borderBottom: `${selectedTab === 0 ? "2px solid black" : "none"
-                  }`,
+                borderBottom: `${
+                  selectedTab === 0 ? "2px solid black" : "none"
+                }`,
                 color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
               }}
               onClick={() => setSelectedTab(0)}
@@ -47,8 +59,9 @@ const Wallet = () => {
             <span style={{ padding: "0 20px" }}></span>
             <Tab
               style={{
-                borderBottom: `${selectedTab === 1 ? "2px solid black" : "none"
-                  }`,
+                borderBottom: `${
+                  selectedTab === 1 ? "2px solid black" : "none"
+                }`,
                 color: `${selectedTab === 1 ? "black" : "#9e9e9e"}`,
               }}
               onClick={() => setSelectedTab(1)}
@@ -66,8 +79,15 @@ const Wallet = () => {
               <Transaction transactionType="purchase" />
             </>
           )}
+          {selectedTab === 1 && (
+            <>
+              <ActiveBids bidType="not-exceeded" />
+              <ActiveBids bidType="exceeded" />
+            </>
+          )}
         </LatestTransactionsContainer>
       </PageContentContainer>
+      <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
     </Container>
   );
 };
@@ -148,6 +168,9 @@ const ActionButton = styled.button`
     background-color: black;
     color: white;
     cursor: pointer;
+  }
+  :focus {
+    outline: none;
   }
 `;
 

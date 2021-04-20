@@ -2,9 +2,10 @@ import { Switch, Route, useLocation } from "react-router-dom";
 import PrivateRoute from "router/PrivateRoute";
 import Landing from "views/Landing";
 import MarketPlace from "views/MarketPlace";
-import MarketPlaceSku from "views/MarketPlace/MarketPlaceSku";
 import Wallet from "views/Wallet";
 import Collection from "views/Collection";
+import SkuDetail from "views/Sku/SkuDetail";
+import Collectors from "views/Sku/Collectors";
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -18,7 +19,10 @@ const RouterComponent = () => {
 
       {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
-      <Route path="/marketplace/:skuid" component={MarketPlaceSku} />
+
+      {/* Sku */}
+      <Route exact path="/marketplace/:skuid" component={SkuDetail} />
+      <Route path="/marketplace/:skuid/collectors" component={Collectors} />
 
       {/* User */}
       <PrivateRoute path="/wallet/:userId" component={Wallet} />

@@ -12,6 +12,14 @@ export const mockServer = () => {
           };
         }
       );
+
+      this.passthrough();
+
+      this.passthrough(
+        `${
+          process.env.REACT_APP_API_ENDPOINT as string
+        }/skus/tiles?featured=true`
+      );
     },
   });
 };
