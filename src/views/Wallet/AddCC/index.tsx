@@ -1,22 +1,23 @@
-import styled from "styled-components/macro";
-import { useState } from "react";
-import circleIcon from "assets/img/icons/circle-icon-deposit.png";
-import exitIcon from "assets/img/icons/exit-icon.png";
-import TextField from "@material-ui/core/TextField";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import styled from 'styled-components/macro';
+import { useState } from 'react';
+import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
+import exitIcon from 'assets/img/icons/exit-icon.png';
+import TextField from '@material-ui/core/TextField';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const S: any = {};
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [error, setError] = useState<boolean | undefined>(false);
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <div style={{ paddingBottom: "10px" }}>
+        <div style={{ paddingBottom: '10px' }}>
           <S.Row
-            style={{ borderBottom: "2px solid black", paddingBottom: "16px" }}
+            style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
           >
             <S.HeaderDiv>
               <img src={circleIcon} alt="" />
@@ -27,7 +28,7 @@ const AddCC = () => {
         </div>
         <S.Row>
           <span
-            style={{ color: "#7d7d7d", fontSize: "16px", paddingTop: "10px" }}
+            style={{ color: '#7d7d7d', fontSize: '16px', paddingTop: '10px' }}
           >
             Enter the card details below
           </span>
@@ -37,19 +38,34 @@ const AddCC = () => {
             id="standard-basic"
             label="Credit Card Number"
             fullWidth
+            required
+            error={error}
+            color="secondary"
           />
         </S.Row>
         <S.Row>
-          <S.FormInput id="standard-basic" label="Exp date" size="medium" />
-          <S.FormInput id="standard-basic" label="CCV" size="medium" />
+          <S.FormInput
+            id="standard-basic"
+            label="Exp date"
+            size="medium"
+            error={error}
+            required
+          />
+          <S.FormInput
+            id="standard-basic"
+            label="CCV"
+            size="medium"
+            required
+            error={error}
+          />
         </S.Row>
         <S.Row>
           <S.Dropdown
             onClick={() => setIsOpen(!isOpen)}
             style={{
-              color: `${isOpen ? "black" : "#7d7d7d"}`,
+              color: `${isOpen ? 'black' : '#7d7d7d'}`,
               borderBottom: `${
-                isOpen ? "2px solid black" : "2px solid #ebebeb"
+                isOpen ? '2px solid black' : '2px solid #ebebeb'
               }`,
             }}
           >
@@ -62,13 +78,15 @@ const AddCC = () => {
           </S.Dropdown>
         </S.Row>
         {isOpen ? (
-          <div style={{ paddingBottom: "40px" }}>
+          <div style={{ paddingBottom: '40px' }}>
             <S.Row>
               <S.FormInput
                 id="standard-basic"
                 label="Cardholder name"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -77,6 +95,8 @@ const AddCC = () => {
                 label="Address Line 1"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -85,6 +105,7 @@ const AddCC = () => {
                 label="Address Line 2"
                 size="medium"
                 fullWidth
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -93,6 +114,8 @@ const AddCC = () => {
                 label="Postal Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -101,6 +124,8 @@ const AddCC = () => {
                 label="City"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -109,6 +134,7 @@ const AddCC = () => {
                 label="District"
                 size="medium"
                 fullWidth
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -117,6 +143,8 @@ const AddCC = () => {
                 label="Country Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -125,12 +153,14 @@ const AddCC = () => {
                 label="Country Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
           </div>
         ) : null}
-        <div style={{ paddingTop: "16px", paddingBottom: "40px" }}>
-          <S.Button>Add Card</S.Button>
+        <div style={{ paddingTop: '16px', paddingBottom: '40px' }}>
+          <S.Button onClick={() => setError(!error)}>Add Card</S.Button>
         </div>
       </S.ContentContainer>
     </S.Container>
@@ -145,13 +175,24 @@ S.Container = styled.div`
   height: 80vh;
 `;
 
-S.FormInput = styled(TextField)`
+S.FormInputError = styled(TextField)`
+  color: red;
   & .Mui-focused {
-    color: black;
+    color: red;
   }
 
   .MuiInput-underline:after {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid red;
+  }
+`;
+
+S.FormInput = styled(TextField)`
+  & .Mui-focused {
+    color: ${(props) => (props.error ? 'red' : 'black')};
+  }
+
+  .MuiInput-underline:after {
+    border-bottom: 2px solid ${(props) => (props.error ? 'red' : 'black')};
   }
 `;
 
