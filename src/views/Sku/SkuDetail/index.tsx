@@ -95,7 +95,7 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
   let { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<ISku>();
   const [collectors, setCollectors] = useState<ICollectors>([] as any);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(true);
+  const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
   //Modificar vista por url
