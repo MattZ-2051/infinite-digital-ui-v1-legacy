@@ -26,7 +26,9 @@ const AddCC = () => {
           </S.Row>
         </div>
         <S.Row>
-          <span style={{ color: "#7d7d7d", fontSize: "16px" }}>
+          <span
+            style={{ color: "#7d7d7d", fontSize: "16px", paddingTop: "10px" }}
+          >
             Enter the card details below
           </span>
         </S.Row>
@@ -41,20 +43,24 @@ const AddCC = () => {
           <S.FormInput id="standard-basic" label="Exp date" size="medium" />
           <S.FormInput id="standard-basic" label="CCV" size="medium" />
         </S.Row>
-        <S.Dropdown
-          onClick={() => setIsOpen(!isOpen)}
-          style={{
-            color: `${isOpen ? "black" : "#7d7d7d"}`,
-            borderBottom: `${isOpen ? "2px solid black" : "2px solid #ebebeb"}`,
-          }}
-        >
-          Billing Details
-          {isOpen ? (
-            <S.ArrowUp className="arrow" />
-          ) : (
-            <S.ArrowDown className="arrow" />
-          )}
-        </S.Dropdown>
+        <S.Row>
+          <S.Dropdown
+            onClick={() => setIsOpen(!isOpen)}
+            style={{
+              color: `${isOpen ? "black" : "#7d7d7d"}`,
+              borderBottom: `${
+                isOpen ? "2px solid black" : "2px solid #ebebeb"
+              }`,
+            }}
+          >
+            Billing Details
+            {isOpen ? (
+              <S.ArrowUp className="arrow" />
+            ) : (
+              <S.ArrowDown className="arrow" />
+            )}
+          </S.Dropdown>
+        </S.Row>
         {isOpen ? (
           <div style={{ paddingBottom: "40px" }}>
             <S.Row>
@@ -123,7 +129,7 @@ const AddCC = () => {
             </S.Row>
           </div>
         ) : null}
-        <div style={{ paddingTop: "10px", paddingBottom: "40px" }}>
+        <div style={{ paddingTop: "16px", paddingBottom: "40px" }}>
           <S.Button>Add Card</S.Button>
         </div>
       </S.ContentContainer>
@@ -152,6 +158,7 @@ S.FormInput = styled(TextField)`
 S.Dropdown = styled.div`
   color: #7d7d7d;
   display: flex;
+  width: 100%;
   justify-content: space-between;
   border-bottom: 2px solid #ebebeb;
   align-items: center;
