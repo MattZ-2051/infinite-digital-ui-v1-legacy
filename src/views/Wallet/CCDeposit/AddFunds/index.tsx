@@ -44,11 +44,19 @@ const AddFunds = ({ existingCard }: IProps) => {
             Remove Card
           </span>
         </S.Row>
-        <div style={{ padding: "25px 0" }}>
+        <div
+          style={{
+            paddingTop: "25px",
+            borderBottom: "2px solid #ebebeb",
+            paddingBottom: "10px",
+          }}
+        >
           <S.DollarSign>$</S.DollarSign>
           <S.AmountInput placeholder="Enter Amount" />
         </div>
-        <S.AddFundsButton>Add Funds</S.AddFundsButton>
+        <div style={{ padding: "25px 0" }}>
+          <S.AddFundsButton>Add Funds</S.AddFundsButton>
+        </div>
       </S.ContentContainer>
     </Container>
   );
