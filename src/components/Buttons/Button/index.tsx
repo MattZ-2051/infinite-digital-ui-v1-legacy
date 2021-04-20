@@ -3,7 +3,7 @@ import MuiButton from '@material-ui/core/Button';
 // import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 export interface IProps {
-  children?: string;
+  children?: string | null | false | any; //TODO: remove any
   color?: string;
   [rest: string]: any;
 }

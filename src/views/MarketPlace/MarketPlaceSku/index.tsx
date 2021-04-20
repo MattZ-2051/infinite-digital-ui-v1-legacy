@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
@@ -95,6 +95,8 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
   let { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<ISku>();
   const [collectors, setCollectors] = useState<ICollectors>([] as any);
+  const [modalPaymentVisible, setModalPaymentVisible] = useState(true);
+  const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
   //Modificar vista por url
 
@@ -127,10 +129,34 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
     });
   }, []);
 
+  const showModal = () => {
+    // if(hasFunds) {
+    //   modalMode.current = 'hasFunds';
+    //   setModalPaymentVisible(true);
+    // } else {
+    //   modalMode.current = 'noFunds';
+    //   setModalPaymentVisible(true);
+    // }
+    setModalPaymentVisible(true);
+  };
+
+  const Buy = () => {
+    const completed = true;
+
+    if (completed) {
+      modalMode.current = 'completed';
+      setModalPaymentVisible(true);
+    }
+  };
+
   return (
     <div>
 
-      <ModalPayment />
+    <ModalPayment
+        visible={modalPaymentVisible}
+        setModalPaymentVisible={setModalPaymentVisible}
+        mode={modalMode.current}
+      />  
 
       <HeaderContainer>
         <HeaderContent>
