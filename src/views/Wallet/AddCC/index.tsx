@@ -37,7 +37,13 @@ const AddCC = () => {
           <TextField id="standard-basic" label="Exp date" size="medium" />
           <TextField id="standard-basic" label="CCV" size="medium" />
         </S.Row>
-        <S.Dropdown onClick={() => setIsOpen(!isOpen)}>
+        <S.Dropdown
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            color: `${isOpen ? "black" : "#7d7d7d"}`,
+            borderBottom: `${isOpen ? "2px solid black" : "2px solid #ebebeb"}`,
+          }}
+        >
           Billing Details
           {isOpen ? (
             <S.ArrowUp className="arrow" />
@@ -45,7 +51,77 @@ const AddCC = () => {
             <S.ArrowDown className="arrow" />
           )}
         </S.Dropdown>
-        {isOpen ? <div>Stuff</div> : null}
+        {isOpen ? (
+          <div style={{ paddingBottom: "40px" }}>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Cardholder name"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Address Line 1"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Address Line 2"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Postal Code"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="City"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="District"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Country Code"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+            <S.Row>
+              <S.FormInput
+                id="standard-basic"
+                label="Country Code"
+                size="medium"
+                fullWidth
+              />
+            </S.Row>
+          </div>
+        ) : null}
+        <div style={{ paddingTop: "10px", paddingBottom: "40px" }}>
+          <S.Button>Add Card</S.Button>
+        </div>
       </S.ContentContainer>
     </S.Container>
   );
@@ -55,7 +131,18 @@ S.Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
   height: 80vh;
+`;
+
+S.FormInput = styled(TextField)`
+  & .Mui-focused {
+    color: black;
+  }
+
+  .MuiInput-underline:after {
+    border-bottom: 2px solid black;
+  }
 `;
 
 S.Dropdown = styled.div`
@@ -85,6 +172,9 @@ S.ArrowUp = styled(KeyboardArrowUpIcon)`
 
 S.ContentContainer = styled.div`
   width: 410px;
+  height: 100%;
+  padding-top: 5%;
+  margin: auto;
 `;
 
 S.Row = styled.div`
@@ -104,6 +194,23 @@ S.HeaderDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+S.Button = styled.button`
+  width: 410px;
+  height: 56px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 35px;
+  font-size: 20px;
+  font-weigth: 600;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
 `;
 
 export default AddCC;
