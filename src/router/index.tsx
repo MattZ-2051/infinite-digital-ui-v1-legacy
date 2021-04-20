@@ -41,7 +41,7 @@ const RouterComponent = () => {
       />
       <PrivateRoute
         exact
-        path="/wallet/:userId/addCreditCard"
+        path="/wallet/:userId/addcreditcard"
         component={AddCC}
       />
       <PrivateRoute
