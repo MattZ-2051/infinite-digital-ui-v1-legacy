@@ -26,3 +26,12 @@ export const getSku = async (id: string, token?: string) => {
 
   return response;
 };
+
+export const getCollectors = async () => {
+  const response = await axiosInstance.request({
+    method: 'GET',
+    url: `/sku/collectors`,
+  });
+
+  return response;
+};

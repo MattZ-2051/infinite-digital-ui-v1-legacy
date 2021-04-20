@@ -3,10 +3,12 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
 // Local
+import { getSku, getCollectors } from 'services/api/sku';
+// Components
 import ImageGallery from 'components/ImageGallery';
-import { getSku } from 'services/api/sku';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
+import AuctionListing from './components/AuctionListing';
 
 export interface SkuDetailProps {}
 
@@ -85,10 +87,14 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
   );
 };
 
+interface ICollectors {
+  collectors: any;
+}
+
 const SkuDetail: React.FC<SkuDetailProps> = () => {
   let { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<ISku>();
-
+  const [collectors, setCollectors] = useState<ICollectors>([] as any);
 
   //Modificar vista por url
 
@@ -107,6 +113,18 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
     // const skuData = getSku(skuid).then((res) => {
     //   setSkuDetails(res.data);
     // });
+  }, []);
+
+  useEffect(() => {
+    // const skuData = getSku(skuid).then((res) => {
+    //   console.log(res.data);
+    //   setSkuDetails(res.data);
+    // });
+
+    const collectors = getCollectors().then((res) => {
+      console.log(res.data.collectors);
+      setCollectors(res.data.collectors);
+    });
   }, []);
 
   return (
@@ -209,11 +227,7 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
           </p>
         </Description>
 
-        <Listing>
-          <SectionTitle>Auction Listing</SectionTitle>
-
-          <p style={{ textAlign: 'center' }}>Initial release upcoming</p>
-        </Listing>
+        <AuctionListing collectors={collectors} hasProducts={true} />
       </Section>
 
       <Section>
