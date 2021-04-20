@@ -38,7 +38,9 @@ const AddFunds = ({ existingCard }: IProps) => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <span style={{ color: "green", paddingLeft: "5px" }}>(Active)</span>
+            <span style={{ color: "#00c44f", paddingLeft: "5px" }}>
+              (Active)
+            </span>
           </div>
           <span style={{ fontSize: "16px", color: "#7d7d7d" }}>
             Remove Card
