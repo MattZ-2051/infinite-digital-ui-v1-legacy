@@ -17,6 +17,7 @@ const MyItems = () => {
 
   useEffect(() => {
     async function fetchData() {
+      //TODO change enpoint this is a mock server endpoint
       const res = await getUserCollection("", id);
       if (res) {
         setUserItems(res.data.collectors);

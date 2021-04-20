@@ -1,7 +1,12 @@
-import styled from 'styled-components';
-import CircularButton from 'components/Buttons/CircularButton';
+import styled from "styled-components";
+import CircularButton from "components/Buttons/CircularButton";
+import ProductTile from "views/MarketPlace/components/ProductTile";
+import { useAppSelector } from "hooks/store";
 
 const MyCollection = () => {
+  const mockItems = useAppSelector(
+    (state) => state.session.userCollection.collectors
+  );
   return (
     <>
       <HeaderContainer>
@@ -9,15 +14,46 @@ const MyCollection = () => {
         <CircularButton to="my-collection" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        <ProductDiv first={true} >
-        </ProductDiv>
+        {mockItems instanceof Array &&
+          mockItems.map((item, index) => {
+            let type: string = "active-listing";
+            let sku = item.sku;
+            if (item.listing.status === "active") {
+              type = "active-listing";
+            } else {
+              type = "no-active-listing";
+            }
+
+            return (
+              <TileContainer
+                style={{ paddingLeft: `${index === 0 ? "0px" : "10px"}` }}
+              >
+                <ProductTile
+                  redeemable={true}
+                  status={type}
+                  name={sku.name}
+                  img={sku.graphicUrl}
+                  rarity={sku.rarity}
+                  series={sku.series.name}
+                  productSerialNumber={item.serialNumber}
+                  issuer={"adidas"}
+                  key={item.id}
+                  purchasedDate="1k"
+                />
+              </TileContainer>
+            );
+          })}
       </ProductContainer>
     </>
-  )
-}
+  );
+};
+
+const TileContainer = styled.div`
+  padding: 0 20px;
+`;
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
-  padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};
+  padding: ${(props) => (props.first ? "0 24px 0 0" : "0 24px")};
 `;
 
 const HeaderContainer = styled.div`
