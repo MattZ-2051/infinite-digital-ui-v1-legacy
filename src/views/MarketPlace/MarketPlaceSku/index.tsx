@@ -5,6 +5,7 @@ import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.sv
 // Local
 import ImageGallery from 'components/ImageGallery';
 import { getSku } from 'services/api/sku';
+import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 
 export interface SkuDetailProps {}
@@ -45,6 +46,17 @@ export interface SkuDetailProps {}
 //   "id": "606c6bbda383eb6ee67638f0"
 // }
 
+// const skuDataMock = {
+//   totalSupplyUpcoming: 1,
+//   minStartDate: '2021-05-13T18:30:00.000Z', //'2021-04-13T00:00:00.000Z',
+//   minSkuPrice: 0,
+//   totalNewSupplyLeft: 1,
+//   countSkuListings: 1,
+//   circulatingSupply: 1,
+//   minCurrentBid: 0,
+//   countProductListings: 0,
+// };
+
 interface ISku {
   id: string;
   rarity: string;
@@ -54,19 +66,47 @@ interface ISku {
   redeemable: boolean;
   issuer: string; // Brand
   series: {
-    name: string,
+    name: string;
   };
   graphicUrl: string; // Default image
 }
+
+type ReleasedCounterProps = {
+  totalSupplyUpcoming: number;
+};
+
+const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
+  let text = 'to be released';
+
+  return (
+    <>
+      {totalSupplyUpcoming} {text}
+    </>
+  );
+};
 
 const SkuDetail: React.FC<SkuDetailProps> = () => {
   let { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<ISku>();
 
+
+  //Modificar vista por url
+
+  const skuDataMock = {
+    totalSupplyUpcoming: 1,
+    minStartDate: '2021-05-13T18:30:00.000Z', //'2021-04-13T00:00:00.000Z',
+    minSkuPrice: 1,
+    totalNewSupplyLeft: 1,
+    countSkuListings: 1,
+    circulatingSupply: 1,
+    minCurrentBid: 1,
+    countProductListings: 1,
+  };
+
   useEffect(() => {
-    const skuData = getSku(skuid).then((res) => {
-      setSkuDetails(res.data);
-    });
+    // const skuData = getSku(skuid).then((res) => {
+    //   setSkuDetails(res.data);
+    // });
   }, []);
 
   return (
@@ -113,7 +153,12 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
                 # {skuDetails?.series?.name}
               </p>
 
-              <p>SKU: {skuDetails?.id} / 50 to be released</p>
+              <p>
+                SKU: {skuDetails?.id} /{' '}
+                <ReleasedCounter
+                  totalSupplyUpcoming={skuDataMock.totalSupplyUpcoming}
+                />
+              </p>
 
               <LineDivider />
 
@@ -128,12 +173,9 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
               )} */}
             </ProductDetail>
 
-            <UpcomingBox>
-              <span style={{ fontSize: '24px', color: '#8E8E8E' }}>
-                Upcoming in:
-              </span>
-              <span style={{ fontSize: '24px' }}>05h 20m</span>
-            </UpcomingBox>
+            <ButtonsContainer>
+              <ButtonBlock data={skuDataMock} />
+            </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>
       </HeaderContainer>
@@ -197,7 +239,7 @@ const HeaderContent = styled.div`
   height: 700px;
   color: white;
   justify-content: space-between;
-  //border: 1px solid red;
+  // border: 1px solid #676767;
 `;
 
 const HeaderLeft = styled.div`
@@ -213,7 +255,7 @@ const HeaderRight = styled.div`
 `;
 
 const ProductDetail = styled.div`
-  padding: 48px 80px 48px 48px;
+  padding: 48px 80px 20px 48px;
 `;
 
 const Description = styled.div`
@@ -236,13 +278,8 @@ const Brand = styled.h3`
   margin-bottom: 16px;
 `;
 
-const UpcomingBox = styled.div`
-  padding: 0 80px 0 48px;
-  height: 147px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: black;
+const ButtonsContainer = styled.div`
+  // border: 2px solid red;
 `;
 
 const Tile = styled.div`
@@ -283,7 +320,7 @@ const TilesContainer = styled.div`
 `;
 
 const Breadcrumbs = styled.div`
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   a {
     text-decoration: none;
     color: grey;
