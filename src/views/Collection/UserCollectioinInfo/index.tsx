@@ -1,76 +1,77 @@
-import { useState } from "react";
-import styled from "styled-components/macro";
-import ProfileButton from "components/Buttons/ProfileButton";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import CropOriginalIcon from "@material-ui/icons/CropOriginal";
-import EditIcon from "@material-ui/icons/Edit";
+import { useState } from 'react';
+import styled from 'styled-components/macro';
+import ProfileButton from 'components/Buttons/ProfileButton';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import EditIcon from '@material-ui/icons/Edit';
 
 interface IProps {
   userStatus?: string;
 }
 
+const S: any = {};
+
 const UserCollectioinInfo = ({ userStatus }: IProps) => {
   return (
-    <Container>
-      {userStatus === "loggedInIssuer" && (
+    <S.Container>
+      {userStatus === 'loggedInIssuer' && (
         <>
-          <AccountIcon />
-          <UsernameIconContainer>
-            <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+          <S.AccountIcon />
+          <S.UsernameIconContainer>
+            <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @username
             </span>
-            <EditIconContainer>
-              <EditIcon style={{ fontSize: "14px" }} />
-            </EditIconContainer>
-          </UsernameIconContainer>
-          <ButtonContainer>
+            <S.EditIconContainer>
+              <EditIcon style={{ fontSize: '14px' }} />
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton label="My Account" />
-            <div style={{ padding: "0 10px" }}>
-              <ButtonDivider></ButtonDivider>
+            <div style={{ padding: '0 10px' }}>
+              <S.ButtonDivider></S.ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
-      {userStatus === "loggedIn" && (
+      {userStatus === 'loggedIn' && (
         <>
-          <UsernameIconContainer>
-            <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+          <S.UsernameIconContainer>
+            <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @username
             </span>
-            <EditIconContainer>
-              <EditIcon style={{ fontSize: "14px" }} />
-            </EditIconContainer>
-          </UsernameIconContainer>
-          <ButtonContainer>
+            <S.EditIconContainer>
+              <EditIcon style={{ fontSize: '14px' }} />
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton label="My Account" />
-            <div style={{ padding: "0 10px" }}>
-              <ButtonDivider></ButtonDivider>
+            <div style={{ padding: '0 10px' }}>
+              <S.ButtonDivider></S.ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
-      {userStatus === "notCurrentUserProfile" && (
+      {userStatus === 'notCurrentUserProfile' && (
         <>
-          <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+          <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             @username
           </span>
         </>
       )}
-      {userStatus === "notCurrentUserProfileIssuer" && (
+      {userStatus === 'notCurrentUserProfileIssuer' && (
         <>
-          <AccountIcon />
-          <span style={{ paddingRight: "10px", fontSize: "24px" }}>
+          <S.AccountIcon />
+          <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             @username
           </span>
         </>
       )}
-    </Container>
+    </S.Container>
   );
 };
 
-const EditIconContainer = styled.div`
+S.EditIconContainer = styled.div`
   width: 24px;
   height: 24px;
   background-color: black;
@@ -80,7 +81,7 @@ const EditIconContainer = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div`
+S.Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,7 +93,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const ButtonContainer = styled.div`
+S.ButtonContainer = styled.div`
   background-color: black;
   width: 232px;
   height: 40px;
@@ -102,17 +103,17 @@ const ButtonContainer = styled.div`
   border-radius: 20px;
 `;
 
-const AccountIcon = styled(AccountCircleIcon)`
+S.AccountIcon = styled(AccountCircleIcon)`
   font-size: 120px;
 `;
 
-const ButtonDivider = styled.div`
+S.ButtonDivider = styled.div`
   width: 2px;
   height: 16px;
   background-color: lightgray;
 `;
 
-const UsernameIconContainer = styled.div`
+S.UsernameIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

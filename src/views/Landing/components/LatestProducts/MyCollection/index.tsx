@@ -1,7 +1,9 @@
-import styled from "styled-components";
-import CircularButton from "components/Buttons/CircularButton";
-import ProductTile from "views/MarketPlace/components/ProductTile";
-import { useAppSelector } from "hooks/store";
+import styled from 'styled-components';
+import CircularButton from 'components/Buttons/CircularButton';
+import ProductTile from 'views/MarketPlace/components/ProductTile';
+import { useAppSelector } from 'hooks/store';
+
+const S: any = {};
 
 const MyCollection = () => {
   const mockItems = useAppSelector(
@@ -9,24 +11,24 @@ const MyCollection = () => {
   );
   return (
     <>
-      <HeaderContainer>
-        <Header>My Items</Header>
+      <S.HeaderContainer>
+        <S.Header>My Items</S.Header>
         <CircularButton to="my-collection" label="See More" />
-      </HeaderContainer>
-      <ProductContainer>
+      </S.HeaderContainer>
+      <S.ProductContainer>
         {mockItems instanceof Array &&
           mockItems.map((item, index) => {
-            let type: string = "active-listing";
+            let type: string = 'active-listing';
             let sku = item.sku;
-            if (item.listing.status === "active") {
-              type = "active-listing";
+            if (item.listing.status === 'active') {
+              type = 'active-listing';
             } else {
-              type = "no-active-listing";
+              type = 'no-active-listing';
             }
 
             return (
-              <TileContainer
-                style={{ paddingLeft: `${index === 0 ? "0px" : "10px"}` }}
+              <S.TileContainer
+                style={{ paddingLeft: `${index === 0 ? '0px' : '10px'}` }}
               >
                 <ProductTile
                   redeemable={true}
@@ -36,27 +38,27 @@ const MyCollection = () => {
                   rarity={sku.rarity}
                   series={sku.series.name}
                   productSerialNumber={item.serialNumber}
-                  issuer={"adidas"}
+                  issuer={'adidas'}
                   key={item.id}
                   purchasedDate="1k"
                 />
-              </TileContainer>
+              </S.TileContainer>
             );
           })}
-      </ProductContainer>
+      </S.ProductContainer>
     </>
   );
 };
 
-const TileContainer = styled.div`
+S.TileContainer = styled.div`
   padding: 0 20px;
 `;
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
-  padding: ${(props) => (props.first ? "0 24px 0 0" : "0 24px")};
+  padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};
 `;
 
-const HeaderContainer = styled.div`
+S.HeaderContainer = styled.div`
   @media screen and (max-width: 600px) {
     display: flex;
     align-items: center;
@@ -69,13 +71,13 @@ const HeaderContainer = styled.div`
   padding-bottom: 28px;
 `;
 
-const Header = styled.h3`
+S.Header = styled.h3`
   padding-top: 40px;
   font-size: 32px;
   line-height: 51.2px;
 `;
 
-const ProductContainer = styled.div`
+S.ProductContainer = styled.div`
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
