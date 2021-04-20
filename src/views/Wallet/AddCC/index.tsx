@@ -31,11 +31,15 @@ const AddCC = () => {
           </span>
         </S.Row>
         <S.Row>
-          <TextField id="standard-basic" label="Credit Card Number" fullWidth />
+          <S.FormInput
+            id="standard-basic"
+            label="Credit Card Number"
+            fullWidth
+          />
         </S.Row>
         <S.Row>
-          <TextField id="standard-basic" label="Exp date" size="medium" />
-          <TextField id="standard-basic" label="CCV" size="medium" />
+          <S.FormInput id="standard-basic" label="Exp date" size="medium" />
+          <S.FormInput id="standard-basic" label="CCV" size="medium" />
         </S.Row>
         <S.Dropdown
           onClick={() => setIsOpen(!isOpen)}
