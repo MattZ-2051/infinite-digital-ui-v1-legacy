@@ -5,7 +5,7 @@ import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
-  login: () => void;
+  login: (options?: { screen_hint: string }) => void;
   logout: (redirect?: {}) => void;
   isAuthenticated: boolean;
   user: { name: string };
@@ -20,7 +20,7 @@ const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
-          <TextButton color="white" size="big" onClick={() => login()}>
+          <TextButton color="white" size="big" onClick={() => login({ screen_hint: 'signup' })}> 
             Sign Up
           </TextButton>{' '}
           |{' '}

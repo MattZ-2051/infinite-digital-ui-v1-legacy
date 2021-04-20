@@ -1,31 +1,61 @@
 import Modal from 'components/Modal';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
+import { Link } from 'react-router-dom';
 // Local
 import Button from 'components/Buttons/Button';
 import alertIcon from 'assets/img/icons/alert-icon.png';
+import handIcon from 'assets/img/icons/hand-icon.png';
 import shoeImg from 'assets/temp/shoe.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
+import React from 'react';
 
-export interface ModalProps {}
+export interface IModalProps {
+  visible: boolean;
+  setModalPaymentVisible: any;
+  mode: string;
+}
 
-const ModalPayment: React.FC<ModalProps> = () => {
+const ModalPayment: React.FC<IModalProps> = ({
+  visible,
+  setModalPaymentVisible,
+  mode,
+}) => {
   const Content: any = () => (
     <>
       <S.ImageContainer>
         <img src={shoeImg} alt="" />
-        <S.CloseButton>
+        <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
       </S.ImageContainer>
 
       <S.Header>
         <S.Title>
-          {' '}
-          <img src={alertIcon} alt="" /> Whoops, Insuficient funds!
+          {mode === 'hasFunds' && <>Confirm your order:</>}
+          {mode === 'noFunds' && (
+            <>
+              <img src={alertIcon} alt="" /> Whoops, Insuficient funds!
+            </>
+          )}
+          {mode === 'completed' && (
+            <>
+              <img src={handIcon} alt="" /> Yeah! Payment sucessful.
+            </>
+          )}
         </S.Title>
-        <S.SubTitle>Your wallet balance $80</S.SubTitle>
+
+        <S.SubTitle>
+          {mode === 'hasFunds' && (
+            <span style={{ color: '#12C95F' }}>
+              Your current balance ${782}
+            </span>
+          )}
+          {mode === 'noFunds' && (
+            <span style={{ color: '#E74C3C' }}>Your wallet balance ${80}</span>
+          )}
+        </S.SubTitle>
       </S.Header>
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
@@ -57,8 +87,23 @@ const ModalPayment: React.FC<ModalProps> = () => {
 
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
-          You need more founds to make this purchase.
+          {mode === 'hasFunds' && (
+            <>
+              By confirming this action will discount the <br /> amount from your
+              wallet.
+            </>
+          )}
+          {mode === 'noFunds' && (
+            <> You need more founds to make this purchase.</>
+          )}
+          {mode === 'completed' && (
+            <>
+              You successfully bought this item, and  <br /> now is part of your
+              collection.
+            </>
+          )}
         </p>
+
         <Button
           style={{
             height: '56px',
@@ -68,17 +113,25 @@ const ModalPayment: React.FC<ModalProps> = () => {
             textTransform: 'capitalize',
           }}
         >
-          Add Funds
+          {mode === 'hasFunds' && 'Place Order'}
+          {mode === 'noFunds' && 'Add Funds'}
+          {mode === 'completed' && 'View Your Product'}
         </Button>
+
+        {mode === 'completed' && (
+          <div style={{marginTop: '20px'}}>
+            <Link style={{textDecoration: 'none'}} to={''}>Back to Marketplace</Link>
+          </div>
+        )}
       </S.Footer>
     </>
   );
 
   return (
     <Modal
-      open={true}
+      open={visible}
       onClose={() => {
-        console.log('cerrado');
+        setModalPaymentVisible(false);
       }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
