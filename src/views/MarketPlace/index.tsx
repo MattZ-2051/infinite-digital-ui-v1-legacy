@@ -160,6 +160,7 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuMinPrice={sku.minSkuPrice}
                     skuStartDate={sku.startDate}
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
+                    // TODO: Defaulting to adidas
                     skuIssuer={sku.issuer?.username || 'adidas'}
                     redeemable={false}
                   />
