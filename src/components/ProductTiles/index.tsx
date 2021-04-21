@@ -1,6 +1,6 @@
-import Card from '@material-ui/core/Card';
-import styled from 'styled-components/macro';
-import CardMedia from '@material-ui/core/CardMedia';
+import Card from "@material-ui/core/Card";
+import styled from "styled-components/macro";
+import CardMedia from "@material-ui/core/CardMedia";
 
 export const StyledCard = styled(Card)`
   max-width: 302px;
@@ -10,6 +10,12 @@ export const StyledCard = styled(Card)`
   border-radius: 20px;
   box-shadow: 2px 2px 3px 1px #ccc;
   position: relative;
+`;
+
+export const StyledCardDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Row = styled.div`

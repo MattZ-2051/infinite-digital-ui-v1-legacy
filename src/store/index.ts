@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
-import { configureStore, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { ThunkAction } from 'redux-thunk';
+import { combineReducers } from "redux";
+import { configureStore, Action, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { ThunkAction } from "redux-thunk";
 import {
   persistReducer,
   FLUSH,
@@ -10,12 +10,12 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import globalSlice from './global/globalSlice';
-import sessionSlice from './session/sessionSlice';
-import landingSlice from './landing/landingSlice';
-import marketplaceSlice from './marketplace/marketplaceSlice';
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import globalSlice from "./global/globalSlice";
+import sessionSlice from "./session/sessionSlice";
+import landingSlice from "./landing/landingSlice";
+import marketplaceSlice from "./marketplace/marketplaceSlice";
 
 const rootReducer = combineReducers({
   global: globalSlice,
@@ -28,7 +28,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ['products', 'listings', 'dropBoxes', 'marketplace'],
+  blacklist: ["products", "listings", "dropBoxes", "marketplace"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

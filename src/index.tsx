@@ -1,15 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
-import store from './store';
-import { Auth0Provider } from '@auth0/auth0-react';
-import { createBrowserHistory } from 'history';
-import smoothscroll from 'smoothscroll-polyfill';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import store from "./store";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { createBrowserHistory } from "history";
+import smoothscroll from "smoothscroll-polyfill";
+import { mockServer } from "mock/server";
 
+mockServer();
 smoothscroll.polyfill();
 
 const history = createBrowserHistory();
@@ -43,7 +45,7 @@ ReactDOM.render(
       </PersistGate>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 reportWebVitals();
