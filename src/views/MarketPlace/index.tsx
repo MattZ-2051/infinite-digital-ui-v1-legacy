@@ -175,6 +175,46 @@ const MarketPlace: React.FC<IProps> = () => {
               issuer="adidas"
               purchasedDate="05/20/21"
             />
+            <ProductTile
+              redeemable={true}
+              name="Product Name"
+              img={''}
+              series={'series'}
+              rarity="epic"
+              productSerialNumber={1234}
+              issuer="adidas"
+              purchasedDate="05/20/21"
+            />
+            <ProductTile
+              redeemable={true}
+              name="Product Name"
+              img={''}
+              series={'series'}
+              rarity="epic"
+              productSerialNumber={1234}
+              issuer="adidas"
+              purchasedDate="05/20/21"
+            />
+            <ProductTile
+              redeemable={true}
+              name="Product Name"
+              img={''}
+              series={'series'}
+              rarity="epic"
+              productSerialNumber={1234}
+              issuer="adidas"
+              purchasedDate="05/20/21"
+            />
+            <ProductTile
+              redeemable={true}
+              name="Product Name"
+              img={''}
+              series={'series'}
+              rarity="epic"
+              productSerialNumber={1234}
+              issuer="adidas"
+              purchasedDate="05/20/21"
+            />
           </ProductsGrid>
 
           <PaginationContainer>
