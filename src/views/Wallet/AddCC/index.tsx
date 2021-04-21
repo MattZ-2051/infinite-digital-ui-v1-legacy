@@ -8,9 +8,53 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const S: any = {};
 
+interface CCInfo {
+  cardNumber: string;
+  cvv: string;
+  expMonth: number;
+  expYear: number;
+  metadata: {
+    email: string;
+    phoneNumber: string;
+  };
+  billingDetails: {
+    name: string;
+    city: string;
+    country: string;
+    line1: string;
+    line2: string;
+    district: string;
+    postalCode: string;
+  };
+}
+
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
   const [error, setError] = useState<boolean | undefined>(false);
+
+  const state: CCInfo = {
+    cardNumber: '',
+    cvv: '',
+    expMonth: 0,
+    expYear: 0,
+    metadata: {
+      email: '',
+      phoneNumber: '',
+    },
+    billingDetails: {
+      name: '',
+      city: '',
+      country: '',
+      line1: '',
+      line2: '',
+      district: '',
+      postalCode: '',
+    },
+  };
+
+  const [cardInfo, setCardInfo] = useState<CCInfo | undefined>(state);
+
+  console.log(cardInfo);
 
   return (
     <S.Container>
@@ -41,6 +85,7 @@ const AddCC = () => {
             required
             error={error}
             color="secondary"
+            onChange={(e) => setCardInfo(e.target.value)}
           />
         </S.Row>
         <S.Row>
