@@ -1,24 +1,34 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import Landing from '../views/Landing';
-import UserAccount from '../views/UserAccount';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import PrivateRoute from 'router/PrivateRoute';
+import Landing from 'views/Landing';
+import MarketPlace from 'views/MarketPlace';
+import SkuDetail from 'views/Sku/SkuDetail';
+import Wallet from 'views/Wallet';
+import Collectors from 'views/Sku/Collectors';
 
-export interface IProps {
-  children?: any;
-}
+const UnderConstruction = () => <h1>Under construction :)</h1>;
 
-const RouterComponent: React.FC<IProps> = () => {
+const RouterComponent = () => {
+  let location: any = useLocation();
+  let background = location.state && location.state.background;
+
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/user-account" component={UserAccount} />
-      </Switch>
-    </Router>
+    <Switch location={background || location}>
+      <Route exact path="/" component={Landing} />
+
+      {/* MarketPlace */}
+      <Route exact path="/marketplace" component={MarketPlace} />
+
+      {/* Sku */}
+      <Route exact path="/marketplace/:skuid" component={SkuDetail} />
+      <Route path="/marketplace/:skuid/collectors" component={Collectors} />
+
+      {/* User */}
+      <PrivateRoute path="/wallet/:userId" component={Wallet} />
+
+      {/* All */}
+      <Route path="/example" component={UnderConstruction} />
+    </Switch>
   );
 };
 
