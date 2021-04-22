@@ -68,9 +68,12 @@ const AddCC = () => {
   };
 
   const handleSubmit = async () => {
+    if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
-    console.log(cardInfo);
-    console.log(typeof cardInfo?.expMonth);
+    console.log(parseInt(cardInfo?.expMonth));
+    console.log(parseInt(cardInfo?.expYear));
+    cardInfo.expMonth = parseInt(cardInfo?.expMonth);
+    cardInfo.expYear = parseInt(cardInfo?.expYear);
     createNewUserCC(userToken, cardInfo);
   };
 
@@ -104,6 +107,7 @@ const AddCC = () => {
             error={error}
             color="secondary"
             onChange={handleChange}
+            value={cardInfo?.cardNumber}
           />
         </S.Row>
         <S.Row>
@@ -117,6 +121,7 @@ const AddCC = () => {
             type="number"
             style={{ paddingRight: '10px' }}
             onChange={handleChange}
+            value={cardInfo?.expMonth}
           />
           <S.FormInput
             id="standard-basic"
@@ -128,6 +133,7 @@ const AddCC = () => {
             type="number"
             style={{ paddingRight: '10px' }}
             onChange={handleChange}
+            value={cardInfo?.expYear}
           />
           <S.FormInput
             id="standard-basic"
@@ -137,6 +143,7 @@ const AddCC = () => {
             error={error}
             name="cvv"
             onChange={handleChange}
+            value={cardInfo?.cvv}
           />
         </S.Row>
         <S.Row>
@@ -169,6 +176,7 @@ const AddCC = () => {
                 error={error}
                 name="billingDetails-name"
                 onChange={handleChange}
+                value={cardInfo?.billingDetails.name}
               />
             </S.Row>
             <S.Row>
@@ -181,6 +189,7 @@ const AddCC = () => {
                 error={error}
                 onChange={handleChange}
                 name="billingDetails-line1"
+                value={cardInfo?.billingDetails.line1}
               />
             </S.Row>
             <S.Row>
@@ -192,6 +201,7 @@ const AddCC = () => {
                 error={error}
                 name="billingDetails-line2"
                 onChange={handleChange}
+                value={cardInfo?.billingDetails.line2}
               />
             </S.Row>
             <S.Row>
@@ -204,6 +214,7 @@ const AddCC = () => {
                 error={error}
                 onChange={handleChange}
                 name="billingDetails-postalCode"
+                value={cardInfo?.billingDetails.postalCode}
               />
             </S.Row>
             <S.Row>
@@ -216,6 +227,7 @@ const AddCC = () => {
                 error={error}
                 name="billingDetails-city"
                 onChange={handleChange}
+                value={cardInfo?.billingDetails.city}
               />
             </S.Row>
             <S.Row>
@@ -227,6 +239,7 @@ const AddCC = () => {
                 error={error}
                 onChange={handleChange}
                 name="billingDetails-district"
+                value={cardInfo?.billingDetails.district}
               />
             </S.Row>
             <S.Row>
@@ -239,6 +252,7 @@ const AddCC = () => {
                 error={error}
                 onChange={handleChange}
                 name="billingDetails-country"
+                value={cardInfo?.billingDetails.country}
               />
             </S.Row>
             <S.Row>
