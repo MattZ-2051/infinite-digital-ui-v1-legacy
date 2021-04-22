@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 // Local
-// import productBig from 'assets/img/marketplace/sku-example.png';
-// import productSmall1 from 'assets/img/marketplace/sku-example-small-1.png';
-// import productSmall2 from 'assets/img/marketplace/sku-example-small-2.png';
-// import productSmall3 from 'assets/img/marketplace/sku-example-small-3.png';
-// import productSmall4 from 'assets/img/marketplace/sku-example-small-4.png';
+import shoe1 from 'assets/img/temp/shoes/shoe-1.jpg';
+import shoe2 from 'assets/img/temp/shoes/shoe-2.jpg';
+import shoe3 from 'assets/img/temp/shoes/shoe-3.jpg';
+import shoe4 from 'assets/img/temp/shoes/shoe-4.jpg';
 
 export interface ImageGalleryProps {}
 
 const images = [
-  'https://stockx-360.imgix.net/Air-Jordan-11-Retro-Space-Jam-2016/Images/Air-Jordan-11-Retro-Space-Jam-2016/Lv2/img36.jpg?auto=format,compress&w=559&q=90&dpr=2&updated_at=1606319512',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtaeIUQiLip8ROnlVfvLIpgT3jY6i6UMwDg&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHArgo7FDBh1wOujs9RNt5WKbmlJQt3TAL1g&usqp=CAU',
+   shoe1,
+   shoe2,
+   shoe3,
+   shoe4,
 ];
 
 const ImageGallery: React.FC<ImageGalleryProps> = () => {
@@ -52,6 +52,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = () => {
           }}
         >
           <img src={images[2]} alt="" />
+        </ThumbnailItem>
+        <ThumbnailItem
+          active={selectedImage === 3}
+          onClick={() => {
+            handleImageChange(3);
+          }}
+        >
+          <img src={images[3]} alt="" />
         </ThumbnailItem>
       </ThumbnailMenu>
     </Container>
