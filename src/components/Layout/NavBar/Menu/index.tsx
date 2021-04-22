@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import styled from 'styled-components/macro';
-import Divider from 'components/Divider';
-import TextButton from 'components/Buttons/TextButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import UserProfileMenu from '../UserProfileMenu';
+import { useState } from "react";
+import styled from "styled-components/macro";
+import Divider from "components/Divider";
+import TextButton from "components/Buttons/TextButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import UserProfileMenu from "../UserProfileMenu";
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -16,10 +16,6 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
       <Divider gap={32}>
-        <TextButton to="drop-boxes" color="white">
-          Drop Boxes
-        </TextButton>
-
         <TextButton to="marketplace" color="white">
           Marketplace
         </TextButton>
@@ -33,7 +29,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
         {isAuthenticated && (
           <AcountInfoContainer>
             <AccountIcon onClick={() => setIsOpen(!isOpen)} />
-            <TextButton color="white" style={{ marginRight: '32px' }}>
+            <TextButton color="white" style={{ marginRight: "32px" }}>
               @username
             </TextButton>
             {isOpen ? <UserProfileMenu /> : null}

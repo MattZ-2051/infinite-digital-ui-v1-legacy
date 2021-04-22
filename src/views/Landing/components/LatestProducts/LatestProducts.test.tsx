@@ -32,7 +32,7 @@ describe('<LatestProducts />', () => {
     const { debug, getByTestId } = screen;
     expect(getByTestId("dropBoxTab").textContent).toBe('Drop Boxes')
     expect(getByTestId("marketplaceTab").textContent).toBe('Marketplace')
-    expect(getByTestId("myCollectionTab").textContent).toBe('My Colllection')
+    expect(getByTestId("myCollectionTab").textContent).toBe('My Collection')
   })
 
 });

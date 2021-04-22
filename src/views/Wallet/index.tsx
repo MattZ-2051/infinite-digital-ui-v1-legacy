@@ -157,7 +157,7 @@ const HeaderText = styled.span`
 
 const ActionButton = styled.button`
   width: 269px;
-  height 56px;
+  height: 56px;
   color: black;
   background-color: white;
   border: 2px solid black;

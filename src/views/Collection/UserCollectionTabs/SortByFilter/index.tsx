@@ -58,43 +58,27 @@ const SortByFilter = ({
   options = options.filter(getNewOptions);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', paddingBottom: '10px' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span
-          style={{
-            color: '#9e9e9e',
-            fontWeight: 500,
-            fontSize: '18px',
-            lineHeight: '22.7px',
-            paddingRight: '8px',
-          }}
-        >
-          Sort by:
-        </span>
+        <SortByText>Sort by:</SortByText>
         <span
           style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}
         >
           {newLabel}
         </span>
         {isHidden ? (
-          <DownArrow
-            style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
-            onClick={handleChange}
-          />
+          <DownArrow onClick={handleChange} />
         ) : (
-          <UpArrow
-            style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
-            onClick={handleChange}
-          />
+          <UpArrow onClick={handleChange} />
         )}
       </div>
       <>
-        {isHidden ? null : (
+        {isHidden && (
           <HiddenDiv>
             {options instanceof Array &&
               options.map((option, index) => {
                 return (
-                  <DropDownDiv
+                  <DropDown
                     onClick={handleCheck}
                     style={{ height: '38px' }}
                     key={index}
@@ -102,7 +86,7 @@ const SortByFilter = ({
                     <p style={{ fontWeight: 400, fontSize: '16px' }}>
                       {option}
                     </p>
-                  </DropDownDiv>
+                  </DropDown>
                 );
               })}
           </HiddenDiv>
@@ -113,45 +97,33 @@ const SortByFilter = ({
 };
 
 const DownArrow = styled(KeyboardArrowDownIcon)`
+  color: black;
+  margin-bottom: 5px;
+  font-size: 35px;
   :hover {
     transform: scale(1.1);
     cursor: pointer;
   }
+`;
+
+const SortByText = styled.span`
+color: #9e9e9e;
+font-weight: 500
+font-size: 18px
+padding-right: 8px;
 `;
 
 const UpArrow = styled(KeyboardArrowUpIcon)`
+  color: black;
+  margin-bottom: 5px;
+  font-size: 35px;
   :hover {
     transform: scale(1.1);
     cursor: pointer;
   }
 `;
 
-export const FilterContainer = styled.div`
-  height: 40px;
-  background-color: #fafafa;
-  border-radius: 20px;
-`;
-
-export const FilterDiv = styled.div`
-  display: flex;
-  padding: 9px 16px;
-  width 140px;
-  align-items: center;
-  justify-content: space-between;
-  color: #888888;
-  background-color: #fafafa;
-  border: none;
-  border-radius: 20px;
-  :hover {
-    cursor: pointer;
-    background-color: #D6D6D6;
-    border-radius: 20px;
-    color: black;
-    box-shadow: 2px 2px 3px 1px #ccc;
-  }
-`;
-
-export const HiddenDiv = styled.div`
+const HiddenDiv = styled.div`
   color: black;
   overflow-y: auto;
   max-height: 140px;
@@ -166,12 +138,9 @@ export const HiddenDiv = styled.div`
   flex-direction: column;
   padding: 10px;
   box-shadow: 2px 2px 8px 2px #ccc;
-  z-index: 1;
 `;
 
-export const DropDownSpan = styled.span``;
-
-export const DropDownDiv = styled.div`
+const DropDown = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   width 160px;
