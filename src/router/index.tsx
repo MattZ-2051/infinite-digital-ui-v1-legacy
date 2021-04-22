@@ -1,15 +1,15 @@
-import { Switch, Route, useLocation } from 'react-router-dom';
-import PrivateRoute from 'router/PrivateRoute';
-import Landing from 'views/Landing';
-import MarketPlace from 'views/MarketPlace';
-import Wallet from 'views/Wallet';
-import Collection from 'views/Collection';
-import SkuDetail from 'views/Sku/SkuDetail';
 import AddFunds from 'views/Wallet/CCDeposit/AddFunds';
 import SuccessPage from 'views/Wallet/CCDeposit/SuccessPage';
 import ErrorPage from 'views/Wallet/CCDeposit/ErrorPage';
 import AddCC from 'views/Wallet/AddCC';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import PrivateRoute from 'router/PrivateRoute';
+import Landing from 'views/Landing';
+import MarketPlace from 'views/MarketPlace';
+import SkuDetail from 'views/Sku/SkuDetail';
+import Wallet from 'views/Wallet';
 import Collectors from 'views/Sku/Collectors';
+import Collection from 'views/Collection';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -30,12 +30,6 @@ const RouterComponent = () => {
 
       {/* User */}
       <PrivateRoute exact path="/wallet/:userId" component={Wallet} />
-
-      <PrivateRoute
-        exact
-        path="/wallet/:userId/deposit/error"
-        component={ErrorPage}
-      />
       <PrivateRoute
         exact
         path="/wallet/:userId/deposit/addfunds"
@@ -50,6 +44,11 @@ const RouterComponent = () => {
         exact
         path="/wallet/:userId/addcreditcard"
         component={AddCC}
+      />
+      <PrivateRoute
+        exact
+        path="/wallet/:userId/deposit/error"
+        component={ErrorPage}
       />
 
       <Route path="/collection/:userId" component={Collection} />

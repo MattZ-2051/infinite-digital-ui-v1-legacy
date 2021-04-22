@@ -10,6 +10,7 @@ const S: any = {};
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [error, setError] = useState<boolean | undefined>(false);
 
   return (
     <S.Container>
@@ -37,11 +38,26 @@ const AddCC = () => {
             id="standard-basic"
             label="Credit Card Number"
             fullWidth
+            required
+            error={error}
+            color="secondary"
           />
         </S.Row>
         <S.Row>
-          <S.FormInput id="standard-basic" label="Exp date" size="medium" />
-          <S.FormInput id="standard-basic" label="CCV" size="medium" />
+          <S.FormInput
+            id="standard-basic"
+            label="Exp date"
+            size="medium"
+            error={error}
+            required
+          />
+          <S.FormInput
+            id="standard-basic"
+            label="CCV"
+            size="medium"
+            required
+            error={error}
+          />
         </S.Row>
         <S.Row>
           <S.Dropdown
@@ -69,6 +85,8 @@ const AddCC = () => {
                 label="Cardholder name"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -77,6 +95,8 @@ const AddCC = () => {
                 label="Address Line 1"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -85,6 +105,7 @@ const AddCC = () => {
                 label="Address Line 2"
                 size="medium"
                 fullWidth
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -93,6 +114,8 @@ const AddCC = () => {
                 label="Postal Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -101,6 +124,8 @@ const AddCC = () => {
                 label="City"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -109,6 +134,7 @@ const AddCC = () => {
                 label="District"
                 size="medium"
                 fullWidth
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -117,6 +143,8 @@ const AddCC = () => {
                 label="Country Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
             <S.Row>
@@ -125,12 +153,14 @@ const AddCC = () => {
                 label="Country Code"
                 size="medium"
                 fullWidth
+                required
+                error={error}
               />
             </S.Row>
           </div>
         ) : null}
-        <div style={{ paddingTop: '16px', paddingBottom: '20px' }}>
-          <S.Button>Add Card</S.Button>
+        <div style={{ paddingTop: '16px', paddingBottom: '40px' }}>
+          <S.Button onClick={() => setError(!error)}>Add Card</S.Button>
         </div>
       </S.ContentContainer>
     </S.Container>
@@ -145,13 +175,24 @@ S.Container = styled.div`
   height: 80vh;
 `;
 
-S.FormInput = styled(TextField)`
+S.FormInputError = styled(TextField)`
+  color: red;
   & .Mui-focused {
-    color: black;
+    color: red;
   }
 
   .MuiInput-underline:after {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid red;
+  }
+`;
+
+S.FormInput = styled(TextField)`
+  & .Mui-focused {
+    color: ${(props) => (props.error ? 'red' : 'black')};
+  }
+
+  .MuiInput-underline:after {
+    border-bottom: 2px solid ${(props) => (props.error ? 'red' : 'black')};
   }
 `;
 
@@ -201,6 +242,12 @@ S.HeaderText = styled.span`
   font-weigth: 600;
 `;
 
+S.HeaderDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 S.Button = styled.button`
   width: 410px;
   height: 56px;
@@ -216,12 +263,6 @@ S.Button = styled.button`
   :focus {
     outline: none;
   }
-`;
-
-S.HeaderDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 export default AddCC;
