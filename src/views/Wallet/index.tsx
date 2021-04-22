@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Transaction from "./Transaction";
-import DepositModal from "./DepositModal";
-import ActiveBids from "./ActiveBids";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Transaction from './Transaction';
+import DepositModal from './DepositModal';
+import ActiveBids from './ActiveBids';
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
@@ -20,7 +20,7 @@ const Wallet = () => {
   return (
     <Container>
       <PageHeaderContainer>
-        <Link to="/marketplace/sdfsdf" style={{ color: "white" }}>
+        <Link to="/marketplace/sdfsdf" style={{ color: 'white' }}>
           Back To Profile
         </Link>
         <HeaderText>My Wallet</HeaderText>
@@ -28,7 +28,7 @@ const Wallet = () => {
       <PageContentContainer>
         <TotalBalanceContainer>
           <div>
-            <Tab style={{ borderBottom: "2px solid black" }}>Total Balance</Tab>
+            <Tab style={{ borderBottom: '2px solid black' }}>Total Balance</Tab>
             <GrayLine></GrayLine>
           </div>
           <BalanceAmount>$4500</BalanceAmount>
@@ -36,39 +36,39 @@ const Wallet = () => {
             <AvailableText>Available:</AvailableText>
             $3750 (after active bids)
           </AvailableAmount>
-          <div style={{ paddingBottom: "12px", paddingTop: "36px" }}>
+          <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
             <ActionButton onClick={handleOpen}>Deposit</ActionButton>
           </div>
-          <div style={{ paddingTop: "12px" }}>
+          <div style={{ paddingTop: '12px' }}>
             <ActionButton>Withdrawal</ActionButton>
           </div>
         </TotalBalanceContainer>
         <LatestTransactionsContainer>
-          <div style={{ position: "relative" }}>
+          <div style={{ position: 'relative' }}>
             <Tab
               style={{
                 borderBottom: `${
-                  selectedTab === 0 ? "2px solid black" : "none"
+                  selectedTab === 0 ? '2px solid black' : 'none'
                 }`,
-                color: `${selectedTab === 0 ? "black" : "#9e9e9e"}`,
+                color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
               }}
               onClick={() => setSelectedTab(0)}
             >
               Latest Transactions
             </Tab>
-            <span style={{ padding: "0 20px" }}></span>
+            <span style={{ padding: '0 20px' }}></span>
             <Tab
               style={{
                 borderBottom: `${
-                  selectedTab === 1 ? "2px solid black" : "none"
+                  selectedTab === 1 ? '2px solid black' : 'none'
                 }`,
-                color: `${selectedTab === 1 ? "black" : "#9e9e9e"}`,
+                color: `${selectedTab === 1 ? 'black' : '#9e9e9e'}`,
               }}
               onClick={() => setSelectedTab(1)}
             >
               Active Bids
             </Tab>
-            <GrayLine style={{ width: "100%" }}></GrayLine>
+            <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && (
             <>
@@ -92,7 +92,7 @@ const Wallet = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
   height: 100vh;
 `;
 

@@ -9,46 +9,48 @@ interface IProps {
   userStatus?: string;
 }
 
+const S: any = {};
+
 const UserCollectioinInfo = ({ userStatus }: IProps) => {
   return (
-    <Container>
+    <S.Container>
       {userStatus === 'loggedInIssuer' && (
         <>
-          <AccountIcon />
-          <UsernameIcon>
+          <S.AccountIcon />
+          <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @username
             </span>
-            <EditIconContainer>
+            <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
-            </EditIconContainer>
-          </UsernameIcon>
-          <ButtonContainer>
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton label="My Account" />
             <div style={{ padding: '0 10px' }}>
-              <ButtonDivider></ButtonDivider>
+              <S.ButtonDivider></S.ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
       {userStatus === 'loggedIn' && (
         <>
-          <UsernameIcon>
+          <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @username
             </span>
-            <EditIconContainer>
+            <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
-            </EditIconContainer>
-          </UsernameIcon>
-          <ButtonContainer>
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton label="My Account" />
             <div style={{ padding: '0 10px' }}>
-              <ButtonDivider></ButtonDivider>
+              <S.ButtonDivider></S.ButtonDivider>
             </div>
             <ProfileButton label="My Wallet" />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
@@ -60,17 +62,17 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
       )}
       {userStatus === 'notCurrentUserProfileIssuer' && (
         <>
-          <AccountIcon />
+          <S.AccountIcon />
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             @username
           </span>
         </>
       )}
-    </Container>
+    </S.Container>
   );
 };
 
-const EditIconContainer = styled.div`
+S.EditIconContainer = styled.div`
   width: 24px;
   height: 24px;
   background-color: black;
@@ -80,7 +82,7 @@ const EditIconContainer = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div`
+S.Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,7 +94,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const ButtonContainer = styled.div`
+S.ButtonContainer = styled.div`
   background-color: black;
   width: 232px;
   height: 40px;
@@ -102,17 +104,17 @@ const ButtonContainer = styled.div`
   border-radius: 20px;
 `;
 
-const AccountIcon = styled(AccountCircleIcon)`
+S.AccountIcon = styled(AccountCircleIcon)`
   font-size: 120px;
 `;
 
-const ButtonDivider = styled.div`
+S.ButtonDivider = styled.div`
   width: 2px;
   height: 16px;
   background-color: lightgray;
 `;
 
-const UsernameIcon = styled.div`
+S.UsernameIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

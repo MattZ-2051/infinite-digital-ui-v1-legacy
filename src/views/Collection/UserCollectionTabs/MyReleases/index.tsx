@@ -14,9 +14,8 @@ const MyReleases = () => {
         <SkuTile status="no-sale" skuRarity="uncommon" />
       </TileContainer>
     </MyReleasesContainer>
-
-  )
-}
+  );
+};
 
 const TileContainer = styled.div`
   padding: 0 10px;
@@ -25,6 +24,7 @@ const TileContainer = styled.div`
 const MyReleasesContainer = styled.div`
   display: flex;
   overflow: auto;
+  width: 100%;
 `;
 
 export default MyReleases;

@@ -201,12 +201,6 @@ S.HeaderText = styled.span`
   font-weigth: 600;
 `;
 
-S.HeaderDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 S.Button = styled.button`
   width: 410px;
   height: 56px;
@@ -222,6 +216,12 @@ S.Button = styled.button`
   :focus {
     outline: none;
   }
+`;
+
+S.HeaderDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default AddCC;

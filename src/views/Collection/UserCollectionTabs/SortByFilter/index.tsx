@@ -73,7 +73,7 @@ const SortByFilter = ({
         )}
       </div>
       <>
-        {isHidden && (
+        {isHidden ? null : (
           <HiddenDiv>
             {options instanceof Array &&
               options.map((option, index) => {
@@ -107,10 +107,10 @@ const DownArrow = styled(KeyboardArrowDownIcon)`
 `;
 
 const SortByText = styled.span`
-color: #9e9e9e;
-font-weight: 500
-font-size: 18px
-padding-right: 8px;
+  color: #9e9e9e;
+  font-weight: 500;
+  font-size: 18px;
+  padding-right: 8px;
 `;
 
 const UpArrow = styled(KeyboardArrowUpIcon)`
