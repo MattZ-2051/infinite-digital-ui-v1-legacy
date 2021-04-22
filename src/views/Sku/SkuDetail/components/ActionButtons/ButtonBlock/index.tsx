@@ -1,11 +1,5 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import DateTime from 'luxon/src/datetime.js';
-
-import {
-  useLocation
-} from "react-router-dom";
-
+import { formatCountdown } from 'utils/dates';
 
 export interface IButtonBlock {
   data: {
@@ -22,41 +16,10 @@ export interface IButtonBlock {
 
 // Boxes
 const UpcomingData = ({ minStartDate }) => {
-  let formattedTimer = '';
-  const date1 = DateTime.fromISO(minStartDate); //ISO-8601
-  const date2 = DateTime.now();
-  const diff = date1.diff(date2, [
-    'years',
-    'months',
-    'days',
-    'hours',
-    'minutes',
-  ]);
-  const monthsLeft = diff.toObject().months;
-  const daysLeft = diff.toObject().days;
-  const hoursLeft = diff.toObject().hours;
-  const minutesLeft = diff.toObject().minutes;
-
-  if (hoursLeft < 24) {
-    formattedTimer = `${hoursLeft}h ${Math.round(minutesLeft)}m`;
-  } else if (daysLeft < 28) {
-    formattedTimer = `${daysLeft}d ${hoursLeft % 24}h`;
-  } else {
-    formattedTimer = `${monthsLeft}m ${daysLeft}d`;
-  }
-
-  useEffect(() => {
-    //TODO: put an interval?
-    // const interval = setInterval(() => {
-    //   console.log('')
-    // }, 1000);
-    //return () => clearInterval(interval);
-  }, [minStartDate]);
-
   return (
     <>
       <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-      <span style={{ fontSize: '24px' }}>{formattedTimer}</span>
+      <span style={{ fontSize: '24px' }}>{formatCountdown(minStartDate)}</span>
     </>
   );
 };
@@ -75,7 +38,12 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }) => {
         <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
       </BoxColumn>
       <div>
-        <Button disabled style={{backgroundColor: '#2D2D2D', color: '#5F5F5F'}}>Buy Now</Button>
+        <Button
+          disabled
+          style={{ backgroundColor: '#2D2D2D', color: '#5F5F5F' }}
+        >
+          Buy Now
+        </Button>
       </div>
     </Container>
   );
@@ -124,11 +92,10 @@ const ButtonBlock: React.FC<IButtonBlock> = ({ data }) => {
   const hasMintedProducts = !!data.circulatingSupply;
   const hasSkus = !!data.countSkuListings;
   const hasProducts = !!data.countProductListings;
-  let location = useLocation(); //TODO: remove post QA
 
   if (!hasSkus && !hasProducts) return <NotAvailable />;
 
-  if (isUpcoming && (location.pathname ==='/marketplace/2')) //TODO: remove post QA
+  if (isUpcoming)
     return (
       <Container>
         {' '}
