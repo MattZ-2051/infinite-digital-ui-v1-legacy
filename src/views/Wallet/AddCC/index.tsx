@@ -32,7 +32,7 @@ const AddCC = () => {
     expYear: 0,
     metadata: {
       email: userEmail,
-      phoneNumber: '',
+      phoneNumber: '1231234',
     },
     billingDetails: {
       name: '',
@@ -255,7 +255,7 @@ const AddCC = () => {
                 value={cardInfo?.billingDetails.country}
               />
             </S.Row>
-            <S.Row>
+            {/* <S.Row>
               <S.FormInput
                 id="standard-basic"
                 label="Country Code"
@@ -265,7 +265,7 @@ const AddCC = () => {
                 error={error}
                 onChange={handleChange}
               />
-            </S.Row>
+            </S.Row> */}
           </div>
         ) : null}
         <div style={{ paddingTop: '16px', paddingBottom: '40px' }}>
