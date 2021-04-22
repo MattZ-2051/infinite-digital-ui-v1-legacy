@@ -2,7 +2,7 @@ import DateTime from 'luxon/src/datetime.js';
 
 export const formatCountdown = (date: string): string => {
   //Iso to local time
-  const startDayInLocal = DateTime.fromISO('2021-04-21T23:00:00.000Z'); //date format ISO-8601 - GMT
+  const startDayInLocal = DateTime.fromISO(date); //ISO-8601
   const now = DateTime.now();
   
   const diff = startDayInLocal.diff(now, [

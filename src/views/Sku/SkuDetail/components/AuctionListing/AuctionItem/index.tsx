@@ -1,4 +1,5 @@
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
+import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
 
 export interface AuctionItemProps {
@@ -30,7 +31,7 @@ const AuctionItem: React.FC<AuctionItemProps> = ({ serialNumber, ownerName, high
           <br />
         </div>
 
-        <strong style={{ color: 'black' }}>Expires in {'2d 1h 43m'}</strong>
+        <strong style={{ color: 'black' }}>Expires in {formatCountdown('2021-04-30T23:00:00.000Z')}</strong>
       </AuctionDetail>
 
       <RightArrow style={{ marginLeft: '20px' }} />
