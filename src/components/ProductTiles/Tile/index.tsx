@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { StyledCard, Row, StyledCardImg, RedeemIcon } from '../index';
-import productImg from 'assets/img/backgrounds/product-image.jpeg'
+import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
 
@@ -17,35 +17,44 @@ interface IProps {
   icon?: string;
 }
 
-const Tile = ({ topLeft, skuRarity, middle, bottomLeft, bottomRight, status, skuImg, redeemable, pillInfo, icon }: IProps) => {
-
+const Tile = ({
+  topLeft,
+  skuRarity,
+  middle,
+  bottomLeft,
+  bottomRight,
+  status,
+  skuImg,
+  redeemable,
+  pillInfo,
+  icon,
+}: IProps) => {
   return (
     <CardContainer>
       <StyledCard>
-        {redeemable
-          ? <RedeemIcon src={icon} />
-          : null
-        }
-        <StyledCardImg
-          image={skuImg || productImg}
-        />
-        <CardContent style={{ backgroundColor: 'white', padding: '5px 16px 0 16px', borderRadius: '20px' }}>
+        {redeemable ? <RedeemIcon src={icon} /> : null}
+        <StyledCardImg image={skuImg || productImg} />
+        <CardContent
+          style={{
+            backgroundColor: 'white',
+            padding: '5px 16px 0 16px',
+            borderRadius: '20px',
+          }}
+        >
           <Row>
-            <IssuerName>
-              {topLeft}
-            </IssuerName>
+            <IssuerName>{topLeft}</IssuerName>
             <Rarity type={skuRarity || 'rare'} />
           </Row>
-          <SkuName>
-            {middle}
-          </SkuName>
+          <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText># {bottomLeft}</BottomCardText>
             {status === 'upcoming' && (
               <BottomCardText>{bottomRight || '0'} Dropping</BottomCardText>
             )}
             {status === 'unique' && (
-              <BottomCardText style={{ color: '#ff0000' }}>Unique Item!</BottomCardText>
+              <BottomCardText style={{ color: '#ff0000' }}>
+                Unique Item!
+              </BottomCardText>
             )}
             {status === 'active' && (
               <BottomCardText>{bottomRight} For Sale</BottomCardText>
@@ -57,31 +66,34 @@ const Tile = ({ topLeft, skuRarity, middle, bottomLeft, bottomRight, status, sku
               <BottomCardText>Owned by {bottomRight} people</BottomCardText>
             )}
             {status === 'active-listing' && (
-              <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', color: '#9e9e9e' }}>
+              <SerialNum>
                 Serial:
-                <span style={{ color: 'black', paddingLeft: '5px' }}>{bottomRight}</span>
-              </p>
+                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                  {bottomRight}
+                </span>
+              </SerialNum>
             )}
             {status === 'no-active-listing' && (
-              <p style={{ display: 'flex', fontWeight: 400, fontSize: '16px', lineHeight: '20px', letterSpacing: '0em', color: '#9e9e9e' }}>
+              <SerialNum>
                 Serial:
-                <span style={{ color: 'black', paddingLeft: '5px' }}>{bottomRight}</span>
-              </p>
+                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                  {bottomRight}
+                </span>
+              </SerialNum>
             )}
           </Row>
         </CardContent>
       </StyledCard>
       {status === 'upcoming' && (
-
         <Pill style={{ backgroundColor: 'black' }}>
-          <PillText >Upcoming in:</PillText>
+          <PillText>Upcoming in:</PillText>
           <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
         </Pill>
       )}
       {status === 'active-listing' && (
         <Pill style={{ backgroundColor: 'black' }}>
           <PillText>Current Bid:</PillText>
-          <PillInfo >${pillInfo}</PillInfo>
+          <PillInfo>${pillInfo}</PillInfo>
         </Pill>
       )}
       {status === 'active' && (
@@ -92,7 +104,16 @@ const Tile = ({ topLeft, skuRarity, middle, bottomLeft, bottomRight, status, sku
       )}
       {status === 'no-sale' && (
         <Pill style={{ backgroundColor: '#e5e5e5' }}>
-          <PillInfo style={{ fontWeight: 500, backgroundColor: '#e5e5e5', margin: 'auto', color: '#9E9E9E' }}>No one selling</PillInfo>
+          <PillInfo
+            style={{
+              fontWeight: 500,
+              backgroundColor: '#e5e5e5',
+              margin: 'auto',
+              color: '#9E9E9E',
+            }}
+          >
+            No one selling
+          </PillInfo>
         </Pill>
       )}
       {status === 'no-active-listing' && (
@@ -108,14 +129,22 @@ const Tile = ({ topLeft, skuRarity, middle, bottomLeft, bottomRight, status, sku
         </Pill>
       )}
     </CardContainer>
-  )
-}
+  );
+};
 
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   width: fit-content;
+`;
+
+const SerialNum = styled.p`
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0em;
+  color: #9e9e9e;
 `;
 
 const Pill = styled.div`
@@ -151,7 +180,7 @@ const BottomCardText = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
-  letter-spacing: 0em
+  letter-spacing: 0em;
 `;
 
 const SkuName = styled.p`
@@ -160,7 +189,7 @@ const SkuName = styled.p`
   line-height: 32px;
   letter-spacing: 0em;
   margin: 0;
-  padding-top: 8px
+  padding-top: 8px;
 `;
 
 const IssuerName = styled.p`
@@ -169,6 +198,5 @@ const IssuerName = styled.p`
   line-height: 20.24px;
   color: #9e9e9e;
 `;
-
 
 export default Tile;
