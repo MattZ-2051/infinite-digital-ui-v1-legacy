@@ -12,8 +12,8 @@ import { createBrowserHistory } from 'history';
 import smoothscroll from 'smoothscroll-polyfill';
 import { mockServer } from 'mock/server';
 
-mockServer();
-smoothscroll.polyfill();
+// mockServer();
+// smoothscroll.polyfill();
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
