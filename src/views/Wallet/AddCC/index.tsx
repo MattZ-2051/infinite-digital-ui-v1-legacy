@@ -31,8 +31,7 @@ const AddCC = () => {
     expMonth: 0,
     expYear: 0,
     metadata: {
-      email: userEmail,
-      phoneNumber: '1231234',
+      email: { userEmail },
     },
     billingDetails: {
       name: '',
