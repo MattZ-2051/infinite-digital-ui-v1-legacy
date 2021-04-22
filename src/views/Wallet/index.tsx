@@ -5,6 +5,8 @@ import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 
+const S: any = {};
+
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
@@ -18,34 +20,36 @@ const Wallet = () => {
   };
 
   return (
-    <Container>
-      <PageHeaderContainer>
+    <S.Container>
+      <S.PageHeaderContainer>
         <Link to="/marketplace/sdfsdf" style={{ color: 'white' }}>
           Back To Profile
         </Link>
-        <HeaderText>My Wallet</HeaderText>
-      </PageHeaderContainer>
-      <PageContentContainer>
-        <TotalBalanceContainer>
+        <S.HeaderText>My Wallet</S.HeaderText>
+      </S.PageHeaderContainer>
+      <S.PageContentContainer>
+        <S.TotalBalanceContainer>
           <div>
-            <Tab style={{ borderBottom: '2px solid black' }}>Total Balance</Tab>
-            <GrayLine></GrayLine>
+            <S.Tab style={{ borderBottom: '2px solid black' }}>
+              Total Balance
+            </S.Tab>
+            <S.GrayLine></S.GrayLine>
           </div>
-          <BalanceAmount>$4500</BalanceAmount>
-          <AvailableAmount>
-            <AvailableText>Available:</AvailableText>
+          <S.BalanceAmount>$4500</S.BalanceAmount>
+          <S.AvailableAmount>
+            <S.AvailableText>Available:</S.AvailableText>
             $3750 (after active bids)
-          </AvailableAmount>
+          </S.AvailableAmount>
           <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
-            <ActionButton onClick={handleOpen}>Deposit</ActionButton>
+            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
           <div style={{ paddingTop: '12px' }}>
-            <ActionButton>Withdrawal</ActionButton>
+            <S.ActionButton>Withdrawal</S.ActionButton>
           </div>
-        </TotalBalanceContainer>
-        <LatestTransactionsContainer>
+        </S.TotalBalanceContainer>
+        <S.LatestTransactionsContainer>
           <div style={{ position: 'relative' }}>
-            <Tab
+            <S.Tab
               style={{
                 borderBottom: `${
                   selectedTab === 0 ? '2px solid black' : 'none'
@@ -55,9 +59,9 @@ const Wallet = () => {
               onClick={() => setSelectedTab(0)}
             >
               Latest Transactions
-            </Tab>
+            </S.Tab>
             <span style={{ padding: '0 20px' }}></span>
-            <Tab
+            <S.Tab
               style={{
                 borderBottom: `${
                   selectedTab === 1 ? '2px solid black' : 'none'
@@ -67,8 +71,8 @@ const Wallet = () => {
               onClick={() => setSelectedTab(1)}
             >
               Active Bids
-            </Tab>
-            <GrayLine style={{ width: '100%' }}></GrayLine>
+            </S.Tab>
+            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
           {selectedTab === 0 && (
             <>
@@ -85,29 +89,29 @@ const Wallet = () => {
               <ActiveBids bidType="exceeded" />
             </>
           )}
-        </LatestTransactionsContainer>
-      </PageContentContainer>
+        </S.LatestTransactionsContainer>
+      </S.PageContentContainer>
       <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
-    </Container>
+    </S.Container>
   );
 };
 
-const Container = styled.main`
+S.Container = styled.div`
   height: 100vh;
 `;
 
-const BalanceAmount = styled.span`
+S.BalanceAmount = styled.span`
   padding-top: 15px;
   font-weight: 500;
   font-size: 48px;
 `;
 
-const AvailableAmount = styled.span`
+S.AvailableAmount = styled.span`
   font-size: 16px;
   font-weight: 400;
 `;
 
-const Tab = styled.span`
+S.Tab = styled.span`
   font-weight: 600;
   font-size: 22px;
   line-height: 27.83px;
@@ -122,7 +126,7 @@ const Tab = styled.span`
   }
 `;
 
-const PageHeaderContainer = styled.div`
+S.PageHeaderContainer = styled.div`
   background-color: black;
   height: 25%;
   color: white;
@@ -132,30 +136,30 @@ const PageHeaderContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const TotalBalanceContainer = styled.div`
+S.TotalBalanceContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 48px;
 `;
 
-const LatestTransactionsContainer = styled.div`
+S.LatestTransactionsContainer = styled.div`
   padding-left: 48px;
   padding: 48px;
 `;
 
-const PageContentContainer = styled.div`
+S.PageContentContainer = styled.div`
   height: 75%;
   display: grid;
   grid-template-columns: 30% 70%;
 `;
 
-const HeaderText = styled.span`
+S.HeaderText = styled.span`
   font-size: 30px;
   font-weight: 600;
   padding-top: 32px;
 `;
 
-const ActionButton = styled.button`
+S.ActionButton = styled.button`
   width: 269px;
   height: 56px;
   color: black;
@@ -174,13 +178,13 @@ const ActionButton = styled.button`
   }
 `;
 
-const GrayLine = styled.div`
+S.GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
   padding-top: 10px;
   width: 80%;
 `;
 
-const AvailableText = styled.span`
+S.AvailableText = styled.span`
   font-size: 16px;
   font-weight: 400;
   color: #9e9e9e;
