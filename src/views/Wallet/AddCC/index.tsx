@@ -1,44 +1,37 @@
 import styled from 'styled-components/macro';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import TextField from '@material-ui/core/TextField';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { useAppSelector } from 'hooks/store';
+import { createNewUserCC } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const S: any = {};
 
-interface CCInfo {
-  cardNumber: string;
-  cvv: string;
-  expMonth: number;
-  expYear: number;
-  metadata: {
-    email: string;
-    phoneNumber: string;
-  };
-  billingDetails: {
-    name: string;
-    city: string;
-    country: string;
-    line1: string;
-    line2: string;
-    district: string;
-    postalCode: string;
-  };
+interface IValues {
+  [key: string]: any;
+}
+
+interface IErrors {
+  [key: string]: string;
 }
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
   const [error, setError] = useState<boolean | undefined>(false);
+  const userEmail = useAppSelector((state) => state.session.user.email);
+  const { getAccessTokenSilently } = useAuth0();
 
-  const state: CCInfo = {
+  const state: IValues = {
     cardNumber: '',
     cvv: '',
     expMonth: 0,
     expYear: 0,
     metadata: {
-      email: '',
+      email: userEmail,
       phoneNumber: '',
     },
     billingDetails: {
@@ -52,9 +45,34 @@ const AddCC = () => {
     },
   };
 
-  const [cardInfo, setCardInfo] = useState<CCInfo | undefined>(state);
+  const [cardInfo, setCardInfo] = useState<IValues | undefined>(state);
 
-  console.log(cardInfo);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name.includes('billingDetails')) {
+      const keyName = name.split('-')[1];
+      setCardInfo((prevState) => ({
+        ...prevState,
+        billingDetails: {
+          ...prevState?.billingDetails,
+          [keyName]: value,
+        },
+      }));
+      return;
+    }
+    setCardInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    return;
+  };
+
+  const handleSubmit = async () => {
+    const userToken = await getAccessTokenSilently();
+    console.log(cardInfo);
+    console.log(typeof cardInfo?.expMonth);
+    createNewUserCC(userToken, cardInfo);
+  };
 
   return (
     <S.Container>
@@ -79,29 +97,46 @@ const AddCC = () => {
         </S.Row>
         <S.Row>
           <S.FormInput
-            id="standard-basic"
             label="Credit Card Number"
+            name="cardNumber"
             fullWidth
             required
             error={error}
             color="secondary"
-            onChange={(e) => setCardInfo(e.target.value)}
+            onChange={handleChange}
           />
         </S.Row>
         <S.Row>
           <S.FormInput
             id="standard-basic"
-            label="Exp date"
+            label="Exp Month"
             size="medium"
             error={error}
             required
+            name="expMonth"
+            type="number"
+            style={{ paddingRight: '10px' }}
+            onChange={handleChange}
           />
           <S.FormInput
             id="standard-basic"
-            label="CCV"
+            label="Exp Year"
+            size="medium"
+            error={error}
+            required
+            name="expYear"
+            type="number"
+            style={{ paddingRight: '10px' }}
+            onChange={handleChange}
+          />
+          <S.FormInput
+            id="standard-basic"
+            label="CVV"
             size="medium"
             required
             error={error}
+            name="cvv"
+            onChange={handleChange}
           />
         </S.Row>
         <S.Row>
@@ -132,6 +167,8 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                name="billingDetails-name"
+                onChange={handleChange}
               />
             </S.Row>
             <S.Row>
@@ -142,6 +179,8 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                onChange={handleChange}
+                name="billingDetails-line1"
               />
             </S.Row>
             <S.Row>
@@ -151,6 +190,8 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 error={error}
+                name="billingDetails-line2"
+                onChange={handleChange}
               />
             </S.Row>
             <S.Row>
@@ -161,6 +202,8 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                onChange={handleChange}
+                name="billingDetails-postalCode"
               />
             </S.Row>
             <S.Row>
@@ -171,6 +214,8 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                name="billingDetails-city"
+                onChange={handleChange}
               />
             </S.Row>
             <S.Row>
@@ -180,6 +225,8 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 error={error}
+                onChange={handleChange}
+                name="billingDetails-district"
               />
             </S.Row>
             <S.Row>
@@ -190,6 +237,8 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                onChange={handleChange}
+                name="billingDetails-country"
               />
             </S.Row>
             <S.Row>
@@ -200,12 +249,13 @@ const AddCC = () => {
                 fullWidth
                 required
                 error={error}
+                onChange={handleChange}
               />
             </S.Row>
           </div>
         ) : null}
         <div style={{ paddingTop: '16px', paddingBottom: '40px' }}>
-          <S.Button onClick={() => setError(!error)}>Add Card</S.Button>
+          <S.Button onClick={handleSubmit}>Add Card</S.Button>
         </div>
       </S.ContentContainer>
     </S.Container>
@@ -218,6 +268,8 @@ S.Container = styled.div`
   align-items: center;
   overflow: auto;
   height: 80vh;
+  width: 450px;
+  margin: auto;
 `;
 
 S.FormInputError = styled(TextField)`

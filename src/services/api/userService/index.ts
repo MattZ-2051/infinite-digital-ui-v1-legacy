@@ -32,3 +32,15 @@ export const getUserCards = async (token: string) => {
 
   return response;
 };
+
+export const createNewUserCC = async (token: string, data: any) => {
+  const response = await axiosInstance.post('/users/wallet/cards', data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (response) {
+    console.log('service', response);
+  }
+
+  return response;
+};
