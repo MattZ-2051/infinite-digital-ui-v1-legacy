@@ -25,6 +25,20 @@ const AddCC = () => {
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
 
+  const stateErrors: IErrors = {
+    cardNumber: '',
+    cvv: '',
+    expMonth: '',
+    expYear: '',
+    name: '',
+    city: '',
+    country: '',
+    line1: '',
+    line2: '',
+    district: '',
+    postalCode: '',
+  };
+
   const state: IValues = {
     cardNumber: '',
     cvv: '',
