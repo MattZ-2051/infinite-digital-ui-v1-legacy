@@ -1,17 +1,12 @@
-/*
- * How to use: <PrivateComponent roles={['admin', 'studio']}>
- */
-import { useAppSelector } from 'hooks/store';
-
-export interface IProps {}
-
-const PrivateComponent: React.FC<IProps> = (props: any) => {
-  //const userRole = useAppSelector((state) => state.session.userRole);
-  const userRole = 'logged';
-  const hasRole = () => props.roles.some((role: any) => userRole === role);
-
-  if (hasRole()) return props.children;
-  return null;
-};
-
+import { RSA_PKCS1_OAEP_PADDING } from "constants";
+export interface IProps {
+    
+}
+ 
+const PrivateComponent: React.FC<IProps> = () => {
+    return (
+        <div>PrivateComponent</div>
+    );
+}
+ 
 export default PrivateComponent;
