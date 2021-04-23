@@ -1,12 +1,14 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close-modal.svg';
 
 export interface IProps {
+  children: any;
   isVisible: boolean;
   status: 'error' | 'success';
 }
 
-const Toast: React.FC<IProps> = ({ children, isVisible, status }) => {
+const Toast = ({ children, isVisible, status }: IProps) => {
   if (!isVisible) return null;
 
   return (

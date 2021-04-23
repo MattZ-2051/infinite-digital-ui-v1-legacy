@@ -70,6 +70,13 @@
     "@types/react-slick": "^0.23.4",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "@types/styled-components": "^5.1.7",
-    "miragejs": "^0.1.41"
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "miragejs": "^0.1.41",
+    "prettier": "^2.2.1"
   }
 }

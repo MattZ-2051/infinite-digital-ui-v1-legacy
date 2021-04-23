@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import BadgeMUI from '@material-ui/core/Badge';
 import AvatarMUI from '@material-ui/core/Avatar';

@@ -1,40 +1,41 @@
-import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 // Local
 // Components
 import {
   getUserInfoThunk,
   getUserCollectionThunk,
-} from "store/session/sessionThunks";
-import { useAppDispatch, useAppSelector } from "hooks/store";
-import { getFeaturesThunk } from "store/landing/landingThunks";
+} from 'store/session/sessionThunks';
+import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { getFeaturesThunk } from 'store/landing/landingThunks';
 // Components
-import Hero from "./components/Hero";
-import FeatureProducts from "./components/Featured/FeatureProducts";
+import Hero from './components/Hero';
+import FeatureProducts from './components/Featured/FeatureProducts';
 // import FeatureBoxes from './Featured/FeatureBoxes';
-import LatestProducts from "./components/LatestProducts";
+import LatestProducts from './components/LatestProducts';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const loggedInUser = useAppSelector((state) => state.session.user);
 
-  console.log("logged in user", loggedInUser);
+  console.log('logged in user', loggedInUser);
 
   useEffect(() => {
     (async () => {
-      dispatch(getFeaturesThunk(""));
+      // TODO: REVIEW
+      // dispatch(getFeaturesThunk(''));
     })();
   }, [dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        dispatch(getUserInfoThunk({ token: "", userId: user.sub }));
+        dispatch(getUserInfoThunk({ token: '', userId: user.sub }));
       }
       if (loggedInUser) {
         dispatch(
-          getUserCollectionThunk({ token: "", userId: loggedInUser["id"] })
+          getUserCollectionThunk({ token: '', userId: loggedInUser['id'] })
         );
       }
     };

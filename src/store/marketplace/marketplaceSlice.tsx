@@ -24,7 +24,7 @@ const defaultFilters: IFilters = {
   series: [],
   search: '',
   sort: '',
-  rarity: []
+  rarity: [],
 };
 
 export const getDefaultParams = () => {
@@ -34,7 +34,7 @@ export const getDefaultParams = () => {
   const urlParams: any = new URLSearchParams(queryString);
   const filters: IFilters = JSON.parse(JSON.stringify(defaultFilters));
 
-  for (let param of urlParams) {
+  for (const param of urlParams) {
     const paramName: string = param[0];
     const paramValue: string = param[1];
 
@@ -54,7 +54,7 @@ export const getDefaultParams = () => {
         filters.search = paramValue;
         break;
       case 'sort':
-        filters.sort = paramValue
+        filters.sort = paramValue;
         break;
       default:
         if (filters[paramName]) filters[paramName] = paramValue.split('+');

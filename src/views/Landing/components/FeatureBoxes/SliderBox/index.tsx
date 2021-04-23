@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 // Local
@@ -16,25 +17,28 @@ const SlideBox: React.FC<IProps> = ({ dropBox }) => {
         <h3>{dropBox.config.description}</h3>
 
         <p style={{ fontSize: '18px' }}>
-          Only <span style={{ fontSize: '35px', fontWeight: 'bold' }}>{dropBox.config.totalSupply}</span>{' '}
+          Only{' '}
+          <span style={{ fontSize: '35px', fontWeight: 'bold' }}>
+            {dropBox.config.totalSupply}
+          </span>{' '}
           left
         </p>
 
         <p style={{ fontSize: '24px' }}>
           Price{' '}
-          <span style={{ fontSize: '45px', fontWeight: 'bold' }}>${dropBox.config.price}</span>
+          <span style={{ fontSize: '45px', fontWeight: 'bold' }}>
+            ${dropBox.config.price}
+          </span>
         </p>
 
-        <Button color="black">
-          Get yours now
-        </Button>
+        <Button color="black">Get yours now</Button>
 
         <p style={{ marginTop: '10px' }}>
           Each box contains 3 products. <br />
           <Link to="/">Click Here</Link> to learn more.
         </p>
       </ProductDetails>
-      <ImageContainer url={dropBox.config?.imageUrl}/>
+      <ImageContainer url={dropBox.config?.imageUrl} />
     </Container>
   );
 };
@@ -82,13 +86,13 @@ const ProductDetails = styled.div`
 
 interface ImageContainerProps {
   readonly url: 'string';
-};
+}
 
 const ImageContainer = styled.div<ImageContainerProps>`
   height: 720px;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('${props => props.url}');
+  background-image: url('${(props) => props.url}');
   width: calc(100% - 340px);
   background-size: contain;
   margin-left: 25px;

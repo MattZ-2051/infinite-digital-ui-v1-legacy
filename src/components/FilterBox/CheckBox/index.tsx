@@ -6,25 +6,23 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-
 const CheckBox = ({ label, width, options }) => {
-
-
   const [open, setOpen] = useState<boolean | undefined>(true);
 
   const handleChange = () => {
     setOpen(!open);
-  }
+  };
   return (
     <>
-      <FilterDiv onClick={handleChange}  >
-        <span style={{ color: '#888888', fontSize: '18px' }}>{label || "Enter Label"}</span>
-        {open
-          ?
+      <FilterDiv onClick={handleChange}>
+        <span style={{ color: '#888888', fontSize: '18px' }}>
+          {label || 'Enter Label'}
+        </span>
+        {open ? (
           <KeyboardArrowDownIcon style={{ color: 'black' }} />
-          :
+        ) : (
           <KeyboardArrowUpIcon style={{ color: 'black' }} />
-        }
+        )}
       </FilterDiv>
       <HiddenDiv hidden={open} style={{ width: width || '301px' }}>
         {options instanceof Array &&
@@ -39,18 +37,16 @@ const CheckBox = ({ label, width, options }) => {
                       label={option}
                       labelPlacement="end"
                       style={{ color: '#9e9e9e' }}
-                      color='default'
+                      color="default"
                     />
                   </FormGroup>
                 </FormControl>
-
               </div>
-            )
+            );
           })}
       </HiddenDiv>
-
     </>
-  )
-}
+  );
+};
 
 export default CheckBox;

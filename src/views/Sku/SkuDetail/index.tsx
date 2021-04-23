@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
@@ -9,8 +10,6 @@ import ImageGallery from 'components/ImageGallery';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-
-export interface SkuDetailProps {}
 
 // {
 //   "rarity": "uncommon",
@@ -78,7 +77,7 @@ type ReleasedCounterProps = {
 };
 
 const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
-  let text = 'to be released';
+  const text = 'to be released';
 
   return (
     <>
@@ -91,8 +90,8 @@ interface ICollectors {
   collectors: any;
 }
 
-const SkuDetail: React.FC<SkuDetailProps> = () => {
-  let { skuid } = useParams<{ skuid: string }>();
+const SkuDetail = () => {
+  const { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<ISku>();
   const [collectors, setCollectors] = useState<ICollectors>([] as any);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);

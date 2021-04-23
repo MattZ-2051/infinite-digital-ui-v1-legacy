@@ -1,8 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getUserInfo, getUserCollection } from "services/api/userService";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getUserInfo, getUserCollection } from 'services/api/userService';
 
 // Return type of the payload creator
-interface IResponse {}
+// TODO: REVIEW THIS
+interface IResponse {
+  test?: any;
+}
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -21,7 +24,7 @@ export const getUserInfoThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->("user/sub/:userId/get", async (data, thunkApi) => {
+>('user/sub/:userId/get', async (data, thunkApi) => {
   try {
     const response = await getUserInfo(data.userId, data.token);
     //console.log('response thunk :', response);
@@ -41,11 +44,11 @@ export const getUserCollectionThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->("user/userCollection/get", async (data, thunkApi) => {
+>('user/userCollection/get', async (data, thunkApi) => {
   try {
     const response = await getUserCollection(data.userId, data.token);
-    console.log("response thunk :", response);
-    console.log("response thunkx data :", response.data);
+    console.log('response thunk :', response);
+    console.log('response thunkx data :', response.data);
 
     return response.data;
   } catch (err) {

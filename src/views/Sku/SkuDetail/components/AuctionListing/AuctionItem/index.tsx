@@ -1,15 +1,21 @@
+import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
 
 export interface AuctionItemProps {
-  serialNumber: number,
-  ownerName: string,
-  highestBid: number,
-  endDate: string,
+  serialNumber: number;
+  ownerName: string;
+  highestBid: number;
+  endDate: string;
 }
 
-const AuctionItem: React.FC<AuctionItemProps> = ({ serialNumber, ownerName, highestBid, endDate}) => {
+const AuctionItem = ({
+  serialNumber,
+  ownerName,
+  highestBid,
+  endDate,
+}: AuctionItemProps) => {
   return (
     <Container>
       {/* <Avatar /> */}
@@ -27,11 +33,15 @@ const AuctionItem: React.FC<AuctionItemProps> = ({ serialNumber, ownerName, high
           <RightArrow
             style={{ marginLeft: '10px', marginRight: '10px', height: '10px' }}
           />
-          <span style={{ fontWeight: 'bold', color: 'black' }}>{`$${highestBid}`}</span>{' '}
+          <span
+            style={{ fontWeight: 'bold', color: 'black' }}
+          >{`$${highestBid}`}</span>{' '}
           <br />
         </div>
 
-        <strong style={{ color: 'black' }}>Expires in {formatCountdown('2021-04-30T23:00:00.000Z')}</strong>
+        <strong style={{ color: 'black' }}>
+          Expires in {formatCountdown('2021-04-30T23:00:00.000Z')}
+        </strong>
       </AuctionDetail>
 
       <RightArrow style={{ marginLeft: '20px' }} />

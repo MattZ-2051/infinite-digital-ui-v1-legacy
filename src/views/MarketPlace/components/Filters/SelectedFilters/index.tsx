@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import Chip from './Chip';
 
@@ -6,7 +7,7 @@ export interface IProps {
   handleFilter: (name: string, data: any) => void;
 }
 
-const SelectedFilters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
+const SelectedFilters = ({ handleFilter, activeFilters }: IProps) => {
   const handleDelete = (filterCategory: string, value: any) => {
     let filterValues = [];
 
@@ -53,7 +54,7 @@ const SelectedFilters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
   const ChipItems = () => {
     const chipElements: any = [];
     Object.keys(activeFilters).map((category) => {
-      if (activeFilters[category].length) {
+      if (activeFilters[category]?.length) {
         switch (category) {
           case 'category':
           case 'brand':

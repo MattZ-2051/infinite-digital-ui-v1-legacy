@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as WalletSvg } from 'assets/svg/icons/wallet.svg';
 import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';

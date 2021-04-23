@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
@@ -18,8 +19,8 @@ const MyCollection = () => {
       <S.ProductContainer>
         {mockItems instanceof Array &&
           mockItems.map((item, index) => {
-            let type: string = 'active-listing';
-            let sku = item.sku;
+            let type = 'active-listing';
+            const sku = item.sku;
             if (item.listing.status === 'active') {
               type = 'active-listing';
             } else {
@@ -27,9 +28,7 @@ const MyCollection = () => {
             }
 
             return (
-              <S.TileContainer
-                style={{ paddingLeft: `${index === 0 ? '0px' : '10px'}` }}
-              >
+              <S.TileContainer key={index} index={index}>
                 <ProductTile
                   redeemable={true}
                   status={type}
@@ -50,7 +49,8 @@ const MyCollection = () => {
   );
 };
 
-S.TileContainer = styled.div`
+S.TileContainer = styled.div<{ index: number }>`
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
   padding: 0 20px;
 `;
 

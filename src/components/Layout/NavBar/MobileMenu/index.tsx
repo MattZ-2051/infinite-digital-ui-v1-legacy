@@ -1,12 +1,12 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-// Local
 import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
-  logout: (redirect?: {}) => void;
+  logout: (redirect?: any) => void;
   isAuthenticated: boolean;
   user: { name: string };
 }
@@ -20,7 +20,11 @@ const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
-          <TextButton color="white" size="big" onClick={() => login({ screen_hint: 'signup' })}> 
+          <TextButton
+            color="white"
+            size="big"
+            onClick={() => login({ screen_hint: 'signup' })}
+          >
             Sign Up
           </TextButton>{' '}
           |{' '}

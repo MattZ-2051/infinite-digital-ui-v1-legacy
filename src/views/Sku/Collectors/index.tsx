@@ -1,19 +1,13 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 
-export interface IProps {}
 const S: any = {};
 
-const Collectors: React.FC<IProps> = () => {
+const Collectors = () => {
   return (
     <S.Container>
-      <S.Gallery>
-        Galeria
-      </S.Gallery>
-
-      <S.Content>
-        Marketplace / XXX / XXX
-      </S.Content>
-
+      <S.Gallery>Galeria</S.Gallery>
+      <S.Content>Marketplace / XXX / XXX</S.Content>
     </S.Container>
   );
 };
@@ -26,7 +20,6 @@ S.Container = styled.div`
 
 S.Gallery = styled.div`
   max-width: 488px;
-
 `;
 
 S.Content = styled.div`

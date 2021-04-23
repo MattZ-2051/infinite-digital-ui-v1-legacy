@@ -1,11 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider'
+import Slider from '@material-ui/core/Slider';
 import styled from 'styled-components';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -20,15 +19,26 @@ export default function RangeSlider() {
   };
 
   const handleOpen = () => {
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
   return (
     <div style={{ width: '301px', padding: '9px 16px' }}>
-      <Typography id="range-slider" gutterBottom >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={handleOpen}>
-          <span style={{ fontSize: '18px', fontWeight: 500, color: '#9E9E9E' }}>Price Range</span>
-          <span style={{ color: 'black', fontSize: '14px' }}>From ${value[0]} to ${value[1]}</span>
+      <Typography id="range-slider" gutterBottom>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+          onClick={handleOpen}
+        >
+          <span style={{ fontSize: '18px', fontWeight: 500, color: '#9E9E9E' }}>
+            Price Range
+          </span>
+          <span style={{ color: 'black', fontSize: '14px' }}>
+            From ${value[0]} to ${value[1]}
+          </span>
           {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </div>
       </Typography>
@@ -72,11 +82,11 @@ const StyledSlider = styled(Slider)`
     background-color: black;
   }
 
-  .MuiSlider-valueLabel	{
+  .MuiSlider-valueLabel {
     color: black;
   }
 
-  .Mui-focusVisible	{
+  .Mui-focusVisible {
     color: black;
   }
 `;

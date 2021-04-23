@@ -1,15 +1,14 @@
+import React from 'react';
 import Modal from 'components/Modal';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
 import { Link } from 'react-router-dom';
-// Local
 import Button from 'components/Buttons/Button';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
 import shoeImg from 'assets/temp/shoe.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
-import React from 'react';
 
 export interface IModalProps {
   visible: boolean;
@@ -17,11 +16,11 @@ export interface IModalProps {
   mode: string;
 }
 
-const ModalPayment: React.FC<IModalProps> = ({
+const ModalPayment = ({
   visible,
   setModalPaymentVisible,
   mode,
-}) => {
+}: IModalProps) => {
   const Content: any = () => (
     <>
       <S.ImageContainer>
@@ -89,8 +88,8 @@ const ModalPayment: React.FC<IModalProps> = ({
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           {mode === 'hasFunds' && (
             <>
-              By confirming this action will discount the <br /> amount from your
-              wallet.
+              By confirming this action will discount the <br /> amount from
+              your wallet.
             </>
           )}
           {mode === 'noFunds' && (
@@ -98,7 +97,7 @@ const ModalPayment: React.FC<IModalProps> = ({
           )}
           {mode === 'completed' && (
             <>
-              You successfully bought this item, and  <br /> now is part of your
+              You successfully bought this item, and <br /> now is part of your
               collection.
             </>
           )}
@@ -119,8 +118,10 @@ const ModalPayment: React.FC<IModalProps> = ({
         </Button>
 
         {mode === 'completed' && (
-          <div style={{marginTop: '20px'}}>
-            <Link style={{textDecoration: 'none'}} to={''}>Back to Marketplace</Link>
+          <div style={{ marginTop: '20px' }}>
+            <Link style={{ textDecoration: 'none' }} to={''}>
+              Back to Marketplace
+            </Link>
           </div>
         )}
       </S.Footer>

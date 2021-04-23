@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 // Local
 import Button from 'components/Buttons/Button';
@@ -25,7 +26,11 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
       <Subtitle>Your home for premium NFT collectibles</Subtitle>
 
       {!isAuthenticated && (
-        <Button color="white" onClick={() => login()} data-testid="start-collection-btn">
+        <Button
+          color="white"
+          onClick={() => login()}
+          data-testid="start-collection-btn"
+        >
           START YOUR COLLECTOY TODAY
         </Button>
       )}
@@ -64,7 +69,7 @@ const Title = styled.h1`
   @media screen and (max-width: 600px) {
     margin-bottom: 10%;
   }
- 
+
   @media screen and (max-width: 600px) {
     word-spacing: 100vw;
     span {

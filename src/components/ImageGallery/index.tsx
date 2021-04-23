@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 // Local
 import shoe1 from 'assets/img/temp/shoes/shoe-1.jpg';
 import shoe2 from 'assets/img/temp/shoes/shoe-2.jpg';
 import shoe3 from 'assets/img/temp/shoes/shoe-3.jpg';
 import shoe4 from 'assets/img/temp/shoes/shoe-4.jpg';
-
-export interface ImageGalleryProps {}
 
 const images = [
    shoe1,
@@ -15,7 +13,7 @@ const images = [
    shoe4,
 ];
 
-const ImageGallery: React.FC<ImageGalleryProps> = () => {
+const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {

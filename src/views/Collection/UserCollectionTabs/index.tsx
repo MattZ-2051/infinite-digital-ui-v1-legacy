@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import MyItems from './MyItems';
 import MyReleases from './MyReleases';
@@ -11,7 +11,8 @@ interface IProps {
 const UserCollectionTabs = ({ userStatus }: IProps) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
 
-  const placeHolderFunc = () => {};
+  // TODO: REVIEW
+  const placeHolderFunc = () => null;
   return (
     <Container>
       {userStatus === 'loggedIn' && (

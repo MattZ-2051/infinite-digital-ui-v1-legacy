@@ -1,3 +1,4 @@
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -21,10 +22,8 @@ import SkuTile from './components/SkuTile';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
-export interface IProps {}
-
-const MarketPlace: React.FC<IProps> = () => {
-  let history = useHistory();
+const MarketPlace = () => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const [filtersVisible, setFiltersVisible] = useState(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
@@ -35,7 +34,7 @@ const MarketPlace: React.FC<IProps> = () => {
   const isMounted = useRef(true);
 
   // Create the url query-string using the redux stored filters
-  const createQueryString = (filters: {}) => {
+  const createQueryString = (filters) => {
     const params = new URLSearchParams();
 
     Object.keys(filters).forEach((categoryName) => {

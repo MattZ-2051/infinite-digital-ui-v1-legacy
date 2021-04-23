@@ -1,9 +1,10 @@
-import styled from "styled-components/macro";
-import circleIcon from "assets/img/icons/circle-icon-deposit.png";
-import exitIcon from "assets/img/icons/exit-icon.png";
-import Cards from "react-credit-cards";
-import "react-credit-cards/es/styles-compiled.css";
-import { Container } from "../index";
+import React from 'react';
+import styled from 'styled-components/macro';
+import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
+import exitIcon from 'assets/img/icons/exit-icon.png';
+import Cards from 'react-credit-cards';
+import 'react-credit-cards/es/styles-compiled.css';
+import { Container } from '../index';
 
 interface IProps {
   existingCard?: boolean;
@@ -16,7 +17,7 @@ const AddFunds = ({ existingCard }: IProps) => {
     <Container>
       <S.ContentContainer>
         <S.Row
-          style={{ borderBottom: "2px solid black", paddingBottom: "16px" }}
+          style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
         >
           <S.HeaderDiv>
             <img src={circleIcon} alt="" />
@@ -24,7 +25,7 @@ const AddFunds = ({ existingCard }: IProps) => {
           </S.HeaderDiv>
           <img src={exitIcon} alt="" />
         </S.Row>
-        <div style={{ paddingTop: "25px" }}>
+        <div style={{ paddingTop: '25px' }}>
           <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
         </div>
         <S.CardContainer>
@@ -38,25 +39,25 @@ const AddFunds = ({ existingCard }: IProps) => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <span style={{ color: "#00c44f", paddingLeft: "5px" }}>
+            <span style={{ color: '#00c44f', paddingLeft: '5px' }}>
               (Active)
             </span>
           </div>
-          <span style={{ fontSize: "16px", color: "#7d7d7d" }}>
+          <span style={{ fontSize: '16px', color: '#7d7d7d' }}>
             Remove Card
           </span>
         </S.Row>
         <div
           style={{
-            paddingTop: "25px",
-            borderBottom: "2px solid #ebebeb",
-            paddingBottom: "10px",
+            paddingTop: '25px',
+            borderBottom: '2px solid #ebebeb',
+            paddingBottom: '10px',
           }}
         >
           <S.DollarSign>$</S.DollarSign>
           <S.AmountInput placeholder="Enter Amount" />
         </div>
-        <div style={{ padding: "25px 0" }}>
+        <div style={{ padding: '25px 0' }}>
           <S.AddFundsButton>Add Funds</S.AddFundsButton>
         </div>
       </S.ContentContainer>

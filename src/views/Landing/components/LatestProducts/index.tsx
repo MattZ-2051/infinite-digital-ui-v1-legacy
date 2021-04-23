@@ -12,7 +12,7 @@ export interface IProps {
 const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (event: React.ChangeEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
   return (

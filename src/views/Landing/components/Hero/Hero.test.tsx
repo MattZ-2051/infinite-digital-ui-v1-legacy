@@ -6,10 +6,7 @@ import { Provider } from 'react-redux';
 import Hero from './index';
 
 describe('<Hero />', () => {
-  const renderComponent = (
-    isAuthenticated: boolean,
-    login = () => {},
-  ) => {
+  const renderComponent = (isAuthenticated: boolean, login = () => {}) => {
     return render(
       <Provider store={store}>
         <BrowserRouter>

@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import styled from 'styled-components/macro';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -16,10 +17,8 @@ export interface IProps {
 }
 
 const ProductPanel = () => {
-  return (
-    <div></div>
-  )
-}
+  return <div></div>;
+};
 
 export const StyledCard = styled(Card)`
   max-width: 302px;
@@ -28,7 +27,6 @@ export const StyledCard = styled(Card)`
   overflow: initial;
   border-radius: 20px;
   box-shadow: 2px 2px 3px 1px #ccc;
-
 `;
 
 export const StyledCardDiv = styled.div`

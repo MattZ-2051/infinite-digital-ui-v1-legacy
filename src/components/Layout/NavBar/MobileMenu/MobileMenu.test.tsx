@@ -1,3 +1,4 @@
+import React from 'react';
 import '../../../../../jest/matchMedia.mock';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -14,7 +15,12 @@ describe('<Menu />', () => {
     return render(
       <Provider store={store}>
         <BrowserRouter>
-          <MobileMenu login={login} logout={logout} isAuthenticated={isAuthenticated} user={{name: 'abc'}} />
+          <MobileMenu
+            login={login}
+            logout={logout}
+            isAuthenticated={isAuthenticated}
+            user={{ name: 'abc' }}
+          />
         </BrowserRouter>
       </Provider>
     );

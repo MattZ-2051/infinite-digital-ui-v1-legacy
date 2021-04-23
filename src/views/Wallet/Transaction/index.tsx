@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
 import depositIcon from 'assets/img/icons/Added-funds.png';
