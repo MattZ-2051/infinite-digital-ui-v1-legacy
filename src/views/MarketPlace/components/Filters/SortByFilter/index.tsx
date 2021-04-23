@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -27,7 +28,7 @@ const SortByFilter = ({
     }
   };
 
-  let currentLabel = options.filter(getCurrentFilterOption);
+  const currentLabel = options.filter(getCurrentFilterOption);
 
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);

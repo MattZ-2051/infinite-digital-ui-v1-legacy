@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import 'date-fns';
 import { format } from 'date-fns';
-import { useState } from 'react';
 import styled from 'styled-components/macro';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -12,7 +12,7 @@ export interface IProps {
   handleFilter: (name: string, data: any) => void;
 }
 
-const DateFilter: React.FC<IProps> = ({ handleFilter }) => {
+const DateFilter = ({ handleFilter }: IProps) => {
   const [selectedStartDate, setStartDate] = useState<Date | null>(new Date());
   const [selectedEndDate, setEndDate] = useState<Date | null>(null);
 

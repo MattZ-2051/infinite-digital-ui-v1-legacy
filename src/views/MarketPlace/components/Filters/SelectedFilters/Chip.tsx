@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -7,11 +8,7 @@ export interface ChipProps {
   handleDelete: (filterCategory: string, value: any) => void;
 }
 
-const ChipComponent: React.FC<ChipProps> = ({
-  filterCategory,
-  label,
-  handleDelete,
-}) => {
+const ChipComponent = ({ filterCategory, label, handleDelete }: ChipProps) => {
   return (
     <>
       <Chip>

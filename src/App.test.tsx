@@ -1,3 +1,4 @@
+import React from 'react';
 import '../jest/matchMedia.mock';
 import { Provider } from 'react-redux';
 import store from 'store';

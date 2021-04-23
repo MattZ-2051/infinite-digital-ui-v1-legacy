@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 
 export interface IProps {
@@ -6,7 +7,7 @@ export interface IProps {
   tag?: 'div' | 'span' | 'nav';
 }
 
-const Divider = ({ children, gap, tag = 'div'}: IProps) => {
+const Divider = ({ children, gap, tag = 'div' }: IProps) => {
   return (
     <Container as={tag as any} style={{ ['--gap' as string]: `${gap}px` }}>
       {children}

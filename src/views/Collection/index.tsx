@@ -6,9 +6,7 @@ import UserCollectionTabs from './UserCollectionTabs';
 import { useAppSelector } from 'hooks/store';
 import { useHistory } from 'react-router-dom';
 
-interface IProps {}
-
-const Collection: React.FC<IProps> = () => {
+const Collection = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const user = useAppSelector((store) => store.session.user);
   const history = useHistory();

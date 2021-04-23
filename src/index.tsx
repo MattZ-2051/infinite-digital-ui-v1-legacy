@@ -22,7 +22,7 @@ const onRedirectCallback = (appState) => {
   );
 };
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
 const providerConfig = {
   domain: config.auth.auth0Domain,

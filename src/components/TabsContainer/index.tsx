@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import MuiTabs from '@material-ui/core/Tabs';
 
@@ -6,17 +7,17 @@ export interface IProps {
 }
 
 const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
-&& {
-  .MuiTabs-centered {
-    justify-content: space-between;
-    margin: auto;
-    width: ${(props) => props.width ? `${props.width}` : '100%'};
-    align-items: center;
-  }
-  .MuiTabs-indicator {
-    background-color: black !important;
-    height: 3px;
-  }
+  && {
+    .MuiTabs-centered {
+      justify-content: space-between;
+      margin: auto;
+      width: ${(props) => (props.width ? `${props.width}` : '100%')};
+      align-items: center;
+    }
+    .MuiTabs-indicator {
+      background-color: black !important;
+      height: 3px;
+    }
 
     @media screen and (max-width: 600px) {
       .MuiTab-wrapper {

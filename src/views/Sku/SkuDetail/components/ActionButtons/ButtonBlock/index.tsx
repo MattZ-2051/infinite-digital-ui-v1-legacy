@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 
@@ -14,8 +15,22 @@ export interface IButtonBlock {
   };
 }
 
-// Boxes
-const UpcomingData = ({ minStartDate }) => {
+interface IUpcomingData {
+  minStartDate: string;
+}
+
+interface IFromCreatorBox {
+  skuPrice: number;
+  totalNewSupplyLeft: number;
+}
+
+interface IFromCollectorsBox {
+  minimunPrice: number;
+  countProductListings: number;
+  totalSupply?: any;
+}
+
+const UpcomingData = ({ minStartDate }: IUpcomingData) => {
   return (
     <>
       <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
@@ -24,7 +39,7 @@ const UpcomingData = ({ minStartDate }) => {
   );
 };
 
-const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }) => {
+const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
   return (
     <Container>
       <BoxColumn>
@@ -51,9 +66,8 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }) => {
 
 const FromCollectorsBox = ({
   minimunPrice,
-  totalSupply,
   countProductListings,
-}) => {
+}: IFromCollectorsBox) => {
   return (
     <Container>
       <BoxColumn>
@@ -87,7 +101,7 @@ const NotAvailable = () => {
   );
 };
 
-const ButtonBlock: React.FC<IButtonBlock> = ({ data }) => {
+const ButtonBlock = ({ data }: IButtonBlock) => {
   const isUpcoming = !!data.totalSupplyUpcoming;
   const hasMintedProducts = !!data.circulatingSupply;
   const hasSkus = !!data.countSkuListings;

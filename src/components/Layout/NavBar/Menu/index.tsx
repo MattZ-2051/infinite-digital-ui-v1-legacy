@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import Divider from 'components/Divider';
 import TextButton from 'components/Buttons/TextButton';

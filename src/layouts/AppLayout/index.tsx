@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { Link as LinkComponent } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -15,7 +16,7 @@ export interface IProps {
   children: JSX.Element;
 }
 
-const AppLayout: React.FC<IProps> = ({ children }) => {
+const AppLayout = ({ children }: IProps) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 

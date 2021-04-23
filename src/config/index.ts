@@ -5,10 +5,10 @@ interface AppConfig {
     auth0Domain: string;
     auth0ClientId: string;
     auth0Audience: string;
-  },
+  };
   backend: {
     apiEndpoint: string;
-  }
+  };
 }
 
 export const config: AppConfig = {
@@ -19,5 +19,5 @@ export const config: AppConfig = {
   },
   backend: {
     apiEndpoint: getEnvVar('REACT_APP_API_ENDPOINT', true),
-  }
-}
+  },
+};

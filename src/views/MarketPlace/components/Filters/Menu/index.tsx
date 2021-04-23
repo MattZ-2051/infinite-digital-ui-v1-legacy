@@ -1,45 +1,60 @@
+import React from 'react';
 import styled from 'styled-components/macro';
-import { useAppSelector } from 'hooks/store';
 
 export interface IProps {
-  handleFilter: (name: string, data: string) => void
+  handleFilter: (name: string, data: string) => void;
   activeFilterStatus: string;
 }
 
-const MenuFilter: React.FC<IProps> = ({ handleFilter, activeFilterStatus }) => {
-
+const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
   return (
     <ButtonFilters>
       <Li>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <Button
             onClick={() => handleFilter('status', 'all')}
-            style={{ color: `${activeFilterStatus === 'all' ? 'black' : '#9e9e9e'}` }}>
+            style={{
+              color: `${activeFilterStatus === 'all' ? 'black' : '#9e9e9e'}`,
+            }}
+          >
             All
-            </Button>
-          <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>(12, 244)</small>
+          </Button>
+          <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
+            (12, 244)
+          </small>
         </div>
       </Li>
       <Li>
         <Button
           onClick={() => handleFilter('status', 'released')}
-          style={{ color: `${activeFilterStatus === 'released' ? 'black' : '#9e9e9e'}` }}>
+          style={{
+            color: `${activeFilterStatus === 'released' ? 'black' : '#9e9e9e'}`,
+          }}
+        >
           Released
         </Button>
       </Li>
       <Li>
         <Button
           onClick={() => handleFilter('status', 'upcoming')}
-          style={{ color: `${activeFilterStatus === 'upcoming' ? 'black' : '#9e9e9e'}` }}>
+          style={{
+            color: `${activeFilterStatus === 'upcoming' ? 'black' : '#9e9e9e'}`,
+          }}
+        >
           Upcoming
         </Button>
       </Li>
       <Li>
         <Button
           onClick={() => handleFilter('status', 'no-one-selling')}
-          style={{ color: `${activeFilterStatus === 'no-one-selling' ? 'black' : '#9e9e9e'}` }}>
+          style={{
+            color: `${
+              activeFilterStatus === 'no-one-selling' ? 'black' : '#9e9e9e'
+            }`,
+          }}
+        >
           No One Selling
-          </Button>
+        </Button>
       </Li>
     </ButtonFilters>
   );

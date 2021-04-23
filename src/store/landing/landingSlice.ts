@@ -18,13 +18,13 @@ export const listingSlice = createSlice({
       //console.log('payload: ', payload)
       state.features = payload;
     });
-    builder.addCase(getDropBoxesThunk.fulfilled, (state, {payload}) => {
+    builder.addCase(getDropBoxesThunk.fulfilled, (state, { payload }) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
 
       state.dropBoxes = payload;
-    })
+    });
   },
 });
 

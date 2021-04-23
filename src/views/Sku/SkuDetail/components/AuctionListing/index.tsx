@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import AuctionItem from './AuctionItem';
@@ -5,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { mockServer } from 'mock/server';
 
 export interface IProps {
+  // TODO: REVIEW
   // collectors: {
   //   serialNumber: number;
   //   ownerName: string;
@@ -27,8 +29,12 @@ const AuctionListing: React.FC<IProps> = ({ collectors, hasProducts }) => {
       <Container>
         <SectionTitle>Auction Listing</SectionTitle>
 
-        {limitCollectors.map((el) => (
-          <Link to="/marketplace/1" style={{ textDecoration: 'none' }}>
+        {limitCollectors.map((el, index) => (
+          <Link
+            key={index}
+            to="/marketplace/1"
+            style={{ textDecoration: 'none' }}
+          >
             <AuctionItem
               key={el.serialNumber}
               serialNumber={el.serialNumber}

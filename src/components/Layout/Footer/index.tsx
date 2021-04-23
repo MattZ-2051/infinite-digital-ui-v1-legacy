@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 // Local
 import IconButton from 'components/Buttons/IconButton';
@@ -12,9 +13,15 @@ import { ReactComponent as tictocIcon } from 'assets/svg/logos/tictoc.svg';
 import { ReactComponent as instagramIcon } from 'assets/svg/logos/instagram.svg';
 import { ReactComponent as discordIcon } from 'assets/svg/logos/discord.svg';
 
-const TicTocIcon = () =>  <SvgIcon viewBox="0 -1 14 19" component={tictocIcon} />;
-const InstagramIcon = () =>  <SvgIcon viewBox="0 0 15 16" component={instagramIcon} />;
-const DiscordIcon = () =>  <SvgIcon viewBox="0 0 15 16" component={discordIcon} />;
+const TicTocIcon = () => (
+  <SvgIcon viewBox="0 -1 14 19" component={tictocIcon} />
+);
+const InstagramIcon = () => (
+  <SvgIcon viewBox="0 0 15 16" component={instagramIcon} />
+);
+const DiscordIcon = () => (
+  <SvgIcon viewBox="0 0 15 16" component={discordIcon} />
+);
 
 const Footer = () => {
   return (
@@ -52,21 +59,55 @@ const Footer = () => {
           </Divider>
 
           <Hidden smDown>
-            <div style={{color: 'var(--grey-40)'}}>INFINITE© 2021 All rights reserved.</div>
+            <div style={{ color: 'var(--grey-40)' }}>
+              INFINITE© 2021 All rights reserved.
+            </div>
           </Hidden>
-    
+
           <Divider gap={16} tag="nav">
-            <IconButton icon={TwitterIcon} color="white" radius={8} onClick={()=> window.open('https://twitter.com/get_infinite', '_blank')} />
-            <IconButton icon={InstagramIcon} color="white" radius={8} onClick={()=> window.open('https://www.instagram.com/get_infinite/', '_blank')} />
-            <IconButton icon={TicTocIcon} color="white" radius={8} onClick={()=> window.open('https://www.tiktok.com/@get_infinite?lang=en', '_blank')} />
-            <IconButton icon={RedditIcon} color="white" radius={8} onClick={()=> window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')} />
+            <IconButton
+              icon={TwitterIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open('https://twitter.com/get_infinite', '_blank')
+              }
+            />
+            <IconButton
+              icon={InstagramIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open('https://www.instagram.com/get_infinite/', '_blank')
+              }
+            />
+            <IconButton
+              icon={TicTocIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open(
+                  'https://www.tiktok.com/@get_infinite?lang=en',
+                  '_blank'
+                )
+              }
+            />
+            <IconButton
+              icon={RedditIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')
+              }
+            />
             <IconButton icon={DiscordIcon} color="white" radius={8} />
           </Divider>
 
           <Hidden mdUp>
-            <div style={{color: 'var(--grey-40)'}}>INFINITE© 2021 All rights reserved.</div>
+            <div style={{ color: 'var(--grey-40)' }}>
+              INFINITE© 2021 All rights reserved.
+            </div>
           </Hidden>
-
         </FooterBottom>
       </FooterContent>
     </StyledFooter>
@@ -94,7 +135,7 @@ const FooterContent = styled.div`
 
 const FooterTop = styled.div`
   padding: 8px 0 8px 0;
-  
+
   @media screen and (max-width: 960px) {
     text-align: center;
   }

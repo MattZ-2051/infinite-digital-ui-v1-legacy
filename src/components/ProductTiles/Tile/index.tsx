@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { StyledCard, Row, StyledCardImg, RedeemIcon } from '../index';
 import productImg from 'assets/img/backgrounds/product-image.jpeg';

@@ -2,12 +2,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSkus } from 'services/api/sku';
 
 // Return type of the payload creator
-interface IResponse { }
+// TODO: REVIEW THIS
+interface IResponse {
+  test?: any;
+}
 
 // First argument to the payload creator
 interface IPayloadParams {
-  token?: string,
-  queryParams: string,
+  token?: string;
+  queryParams: string;
 }
 
 // Custom errors

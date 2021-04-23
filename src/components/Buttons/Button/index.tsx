@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
 // import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -8,11 +9,7 @@ export interface IProps {
   [rest: string]: any;
 }
 
-const Button = ({
-  children,
-  color,
-  ...rest
-}: IProps) => {
+const Button = ({ children, color, ...rest }: IProps) => {
   return (
     <StyledButton
       {...rest}

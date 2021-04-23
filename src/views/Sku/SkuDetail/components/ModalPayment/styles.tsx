@@ -47,21 +47,21 @@ export const Title = styled.h3`
 
 export const SubTitle = styled.h5`
   font-size: 14px;
-  color: #E74C3C;
+  color: #e74c3c;
 `;
 
 export const Rarity = styled.div`
- color: #00EB7C;
- font-size: 15px;
- display: flex;
-    align-items: center;
+  color: #00eb7c;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
 
- span {
-  background: linear-gradient(41.72deg, #00EB7C -14.01%, #11D6EC 90.62%);
-   width: 12px;
-   height: 12px;
-   display: block;
-   margin-right: 5px;
-   border-radius: 50%;
- }
+  span {
+    background: linear-gradient(41.72deg, #00eb7c -14.01%, #11d6ec 90.62%);
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 5px;
+    border-radius: 50%;
+  }
 `;

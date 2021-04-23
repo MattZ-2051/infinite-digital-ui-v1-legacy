@@ -26,11 +26,10 @@ const DropDownCheckFilter = ({
   filterCategory,
   activeFilters,
 }: IProps) => {
-
   const selectedItems = useRef<any>([]);
 
   useEffectOnce(() => {
-    selectedItems.current.push(...activeFilters)
+    selectedItems.current.push(...activeFilters);
   });
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,37 +52,52 @@ const DropDownCheckFilter = ({
 
   return (
     <div style={{ width: width || '311px', padding: '5px 0' }}>
-      <FilterDiv onClick={handleChange}  >
-        <span style={{ color: '#888888', fontSize: '18px' }}>{label || "Enter Label"}</span>
-        {open
-          ? <DownArrow style={{ color: 'black' }} />
-          : <UpArrow style={{ color: 'black' }} />
-        }
+      <FilterDiv onClick={handleChange}>
+        <span style={{ color: '#888888', fontSize: '18px' }}>
+          {label || 'Enter Label'}
+        </span>
+        {open ? (
+          <DownArrow style={{ color: 'black' }} />
+        ) : (
+          <UpArrow style={{ color: 'black' }} />
+        )}
       </FilterDiv>
       <HiddenDiv hidden={open} style={{ width: width || '311px' }}>
         {options instanceof Array &&
           options.map((option, index) => {
             return (
-              <div style={{ padding: '8px 10px', marginLeft: '-10px' }} key={index}>
+              <div
+                style={{ padding: '8px 10px', marginLeft: '-10px' }}
+                key={index}
+              >
                 <FormControl component="fieldset">
                   <FormGroup aria-label="position" row>
                     <FormControlLabel
                       value="start"
-                      control=
-                      {<Check
-                        style={{ color: 'black', backgroundColor: 'transparent' }}
-                        id={option}
-                        name={option}
-                        checked={activeFilters.indexOf(option) !== -1}
-                        onChange={handleCheck}
-                        color='default'
-                        disableRipple
-                      />
+                      control={
+                        <Check
+                          style={{
+                            color: 'black',
+                            backgroundColor: 'transparent',
+                          }}
+                          id={option}
+                          name={option}
+                          checked={activeFilters.indexOf(option) !== -1}
+                          onChange={handleCheck}
+                          color="default"
+                          disableRipple
+                        />
                       }
                       label={option}
                       labelPlacement="end"
-                      style={{ color: `${activeFilters.indexOf(option) !== -1 ? 'black' : '#9e9e9e'}` }}
-                      color='default'
+                      style={{
+                        color: `${
+                          activeFilters.indexOf(option) !== -1
+                            ? 'black'
+                            : '#9e9e9e'
+                        }`,
+                      }}
+                      color="default"
                     />
                   </FormGroup>
                 </FormControl>
@@ -151,7 +165,7 @@ export const DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   :hover {
-    background-color: #E5E5E5;
+    background-color: #e5e5e5;
     color: white;
     cursor: pointer;
     color: black;
