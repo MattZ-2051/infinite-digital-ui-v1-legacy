@@ -11,6 +11,8 @@ interface IProps {
   activeFilterSort: string;
 }
 
+const S: any = {};
+
 const SortByFilter = ({
   width,
   options,
@@ -58,31 +60,17 @@ const SortByFilter = ({
   options = options.filter(getNewOptions);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <S.Container>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span
-          style={{
-            color: '#9e9e9e',
-            fontWeight: 500,
-            fontSize: '18px',
-            lineHeight: '22.7px',
-            paddingRight: '8px',
-          }}
-        >
-          Sort by:
-        </span>
-        <span
-          style={{ fontWeight: 500, fontSize: '18px', lineHeight: '22.7px' }}
-        >
-          {newLabel}
-        </span>
+        <S.SortBy>Sort by:</S.SortBy>
+        <S.Label>{newLabel}</S.Label>
         {isHidden ? (
-          <DownArrow
+          <S.DownArrow
             style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
             onClick={handleChange}
           />
         ) : (
-          <UpArrow
+          <S.UpArrow
             style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
             onClick={handleChange}
           />
@@ -90,11 +78,11 @@ const SortByFilter = ({
       </div>
       <>
         {isHidden ? null : (
-          <HiddenDiv>
+          <S.HiddenDiv>
             {options instanceof Array &&
               options.map((option, index) => {
                 return (
-                  <DropDownDiv
+                  <S.DropDownDiv
                     onClick={handleCheck}
                     style={{ height: '38px' }}
                     key={index}
@@ -102,56 +90,51 @@ const SortByFilter = ({
                     <p style={{ fontWeight: 400, fontSize: '16px' }}>
                       {option}
                     </p>
-                  </DropDownDiv>
+                  </S.DropDownDiv>
                 );
               })}
-          </HiddenDiv>
+          </S.HiddenDiv>
         )}
       </>
-    </div>
+    </S.Container>
   );
 };
 
-const DownArrow = styled(KeyboardArrowDownIcon)`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-const UpArrow = styled(KeyboardArrowUpIcon)`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-export const FilterContainer = styled.div`
-  height: 40px;
-  background-color: #fafafa;
-  border-radius: 20px;
-`;
-
-export const FilterDiv = styled.div`
+S.Container = styled.div`
   display: flex;
-  padding: 9px 16px;
-  width 140px;
-  align-items: center;
-  justify-content: space-between;
-  color: #888888;
-  background-color: #fafafa;
-  border: none;
-  border-radius: 20px;
+  justify-content: flex-end;
+  width: 300px;
+  position: relative;
+`;
+
+S.DownArrow = styled(KeyboardArrowDownIcon)`
   :hover {
+    transform: scale(1.1);
     cursor: pointer;
-    background-color: #D6D6D6;
-    border-radius: 20px;
-    color: black;
-    box-shadow: 2px 2px 3px 1px #ccc;
   }
 `;
 
-export const HiddenDiv = styled.div`
+S.UpArrow = styled(KeyboardArrowUpIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+S.SortBy = styled.span`
+  color: #9e9e9e;
+  font-weight: 500;
+  font-size: 18px;
+  padding-right: 8px;
+`;
+
+S.Label = styled.span`
+  font-weight: 500;
+  font-size: 18px;
+  text-align: end;
+`;
+
+S.HiddenDiv = styled.div`
   color: black;
   overflow-y: auto;
   max-height: 140px;
@@ -169,9 +152,7 @@ export const HiddenDiv = styled.div`
   z-index: 1;
 `;
 
-export const DropDownSpan = styled.span``;
-
-export const DropDownDiv = styled.div`
+S.DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   width 160px;

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useAppSelector } from 'hooks/store';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -11,6 +12,14 @@ interface IProps {
 const S: any = {};
 
 const UserCollectioinInfo = ({ userStatus }: IProps) => {
+  const username = useAppSelector((state) => state.session.user.username);
+  const history = useHistory();
+  const otherUsername = history.location.pathname.split('/')[2];
+
+  const handleWalletRedirect = () => {
+    history.push(`/wallet/${username}`);
+  };
+
   return (
     <S.Container>
       {userStatus === 'loggedInIssuer' && (
@@ -18,7 +27,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
           <S.AccountIcon />
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @username
+              @ {username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -37,7 +46,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @username
+              @ {username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -48,14 +57,17 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
             <div style={{ padding: '0 10px' }}>
               <S.ButtonDivider></S.ButtonDivider>
             </div>
-            <ProfileButton label="My Wallet" />
+            <ProfileButton
+              label="My Wallet"
+              handleClick={handleWalletRedirect}
+            />
           </S.ButtonContainer>
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
         <>
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @username
+            @ {otherUsername}
           </span>
         </>
       )}
@@ -63,7 +75,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.AccountIcon />
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @username
+            @ {otherUsername}
           </span>
         </>
       )}

@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
 import Divider from 'components/Divider';
 import TextButton from 'components/Buttons/TextButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UserProfileMenu from '../UserProfileMenu';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
 import { useAppSelector } from 'hooks/store';
+import avatarIcon from 'assets/img/icons/avatar-icon.png';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -30,14 +30,14 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
 
         {isAuthenticated && (
           <AcountInfoContainer>
-            <div ref={ref}>
-              <AccountIcon onClick={() => setVisible(!visible)} />
+            <div ref={ref} style={{ display: 'flex', alignItems: 'center' }}>
+              <AccountIcon
+                src={avatarIcon}
+                onClick={() => setVisible(!visible)}
+              />
               {visible ? <UserProfileMenu setVisible={setVisible} /> : null}
             </div>
-
-            <TextButton color="white" style={{ marginRight: '32px' }}>
-              @username
-            </TextButton>
+            <Username>@{username}</Username>
           </AcountInfoContainer>
         )}
 
@@ -72,9 +72,14 @@ const AcountInfoContainer = styled.div`
   position: relative;
 `;
 
-const AccountIcon = styled(AccountCircleIcon)`
-  color: white;
-  margin-right: 5px;
+const Username = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 32px;
+`;
+
+const AccountIcon = styled.img`
+  margin-right: 15px;
   :hover {
     cursor: pointer;
     transform: scale(1.1);
