@@ -160,21 +160,12 @@ const MarketPlace: React.FC<IProps> = () => {
                     skuMinPrice={sku.minSkuPrice}
                     skuStartDate={sku.startDate}
                     skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
+                    // TODO: Defaulting to adidas
                     skuIssuer={sku.issuer?.username || 'adidas'}
                     redeemable={false}
                   />
                 );
               })}
-            <ProductTile
-              redeemable={true}
-              name="Product Name"
-              img={''}
-              series={'series'}
-              rarity="epic"
-              productSerialNumber={1234}
-              issuer="adidas"
-              purchasedDate="05/20/21"
-            />
           </ProductsGrid>
 
           <PaginationContainer>
@@ -255,16 +246,6 @@ const ProductsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, 300px);
   justify-content: space-evenly;
   margin-top: 20px;
-`;
-
-const ProductPanel = styled.div`
-  width: 300px;
-  min-width: 300px;
-  height: 472px;
-  border-radius: 5px;
-  background-color: grey;
-  border: 1px solid #4a4a4a;
-  font-size: 70px;
 `;
 
 const PaginationContainer = styled.div`

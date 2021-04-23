@@ -105,9 +105,9 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
     minStartDate: '2021-05-13T18:30:00.000Z', //'2021-04-13T00:00:00.000Z',
     minSkuPrice: 1,
     totalNewSupplyLeft: 1,
-    countSkuListings: 1,
-    circulatingSupply: 1,
-    minCurrentBid: 1,
+    countSkuListings: 0,
+    circulatingSupply: 0,
+    minCurrentBid: 0,
     countProductListings: 1,
   };
 
@@ -151,12 +151,11 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
 
   return (
     <div>
-
-    <ModalPayment
+      <ModalPayment
         visible={modalPaymentVisible}
         setModalPaymentVisible={setModalPaymentVisible}
         mode={modalMode.current}
-      />  
+      />
 
       <HeaderContainer>
         <HeaderContent>
@@ -229,28 +228,7 @@ const SkuDetail: React.FC<SkuDetailProps> = () => {
       >
         <Description>
           <SectionTitle>Description</SectionTitle>
-
-          {/* {skuDetails?.description} */}
-          <p>The Perception Shoe is now a Reality.</p>
-          <p>
-            This groundbreaking Basketball Shoe disrupts what used to be the
-            expected. This true on-court performance shoe, which is equally as
-            comfortable off-court, was designed by Spencer Dinwiddie.
-          </p>
-          <SectionSubTitle>Upper:</SectionSubTitle>
-          <p>
-            Our light-weight Engineered Mesh was developed to support getting
-            the job done. A mid-foot external support strap, along with a tongue
-            that transitions into an internal fit sleeve provides the comfort
-            and support for the job at-hand.
-          </p>
-          <SectionSubTitle>Cushioning:</SectionSubTitle>
-          <p>
-            Full length (heel to toe) KronoFoam provides incredible
-            responsiveness while being ridiculously light. The external lateral
-            heel TPU midsole frame lends additional stability while enhancing
-            the benefits of KronoFoam.
-          </p>
+          {skuDetails?.description}
         </Description>
 
         <AuctionListing collectors={collectors} hasProducts={true} />

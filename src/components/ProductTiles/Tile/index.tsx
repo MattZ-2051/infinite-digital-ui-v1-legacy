@@ -66,38 +66,20 @@ const Tile = ({
               <BottomCardText>Owned by {bottomRight} people</BottomCardText>
             )}
             {status === 'active-listing' && (
-              <p
-                style={{
-                  display: 'flex',
-                  fontWeight: 400,
-                  fontSize: '16px',
-                  lineHeight: '20px',
-                  letterSpacing: '0em',
-                  color: '#9e9e9e',
-                }}
-              >
+              <SerialNum>
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
                 </span>
-              </p>
+              </SerialNum>
             )}
             {status === 'no-active-listing' && (
-              <p
-                style={{
-                  display: 'flex',
-                  fontWeight: 400,
-                  fontSize: '16px',
-                  lineHeight: '20px',
-                  letterSpacing: '0em',
-                  color: '#9e9e9e',
-                }}
-              >
+              <SerialNum>
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
                 </span>
-              </p>
+              </SerialNum>
             )}
           </Row>
         </CardContent>
@@ -155,6 +137,14 @@ const CardContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: fit-content;
+`;
+
+const SerialNum = styled.p`
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0em;
+  color: #9e9e9e;
 `;
 
 const Pill = styled.div`

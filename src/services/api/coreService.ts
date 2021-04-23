@@ -1,10 +1,12 @@
+import { config } from '../../config';
 import axios from 'axios';
 
-const config = {
+const axiosConfig = {
   baseURL:
-    process.env.REACT_APP_API_ENDPOINT as string,
+    config.backend.apiEndpoint
 };
-const axiosInstance = axios.create(config);
+
+const axiosInstance = axios.create(axiosConfig);
 
 // const createAxiosResponseInterceptor = () => {};
 
