@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import styled from "styled-components/macro";
-=======
 import styled from 'styled-components/macro';
->>>>>>> development
 
 interface IProps {
   existingCard?: boolean;
@@ -18,11 +14,7 @@ export const Row = styled.div`
   align-items: center;
 `;
 
-<<<<<<< HEAD
-export const Container = styled.div`
-=======
 export const Container = styled.main`
->>>>>>> development
   display: flex;
   justify-content: center;
   align-items: center;

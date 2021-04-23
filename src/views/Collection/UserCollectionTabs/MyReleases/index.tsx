@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import styled from 'styled-components/macro';
-
-const MyReleases = () => {
-  return (
-    <MyReleasesContainer>
-      <TileContainer
-        style={{ paddingRight: '10px', paddingLeft: '0' }}
-      ></TileContainer>
-      <TileContainer></TileContainer>
-      <TileContainer></TileContainer>
-=======
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import styled from 'styled-components/macro';
 import { useAppSelector } from 'hooks/store';
@@ -49,7 +37,6 @@ const MyReleases = () => {
             </TileContainer>
           );
         })}
->>>>>>> development
     </MyReleasesContainer>
   );
 };

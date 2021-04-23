@@ -1,19 +1,11 @@
-<<<<<<< HEAD
-import styled from "styled-components/macro";
-import Emoji from "components/Emoji";
-import { Row, Container } from "../index";
-=======
 import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 import Emoji from 'components/Emoji';
 import { Row, Container } from '../index';
->>>>>>> development
 
 const S: any = {};
 
 const SuccessPage = () => {
-<<<<<<< HEAD
-=======
   const history = useHistory();
 
   const handleMarketplaceRedirect = () => {
@@ -23,7 +15,6 @@ const SuccessPage = () => {
   const handleWalletRedirect = () => {
     history.push('/wallet/username');
   };
->>>>>>> development
   return (
     <Container>
       <S.ContentContainer>
@@ -31,29 +22,6 @@ const SuccessPage = () => {
           <Emoji symbol="🤘" />
           <S.HeaderText>Yeah! Funds added.</S.HeaderText>
         </Row>
-<<<<<<< HEAD
-        <Row style={{ padding: "10px 0" }}>
-          <S.BalanceText>Your balance is $1800 now</S.BalanceText>
-        </Row>
-        <Row style={{ flexDirection: "column" }}>
-          <span style={{ color: "#7d7d7d", fontSize: "16px" }}>
-            Check your open tabs to refresh your previous screen
-          </span>
-          <span style={{ color: "#7d7d7d", fontSize: "16px" }}>
-            to see your added funds.
-          </span>
-          <span
-            style={{ color: "#7d7d7d", fontSize: "16px", paddingTop: "8px" }}
-          >
-            or
-          </span>
-        </Row>
-        <div style={{ padding: "25px 0" }}>
-          <S.MarketPlaceButton>Go to Marketplace</S.MarketPlaceButton>
-        </div>
-        <Row>
-          <span style={{ fontSize: "20px", fontWeight: 600 }}>View Wallet</span>
-=======
         <Row style={{ padding: '10px 0' }}>
           <S.BalanceText>Your balance is $1800 now</S.BalanceText>
         </Row>
@@ -71,7 +39,6 @@ const SuccessPage = () => {
           <S.WalletButton onClick={handleWalletRedirect}>
             View Wallet
           </S.WalletButton>
->>>>>>> development
         </Row>
       </S.ContentContainer>
     </Container>
@@ -83,8 +50,6 @@ S.ContentContainer = styled.div`
   // background-color: white;
 `;
 
-<<<<<<< HEAD
-=======
 S.WalletButton = styled.span`
   font-size: 20px;
   font-weight: 600;
@@ -98,7 +63,6 @@ S.Text = styled.span`
   font-size: 16px;
 `;
 
->>>>>>> development
 S.MarketPlaceButton = styled.button`
   width: 410px;
   height: 56px;

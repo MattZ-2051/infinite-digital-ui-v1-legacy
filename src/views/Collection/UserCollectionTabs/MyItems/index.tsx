@@ -122,13 +122,8 @@ const MyItems = () => {
     //   },
     // },
     <MyItemsContainer>
-<<<<<<< HEAD
-      {userItems instanceof Array &&
-        userItems.map((item, index) => {
-=======
       {mockItems instanceof Array &&
         mockItems.map((item, index) => {
->>>>>>> development
           let type: string = 'active-listing';
           let sku = item.sku;
           if (item.listing.status === 'active') {
