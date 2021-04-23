@@ -150,6 +150,7 @@ S.HiddenDiv = styled.div`
   padding: 10px;
   box-shadow: 2px 2px 8px 2px #ccc;
   z-index: 1;
+  top: 35px;
 `;
 
 S.DropDownDiv = styled.div`
