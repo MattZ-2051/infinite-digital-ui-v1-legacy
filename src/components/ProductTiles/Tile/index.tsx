@@ -47,7 +47,9 @@ const Tile = ({
           </Row>
           <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
-            <BottomCardText># {bottomLeft}</BottomCardText>
+            <BottomCardText style={{ textAlign: 'start' }}>
+              # {bottomLeft}
+            </BottomCardText>
             {status === 'upcoming' && (
               <BottomCardText>{bottomRight || '0'} Dropping</BottomCardText>
             )}
@@ -178,9 +180,9 @@ const PillInfo = styled.span`
 const BottomCardText = styled.p`
   display: flex;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 15px;
   letter-spacing: 0em;
+  text-align: end;
 `;
 
 const SkuName = styled.p`

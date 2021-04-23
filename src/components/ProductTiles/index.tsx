@@ -8,7 +8,6 @@ export const StyledCard = styled(Card)`
   min-height: 430px;
   overflow: initial;
   border-radius: 20px;
-  box-shadow: 2px 2px 3px 1px #ccc;
   position: relative;
 `;
 

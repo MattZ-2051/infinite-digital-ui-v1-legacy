@@ -1,9 +1,10 @@
-import { useState } from "react";
-import styled from "styled-components/macro";
-import Divider from "components/Divider";
-import TextButton from "components/Buttons/TextButton";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import UserProfileMenu from "../UserProfileMenu";
+import styled from 'styled-components/macro';
+import Divider from 'components/Divider';
+import TextButton from 'components/Buttons/TextButton';
+import UserProfileMenu from '../UserProfileMenu';
+import { useOutsideAlert } from 'hooks/oustideAlerter';
+import { useAppSelector } from 'hooks/store';
+import avatarIcon from 'assets/img/icons/avatar-icon.png';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -11,28 +12,32 @@ interface IProps {
 }
 
 const Menu = ({ login, isAuthenticated }: IProps) => {
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const { visible, setVisible, ref } = useOutsideAlert(false);
+  const username = useAppSelector((state) => state.session.user.username);
 
   return (
     <Container>
       <Divider gap={32}>
-        <TextButton to="marketplace" color="white">
+        <TextButton to="/marketplace" color="white">
           Marketplace
         </TextButton>
 
         {isAuthenticated && (
-          <TextButton to="my-collection" color="white">
+          <TextButton to={`/collection/${username}`} color="white">
             My Collection
           </TextButton>
         )}
 
         {isAuthenticated && (
           <AcountInfoContainer>
-            <AccountIcon onClick={() => setIsOpen(!isOpen)} />
-            <TextButton color="white" style={{ marginRight: "32px" }}>
-              @username
-            </TextButton>
-            {isOpen ? <UserProfileMenu /> : null}
+            <div ref={ref} style={{ display: 'flex', alignItems: 'center' }}>
+              <AccountIcon
+                src={avatarIcon}
+                onClick={() => setVisible(!visible)}
+              />
+              {visible ? <UserProfileMenu setVisible={setVisible} /> : null}
+            </div>
+            <Username>@{username}</Username>
           </AcountInfoContainer>
         )}
 
@@ -67,9 +72,14 @@ const AcountInfoContainer = styled.div`
   position: relative;
 `;
 
-const AccountIcon = styled(AccountCircleIcon)`
-  color: white;
-  margin-right: 5px;
+const Username = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 32px;
+`;
+
+const AccountIcon = styled.img`
+  margin-right: 15px;
   :hover {
     cursor: pointer;
     transform: scale(1.1);

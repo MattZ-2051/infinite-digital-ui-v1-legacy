@@ -1,31 +1,31 @@
-import styled from "styled-components";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { useHistory } from "react-router-dom";
+import styled from 'styled-components';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { useHistory } from 'react-router-dom';
 
 interface IProps {
-  bidType: "exceeded" | "not-exceeded";
+  bidType: 'exceeded' | 'not-exceeded';
 }
 
 const activeColor = {
-  red: "red",
-  black: "black",
-  grey: "#9e9e9e",
+  red: 'red',
+  black: 'black',
+  grey: '#9e9e9e',
 };
 
 const ActiveBids = ({ bidType }: IProps) => {
   const history = useHistory();
 
   const handleRouteChange = () => {
-    history.push("/productpage");
+    history.push('/marketplace/skuid');
   };
 
   return (
-    <Container>
+    <Container onClick={handleRouteChange}>
       <TransactionDetail>
         <Name
           style={{
             color: `${
-              bidType === "not-exceeded" ? activeColor.black : activeColor.red
+              bidType === 'not-exceeded' ? activeColor.black : activeColor.red
             }`,
           }}
         >
@@ -33,48 +33,56 @@ const ActiveBids = ({ bidType }: IProps) => {
         </Name>
         <TransactionDescription>@gabrielcantarin</TransactionDescription>
       </TransactionDetail>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <div>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <TransactionDescription
               style={{
-                color: `${
-                  bidType === "not-exceeded"
-                    ? activeColor.grey
-                    : activeColor.red
-                }`,
+                color: activeColor.grey,
               }}
             >
               You bid
             </TransactionDescription>
-            <ArrowIcon style={{ fontSize: "12px", margin: "0 5px" }} />
-            {bidType === "exceeded" && (
+            <ArrowIcon style={{ fontSize: '12px', margin: '0 5px' }} />
+            {bidType === 'exceeded' && (
               <>
-                <TransactionDescription style={{ color: "red" }}>
+                <TransactionDescription style={{ color: 'red' }}>
                   Bid Exceeded
                 </TransactionDescription>
                 <ArrowIcon
                   style={{
-                    fontSize: "12px",
-                    margin: "0 5px",
+                    fontSize: '12px',
+                    margin: '0 5px',
                   }}
                 />
               </>
             )}
-            <span style={{ fontSize: "16px", fontWeight: 600 }}>$1200</span>
+            <span
+              style={{
+                fontSize: '16px',
+                fontWeight: 600,
+                color: `${
+                  bidType === 'not-exceeded'
+                    ? activeColor.black
+                    : activeColor.red
+                }`,
+              }}
+            >
+              $1200
+            </span>
           </div>
-          <TransactionDescription style={{ justifyContent: "flex-end" }}>
+          <TransactionDescription style={{ justifyContent: 'flex-end' }}>
             Expires in 2h 47m
           </TransactionDescription>
         </div>
         <ArrowIcon
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: '10px' }}
           onClick={handleRouteChange}
           className="redirect"
         />
@@ -90,6 +98,9 @@ const Container = styled.div`
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const TransactionDetail = styled.div`
@@ -103,6 +114,7 @@ const ArrowIcon = styled(ArrowForwardIosIcon)`
   :hover.redirect {
     cursor: pointer;
     transform: scale(1.1);
+    color: black;
   }
 `;
 
