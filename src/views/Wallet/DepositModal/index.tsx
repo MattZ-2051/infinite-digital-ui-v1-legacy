@@ -43,14 +43,17 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const [modalStyle] = useState(getModalStyle);
   const addCCUrl = '';
   const history = useHistory();
+  const userCards = useAppSelector((state) => state.session.userCards);
 
-  const openCCPage = () => {
-    window.open(`${history.location.pathname + '/addcreditcard'}`);
-  };
-  const openDepositPage = () => {
-    window.open(`${history.location.pathname + '/deposit/addfunds'}`);
-  };
+  console.log('userCards', userCards);
 
+  const handleRedirect = () => {
+    if (userCards.cards.length >= 1) {
+      window.open(`${history.location.pathname + '/deposit/addfunds'}`);
+    } else {
+      window.open(`${history.location.pathname + '/addcreditcard'}`);
+    }
+  };
   const openCoinbasePage = () => {
     window.open('/coinbase');
   };
@@ -58,8 +61,8 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <S.ExitIcon>
-        <button onClick={openCCPage}>Add CC</button>
-        <button onClick={openDepositPage}>Deposit</button>
+        <button onClick={handleRedirect}>Add CC</button>
+        <button onClick={handleRedirect}>Deposit</button>
         <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </S.ExitIcon>
 
@@ -69,7 +72,7 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
         <S.SubHeader>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </S.SubHeader>
-        <S.Row>
+        <S.Row onClick={handleRedirect}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={circleIcon} />
           </div>
