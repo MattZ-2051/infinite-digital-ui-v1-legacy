@@ -2,14 +2,12 @@ import styled from 'styled-components';
 
 interface IProps {
   label: string;
+  handleClick?: () => void;
 }
 
-const ProfileButton = ({ label }: IProps) => {
-
-  return (
-    <Button>{label}</Button>
-  )
-}
+const ProfileButton = ({ label, handleClick }: IProps) => {
+  return <Button onClick={handleClick}>{label}</Button>;
+};
 
 const Button = styled.button`
   border: none;
@@ -24,4 +22,4 @@ const Button = styled.button`
   }
 `;
 
-export default ProfileButton
+export default ProfileButton;
