@@ -4,12 +4,15 @@ import styled from 'styled-components';
 import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { useAppSelector } from 'hooks/store';
 
 const S: any = {};
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
+  const username = useAppSelector((state) => state.session.user.username);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -22,9 +25,11 @@ const Wallet = () => {
   return (
     <S.Container>
       <S.PageHeaderContainer>
-        <Link to="/marketplace/sdfsdf" style={{ color: 'white' }}>
-          Back To Profile
-        </Link>
+        <S.Link to={`/collection/${username}`}>
+          {' '}
+          <S.BackArrow />
+          Back To My Collection
+        </S.Link>
         <S.HeaderText>My Wallet</S.HeaderText>
       </S.PageHeaderContainer>
       <S.PageContentContainer>
@@ -98,6 +103,20 @@ const Wallet = () => {
 
 S.Container = styled.div`
   height: 100vh;
+`;
+
+S.Link = styled(Link)`
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: #cbcbcb;
+`;
+
+S.BackArrow = styled(ArrowBackIosIcon)`
+  font-size: 16px;
+  color: #cbcbcb;
+  padding-bottom: 2px;
 `;
 
 S.BalanceAmount = styled.span`

@@ -138,6 +138,7 @@ const HiddenDiv = styled.div`
   flex-direction: column;
   padding: 10px;
   box-shadow: 2px 2px 8px 2px #ccc;
+  z-index: 1;
 `;
 
 const DropDown = styled.div`
