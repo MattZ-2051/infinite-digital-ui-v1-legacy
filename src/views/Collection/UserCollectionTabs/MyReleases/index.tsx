@@ -1,18 +1,42 @@
-import SkuTile from 'components/ProductTiles/SkuTile';
+import ProductTile from '../../../MarketPlace/components/ProductTile';
 import styled from 'styled-components/macro';
+import { useAppSelector } from 'hooks/store';
 
 const MyReleases = () => {
+  const mockItems = useAppSelector(
+    (state) => state.session.userCollection.collectors
+  );
   return (
     <MyReleasesContainer>
-      <TileContainer style={{ paddingRight: '10px', paddingLeft: '0' }}>
-        <SkuTile status="upcoming" skuRarity="rare" />
-      </TileContainer>
-      <TileContainer>
-        <SkuTile status="mult-listing" skuRarity="legendary" />
-      </TileContainer>
-      <TileContainer>
-        <SkuTile status="no-sale" skuRarity="uncommon" />
-      </TileContainer>
+      {mockItems instanceof Array &&
+        mockItems.map((item, index) => {
+          let type: string = 'active-listing';
+          let sku = item.sku;
+          if (item.listing.status === 'active') {
+            type = 'active-listing';
+          } else {
+            type = 'no-active-listing';
+          }
+
+          return (
+            <TileContainer
+              style={{ paddingLeft: `${index === 0 ? '0px' : '10px'}` }}
+            >
+              <ProductTile
+                redeemable={true}
+                status={type}
+                name={sku.name}
+                img={sku.graphicUrl}
+                rarity={sku.rarity}
+                series={sku.series.name}
+                productSerialNumber={item.serialNumber}
+                issuer={'adidas'}
+                key={item.id}
+                purchasedDate="1k"
+              />
+            </TileContainer>
+          );
+        })}
     </MyReleasesContainer>
   );
 };

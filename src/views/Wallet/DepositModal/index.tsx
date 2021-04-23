@@ -44,10 +44,10 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const history = useHistory();
 
   const openCCPage = () => {
-    window.open(`${history.location.pathname + 'addcreditcard'}`);
+    window.open(`${history.location.pathname + '/addcreditcard'}`);
   };
   const openDepositPage = () => {
-    window.open(`${history.location.pathname + 'deposit/addfunds'}`);
+    window.open(`${history.location.pathname + '/deposit/addfunds'}`);
   };
 
   const openCoinbasePage = () => {

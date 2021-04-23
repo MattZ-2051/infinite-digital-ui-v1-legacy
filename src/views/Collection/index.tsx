@@ -10,23 +10,21 @@ interface IProps {}
 
 const Collection: React.FC<IProps> = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  // const user = useAppSelector(store => store.session.user);
+  const user = useAppSelector((store) => store.session.user);
   const history = useHistory();
-  const dummyUserId = history.location.pathname.split('/')[2];
+  const username = history.location.pathname.split('/')[2];
 
-  let userStatus: any = 'loggedIn';
+  let userStatus: any = '';
 
   const checkStatus = () => {
-    if (dummyUserId === '1') {
-      userStatus = 'notCurrentUserProfileIssuer';
-    } else if (dummyUserId === '2') {
+    if (username === user.username && user.role === 'issuer') {
       userStatus = 'loggedInIssuer';
-    } else if (dummyUserId === '3') {
+    } else if (username === user.username) {
       userStatus = 'loggedIn';
-    } else if (dummyUserId === '4') {
+    } else if (username !== user.username) {
       userStatus = 'notCurrentUserProfile';
     } else {
-      userStatus = 'loggedIn';
+      userStatus = 'notCurrentUserProfileIssuer';
     }
 
     return userStatus;
