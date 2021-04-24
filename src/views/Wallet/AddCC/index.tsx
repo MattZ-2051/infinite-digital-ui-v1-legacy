@@ -25,20 +25,6 @@ const AddCC = () => {
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
 
-  const stateErrors: IErrors = {
-    cardNumber: '',
-    cvv: '',
-    expMonth: '',
-    expYear: '',
-    name: '',
-    city: '',
-    country: '',
-    line1: '',
-    line2: '',
-    district: '',
-    postalCode: '',
-  };
-
   const state: IValues = {
     cardNumber: '',
     cvv: '',
@@ -84,8 +70,6 @@ const AddCC = () => {
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
-    console.log(parseInt(cardInfo?.expMonth));
-    console.log(parseInt(cardInfo?.expYear));
     cardInfo.expMonth = parseInt(cardInfo?.expMonth);
     cardInfo.expYear = parseInt(cardInfo?.expYear);
     createNewUserCC(userToken, cardInfo);

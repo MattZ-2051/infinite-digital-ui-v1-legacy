@@ -41,11 +41,8 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
-  const addCCUrl = '';
   const history = useHistory();
   const userCards = useAppSelector((state) => state.session.userCards);
-
-  console.log('userCards', userCards);
 
   const handleRedirect = () => {
     if (userCards.cards.length >= 1) {
@@ -61,8 +58,6 @@ const DepositModal = ({ isModalOpen, handleClose }) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <S.ExitIcon>
-        <button onClick={handleRedirect}>Add CC</button>
-        <button onClick={handleRedirect}>Deposit</button>
         <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </S.ExitIcon>
 

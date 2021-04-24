@@ -32,16 +32,15 @@ const Landing = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userToken = await getAccessTokenSilently();
       if (user) {
-        dispatch(getUserInfoThunk({ token: '', userId: user.sub }));
-        console.log(userToken);
-      }
-      if (loggedInUser) {
-        dispatch(
-          getUserCollectionThunk({ token: '', userId: loggedInUser['id'] })
-        );
-        dispatch(getUserCardsThunk({ token: userToken }));
+        const userToken = await getAccessTokenSilently();
+        dispatch(getUserInfoThunk({ token: userToken }));
+        if (loggedInUser) {
+          dispatch(
+            getUserCollectionThunk({ token: '', userId: loggedInUser['id'] })
+          );
+          dispatch(getUserCardsThunk({ token: userToken }));
+        }
       }
     };
 
