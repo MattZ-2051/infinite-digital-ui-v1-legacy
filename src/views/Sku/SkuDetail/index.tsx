@@ -4,13 +4,13 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
 // Local
-import { getSku, getCollectors } from 'services/api/sku';
+import { getSku, getCollectors, getFeaturedSkuTiles } from 'services/api/sku';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { Sku } from 'entities/sku';
+import { Sku, SkuWithFunctions } from 'entities/sku';
 
 // {
 //   "rarity": "uncommon",
@@ -84,6 +84,17 @@ const SkuDetail = () => {
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
+  const [featuredProducts, setFeaturedProducts] = useState<SkuWithFunctions[]>(
+    []
+  );
+
+  async function fetchProducts() {
+    const skuTiles = await getFeaturedSkuTiles();
+    if (skuTiles) {
+      setFeaturedProducts(skuTiles.data);
+    }
+  }
+
   // Modificar vista por url
 
   const skuDataMock = {
@@ -102,6 +113,8 @@ const SkuDetail = () => {
       console.log(res.data);
       setSkuDetails(res.data);
     });
+
+    fetchProducts();
 
     // const collectors = getCollectors().then((res) => {
     //   console.log(res.data.collectors);
