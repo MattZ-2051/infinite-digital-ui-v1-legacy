@@ -26,7 +26,7 @@ const Landing = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getFeaturesThunk(''));
+      dispatch(getFeaturesThunk({token: ''}));
     })();
   }, [dispatch]);
 
