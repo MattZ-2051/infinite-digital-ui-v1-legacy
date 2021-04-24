@@ -1,10 +1,11 @@
+import React from 'react';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { useAppSelector } from 'hooks/store';
 import { createNewUserCC } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import {S} from './styles';
+import { S } from './styles';
 
 interface IValues {
   [key: string]: any;
@@ -16,7 +17,7 @@ interface IErrors {
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
-  const [error, setError] = useState<boolean | undefined>(false);
+  const [errorMessage, setErrorMessage] = useState([]);
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -62,12 +63,21 @@ const AddCC = () => {
     return;
   };
 
+  // const validateCreditCard = (value) => {
+  //   if (validator.isCreditCard(value)) {
+  //     // setErrorMessage('Valid CreditCard Number');
+  //   } else {
+  //     // setErrorMessage('Enter valid CreditCard Number!');
+  //   }
+  // };
+
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
     cardInfo.expMonth = parseInt(cardInfo?.expMonth);
     cardInfo.expYear = parseInt(cardInfo?.expYear);
-    createNewUserCC(userToken, cardInfo);
+    const res = await createNewUserCC(userToken, cardInfo);
+    console.log(res);
   };
 
   return (
@@ -85,10 +95,7 @@ const AddCC = () => {
           </S.Row>
         </S.HeaderContainer>
         <S.Row>
-          <S.EnterDetailsText
-          >
-            Enter the card details below
-          </S.EnterDetailsText>
+          <S.EnterDetailsText>Enter the card details below</S.EnterDetailsText>
         </S.Row>
         <S.Row>
           <S.FormInput
@@ -96,7 +103,6 @@ const AddCC = () => {
             name="cardNumber"
             fullWidth
             required
-            error={error}
             color="secondary"
             onChange={handleChange}
             value={cardInfo?.cardNumber}
@@ -107,7 +113,6 @@ const AddCC = () => {
             id="standard-basic"
             label="Exp Month"
             size="medium"
-            error={error}
             required
             name="expMonth"
             type="number"
@@ -118,7 +123,6 @@ const AddCC = () => {
             id="standard-basic"
             label="Exp Year"
             size="medium"
-            error={error}
             required
             name="expYear"
             type="number"
@@ -130,17 +134,13 @@ const AddCC = () => {
             label="CVV"
             size="medium"
             required
-            error={error}
             name="cvv"
             onChange={handleChange}
             value={cardInfo?.cvv}
           />
         </S.Row>
         <S.Row>
-          <S.Dropdown
-            onClick={() => setIsOpen(!isOpen)}
-            isOpen={isOpen}
-          >
+          <S.Dropdown onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
             Billing Details
             {isOpen ? (
               <S.ArrowUp className="arrow" />
@@ -158,7 +158,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 name="billingDetails-name"
                 onChange={handleChange}
                 value={cardInfo?.billingDetails.name}
@@ -171,7 +170,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 onChange={handleChange}
                 name="billingDetails-line1"
                 value={cardInfo?.billingDetails.line1}
@@ -183,7 +181,6 @@ const AddCC = () => {
                 label="Address Line 2"
                 size="medium"
                 fullWidth
-                error={error}
                 name="billingDetails-line2"
                 onChange={handleChange}
                 value={cardInfo?.billingDetails.line2}
@@ -196,7 +193,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 onChange={handleChange}
                 name="billingDetails-postalCode"
                 value={cardInfo?.billingDetails.postalCode}
@@ -209,7 +205,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 name="billingDetails-city"
                 onChange={handleChange}
                 value={cardInfo?.billingDetails.city}
@@ -221,7 +216,6 @@ const AddCC = () => {
                 label="District"
                 size="medium"
                 fullWidth
-                error={error}
                 onChange={handleChange}
                 name="billingDetails-district"
                 value={cardInfo?.billingDetails.district}
@@ -234,7 +228,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 onChange={handleChange}
                 name="billingDetails-country"
                 value={cardInfo?.billingDetails.country}
@@ -247,7 +240,6 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
                 onChange={handleChange}
               />
             </S.Row> */}
@@ -260,7 +252,5 @@ const AddCC = () => {
     </S.Container>
   );
 };
-
-
 
 export default AddCC;

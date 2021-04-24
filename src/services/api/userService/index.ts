@@ -43,8 +43,6 @@ export const addFundsToUserWallet = async (
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    console.log('response', response);
-
     return response;
   } catch (e) {
     return e;
@@ -57,7 +55,19 @@ export const createNewUserCC = async (token: string, data: any) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;
-  } catch (e) {
-    return e;
+  } catch (err) {
+    if (err.response) {
+      return err.response.data;
+    } else if (err.request) {
+      /*
+       * The request was made but no response was received, `err.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      return 'No Response Received';
+    } else {
+      // Something happened in setting up the request and triggered an err
+      return 'Bad Request';
+    }
   }
 };
