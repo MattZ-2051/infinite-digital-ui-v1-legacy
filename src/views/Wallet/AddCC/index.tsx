@@ -6,74 +6,32 @@ import { useAppSelector } from 'hooks/store';
 import { createNewUserCC } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
+import { validate, errors, state, Values } from './helper';
 
-interface IValues {
-  [key: string]: any;
-}
-
-interface IErrors {
-  [key: string]: boolean;
-}
-
-const errors: any = {
-  cardNumber: false,
-  cvv: false,
-  expDate: false,
-  name: false,
-  city: false,
-  country: false,
-  line1: false,
-  line2: false,
-  district: false,
-  postalCode: false,
-};
-
-const errorsHelperText: any = {
-  cardNumber: '',
-  cvv: '',
-  expMonth: '',
-  expYear: '',
-  name: '',
-  city: '',
-  country: '',
-  line1: '',
-  line2: '',
-  district: '',
-  postalCode: '',
-};
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
   const [fieldError, setFieldError] = useState(errors);
-  const [helperText, setHelperText] = useState(errorsHelperText);
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
-
-  const state: IValues = {
-    cardNumber: '',
-    cvv: '',
-    expMonth: '',
-    expYear: '',
-    metadata: {
-      email: userEmail,
-      phoneNumber: '+14155555555',
-    },
-    billingDetails: {
-      name: '',
-      city: '',
-      country: '',
-      line1: '',
-      line2: '',
-      district: '',
-      postalCode: '',
-    },
-  };
-
-  const [cardInfo, setCardInfo] = useState<IValues | undefined>(state);
+  const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
+
     if (name.includes('billingDetails')) {
       const keyName = name.split('-')[1];
+
+      if (keyName === 'name') {
+        setCardInfo((prevState) => ({
+          ...prevState,
+          billingDetails: {
+            ...prevState?.billingDetails,
+            [keyName]: value, //value.replace(/[^a-zA-Z]/gi, ''),
+          },
+        }));
+        return;
+      }
       setCardInfo((prevState) => ({
         ...prevState,
         billingDetails: {
@@ -83,18 +41,6 @@ const AddCC = () => {
       }));
       return;
     }
-
-    if (name === 'expDate') {
-      const expMonth = value.split('/')[0];
-      const expYear = value.split('/')[1];
-      setCardInfo((prevState) => ({
-        ...prevState,
-        expYear: expYear,
-        expMonth: expMonth,
-      }));
-
-      return;
-    }
     setCardInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -102,54 +48,18 @@ const AddCC = () => {
     return;
   };
 
-  const validate = (ccInfo) => {
-    if (ccInfo.cardNumber.length !== 16) {
-      setFieldError((prevState) => ({
-        ...prevState,
-        cardNumber: true,
-      }));
-    } else {
-      setFieldError((prevState) => ({
-        ...prevState,
-        cardNumber: false,
-      }));
-    }
-
-    if (
-      parseInt(ccInfo.expMonth, 10) > 12 ||
-      parseInt(ccInfo.expMonth, 10) < 0
-    ) {
-      setFieldError((prevState) => ({
-        ...prevState,
-        expDate: true,
-      }));
-    } else {
-      setFieldError((prevState) => ({
-        ...prevState,
-        expDate: false,
-      }));
-    }
-
-    if (ccInfo.cvv.length !== 3) {
-      setFieldError((prevState) => ({
-        ...prevState,
-        cvv: true,
-      }));
-    } else {
-      setFieldError((prevState) => ({
-        ...prevState,
-        cvv: false,
-      }));
-    }
-  };
-
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
-    cardInfo.expMonth = parseInt(cardInfo?.expMonth);
-    cardInfo.expYear = parseInt(cardInfo?.expYear);
-    validate(cardInfo);
+    cardInfo.metadata.email = userEmail;
+    cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
+    cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
+    const checkErrors = validate(cardInfo, setFieldError);
+    if (checkErrors) {
+      return;
+    }
     const res = await createNewUserCC(userToken, cardInfo);
+    console.log('backend res', res);
   };
 
   return (
@@ -188,15 +98,29 @@ const AddCC = () => {
         <S.Row>
           <S.FormInput
             id="standard-basic"
-            label="Exp Date MM/YYYY"
+            label="Exp Date MM"
             size="medium"
             required
-            name="expDate"
-            error={fieldError?.expDate}
-            helperText={fieldError?.expDate && 'Enter a valid date'}
+            name="expMonth"
+            error={fieldError?.expMonth}
+            helperText={fieldError?.expMonth && 'Enter a valid month format MM'}
             onChange={handleChange}
-            type="text"
-            value={cardInfo?.expDate}
+            type="number"
+            value={cardInfo?.expMonth}
+            style={{ paddingRight: '10px' }}
+          />
+          <S.FormInput
+            id="standard-basic"
+            label="Exp Date YYYY"
+            size="medium"
+            required
+            name="expYear"
+            error={fieldError?.expYear}
+            helperText={fieldError?.expYear && 'Enter a valid year format YYYY'}
+            onChange={handleChange}
+            type="number"
+            value={cardInfo?.expYear}
+            style={{ paddingRight: '10px' }}
           />
           <S.FormInput
             id="standard-basic"
@@ -206,7 +130,9 @@ const AddCC = () => {
             name="cvv"
             onChange={handleChange}
             error={fieldError?.cvv}
-            helperText={fieldError?.cvv && 'Enter a valid cvv'}
+            helperText={
+              fieldError?.cvv && 'Enter a valid 3 digit card cvv number'
+            }
             value={cardInfo?.cvv}
           />
         </S.Row>
@@ -232,6 +158,8 @@ const AddCC = () => {
                 name="billingDetails-name"
                 onChange={handleChange}
                 value={cardInfo?.billingDetails.name}
+                error={fieldError?.name}
+                helperText={fieldError?.name && 'Enter a valid name'}
               />
             </S.Row>
             <S.Row>
@@ -244,6 +172,8 @@ const AddCC = () => {
                 onChange={handleChange}
                 name="billingDetails-line1"
                 value={cardInfo?.billingDetails.line1}
+                error={fieldError?.line1}
+                helperText={fieldError?.line1 && 'Enter a valid Address'}
               />
             </S.Row>
             <S.Row>
@@ -267,6 +197,10 @@ const AddCC = () => {
                 onChange={handleChange}
                 name="billingDetails-postalCode"
                 value={cardInfo?.billingDetails.postalCode}
+                error={fieldError?.postalCode}
+                helperText={
+                  fieldError?.postalCode && 'Enter a valid postal code'
+                }
               />
             </S.Row>
             <S.Row>
@@ -279,6 +213,8 @@ const AddCC = () => {
                 name="billingDetails-city"
                 onChange={handleChange}
                 value={cardInfo?.billingDetails.city}
+                error={fieldError?.city}
+                helperText={fieldError?.city && 'Enter a valid city'}
               />
             </S.Row>
             <S.Row>
