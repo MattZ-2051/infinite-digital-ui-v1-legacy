@@ -12,20 +12,47 @@ interface IValues {
 }
 
 interface IErrors {
-  [key: string]: string;
+  [key: string]: boolean;
 }
 
+const errors: any = {
+  cardNumber: false,
+  cvv: false,
+  expDate: false,
+  name: false,
+  city: false,
+  country: false,
+  line1: false,
+  line2: false,
+  district: false,
+  postalCode: false,
+};
+
+const errorsHelperText: any = {
+  cardNumber: '',
+  cvv: '',
+  expMonth: '',
+  expYear: '',
+  name: '',
+  city: '',
+  country: '',
+  line1: '',
+  line2: '',
+  district: '',
+  postalCode: '',
+};
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
-  const [errorMessage, setErrorMessage] = useState([]);
+  const [fieldError, setFieldError] = useState(errors);
+  const [helperText, setHelperText] = useState(errorsHelperText);
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
 
   const state: IValues = {
     cardNumber: '',
     cvv: '',
-    expMonth: 0,
-    expYear: 0,
+    expMonth: '',
+    expYear: '',
     metadata: {
       email: userEmail,
       phoneNumber: '+14155555555',
@@ -56,6 +83,18 @@ const AddCC = () => {
       }));
       return;
     }
+
+    if (name === 'expDate') {
+      const expMonth = value.split('/')[0];
+      const expYear = value.split('/')[1];
+      setCardInfo((prevState) => ({
+        ...prevState,
+        expYear: expYear,
+        expMonth: expMonth,
+      }));
+
+      return;
+    }
     setCardInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -63,26 +102,59 @@ const AddCC = () => {
     return;
   };
 
-  // const validateCreditCard = (value) => {
-  //   if (validator.isCreditCard(value)) {
-  //     // setErrorMessage('Valid CreditCard Number');
-  //   } else {
-  //     // setErrorMessage('Enter valid CreditCard Number!');
-  //   }
-  // };
+  const validate = (ccInfo) => {
+    if (ccInfo.cardNumber.length !== 16) {
+      setFieldError((prevState) => ({
+        ...prevState,
+        cardNumber: true,
+      }));
+    } else {
+      setFieldError((prevState) => ({
+        ...prevState,
+        cardNumber: false,
+      }));
+    }
+
+    if (
+      parseInt(ccInfo.expMonth, 10) > 12 ||
+      parseInt(ccInfo.expMonth, 10) < 0
+    ) {
+      setFieldError((prevState) => ({
+        ...prevState,
+        expDate: true,
+      }));
+    } else {
+      setFieldError((prevState) => ({
+        ...prevState,
+        expDate: false,
+      }));
+    }
+
+    if (ccInfo.cvv.length !== 3) {
+      setFieldError((prevState) => ({
+        ...prevState,
+        cvv: true,
+      }));
+    } else {
+      setFieldError((prevState) => ({
+        ...prevState,
+        cvv: false,
+      }));
+    }
+  };
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
     cardInfo.expMonth = parseInt(cardInfo?.expMonth);
     cardInfo.expYear = parseInt(cardInfo?.expYear);
+    validate(cardInfo);
     const res = await createNewUserCC(userToken, cardInfo);
-    console.log(res);
   };
 
   return (
     <S.Container>
-      <S.ContentContainer>
+      <S.Box>
         <S.HeaderContainer>
           <S.Row
             style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
@@ -101,9 +173,14 @@ const AddCC = () => {
           <S.FormInput
             label="Credit Card Number"
             name="cardNumber"
+            autoFocus
             fullWidth
             required
             color="secondary"
+            error={fieldError?.cardNumber}
+            helperText={
+              fieldError?.cardNumber && 'Enter a valid credit card number'
+            }
             onChange={handleChange}
             value={cardInfo?.cardNumber}
           />
@@ -111,23 +188,15 @@ const AddCC = () => {
         <S.Row>
           <S.FormInput
             id="standard-basic"
-            label="Exp Month"
+            label="Exp Date MM/YYYY"
             size="medium"
             required
-            name="expMonth"
-            type="number"
-            style={{ paddingRight: '10px' }}
+            name="expDate"
+            error={fieldError?.expDate}
+            helperText={fieldError?.expDate && 'Enter a valid date'}
             onChange={handleChange}
-          />
-          <S.FormInput
-            id="standard-basic"
-            label="Exp Year"
-            size="medium"
-            required
-            name="expYear"
-            type="number"
-            style={{ paddingRight: '10px' }}
-            onChange={handleChange}
+            type="text"
+            value={cardInfo?.expDate}
           />
           <S.FormInput
             id="standard-basic"
@@ -136,6 +205,8 @@ const AddCC = () => {
             required
             name="cvv"
             onChange={handleChange}
+            error={fieldError?.cvv}
+            helperText={fieldError?.cvv && 'Enter a valid cvv'}
             value={cardInfo?.cvv}
           />
         </S.Row>
@@ -248,7 +319,7 @@ const AddCC = () => {
         <S.ButtonContainer>
           <S.Button onClick={handleSubmit}>Add Card</S.Button>
         </S.ButtonContainer>
-      </S.ContentContainer>
+      </S.Box>
     </S.Container>
   );
 };

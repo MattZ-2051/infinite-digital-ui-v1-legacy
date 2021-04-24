@@ -37,7 +37,7 @@ S.Div = styled.div`
 S.FormInputError = styled(TextField)`
   color: red;
   & .Mui-focused {
-    color: red;
+    color: black;
   }
 
   .MuiInput-underline:after {
@@ -47,11 +47,11 @@ S.FormInputError = styled(TextField)`
 
 S.FormInput = styled(TextField)`
   & .Mui-focused {
-    color: ${(props) => (props.error ? 'red' : 'black')};
+    color: black;
   }
 
   .MuiInput-underline:after {
-    border-bottom: 2px solid ${(props) => (props.error ? 'red' : 'black')};
+    border-bottom: 2px solid black;
   }
 `;
 
