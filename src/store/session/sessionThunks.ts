@@ -55,8 +55,6 @@ export const getUserCollectionThunk = createAsyncThunk<
 >('user/userCollection/get', async (data, thunkApi) => {
   try {
     const response = await getUserCollection(data.userId, data.token);
-    console.log('response thunk :', response);
-    console.log('response thunkx data :', response.data);
 
     return response.data;
   } catch (err) {
@@ -75,8 +73,6 @@ export const getUserCardsThunk = createAsyncThunk<
 >('user/wallet/cards/get', async (data, thunkApi) => {
   try {
     const response = await getUserCards(data.token);
-    console.log('response thunk :', response);
-    console.log('response thunkx data :', response.data);
 
     return response.data;
   } catch (err) {

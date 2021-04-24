@@ -123,7 +123,6 @@ const SkuDetail = () => {
     // });
 
     const collectors = getCollectors().then((res) => {
-      console.log(res.data.collectors);
       setCollectors(res.data.collectors);
     });
   }, []);

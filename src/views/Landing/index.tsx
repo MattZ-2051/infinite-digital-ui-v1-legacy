@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
@@ -26,7 +27,7 @@ const Landing = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getFeaturesThunk({token: ''}));
+      dispatch(getFeaturesThunk({ token: '' }));
     })();
   }, [dispatch]);
 

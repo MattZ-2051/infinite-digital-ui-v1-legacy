@@ -90,7 +90,6 @@ export const marketplaceSlice = createSlice({
       state.filters = action.payload;
     },
     restoreFilters: (state) => {
-      console.log('ejecuta');
       state.filters = defaultFilters;
     },
   },
