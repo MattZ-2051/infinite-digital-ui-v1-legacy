@@ -1,3 +1,4 @@
+import { Sku } from 'entities/sku';
 import { axiosInstance } from '../coreService';
 
 export const getSkus = async (queryParams: string, token?: string) => {
@@ -18,7 +19,7 @@ export const getFeaturedSkuTiles = async () => {
 };
 
 export const getSku = async (id: string, token?: string) => {
-  const response = await axiosInstance.request({
+  const response = await axiosInstance.request<Sku>({
     method: 'GET',
     url: `/skus/${id}`,
     headers: { Authorization: `Bearer ${token}` },

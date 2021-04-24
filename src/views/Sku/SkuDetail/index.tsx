@@ -10,6 +10,7 @@ import ImageGallery from 'components/ImageGallery';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
+import { Sku } from 'entities/sku';
 
 // {
 //   "rarity": "uncommon",
@@ -58,20 +59,6 @@ import AuctionListing from './components/AuctionListing';
 //   countProductListings: 0,
 // };
 
-interface ISku {
-  id: string;
-  rarity: string;
-  name: string;
-  description: string;
-  maxSupply: number | string;
-  redeemable: boolean;
-  issuer: string; // Brand
-  series: {
-    name: string;
-  };
-  graphicUrl: string; // Default image
-}
-
 type ReleasedCounterProps = {
   totalSupplyUpcoming: number;
 };
@@ -86,18 +73,18 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
   );
 };
 
-interface ICollectors {
+interface Collectors {
   collectors: any;
 }
 
 const SkuDetail = () => {
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<ISku>();
-  const [collectors, setCollectors] = useState<ICollectors>([] as any);
+  const [skuDetails, setSkuDetails] = useState<Sku>();
+  const [collectors, setCollectors] = useState<Collectors>([] as any);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
-  //Modificar vista por url
+  // Modificar vista por url
 
   const skuDataMock = {
     totalSupplyUpcoming: 1,
@@ -117,10 +104,10 @@ const SkuDetail = () => {
   }, []);
 
   useEffect(() => {
-    // const skuData = getSku(skuid).then((res) => {
-    //   console.log(res.data);
-    //   setSkuDetails(res.data);
-    // });
+    const skuData = getSku(skuid).then((res) => {
+      console.log(res.data);
+      setSkuDetails(res.data);
+    });
 
     const collectors = getCollectors().then((res) => {
       console.log(res.data.collectors);
@@ -178,7 +165,7 @@ const SkuDetail = () => {
                   fontSize: '24px',
                 }}
               >
-                <Brand>Nike</Brand>
+                <Brand>{skuDetails?.issuer}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}
@@ -196,7 +183,7 @@ const SkuDetail = () => {
               </p>
 
               <p>
-                SKU: {skuDetails?.id} /{' '}
+                SKU: {skuDetails?._id} /{' '}
                 <ReleasedCounter
                   totalSupplyUpcoming={skuDataMock.totalSupplyUpcoming}
                 />
@@ -204,15 +191,11 @@ const SkuDetail = () => {
 
               <LineDivider />
 
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <RedeemableIcon /> &nbsp; Redeemable
-              </div>
-
-              {/* {skuDetails?.redeemable && (
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              {skuDetails?.redeemable && (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <RedeemableIcon /> &nbsp; Redeemable
                 </div>
-              )} */}
+              )}
             </ProductDetail>
 
             <ButtonsContainer>

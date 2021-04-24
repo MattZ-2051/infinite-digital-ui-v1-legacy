@@ -149,6 +149,7 @@ const MarketPlace = () => {
               skus.map((sku) => {
                 return (
                   <SkuTile
+                    sku={sku}
                     key={sku._id}
                     skuImg={sku.graphicUrl}
                     skuRarity={sku.rarity}

@@ -30,12 +30,9 @@ const MyCollection = () => {
             return (
               <S.TileContainer key={index} index={index}>
                 <ProductTile
+                  sku={sku}
                   redeemable={true}
                   status={type}
-                  name={sku.name}
-                  img={sku.graphicUrl}
-                  rarity={sku.rarity}
-                  series={sku.series.name}
                   productSerialNumber={item.serialNumber}
                   issuer={'adidas'}
                   key={item.id}

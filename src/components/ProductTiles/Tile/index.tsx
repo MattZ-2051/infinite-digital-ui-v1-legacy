@@ -4,8 +4,11 @@ import { StyledCard, Row, StyledCardImg, RedeemIcon } from '../index';
 import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
+import { Link } from 'react-router-dom';
+import { Sku } from 'entities/sku';
 
-interface IProps {
+interface Props {
+  sku: Sku;
   topLeft: string | undefined;
   skuRarity: string | undefined;
   middle: string | undefined;
@@ -19,6 +22,7 @@ interface IProps {
 }
 
 const Tile = ({
+  sku,
   topLeft,
   skuRarity,
   middle,
@@ -29,7 +33,7 @@ const Tile = ({
   redeemable,
   pillInfo,
   icon,
-}: IProps) => {
+}: Props) => {
   return (
     <CardContainer>
       <StyledCard>
@@ -46,7 +50,9 @@ const Tile = ({
             <IssuerName>{topLeft}</IssuerName>
             <Rarity type={skuRarity || 'rare'} />
           </Row>
-          <SkuName>{middle}</SkuName>
+          <Link to={'/marketplace/' + sku._id}>
+            <SkuName>{middle}</SkuName>
+          </Link>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
               # {bottomLeft}

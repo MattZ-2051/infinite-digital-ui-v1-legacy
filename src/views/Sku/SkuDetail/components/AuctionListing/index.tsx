@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import AuctionItem from './AuctionItem';
 import { Link } from 'react-router-dom';
-import { mockServer } from 'mock/server';
+// import { mockServer } from 'mock/server';
 
-export interface IProps {
+export interface Props {
   // TODO: REVIEW
   // collectors: {
   //   serialNumber: number;
@@ -17,11 +17,11 @@ export interface IProps {
   hasProducts: boolean;
 }
 
-const AuctionListing: React.FC<IProps> = ({ collectors, hasProducts }) => {
+const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   const limitCollectors = collectors.slice(0, 4); //TODO: limit this in the backend?
 
   useEffect(() => {
-    mockServer();
+    // mockServer();
   }, []);
 
   if (hasProducts) {

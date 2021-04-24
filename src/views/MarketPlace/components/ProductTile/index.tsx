@@ -1,12 +1,10 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
+import { Sku } from 'entities/sku';
 
-interface IProps {
-  img: string;
-  name: string;
-  series: string;
-  rarity: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
+interface Props {
+  sku: Sku;
   productSerialNumber: number;
   issuer: string;
   purchasedDate?: string;
@@ -15,25 +13,23 @@ interface IProps {
 }
 
 const ProductTile = ({
-  img,
-  name,
-  series,
-  rarity,
+  sku,
   productSerialNumber,
   issuer,
   purchasedDate,
   status,
-}: IProps) => {
+}: Props) => {
   return (
     <Tile
+      sku={sku}
       redeemable={true}
       status={status || 'active-listing'}
       icon={redeemIcon}
-      skuImg={img}
-      skuRarity={rarity}
+      skuImg={sku.graphicUrl}
+      skuRarity={sku.rarity}
       topLeft={issuer}
-      middle={name}
-      bottomLeft={series}
+      middle={sku.name}
+      bottomLeft={sku.series.name}
       bottomRight={productSerialNumber?.toString()}
       pillInfo={purchasedDate}
     />
