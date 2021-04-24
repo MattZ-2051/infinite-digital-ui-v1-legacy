@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
 // Local
-import { getSku, getCollectors, getFeaturedSkuTiles } from 'services/api/sku';
+import { getSku, getFeaturedSkuTiles } from 'services/api/sku';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
@@ -12,6 +12,7 @@ import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
 import { Sku, SkuWithFunctions } from 'entities/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
+import { getProductCollectors } from 'services/api/productService';
 
 // {
 //   "rarity": "uncommon",
@@ -74,14 +75,10 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
   );
 };
 
-interface Collectors {
-  collectors: any;
-}
-
 const SkuDetail = () => {
   const { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<Sku>();
-  const [collectors, setCollectors] = useState<Collectors>([] as any);
+  const [collectors, setCollectors] = useState<any>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
@@ -94,6 +91,12 @@ const SkuDetail = () => {
     if (skuTiles) {
       setFeaturedProducts(skuTiles.data);
     }
+  }
+
+  async function fetchCollectors() {
+    const collectors = await getProductCollectors(skuid);
+    console.log(collectors);
+    setCollectors(collectors);
   }
 
   // Modificar vista por url
@@ -116,6 +119,7 @@ const SkuDetail = () => {
     });
 
     fetchProducts();
+    fetchCollectors();
 
     // const collectors = getCollectors().then((res) => {
     //   console.log(res.data.collectors);
@@ -221,7 +225,9 @@ const SkuDetail = () => {
           {skuDetails?.description}
         </Description>
 
-        <AuctionListing collectors={collectors} hasProducts={true} />
+        {collectors && (
+          <AuctionListing collectors={collectors} hasProducts={true} />
+        )}
       </Section>
 
       <Section>

@@ -45,11 +45,3 @@ type SkuCallReturnType<T> =
   T extends true ? SkuWithFunctions : 
   Sku
 
-export const getCollectors = async () => {
-  const response = await axiosInstance.request({
-    method: 'GET',
-    url: `/sku/collectors`,
-  });
-
-  return response;
-};
