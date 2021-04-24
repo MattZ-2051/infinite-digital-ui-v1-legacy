@@ -1,4 +1,4 @@
-import { Sku } from 'entities/sku';
+import { Sku, SkuWithFunctions } from 'entities/sku';
 import { axiosInstance } from '../coreService';
 
 export const getSkus = async (queryParams: string, token?: string) => {
@@ -11,7 +11,7 @@ export const getSkus = async (queryParams: string, token?: string) => {
 };
 
 export const getFeaturedSkuTiles = async () => {
-  const response = await axiosInstance.request({
+  const response = await axiosInstance.request<SkuWithFunctions[]>({
     method: 'GET',
     url: '/skus/tiles?featured=true',
   });

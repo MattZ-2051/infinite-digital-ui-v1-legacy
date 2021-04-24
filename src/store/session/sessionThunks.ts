@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Product } from 'entities/product';
 import { User } from 'entities/user';
-import { getUserInfo, getUserCollection } from 'services/api/userService';
+import { getProductsOwnedByUser } from 'services/api/productService';
+import { getUserInfoByAuth0Id } from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -19,9 +21,9 @@ export const getUserInfoThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('user/sub/:userId/get', async (data, thunkApi) => {
+>('user?sub=:userId', async (data, thunkApi) => {
   try {
-    const response = await getUserInfo(data.userId, data.token);
+    const response = await getUserInfoByAuth0Id(data.userId, data.token);
     //console.log('response thunk :', response);
     //console.log('response thunkx data :', response.data);
 
@@ -34,14 +36,14 @@ export const getUserInfoThunk = createAsyncThunk<
 });
 
 export const getUserCollectionThunk = createAsyncThunk<
-  User,
+  Product[],
   IPayloadParams,
   {
     rejectValue: IError;
   }
->('user/userCollection/get', async (data, thunkApi) => {
+>('products?owner=:user', async (data, thunkApi) => {
   try {
-    const response = await getUserCollection(data.userId, data.token);
+    const response = await getProductsOwnedByUser(data.userId, data.token);
     console.log('response thunk :', response);
     console.log('response thunkx data :', response.data);
 

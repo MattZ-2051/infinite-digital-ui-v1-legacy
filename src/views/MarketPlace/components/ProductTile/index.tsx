@@ -5,7 +5,7 @@ import { Sku } from 'entities/sku';
 
 interface Props {
   sku: Sku;
-  productSerialNumber: number;
+  productSerialNumber: string;
   issuer: string;
   purchasedDate?: string;
   redeemable: boolean;
