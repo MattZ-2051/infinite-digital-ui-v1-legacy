@@ -25,13 +25,13 @@ interface IError {
 
 export const getUserInfoThunk = createAsyncThunk<
   IResponse,
-  IPayloadParams,
+  IPayloadToken,
   {
     rejectValue: IError;
   }
 >('user/sub/:userId/get', async (data, thunkApi) => {
   try {
-    const response = await getUserInfo(data.userId, data.token);
+    const response = await getUserInfo(data.token);
     //console.log('response thunk :', response);
     //console.log('response thunkx data :', response.data);
 

@@ -1,9 +1,9 @@
 import { axiosInstance } from '../coreService';
 
-export const getUserInfo = async (userId: string, token: string) => {
+export const getUserInfo = async (token: string) => {
   const response = await axiosInstance.request({
     method: 'GET',
-    url: `/users/sub/${userId}`,
+    url: `/users/me`,
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -13,7 +13,7 @@ export const getUserInfo = async (userId: string, token: string) => {
 export const getUserCollection = async (userId: string, token: string) => {
   const response = await axiosInstance.request({
     method: 'GET',
-    url: `/sku/collectors`,
+    url: `/products`,
     params: { owner: userId, includeFunctions: true },
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -24,23 +24,40 @@ export const getUserCollection = async (userId: string, token: string) => {
 export const getUserCards = async (token: string) => {
   const response = await axiosInstance.request({
     method: 'GET',
-    url: '/users/wallet',
+    url: '/wallet',
     headers: { Authorization: `Bearer ${token}` },
   });
-
-  console.log('service', response);
 
   return response;
 };
 
-export const createNewUserCC = async (token: string, data: any) => {
-  const response = await axiosInstance.post('/users/wallet/cards', data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const addFundsToUserWallet = async (
+  token: string,
+  data: any,
+  cardId: string
+) => {
+  try {
+    const response = await axiosInstance.post(
+      `/wallet/cards/${cardId}/payments`,
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-  if (response) {
-    console.log('service', response);
+    console.log('response', response);
+
+    return response;
+  } catch (e) {
+    return e;
   }
+};
 
-  return response;
+export const createNewUserCC = async (token: string, data: any) => {
+  try {
+    const response = await axiosInstance.post('/wallet/cards', data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (e) {
+    return e;
+  }
 };
