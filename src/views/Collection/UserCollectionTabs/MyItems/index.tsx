@@ -13,21 +13,22 @@ const MyItems = () => {
   const id = history.location.pathname.split('/')[2];
   const [userItems, setUserItems] = useState<Product[]>([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      // TODO: This is currently getting the user id from the auth0 token
-      // it might be useful to get it from the URL,
-      // however, the URL includes the username (user1), not the auth0 id
-      // and there's no endpoint that returns the products based on the username
-      const token = await getAccessTokenSilently();
-      const extUser = await getUserInfoByAuth0Id(user?.sub, token);
-      console.log(extUser.data[0]._id);
-      const res = await getProductsOwnedByUser(extUser.data[0]._id, token);
-      if (res) {
-        setUserItems(res.data);
-      }
+  async function fetchUser() {
+    // TODO: This is currently getting the user id from the auth0 token
+    // it might be useful to get it from the URL,
+    // however, the URL includes the username (user1), not the auth0 id
+    // and there's no endpoint that returns the products based on the username
+    const token = await getAccessTokenSilently();
+    const extUser = await getUserInfoByAuth0Id(user?.sub, token);
+    console.log(extUser.data[0]._id);
+    const res = await getProductsOwnedByUser(extUser.data[0]._id, token);
+    if (res) {
+      setUserItems(res.data);
     }
-    fetchData();
+  }
+
+  useEffect(() => {
+    fetchUser();
   }, [id]);
 
   return (

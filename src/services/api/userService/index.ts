@@ -10,3 +10,13 @@ export const getUserInfoByAuth0Id = async (userId: string, token: string) => {
 
   return response;
 };
+
+export const getMe = async (token: string) => {
+  const response = await axiosInstance.request<User>({
+    method: 'GET',
+    url: `/users/me`,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return response;
+};

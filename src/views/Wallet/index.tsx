@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,13 +7,28 @@ import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useAppSelector } from 'hooks/store';
+import { User } from 'entities/user';
+import { getMe } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const S: any = {};
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
+  const [user, setUser] = useState<User>();
+  const { getAccessTokenSilently } = useAuth0();
+
   const username = useAppSelector((state) => state.session.user.username);
+
+  async function fetchUser() {
+    const res = await getMe(await getAccessTokenSilently());
+    setUser(res.data);
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -41,10 +56,10 @@ const Wallet = () => {
             </S.Tab>
             <S.GrayLine></S.GrayLine>
           </div>
-          <S.BalanceAmount>$4500</S.BalanceAmount>
+          <S.BalanceAmount>${user?.balance}</S.BalanceAmount>
           <S.AvailableAmount>
             <S.AvailableText>Available:</S.AvailableText>
-            $3750 (after active bids)
+            $tbd (after active bids)
           </S.AvailableAmount>
           <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
@@ -82,11 +97,12 @@ const Wallet = () => {
           </div>
           {selectedTab === 0 && (
             <>
-              <Transaction transactionType="cc-deposit" />
-              <Transaction transactionType="coinbase" />
-              <Transaction transactionType="withdraw" />
-              <Transaction transactionType="sale" />
-              <Transaction transactionType="purchase" />
+              {user?.transactions &&
+                user.transactions.map((tx, index) => {
+                  // TODO: Add pagination instead of static limit 5
+                  if (index >= 5) return null;
+                  return <Transaction tx={tx} key={index} />;
+                })}
             </>
           )}
           {selectedTab === 1 && (

@@ -9,15 +9,16 @@ const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
   const [tiles, setTiles] = useState<SkuWithFunctions[]>([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const skuTiles = await getFeaturedSkuTiles();
-      if (skuTiles) {
-        setTiles(skuTiles.data);
-      }
+  async function fetchProducts() {
+    const skuTiles = await getFeaturedSkuTiles();
+    if (skuTiles) {
+      setTiles(skuTiles.data);
     }
-    fetchData();
-  });
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>

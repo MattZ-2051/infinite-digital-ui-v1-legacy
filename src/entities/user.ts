@@ -1,3 +1,5 @@
+import { ITransaction } from './transaction';
+
 export interface User {
   _id: string;
   id: string;
@@ -9,4 +11,5 @@ export interface User {
   role: string;
   updatedAt: string;
   username: string;
+  transactions?: ITransaction[];
 }

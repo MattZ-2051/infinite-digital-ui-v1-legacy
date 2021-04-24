@@ -98,21 +98,15 @@ const SkuDetail = () => {
   };
 
   useEffect(() => {
-    // const skuData = getSku(skuid).then((res) => {
-    //   setSkuDetails(res.data);
-    // });
-  }, []);
-
-  useEffect(() => {
     const skuData = getSku(skuid).then((res) => {
       console.log(res.data);
       setSkuDetails(res.data);
     });
 
-    const collectors = getCollectors().then((res) => {
-      console.log(res.data.collectors);
-      setCollectors(res.data.collectors);
-    });
+    // const collectors = getCollectors().then((res) => {
+    //   console.log(res.data.collectors);
+    //   setCollectors(res.data.collectors);
+    // });
   }, []);
 
   const showModal = () => {

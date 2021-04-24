@@ -18,10 +18,17 @@ export const getFeaturedSkuTiles = async () => {
   return response;
 };
 
-export const getSku = async (id: string, token?: string) => {
+export const getSku = async (
+  id: string,
+  token?: string,
+  includeFunctions?: boolean
+) => {
   const response = await axiosInstance.request<Sku>({
     method: 'GET',
     url: `/skus/${id}`,
+    params: {
+      includeFunctions,
+    },
     headers: { Authorization: `Bearer ${token}` },
   });
 

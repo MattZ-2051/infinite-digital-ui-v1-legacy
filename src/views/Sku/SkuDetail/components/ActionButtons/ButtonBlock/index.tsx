@@ -102,6 +102,7 @@ const NotAvailable = () => {
 };
 
 const ButtonBlock = ({ data }: IButtonBlock) => {
+  console.log(data);
   const isUpcoming = !!data.totalSupplyUpcoming;
   const hasMintedProducts = !!data.circulatingSupply;
   const hasSkus = !!data.countSkuListings;
