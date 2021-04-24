@@ -11,6 +11,7 @@ import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
 import { Sku, SkuWithFunctions } from 'entities/sku';
+import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 // {
 //   "rarity": "uncommon",
@@ -226,9 +227,28 @@ const SkuDetail = () => {
       <Section>
         <SectionTitle>Related Releases</SectionTitle>
 
-        <TilesContainer>
-          <Tile /> <Tile /> <Tile /> <Tile />
-        </TilesContainer>
+        <ProductContainer>
+          {featuredProducts &&
+            featuredProducts.map((el, index) => {
+              if (index >= 5) return null;
+              return (
+                <TileContainer key={index} index={index}>
+                  <ProductTile
+                    sku={el}
+                    redeemable={true}
+                    status="tbd"
+                    productSerialNumber="1"
+                    // TODO: get issuer name
+                    // backend response returns issuer ID in product.listing
+                    issuer={'adidas'}
+                    key={index}
+                    // TODO: Find out why this is not a Date
+                    purchasedDate="1k"
+                  />
+                </TileContainer>
+              );
+            })}
+        </ProductContainer>
       </Section>
     </div>
   );
@@ -297,6 +317,12 @@ const Tile = styled.div`
   margin-right: 15px;
 `;
 
+const TileContainer = styled.div<{ index: number }>`
+  padding: 0 20px;
+  float: left;
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+`;
+
 const Section = styled.section`
   display: flex;
   flex-direction: column;
@@ -355,6 +381,34 @@ const LineDivider = styled.div`
   width: 40px;
   margin-top: 20px;
   margin-bottom: 20px;
+`;
+
+const ProductContainer = styled.div`
+  && {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 36em;
+
+    @media screen and (max-width: 600px) {
+      margin: auto;
+      width: 320px;
+    }
+
+    ::-webkit-scrollbar {
+      height: 0.4em;
+    }
+    ::-webkit-scrollbar-button {
+      width: 0.1em;
+    }
+    ::-webkit-scrollbar-track-piece {
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--grey-40);
+      width: 1px !important;
+      border-radius: 10px;
+    }
+  }
 `;
 
 export default SkuDetail;
