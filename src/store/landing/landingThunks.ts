@@ -1,13 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeaturedSkuTiles } from 'services/api/sku';
-import {getDropBoxes} from 'services/api/dropBoxService';
+import { getDropBoxes } from 'services/api/dropBoxService';
 
- // Return type of the payload creator
-interface IResponse {}
+// Return type of the payload creator
+interface IResponse {
+  response?: any;
+}
 
 // First argument to the payload creator
 interface IPayloadParams {
-  // token: string;
+  token?: string;
 }
 
 // Custom errors
@@ -42,10 +44,9 @@ export const getDropBoxesThunk = createAsyncThunk<
   try {
     const response = await getDropBoxes();
     return response.data;
-  } catch(err) {
+  } catch (err) {
     return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description
+      errorMessage: err.response.data.error_description,
     } as IError);
   }
-})
-
+});

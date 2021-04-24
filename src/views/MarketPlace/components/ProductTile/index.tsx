@@ -1,11 +1,12 @@
-import Tile from "components/ProductTiles/Tile";
-import redeemIcon from "assets/img/icons/redeem-icon-2.png";
+import React from 'react';
+import Tile from 'components/ProductTiles/Tile';
+import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
 
 interface IProps {
   img: string;
   name: string;
   series: string;
-  rarity: "uncommon" | "common" | "rare" | "epic" | "legendary";
+  rarity: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
   productSerialNumber: number;
   issuer: string;
   purchasedDate?: string;
@@ -26,7 +27,7 @@ const ProductTile = ({
   return (
     <Tile
       redeemable={true}
-      status={status || "active-listing"}
+      status={status || 'active-listing'}
       icon={redeemIcon}
       skuImg={img}
       skuRarity={rarity}

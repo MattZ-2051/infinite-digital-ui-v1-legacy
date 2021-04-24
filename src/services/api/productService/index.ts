@@ -4,7 +4,7 @@ export const getProducts = async (token: string) => {
   const response = await axiosInstance.request({
     method: 'GET',
     url: '/products',
-    headers: {'Authorization': `Bearer ${token}`},
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   return response;

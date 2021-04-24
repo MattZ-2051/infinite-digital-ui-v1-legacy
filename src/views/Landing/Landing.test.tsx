@@ -1,3 +1,4 @@
+import React from 'react';
 import '../../../jest/matchMedia.mock';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
@@ -42,8 +43,8 @@ describe('<Landing />', () => {
       {
         price: 4238,
         config: {
-          name: 'DropBoxName'
-        }
+          name: 'DropBoxName',
+        },
       },
     ],
   };

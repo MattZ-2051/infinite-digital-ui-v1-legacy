@@ -3,7 +3,7 @@ import { axiosInstance } from '../coreService';
 export const getUserInfo = async (token: string) => {
   const response = await axiosInstance.request({
     method: 'GET',
-    url: `/users/me`,
+    url: `/users/sub/${userId}`,
     headers: { Authorization: `Bearer ${token}` },
   });
 

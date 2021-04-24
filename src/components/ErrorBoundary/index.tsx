@@ -1,7 +1,7 @@
 import React from 'react';
 
 type MyProps = {};
-type MyState = { error: string | null, errorInfo: string | null };
+type MyState = { error: string | null; errorInfo: string | null };
 
 class ErrorBoundary extends React.Component<MyProps, MyState> {
   constructor(props) {
@@ -12,8 +12,8 @@ class ErrorBoundary extends React.Component<MyProps, MyState> {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
-    })
+      errorInfo: errorInfo,
+    });
   }
 
   render() {

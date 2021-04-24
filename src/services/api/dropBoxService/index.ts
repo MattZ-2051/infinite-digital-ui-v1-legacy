@@ -1,4 +1,4 @@
-import { axiosInstance} from '../coreService';
+import { axiosInstance } from '../coreService';
 
 export const getDropBoxes = async () => {
   const response = await axiosInstance.request({
@@ -7,4 +7,4 @@ export const getDropBoxes = async () => {
   });
 
   return response;
-}
+};

@@ -1,3 +1,4 @@
+import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 
 interface SkuProps {
@@ -10,69 +11,67 @@ interface SkuProps {
   skuMinPrice: number;
   skuCirculatingSupply?: number;
   skuTotalSupplyUpcoming?: number;
-  redeemable: boolean
+  redeemable: boolean;
   skuIssuer: string;
 }
 
-const SkuTile = (
-  { skuRarity,
-    skuImg,
-    skuName,
-    skuSeries,
-    skuTotalSupplyLeft,
-    skuStartDate,
-    skuMinPrice,
-    skuCirculatingSupply,
-    skuTotalSupplyUpcoming,
-    skuIssuer }
-    : SkuProps
-) => {
-
+const SkuTile = ({
+  skuRarity,
+  skuImg,
+  skuName,
+  skuSeries,
+  skuTotalSupplyLeft,
+  skuStartDate,
+  skuMinPrice,
+  skuCirculatingSupply,
+  skuTotalSupplyUpcoming,
+  skuIssuer,
+}: SkuProps) => {
   const currentTime = new Date().getTime();
-  const skuStartDateTime = new Date(skuStartDate || "2021-04-12T19:03:02.439Z").getTime();
-  let status: string = '';
-  let skuUpcomingTime: string = '';
+  const skuStartDateTime = new Date(
+    skuStartDate || '2021-04-12T19:03:02.439Z'
+  ).getTime();
+  let status = '';
+  let skuUpcomingTime = '';
   let bottomRightText: any = '';
   let pillInfo: any = '';
 
   function calcDiff(currentDate, skuStartDate) {
-
-    var diff = (skuStartDate - currentDate) / 1000;
+    let diff = (skuStartDate - currentDate) / 1000;
     diff = Math.abs(Math.floor(diff));
 
-    var days = Math.floor(diff / (24 * 60 * 60));
-    var leftSec = diff - days * 24 * 60 * 60;
+    const days = Math.floor(diff / (24 * 60 * 60));
+    let leftSec = diff - days * 24 * 60 * 60;
 
-    var hrs = Math.floor(leftSec / (60 * 60));
-    var leftSec = leftSec - hrs * 60 * 60;
+    const hrs = Math.floor(leftSec / (60 * 60));
+    leftSec = leftSec - hrs * 60 * 60;
 
-    var min = Math.floor(leftSec / (60));
-    var leftSec = leftSec - min * 60;
+    const min = Math.floor(leftSec / 60);
+    leftSec = leftSec - min * 60;
 
-    return days + "d" + ' ' + hrs + "hr" + ' ' + min + 'm';
-
+    return days + 'd' + ' ' + hrs + 'hr' + ' ' + min + 'm';
   }
 
   const checkStatus = () => {
     if (skuStartDateTime > currentTime) {
-      status = "upcoming";
+      status = 'upcoming';
       bottomRightText = skuTotalSupplyUpcoming;
       skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
       pillInfo = skuUpcomingTime;
-      return
+      return;
     } else if (skuTotalSupplyLeft > 0) {
-      status = "active";
+      status = 'active';
       bottomRightText = skuTotalSupplyLeft;
       pillInfo = skuMinPrice;
-      return
+      return;
     } else if (skuMinPrice === 0 || !skuMinPrice) {
-      status = "no-sale";
+      status = 'no-sale';
       bottomRightText = skuCirculatingSupply;
-      return
+      return;
     } else {
-      return
+      return;
     }
-  }
+  };
 
   checkStatus();
 
@@ -88,7 +87,7 @@ const SkuTile = (
       pillInfo={pillInfo}
       skuImg={skuImg}
     />
-  )
-}
+  );
+};
 
 export default SkuTile;

@@ -1,3 +1,4 @@
+import React from 'react';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import styled from 'styled-components/macro';
 import { useAppSelector } from 'hooks/store';
@@ -10,8 +11,8 @@ const MyReleases = () => {
     <MyReleasesContainer>
       {mockItems instanceof Array &&
         mockItems.map((item, index) => {
-          let type: string = 'active-listing';
-          let sku = item.sku;
+          let type = 'active-listing';
+          const sku = item.sku;
           if (item.listing.status === 'active') {
             type = 'active-listing';
           } else {
@@ -19,9 +20,7 @@ const MyReleases = () => {
           }
 
           return (
-            <TileContainer
-              style={{ paddingLeft: `${index === 0 ? '0px' : '10px'}` }}
-            >
+            <TileContainer key={index} index={index}>
               <ProductTile
                 redeemable={true}
                 status={type}
@@ -41,8 +40,9 @@ const MyReleases = () => {
   );
 };
 
-const TileContainer = styled.div`
+const TileContainer = styled.div<{ index: number }>`
   padding: 0 10px;
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
 `;
 
 const MyReleasesContainer = styled.div`

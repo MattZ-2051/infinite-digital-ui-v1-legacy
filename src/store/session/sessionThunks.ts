@@ -6,7 +6,10 @@ import {
 } from 'services/api/userService';
 
 // Return type of the payload creator
-interface IResponse {}
+// TODO: REVIEW THIS
+interface IResponse {
+  test?: any;
+}
 
 // First argument to the payload creator
 interface IPayloadParams {

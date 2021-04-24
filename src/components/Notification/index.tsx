@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import MuiSnackbar from '@material-ui/core/Snackbar';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'hooks/store';
 import { clearError } from 'store/session/sessionSlice';
-export interface IProps {}
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const Notification: React.FC<IProps> = () => {
+const Notification = () => {
   const errorMessage = useAppSelector((state) => state.session.error);
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();

@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
 export interface IProps {
-  activeFilters: any,
+  activeFilters: any;
   handleFilter: (name: string, data: string) => void;
 }
 
-const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
+const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
   const [searchValue, setSearchValue] = useState(activeFilters.search || '');
   const [debouncedValue, setDebouncedValue] = useState('');
 
@@ -29,7 +29,6 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   useUpdateEffect(() => {
     handleFilter('search', debouncedValue);
-
   }, [debouncedValue]);
 
   return (
@@ -65,7 +64,6 @@ const Input = styled.input`
   min-width: 380px;
   background-color: #f8f8f8;
   border-radius: 30px;
-
 `;
 
 export default SearchInput;

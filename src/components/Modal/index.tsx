@@ -3,7 +3,13 @@ import styled from 'styled-components/macro';
 //Local
 import Modal, { ModalProps } from '@material-ui/core/Modal';
 
-const ModalComponent = ({ children, ...props }) => {
+interface IProps {
+  children: any;
+  open?: boolean;
+  onClose?: any;
+}
+
+const ModalComponent = ({ children, ...props }: IProps) => {
   return (
     <ModalContainer {...(props as any)}>
       <ModalBody>{children}</ModalBody>

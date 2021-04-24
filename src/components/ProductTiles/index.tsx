@@ -1,6 +1,7 @@
 import Card from '@material-ui/core/Card';
 import styled from 'styled-components/macro';
 import CardMedia from '@material-ui/core/CardMedia';
+import Title from './Tile';
 
 export const StyledCard = styled(Card)`
   max-width: 302px;
@@ -35,3 +36,5 @@ export const RedeemIcon = styled.img`
   right: 5%;
   top 2%;
 `;
+
+export default Title;

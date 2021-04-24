@@ -1,14 +1,12 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import Checkbox from '@material-ui/core/Checkbox';
 import RangeSlider from 'components/RangeSlider';
-import {
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import DropDown from './DropDown';
 import Date from './Date';
 import CheckBox from './CheckBox';
 import Sort from './Sort';
-
 
 export interface IProps {
   type: string;
@@ -23,9 +21,7 @@ const FilterBox = ({ label, type, options, width }: IProps) => {
       {type === 'dropdown' && (
         <DropDown label={label} options={options} width={width || '301px'} />
       )}
-      {type === 'date' && (
-        <Date />
-      )}
+      {type === 'date' && <Date />}
       {type === 'checkbox' && (
         <CheckBox label={label} options={options} width={width || '301px'} />
       )}
@@ -34,9 +30,7 @@ const FilterBox = ({ label, type, options, width }: IProps) => {
           <RangeSlider />
         </>
       )}
-      {type === 'sort' && (
-        <Sort />
-      )}
+      {type === 'sort' && <Sort />}
     </FilterContainer>
   );
 };
@@ -45,7 +39,6 @@ export const FilterContainer = styled.div`
   height: 40px;
   background-color: #fafafa;
   border-radius: 20px;
-
 `;
 
 export const Check = styled(Checkbox)`
@@ -73,7 +66,7 @@ export const FilterDiv = styled.div`
   border-radius: 20px;
   :hover {
     cursor: pointer;
-    background-color: #D6D6D6;
+    background-color: #d6d6d6;
     border-radius: 20px;
     color: black;
   }
@@ -86,14 +79,13 @@ export const HiddenDiv = styled.div`
   max-height: 190px;
 `;
 
-export const DropDownSpan = styled.span`
-`;
+export const DropDownSpan = styled.span``;
 
 export const DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
   :hover {
-    background-color: #D6D6D6;
+    background-color: #d6d6d6;
     color: white;
     cursor: pointer;
     color: black;
@@ -101,11 +93,11 @@ export const DropDownDiv = styled.div`
 `;
 
 export const DatePickers = styled(KeyboardDatePicker)`
- && {
+  && {
     .MuiPickersDay-daySelected {
       background-color: black;
     }
   }
 `;
 
-export default FilterBox
+export default FilterBox;

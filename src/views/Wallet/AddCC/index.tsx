@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';

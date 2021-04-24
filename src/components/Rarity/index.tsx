@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
 
-export interface IProps {}
+export interface IProps {
+  type: any;
+}
 
 interface RarityColors {
   uncommon: string;
@@ -17,7 +19,7 @@ const rarityColors: RarityColors = {
   epic: 'linear-gradient(45deg, #40C9FF 0%, #E81CFF 100%)',
 };
 
-const Rarity = ({ type }) => {
+const Rarity = ({ type }: IProps) => {
   return (
     <>
       {type === 'common' && (

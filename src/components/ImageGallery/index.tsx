@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 // Local
 // import productBig from 'assets/img/marketplace/sku-example.png';
@@ -7,15 +7,13 @@ import styled from 'styled-components/macro';
 // import productSmall3 from 'assets/img/marketplace/sku-example-small-3.png';
 // import productSmall4 from 'assets/img/marketplace/sku-example-small-4.png';
 
-export interface ImageGalleryProps {}
-
 const images = [
   'https://stockx-360.imgix.net/Air-Jordan-11-Retro-Space-Jam-2016/Images/Air-Jordan-11-Retro-Space-Jam-2016/Lv2/img36.jpg?auto=format,compress&w=559&q=90&dpr=2&updated_at=1606319512',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtaeIUQiLip8ROnlVfvLIpgT3jY6i6UMwDg&usqp=CAU',
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHArgo7FDBh1wOujs9RNt5WKbmlJQt3TAL1g&usqp=CAU',
 ];
 
-const ImageGallery: React.FC<ImageGalleryProps> = () => {
+const ImageGallery = () => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {

@@ -1,3 +1,4 @@
+import React from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
@@ -17,7 +18,9 @@ const FeatureProducts = () => {
     <Container id="feature-products">
       <Slider {...settings}>
         {features instanceof Array &&
-          features.map((product, key) => <SlideBox key={key} product={product} />)}
+          features.map((product, key) => (
+            <SlideBox key={key} product={product} />
+          ))}
       </Slider>
     </Container>
   );

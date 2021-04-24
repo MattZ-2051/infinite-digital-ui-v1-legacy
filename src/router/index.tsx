@@ -1,3 +1,4 @@
+import React from 'react';
 import AddFunds from 'views/Wallet/CCDeposit/AddFunds';
 import SuccessPage from 'views/Wallet/CCDeposit/SuccessPage';
 import ErrorPage from 'views/Wallet/CCDeposit/ErrorPage';
@@ -15,8 +16,8 @@ import Coinbase from 'views/Wallet/Coinbase';
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
 const RouterComponent = () => {
-  let location: any = useLocation();
-  let background = location.state && location.state.background;
+  const location: any = useLocation();
+  const background = location.state && location.state.background;
 
   return (
     <Switch location={background || location}>

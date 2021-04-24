@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
@@ -9,6 +10,11 @@ import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { useAppSelector } from 'hooks/store';
+
+interface IDepositModal {
+  isModalOpen?: boolean;
+  handleClose: any;
+}
 
 function getModalStyle() {
   const top = 50;
@@ -37,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const S: any = {};
 
-const DepositModal = ({ isModalOpen, handleClose }) => {
+const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
