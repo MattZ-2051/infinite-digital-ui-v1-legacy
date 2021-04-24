@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { getUserInfoByAuth0Id } from 'services/api/userService';
+import { getMe } from 'services/api/userService';
 import { Product } from 'entities/product';
 
 const MyItems = () => {
@@ -14,14 +14,9 @@ const MyItems = () => {
   const [userItems, setUserItems] = useState<Product[]>([]);
 
   async function fetchUser() {
-    // TODO: This is currently getting the user id from the auth0 token
-    // it might be useful to get it from the URL,
-    // however, the URL includes the username (user1), not the auth0 id
-    // and there's no endpoint that returns the products based on the username
     const token = await getAccessTokenSilently();
-    const extUser = await getUserInfoByAuth0Id(user?.sub, token);
-    console.log(extUser.data[0]._id);
-    const res = await getProductsOwnedByUser(extUser.data[0]._id, token);
+    const extUser = await getMe(token);
+    const res = await getProductsOwnedByUser(extUser.data._id, token);
     if (res) {
       setUserItems(res.data);
     }

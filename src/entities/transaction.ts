@@ -1,7 +1,14 @@
 export interface ITransaction {
   _id: string;
   owner: string;
-  type: 'topup' | 'purchase' | 'payment' | 'redeem';
+  type:
+    | 'topup'
+    | 'purchase'
+    | 'payment'
+    | 'redeem'
+    | 'sale'
+    | 'transfer'
+    | 'withdrawal';
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;

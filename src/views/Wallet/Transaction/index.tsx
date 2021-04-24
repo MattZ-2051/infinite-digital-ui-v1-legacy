@@ -24,6 +24,33 @@ const Transaction = ({ tx }: IProps) => {
             </span>
           </>
         )}
+        {tx.type === 'sale' && (
+          <>
+            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
+            <span>You sold</span>
+            <span style={{ color: 'black', paddingLeft: '5px' }}>
+              ${tx.transactionData.amount}
+            </span>
+          </>
+        )}
+        {tx.type === 'transfer' && (
+          <>
+            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
+            <span>You transferred</span>
+            <span style={{ color: 'black', paddingLeft: '5px' }}>
+              ${tx.transactionData.amount}
+            </span>
+          </>
+        )}
+        {tx.type === 'withdrawal' && (
+          <>
+            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
+            <span>You withdrew</span>
+            <span style={{ color: 'black', paddingLeft: '5px' }}>
+              ${tx.transactionData.amount}
+            </span>
+          </>
+        )}
         {tx.type === 'payment' && (
           <>
             <img src={depositIcon} style={{ paddingRight: '24px' }} />
@@ -111,6 +138,15 @@ const Transaction = ({ tx }: IProps) => {
           </span>
         )}
         {tx.type === 'redeem' && (
+          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
+        )}
+        {tx.type === 'sale' && (
+          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
+        )}
+        {tx.type === 'transfer' && (
+          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
+        )}
+        {tx.type === 'withdrawal' && (
           <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
         )}
       </TransactionDetail>
