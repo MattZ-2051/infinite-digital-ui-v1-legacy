@@ -17,7 +17,6 @@ import {
 // Components
 import SearchInput from './components/Filters/SearchInput';
 import SortByFilter from './components/Filters/SortByFilter';
-import ProductTile from './components/ProductTile';
 import SkuTile from './components/SkuTile';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';

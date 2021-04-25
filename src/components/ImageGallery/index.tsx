@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-// Local
-// import productBig from 'assets/img/marketplace/sku-example.png';
-// import productSmall1 from 'assets/img/marketplace/sku-example-small-1.png';
-// import productSmall2 from 'assets/img/marketplace/sku-example-small-2.png';
-// import productSmall3 from 'assets/img/marketplace/sku-example-small-3.png';
-// import productSmall4 from 'assets/img/marketplace/sku-example-small-4.png';
 
-const images = [
-  'https://stockx-360.imgix.net/Air-Jordan-11-Retro-Space-Jam-2016/Images/Air-Jordan-11-Retro-Space-Jam-2016/Lv2/img36.jpg?auto=format,compress&w=559&q=90&dpr=2&updated_at=1606319512',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtaeIUQiLip8ROnlVfvLIpgT3jY6i6UMwDg&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHArgo7FDBh1wOujs9RNt5WKbmlJQt3TAL1g&usqp=CAU',
-];
+export interface ImageGalleryProps {
+  images: string[];
+}
 
-const ImageGallery = () => {
+const ImageGallery = ({ images }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -27,30 +19,13 @@ const ImageGallery = () => {
       </ImageContainer>
 
       <ThumbnailMenu>
-        <ThumbnailItem
-          active={selectedImage === 0}
-          onClick={() => {
-            handleImageChange(0);
-          }}
-        >
-          <img src={images[0]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 1}
-          onClick={() => {
-            handleImageChange(1);
-          }}
-        >
-          <img src={images[1]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 2}
-          onClick={() => {
-            handleImageChange(2);
-          }}
-        >
-          <img src={images[2]} alt="" />
-        </ThumbnailItem>
+        {images &&
+          images.map((el, index) => {
+            <ThumbnailItem
+              active={selectedImage === 0}
+              onClick={() => handleImageChange(0)}
+            />;
+          })}
       </ThumbnailMenu>
     </Container>
   );
@@ -66,6 +41,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 700px;
   max-height: 700px;
+  overflow: hidden;
 
   img {
     width: 100%;

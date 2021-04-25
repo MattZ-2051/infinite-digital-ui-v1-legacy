@@ -10,6 +10,7 @@ export interface Sku {
     name: string;
   };
   graphicUrl: string; // Default image
+  imageUrls: string[]; // multiple images for gallery view
   createdAt: Date;
   updatedAt: Date;
 }

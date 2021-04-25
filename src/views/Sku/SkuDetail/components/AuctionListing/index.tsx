@@ -6,13 +6,6 @@ import { Link } from 'react-router-dom';
 import { Collector } from 'entities/collector';
 
 export interface Props {
-  // TODO: REVIEW
-  // collectors: {
-  //   serialNumber: number;
-  //   ownerName: string;
-  //   highestBid: number;
-  //   endDate: string;
-  // } | undefined;
   collectors: Collector[];
   hasProducts: boolean;
 }
@@ -46,7 +39,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
             </Link>
           ))}
 
-        <ViewAllLink to={'/collectors/' + collectors[0]?.sku}>
+        <ViewAllLink to={'/marketplace/' + collectors[0]?.sku + '/collectors'}>
           View all collectors
         </ViewAllLink>
       </Container>

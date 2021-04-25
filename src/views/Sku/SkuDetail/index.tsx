@@ -13,6 +13,7 @@ import AuctionListing from './components/AuctionListing';
 import { Sku, SkuWithFunctions } from 'entities/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
+import { Collector } from 'entities/collector';
 
 // {
 //   "rarity": "uncommon",
@@ -78,7 +79,7 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
 const SkuDetail = () => {
   const { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<Sku>();
-  const [collectors, setCollectors] = useState<any>([]);
+  const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
@@ -125,7 +126,7 @@ const SkuDetail = () => {
     //   console.log(res.data.collectors);
     //   setCollectors(res.data.collectors);
     // });
-  }, []);
+  }, [skuid]);
 
   const showModal = () => {
     // if(hasFunds) {
@@ -158,7 +159,7 @@ const SkuDetail = () => {
       <HeaderContainer>
         <HeaderContent>
           <HeaderLeft>
-            <ImageGallery />
+            {skuDetails && <ImageGallery images={skuDetails.imageUrls} />}
           </HeaderLeft>
           <HeaderRight>
             <ProductDetail>
