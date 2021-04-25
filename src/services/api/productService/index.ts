@@ -20,7 +20,7 @@ export const getProductsOwnedByUser = async (userId: string, token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return response;
+  return response.data;
 };
 
 export const getProductCollectors = async (skuId) => {

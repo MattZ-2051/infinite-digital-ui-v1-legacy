@@ -18,7 +18,7 @@ const MyItems = () => {
     const extUser = await getMe(token);
     const res = await getProductsOwnedByUser(extUser.data._id, token);
     if (res) {
-      setUserItems(res.data);
+      setUserItems(res);
     }
   }
 

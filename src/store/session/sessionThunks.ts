@@ -45,9 +45,9 @@ export const getUserCollectionThunk = createAsyncThunk<
   try {
     const response = await getProductsOwnedByUser(data.userId, data.token);
     console.log('response thunk :', response);
-    console.log('response thunkx data :', response.data);
+    console.log('response thunkx data :', response);
 
-    return response.data;
+    return response;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,

@@ -15,7 +15,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
   return (
     <Container>
       <ImageContainer>
-        {images[selectedImage].endsWith('mov') ? (
+        {images[selectedImage]?.endsWith('mov') ||
+        images[selectedImage]?.endsWith('mp4') ? (
           <video
             style={{
               width: '100%',
@@ -40,7 +41,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 active={selectedImage === index}
                 onClick={() => handleImageChange(index)}
               >
-                {el.endsWith('mov') ? (
+                {el?.endsWith('mov') || el?.endsWith('mp4') ? (
                   <video
                     style={{
                       width: '100%',

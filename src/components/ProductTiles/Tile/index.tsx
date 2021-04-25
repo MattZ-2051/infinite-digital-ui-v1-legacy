@@ -39,7 +39,7 @@ const Tile = ({
       <StyledCard>
         {redeemable ? <RedeemIcon src={icon} /> : null}
 
-        {skuImg?.endsWith('mov') ? (
+        {skuImg?.endsWith('mov') || skuImg?.endsWith('mp4') ? (
           <video
             style={{
               height: '240px',

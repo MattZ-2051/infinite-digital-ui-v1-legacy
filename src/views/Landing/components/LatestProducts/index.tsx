@@ -3,7 +3,8 @@ import styled from 'styled-components/macro';
 import Tab from 'components/Tab';
 import Tabs from 'components/TabsContainer';
 import MarketPlace from './MarketPlace';
-import MyCollection from 'views/Landing/components/LatestProducts/MyCollection';
+import MyItems from 'views/Collection/UserCollectionTabs/MyItems';
+import { MyCollection } from './MyCollection';
 
 export interface IProps {
   isAuthenticated: boolean;
@@ -45,6 +46,13 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
       )}
 
       {selectedTab === 0 && <MarketPlace />}
+      {/**
+       * TODO: Replace MyCollection component
+       * There is a very similar component (MyItems) in
+       * /views/Collection/UserCollectionTabs/MyItems/index.tsx
+       * MyItems is almost doing the same thing but the CSS does not look good with this view
+       * Those two components should be merged.
+       */}
       {selectedTab === 1 && <MyCollection />}
     </Container>
   );
