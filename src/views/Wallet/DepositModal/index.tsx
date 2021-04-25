@@ -54,12 +54,13 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
   const [modalStyle] = useState(getModalStyle);
   const history = useHistory();
   const userCards = useAppSelector((state) => state.session.userCards);
+  const username = useAppSelector((state) => state.session.user.username);
 
   const handleRedirect = () => {
     if (userCards.cards.length >= 1) {
-      window.open(`${history.location.pathname + '/deposit/addfunds'}`);
+      history.push(`/wallet/${username}/deposit/addfunds`);
     } else {
-      window.open(`${history.location.pathname + '/addcreditcard'}`);
+      history.push(`/wallet/${username}/addcreditcard`);
     }
   };
 
