@@ -10,6 +10,10 @@ import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { useAppSelector } from 'hooks/store';
+import CoinbaseCommerceButton from 'react-coinbase-commerce';
+import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
+
+const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
 
 interface IDepositModal {
   isModalOpen?: boolean;
@@ -31,7 +35,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       position: 'absolute',
-      width: '522px',
+      width: '750px',
+      height: '800px',
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
       paddingTop: '16px',
@@ -56,9 +61,6 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
     } else {
       window.open(`${history.location.pathname + '/addcreditcard'}`);
     }
-  };
-  const openCoinbasePage = () => {
-    window.open('/coinbase');
   };
 
   const body = (
@@ -91,24 +93,34 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
             <ArrowForwardIosIcon className="icon__arrow" />
           </div>
         </S.Row>
-        <S.Row onClick={openCoinbasePage}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={coinbaseIcon} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <S.RowText>Coinbase</S.RowText>
-            <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <ArrowForwardIosIcon className="icon__arrow" />
-          </div>
-        </S.Row>
+        <CoinbaseCommerceButton
+          style={{
+            width: '100%',
+            background: 'none',
+            border: 'none',
+            textAlign: 'left',
+          }}
+          checkoutId={coinbaseCheckoutId}
+        >
+          <S.Row>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src={coinbaseIcon} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <S.RowText>Coinbase</S.RowText>
+              <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <ArrowForwardIosIcon className="icon__arrow" />
+            </div>
+          </S.Row>
+        </CoinbaseCommerceButton>
         <S.Row>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={sukuIcon} />

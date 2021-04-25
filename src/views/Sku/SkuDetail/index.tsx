@@ -4,12 +4,16 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
 // Local
-import { getSku, getCollectors } from 'services/api/sku';
+import { getSku, getFeaturedSkuTiles } from 'services/api/sku';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import ButtonBlock from './components/ActionButtons/ButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
+import { Sku, SkuWithFunctions } from 'entities/sku';
+import ProductTile from 'views/MarketPlace/components/ProductTile';
+import { getProductCollectors } from 'services/api/productService';
+import { Collector } from 'entities/collector';
 
 // {
 //   "rarity": "uncommon",
@@ -58,20 +62,6 @@ import AuctionListing from './components/AuctionListing';
 //   countProductListings: 0,
 // };
 
-interface ISku {
-  id: string;
-  rarity: string;
-  name: string;
-  description: string;
-  maxSupply: number | string;
-  redeemable: boolean;
-  issuer: string; // Brand
-  series: {
-    name: string;
-  };
-  graphicUrl: string; // Default image
-}
-
 type ReleasedCounterProps = {
   totalSupplyUpcoming: number;
 };
@@ -86,18 +76,31 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
   );
 };
 
-interface ICollectors {
-  collectors: any;
-}
-
 const SkuDetail = () => {
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<ISku>();
-  const [collectors, setCollectors] = useState<ICollectors>([] as any);
+  const [skuDetails, setSkuDetails] = useState<Sku>();
+  const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
-  //Modificar vista por url
+  const [featuredProducts, setFeaturedProducts] = useState<SkuWithFunctions[]>(
+    []
+  );
+
+  async function fetchProducts() {
+    const skuTiles = await getFeaturedSkuTiles();
+    if (skuTiles) {
+      setFeaturedProducts(skuTiles.data);
+    }
+  }
+
+  async function fetchCollectors() {
+    const collectors = await getProductCollectors(skuid);
+    console.log(collectors);
+    setCollectors(collectors);
+  }
+
+  // Modificar vista por url
 
   const skuDataMock = {
     totalSupplyUpcoming: 1,
@@ -111,21 +114,19 @@ const SkuDetail = () => {
   };
 
   useEffect(() => {
-    // const skuData = getSku(skuid).then((res) => {
-    //   setSkuDetails(res.data);
-    // });
-  }, []);
-
-  useEffect(() => {
-    // const skuData = getSku(skuid).then((res) => {
-    //   console.log(res.data);
-    //   setSkuDetails(res.data);
-    // });
-
-    const collectors = getCollectors().then((res) => {
-      setCollectors(res.data.collectors);
+    const skuData = getSku(skuid).then((res) => {
+      console.log(res.data);
+      setSkuDetails(res.data);
     });
-  }, []);
+
+    fetchProducts();
+    fetchCollectors();
+
+    // const collectors = getCollectors().then((res) => {
+    //   console.log(res.data.collectors);
+    //   setCollectors(res.data.collectors);
+    // });
+  }, [skuid]);
 
   const showModal = () => {
     // if(hasFunds) {
@@ -158,7 +159,11 @@ const SkuDetail = () => {
       <HeaderContainer>
         <HeaderContent>
           <HeaderLeft>
-            <ImageGallery />
+            {skuDetails && (
+              <ImageGallery
+                images={[skuDetails.graphicUrl, ...skuDetails.imageUrls]}
+              />
+            )}
           </HeaderLeft>
           <HeaderRight>
             <ProductDetail>
@@ -177,7 +182,7 @@ const SkuDetail = () => {
                   fontSize: '24px',
                 }}
               >
-                <Brand>Nike</Brand>
+                <Brand>{skuDetails?.issuer}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}
@@ -195,7 +200,7 @@ const SkuDetail = () => {
               </p>
 
               <p>
-                SKU: {skuDetails?.id} /{' '}
+                SKU: {skuDetails?._id} /{' '}
                 <ReleasedCounter
                   totalSupplyUpcoming={skuDataMock.totalSupplyUpcoming}
                 />
@@ -203,15 +208,11 @@ const SkuDetail = () => {
 
               <LineDivider />
 
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <RedeemableIcon /> &nbsp; Redeemable
-              </div>
-
-              {/* {skuDetails?.redeemable && (
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              {skuDetails?.redeemable && (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <RedeemableIcon /> &nbsp; Redeemable
                 </div>
-              )} */}
+              )}
             </ProductDetail>
 
             <ButtonsContainer>
@@ -229,15 +230,36 @@ const SkuDetail = () => {
           {skuDetails?.description}
         </Description>
 
-        <AuctionListing collectors={collectors} hasProducts={true} />
+        {collectors && (
+          <AuctionListing collectors={collectors} hasProducts={true} />
+        )}
       </Section>
 
       <Section>
         <SectionTitle>Related Releases</SectionTitle>
 
-        <TilesContainer>
-          <Tile /> <Tile /> <Tile /> <Tile />
-        </TilesContainer>
+        <ProductContainer>
+          {featuredProducts &&
+            featuredProducts.map((el, index) => {
+              if (index >= 5) return null;
+              return (
+                <TileContainer key={index} index={index}>
+                  <ProductTile
+                    sku={el}
+                    redeemable={true}
+                    status="tbd"
+                    productSerialNumber="1"
+                    // TODO: get issuer name
+                    // backend response returns issuer ID in product.listing
+                    issuer={'adidas'}
+                    key={index}
+                    // TODO: Find out why this is not a Date
+                    purchasedDate="1k"
+                  />
+                </TileContainer>
+              );
+            })}
+        </ProductContainer>
       </Section>
     </div>
   );
@@ -306,6 +328,12 @@ const Tile = styled.div`
   margin-right: 15px;
 `;
 
+const TileContainer = styled.div<{ index: number }>`
+  padding: 0 20px;
+  float: left;
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+`;
+
 const Section = styled.section`
   display: flex;
   flex-direction: column;
@@ -364,6 +392,34 @@ const LineDivider = styled.div`
   width: 40px;
   margin-top: 20px;
   margin-bottom: 20px;
+`;
+
+const ProductContainer = styled.div`
+  && {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 36em;
+
+    @media screen and (max-width: 600px) {
+      margin: auto;
+      width: 320px;
+    }
+
+    ::-webkit-scrollbar {
+      height: 0.4em;
+    }
+    ::-webkit-scrollbar-button {
+      width: 0.1em;
+    }
+    ::-webkit-scrollbar-track-piece {
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--grey-40);
+      width: 1px !important;
+      border-radius: 10px;
+    }
+  }
 `;
 
 export default SkuDetail;

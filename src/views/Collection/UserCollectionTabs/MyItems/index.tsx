@@ -2,37 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
-import { getUserCollection } from 'services/api/userService';
+import { getProductsOwnedByUser } from 'services/api/productService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { getMe } from 'services/api/userService';
+import { Product } from 'entities/product';
 
 const MyItems = () => {
+  const { getAccessTokenSilently, user } = useAuth0();
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
-  const [userItems, setUserItems] = useState<any>(null);
-  const { getAccessTokenSilently } = useAuth0();
+  const [userItems, setUserItems] = useState<Product[]>([]);
+
+  async function fetchUser() {
+    const token = await getAccessTokenSilently();
+    const extUser = await getMe(token);
+    const res = await getProductsOwnedByUser(extUser.data._id, token);
+    if (res) {
+      setUserItems(res);
+    }
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      //TODO change enpoint this is a mock server endpoint
-      const userToken = await getAccessTokenSilently();
-      const res = await getUserCollection(id, userToken);
-      if (res) {
-        setUserItems(res.data);
-      }
-    }
-
-    fetchData();
-  }, []);
+    fetchUser();
+  }, [id]);
 
   return (
     <MyItemsContainer>
-      {userItems === undefined || null ? (
-        <h1>Loading Items...</h1>
-      ) : userItems?.length === 0 ? (
-        <h1>No Items Yet!</h1>
-      ) : (
-        userItems instanceof Array &&
-        userItems.map((item, index) => {
+      {userItems &&
+        userItems.map((item: Product, index) => {
           let type = 'active-listing';
           const sku = item.sku;
           if (item.listing.status === 'active') {
@@ -44,15 +41,15 @@ const MyItems = () => {
           return (
             <TileContainer key={index} index={index}>
               <ProductTile
+                sku={sku}
                 redeemable={true}
                 status={type}
-                name={sku.name}
-                img={sku.graphicUrl}
-                rarity={sku.rarity}
-                series={sku.series.name}
                 productSerialNumber={item.serialNumber}
+                // TODO: get issuer name
+                // backend response returns issuer ID in product.listing
                 issuer={'adidas'}
-                key={item.id}
+                key={item._id}
+                // TODO: Find out why this is not a Date
                 purchasedDate="1k"
               />
             </TileContainer>

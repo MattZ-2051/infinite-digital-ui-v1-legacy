@@ -1,20 +1,21 @@
+import { User } from 'entities/user';
 import { axiosInstance } from '../coreService';
 
-export const getUserInfo = async (token: string) => {
-  const response = await axiosInstance.request({
+// the following endpoint is deprecated:
+// export const getUserInfoByAuth0Id = async (userId: string, token: string) => {
+//   const response = await axiosInstance.request<User[]>({
+//     method: 'GET',
+//     url: `/users?sub=${userId}`,
+//     headers: { Authorization: `Bearer ${token}` },
+//   });
+
+//   return response;
+// };
+
+export const getMe = async (token: string) => {
+  const response = await axiosInstance.request<User>({
     method: 'GET',
     url: `/users/me`,
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  return response;
-};
-
-export const getUserCollection = async (userId: string, token: string) => {
-  const response = await axiosInstance.request({
-    method: 'GET',
-    url: `/products`,
-    params: { owner: userId, includeFunctions: true },
     headers: { Authorization: `Bearer ${token}` },
   });
 

@@ -29,21 +29,25 @@ const Footer = () => {
       <FooterContent>
         <FooterTop>
           <Divider gap={24} tag="nav">
-            <TextButton to="/" color="grey" size="small">
+            {/* <TextButton to="/" color="grey" size="small">
               FAQ
-            </TextButton>
+            </TextButton> */}
 
-            <TextButton to="/" color="grey" size="small">
+            <TextButton
+              to="https://sukulab.github.io/infinite-kb/#/"
+              color="grey"
+              size="small"
+            >
               Help
             </TextButton>
 
-            <TextButton to="/" color="grey" size="small">
+            {/* <TextButton to="/" color="grey" size="small">
               Thanks
             </TextButton>
 
             <TextButton to="/" color="white" size="small">
               +
-            </TextButton>
+            </TextButton> */}
           </Divider>
         </FooterTop>
 

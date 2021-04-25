@@ -11,7 +11,6 @@ import Collection from 'views/Collection';
 import Wallet from 'views/Wallet';
 import SkuDetail from 'views/Sku/SkuDetail';
 import Collectors from 'views/Sku/Collectors';
-import Coinbase from 'views/Wallet/Coinbase';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -53,7 +52,6 @@ const RouterComponent = () => {
         component={ErrorPage}
       />
 
-      <PrivateRoute exact path="/coinbase" component={Coinbase} />
       <Route path="/collection/:userId" component={Collection} />
 
       {/* All */}

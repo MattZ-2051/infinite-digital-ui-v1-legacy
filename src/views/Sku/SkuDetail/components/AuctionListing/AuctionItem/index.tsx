@@ -4,10 +4,10 @@ import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
 
 export interface AuctionItemProps {
-  serialNumber: number;
+  serialNumber: string;
   ownerName: string;
   highestBid: number;
-  endDate: string;
+  endDate: Date;
 }
 
 const AuctionItem = ({
