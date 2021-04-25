@@ -93,7 +93,6 @@ export const validate = (ccInfo, setFieldError) => {
     }));
   }
 
-  console.log(parseInt(ccInfo.expYear, 10));
   if (
     parseInt(ccInfo.expYear, 10) <= year ||
     ccInfo.expYear.toString().length !== 4

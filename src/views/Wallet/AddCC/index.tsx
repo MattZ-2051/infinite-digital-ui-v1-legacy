@@ -17,7 +17,6 @@ const AddCC = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     if (name.includes('billingDetails')) {
       const keyName = name.split('-')[1];
@@ -59,7 +58,6 @@ const AddCC = () => {
       return;
     }
     const res = await createNewUserCC(userToken, cardInfo);
-    console.log('backend res', res);
   };
 
   const clearState = () => {

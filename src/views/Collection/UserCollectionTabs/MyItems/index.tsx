@@ -16,7 +16,6 @@ const MyItems = () => {
       //TODO change enpoint this is a mock server endpoint
       const userToken = await getAccessTokenSilently();
       const res = await getUserCollection(id, userToken);
-      console.log('res', res);
       if (res) {
         setUserItems(res.data);
       }
@@ -25,7 +24,6 @@ const MyItems = () => {
     fetchData();
   }, []);
 
-  console.log(userItems);
   return (
     <MyItemsContainer>
       {userItems === undefined || null ? (
