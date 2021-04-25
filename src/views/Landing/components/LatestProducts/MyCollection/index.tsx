@@ -6,12 +6,14 @@ import { Product } from 'entities/product';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAppSelector } from 'hooks/store';
 
 const S: any = {};
 
 export const MyCollection = () => {
   const [userItems, setUserItems] = useState<Product[]>([]);
   const { getAccessTokenSilently, user } = useAuth0();
+  const userId = useAppSelector((state) => state.session.user.id);
 
   async function fetchUser() {
     const token = await getAccessTokenSilently();
@@ -30,7 +32,7 @@ export const MyCollection = () => {
     <>
       <S.HeaderContainer>
         <S.Header>My Items</S.Header>
-        <CircularButton to="my-collection" label="See More" />
+        <CircularButton to={`/collection/${userId}`} label="See More" />
       </S.HeaderContainer>
       <S.ProductContainer>
         {userItems instanceof Array &&
