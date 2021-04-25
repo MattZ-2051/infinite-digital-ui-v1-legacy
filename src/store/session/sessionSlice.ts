@@ -36,7 +36,7 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      //console.log('payload: ', payload)
+      console.log('payload: ', payload);
       state.user = payload;
     });
     builder.addCase(getUserCollectionThunk.fulfilled, (state, { payload }) => {

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Product } from 'entities/product';
 import { User } from 'entities/user';
+import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { getMe, getUserCards } from 'services/api/userService';
 
@@ -10,7 +11,7 @@ interface IPayloadParams {
   userId: string;
 }
 
-interface IPayloadToken {
+interface TokenPayload {
   token: string;
 }
 
@@ -21,17 +22,17 @@ interface IError {
 
 export const getUserInfoThunk = createAsyncThunk<
   User,
-  IPayloadParams,
+  TokenPayload,
   {
     rejectValue: IError;
   }
 >('users/me', async (data, thunkApi) => {
   try {
     const response = await getMe(data.token);
-    //console.log('response thunk :', response);
-    //console.log('response thunkx data :', response.data);
+    console.log('response thunk :', response);
+    console.log('response thunkx data :', response.data);
 
-    return response.data[0];
+    return response.data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -48,10 +49,30 @@ export const getUserCollectionThunk = createAsyncThunk<
 >('products?owner=:user', async (data, thunkApi) => {
   try {
     const response = await getProductsOwnedByUser(data.userId, data.token);
+    // console.log('response thunk :', response);
+    // console.log('response thunkx data :', response);
+
+    return response;
+  } catch (err) {
+    return thunkApi.rejectWithValue({
+      errorMessage: err.response.data.error_description,
+    } as IError);
+  }
+});
+
+export const getUserCardsThunk = createAsyncThunk<
+  Wallet,
+  TokenPayload,
+  {
+    rejectValue: IError;
+  }
+>('/wallet', async (data, thunkApi) => {
+  try {
+    const response = await getUserCards(data.token);
     console.log('response thunk :', response);
     console.log('response thunkx data :', response);
 
-    return response;
+    return response.data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,

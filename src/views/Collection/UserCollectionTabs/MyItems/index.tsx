@@ -54,8 +54,7 @@ const MyItems = () => {
               />
             </TileContainer>
           );
-        })
-      )}
+        })}
     </MyItemsContainer>
   );
 };
