@@ -159,7 +159,11 @@ const SkuDetail = () => {
       <HeaderContainer>
         <HeaderContent>
           <HeaderLeft>
-            {skuDetails && <ImageGallery images={skuDetails.imageUrls} />}
+            {skuDetails && (
+              <ImageGallery
+                images={[skuDetails.graphicUrl, ...skuDetails.imageUrls]}
+              />
+            )}
           </HeaderLeft>
           <HeaderRight>
             <ProductDetail>

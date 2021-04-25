@@ -15,16 +15,47 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
   return (
     <Container>
       <ImageContainer>
-        <img src={images[selectedImage]} alt="" />
+        {images[selectedImage].endsWith('mov') ? (
+          <video
+            style={{
+              width: '100%',
+            }}
+            autoPlay={true}
+            controls={false}
+            loop={true}
+            muted={true}
+            src={images[selectedImage]}
+          ></video>
+        ) : (
+          <img src={images[selectedImage]} alt="" />
+        )}
       </ImageContainer>
 
       <ThumbnailMenu>
         {images &&
           images.map((el, index) => {
-            <ThumbnailItem
-              active={selectedImage === 0}
-              onClick={() => handleImageChange(0)}
-            />;
+            return (
+              <ThumbnailItem
+                key={index}
+                active={selectedImage === index}
+                onClick={() => handleImageChange(index)}
+              >
+                {el.endsWith('mov') ? (
+                  <video
+                    style={{
+                      width: '100%',
+                    }}
+                    autoPlay={true}
+                    controls={false}
+                    loop={true}
+                    muted={true}
+                    src={el}
+                  ></video>
+                ) : (
+                  <img src={el} alt="" />
+                )}
+              </ThumbnailItem>
+            );
           })}
       </ThumbnailMenu>
     </Container>

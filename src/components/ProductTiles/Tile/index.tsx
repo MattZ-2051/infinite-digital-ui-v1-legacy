@@ -38,7 +38,24 @@ const Tile = ({
     <CardContainer>
       <StyledCard>
         {redeemable ? <RedeemIcon src={icon} /> : null}
-        <StyledCardImg image={skuImg || productImg} />
+
+        {skuImg?.endsWith('mov') ? (
+          <video
+            style={{
+              height: '240px',
+              width: '302px',
+              borderRadius: '20px 20px 0 0',
+            }}
+            autoPlay={true}
+            controls={false}
+            loop={true}
+            muted={true}
+            src={skuImg}
+          ></video>
+        ) : (
+          <StyledCardImg image={skuImg || productImg} />
+        )}
+
         <CardContent
           style={{
             backgroundColor: 'white',
