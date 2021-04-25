@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { useAppSelector } from 'hooks/store';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { getUserCollection } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const MyItems = () => {
-  const mockItems = useAppSelector(
-    (state) => state.session.userCollection.collectors
-  );
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
   const [userItems, setUserItems] = useState<any>(null);
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     async function fetchData() {
       //TODO change enpoint this is a mock server endpoint
-      const res = await getUserCollection('', id);
+      const userToken = await getAccessTokenSilently();
+      const res = await getUserCollection(id, userToken);
+      console.log('res', res);
       if (res) {
-        setUserItems(res.data.collectors);
+        setUserItems(res.data);
       }
     }
 
     fetchData();
-  }, [id]);
+  }, []);
 
+  console.log(userItems);
   return (
     <MyItemsContainer>
-      {mockItems instanceof Array &&
-        mockItems.map((item, index) => {
+      {userItems === undefined || null ? (
+        <h1>Loading Items...</h1>
+      ) : userItems?.length === 0 ? (
+        <h1>No Items Yet!</h1>
+      ) : (
+        userItems instanceof Array &&
+        userItems.map((item, index) => {
           let type = 'active-listing';
           const sku = item.sku;
           if (item.listing.status === 'active') {
@@ -53,7 +59,8 @@ const MyItems = () => {
               />
             </TileContainer>
           );
-        })}
+        })
+      )}
     </MyItemsContainer>
   );
 };

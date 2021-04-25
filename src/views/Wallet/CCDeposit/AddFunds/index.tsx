@@ -6,11 +6,12 @@ import exitIcon from 'assets/img/icons/exit-icon.png';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
-import { useAppSelector } from 'hooks/store';
+import { useAppDispatch, useAppSelector } from 'hooks/store';
 import { useHistory } from 'react-router-dom';
 import { addFundsToUserWallet } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import CurrencyInput from 'react-currency-input-field';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 
 const S: any = {};
 
@@ -18,6 +19,7 @@ const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
   const username = useAppSelector((state) => state.session.user.username);
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
   const fundsBody = {
@@ -32,7 +34,13 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    addFundsToUserWallet(userToken, fundsBody, userCard.id);
+    const res = await addFundsToUserWallet(userToken, fundsBody, userCard.id);
+    if (res.status === 201) {
+      dispatch(getUserCardsThunk({ token: userToken }));
+      history.push(`/wallet/${username}/deposit/success`);
+    } else {
+      history.push(`/wallet/${username}/deposit/error`);
+    }
   };
 
   const year = userCard.expYear.toString().slice(2, 4);
@@ -50,7 +58,6 @@ const AddFunds = () => {
             <img src={circleIcon} alt="" />
             <S.HeaderText>Circle Payments</S.HeaderText>
           </S.HeaderDiv>
-          <img src={exitIcon} alt="" />
         </S.Row>
         <div style={{ paddingTop: '25px' }}>
           <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
@@ -96,8 +103,8 @@ const AddFunds = () => {
             onValueChange={(value) => setAmount(value)}
             maxLength={10}
             step={10}
+            defaultValue={0.0}
             allowNegativeValue={false}
-            fixedDecimalLength={2}
           />
         </div>
         <div style={{ padding: '25px 0' }}>

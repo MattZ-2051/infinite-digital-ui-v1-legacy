@@ -13,7 +13,7 @@ const S: any = {};
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
-  const username = useAppSelector((state) => state.session.user.username);
+  const userId = useAppSelector((state) => state.session.user.id);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -26,7 +26,7 @@ const Wallet = () => {
   return (
     <S.Container>
       <S.PageHeaderContainer>
-        <S.Link to={`/collection/${username}`}>
+        <S.Link to={`/collection/${userId}`}>
           {' '}
           <S.BackArrow />
           Back To My Collection

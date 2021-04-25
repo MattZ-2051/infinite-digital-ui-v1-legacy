@@ -34,6 +34,13 @@ S.Div = styled.div`
   padding-bottom: 40px;
 `;
 
+S.ExitIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
 S.FormInputError = styled(TextField)`
   color: red;
   & .Mui-focused {

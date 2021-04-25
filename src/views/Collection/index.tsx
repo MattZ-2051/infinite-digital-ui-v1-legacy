@@ -10,21 +10,20 @@ const Collection = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const user = useAppSelector((store) => store.session.user);
   const history = useHistory();
-  const username = history.location.pathname.split('/')[2];
+  const userId = history.location.pathname.split('/')[2];
 
   let userStatus: any = '';
 
   const checkStatus = () => {
-    if (username === user.username && user.role === 'issuer') {
+    if (userId === user.id && user.role === 'issuer') {
       userStatus = 'loggedInIssuer';
-    } else if (username === user.username) {
+    } else if (userId === user.id) {
       userStatus = 'loggedIn';
-    } else if (username !== user.username) {
+    } else if (userId !== user.id) {
       userStatus = 'notCurrentUserProfile';
     } else {
       userStatus = 'notCurrentUserProfileIssuer';
     }
-
     return userStatus;
   };
 
@@ -39,7 +38,7 @@ const Collection = () => {
 };
 
 const Container = styled.div`
-  height: 70%;
+  height: 100vh;
 `;
 
 export default Collection;

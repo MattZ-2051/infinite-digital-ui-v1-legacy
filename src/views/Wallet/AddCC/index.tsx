@@ -62,6 +62,11 @@ const AddCC = () => {
     console.log('backend res', res);
   };
 
+  const clearState = () => {
+    setCardInfo(state);
+    setIsOpen(false);
+  };
+
   return (
     <S.Container>
       <S.Box>
@@ -73,7 +78,7 @@ const AddCC = () => {
               <img src={circleIcon} alt="" />
               <S.HeaderText>Circle Payments</S.HeaderText>
             </S.HeaderDiv>
-            <img src={exitIcon} alt="" />
+            <S.ExitIcon src={exitIcon} alt="" onClick={clearState} />
           </S.Row>
         </S.HeaderContainer>
         <S.Row>

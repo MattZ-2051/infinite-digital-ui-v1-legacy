@@ -7,18 +7,20 @@ import { useAppSelector } from 'hooks/store';
 const S: any = {};
 
 const MyCollection = () => {
-  const mockItems = useAppSelector(
-    (state) => state.session.userCollection.collectors
-  );
+  const userItems = useAppSelector((state) => state.session.userCollection);
+  const userId = useAppSelector((state) => state.session.user.id);
   return (
     <>
       <S.HeaderContainer>
         <S.Header>My Items</S.Header>
-        <CircularButton to="my-collection" label="See More" />
+        <CircularButton to={`/collection/${userId}`} label="See More" />
       </S.HeaderContainer>
       <S.ProductContainer>
-        {mockItems instanceof Array &&
-          mockItems.map((item, index) => {
+        {userItems.length === 0 ? (
+          <h1>No Items Yet!</h1>
+        ) : (
+          userItems instanceof Array &&
+          userItems.map((item, index) => {
             let type = 'active-listing';
             const sku = item.sku;
             if (item.listing.status === 'active') {
@@ -43,7 +45,8 @@ const MyCollection = () => {
                 />
               </S.TileContainer>
             );
-          })}
+          })
+        )}
       </S.ProductContainer>
     </>
   );

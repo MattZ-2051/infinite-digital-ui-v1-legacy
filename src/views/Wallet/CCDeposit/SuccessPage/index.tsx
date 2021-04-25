@@ -3,18 +3,23 @@ import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 import Emoji from 'components/Emoji';
 import { Row, Container } from '../index';
+import { useAppSelector } from 'hooks/store';
 
 const S: any = {};
 
 const SuccessPage = () => {
   const history = useHistory();
+  const username = useAppSelector((state) => state.session.user.username);
+  const userBalance = useAppSelector(
+    (state) => state.session.userCards.balance
+  );
 
   const handleMarketplaceRedirect = () => {
     history.push('/marketplace');
   };
 
   const handleWalletRedirect = () => {
-    history.push('/wallet/username');
+    history.push(`/wallet/${username}`);
   };
   return (
     <Container>
@@ -24,7 +29,9 @@ const SuccessPage = () => {
           <S.HeaderText>Yeah! Funds added.</S.HeaderText>
         </Row>
         <Row style={{ padding: '10px 0' }}>
-          <S.BalanceText>Your balance is $1800 now</S.BalanceText>
+          <S.BalanceText>
+            Your balance is now {userBalance.amount} in {userBalance.currency}
+          </S.BalanceText>
         </Row>
         <Row style={{ flexDirection: 'column' }}>
           <S.Text>Check your open tabs to refresh your previous screen</S.Text>
