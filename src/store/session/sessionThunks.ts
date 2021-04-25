@@ -3,7 +3,7 @@ import { Product } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
-import { getMe, getUserCards } from 'services/api/userService';
+import { getMe, getMyCards } from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -68,7 +68,7 @@ export const getUserCardsThunk = createAsyncThunk<
   }
 >('/wallet', async (data, thunkApi) => {
   try {
-    const response = await getUserCards(data.token);
+    const response = await getMyCards(data.token);
     console.log('response thunk :', response);
     console.log('response thunkx data :', response);
 

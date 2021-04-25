@@ -8,7 +8,7 @@ import { getMe } from 'services/api/userService';
 import { Product } from 'entities/product';
 
 const MyItems = () => {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
   const [userItems, setUserItems] = useState<Product[]>([]);
@@ -23,7 +23,9 @@ const MyItems = () => {
   }
 
   useEffect(() => {
-    fetchUser();
+    if (isAuthenticated === true) {
+      fetchUser();
+    }
   }, [id]);
 
   return (

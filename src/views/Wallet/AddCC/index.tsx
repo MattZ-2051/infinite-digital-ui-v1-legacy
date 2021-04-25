@@ -3,7 +3,7 @@ import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { useAppSelector } from 'hooks/store';
-import { createNewUserCC } from 'services/api/userService';
+import { createNewCC } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { validate, errors, state, Values } from './helper';
@@ -57,7 +57,7 @@ const AddCC = () => {
     if (checkErrors) {
       return;
     }
-    const res = await createNewUserCC(userToken, cardInfo);
+    const res = await createNewCC(userToken, cardInfo);
   };
 
   const clearState = () => {
