@@ -6,5 +6,5 @@ export const getDropBoxes = async () => {
     url: '/dropboxes',
   });
 
-  return response;
+  return response.data;
 };

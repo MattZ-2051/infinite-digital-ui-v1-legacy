@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 // Local
 import SlideBox from './SlideBox';
 

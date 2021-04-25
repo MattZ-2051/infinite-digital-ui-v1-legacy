@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';

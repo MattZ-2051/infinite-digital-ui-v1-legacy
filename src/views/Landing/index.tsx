@@ -6,7 +6,7 @@ import {
   getUserInfoThunk,
   getUserCollectionThunk,
 } from 'store/session/sessionThunks';
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
 // Components
 import Hero from './components/Hero';

@@ -16,12 +16,14 @@ import globalSlice from './global/globalSlice';
 import sessionSlice from './session/sessionSlice';
 import landingSlice from './landing/landingSlice';
 import marketplaceSlice from './marketplace/marketplaceSlice';
+import skuSlice from './sku/skuSlice';
 
 const rootReducer = combineReducers({
   global: globalSlice,
   session: sessionSlice,
   landing: landingSlice,
   marketplace: marketplaceSlice,
+  sku: skuSlice,
 });
 
 const persistConfig = {

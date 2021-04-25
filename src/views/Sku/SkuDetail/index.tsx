@@ -4,63 +4,19 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
 // Local
-import { getSku, getFeaturedSkuTiles } from 'services/api/sku';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { getFeaturedSkuTiles } from 'services/api/sku';
+import { getSkuTilesThunk } from 'store/sku/skuThunks';
+import { Collector } from 'entities/collector';
 // Components
 import ImageGallery from 'components/ImageGallery';
-import ButtonBlock from './components/ActionButtons/ButtonBlock';
+import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { Sku, SkuWithFunctions } from 'entities/sku';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
-import { Collector } from 'entities/collector';
-
-// {
-//   "rarity": "uncommon",
-//   "redeemable": false,
-//   "display": true,
-//   "featured": true,
-//   "imageUrls": [
-//     "http://example.com/1.png",
-//     "http://example.com/2.png"
-//   ],
-//   "supplyType": "variable",
-//   "maxSupply": 200,
-//   "_id": "606c6bbda383eb6ee67638f0",
-//   "graphicUrl": "http://example.com/u.png",
-//   "name": "M Jordan Limited",
-//   "description": "Est et sed et nostrum recusandae incidunt dicta.",
-//   "startDate": "2021-03-15T00:00:00.000Z",
-//   "endDate": "2021-05-05T00:00:00.000Z",
-//   "series": {
-//     "_id": "606c6bbaa383eb6ee67638ee",
-//     "name": "Miscelaneous",
-//     "description": "Other items",
-//     "issuerId": "6048e601782c593a7c6dffc0",
-//     "createdAt": "2021-04-06T14:10:02.388Z",
-//     "updatedAt": "2021-04-06T14:10:02.788Z",
-//     "__v": 0,
-//     "id": "606c6bbaa383eb6ee67638ee"
-//   },
-//   "category": "606c6bbaa383eb6ee67638ef",
-//   "issuer": "6048e601782c593a7c6dffc0",
-//   "createdAt": "2021-04-06T14:10:05.817Z",
-//   "updatedAt": "2021-04-06T14:10:09.256Z",
-//   "__v": 0,
-//   "products": [],
-//   "id": "606c6bbda383eb6ee67638f0"
-// }
-
-// const skuDataMock = {
-//   totalSupplyUpcoming: 1,
-//   minStartDate: '2021-05-13T18:30:00.000Z', //'2021-04-13T00:00:00.000Z',
-//   minSkuPrice: 0,
-//   totalNewSupplyLeft: 1,
-//   countSkuListings: 1,
-//   circulatingSupply: 1,
-//   minCurrentBid: 0,
-//   countProductListings: 0,
-// };
 
 type ReleasedCounterProps = {
   totalSupplyUpcoming: number;
@@ -76,21 +32,25 @@ const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
   );
 };
 
-const SkuDetail = () => {
+const SkuDetail = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const skus = useAppSelector((state) => state.sku.skus);
+
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<Sku>();
+  const [skuDetails, setSkuDetails] = useState<SkuWithFunctionsPopulated>(
+    skuWithFunctionsPopulatedFactory.build()
+  );
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
-  const [featuredProducts, setFeaturedProducts] = useState<SkuWithFunctions[]>(
-    []
-  );
-
+  const [featuredProducts, setFeaturedProducts] = useState<
+    SkuWithFunctionsPopulated[]
+  >([]);
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
     if (skuTiles) {
-      setFeaturedProducts(skuTiles.data);
+      setFeaturedProducts(skuTiles);
     }
   }
 
@@ -100,25 +60,14 @@ const SkuDetail = () => {
     setCollectors(collectors);
   }
 
-  // Modificar vista por url
-
-  const skuDataMock = {
-    totalSupplyUpcoming: 1,
-    minStartDate: '2021-05-13T18:30:00.000Z', //'2021-04-13T00:00:00.000Z',
-    minSkuPrice: 1,
-    totalNewSupplyLeft: 1,
-    countSkuListings: 0,
-    circulatingSupply: 0,
-    minCurrentBid: 0,
-    countProductListings: 1,
-  };
-
   useEffect(() => {
-    const skuData = getSku(skuid).then((res) => {
-      console.log(res.data);
-      setSkuDetails(res.data);
-    });
-
+    // FIXME: cc
+    // getSku(skuid, { includeFunctions: true }).then((skuWithFunctions) => {
+    //   console.log(skuWithFunctions);
+    //   if (skuWithFunctions) {
+    //     setSkuDetails(skuWithFunctions);
+    //   }
+    // });
     fetchProducts();
     fetchCollectors();
 
@@ -128,7 +77,29 @@ const SkuDetail = () => {
     // });
   }, [skuid]);
 
-  const showModal = () => {
+  useEffect(() => {
+    const filteredSkus = skus.filter((sku) => sku._id === skuid);
+    if (filteredSkus.length > 0) {
+      // TODO: Only pulling the first one
+      setSkuDetails(filteredSkus[0]);
+    }
+  }, [skus]);
+
+  // TODO: Can pass token here
+  useEffect(() => {
+    (async () => {
+      dispatch(
+        getSkuTilesThunk({
+          token: '',
+          // queryParams: `?${urlQueryString.toString()}`,
+        })
+      );
+    })();
+    // TODO: This may neeed to be refreshed more often
+  }, [dispatch]);
+
+  // TODO: Not in use
+  const showModal = (): void => {
     // if(hasFunds) {
     //   modalMode.current = 'hasFunds';
     //   setModalPaymentVisible(true);
@@ -139,6 +110,7 @@ const SkuDetail = () => {
     setModalPaymentVisible(true);
   };
 
+  // TODO: Note in use
   const Buy = () => {
     const completed = true;
 
@@ -182,7 +154,8 @@ const SkuDetail = () => {
                   fontSize: '24px',
                 }}
               >
-                <Brand>{skuDetails?.issuer}</Brand>
+                {/* TODO: Using issuer.username here for brand */}
+                <Brand>{skuDetails?.issuer?.username || ''}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}
@@ -200,9 +173,8 @@ const SkuDetail = () => {
               </p>
 
               <p>
-                SKU: {skuDetails?._id} /{' '}
                 <ReleasedCounter
-                  totalSupplyUpcoming={skuDataMock.totalSupplyUpcoming}
+                  totalSupplyUpcoming={skuDetails.totalSupplyUpcoming}
                 />
               </p>
 
@@ -216,7 +188,7 @@ const SkuDetail = () => {
             </ProductDetail>
 
             <ButtonsContainer>
-              <ButtonBlock data={skuDataMock} />
+              <SkuButtonBlock sku={skuDetails} />
             </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>
@@ -249,9 +221,6 @@ const SkuDetail = () => {
                     redeemable={true}
                     status="tbd"
                     productSerialNumber="1"
-                    // TODO: get issuer name
-                    // backend response returns issuer ID in product.listing
-                    issuer={'adidas'}
                     key={index}
                     // TODO: Find out why this is not a Date
                     purchasedDate="1k"

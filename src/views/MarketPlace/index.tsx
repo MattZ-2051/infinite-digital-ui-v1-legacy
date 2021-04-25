@@ -5,13 +5,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 // Local
-import { getSkusThunk } from 'store/marketplace/marketplaceThunks';
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { getSkuTilesThunk } from 'store/sku/skuThunks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import Filters from './components/Filters';
 import {
   getDefaultParams,
   updateFilters,
-  restoreFilters,
   updateFilter,
 } from 'store/marketplace/marketplaceSlice';
 // Components
@@ -21,13 +20,13 @@ import SkuTile from './components/SkuTile';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
-const MarketPlace = () => {
+const MarketPlace = (): JSX.Element => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const [filtersVisible, setFiltersVisible] = useState(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
-  const skus = useAppSelector((store) => store.marketplace.skus);
+  const skus = useAppSelector((store) => store.sku.skus);
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
@@ -74,7 +73,6 @@ const MarketPlace = () => {
         regenerateUrl.current = true;
       }
     }
-    // dispatch(getSkusThunk({ queryParams: `?${urlQueryString.toString()}` }));
   }, [activeFilters]);
 
   const toggleFilters = () => {
@@ -102,8 +100,14 @@ const MarketPlace = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getSkusThunk({ token: '', queryParams: '' }));
+      dispatch(
+        getSkuTilesThunk({
+          token: '',
+          queryParams: `?${urlQueryString.toString()}`,
+        })
+      );
     })();
+    // TODO: This may neeed to be refreshed more often
   }, [dispatch]);
 
   return (
@@ -146,24 +150,7 @@ const MarketPlace = () => {
 
             {skus instanceof Array &&
               skus.map((sku) => {
-                return (
-                  <SkuTile
-                    sku={sku}
-                    key={sku._id}
-                    skuImg={sku.graphicUrl}
-                    skuRarity={sku.rarity}
-                    skuName={sku.name}
-                    skuSeries={sku.series?.name}
-                    skuTotalSupplyLeft={sku.totalSupplyLeft}
-                    skuCirculatingSupply={sku.circulatingSupply}
-                    skuMinPrice={sku.minSkuPrice}
-                    skuStartDate={sku.startDate}
-                    skuTotalSupplyUpcoming={sku.skuTotalSupplyUpcoming}
-                    // TODO: Defaulting to adidas
-                    skuIssuer={sku.issuer?.username || 'adidas'}
-                    redeemable={false}
-                  />
-                );
+                return <SkuTile sku={sku} key={sku._id} />;
               })}
           </ProductsGrid>
 

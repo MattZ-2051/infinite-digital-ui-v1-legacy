@@ -1,12 +1,11 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
-import { Sku } from 'entities/sku';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 
 interface Props {
-  sku: Sku;
+  sku: SkuWithFunctionsPopulated;
   productSerialNumber: string;
-  issuer: string;
   purchasedDate?: string;
   redeemable: boolean;
   status?: string;
@@ -15,10 +14,9 @@ interface Props {
 const ProductTile = ({
   sku,
   productSerialNumber,
-  issuer,
   purchasedDate,
   status,
-}: Props) => {
+}: Props): JSX.Element => {
   return (
     <Tile
       sku={sku}
@@ -27,7 +25,7 @@ const ProductTile = ({
       icon={redeemIcon}
       skuImg={sku.graphicUrl}
       skuRarity={sku.rarity}
-      topLeft={issuer}
+      topLeft={sku.issuer?.username || ''}
       middle={sku.name}
       bottomLeft={sku.series.name}
       bottomRight={productSerialNumber?.toString()}

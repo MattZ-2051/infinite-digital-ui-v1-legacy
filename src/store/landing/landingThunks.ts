@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import { getDropBoxes } from 'services/api/dropBoxService';
-import { SkuWithFunctions } from 'entities/sku';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 
 // Return type of the payload creator
 interface IResponse {
@@ -19,15 +19,19 @@ interface IError {
 }
 
 export const getFeaturesThunk = createAsyncThunk<
-  SkuWithFunctions[],
+  SkuWithFunctionsPopulated[],
   IPayloadParams,
   {
     rejectValue: IError;
   }
->('features/get', async (data, thunkApi) => {
+>('features/get', async (payloadParams, thunkApi) => {
+  // TODO: is featured skutiles accurate for this store?
   try {
-    const response = await getFeaturedSkuTiles();
-    return response.data;
+    const data = await getFeaturedSkuTiles();
+    if (!data) {
+      throw new Error(`No data returned from API`);
+    }
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -41,10 +45,10 @@ export const getDropBoxesThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('dropboxes/get', async (data, thunkApi) => {
+>('dropboxes/get', async (payloadParams, thunkApi) => {
   try {
-    const response = await getDropBoxes();
-    return response.data;
+    const data = await getDropBoxes();
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,

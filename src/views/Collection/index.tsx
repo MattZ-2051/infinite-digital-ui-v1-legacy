@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 
 const Collection = () => {

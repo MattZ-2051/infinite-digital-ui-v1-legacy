@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
-import { Product } from 'entities/product';
+import { useAppSelector } from 'store/hooks';
+import { ProductWithFunctions } from 'entities/product';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -11,7 +12,7 @@ import { useAppSelector } from 'hooks/store';
 const S: any = {};
 
 export const MyCollection = () => {
-  const [userItems, setUserItems] = useState<Product[]>([]);
+  const [userItems, setUserItems] = useState<ProductWithFunctions[]>([]);
   const { getAccessTokenSilently, user } = useAuth0();
   const userId = useAppSelector((state) => state.session.user.id);
 
@@ -52,8 +53,6 @@ export const MyCollection = () => {
                   redeemable={true}
                   status={type}
                   productSerialNumber={item.serialNumber}
-                  // TODO: replace with issuer name
-                  issuer={'adidas'}
                   key={item._id}
                   purchasedDate="1k"
                 />
