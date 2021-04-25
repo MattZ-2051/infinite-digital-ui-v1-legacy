@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
-import { useAppSelector } from 'hooks/store';
+import { SkuWithFunctions } from 'entities/sku';
+import { getFeaturedSkuTiles } from 'services/api/sku';
+import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
+  const [tiles, setTiles] = useState<SkuWithFunctions[]>([]);
+
+  async function fetchProducts() {
+    const skuTiles = await getFeaturedSkuTiles();
+    if (skuTiles) {
+      setTiles(skuTiles.data);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>
@@ -13,19 +27,36 @@ const MarketPlace = () => {
         <CircularButton to="marketplace" label="See More" />
       </HeaderContainer>
       <ProductContainer>
-        <h1>Products</h1>
-        {/* {listings instanceof Array &&
-          listings.map((el, index) => {
+        {tiles &&
+          tiles.map((el, index) => {
             if (index >= 16) return null;
             return (
-              <ProductDiv first={index === 0 ? true : false} >
-              </ProductDiv>
+              <TileContainer key={index} index={index}>
+                <ProductTile
+                  sku={el}
+                  redeemable={true}
+                  status="tbd"
+                  productSerialNumber="1"
+                  // TODO: get issuer name
+                  // backend response returns issuer ID in product.listing
+                  issuer={'adidas'}
+                  key={index}
+                  // TODO: Find out why this is not a Date
+                  purchasedDate="1k"
+                />
+              </TileContainer>
             );
-          })} */}
+          })}
       </ProductContainer>
     </>
   );
 };
+
+const TileContainer = styled.div<{ index: number }>`
+  padding: 0 20px;
+  float: left;
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+`;
 
 const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
   padding: ${(props) => (props.first ? '0 24px 0 0' : '0 24px')};

@@ -1,7 +1,9 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
+import { Sku } from 'entities/sku';
 
 interface SkuProps {
+  sku: Sku;
   skuImg: string;
   skuName: string;
   skuSeries: string;
@@ -16,6 +18,7 @@ interface SkuProps {
 }
 
 const SkuTile = ({
+  sku,
   skuRarity,
   skuImg,
   skuName,
@@ -77,6 +80,7 @@ const SkuTile = ({
 
   return (
     <Tile
+      sku={sku}
       topLeft={skuIssuer}
       skuRarity={skuRarity}
       middle={skuName}

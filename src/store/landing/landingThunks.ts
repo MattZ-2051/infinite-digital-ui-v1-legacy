@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import { getDropBoxes } from 'services/api/dropBoxService';
+import { SkuWithFunctions } from 'entities/sku';
 
 // Return type of the payload creator
 interface IResponse {
@@ -18,7 +19,7 @@ interface IError {
 }
 
 export const getFeaturesThunk = createAsyncThunk<
-  IResponse,
+  SkuWithFunctions[],
   IPayloadParams,
   {
     rejectValue: IError;

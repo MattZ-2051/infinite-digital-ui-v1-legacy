@@ -10,7 +10,6 @@ import store from './store';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { createBrowserHistory } from 'history';
 import smoothscroll from 'smoothscroll-polyfill';
-import { mockServer } from 'mock/server';
 
 // mockServer();
 // smoothscroll.polyfill();

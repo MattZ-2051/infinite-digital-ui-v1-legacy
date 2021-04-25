@@ -3,25 +3,18 @@ import { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import AuctionItem from './AuctionItem';
 import { Link } from 'react-router-dom';
-import { mockServer } from 'mock/server';
+import { Collector } from 'entities/collector';
 
-export interface IProps {
-  // TODO: REVIEW
-  // collectors: {
-  //   serialNumber: number;
-  //   ownerName: string;
-  //   highestBid: number;
-  //   endDate: string;
-  // } | undefined;
-  collectors: any;
+export interface Props {
+  collectors: Collector[];
   hasProducts: boolean;
 }
 
-const AuctionListing: React.FC<IProps> = ({ collectors, hasProducts }) => {
+const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   const limitCollectors = collectors.slice(0, 4); //TODO: limit this in the backend?
 
   useEffect(() => {
-    mockServer();
+    // mockServer();
   }, []);
 
   if (hasProducts) {
@@ -29,23 +22,26 @@ const AuctionListing: React.FC<IProps> = ({ collectors, hasProducts }) => {
       <Container>
         <SectionTitle>Auction Listing</SectionTitle>
 
-        {limitCollectors.map((el, index) => (
-          <Link
-            key={index}
-            to="/marketplace/1"
-            style={{ textDecoration: 'none' }}
-          >
-            <AuctionItem
-              key={el.serialNumber}
-              serialNumber={el.serialNumber}
-              ownerName={el.owner.username}
-              highestBid={el.listing.highestBid.bidAmt}
-              endDate={el.endDate}
-            />
-          </Link>
-        ))}
+        {limitCollectors &&
+          limitCollectors.map((el, index) => (
+            <Link
+              key={index}
+              to={'/marketplace/' + el.sku}
+              style={{ textDecoration: 'none' }}
+            >
+              <AuctionItem
+                key={el.serialNumber}
+                serialNumber={el.serialNumber}
+                ownerName={el.owner.username}
+                highestBid={el.listing.minBid} // TODO: is this minBid? There is no other variable available.
+                endDate={el.listing.endDate}
+              />
+            </Link>
+          ))}
 
-        <ViewAllLink>View all collectors</ViewAllLink>
+        <ViewAllLink to={'/marketplace/' + collectors[0]?.sku + '/collectors'}>
+          View all collectors
+        </ViewAllLink>
       </Container>
     );
   } else {
@@ -72,7 +68,7 @@ const SectionTitle = styled.h2`
   color: black;
 `;
 
-const ViewAllLink = styled.a`
+const ViewAllLink = styled(Link)`
   text-align: center;
   font-weight: bold;
   color: black;
