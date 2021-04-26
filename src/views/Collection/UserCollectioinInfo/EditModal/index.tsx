@@ -3,9 +3,9 @@ import styled from 'styled-components/macro';
 import ModalComponent from 'components/Modal';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import checkIconImg from 'assets/img/icons/check-icon.png';
-import { updateUsername } from 'services/api/userService';
-import { useHistory } from 'react-router-dom';
+import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 
 interface Props {
   isModalOpen: boolean;
@@ -17,16 +17,13 @@ const S: any = {};
 const EditModal = ({ isModalOpen, handleClose }: Props) => {
   const [newUsername, setNewUsername] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
-  const history = useHistory();
-  const userId = history.location.pathname.split('/')[2];
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.session.user.id);
 
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
-    console.log(token);
-    console.log(userId);
-    console.log(newUsername);
-    const res = await updateUsername(token, userId, newUsername);
-    console.log(res);
+    const data = { token: token, userId: userId, username: newUsername };
+    dispatch(updateUsernameThunk(data));
     return;
   };
   return (

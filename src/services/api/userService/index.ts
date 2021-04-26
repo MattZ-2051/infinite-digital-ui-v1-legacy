@@ -117,7 +117,7 @@ export const updateUsername = async (
         username: username,
         profilePhotoUrl: 'https://place-puppy.com/300x300',
         bannerPhotoUrl: 'https://place-puppy.com/300x300',
-        tagline: 'user123',
+        tagline: '',
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );

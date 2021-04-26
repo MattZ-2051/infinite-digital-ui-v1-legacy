@@ -3,6 +3,7 @@ import {
   getUserInfoThunk,
   getUserCollectionThunk,
   getUserCardsThunk,
+  updateUsernameThunk,
 } from './sessionThunks';
 
 interface UsersState {
@@ -50,6 +51,12 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.userCards = payload;
+    });
+    builder.addCase(updateUsernameThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = payload;
     });
   },
 });
