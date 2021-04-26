@@ -1,15 +1,20 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Button from 'components/Buttons/Button';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 
 export interface IProps {
-  product: any;
+  product: SkuWithFunctionsPopulated;
 }
 
-const SlideBox = ({ product }: IProps) => {
+const SlideBox = ({ product }: IProps): JSX.Element => {
   return (
     <Container>
       <ImageContainer url="https://sneakernews.com/wp-content/uploads/2013/08/nike-lebron-11-beauty-shots-2.jpg" />
+      {/**
+       * This needs to be the following but the images look ugly
+       * Needs to be an image with black background
+       * <ImageContainer url={product.graphicUrl} /> */}
 
       <ProductDetails>
         <h5>MARKETPLACE FEATURE</h5>

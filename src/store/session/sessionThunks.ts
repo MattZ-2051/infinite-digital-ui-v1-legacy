@@ -36,7 +36,7 @@ export const getUserInfoThunk = createAsyncThunk<
   try {
     const response = await getMe(data.token);
 
-    return response.data;
+    return response;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -74,7 +74,7 @@ export const getUserCardsThunk = createAsyncThunk<
   try {
     const response = await getMyCards(data.token);
 
-    return response.data;
+    return response;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -89,11 +89,12 @@ export const updateUsernameThunk = createAsyncThunk<
     rejectValue: IError;
   }
 >('/user/:id', async ({ token, userId, username }, thunkApi) => {
-  const response = await updateUsername(token, userId, username);
-  if (response.status !== 200) {
+  try {
+    const response = await updateUsername(token, userId, username);
+    return response;
+  } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: response.message,
+      errorMessage: e.message,
     } as IError);
   }
-  return response.data;
 });

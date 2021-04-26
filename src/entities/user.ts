@@ -4,6 +4,7 @@ export interface User {
   _id: string;
   id: string;
   balance: number;
+  availableBalance: number;
   createdAt: Date;
   email: string;
   externalId: string;

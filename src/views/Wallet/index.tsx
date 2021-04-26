@@ -24,7 +24,7 @@ const Wallet = () => {
 
   async function fetchUser() {
     const res = await getMe(await getAccessTokenSilently());
-    setUser(res.data);
+    setUser(res);
   }
 
   useEffect(() => {
@@ -59,8 +59,8 @@ const Wallet = () => {
           </div>
           <S.BalanceAmount>${user?.balance}</S.BalanceAmount>
           <S.AvailableAmount>
-            <S.AvailableText>Available:</S.AvailableText>
-            $tbd (after active bids)
+            <S.AvailableText>Available:</S.AvailableText>$
+            {user?.availableBalance} (after active bids)
           </S.AvailableAmount>
           <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>

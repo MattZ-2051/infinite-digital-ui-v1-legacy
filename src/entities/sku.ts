@@ -34,6 +34,7 @@ export interface SkuWithFunctions extends Sku {
   totalSupplyUpcoming: number;
   maxBid: number;
   minPrice: number;
+  totalSupply: number;
 }
 
 export interface SkuWithFunctionsPopulated
