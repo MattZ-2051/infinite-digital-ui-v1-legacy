@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
@@ -6,18 +6,25 @@ import ProfileButton from 'components/Buttons/ProfileButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from 'entities/user';
+import editIconImg from 'assets/img/icons/edit-icon.png';
+import EditModal from './EditModal';
 
 interface IProps {
-  user?: User | null;
+  user: User | undefined;
   isAuthenticated: boolean;
+  setUser: any;
 }
 
 const S: any = {};
 
-const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
+const UserCollectioinInfo = ({ user, isAuthenticated, setUser }: IProps) => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userId = history.location.pathname.split('/')[2];
+  const [username, setUsername] = useState<string | undefined>(user?.username);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [editIcon, setEditIcon] = useState<boolean>(true);
 
   let userStatus = '';
 
@@ -42,6 +49,28 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
       userStatus = 'notCurrentUserProfile';
     }
   }
+
+  const handleUsernameEdit = (e) => {
+    setIsDisabled(false);
+    setEditIcon(false);
+    setIsModalOpen(true);
+  };
+  const handleExitEdit = () => {
+    setEditIcon(true);
+    // setUser((prevState) => ({
+    //   ...prevState,
+    //   username: prevState.username,
+    // }));
+    setUsername(user?.username);
+  };
+
+  const handleConfirm = () => {
+    alert('Confirm username change?');
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <S.Container>
@@ -72,7 +101,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
               @ {user?.username}
             </span>
             <S.EditIconContainer>
-              <EditIcon style={{ fontSize: '14px' }} />
+              <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />
             </S.EditIconContainer>
           </S.UsernameIconContainer>
           <S.ButtonContainer>
@@ -98,6 +127,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
           </span>
         </>
       )}
+      <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
     </S.Container>
   );
 };
@@ -108,7 +138,6 @@ S.EditIconContainer = styled.div`
   background-color: black;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -122,6 +151,13 @@ S.Container = styled.div`
   height: 30vh;
   flex-direction: column;
   position: relative;
+`;
+
+S.EditIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
 `;
 
 S.ButtonContainer = styled.div`
@@ -140,9 +176,26 @@ S.AccountIcon = styled(AccountCircleIcon)`
 
 S.UsernameIconContainer = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   padding-bottom: 16px;
 `;
 
+S.ExitIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+S.UsernameInput = styled.input`
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: center;
+  :focus {
+    outline: none;
+  }
+  width: fit-content;
+`;
 export default UserCollectioinInfo;

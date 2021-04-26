@@ -17,7 +17,7 @@ const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
 
 interface IDepositModal {
   isModalOpen?: boolean;
-  handleClose: any;
+  handleClose: () => void;
 }
 
 function getModalStyle() {

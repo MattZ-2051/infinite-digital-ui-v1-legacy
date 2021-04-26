@@ -5,9 +5,10 @@ import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { User } from 'entities/user';
 
 const Collection = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const history = useHistory();
   const userId = history.location.pathname.split('/')[2];
   const { isAuthenticated } = useAuth0();
@@ -28,7 +29,11 @@ const Collection = () => {
 
   return (
     <Container>
-      <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+      <UserCollectionInfo
+        user={user}
+        isAuthenticated={isAuthenticated}
+        setUser={setUser}
+      />
       <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
     </Container>
   );
