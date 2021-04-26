@@ -1,7 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
-export interface IProps {}
+export interface IProps {
+  test?: any;
+}
 
 const placeHolder = 'Search by brand, sneaker, model or handles...';
 

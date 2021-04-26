@@ -1,6 +1,6 @@
 import React from 'react';
 
-type MyProps = {};
+type MyProps = { test?: any };
 type MyState = { error: string | null; errorInfo: string | null };
 
 class ErrorBoundary extends React.Component<MyProps, MyState> {

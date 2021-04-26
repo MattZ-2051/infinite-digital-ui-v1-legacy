@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
+
+import ModalPayment from '../../ModalPayment';
 
 // FIXME: ButtonBlock Interface may be off
 export interface IButtonBlock {
@@ -43,9 +45,19 @@ const UpcomingData = ({ minStartDate }: IUpcomingData) => {
 };
 
 const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleBuyNowClick = () => {
-    // TODO: Open modal
+    setIsModalOpen(true);
   };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  // TODO: Calculate modalMode
+  const modalMode = 'hasFunds';
+
   return (
     <Container>
       <BoxColumn>
@@ -61,6 +73,11 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
       <div>
         <Button onClick={handleBuyNowClick}>Buy Now</Button>
       </div>
+      <ModalPayment
+        visible={isModalOpen}
+        setModalPaymentVisible={setIsModalOpen}
+        mode={modalMode}
+      />
     </Container>
   );
 };
