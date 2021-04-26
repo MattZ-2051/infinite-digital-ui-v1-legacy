@@ -76,10 +76,6 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
             </S.EditIconContainer>
           </S.UsernameIconContainer>
           <S.ButtonContainer>
-            <ProfileButton label="My Account" />
-            <div style={{ padding: '0 10px' }}>
-              <S.ButtonDivider></S.ButtonDivider>
-            </div>
             <ProfileButton
               label="My Wallet"
               handleClick={handleWalletRedirect}
@@ -129,7 +125,7 @@ S.Container = styled.div`
 `;
 
 S.ButtonContainer = styled.div`
-  background-color: black;
+  background-color: #252525;
   width: 232px;
   height: 40px;
   display: flex;
@@ -140,12 +136,6 @@ S.ButtonContainer = styled.div`
 
 S.AccountIcon = styled(AccountCircleIcon)`
   font-size: 120px;
-`;
-
-S.ButtonDivider = styled.div`
-  width: 2px;
-  height: 16px;
-  background-color: lightgray;
 `;
 
 S.UsernameIconContainer = styled.div`
