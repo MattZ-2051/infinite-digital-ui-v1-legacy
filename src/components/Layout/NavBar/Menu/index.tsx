@@ -14,7 +14,7 @@ interface IProps {
 
 const Menu = ({ login, isAuthenticated }: IProps) => {
   const { visible, setVisible, ref } = useOutsideAlert(false);
-  const username = useAppSelector((state) => state.session.user.username);
+  const user = useAppSelector((state) => state.session.user);
 
   return (
     <Container>
@@ -24,7 +24,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
         </TextButton>
 
         {isAuthenticated && (
-          <TextButton to={`/collection/${username}`} color="white">
+          <TextButton to={`/collection/${user.id}`} color="white">
             My Collection
           </TextButton>
         )}
@@ -38,7 +38,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
               />
               {visible ? <UserProfileMenu setVisible={setVisible} /> : null}
             </div>
-            <Username>@{username}</Username>
+            <Username>@{user.username}</Username>
           </AcountInfoContainer>
         )}
 

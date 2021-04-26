@@ -7,7 +7,6 @@ import { ProductWithFunctions } from 'entities/product';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useAppSelector } from 'hooks/store';
 
 const S: any = {};
 

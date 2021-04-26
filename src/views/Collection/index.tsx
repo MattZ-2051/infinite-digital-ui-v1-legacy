@@ -1,45 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useAuth0 } from '@auth0/auth0-react';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
-import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
+import { getUser } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
+import { User } from 'entities/user';
 
 const Collection = () => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const user = useAppSelector((store) => store.session.user);
+  const [user, setUser] = useState<any>(null);
   const history = useHistory();
-  const username = history.location.pathname.split('/')[2];
+  const userId = history.location.pathname.split('/')[2];
+  const { isAuthenticated } = useAuth0();
 
-  let userStatus: any = '';
-
-  const checkStatus = () => {
-    if (username === user.username && user.role === 'issuer') {
-      userStatus = 'loggedInIssuer';
-    } else if (username === user.username) {
-      userStatus = 'loggedIn';
-    } else if (username !== user.username) {
-      userStatus = 'notCurrentUserProfile';
-    } else {
-      userStatus = 'notCurrentUserProfileIssuer';
+  async function fetchUser() {
+    const res = await getUser(userId).then((data) => {
+      return data;
+    });
+    if (res.status === 200) {
+      setUser(res.data);
+      return res.data;
     }
+  }
 
-    return userStatus;
-  };
-
-  checkStatus();
+  useEffect(() => {
+    fetchUser();
+  }, [userId]);
 
   return (
     <Container>
-      <UserCollectionInfo userStatus={userStatus} />
-      <UserCollectionTabs userStatus={userStatus} />
+      <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+      <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 70%;
+  height: 100vh;
 `;
 
 export default Collection;

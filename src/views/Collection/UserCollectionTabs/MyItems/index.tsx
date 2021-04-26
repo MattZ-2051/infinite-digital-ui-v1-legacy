@@ -7,8 +7,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { getMe } from 'services/api/userService';
 import { ProductWithFunctions } from 'entities/product';
 
-const MyItems = (): JSX.Element => {
-  const { getAccessTokenSilently, user } = useAuth0();
+const MyItems = () => {
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
   const [userItems, setUserItems] = useState<ProductWithFunctions[]>([]);
@@ -23,7 +23,9 @@ const MyItems = (): JSX.Element => {
   }
 
   useEffect(() => {
-    fetchUser();
+    if (isAuthenticated === true) {
+      fetchUser();
+    }
   }, [id]);
 
   return (

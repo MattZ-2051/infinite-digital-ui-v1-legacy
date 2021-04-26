@@ -9,6 +9,7 @@ import circleIcon from 'assets/img/icons/circle-icon.png';
 import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
+import { useAppSelector } from 'store/hooks';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 
@@ -16,7 +17,7 @@ const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
 
 interface IDepositModal {
   isModalOpen?: boolean;
-  handleClose: any;
+  handleClose: () => void;
 }
 
 function getModalStyle() {
@@ -51,21 +52,21 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
-  const addCCUrl = '';
   const history = useHistory();
+  const userCards = useAppSelector((state) => state.session.userCards);
+  const username = useAppSelector((state) => state.session.user.username);
 
-  const openCCPage = () => {
-    window.open(`${history.location.pathname + '/addcreditcard'}`);
-  };
-  const openDepositPage = () => {
-    window.open(`${history.location.pathname + '/deposit/addfunds'}`);
+  const handleRedirect = () => {
+    if (userCards.cards.length >= 1) {
+      history.push(`/wallet/${username}/deposit/addfunds`);
+    } else {
+      history.push(`/wallet/${username}/addcreditcard`);
+    }
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <S.ExitIcon>
-        <button onClick={openCCPage}>Add CC</button>
-        <button onClick={openDepositPage}>Deposit</button>
         <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </S.ExitIcon>
 
@@ -75,7 +76,7 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
         <S.SubHeader>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </S.SubHeader>
-        <S.Row>
+        <S.Row onClick={handleRedirect}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={circleIcon} />
           </div>

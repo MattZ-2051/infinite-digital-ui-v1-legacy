@@ -27,20 +27,9 @@ const UserProfileMenu = ({ visible, setVisible }: IProps) => {
     setVisible(false);
   };
 
-  const handleAccountSettingsRedirect = () => {
-    history.push('/useraccounts');
-    setVisible(false);
-  };
-
   return (
     <Container>
       <ButtonContainer>
-        <Button onClick={handleAccountSettingsRedirect}>
-          <IconContainer>
-            <AcountSettingsIcon className="icon_settings" />
-          </IconContainer>
-          <Label>Account Settings</Label>
-        </Button>
         <Button onClick={handleWalletRedirect}>
           <IconContainer>
             <WalletIcon className="icon_wallet" />

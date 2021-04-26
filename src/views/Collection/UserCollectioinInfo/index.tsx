@@ -5,20 +5,53 @@ import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
+import { User } from 'entities/user';
+import editIconImg from 'assets/img/icons/edit-icon.png';
+import EditModal from './EditModal';
 
 interface IProps {
-  userStatus?: string;
+  user: User | undefined;
+  isAuthenticated: boolean;
 }
 
 const S: any = {};
 
-const UserCollectioinInfo = ({ userStatus }: IProps) => {
-  const username = useAppSelector((state) => state.session.user.username);
+const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
+  const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
-  const otherUsername = history.location.pathname.split('/')[2];
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const userId = history.location.pathname.split('/')[2];
+
+  let userStatus = '';
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${username}`);
+    history.push(`/wallet/${loggedInUser}`);
+  };
+
+  if (isAuthenticated === true) {
+    if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
+      userStatus = 'loggedInIssuer';
+    } else if (userId === loggedInUser.id) {
+      userStatus = 'loggedIn';
+    } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else if (userId !== loggedInUser.id) {
+      userStatus = 'notCurrentUserProfile';
+    }
+  } else {
+    if (user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else {
+      userStatus = 'notCurrentUserProfile';
+    }
+  }
+
+  const handleUsernameEdit = (e) => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -28,7 +61,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
           <S.AccountIcon />
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {username}
+              @ {user?.username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -47,17 +80,13 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {username}
+              @ {user?.username}
             </span>
             <S.EditIconContainer>
-              <EditIcon style={{ fontSize: '14px' }} />
+              <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />
             </S.EditIconContainer>
           </S.UsernameIconContainer>
           <S.ButtonContainer>
-            <ProfileButton label="My Account" />
-            <div style={{ padding: '0 10px' }}>
-              <S.ButtonDivider></S.ButtonDivider>
-            </div>
             <ProfileButton
               label="My Wallet"
               handleClick={handleWalletRedirect}
@@ -68,7 +97,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
       {userStatus === 'notCurrentUserProfile' && (
         <>
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {otherUsername}
+            @ {user?.username}
           </span>
         </>
       )}
@@ -76,10 +105,11 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.AccountIcon />
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {otherUsername}
+            @ {user?.username}
           </span>
         </>
       )}
+      <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
     </S.Container>
   );
 };
@@ -90,7 +120,6 @@ S.EditIconContainer = styled.div`
   background-color: black;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -106,8 +135,15 @@ S.Container = styled.div`
   position: relative;
 `;
 
+S.EditIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
 S.ButtonContainer = styled.div`
-  background-color: black;
+  background-color: #252525;
   width: 232px;
   height: 40px;
   display: flex;
@@ -120,17 +156,28 @@ S.AccountIcon = styled(AccountCircleIcon)`
   font-size: 120px;
 `;
 
-S.ButtonDivider = styled.div`
-  width: 2px;
-  height: 16px;
-  background-color: lightgray;
-`;
-
 S.UsernameIconContainer = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   padding-bottom: 16px;
 `;
 
+S.ExitIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+S.UsernameInput = styled.input`
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: center;
+  :focus {
+    outline: none;
+  }
+  width: fit-content;
+`;
 export default UserCollectioinInfo;

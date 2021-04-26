@@ -72,13 +72,6 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         activeFilters={activeFilters.category}
       />
       <DropDownCheckFilter
-        label="Brand"
-        options={['brand1', 'brand 2', 'brand 3']}
-        handleFilter={handleFilter}
-        filterCategory="brand"
-        activeFilters={activeFilters.brand}
-      />
-      <DropDownCheckFilter
         label="Series"
         options={['series1', 'series 2', 'series 3']}
         handleFilter={handleFilter}
