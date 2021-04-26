@@ -29,8 +29,6 @@ export const getUserInfoThunk = createAsyncThunk<
 >('users/me', async (data, thunkApi) => {
   try {
     const response = await getMe(data.token);
-    console.log('response thunk :', response);
-    console.log('response thunkx data :', response.data);
 
     return response.data;
   } catch (err) {
@@ -69,8 +67,6 @@ export const getUserCardsThunk = createAsyncThunk<
 >('/wallet', async (data, thunkApi) => {
   try {
     const response = await getMyCards(data.token);
-    console.log('response thunk :', response);
-    console.log('response thunkx data :', response);
 
     return response.data;
   } catch (err) {

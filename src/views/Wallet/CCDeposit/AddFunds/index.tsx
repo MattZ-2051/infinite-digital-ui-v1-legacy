@@ -32,6 +32,14 @@ const AddFunds = () => {
     history.push(`/wallet/${username}/addcreditcard`);
   }
 
+  const handleChange = (e) => {
+    if (e.target.value.split('.').length !== 2) {
+      setAmount(e.target.value + '.00');
+    } else {
+      setAmount(e.target.value);
+    }
+  };
+
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
     const res = await addFundsToUserWallet(userToken, fundsBody, userCard.id);
@@ -100,7 +108,7 @@ const AddFunds = () => {
             name="amount-input"
             placeholder="Enter Amount"
             decimalsLimit={2}
-            onValueChange={(value) => setAmount(value)}
+            onChange={handleChange}
             maxLength={10}
             step={10}
             defaultValue={0.0}
