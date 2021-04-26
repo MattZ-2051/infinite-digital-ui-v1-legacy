@@ -84,10 +84,31 @@ const ModalPayment = ({
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
+      <S.Detail>
+        <S.DetailRowPrice>
+          <span>Subtotal:</span>
+          <span>$120</span>
+        </S.DetailRowPrice>
+        <S.DetailRowPrice>
+          <span>Buyer’s fee:</span>
+          <span>$12</span>
+        </S.DetailRowPrice>
+      </S.Detail>
+
+      <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+
+      <S.Detail>
+        <S.DetailRowPrice>
+          <span>Total:</span>
+          <strong>$132</strong>
+        </S.DetailRowPrice>
+      </S.Detail>
+
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           {mode === 'hasFunds' && (
             <>
+              <strong>Royalty fee per unit aprox $5 (x%)</strong>
               By confirming this action will discount the <br /> amount from
               your wallet.
             </>

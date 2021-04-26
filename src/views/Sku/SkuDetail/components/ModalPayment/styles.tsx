@@ -37,17 +37,47 @@ export const DetailRow = styled.div`
   color: black;
 `;
 
+export const DetailRowPrice = styled(DetailRow)`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #9e9e9e;
+  strong {
+    font-size: 20px;
+    line-height: 25px;
+    text-align: right;
+    color: #000000;
+  }
+`;
+
 export const Footer = styled.div`
   text-align: center;
+  margin-top: 55px;
+  p {
+    line-height: 22px;
+    strong {
+      display: block;
+      color: #000000;
+    }
+  }
 `;
 
 export const Title = styled.h3`
+  font-style: normal;
+  font-weight: normal;
   font-size: 22px;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: -1px;
+  line-height: 28px;
 `;
 
 export const SubTitle = styled.h5`
-  font-size: 14px;
   color: #e74c3c;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
 `;
 
 export const Rarity = styled.div`
