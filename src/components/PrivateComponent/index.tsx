@@ -1,7 +1,7 @@
 /*
  * How to use: <PrivateComponent roles={['admin', 'studio']}>
  */
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 
 export interface IProps {}
 

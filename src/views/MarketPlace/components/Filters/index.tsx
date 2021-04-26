@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from 'hooks/store';
+import { useAppDispatch } from 'store/hooks';
 import {
   updateFilter,
   restoreFilters,

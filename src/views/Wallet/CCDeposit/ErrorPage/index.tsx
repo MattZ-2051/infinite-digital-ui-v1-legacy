@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 import Emoji from 'components/Emoji';
 import { Row, Container } from '../index';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 
 const S: any = {};
 

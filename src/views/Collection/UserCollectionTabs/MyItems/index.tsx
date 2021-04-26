@@ -5,13 +5,13 @@ import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { getMe } from 'services/api/userService';
-import { Product } from 'entities/product';
+import { ProductWithFunctions } from 'entities/product';
 
 const MyItems = () => {
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
   const history = useHistory();
   const id = history.location.pathname.split('/')[2];
-  const [userItems, setUserItems] = useState<Product[]>([]);
+  const [userItems, setUserItems] = useState<ProductWithFunctions[]>([]);
 
   async function fetchUser() {
     const token = await getAccessTokenSilently();
@@ -31,7 +31,7 @@ const MyItems = () => {
   return (
     <MyItemsContainer>
       {userItems &&
-        userItems.map((item: Product, index) => {
+        userItems.map((item: ProductWithFunctions, index) => {
           let type = 'active-listing';
           const sku = item.sku;
           if (item.listing.status === 'active') {
@@ -47,9 +47,6 @@ const MyItems = () => {
                 redeemable={true}
                 status={type}
                 productSerialNumber={item.serialNumber}
-                // TODO: get issuer name
-                // backend response returns issuer ID in product.listing
-                issuer={'adidas'}
                 key={item._id}
                 // TODO: Find out why this is not a Date
                 purchasedDate="1k"

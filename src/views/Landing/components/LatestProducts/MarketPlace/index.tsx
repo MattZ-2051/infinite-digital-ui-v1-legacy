@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
-import { SkuWithFunctions } from 'entities/sku';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
-  const [tiles, setTiles] = useState<SkuWithFunctions[]>([]);
+  const [tiles, setTiles] = useState<SkuWithFunctionsPopulated[]>([]);
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
     if (skuTiles) {
-      setTiles(skuTiles.data);
+      setTiles(skuTiles);
     }
   }
 
@@ -37,9 +37,6 @@ const MarketPlace = () => {
                   redeemable={true}
                   status="tbd"
                   productSerialNumber="1"
-                  // TODO: get issuer name
-                  // backend response returns issuer ID in product.listing
-                  issuer={'adidas'}
                   key={index}
                   // TODO: Find out why this is not a Date
                   purchasedDate="1k"

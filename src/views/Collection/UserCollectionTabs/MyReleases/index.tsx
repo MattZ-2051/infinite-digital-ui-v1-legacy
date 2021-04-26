@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import styled from 'styled-components/macro';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 
 const MyReleases = () => {
   const mockItems = useAppSelector(
@@ -26,7 +26,6 @@ const MyReleases = () => {
                 redeemable={true}
                 status={type}
                 productSerialNumber={item.serialNumber}
-                issuer={'adidas'}
                 key={item.id}
                 purchasedDate="1k"
               />

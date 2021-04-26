@@ -5,10 +5,10 @@ import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
 import { Link } from 'react-router-dom';
-import { Sku } from 'entities/sku';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 
 interface Props {
-  sku: Sku;
+  sku: SkuWithFunctionsPopulated;
   topLeft: string | undefined;
   skuRarity: string | undefined;
   middle: string | undefined;
@@ -33,7 +33,7 @@ const Tile = ({
   redeemable,
   pillInfo,
   icon,
-}: Props) => {
+}: Props): JSX.Element => {
   return (
     <CardContainer>
       <StyledCard>

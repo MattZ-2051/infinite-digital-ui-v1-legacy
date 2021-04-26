@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
-import { useAppSelector } from 'hooks/store';
 
 interface IProps {
   userStatus?: string;

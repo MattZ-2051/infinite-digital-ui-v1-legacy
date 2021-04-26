@@ -40,7 +40,8 @@ const AuctionItem = ({
         </div>
 
         <strong style={{ color: 'black' }}>
-          Expires in {formatCountdown('2021-04-30T23:00:00.000Z')}
+          {/* TODO Hardcoded date */}
+          Expires in {formatCountdown(new Date('2021-04-30T23:00:00.000Z'))}
         </strong>
       </AuctionDetail>
 

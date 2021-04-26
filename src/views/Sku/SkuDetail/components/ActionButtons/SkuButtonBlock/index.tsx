@@ -1,22 +1,22 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
 
+// FIXME: ButtonBlock Interface may be off
 export interface IButtonBlock {
-  data: {
-    totalSupplyUpcoming: number;
-    countSkuListings: number;
-    minStartDate: string;
-    minSkuPrice: number;
-    totalNewSupplyLeft: number;
-    circulatingSupply: number;
-    minCurrentBid: number;
-    countProductListings: number;
-  };
+  totalSupplyUpcoming: number;
+  circulatingSupply: number;
+  minStartDate: string;
+  minSkuPrice: number;
+  minCurrentBid: number;
+  totalNewSupplyLeft?: number; // TODO: check this
+  countProductListings?: number; // TODO: Check this
+  countSkuListings?: number; // TODO: Check this
 }
 
 interface IUpcomingData {
-  minStartDate: string;
+  minStartDate?: Date;
 }
 
 interface IFromCreatorBox {
@@ -31,10 +31,13 @@ interface IFromCollectorsBox {
 }
 
 const UpcomingData = ({ minStartDate }: IUpcomingData) => {
+  // TODO: better message with missing minStartDate
+  const countdown = minStartDate ? formatCountdown(minStartDate) : '';
   return (
     <>
+      {/* TODO: Use rem instead of px to easily adjust layout on different viewport sizes */}
       <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-      <span style={{ fontSize: '24px' }}>{formatCountdown(minStartDate)}</span>
+      <span style={{ fontSize: '24px' }}>{countdown}</span>
     </>
   );
 };
@@ -101,12 +104,35 @@ const NotAvailable = () => {
   );
 };
 
-const ButtonBlock = ({ data }: IButtonBlock) => {
-  console.log(data);
-  const isUpcoming = !!data.totalSupplyUpcoming;
-  const hasMintedProducts = !!data.circulatingSupply;
-  const hasSkus = !!data.countSkuListings;
-  const hasProducts = !!data.countProductListings;
+// FIXME: Refactored function
+// const ButtonBlock = (props: IButtonBlock) => {
+const SkuButtonBlock = (props: {
+  sku: SkuWithFunctionsPopulated;
+}): JSX.Element | null => {
+  console.log();
+  const {
+    totalSupplyUpcoming,
+    circulatingSupply,
+    // FIXME: Commented props
+    // countSkuListings,
+    // countProductListings,
+    minStartDate,
+    minSkuPrice,
+    // totalNewSupplyLeft,
+    minCurrentBid,
+  } = props.sku;
+
+  const isUpcoming = !!totalSupplyUpcoming;
+  const hasMintedProducts = !!circulatingSupply;
+
+  // FIXME: hardcoded data
+  // const hasSkus = !!countSkuListings;
+  // const hasProducts = !!countProductListings;
+  const hasSkus = false;
+  const hasProducts = false;
+  // FIXME: Hardcoded data
+  const totalNewSupplyLeft = 69;
+  const countProductListings = 96;
 
   if (!hasSkus && !hasProducts) return <NotAvailable />;
 
@@ -114,7 +140,7 @@ const ButtonBlock = ({ data }: IButtonBlock) => {
     return (
       <Container>
         {' '}
-        <UpcomingData minStartDate={data.minStartDate} />
+        <UpcomingData minStartDate={minStartDate} />
       </Container>
     );
 
@@ -122,13 +148,13 @@ const ButtonBlock = ({ data }: IButtonBlock) => {
     return (
       <>
         <FromCreatorBox
-          skuPrice={data.minSkuPrice}
-          totalNewSupplyLeft={data.totalNewSupplyLeft}
+          skuPrice={minSkuPrice}
+          totalNewSupplyLeft={totalNewSupplyLeft}
         />
         <FromCollectorsBox
-          minimunPrice={data.minCurrentBid}
-          totalSupply={data.totalNewSupplyLeft}
-          countProductListings={data.countProductListings}
+          minimunPrice={minCurrentBid}
+          totalSupply={totalNewSupplyLeft}
+          countProductListings={countProductListings}
         />
       </>
     );
@@ -137,8 +163,8 @@ const ButtonBlock = ({ data }: IButtonBlock) => {
   if (hasSkus) {
     return (
       <FromCreatorBox
-        skuPrice={data.minSkuPrice}
-        totalNewSupplyLeft={data.totalNewSupplyLeft}
+        skuPrice={minSkuPrice}
+        totalNewSupplyLeft={totalNewSupplyLeft}
       />
     );
   }
@@ -146,9 +172,9 @@ const ButtonBlock = ({ data }: IButtonBlock) => {
   if (hasMintedProducts) {
     return (
       <FromCollectorsBox
-        minimunPrice={data.minCurrentBid}
-        totalSupply={data.totalNewSupplyLeft}
-        countProductListings={data.countProductListings}
+        minimunPrice={minCurrentBid}
+        totalSupply={totalNewSupplyLeft}
+        countProductListings={countProductListings}
       />
     );
   }
@@ -184,4 +210,4 @@ const Button = styled.button`
   font-family: 'josefin-sans';
 `;
 
-export default ButtonBlock;
+export default SkuButtonBlock;

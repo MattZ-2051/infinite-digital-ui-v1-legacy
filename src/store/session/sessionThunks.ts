@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Product } from 'entities/product';
+import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
@@ -41,7 +41,7 @@ export const getUserInfoThunk = createAsyncThunk<
 });
 
 export const getUserCollectionThunk = createAsyncThunk<
-  Product[],
+  ProductWithFunctions[],
   IPayloadParams,
   {
     rejectValue: IError;

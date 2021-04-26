@@ -4,7 +4,7 @@ import Divider from 'components/Divider';
 import TextButton from 'components/Buttons/TextButton';
 import UserProfileMenu from '../UserProfileMenu';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 import avatarIcon from 'assets/img/icons/avatar-icon.png';
 
 interface IProps {

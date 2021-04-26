@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import MuiSnackbar from '@material-ui/core/Snackbar';
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearError } from 'store/session/sessionSlice';
 
 function Alert(props) {

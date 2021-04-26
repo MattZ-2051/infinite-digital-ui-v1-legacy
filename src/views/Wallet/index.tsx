@@ -6,7 +6,7 @@ import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';

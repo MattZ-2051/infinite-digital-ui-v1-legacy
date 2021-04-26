@@ -9,7 +9,7 @@ import circleIcon from 'assets/img/icons/circle-icon.png';
 import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 

@@ -6,7 +6,7 @@ import exitIcon from 'assets/img/icons/exit-icon.png';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
-import { useAppDispatch, useAppSelector } from 'hooks/store';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import { addFundsToUserWallet } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
