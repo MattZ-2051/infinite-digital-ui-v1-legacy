@@ -29,11 +29,7 @@ const Collection = () => {
 
   return (
     <Container>
-      <UserCollectionInfo
-        user={user}
-        isAuthenticated={isAuthenticated}
-        setUser={setUser}
-      />
+      <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
       <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
     </Container>
   );

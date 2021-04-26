@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import ModalComponent from 'components/Modal';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import checkIconImg from 'assets/img/icons/check-icon.png';
+import { updateUsername } from 'services/api/userService';
+import { useHistory } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface Props {
   isModalOpen: boolean;
@@ -12,13 +15,27 @@ interface Props {
 const S: any = {};
 
 const EditModal = ({ isModalOpen, handleClose }: Props) => {
+  const [newUsername, setNewUsername] = useState<string>('');
+  const { getAccessTokenSilently } = useAuth0();
+  const history = useHistory();
+  const userId = history.location.pathname.split('/')[2];
+
+  const handleSubmit = async () => {
+    const token = await getAccessTokenSilently();
+    console.log(token);
+    console.log(userId);
+    console.log(newUsername);
+    const res = await updateUsername(token, userId, newUsername);
+    console.log(res);
+    return;
+  };
   return (
     <ModalComponent open={isModalOpen}>
       <S.Container>
         {
           <S.Body>
             <S.Icon>
-              <S.IconImg src={exitIconImg} />
+              <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
             </S.Icon>
             <S.Content>
               <S.Header>Edit Profile</S.Header>
@@ -27,14 +44,17 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
               </S.SubHeader>
               <S.Input>
                 <S.At>@</S.At>
-                <S.UsernameInput />
+                <S.UsernameInput
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  value={newUsername}
+                />
                 <S.CheckIcon>
-                  <S.IconImg src={checkIconImg} />
+                  <S.CheckIconImg src={checkIconImg} />
                 </S.CheckIcon>
               </S.Input>
               <S.Border></S.Border>
               <div style={{ paddingTop: '50px' }}>
-                <S.Button>Update Username</S.Button>
+                <S.Button onClick={handleSubmit}>Update Username</S.Button>
               </div>
             </S.Content>
           </S.Body>
@@ -132,7 +152,14 @@ S.CheckIcon = styled.div`
   align-items: center;
 `;
 
-S.IconImg = styled.img`
+S.ExitIconImg = styled.img`
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
+S.CheckIconImg = styled.img`
   height: fit-content;
 `;
 

@@ -12,19 +12,15 @@ import EditModal from './EditModal';
 interface IProps {
   user: User | undefined;
   isAuthenticated: boolean;
-  setUser: any;
 }
 
 const S: any = {};
 
-const UserCollectioinInfo = ({ user, isAuthenticated, setUser }: IProps) => {
+const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userId = history.location.pathname.split('/')[2];
-  const [username, setUsername] = useState<string | undefined>(user?.username);
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [editIcon, setEditIcon] = useState<boolean>(true);
 
   let userStatus = '';
 
@@ -51,21 +47,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated, setUser }: IProps) => {
   }
 
   const handleUsernameEdit = (e) => {
-    setIsDisabled(false);
-    setEditIcon(false);
     setIsModalOpen(true);
-  };
-  const handleExitEdit = () => {
-    setEditIcon(true);
-    // setUser((prevState) => ({
-    //   ...prevState,
-    //   username: prevState.username,
-    // }));
-    setUsername(user?.username);
-  };
-
-  const handleConfirm = () => {
-    alert('Confirm username change?');
   };
 
   const handleModalClose = () => {
