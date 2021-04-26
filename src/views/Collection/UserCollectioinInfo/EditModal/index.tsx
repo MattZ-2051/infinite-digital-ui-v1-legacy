@@ -29,21 +29,21 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     const res = await dispatch(updateUsernameThunk(data));
     if (res.payload?.errorMessage) {
       setError(res.payload?.errorMessage);
+      setConfirmed(false);
+
       return;
     }
     setConfirmed(true);
     setError(null);
     setTimeout(() => {
-      handleClose();
       setConfirmed(false);
-    }, 1000);
+      handleClose();
+    }, 1500);
     return;
   };
 
   const handleChange = (e) => {
     setNewUsername(e.target.value);
-    setError(null);
-    setConfirmed(false);
   };
 
   return (
@@ -69,7 +69,9 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
               <S.Border></S.Border>
               <S.SubHeader style={{ color: 'red' }}>{error}</S.SubHeader>
               <div style={{ paddingTop: '20px' }}>
-                <S.Button onClick={handleSubmit}>Update Username</S.Button>
+                <S.Button onClick={handleSubmit}>
+                  {confirmed ? 'Username Updated' : 'Update Username'}
+                </S.Button>
               </div>
             </S.Content>
           </S.Body>
