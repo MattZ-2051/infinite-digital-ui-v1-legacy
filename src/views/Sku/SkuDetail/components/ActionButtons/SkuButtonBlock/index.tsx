@@ -43,6 +43,9 @@ const UpcomingData = ({ minStartDate }: IUpcomingData) => {
 };
 
 const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
+  const handleBuyNowClick = () => {
+    // TODO: Open modal
+  };
   return (
     <Container>
       <BoxColumn>
@@ -56,12 +59,7 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
         <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
       </BoxColumn>
       <div>
-        <Button
-          disabled
-          style={{ backgroundColor: '#2D2D2D', color: '#5F5F5F' }}
-        >
-          Buy Now
-        </Button>
+        <Button onClick={handleBuyNowClick}>Buy Now</Button>
       </div>
     </Container>
   );
@@ -109,30 +107,24 @@ const NotAvailable = () => {
 const SkuButtonBlock = (props: {
   sku: SkuWithFunctionsPopulated;
 }): JSX.Element | null => {
-  console.log();
   const {
     totalSupplyUpcoming,
     circulatingSupply,
-    // FIXME: Commented props
-    // countSkuListings,
-    // countProductListings,
+    countSkuListings,
+    countProductListings,
     minStartDate,
     minSkuPrice,
-    // totalNewSupplyLeft,
+    totalSupplyLeft,
     minCurrentBid,
   } = props.sku;
 
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
-  // FIXME: hardcoded data
-  // const hasSkus = !!countSkuListings;
-  // const hasProducts = !!countProductListings;
-  const hasSkus = false;
-  const hasProducts = false;
+  const hasSkus = !!countSkuListings;
+  const hasProducts = !!countProductListings;
   // FIXME: Hardcoded data
-  const totalNewSupplyLeft = 69;
-  const countProductListings = 96;
+  const totalNewSupplyLeft = totalSupplyLeft;
 
   if (!hasSkus && !hasProducts) return <NotAvailable />;
 
