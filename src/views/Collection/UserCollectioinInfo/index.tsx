@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
+import { User } from 'entities/user';
 
 interface IProps {
-  userStatus?: string;
+  user?: User | null;
+  isAuthenticated: boolean;
 }
 
 const S: any = {};
 
-const UserCollectioinInfo = ({ userStatus }: IProps) => {
-  const username = useAppSelector((state) => state.session.user.username);
+const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
+  const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
-  const otherUsername = history.location.pathname.split('/')[2];
+  const userId = history.location.pathname.split('/')[2];
+
+  let userStatus = '';
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${username}`);
+    history.push(`/wallet/${loggedInUser}`);
   };
+
+  if (isAuthenticated === true) {
+    if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
+      userStatus = 'loggedInIssuer';
+    } else if (userId === loggedInUser.id) {
+      userStatus = 'loggedIn';
+    } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else if (userId !== loggedInUser.id) {
+      userStatus = 'notCurrentUserProfile';
+    }
+  } else {
+    if (user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else {
+      userStatus = 'notCurrentUserProfile';
+    }
+  }
 
   return (
     <S.Container>
@@ -28,7 +50,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
           <S.AccountIcon />
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {username}
+              @ {user?.username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -47,7 +69,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {username}
+              @ {user?.username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -68,7 +90,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
       {userStatus === 'notCurrentUserProfile' && (
         <>
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {otherUsername}
+            @ {user?.username}
           </span>
         </>
       )}
@@ -76,7 +98,7 @@ const UserCollectioinInfo = ({ userStatus }: IProps) => {
         <>
           <S.AccountIcon />
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {otherUsername}
+            @ {user?.username}
           </span>
         </>
       )}

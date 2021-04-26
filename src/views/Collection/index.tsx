@@ -1,55 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useAuth0 } from '@auth0/auth0-react';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
-import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
-import { User } from 'entities/user';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Collection = () => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const user = useAppSelector((store) => store.session.user);
-  const [otherUser, setOtherUser] = useState();
+  const [user, setUser] = useState(null);
   const history = useHistory();
   const userId = history.location.pathname.split('/')[2];
-
-  let userStatus: any = '';
+  const { isAuthenticated } = useAuth0();
 
   async function fetchUser() {
     const res = await getUser(userId).then((data) => {
       return data;
     });
     if (res.status === 200) {
-      setOtherUser(res.data);
+      setUser(res.data);
       return res.data;
     }
   }
-  const checkStatus = () => {
-    if (isAuthenticated === true) {
-      if (userId === user.id && user.role === 'issuer') {
-        userStatus = 'loggedInIssuer';
-      } else if (userId === user.id) {
-        userStatus = 'loggedIn';
-      }
-    } else if (userId !== user.id) {
-      userStatus = 'notCurrentUserProfile';
-    }
-    return userStatus;
-  };
 
   useEffect(() => {
     fetchUser();
-  }, []);
-  checkStatus();
-
-  console.log(otherUser);
+  }, [userId]);
 
   return (
     <Container>
-      <UserCollectionInfo userStatus={userStatus} />
-      <UserCollectionTabs userStatus={userStatus} />
+      <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+      <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
     </Container>
   );
 };
