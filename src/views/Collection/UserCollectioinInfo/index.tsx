@@ -61,7 +61,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
           <S.AccountIcon />
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {user?.username}
+              @ {loggedInUser.username}
             </span>
             <S.EditIconContainer>
               <EditIcon style={{ fontSize: '14px' }} />
@@ -80,7 +80,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
         <>
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {user?.username}
+              @ {loggedInUser.username}
             </span>
             <S.EditIconContainer>
               <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />

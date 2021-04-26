@@ -3,12 +3,18 @@ import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
-import { getMe, getMyCards } from 'services/api/userService';
+import { getMe, getMyCards, updateUsername } from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
   token: string;
   userId: string;
+}
+
+interface UsernamePayloadParams {
+  token: string;
+  userId: string;
+  username: string;
 }
 
 interface TokenPayload {
@@ -74,4 +80,20 @@ export const getUserCardsThunk = createAsyncThunk<
       errorMessage: err.response.data.error_description,
     } as IError);
   }
+});
+
+export const updateUsernameThunk = createAsyncThunk<
+  User,
+  UsernamePayloadParams,
+  {
+    rejectValue: IError;
+  }
+>('/user/:id', async ({ token, userId, username }, thunkApi) => {
+  const response = await updateUsername(token, userId, username);
+  if (response.status !== 200) {
+    return thunkApi.rejectWithValue({
+      errorMessage: response.message,
+    } as IError);
+  }
+  return response.data;
 });
