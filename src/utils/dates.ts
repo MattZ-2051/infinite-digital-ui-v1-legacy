@@ -1,6 +1,6 @@
 import DateTime from 'luxon/src/datetime.js';
 
-export const formatCountdown = (date: string): string => {
+export const formatCountdown = (date: Date): string => {
   //Iso to local time
   const startDayInLocal = DateTime.fromISO(date); //ISO-8601
   const now = DateTime.now();

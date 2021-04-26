@@ -1,18 +1,61 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
-
-interface IProps {
-  existingCard?: boolean;
-}
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useHistory } from 'react-router-dom';
+import { addFundsToUserWallet } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
+import CurrencyInput from 'react-currency-input-field';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 
 const S: any = {};
 
-const AddFunds = ({ existingCard }: IProps) => {
+const AddFunds = () => {
+  const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
+  const username = useAppSelector((state) => state.session.user.username);
+  const history = useHistory();
+  const dispatch = useAppDispatch();
+  const { getAccessTokenSilently } = useAuth0();
+  const [amount, setAmount] = useState<string | undefined>('');
+  const fundsBody = {
+    email: userCard.metadata.email,
+    phoneNumber: userCard.metadata.phoneNumber,
+    amount: amount,
+  };
+
+  if (userCard.status !== 'complete') {
+    history.push(`/wallet/${username}/addcreditcard`);
+  }
+
+  const handleChange = (e) => {
+    if (e.target.value.split('.').length !== 2) {
+      setAmount(e.target.value + '.00');
+    } else {
+      setAmount(e.target.value);
+    }
+  };
+
+  const addFunds = async () => {
+    const userToken = await getAccessTokenSilently();
+    const res = await addFundsToUserWallet(userToken, fundsBody, userCard.id);
+    if (res.status === 201) {
+      dispatch(getUserCardsThunk({ token: userToken }));
+      history.push(`/wallet/${username}/deposit/success`);
+    } else {
+      history.push(`/wallet/${username}/deposit/error`);
+    }
+  };
+
+  const year = userCard.expYear.toString().slice(2, 4);
+  const month = userCard.expMonth.toString();
+
+  const expDate = month + '/' + year;
+
   return (
     <Container>
       <S.ContentContainer>
@@ -23,17 +66,18 @@ const AddFunds = ({ existingCard }: IProps) => {
             <img src={circleIcon} alt="" />
             <S.HeaderText>Circle Payments</S.HeaderText>
           </S.HeaderDiv>
-          <img src={exitIcon} alt="" />
         </S.Row>
         <div style={{ paddingTop: '25px' }}>
           <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
         </div>
         <S.CardContainer>
           <S.CreditCard
-            name="John Doe"
-            expiry="04/20"
+            name={'John Doe'}
+            expiry={expDate}
             focus=""
-            number="4901490149014901"
+            number={`************${userCard.last4}`}
+            preview={true}
+            issuer={`${userCard.network}`}
           />
         </S.CardContainer>
         <S.Row>
@@ -55,10 +99,24 @@ const AddFunds = ({ existingCard }: IProps) => {
           }}
         >
           <S.DollarSign>$</S.DollarSign>
-          <S.AmountInput placeholder="Enter Amount" />
+          {/* <S.AmountInput
+            placeholder="Enter Amount"
+            onChange={(e) => setAmount(e.target.value)}
+          /> */}
+          <S.AmountInput
+            id="amount"
+            name="amount-input"
+            placeholder="Enter Amount"
+            decimalsLimit={2}
+            onChange={handleChange}
+            maxLength={10}
+            step={10}
+            defaultValue={0.0}
+            allowNegativeValue={false}
+          />
         </div>
         <div style={{ padding: '25px 0' }}>
-          <S.AddFundsButton>Add Funds</S.AddFundsButton>
+          <S.AddFundsButton onClick={addFunds}>Add Funds</S.AddFundsButton>
         </div>
       </S.ContentContainer>
     </Container>
@@ -77,7 +135,7 @@ S.DollarSign = styled.span`
   padding-right: 10px;
 `;
 
-S.AmountInput = styled.input`
+S.AmountInput = styled(CurrencyInput)`
   border: none;
   font-size: 16px;
   :focus {

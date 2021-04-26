@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from 'hooks/store';
+import { useAppDispatch } from 'store/hooks';
 import {
   updateFilter,
   restoreFilters,
@@ -70,13 +70,6 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         handleFilter={handleFilter}
         filterCategory="category"
         activeFilters={activeFilters.category}
-      />
-      <DropDownCheckFilter
-        label="Brand"
-        options={['brand1', 'brand 2', 'brand 3']}
-        handleFilter={handleFilter}
-        filterCategory="brand"
-        activeFilters={activeFilters.brand}
       />
       <DropDownCheckFilter
         label="Series"

@@ -1,0 +1,70 @@
+.squircle {
+  width: 52.1em;
+  height: 52.1em;
+  position: relative;
+  display: flex;
+  margin: auto;
+  vertical-align: middle;
+  -webkit-transform: scale(0.5);
+  -webkit-transform-origin: 50% 0;
+}
+.squircle span {
+  position: absolute;
+  width: 100%;
+  display: inline-block;
+  height: 100%;
+  background: 50% 50% no-repeat;
+  z-index: 5;
+}
+.squircle:before,
+.squircle:after,
+.squircle span:before,
+.squircle span:after {
+  position: absolute;
+  background: #00aeef;
+}
+.squircle:before {
+  top: 0;
+  left: 4em;
+  border-top-left-radius: 20em 10em;
+  width: 50%;
+  bottom: 0;
+  border-bottom-left-radius: 20em 10em;
+  content: "";
+}
+.squircle:before {
+  top: 0;
+  left: 4em;
+  border-top-left-radius: 80% 10em;
+  width: 50%;
+  bottom: 0;
+  border-bottom-left-radius: 80% 10em;
+  content: "";
+}
+.squircle:after {
+  top: 0;
+  bottom: 0;
+  right: 4em;
+  border-top-right-radius: 80% 20%;
+  border-bottom-right-radius: 80% 20%;
+  width: 25em;
+  content: "";
+}
+.squircle span:before {
+  top: 4em;
+  bottom: 4em;
+  border-top-left-radius: 100% 50%;
+  border-bottom-left-radius: 100% 50%;
+  width: 10em;
+  content: "";
+}
+.squircle span:after {
+  top: 4em;
+  bottom: 4em;
+  right: 0;
+  border-top-right-radius: 100% 50%;
+  border-bottom-right-radius: 100% 50%;
+  width: 10em;
+  content: "";
+  z-index: 4;
+}

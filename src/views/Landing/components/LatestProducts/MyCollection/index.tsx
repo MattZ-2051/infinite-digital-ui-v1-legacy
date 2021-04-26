@@ -1,24 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
+import { ProductWithFunctions } from 'entities/product';
+import { getProductsOwnedByUser } from 'services/api/productService';
+import { getMe } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const S: any = {};
 
-const MyCollection = () => {
-  const mockItems = useAppSelector(
-    (state) => state.session.userCollection.collectors
-  );
+export const MyCollection = () => {
+  const [userItems, setUserItems] = useState<ProductWithFunctions[]>([]);
+  const { getAccessTokenSilently, user } = useAuth0();
+  const userId = useAppSelector((state) => state.session.user.id);
+
+  async function fetchUser() {
+    const token = await getAccessTokenSilently();
+    const extUser = await getMe(token);
+    const res = await getProductsOwnedByUser(extUser.data._id, token);
+    if (res) {
+      setUserItems(res);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <>
       <S.HeaderContainer>
         <S.Header>My Items</S.Header>
-        <CircularButton to="my-collection" label="See More" />
+        <CircularButton to={`/collection/${userId}`} label="See More" />
       </S.HeaderContainer>
       <S.ProductContainer>
-        {mockItems instanceof Array &&
-          mockItems.map((item, index) => {
+        {userItems instanceof Array &&
+          userItems.map((item, index) => {
             let type = 'active-listing';
             const sku = item.sku;
             if (item.listing.status === 'active') {
@@ -30,15 +48,11 @@ const MyCollection = () => {
             return (
               <S.TileContainer key={index} index={index}>
                 <ProductTile
+                  sku={sku}
                   redeemable={true}
                   status={type}
-                  name={sku.name}
-                  img={sku.graphicUrl}
-                  rarity={sku.rarity}
-                  series={sku.series.name}
                   productSerialNumber={item.serialNumber}
-                  issuer={'adidas'}
-                  key={item.id}
+                  key={item._id}
                   purchasedDate="1k"
                 />
               </S.TileContainer>
@@ -102,5 +116,3 @@ S.ProductContainer = styled.div`
     border-radius: 10px;
   }
 `;
-
-export default MyCollection;

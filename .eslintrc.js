@@ -23,8 +23,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    'react/prop-types': 'off',
     'prettier/prettier': 'error',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/interface-name-prefix': [0],
   },
 };

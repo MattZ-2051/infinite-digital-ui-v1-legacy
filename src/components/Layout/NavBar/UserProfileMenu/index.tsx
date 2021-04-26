@@ -5,7 +5,7 @@ import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';
 import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-settings.svg';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
-import { useAppSelector } from 'hooks/store';
+import { useAppSelector } from 'store/hooks';
 
 interface IProps {
   visible?: any;
@@ -27,20 +27,9 @@ const UserProfileMenu = ({ visible, setVisible }: IProps) => {
     setVisible(false);
   };
 
-  const handleAccountSettingsRedirect = () => {
-    history.push('/useraccounts');
-    setVisible(false);
-  };
-
   return (
     <Container>
       <ButtonContainer>
-        <Button onClick={handleAccountSettingsRedirect}>
-          <IconContainer>
-            <AcountSettingsIcon className="icon_settings" />
-          </IconContainer>
-          <Label>Account Settings</Label>
-        </Button>
         <Button onClick={handleWalletRedirect}>
           <IconContainer>
             <WalletIcon className="icon_wallet" />

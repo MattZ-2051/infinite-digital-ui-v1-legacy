@@ -1,16 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserInfo, getUserCollection } from 'services/api/userService';
-
-// Return type of the payload creator
-// TODO: REVIEW THIS
-interface IResponse {
-  test?: any;
-}
+import { ProductWithFunctions } from 'entities/product';
+import { User } from 'entities/user';
+import { Wallet } from 'entities/wallet';
+import { getProductsOwnedByUser } from 'services/api/productService';
+import { getMe, getMyCards } from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
   token: string;
   userId: string;
+}
+
+interface TokenPayload {
+  token: string;
 }
 
 // Custom errors
@@ -19,16 +21,14 @@ interface IError {
 }
 
 export const getUserInfoThunk = createAsyncThunk<
-  IResponse,
-  IPayloadParams,
+  User,
+  TokenPayload,
   {
     rejectValue: IError;
   }
->('user/sub/:userId/get', async (data, thunkApi) => {
+>('users/me', async (data, thunkApi) => {
   try {
-    const response = await getUserInfo(data.userId, data.token);
-    //console.log('response thunk :', response);
-    //console.log('response thunkx data :', response.data);
+    const response = await getMe(data.token);
 
     return response.data;
   } catch (err) {
@@ -39,16 +39,34 @@ export const getUserInfoThunk = createAsyncThunk<
 });
 
 export const getUserCollectionThunk = createAsyncThunk<
-  IResponse,
+  ProductWithFunctions[],
   IPayloadParams,
   {
     rejectValue: IError;
   }
->('user/userCollection/get', async (data, thunkApi) => {
+>('products?owner=:user', async (data, thunkApi) => {
   try {
-    const response = await getUserCollection(data.userId, data.token);
-    console.log('response thunk :', response);
-    console.log('response thunkx data :', response.data);
+    const response = await getProductsOwnedByUser(data.userId, data.token);
+    // console.log('response thunk :', response);
+    // console.log('response thunkx data :', response);
+
+    return response;
+  } catch (err) {
+    return thunkApi.rejectWithValue({
+      errorMessage: err.response.data.error_description,
+    } as IError);
+  }
+});
+
+export const getUserCardsThunk = createAsyncThunk<
+  Wallet,
+  TokenPayload,
+  {
+    rejectValue: IError;
+  }
+>('/wallet', async (data, thunkApi) => {
+  try {
+    const response = await getMyCards(data.token);
 
     return response.data;
   } catch (err) {

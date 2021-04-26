@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-// Local
-import shoe1 from 'assets/img/temp/shoes/shoe-1.jpg';
-import shoe2 from 'assets/img/temp/shoes/shoe-2.jpg';
-import shoe3 from 'assets/img/temp/shoes/shoe-3.jpg';
-import shoe4 from 'assets/img/temp/shoes/shoe-4.jpg';
 
-const images = [
-   shoe1,
-   shoe2,
-   shoe3,
-   shoe4,
-];
+export interface ImageGalleryProps {
+  images: string[];
+}
 
-const ImageGallery = () => {
+const ImageGallery = ({ images }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -23,42 +15,49 @@ const ImageGallery = () => {
   return (
     <Container>
       <ImageContainer>
-        <img src={images[selectedImage]} alt="" />
+        {images[selectedImage]?.endsWith('mov') ||
+        images[selectedImage]?.endsWith('mp4') ? (
+          <video
+            style={{
+              width: '100%',
+            }}
+            autoPlay={true}
+            controls={false}
+            loop={true}
+            muted={true}
+            src={images[selectedImage]}
+          ></video>
+        ) : (
+          <img src={images[selectedImage]} alt="" />
+        )}
       </ImageContainer>
 
       <ThumbnailMenu>
-        <ThumbnailItem
-          active={selectedImage === 0}
-          onClick={() => {
-            handleImageChange(0);
-          }}
-        >
-          <img src={images[0]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 1}
-          onClick={() => {
-            handleImageChange(1);
-          }}
-        >
-          <img src={images[1]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 2}
-          onClick={() => {
-            handleImageChange(2);
-          }}
-        >
-          <img src={images[2]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 3}
-          onClick={() => {
-            handleImageChange(3);
-          }}
-        >
-          <img src={images[3]} alt="" />
-        </ThumbnailItem>
+        {images &&
+          images.map((el, index) => {
+            return (
+              <ThumbnailItem
+                key={index}
+                active={selectedImage === index}
+                onClick={() => handleImageChange(index)}
+              >
+                {el?.endsWith('mov') || el?.endsWith('mp4') ? (
+                  <video
+                    style={{
+                      width: '100%',
+                    }}
+                    autoPlay={true}
+                    controls={false}
+                    loop={true}
+                    muted={true}
+                    src={el}
+                  ></video>
+                ) : (
+                  <img src={el} alt="" />
+                )}
+              </ThumbnailItem>
+            );
+          })}
       </ThumbnailMenu>
     </Container>
   );
@@ -74,6 +73,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 700px;
   max-height: 700px;
+  overflow: hidden;
 
   img {
     width: 100%;

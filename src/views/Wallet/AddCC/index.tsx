@@ -1,22 +1,74 @@
 import React from 'react';
-import styled from 'styled-components/macro';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import TextField from '@material-ui/core/TextField';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-
-const S: any = {};
+import { useAppSelector } from 'store/hooks';
+import { createNewCC } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
+import { S } from './styles';
+import { validate, errors, state, Values } from './helper';
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
-  const [error, setError] = useState<boolean | undefined>(false);
+  const [fieldError, setFieldError] = useState(errors);
+  const userEmail = useAppSelector((state) => state.session.user.email);
+  const { getAccessTokenSilently } = useAuth0();
+  const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name.includes('billingDetails')) {
+      const keyName = name.split('-')[1];
+
+      if (keyName === 'name') {
+        setCardInfo((prevState) => ({
+          ...prevState,
+          billingDetails: {
+            ...prevState?.billingDetails,
+            [keyName]: value, //value.replace(/[^a-zA-Z]/gi, ''),
+          },
+        }));
+        return;
+      }
+      setCardInfo((prevState) => ({
+        ...prevState,
+        billingDetails: {
+          ...prevState?.billingDetails,
+          [keyName]: value,
+        },
+      }));
+      return;
+    }
+    setCardInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    return;
+  };
+
+  const handleSubmit = async () => {
+    if (cardInfo === undefined) return;
+    const userToken = await getAccessTokenSilently();
+    cardInfo.metadata.email = userEmail;
+    cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
+    cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
+    const checkErrors = validate(cardInfo, setFieldError);
+    if (checkErrors) {
+      return;
+    }
+    const res = await createNewCC(userToken, cardInfo);
+  };
+
+  const clearState = () => {
+    setCardInfo(state);
+    setIsOpen(false);
+  };
 
   return (
     <S.Container>
-      <S.ContentContainer>
-        <div style={{ paddingBottom: '10px' }}>
+      <S.Box>
+        <S.HeaderContainer>
           <S.Row
             style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
           >
@@ -24,52 +76,71 @@ const AddCC = () => {
               <img src={circleIcon} alt="" />
               <S.HeaderText>Circle Payments</S.HeaderText>
             </S.HeaderDiv>
-            <img src={exitIcon} alt="" />
+            <S.ExitIcon src={exitIcon} alt="" onClick={clearState} />
           </S.Row>
-        </div>
+        </S.HeaderContainer>
         <S.Row>
-          <span
-            style={{ color: '#7d7d7d', fontSize: '16px', paddingTop: '10px' }}
-          >
-            Enter the card details below
-          </span>
+          <S.EnterDetailsText>Enter the card details below</S.EnterDetailsText>
         </S.Row>
         <S.Row>
           <S.FormInput
-            id="standard-basic"
             label="Credit Card Number"
+            name="cardNumber"
+            autoFocus
             fullWidth
             required
-            error={error}
             color="secondary"
+            error={fieldError?.cardNumber}
+            helperText={
+              fieldError?.cardNumber && 'Enter a valid credit card number'
+            }
+            onChange={handleChange}
+            value={cardInfo?.cardNumber}
           />
         </S.Row>
         <S.Row>
           <S.FormInput
             id="standard-basic"
-            label="Exp date"
+            label="Exp Date MM"
             size="medium"
-            error={error}
             required
+            name="expMonth"
+            error={fieldError?.expMonth}
+            helperText={fieldError?.expMonth && 'Enter a valid month format MM'}
+            onChange={handleChange}
+            type="number"
+            value={cardInfo?.expMonth}
+            style={{ paddingRight: '10px' }}
           />
           <S.FormInput
             id="standard-basic"
-            label="CCV"
+            label="Exp Date YYYY"
             size="medium"
             required
-            error={error}
+            name="expYear"
+            error={fieldError?.expYear}
+            helperText={fieldError?.expYear && 'Enter a valid year format YYYY'}
+            onChange={handleChange}
+            type="number"
+            value={cardInfo?.expYear}
+            style={{ paddingRight: '10px' }}
+          />
+          <S.FormInput
+            id="standard-basic"
+            label="CVV"
+            size="medium"
+            required
+            name="cvv"
+            onChange={handleChange}
+            error={fieldError?.cvv}
+            helperText={
+              fieldError?.cvv && 'Enter a valid 3 digit card cvv number'
+            }
+            value={cardInfo?.cvv}
           />
         </S.Row>
         <S.Row>
-          <S.Dropdown
-            onClick={() => setIsOpen(!isOpen)}
-            style={{
-              color: `${isOpen ? 'black' : '#7d7d7d'}`,
-              borderBottom: `${
-                isOpen ? '2px solid black' : '2px solid #ebebeb'
-              }`,
-            }}
-          >
+          <S.Dropdown onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
             Billing Details
             {isOpen ? (
               <S.ArrowUp className="arrow" />
@@ -79,7 +150,7 @@ const AddCC = () => {
           </S.Dropdown>
         </S.Row>
         {isOpen ? (
-          <div style={{ paddingBottom: '40px' }}>
+          <S.Div>
             <S.Row>
               <S.FormInput
                 id="standard-basic"
@@ -87,7 +158,11 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                name="billingDetails-name"
+                onChange={handleChange}
+                value={cardInfo?.billingDetails.name}
+                error={fieldError?.name}
+                helperText={fieldError?.name && 'Enter a valid name'}
               />
             </S.Row>
             <S.Row>
@@ -97,7 +172,11 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                onChange={handleChange}
+                name="billingDetails-line1"
+                value={cardInfo?.billingDetails.line1}
+                error={fieldError?.line1}
+                helperText={fieldError?.line1 && 'Enter a valid Address'}
               />
             </S.Row>
             <S.Row>
@@ -106,7 +185,9 @@ const AddCC = () => {
                 label="Address Line 2"
                 size="medium"
                 fullWidth
-                error={error}
+                name="billingDetails-line2"
+                onChange={handleChange}
+                value={cardInfo?.billingDetails.line2}
               />
             </S.Row>
             <S.Row>
@@ -116,7 +197,13 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                onChange={handleChange}
+                name="billingDetails-postalCode"
+                value={cardInfo?.billingDetails.postalCode}
+                error={fieldError?.postalCode}
+                helperText={
+                  fieldError?.postalCode && 'Enter a valid postal code'
+                }
               />
             </S.Row>
             <S.Row>
@@ -126,7 +213,11 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                name="billingDetails-city"
+                onChange={handleChange}
+                value={cardInfo?.billingDetails.city}
+                error={fieldError?.city}
+                helperText={fieldError?.city && 'Enter a valid city'}
               />
             </S.Row>
             <S.Row>
@@ -135,7 +226,9 @@ const AddCC = () => {
                 label="District"
                 size="medium"
                 fullWidth
-                error={error}
+                onChange={handleChange}
+                name="billingDetails-district"
+                value={cardInfo?.billingDetails.district}
               />
             </S.Row>
             <S.Row>
@@ -145,125 +238,29 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                onChange={handleChange}
+                name="billingDetails-country"
+                value={cardInfo?.billingDetails.country}
               />
             </S.Row>
-            <S.Row>
+            {/* <S.Row>
               <S.FormInput
                 id="standard-basic"
                 label="Country Code"
                 size="medium"
                 fullWidth
                 required
-                error={error}
+                onChange={handleChange}
               />
-            </S.Row>
-          </div>
+            </S.Row> */}
+          </S.Div>
         ) : null}
-        <div style={{ paddingTop: '16px', paddingBottom: '40px' }}>
-          <S.Button onClick={() => setError(!error)}>Add Card</S.Button>
-        </div>
-      </S.ContentContainer>
+        <S.ButtonContainer>
+          <S.Button onClick={handleSubmit}>Add Card</S.Button>
+        </S.ButtonContainer>
+      </S.Box>
     </S.Container>
   );
 };
-
-S.Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  height: 80vh;
-`;
-
-S.FormInputError = styled(TextField)`
-  color: red;
-  & .Mui-focused {
-    color: red;
-  }
-
-  .MuiInput-underline:after {
-    border-bottom: 2px solid red;
-  }
-`;
-
-S.FormInput = styled(TextField)`
-  & .Mui-focused {
-    color: ${(props) => (props.error ? 'red' : 'black')};
-  }
-
-  .MuiInput-underline:after {
-    border-bottom: 2px solid ${(props) => (props.error ? 'red' : 'black')};
-  }
-`;
-
-S.Dropdown = styled.div`
-  color: #7d7d7d;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border-bottom: 2px solid #ebebeb;
-  align-items: center;
-  padding: 10px 0;
-  :hover {
-    color: black;
-    cursor: pointer;
-    border-bottom: 2px solid black;
-  }
-  :hover .arrow {
-    color: black;
-  }
-`;
-
-S.ArrowDown = styled(KeyboardArrowDownIcon)`
-  color: #7d7d7d;
-`;
-
-S.ArrowUp = styled(KeyboardArrowUpIcon)`
-  color: #7d7d7d;
-`;
-
-S.ContentContainer = styled.div`
-  width: 410px;
-  height: 100%;
-  padding-top: 5%;
-  margin: auto;
-`;
-
-S.Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-`;
-
-S.HeaderText = styled.span`
-  font-size: 22px;
-  padding-left: 18px;
-  font-weigth: 600;
-`;
-
-S.HeaderDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-S.Button = styled.button`
-  width: 410px;
-  height: 56px;
-  border: none;
-  background-color: black;
-  color: white;
-  border-radius: 35px;
-  font-size: 20px;
-  font-weigth: 600;
-  :hover {
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-`;
 
 export default AddCC;

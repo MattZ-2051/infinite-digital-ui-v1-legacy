@@ -3,13 +3,41 @@ import styled from 'styled-components';
 import MyItems from './MyItems';
 import MyReleases from './MyReleases';
 import SortByFilter from './SortByFilter';
+import { User } from 'entities/user';
+import { useHistory } from 'react-router-dom';
+import { useAppSelector } from 'store/hooks';
 
 interface IProps {
-  userStatus?: string;
+  user?: User | null;
+  isAuthenticated: boolean;
 }
 
-const UserCollectionTabs = ({ userStatus }: IProps) => {
+const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+  const history = useHistory();
+  const loggedInUser = useAppSelector((state) => state.session.user);
+
+  const userId = history.location.pathname.split('/')[2];
+
+  let userStatus = '';
+
+  if (isAuthenticated === true) {
+    if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
+      userStatus = 'loggedInIssuer';
+    } else if (userId === loggedInUser.id) {
+      userStatus = 'loggedIn';
+    } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else if (userId !== loggedInUser.id) {
+      userStatus = 'notCurrentUserProfile';
+    }
+  } else {
+    if (user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+    } else {
+      userStatus = 'notCurrentUserProfile';
+    }
+  }
 
   // TODO: REVIEW
   const placeHolderFunc = () => null;
@@ -188,7 +216,6 @@ const UserCollectionTabs = ({ userStatus }: IProps) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
   padding: 40px;
 `;
 

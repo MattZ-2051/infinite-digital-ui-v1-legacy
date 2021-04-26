@@ -13,9 +13,10 @@ export const mockServer = () => {
 
       this.passthrough();
 
-      this.passthrough(
-        `${config.backend.apiEndpoint}/skus/tiles?featured=true`
-      );
+      this.passthrough([
+        `${config.backend.apiEndpoint}/skus/tiles?featured=true`,
+        `${config.backend.apiEndpoint}/skus/:id`,
+      ]);
     },
   });
 };

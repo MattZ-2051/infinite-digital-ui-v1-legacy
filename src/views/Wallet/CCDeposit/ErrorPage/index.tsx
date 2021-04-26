@@ -3,14 +3,19 @@ import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 import Emoji from 'components/Emoji';
 import { Row, Container } from '../index';
+import { useAppSelector } from 'store/hooks';
 
 const S: any = {};
 
 const ErrorPage = () => {
   const history = useHistory();
+  const username = useAppSelector((state) => state.session.user.username);
+  const handleRedirectToWallet = () => {
+    history.push(`/wallet/${username}`);
+  };
 
-  const handleRedirect = () => {
-    history.push('/wallet/username');
+  const handleRedirectToAddFunds = () => {
+    history.push(`/wallet/${username}/deposit/addfunds`);
   };
   return (
     <Container>
@@ -26,10 +31,12 @@ const ErrorPage = () => {
           <S.Text>transaction was cancelled.</S.Text>
         </Row>
         <div style={{ paddingBottom: '25px' }}>
-          <S.MarketPlaceButton>Try Again</S.MarketPlaceButton>
+          <S.MarketPlaceButton onClick={handleRedirectToAddFunds}>
+            Try Again
+          </S.MarketPlaceButton>
         </div>
         <Row>
-          <S.OtherPaymenButton onClick={handleRedirect}>
+          <S.OtherPaymenButton onClick={handleRedirectToWallet}>
             Select Another Payment Method
           </S.OtherPaymenButton>
         </Row>

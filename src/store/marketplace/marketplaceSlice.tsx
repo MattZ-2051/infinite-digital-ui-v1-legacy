@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getSkusThunk } from './marketplaceThunks';
 
 type ReleaseStatus = 'all' | 'released' | 'upcoming' | 'noOneSelling';
 
@@ -68,14 +67,12 @@ interface IState {
   loading: string;
   error: string | null;
   filters: IFilters;
-  skus: any;
 }
 
 const initialState: IState = {
   loading: 'idle',
   error: null,
   filters: getDefaultParams(),
-  skus: {},
 };
 
 export const marketplaceSlice = createSlice({
@@ -90,17 +87,8 @@ export const marketplaceSlice = createSlice({
       state.filters = action.payload;
     },
     restoreFilters: (state) => {
-      console.log('ejecuta');
       state.filters = defaultFilters;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(getSkusThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
-      state.skus = payload;
-    });
   },
 });
 

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getFeaturesThunk, getDropBoxesThunk } from './landingThunks';
+import { getFeaturesThunk } from './landingThunks';
 
 export const listingSlice = createSlice({
   name: 'landing',
@@ -7,7 +7,6 @@ export const listingSlice = createSlice({
     loading: 'idle',
     error: null,
     features: {},
-    dropBoxes: {},
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -17,13 +16,6 @@ export const listingSlice = createSlice({
       }
       //console.log('payload: ', payload)
       state.features = payload;
-    });
-    builder.addCase(getDropBoxesThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
-
-      state.dropBoxes = payload;
     });
   },
 });
