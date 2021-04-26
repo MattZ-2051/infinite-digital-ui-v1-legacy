@@ -121,7 +121,6 @@ export const updateUsername = async (
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log('service response', response);
     return response;
   } catch (err) {
     if (err.response) {

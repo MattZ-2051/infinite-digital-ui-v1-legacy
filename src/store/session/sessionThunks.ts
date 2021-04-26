@@ -89,13 +89,11 @@ export const updateUsernameThunk = createAsyncThunk<
     rejectValue: IError;
   }
 >('/user/:id', async ({ token, userId, username }, thunkApi) => {
-  try {
-    const response = await updateUsername(token, userId, username);
-    console.log('thunk', response);
-    return response.data;
-  } catch (err) {
+  const response = await updateUsername(token, userId, username);
+  if (response.status !== 200) {
     return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description,
+      errorMessage: response.message,
     } as IError);
   }
+  return response.data;
 });

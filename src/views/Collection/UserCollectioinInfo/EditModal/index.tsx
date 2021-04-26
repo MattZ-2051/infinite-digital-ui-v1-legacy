@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import ModalComponent from 'components/Modal';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import checkIconImg from 'assets/img/icons/check-icon.png';
+import { updateUsername } from 'services/api/userService';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -19,13 +20,32 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.session.user.id);
+  const [error, setError] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
-    dispatch(updateUsernameThunk(data));
+    const res = await dispatch(updateUsernameThunk(data));
+    if (res.payload?.errorMessage) {
+      setError(res.payload?.errorMessage);
+      return;
+    }
+    setConfirmed(true);
+    setError(null);
+    setTimeout(() => {
+      handleClose();
+      setConfirmed(false);
+    }, 1000);
     return;
   };
+
+  const handleChange = (e) => {
+    setNewUsername(e.target.value);
+    setError(null);
+    setConfirmed(false);
+  };
+
   return (
     <ModalComponent open={isModalOpen}>
       <S.Container>
@@ -41,16 +61,14 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
               </S.SubHeader>
               <S.Input>
                 <S.At>@</S.At>
-                <S.UsernameInput
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  value={newUsername}
-                />
+                <S.UsernameInput onChange={handleChange} value={newUsername} />
                 <S.CheckIcon>
-                  <S.CheckIconImg src={checkIconImg} />
+                  {confirmed && <S.CheckIconImg src={checkIconImg} />}
                 </S.CheckIcon>
               </S.Input>
               <S.Border></S.Border>
-              <div style={{ paddingTop: '50px' }}>
+              <S.SubHeader style={{ color: 'red' }}>{error}</S.SubHeader>
+              <div style={{ paddingTop: '20px' }}>
                 <S.Button onClick={handleSubmit}>Update Username</S.Button>
               </div>
             </S.Content>
@@ -147,6 +165,7 @@ S.CheckIcon = styled.div`
   padding-left: 8px;
   display: flex;
   align-items: center;
+  width: 30px;
 `;
 
 S.ExitIconImg = styled.img`

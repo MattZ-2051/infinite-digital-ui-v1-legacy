@@ -8,7 +8,7 @@ import {
 
 interface UsersState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: null | string;
+  error: null | any;
   user: any;
   userCollection: any;
   userCards: any;
