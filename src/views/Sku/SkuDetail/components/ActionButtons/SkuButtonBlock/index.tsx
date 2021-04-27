@@ -187,6 +187,8 @@ const SkuButtonBlock = (props: {
 
   const hasSkus = !!countSkuListings;
   const hasProducts = !!countProductListings;
+  const userLogged = !!Object.entries(props.user).length;
+
   // FIXME: Hardcoded data
   const totalNewSupplyLeft = totalSupplyLeft;
 
@@ -200,7 +202,7 @@ const SkuButtonBlock = (props: {
       </Container>
     );
 
-  if (hasSkus && hasProducts) {
+  if (hasSkus && hasProducts && userLogged) {
     return (
       <>
         <FromCreatorBox
@@ -218,7 +220,7 @@ const SkuButtonBlock = (props: {
     );
   }
 
-  if (hasSkus) {
+  if (hasSkus && userLogged) {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}

@@ -28,7 +28,11 @@ const ModalPayment = ({
   user,
   showSerial = false,
 }: IModalProps) => {
-  const buyersFee = 10;
+  const royaltyFee = Math.round(
+    (product.minSkuPrice * product.royaltyFeePercentage) / 100
+  );
+
+  // TODO: Add buyersfee
 
   const Content: any = () => (
     <>
@@ -107,10 +111,6 @@ const ModalPayment = ({
           <span>Subtotal:</span>
           <span>${product.minSkuPrice}</span>
         </S.DetailRowPrice>
-        <S.DetailRowPrice>
-          <span>Buyer’s fee:</span>
-          <span>${buyersFee}</span>
-        </S.DetailRowPrice>
       </S.Detail>
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
@@ -118,7 +118,7 @@ const ModalPayment = ({
       <S.Detail>
         <S.DetailRowPrice>
           <span>Total:</span>
-          <strong>${product.minSkuPrice + buyersFee}</strong>
+          <strong>${product.minSkuPrice}</strong>
         </S.DetailRowPrice>
       </S.Detail>
 
@@ -126,7 +126,12 @@ const ModalPayment = ({
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           {mode === 'hasFunds' && (
             <>
-              <strong>Royalty fee per unit aprox $5 (x%)</strong>
+              {product.royaltyFeePercentage && (
+                <strong>
+                  Royalty fee per unit aprox ${royaltyFee} (
+                  {product.royaltyFeePercentage}%)
+                </strong>
+              )}
               By confirming this action will discount the <br /> amount from
               your wallet.
             </>
