@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import TextFieldMUI from '@material-ui/core/TextField';
 
 export interface IProps {
-  test?: any;
 }
 
 const TextField = () => {

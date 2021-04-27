@@ -4,7 +4,6 @@
 import { useAppSelector } from 'store/hooks';
 
 export interface IProps {
-  test?: any;
 }
 
 const PrivateComponent: React.FC<IProps> = (props: any) => {
