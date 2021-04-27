@@ -33,11 +33,11 @@ export interface SkuWithFunctions extends Sku {
   totalSupplyLeft: number;
   countSkuListings?: any;
   countProductListings?: any;
-  totalSupply?: any;
   totalSupplyUpcoming: number;
   maxBid: number;
   minPrice: number;
   royaltyFeePercentage?: any;
+  totalSupply: number;
 }
 
 export interface SkuWithFunctionsPopulated

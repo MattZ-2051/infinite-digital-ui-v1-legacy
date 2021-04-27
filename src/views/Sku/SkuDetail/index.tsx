@@ -18,6 +18,7 @@ import { SkuWithFunctionsPopulated } from 'entities/sku';
 import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
+import { SkuCounter } from './components/SkuCounter/skuCounter';
 import { useAuth0 } from '@auth0/auth0-react';
 
 type ReleasedCounterProps = {
@@ -177,9 +178,7 @@ const SkuDetail = (): JSX.Element => {
               </p>
 
               <p>
-                <ReleasedCounter
-                  totalSupplyUpcoming={skuDetails.totalSupplyUpcoming}
-                />
+                <SkuCounter sku={skuDetails} />
               </p>
 
               <LineDivider />

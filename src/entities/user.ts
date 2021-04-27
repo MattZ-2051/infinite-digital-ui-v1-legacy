@@ -4,6 +4,7 @@ export interface User {
   _id: string;
   id: string;
   balance: number;
+  availableBalance: number;
   createdAt: Date;
   email: string;
   externalId: string;
@@ -12,4 +13,5 @@ export interface User {
   updatedAt: string;
   username: string;
   transactions?: ITransaction[];
+  errorMessage?: string;
 }
