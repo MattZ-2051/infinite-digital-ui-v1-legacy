@@ -21,6 +21,12 @@ interface TokenPayload {
   token: string;
 }
 
+interface RejectWithValue<RejectValue> {
+  readonly payload: RejectValue;
+  name: string;
+  message: string;
+}
+
 // Custom errors
 interface IError {
   errorMessage: string;
@@ -32,11 +38,11 @@ export const getUserInfoThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('users/me', async (data, thunkApi) => {
+>('users/me', async (payloadParams, thunkApi) => {
   try {
-    const response = await getMe(data.token);
+    const data = await getMe(payloadParams.token);
 
-    return response.data;
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -50,13 +56,14 @@ export const getUserCollectionThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('products?owner=:user', async (data, thunkApi) => {
+>('products?owner=:user', async (payloadParams, thunkApi) => {
   try {
-    const response = await getProductsOwnedByUser(data.userId, data.token);
-    // console.log('response thunk :', response);
-    // console.log('response thunkx data :', response);
+    const data = await getProductsOwnedByUser(
+      payloadParams.userId,
+      payloadParams.token
+    );
 
-    return response;
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -70,17 +77,23 @@ export const getUserCardsThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('/wallet', async (data, thunkApi) => {
-  try {
-    const response = await getMyCards(data.token);
+>(
+  '/wallet',
+  async (
+    payloadParams,
+    thunkApi
+  ): Promise<Wallet | RejectWithValue<IError>> => {
+    try {
+      const response = await getMyCards(payloadParams.token);
 
-    return response.data;
-  } catch (err) {
-    return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description,
-    } as IError);
+      return response.data;
+    } catch (err) {
+      return thunkApi.rejectWithValue({
+        errorMessage: err.response.data.error_description,
+      });
+    }
   }
-});
+);
 
 export const updateUsernameThunk = createAsyncThunk<
   User,

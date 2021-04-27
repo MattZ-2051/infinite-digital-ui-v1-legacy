@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeaturedSkuTiles } from 'services/api/sku';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 // Return type of the payload creator
 interface IResponse {
@@ -18,15 +18,15 @@ interface IError {
 }
 
 export const getFeaturesThunk = createAsyncThunk<
-  SkuWithFunctionsPopulated[],
+  Sku[],
   IPayloadParams,
   {
     rejectValue: IError;
   }
 >('features/get', async (payloadParams, thunkApi) => {
-  // TODO: is featured skutiles accurate for this store?
+  const { token } = payloadParams;
   try {
-    const data = await getFeaturedSkuTiles();
+    const data = await getFeaturedSkuTiles({ token });
     if (!data) {
       throw new Error(`No data returned from API`);
     }
