@@ -165,7 +165,7 @@ const SkuButtonBlock = (props: {
     royaltyFeePercentage,
   } = props.sku;
 
-  const product = {
+  const product: IProduct = {
     name,
     rarity,
     image: imageUrls[0],
@@ -177,7 +177,7 @@ const SkuButtonBlock = (props: {
 
   const { availableBalance } = props.user;
 
-  const user = {
+  const user: IUser = {
     availableBalance,
   };
 
