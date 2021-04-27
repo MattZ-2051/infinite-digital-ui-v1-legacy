@@ -19,21 +19,6 @@ import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
 import { SkuCounter } from './components/SkuCounter/skuCounter';
-import { useAuth0 } from '@auth0/auth0-react';
-
-type ReleasedCounterProps = {
-  totalSupplyUpcoming: number;
-};
-
-const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
-  const text = 'to be released';
-
-  return (
-    <>
-      {totalSupplyUpcoming} {text}
-    </>
-  );
-};
 
 const SkuDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
