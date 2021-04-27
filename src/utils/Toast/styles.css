@@ -1,0 +1,14 @@
+.Toastify__toast-container {
+  left: 0;
+  width: 100%;
+  top: 70px;
+}
+
+.Toastify__toast {
+  color: #000;
+  border-radius: 0px;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(89.89deg, #fb5543 0%, #f24c66 100%), #fc5746;
+}

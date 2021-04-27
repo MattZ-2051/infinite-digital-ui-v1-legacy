@@ -3,6 +3,9 @@ import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
 import { User } from 'entities/user';
+import Toast from 'utils/Toast';
+import { useAppSelector } from 'store/hooks';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import ModalPayment from '../../ModalPayment';
 
@@ -70,13 +73,28 @@ const FromCreatorBox = ({
   user,
 }: IFromCreatorBox) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginWithRedirect } = useAuth0();
+  const hasFounds = user.availableBalance >= product.minSkuPrice;
+  const modalMode = hasFounds ? 'hasFunds' : 'noFunds';
 
-  const handleBuyNowClick = () => {
-    setIsModalOpen(true);
+  const loggedInUser = useAppSelector((state) => state.session.user);
+  const userLogged = !!Object.entries(loggedInUser).length;
+
+  const handleBuyNowClick = (userLogged: boolean) => {
+    if (userLogged) {
+      setIsModalOpen(true);
+    } else {
+      Toast.error(
+        <>
+          You need to{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            Log in
+          </a>{' '}
+          in order to complete the purchase
+        </>
+      );
+    }
   };
-
-  const modalMode =
-    user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
 
   return (
     <Container>
@@ -91,7 +109,7 @@ const FromCreatorBox = ({
         <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
       </BoxColumn>
       <div>
-        <Button onClick={handleBuyNowClick}>Buy Now</Button>
+        <Button onClick={() => handleBuyNowClick(userLogged)}>Buy Now</Button>
       </div>
       <ModalPayment
         visible={isModalOpen}
@@ -201,7 +219,7 @@ const SkuButtonBlock = (props: {
       </Container>
     );
 
-  if (hasSkus && hasProducts && userLogged) {
+  if (hasSkus && hasProducts) {
     return (
       <>
         <FromCreatorBox
@@ -219,7 +237,7 @@ const SkuButtonBlock = (props: {
     );
   }
 
-  if (hasSkus && userLogged) {
+  if (hasSkus) {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}

@@ -8,7 +8,6 @@ import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
 import { Collector } from 'entities/collector';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
