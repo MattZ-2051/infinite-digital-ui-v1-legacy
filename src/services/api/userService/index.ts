@@ -102,10 +102,10 @@ export const removeUserCC = async (token: string, cardId: string) => {
        * is an instance of XMLHttpRequest in the browser and an instance
        * of http.ClientRequest in Node.js
        */
-      return 'No Response Received';
+      throw new Error('No Response Received');
     } else {
       // Something happened in setting up the request and triggered an err
-      return 'Bad Request';
+      throw new Error('Bad Request');
     }
   }
 };

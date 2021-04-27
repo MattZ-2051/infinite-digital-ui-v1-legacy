@@ -60,7 +60,8 @@ const AddCC = () => {
     }
     const res = await createNewCC(userToken, cardInfo);
     console.log('add cc res', res);
-    if (res.statusCode !== 200 || 201) {
+    console.log(res);
+    if (false) {
       setFormError(true);
       setTimeout(() => {
         setFormError(false);

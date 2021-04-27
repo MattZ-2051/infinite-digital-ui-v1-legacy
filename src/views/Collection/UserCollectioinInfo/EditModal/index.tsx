@@ -27,12 +27,12 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
     const res = await dispatch(updateUsernameThunk(data));
-    if (res.payload?.errorMessage) {
-      setError(res.payload?.errorMessage);
-      setConfirmed(false);
+    // if (res.payload?.errorMessage) {
+    //   setError(res.payload?.errorMessage);
+    //   setConfirmed(false);
 
-      return;
-    }
+    //   return;
+    // }
     setConfirmed(true);
     setError(null);
     setTimeout(() => {
