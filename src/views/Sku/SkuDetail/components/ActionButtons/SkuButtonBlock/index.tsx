@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
-import { useAppSelector } from 'store/hooks';
+import { User } from 'entities/user';
 
 import ModalPayment from '../../ModalPayment';
+
+export interface IUser {
+  availableBalance: number;
+}
 
 export interface IProduct {
   name: string;
@@ -38,7 +42,7 @@ interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
   product: IProduct;
-  user: any;
+  user: IUser;
 }
 
 interface IFromCollectorsBox {
@@ -141,7 +145,7 @@ const NotAvailable = () => {
 // const ButtonBlock = (props: IButtonBlock) => {
 const SkuButtonBlock = (props: {
   sku: SkuWithFunctionsPopulated;
-  user: any;
+  user: User;
 }): JSX.Element | null => {
   const {
     totalSupplyUpcoming,

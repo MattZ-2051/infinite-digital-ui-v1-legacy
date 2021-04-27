@@ -9,14 +9,14 @@ import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 
-import { IProduct } from '../ActionButtons/SkuButtonBlock';
+import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
   product: IProduct;
-  user: any;
+  user: IUser;
   showSerial?: boolean;
 }
 
