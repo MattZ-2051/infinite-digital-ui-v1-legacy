@@ -13,10 +13,13 @@ export const ImageContainer = styled.div`
   background-color: #f4f4f4;
   border-radius: 12px 12px 0 0;
   margin-bottom: 34px;
+  overflow: hidden;
 
   img {
-    width: 100%;
-    border-radius: 12px 12px 0 0;
+    display: block;
+    width: 410px;
+    height: 260px;
+    object-fit: cover;
   }
 `;
 

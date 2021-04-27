@@ -5,6 +5,17 @@ import { SkuWithFunctionsPopulated } from 'entities/sku';
 
 import ModalPayment from '../../ModalPayment';
 
+export interface IProduct {
+  name: string;
+  rarity: string;
+  image: string;
+  redeemable: boolean;
+  series: {
+    name: string;
+  };
+  minSkuPrice: number;
+}
+
 // FIXME: ButtonBlock Interface may be off
 export interface IButtonBlock {
   totalSupplyUpcoming: number;
@@ -24,6 +35,7 @@ interface IUpcomingData {
 interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
+  product: IProduct;
 }
 
 interface IFromCollectorsBox {
@@ -44,7 +56,11 @@ const UpcomingData = ({ minStartDate }: IUpcomingData) => {
   );
 };
 
-const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
+const FromCreatorBox = ({
+  skuPrice,
+  totalNewSupplyLeft,
+  product,
+}: IFromCreatorBox) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBuyNowClick = () => {
@@ -77,6 +93,7 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}
+        product={product}
       />
     </Container>
   );
@@ -133,7 +150,26 @@ const SkuButtonBlock = (props: {
     minSkuPrice,
     totalSupplyLeft,
     minCurrentBid,
+    name,
+    rarity,
+    imageUrls,
+    totalSupply,
+    redeemable,
+    series,
   } = props.sku;
+
+  console.log('=====================');
+  console.log('!!! sku', props.sku);
+  console.log('=====================');
+
+  const product = {
+    name,
+    rarity,
+    image: imageUrls[0],
+    redeemable,
+    series,
+    minSkuPrice,
+  };
 
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
@@ -159,10 +195,11 @@ const SkuButtonBlock = (props: {
         <FromCreatorBox
           skuPrice={minSkuPrice}
           totalNewSupplyLeft={totalNewSupplyLeft}
+          product={product}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
-          totalSupply={totalNewSupplyLeft}
+          totalSupply={totalSupply}
           countProductListings={countProductListings}
         />
       </>
@@ -174,6 +211,7 @@ const SkuButtonBlock = (props: {
       <FromCreatorBox
         skuPrice={minSkuPrice}
         totalNewSupplyLeft={totalNewSupplyLeft}
+        product={product}
       />
     );
   }

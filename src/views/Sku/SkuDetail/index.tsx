@@ -122,11 +122,12 @@ const SkuDetail = (): JSX.Element => {
 
   return (
     <div>
-      <ModalPayment
+      {/* TODO: Fix modal props */}
+      {/* <ModalPayment
         visible={modalPaymentVisible}
         setModalPaymentVisible={setModalPaymentVisible}
         mode={modalMode.current}
-      />
+      /> */}
 
       <HeaderContainer>
         <HeaderContent>
