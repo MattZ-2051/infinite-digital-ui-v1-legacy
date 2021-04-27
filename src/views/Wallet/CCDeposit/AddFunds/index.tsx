@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
-import exitIcon from 'assets/img/icons/exit-icon.png';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
-import { addFundsToUserWallet } from 'services/api/userService';
+import { addFundsToUserWallet, removeUserCC } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import CurrencyInput from 'react-currency-input-field';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
@@ -43,12 +42,19 @@ const AddFunds = () => {
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
     const res = await addFundsToUserWallet(userToken, fundsBody, userCard.id);
+    console.log('add funds res', res);
     if (res.status === 201) {
       dispatch(getUserCardsThunk({ token: userToken }));
       history.push(`/wallet/${username}/deposit/success`);
     } else {
       history.push(`/wallet/${username}/deposit/error`);
     }
+  };
+
+  const removeCard = async () => {
+    const userToken = await getAccessTokenSilently();
+    const res = await removeUserCC(userToken, userCard.id);
+    console.log(res);
   };
 
   const year = userCard.expYear.toString().slice(2, 4);
@@ -87,9 +93,7 @@ const AddFunds = () => {
               (Active)
             </span>
           </div>
-          <span style={{ fontSize: '16px', color: '#7d7d7d' }}>
-            Remove Card
-          </span>
+          <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
         </S.Row>
         <div
           style={{
@@ -126,6 +130,15 @@ const AddFunds = () => {
 S.CreditCard = styled(Cards)`
   .rccs__card__background {
     background: black !important;
+  }
+`;
+
+S.RemoveCCButton = styled.span`
+  font-size: 16px;
+  color: #7d7d7d;
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
   }
 `;
 

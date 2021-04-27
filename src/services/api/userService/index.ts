@@ -84,6 +84,29 @@ export const createNewCC = async (token: string, data: any) => {
   }
 };
 
+export const removeUserCC = async (token: string, cardId: string) => {
+  try {
+    const response = await axiosInstance.delete(`/wallet/cards/${cardId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (err) {
+    if (err.response) {
+      return err.response.data;
+    } else if (err.request) {
+      /*
+       * The request was made but no response was received, `err.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      return 'No Response Received';
+    } else {
+      // Something happened in setting up the request and triggered an err
+      return 'Bad Request';
+    }
+  }
+};
+
 export const getUser = async (userId: string) => {
   try {
     const response = await axiosInstance.get(`/users/${userId}`);

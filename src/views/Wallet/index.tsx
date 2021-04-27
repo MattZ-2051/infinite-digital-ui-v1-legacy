@@ -6,10 +6,11 @@ import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 
 const S: any = {};
 
@@ -19,12 +20,15 @@ const Wallet = () => {
   const userId = useAppSelector((state) => state.session.user.id);
   const [user, setUser] = useState<User>();
   const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useAppDispatch();
 
   const username = useAppSelector((state) => state.session.user.username);
 
   async function fetchUser() {
+    const userToken = await getAccessTokenSilently();
     const res = await getMe(await getAccessTokenSilently());
     setUser(res.data);
+    dispatch(getUserCardsThunk({ token: userToken }));
   }
 
   useEffect(() => {

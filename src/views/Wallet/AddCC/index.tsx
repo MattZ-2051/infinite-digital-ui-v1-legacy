@@ -9,11 +9,12 @@ import { S } from './styles';
 import { validate, errors, state, Values } from './helper';
 
 const AddCC = () => {
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [fieldError, setFieldError] = useState(errors);
   const userEmail = useAppSelector((state) => state.session.user.email);
   const { getAccessTokenSilently } = useAuth0();
   const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
+  const [formError, setFormError] = useState<boolean>(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +59,14 @@ const AddCC = () => {
       return;
     }
     const res = await createNewCC(userToken, cardInfo);
+    console.log('add cc res', res);
+    if (res.statusCode !== 200 || 201) {
+      setFormError(true);
+      setTimeout(() => {
+        setFormError(false);
+      }, 3000);
+      return;
+    }
   };
 
   const clearState = () => {
@@ -80,7 +89,9 @@ const AddCC = () => {
           </S.Row>
         </S.HeaderContainer>
         <S.Row>
-          <S.EnterDetailsText>Enter the card details below</S.EnterDetailsText>
+          <S.EnterDetailsText>
+            {formError ? 'An Error Occurred' : 'Enter the card details below'}
+          </S.EnterDetailsText>
         </S.Row>
         <S.Row>
           <S.FormInput

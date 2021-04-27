@@ -3,12 +3,18 @@ import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
-import { getMe, getMyCards, updateUsername } from 'services/api/userService';
+import {
+  getMe,
+  getMyCards,
+  updateUsername,
+  removeUserCC,
+  createNewCC,
+} from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
   token: string;
-  userId: string;
+  id: string;
 }
 
 interface UsernamePayloadParams {
@@ -52,7 +58,7 @@ export const getUserCollectionThunk = createAsyncThunk<
   }
 >('products?owner=:user', async (data, thunkApi) => {
   try {
-    const response = await getProductsOwnedByUser(data.userId, data.token);
+    const response = await getProductsOwnedByUser(data.id, data.token);
     // console.log('response thunk :', response);
     // console.log('response thunkx data :', response);
 
@@ -90,6 +96,38 @@ export const updateUsernameThunk = createAsyncThunk<
   }
 >('/user/:id', async ({ token, userId, username }, thunkApi) => {
   const response = await updateUsername(token, userId, username);
+  if (response.status !== 200) {
+    return thunkApi.rejectWithValue({
+      errorMessage: response.message,
+    } as IError);
+  }
+  return response.data;
+});
+
+export const removeUserCCThunk = createAsyncThunk<
+  Wallet,
+  IPayloadParams,
+  {
+    rejectValue: IError;
+  }
+>('/wallet/cards/:id', async ({ token, id }, thunkApi) => {
+  const response = await removeUserCC(token, id);
+  if (response.status !== 200) {
+    return thunkApi.rejectWithValue({
+      errorMessage: response.message,
+    } as IError);
+  }
+  return response.data;
+});
+
+export const createNewCCThunk = createAsyncThunk<
+  Wallet,
+  IPayloadParams,
+  {
+    rejectValue: IError;
+  }
+>('/wallet/cards/:id', async ({ token, id }, thunkApi) => {
+  const response = await removeUserCC(token, id);
   if (response.status !== 200) {
     return thunkApi.rejectWithValue({
       errorMessage: response.message,
