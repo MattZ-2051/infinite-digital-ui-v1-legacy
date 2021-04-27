@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { User } from 'entities/user';
+
+import ModalPayment from '../../ModalPayment';
+
+export interface IUser {
+  availableBalance: number;
+}
+
+export interface IProduct {
+  name: string;
+  rarity: string;
+  image: string;
+  redeemable: boolean;
+  series: {
+    name: string;
+  };
+  minSkuPrice: number;
+  royaltyFeePercentage: number;
+}
 
 // FIXME: ButtonBlock Interface may be off
 export interface IButtonBlock {
@@ -22,6 +41,8 @@ interface IUpcomingData {
 interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
+  product: IProduct;
+  user: IUser;
 }
 
 interface IFromCollectorsBox {
@@ -42,7 +63,21 @@ const UpcomingData = ({ minStartDate }: IUpcomingData) => {
   );
 };
 
-const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
+const FromCreatorBox = ({
+  skuPrice,
+  totalNewSupplyLeft,
+  product,
+  user,
+}: IFromCreatorBox) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBuyNowClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const modalMode =
+    user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
+
   return (
     <Container>
       <BoxColumn>
@@ -56,13 +91,15 @@ const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
         <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
       </BoxColumn>
       <div>
-        <Button
-          disabled
-          style={{ backgroundColor: '#2D2D2D', color: '#5F5F5F' }}
-        >
-          Buy Now
-        </Button>
+        <Button onClick={handleBuyNowClick}>Buy Now</Button>
       </div>
+      <ModalPayment
+        visible={isModalOpen}
+        setModalPaymentVisible={setIsModalOpen}
+        mode={modalMode}
+        product={product}
+        user={user}
+      />
     </Container>
   );
 };
@@ -108,31 +145,51 @@ const NotAvailable = () => {
 // const ButtonBlock = (props: IButtonBlock) => {
 const SkuButtonBlock = (props: {
   sku: SkuWithFunctionsPopulated;
+  user: User;
 }): JSX.Element | null => {
-  console.log();
   const {
     totalSupplyUpcoming,
     circulatingSupply,
-    // FIXME: Commented props
-    // countSkuListings,
-    // countProductListings,
+    countSkuListings,
+    countProductListings,
     minStartDate,
     minSkuPrice,
-    // totalNewSupplyLeft,
+    totalSupplyLeft,
     minCurrentBid,
+    name,
+    rarity,
+    imageUrls,
+    totalSupply,
+    redeemable,
+    series,
+    royaltyFeePercentage,
   } = props.sku;
+
+  const product: IProduct = {
+    name,
+    rarity,
+    image: imageUrls[0],
+    redeemable,
+    series,
+    minSkuPrice,
+    royaltyFeePercentage,
+  };
+
+  const { availableBalance } = props.user;
+
+  const user: IUser = {
+    availableBalance,
+  };
 
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
-  // FIXME: hardcoded data
-  // const hasSkus = !!countSkuListings;
-  // const hasProducts = !!countProductListings;
-  const hasSkus = false;
-  const hasProducts = false;
+  const hasSkus = !!countSkuListings;
+  const hasProducts = !!countProductListings;
+  const userLogged = !!Object.entries(props.user).length;
+
   // FIXME: Hardcoded data
-  const totalNewSupplyLeft = 69;
-  const countProductListings = 96;
+  const totalNewSupplyLeft = totalSupplyLeft;
 
   if (!hasSkus && !hasProducts) return <NotAvailable />;
 
@@ -144,27 +201,31 @@ const SkuButtonBlock = (props: {
       </Container>
     );
 
-  if (hasSkus && hasProducts) {
+  if (hasSkus && hasProducts && userLogged) {
     return (
       <>
         <FromCreatorBox
           skuPrice={minSkuPrice}
           totalNewSupplyLeft={totalNewSupplyLeft}
+          product={product}
+          user={user}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
-          totalSupply={totalNewSupplyLeft}
+          totalSupply={totalSupply}
           countProductListings={countProductListings}
         />
       </>
     );
   }
 
-  if (hasSkus) {
+  if (hasSkus && userLogged) {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}
         totalNewSupplyLeft={totalNewSupplyLeft}
+        product={product}
+        user={user}
       />
     );
   }

@@ -3,7 +3,8 @@
  */
 import { useAppSelector } from 'store/hooks';
 
-export interface IProps {}
+export interface IProps {
+}
 
 const PrivateComponent: React.FC<IProps> = (props: any) => {
   //const userRole = useAppSelector((state) => state.session.userRole);

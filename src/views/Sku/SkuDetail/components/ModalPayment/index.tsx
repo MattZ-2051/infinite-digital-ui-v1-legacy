@@ -6,25 +6,38 @@ import { Link } from 'react-router-dom';
 import Button from 'components/Buttons/Button';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
-import shoeImg from 'assets/temp/shoe.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
+
+import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
+  product: IProduct;
+  user: IUser;
+  showSerial?: boolean;
 }
 
 const ModalPayment = ({
   visible,
   setModalPaymentVisible,
   mode,
+  product,
+  user,
+  showSerial = false,
 }: IModalProps) => {
+  const royaltyFee = Math.round(
+    (product.minSkuPrice * product.royaltyFeePercentage) / 100
+  );
+
+  // TODO: Add buyersfee
+
   const Content: any = () => (
     <>
       <S.ImageContainer>
-        <img src={shoeImg} alt="" />
+        <img src={product.image} alt="" />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
@@ -48,11 +61,13 @@ const ModalPayment = ({
         <S.SubTitle>
           {mode === 'hasFunds' && (
             <span style={{ color: '#12C95F' }}>
-              Your current balance ${782}
+              Your current balance ${user.availableBalance}
             </span>
           )}
           {mode === 'noFunds' && (
-            <span style={{ color: '#E74C3C' }}>Your wallet balance ${80}</span>
+            <span style={{ color: '#E74C3C' }}>
+              Your wallet balance ${user.availableBalance}
+            </span>
           )}
         </S.SubTitle>
       </S.Header>
@@ -61,33 +76,62 @@ const ModalPayment = ({
 
       <S.Detail>
         <S.DetailRow>
-          <span style={{ color: '#9E9E9E' }}>K8IROS</span>
+          <span style={{ color: '#9E9E9E' }}>Shoes</span>
           <S.Rarity>
-            <span></span> Rare
+            <span></span> {product.rarity}
           </S.Rarity>
         </S.DetailRow>
 
         <S.DetailRow style={{ fontSize: '20px' }}>
-          <span>K8IROS 8.1 — BK Shadow</span>
-          <span>$120</span>
+          <span>{product.name}</span>
+          <span>${product.minSkuPrice}</span>
         </S.DetailRow>
 
         <S.DetailRow>
           <span>
-            Size 11 / <Redeemable /> Redeemable
+            {product.series.name} /{' '}
+            {product.redeemable && (
+              <>
+                <Redeemable /> Redeemable
+              </>
+            )}
           </span>
-          <div>
-            <span style={{ color: '#9E9E9E' }}>Serial:</span> #2445
-          </div>
+          {showSerial && (
+            <div>
+              <span style={{ color: '#9E9E9E' }}>Serial:</span> #2445
+            </div>
+          )}
         </S.DetailRow>
       </S.Detail>
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
+      <S.Detail>
+        <S.DetailRowPrice>
+          <span>Subtotal:</span>
+          <span>${product.minSkuPrice}</span>
+        </S.DetailRowPrice>
+      </S.Detail>
+
+      <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+
+      <S.Detail>
+        <S.DetailRowPrice>
+          <span>Total:</span>
+          <strong>${product.minSkuPrice}</strong>
+        </S.DetailRowPrice>
+      </S.Detail>
+
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           {mode === 'hasFunds' && (
             <>
+              {product.royaltyFeePercentage && (
+                <strong>
+                  Royalty fee per unit aprox ${royaltyFee} (
+                  {product.royaltyFeePercentage}%)
+                </strong>
+              )}
               By confirming this action will discount the <br /> amount from
               your wallet.
             </>
