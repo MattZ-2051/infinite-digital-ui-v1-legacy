@@ -60,5 +60,6 @@ export const skuWithFunctionsPopulatedFactory = Factory.Sync.makeFactory<SkuWith
     totalSupplyUpcoming: 0,
     maxBid: 0,
     minPrice: 0,
+    totalSupply: 0,
   }
 );

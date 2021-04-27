@@ -16,7 +16,7 @@ const MyItems = () => {
   async function fetchUser() {
     const token = await getAccessTokenSilently();
     const extUser = await getMe(token);
-    const res = await getProductsOwnedByUser(extUser.data._id, token);
+    const res = await getProductsOwnedByUser(extUser._id, token);
     if (res) {
       setUserItems(res);
     }
