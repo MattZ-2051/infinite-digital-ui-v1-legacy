@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { useAppSelector } from 'store/hooks';
 
 import ModalPayment from '../../ModalPayment';
 
@@ -14,6 +15,7 @@ export interface IProduct {
     name: string;
   };
   minSkuPrice: number;
+  royaltyFeePercentage: number;
 }
 
 // FIXME: ButtonBlock Interface may be off
@@ -36,6 +38,7 @@ interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
   product: IProduct;
+  user: any;
 }
 
 interface IFromCollectorsBox {
@@ -60,6 +63,7 @@ const FromCreatorBox = ({
   skuPrice,
   totalNewSupplyLeft,
   product,
+  user,
 }: IFromCreatorBox) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -67,12 +71,8 @@ const FromCreatorBox = ({
     setIsModalOpen(true);
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  // TODO: Calculate modalMode
-  const modalMode = 'hasFunds';
+  const modalMode =
+    user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
 
   return (
     <Container>
@@ -94,6 +94,7 @@ const FromCreatorBox = ({
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}
         product={product}
+        user={user}
       />
     </Container>
   );
@@ -140,6 +141,7 @@ const NotAvailable = () => {
 // const ButtonBlock = (props: IButtonBlock) => {
 const SkuButtonBlock = (props: {
   sku: SkuWithFunctionsPopulated;
+  user: any;
 }): JSX.Element | null => {
   const {
     totalSupplyUpcoming,
@@ -156,11 +158,8 @@ const SkuButtonBlock = (props: {
     totalSupply,
     redeemable,
     series,
+    royaltyFeePercentage,
   } = props.sku;
-
-  console.log('=====================');
-  console.log('!!! sku', props.sku);
-  console.log('=====================');
 
   const product = {
     name,
@@ -169,6 +168,18 @@ const SkuButtonBlock = (props: {
     redeemable,
     series,
     minSkuPrice,
+    royaltyFeePercentage,
+  };
+
+  console.log('=====================');
+  console.log('!!!! props.user', props.user);
+  console.log('!!!! props.product', props.sku);
+  console.log('=====================');
+
+  const { availableBalance } = props.user;
+
+  const user = {
+    availableBalance,
   };
 
   const isUpcoming = !!totalSupplyUpcoming;
@@ -196,6 +207,7 @@ const SkuButtonBlock = (props: {
           skuPrice={minSkuPrice}
           totalNewSupplyLeft={totalNewSupplyLeft}
           product={product}
+          user={user}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
@@ -212,6 +224,7 @@ const SkuButtonBlock = (props: {
         skuPrice={minSkuPrice}
         totalNewSupplyLeft={totalNewSupplyLeft}
         product={product}
+        user={user}
       />
     );
   }

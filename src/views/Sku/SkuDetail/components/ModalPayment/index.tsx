@@ -16,6 +16,7 @@ export interface IModalProps {
   setModalPaymentVisible: any;
   mode: string;
   product: IProduct;
+  user: any;
   showSerial?: boolean;
 }
 
@@ -24,11 +25,9 @@ const ModalPayment = ({
   setModalPaymentVisible,
   mode,
   product,
+  user,
   showSerial = false,
 }: IModalProps) => {
-  const currentBalance = 782;
-  const walletBalance = 80;
-
   const buyersFee = 10;
 
   const Content: any = () => (
@@ -58,12 +57,12 @@ const ModalPayment = ({
         <S.SubTitle>
           {mode === 'hasFunds' && (
             <span style={{ color: '#12C95F' }}>
-              Your current balance ${currentBalance}
+              Your current balance ${user.availableBalance}
             </span>
           )}
           {mode === 'noFunds' && (
             <span style={{ color: '#E74C3C' }}>
-              Your wallet balance ${walletBalance}
+              Your wallet balance ${user.availableBalance}
             </span>
           )}
         </S.SubTitle>
