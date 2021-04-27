@@ -171,11 +171,6 @@ const SkuButtonBlock = (props: {
     royaltyFeePercentage,
   };
 
-  console.log('=====================');
-  console.log('!!!! props.user', props.user);
-  console.log('!!!! props.product', props.sku);
-  console.log('=====================');
-
   const { availableBalance } = props.user;
 
   const user = {
