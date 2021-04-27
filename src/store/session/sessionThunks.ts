@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
@@ -98,3 +98,5 @@ export const updateUsernameThunk = createAsyncThunk<
     } as IError);
   }
 });
+
+export const deleteUser = createAction('/user/delete');
