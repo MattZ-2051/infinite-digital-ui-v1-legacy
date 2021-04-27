@@ -141,8 +141,7 @@ const SkuDetail = (): JSX.Element => {
                   fontSize: '24px',
                 }}
               >
-                {/* TODO: Using issuer.username here for brand */}
-                <Brand>{skuDetails?.issuer?.username || ''}</Brand>
+                <Brand>{skuDetails?.issuerName || ''}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}

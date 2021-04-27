@@ -1,4 +1,5 @@
 import { Card } from 'entities/card';
+import { USDCAddress } from 'entities/usdcAddress';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
@@ -60,6 +61,23 @@ export const addFundsToUserWallet = async (
       // Something happened in setting up the request and triggered an err
       return 'Bad Request';
     }
+  }
+};
+
+export const generateUSDCAddress = async (
+  token: string
+): Promise<USDCAddress> => {
+  try {
+    const response = await axiosInstance.get<USDCAddress>(
+      `/wallet/usdc/address`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw new Error('Error generating USDC address');
   }
 };
 

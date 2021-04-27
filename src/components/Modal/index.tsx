@@ -29,7 +29,8 @@ const ModalContainer: any = styled(Modal)`
 const ModalBody = styled.div`
   background-color: #ffffff;
   position: absolute;
-  //width: 400px;
+  min-width: 400px;
+  min-height: 400px;
   padding: 20px;
   border-radius: 12px;
   outline: none;

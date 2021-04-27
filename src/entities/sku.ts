@@ -7,7 +7,8 @@ export interface Sku {
   supplyType: 'variable'; // TODO: add more supply types
   featured: boolean;
   redeemable: boolean;
-  maxSupply: number | string;
+  // maxSupply should not be used in the UI anymore
+  // maxSupply: number | string;
   imageUrls: string[];
   graphicUrl: string; // Default image
   startDate?: Date;
@@ -17,6 +18,7 @@ export interface Sku {
   issuer: string; // id
   createdAt?: Date;
   updatedAt?: Date;
+  issuerName?: string;
 }
 
 /*

@@ -11,7 +11,7 @@ import { User } from 'entities/user';
 import { getMe } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const S: any = {};
+export const S: any = {};
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
