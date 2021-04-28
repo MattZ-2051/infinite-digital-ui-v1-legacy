@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
+import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
+import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
+import Squircle from 'components/Squircle';
 
 export interface ImageGalleryProps {
   images: string[];
@@ -30,17 +33,31 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
         ) : (
           <img src={images[selectedImage]} alt="" />
         )}
+
+        <Squircle
+          size={40}
+          bgColor="white"
+          style={{
+            position: 'absolute',
+            right: '24px',
+            top: '24px',
+            cursor: 'pointer',
+          }} //TODO: create StyledComponent
+        >
+          <TDRotationIcon />
+        </Squircle>
       </ImageContainer>
 
       <ThumbnailMenu>
         {images &&
           images.map((el, index) => {
             return (
-              <ThumbnailItem
+              <Thumbnail
                 key={index}
                 active={selectedImage === index}
                 onClick={() => handleImageChange(index)}
               >
+                <STDGraphicIcon />
                 {el?.endsWith('mov') || el?.endsWith('mp4') ? (
                   <video
                     style={{
@@ -55,13 +72,24 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 ) : (
                   <img src={el} alt="" />
                 )}
-              </ThumbnailItem>
+              </Thumbnail>
             );
           })}
       </ThumbnailMenu>
     </Container>
   );
 };
+
+const STDGraphicIcon = styled(TDGraphicIcon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 222;
+  padding: 3px;
+  width: 23px;
+  height: 23px;
+  background-color: #ffffff;
+`;
 
 const Container = styled.div`
   position: relative;
@@ -102,7 +130,7 @@ interface ThumbnailItemProps {
   active?: boolean;
 }
 
-const ThumbnailItem = styled.div<ThumbnailItemProps>`
+const Thumbnail = styled.div<ThumbnailItemProps>`
   transition: 0.4s;
   display: flex;
   align-items: center;
