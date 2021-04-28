@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Button from 'components/Buttons/Button';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 export interface IProps {
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
 }
 
 const SlideBox = ({ product }: IProps): JSX.Element => {

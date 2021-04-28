@@ -1,22 +1,24 @@
 import React from 'react';
 
-type MyProps = {};
+type MyProps = {
+  children: JSX.Element;
+};
 type MyState = { error: string | null; errorInfo: string | null };
 
 class ErrorBoundary extends React.Component<MyProps, MyState> {
-  constructor(props) {
+  constructor(props: MyProps) {
     super(props);
     this.state = { error: null, errorInfo: null };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error, errorInfo): void {
     this.setState({
       error: error,
       errorInfo: errorInfo,
     });
   }
 
-  render() {
+  render(): JSX.Element {
     if (this.state.errorInfo) {
       // Error path
       return (

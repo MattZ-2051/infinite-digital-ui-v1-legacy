@@ -1,9 +1,9 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 interface SkuProps {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
 }
 
 const SkuTile = ({ sku }: SkuProps): JSX.Element => {

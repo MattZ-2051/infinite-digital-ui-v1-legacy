@@ -13,35 +13,22 @@ export interface Sku {
   graphicUrl: string; // Default image
   startDate?: Date;
   endDate?: Date;
-  series: string; // id
-  category: string; // id
-  issuer: string; // id
-  createdAt?: Date;
-  updatedAt?: Date;
-  issuerName?: string;
-}
-
-/*
- * This is the extended sku object that is returned when the Sku object is called
- * with functions
- */
-// NOTE: Repeats functionality of interface below
-export interface SkuWithFunctions extends Sku {
+  issuerName: string;
   minStartDate?: Date;
   maxEndDate?: Date;
   minSkuPrice: number;
+  maxBid: number; // The cheapest price a sku can be sold
+  minPrice: number;
   minCurrentBid: number;
   circulatingSupply: number;
-  totalSupplyLeft: number;
-  totalSupplyUpcoming: number;
-  maxBid: number;
-  minPrice: number;
   totalSupply: number;
-}
-
-export interface SkuWithFunctionsPopulated
-  extends Omit<SkuWithFunctions, 'category' | 'series' | 'issuer'> {
-  upcomingListingIds?: string[];
+  totalSupplyLeft: number;
+  totalSkuSupplyLeft: number;
+  totalSupplyUpcoming: number;
+  totalSkuListingSuppyLeft: number;
+  countSkuListings: number;
+  countAllSkuListings: number;
+  countProductListings: number;
   series: {
     _id: string;
     name: string;
@@ -67,4 +54,6 @@ export interface SkuWithFunctionsPopulated
     updatedAt?: Date;
     createdAt?: Date;
   };
+  createdAt?: Date;
+  updatedAt?: Date;
 }
