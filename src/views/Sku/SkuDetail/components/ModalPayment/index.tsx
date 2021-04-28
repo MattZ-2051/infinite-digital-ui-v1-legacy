@@ -8,14 +8,14 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
   user: User;
   showSerial?: boolean;
 }

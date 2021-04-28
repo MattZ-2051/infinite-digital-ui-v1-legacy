@@ -23,16 +23,6 @@ export interface Sku {
   circulatingSupply: number;
   totalSupply: number;
   totalSupplyLeft: number;
-  countSkuListings?: any;
-  countProductListings?: any;
-  totalSupplyUpcoming: number;
-  royaltyFeePercentage?: any;
-}
-
-export interface SkuWithFunctionsPopulated {
-  // TODO: Fix no definition for SkuWithFunctions:
-  // extends Omit<SkuWithFunctions, 'category' | 'series' | 'issuer'> {
-  upcomingListingIds?: string[];
   totalSkuSupplyLeft: number;
   totalSupplyUpcoming: number;
   totalSkuListingSuppyLeft: number;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown, dateToPrettyString } from 'utils/dates';
-import { SkuWithFunctionsPopulated, Sku } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 
 import ModalPayment from '../../ModalPayment';
@@ -32,7 +32,7 @@ interface IUpcomingData {
 interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
   user: User;
   minStartDate: Date;
   totalSkuListingSuppyLeft: number;
@@ -167,7 +167,7 @@ const FromCollectorsBox = ({
 };
 
 const SkuButtonBlock = (props: {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
   user: User;
   onBuyNow: () => void;
 }) => {
