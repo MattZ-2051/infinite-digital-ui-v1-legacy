@@ -33,8 +33,12 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
                 key={el.serialNumber}
                 serialNumber={el.serialNumber}
                 ownerName={el.owner.username}
-                highestBid={el.listing.minBid} // TODO: is this minBid? There is no other variable available.
-                endDate={el.listing.endDate}
+                highestBid={el.listing
+                  .map((listing) => listing.minBid)
+                  .reduce((p, c) => Math.min(p, c))}
+                endDate={el.listing
+                  .map((listing) => listing.endDate)
+                  .reduce((p, c) => (p > c ? p : c))}
               />
             </Link>
           ))}

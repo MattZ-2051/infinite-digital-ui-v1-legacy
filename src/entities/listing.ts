@@ -7,7 +7,7 @@ export interface Listing {
   price: number;
   saleType: string;
   supply: 10;
-  minBid: 100;
+  minBid: number;
   startDate: Date;
   endDate: Date;
   createdAt: Date;
