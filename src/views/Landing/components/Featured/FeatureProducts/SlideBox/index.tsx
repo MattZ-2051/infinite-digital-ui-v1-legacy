@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Button from 'components/Buttons/Button';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 export interface IProps {
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
 }
 
 const SlideBox = ({ product }: IProps): JSX.Element => {
@@ -22,7 +22,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
 
         <h2>{product.name}</h2>
         <h3>{product.description}</h3>
-        <p>{product.maxSupply} listings for sale</p>
+        <p>{product.totalSupplyLeft} for sale</p>
         <p style={{ marginBottom: '20px' }}>
           Listings from ${product.minSkuPrice} to ${product.minPrice}
         </p>

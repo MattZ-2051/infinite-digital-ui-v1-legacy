@@ -15,7 +15,7 @@ const AuctionItem = ({
   ownerName,
   highestBid,
   endDate,
-}: AuctionItemProps) => {
+}: AuctionItemProps): JSX.Element => {
   return (
     <Container>
       {/* <Avatar /> */}
@@ -40,8 +40,7 @@ const AuctionItem = ({
         </div>
 
         <strong style={{ color: 'black' }}>
-          {/* TODO Hardcoded date */}
-          Expires in {formatCountdown(new Date('2021-04-30T23:00:00.000Z'))}
+          Expires in {formatCountdown(new Date(endDate))}
         </strong>
       </AuctionDetail>
 

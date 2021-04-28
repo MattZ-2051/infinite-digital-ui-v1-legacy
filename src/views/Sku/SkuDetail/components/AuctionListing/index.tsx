@@ -20,7 +20,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   if (hasProducts) {
     return (
       <Container>
-        <SectionTitle>Auction Listing</SectionTitle>
+        <SectionTitle>Buy from Collectors</SectionTitle>
 
         {limitCollectors &&
           limitCollectors.map((el, index) => (

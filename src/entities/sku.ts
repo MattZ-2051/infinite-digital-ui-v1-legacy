@@ -7,42 +7,38 @@ export interface Sku {
   supplyType: 'variable'; // TODO: add more supply types
   featured: boolean;
   redeemable: boolean;
-  maxSupply: number | string;
+  // maxSupply should not be used in the UI anymore
+  // maxSupply: number | string;
   imageUrls: string[];
   graphicUrl: string; // Default image
   startDate?: Date;
   endDate?: Date;
-  series: string; // id
-  category: string; // id
-  issuer: string; // id
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-/*
- * This is the extended sku object that is returned when the Sku object is called
- * with functions
- */
-// NOTE: Repeats functionality of interface below
-export interface SkuWithFunctions extends Sku {
+  issuerName: string;
   minStartDate?: Date;
   maxEndDate?: Date;
   minSkuPrice: number;
+  maxBid: number; // The cheapest price a sku can be sold
+  minPrice: number;
   minCurrentBid: number;
   circulatingSupply: number;
+  totalSupply: number;
   totalSupplyLeft: number;
   countSkuListings?: any;
   countProductListings?: any;
   totalSupplyUpcoming: number;
-  maxBid: number;
-  minPrice: number;
   royaltyFeePercentage?: any;
-  totalSupply: number;
 }
 
-export interface SkuWithFunctionsPopulated
-  extends Omit<SkuWithFunctions, 'category' | 'series' | 'issuer'> {
+export interface SkuWithFunctionsPopulated {
+  // TODO: Fix no definition for SkuWithFunctions:
+  // extends Omit<SkuWithFunctions, 'category' | 'series' | 'issuer'> {
   upcomingListingIds?: string[];
+  totalSkuSupplyLeft: number;
+  totalSupplyUpcoming: number;
+  totalSkuListingSuppyLeft: number;
+  countSkuListings: number;
+  countAllSkuListings: number;
+  countProductListings: number;
   series: {
     _id: string;
     name: string;
@@ -68,4 +64,6 @@ export interface SkuWithFunctionsPopulated
     updatedAt?: Date;
     createdAt?: Date;
   };
+  createdAt?: Date;
+  updatedAt?: Date;
 }

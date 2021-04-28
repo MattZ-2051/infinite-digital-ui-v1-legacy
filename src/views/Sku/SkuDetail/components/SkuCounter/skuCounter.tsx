@@ -1,8 +1,8 @@
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import React from 'react';
 
 type SkuCounterProps = {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
 };
 
 export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {

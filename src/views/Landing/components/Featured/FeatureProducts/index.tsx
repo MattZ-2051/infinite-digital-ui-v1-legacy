@@ -4,11 +4,11 @@ import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import SlideBox from './SlideBox';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 
 const FeatureProducts = () => {
-  const [tiles, setTiles] = useState<SkuWithFunctionsPopulated[]>([]);
+  const [tiles, setTiles] = useState<Sku[]>([]);
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();

@@ -1,10 +1,10 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 interface Props {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
   productSerialNumber: string;
   purchasedDate?: string;
   redeemable: boolean;

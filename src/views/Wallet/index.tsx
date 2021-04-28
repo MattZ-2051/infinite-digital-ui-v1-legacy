@@ -8,16 +8,19 @@ import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
-import { getMe } from 'services/api/userService';
+import { getMe, getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { ITransaction } from 'entities/transaction';
+import KycButton from './KycButton/kycButton';
 
-const S: any = {};
+export const S: any = {};
 
 const Wallet = () => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
   const userId = useAppSelector((state) => state.session.user.id);
   const [user, setUser] = useState<User>();
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
   const username = useAppSelector((state) => state.session.user.username);
@@ -27,8 +30,14 @@ const Wallet = () => {
     setUser(res);
   }
 
+  async function fetchTransactions() {
+    const res = await getMyTransactions(await getAccessTokenSilently());
+    setTransactions(res);
+  }
+
   useEffect(() => {
     fetchUser();
+    fetchTransactions();
   }, []);
 
   const handleClose = () => {
@@ -62,11 +71,14 @@ const Wallet = () => {
             <S.AvailableText>Available:</S.AvailableText>$
             {user?.availableBalance} (after active bids)
           </S.AvailableAmount>
-          <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
+          <div style={{ paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
           <div style={{ paddingTop: '12px' }}>
             <S.ActionButton>Withdrawal</S.ActionButton>
+          </div>
+          <div style={{ paddingTop: '12px' }}>
+            <KycButton />
           </div>
         </S.TotalBalanceContainer>
         <S.LatestTransactionsContainer>
@@ -98,8 +110,8 @@ const Wallet = () => {
           </div>
           {selectedTab === 0 && (
             <>
-              {user?.transactions &&
-                user.transactions.map((tx, index) => {
+              {transactions &&
+                transactions.map((tx, index) => {
                   // TODO: Add pagination instead of static limit 5
                   if (index >= 5) return null;
                   return <Transaction tx={tx} key={index} />;

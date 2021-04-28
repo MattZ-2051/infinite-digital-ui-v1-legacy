@@ -1,5 +1,5 @@
 import { Listing } from './listing';
-import { SkuWithFunctions, SkuWithFunctionsPopulated } from './sku';
+import { Sku } from './sku';
 import { User } from './user';
 
 export interface Product {
@@ -8,7 +8,7 @@ export interface Product {
   tokenId: string;
   owner: User;
   listing: Listing;
-  sku: SkuWithFunctions;
+  sku: Sku;
   serialNumber: string;
 }
 
@@ -18,6 +18,6 @@ export interface ProductWithFunctions {
   tokenId: string;
   owner: User;
   listing: Listing;
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
   serialNumber: string;
 }
