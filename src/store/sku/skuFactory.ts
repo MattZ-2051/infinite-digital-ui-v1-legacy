@@ -1,7 +1,7 @@
 import * as Factory from 'factory.ts';
 import { Sku } from 'entities/sku';
 
-export const skuWithFunctionsPopulatedFactory = Factory.Sync.makeFactory<Sku>({
+export const skuFactory = Factory.Sync.makeFactory<Sku>({
   _id: '000000000000000000000000',
   rarity: 'uncommon',
   name: 'Loading...',
@@ -10,7 +10,7 @@ export const skuWithFunctionsPopulatedFactory = Factory.Sync.makeFactory<Sku>({
   supplyType: 'variable',
   featured: false,
   redeemable: false,
-  maxSupply: 0,
+  // maxSupply: 0, deprecated
   imageUrls: [],
   graphicUrl: '',
   startDate: undefined,

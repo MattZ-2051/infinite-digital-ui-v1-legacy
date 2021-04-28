@@ -84,13 +84,13 @@ export const getUserCardsThunk = createAsyncThunk<
     thunkApi
   ): Promise<Wallet | RejectWithValue<IError>> => {
     try {
-      const response = await getMyCards(payloadParams.token);
+      const data = await getMyCards(payloadParams.token);
 
-      return response.data;
+      return data;
     } catch (err) {
       return thunkApi.rejectWithValue({
         errorMessage: err.response.data.error_description,
-      });
+      } as IError);
     }
   }
 );
@@ -102,11 +102,12 @@ export const updateUsernameThunk = createAsyncThunk<
     rejectValue: IError;
   }
 >('/user/:id', async ({ token, userId, username }, thunkApi) => {
-  const response = await updateUsername(token, userId, username);
-  if (response.status !== 200) {
+  try {
+    const response = await updateUsername(token, userId, username);
+    return response;
+  } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: response.message,
+      errorMessage: e.message,
     } as IError);
   }
-  return response.data;
 });

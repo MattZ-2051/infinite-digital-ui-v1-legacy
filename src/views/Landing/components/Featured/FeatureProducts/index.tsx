@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useAppSelector } from 'store/hooks';
-// Local
 import SlideBox from './SlideBox';
+import { Sku } from 'entities/sku';
+import { getFeaturedSkuTiles } from 'services/api/sku';
 
 const FeatureProducts = () => {
-  const { features } = useAppSelector((state) => state.landing);
+  const [tiles, setTiles] = useState<Sku[]>([]);
+
+  async function fetchProducts() {
+    const skuTiles = await getFeaturedSkuTiles();
+    if (skuTiles) {
+      setTiles(skuTiles);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const settings = {
     dots: true,
@@ -17,10 +28,8 @@ const FeatureProducts = () => {
   return (
     <Container id="feature-products">
       <Slider {...settings}>
-        {features instanceof Array &&
-          features.map((product, key) => (
-            <SlideBox key={key} product={product} />
-          ))}
+        {tiles instanceof Array &&
+          tiles.map((product, key) => <SlideBox key={key} product={product} />)}
       </Slider>
     </Container>
   );

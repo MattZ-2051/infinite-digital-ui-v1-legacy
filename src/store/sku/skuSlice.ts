@@ -1,7 +1,7 @@
 import { createSlice, SerializedError } from '@reduxjs/toolkit';
 import { getSkuTilesThunk } from './skuThunks';
 import { Sku } from 'entities/sku';
-import { skuWithFunctionsPopulatedFactory } from './skuFactory';
+import { skuFactory } from './skuFactory';
 
 interface InitialListingState {
   skus: Sku[];
@@ -13,7 +13,7 @@ interface InitialListingState {
 export const skuSlice = createSlice({
   name: 'sku',
   initialState: <InitialListingState>{
-    skus: [skuWithFunctionsPopulatedFactory.build()],
+    skus: [skuFactory.build()],
     loading: 'idle',
     currentRequestId: undefined,
     error: null,

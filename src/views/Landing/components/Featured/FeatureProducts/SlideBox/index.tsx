@@ -1,15 +1,20 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Button from 'components/Buttons/Button';
+import { Sku } from 'entities/sku';
 
 export interface IProps {
-  product: any;
+  product: Sku;
 }
 
-const SlideBox = ({ product }: IProps) => {
+const SlideBox = ({ product }: IProps): JSX.Element => {
   return (
     <Container>
       <ImageContainer url="https://sneakernews.com/wp-content/uploads/2013/08/nike-lebron-11-beauty-shots-2.jpg" />
+      {/**
+       * This needs to be the following but the images look ugly
+       * Needs to be an image with black background
+       * <ImageContainer url={product.graphicUrl} /> */}
 
       <ProductDetails>
         <h5>MARKETPLACE FEATURE</h5>
@@ -17,7 +22,7 @@ const SlideBox = ({ product }: IProps) => {
 
         <h2>{product.name}</h2>
         <h3>{product.description}</h3>
-        <p>{product.maxSupply} listings for sale</p>
+        <p>{product.totalSupplyLeft} for sale</p>
         <p style={{ marginBottom: '20px' }}>
           Listings from ${product.minSkuPrice} to ${product.minPrice}
         </p>

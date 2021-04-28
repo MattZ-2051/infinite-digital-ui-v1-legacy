@@ -14,32 +14,17 @@ import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
 import { Sku } from 'entities/sku';
-import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
+import { skuFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
-
-type ReleasedCounterProps = {
-  totalSupplyUpcoming: number;
-};
-
-const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
-  const text = 'to be released';
-
-  return (
-    <>
-      {totalSupplyUpcoming} {text}
-    </>
-  );
-};
+import { SkuCounter } from './components/SkuCounter/skuCounter';
 
 const SkuDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const skus = useAppSelector((state) => state.sku.skus);
 
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<Sku>(
-    skuWithFunctionsPopulatedFactory.build()
-  );
+  const [skuDetails, setSkuDetails] = useState<Sku>(skuFactory.build());
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
@@ -140,8 +125,7 @@ const SkuDetail = (): JSX.Element => {
                   fontSize: '24px',
                 }}
               >
-                {/* TODO: Using issuer.username here for brand */}
-                <Brand>{skuDetails?.issuer?.username || ''}</Brand>
+                <Brand>{skuDetails?.issuerName || ''}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}
@@ -159,9 +143,7 @@ const SkuDetail = (): JSX.Element => {
               </p>
 
               <p>
-                <ReleasedCounter
-                  totalSupplyUpcoming={skuDetails.totalSupplyUpcoming}
-                />
+                <SkuCounter sku={skuDetails} />
               </p>
 
               <LineDivider />
