@@ -9,17 +9,18 @@ import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import { useHistory } from 'react-router-dom';
-import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
 import { useAppSelector } from 'store/hooks';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { User } from 'entities/user';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
-  product: IProduct;
-  user: IUser;
+  product: SkuWithFunctionsPopulated;
+  user: User;
   showSerial?: boolean;
 }
 
@@ -61,7 +62,7 @@ const ModalPayment = ({
   const Content: any = () => (
     <>
       <S.ImageContainer>
-        <img src={product.image} alt="" />
+        <img src={product.imageUrls[0]} alt="" />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
