@@ -11,6 +11,8 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import { useHistory } from 'react-router-dom';
 import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
 import { useAppSelector } from 'store/hooks';
+import { patchListingsPurchase } from 'services/api/listingService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export interface IModalProps {
   visible: boolean;
@@ -29,12 +31,21 @@ const ModalPayment = ({
   user,
   showSerial = false,
 }: IModalProps) => {
+  // TODO: Add buyersfee
+
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
   const username = useAppSelector((state) => state.session.user.username);
-
   const history = useHistory();
+
+  const buyAction = async () => {
+    const { getAccessTokenSilently } = useAuth0();
+    const userToken = await getAccessTokenSilently();
+    // TODO: Get product id 
+    // TODO: Catch service result
+    patchListingsPurchase(userToken, 'test');
+  };
 
   const handleActionButton = () => {
     if (mode === 'noFunds') {
@@ -42,9 +53,10 @@ const ModalPayment = ({
         pathname: `/wallet/${username}`,
         state: { modalOpen: true },
       });
+    } else if (mode === 'hasFunds') {
+      buyAction();
     }
   };
-  // TODO: Add buyersfee
 
   const Content: any = () => (
     <>
