@@ -12,14 +12,14 @@ import { useHistory } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
   user: User;
   showSerial?: boolean;
 }

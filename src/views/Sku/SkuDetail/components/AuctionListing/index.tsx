@@ -20,7 +20,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   if (hasProducts) {
     return (
       <Container>
-        <SectionTitle>Auction Listing</SectionTitle>
+        <SectionTitle>Buy from Collectors</SectionTitle>
 
         {limitCollectors &&
           limitCollectors.map((el, index) => (
@@ -33,8 +33,9 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
                 key={el.serialNumber}
                 serialNumber={el.serialNumber}
                 ownerName={el.owner.username}
-                highestBid={el.listing.minBid} // TODO: is this minBid? There is no other variable available.
-                endDate={el.listing.endDate}
+                // TODO: Fix listing
+                highestBid={el.listing[0].minBid} // TODO: is this minBid? There is no other variable available.
+                endDate={el.listing[0].endDate}
               />
             </Link>
           ))}

@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './utils/Toast/styles.css';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <CssBaseline />

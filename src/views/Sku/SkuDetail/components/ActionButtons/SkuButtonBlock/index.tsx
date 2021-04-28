@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { formatCountdown } from 'utils/dates';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { formatCountdown, dateToPrettyString } from 'utils/dates';
+import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Collector } from 'entities/collector';
 import Toast from 'utils/Toast';
@@ -21,43 +21,73 @@ export interface IButtonBlock {
   countSkuListings?: number; // TODO: Check this
 }
 
+const NotAvailable = (): JSX.Element => {
+  return (
+    <Container>
+      <h4>Not available</h4>
+    </Container>
+  );
+};
 interface IUpcomingData {
-  minStartDate?: Date;
+  startDate?: Date;
 }
 
 interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
-  product: SkuWithFunctionsPopulated;
+  product: Sku;
   user: User;
   listingId?: string;
+  minStartDate: Date;
+  totalSkuListingSuppyLeft: number;
+  onBuyNow: () => void;
 }
 
-interface IFromCollectorsBox {
-  minimunPrice: number;
-  countProductListings: number;
-  totalSupply?: any;
-}
+const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
+  let parsedStartDate = startDate;
 
-const UpcomingData = ({ minStartDate }: IUpcomingData) => {
-  // TODO: better message with missing minStartDate
-  const countdown = minStartDate ? formatCountdown(minStartDate) : '';
+  if (typeof startDate === 'string') {
+    parsedStartDate = new Date(startDate);
+  }
+
+  const [countdown, setCountdown] = useState(formatCountdown(parsedStartDate));
+  // NOTE: Can be abstracted into a hook
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCountdown(formatCountdown(parsedStartDate));
+    }, 1000);
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(timer);
+  });
+
   return (
     <>
-      {/* TODO: Use rem instead of px to easily adjust layout on different viewport sizes */}
       <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-      <span style={{ fontSize: '24px' }}>{countdown}</span>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          textAlign: 'right',
+        }}
+      >
+        <span style={{ fontSize: '24px' }}>{countdown}</span>
+        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
+          {dateToPrettyString(startDate)}
+        </small>
+      </div>
     </>
   );
 };
 
 const FromCreatorBox = ({
   skuPrice,
-  totalNewSupplyLeft,
+  minStartDate,
+  totalSkuListingSuppyLeft = 0,
+  onBuyNow,
   product,
   user,
   listingId,
-}: IFromCreatorBox) => {
+}: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect } = useAuth0();
   const hasFounds = user.availableBalance >= product.minSkuPrice;
@@ -67,6 +97,8 @@ const FromCreatorBox = ({
   const userLogged = !!Object.entries(loggedInUser).length;
 
   const handleBuyNowClick = (userLogged: boolean) => {
+    // TODO: Check this call with pablo
+    // onBuyNow();
     if (userLogged) {
       setIsModalOpen(true);
     } else {
@@ -82,20 +114,35 @@ const FromCreatorBox = ({
     }
   };
 
+  const disabled = !totalSkuListingSuppyLeft;
+
+  if (minStartDate > new Date()) {
+    return (
+      <Container>
+        <UpcomingData startDate={minStartDate} />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <BoxColumn>
         <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
         <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Initial Listing Price
+          Initial Release Price
         </small>
       </BoxColumn>
-      <BoxColumn>
+      <BoxColumn style={{ textAlign: 'center' }}>
         <span style={{ fontSize: '28px' }}>${skuPrice}</span>
-        <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
+        <small style={{ fontSize: '15px' }}>
+          ({totalSkuListingSuppyLeft} left)
+        </small>
       </BoxColumn>
       <div>
-        <Button onClick={() => handleBuyNowClick(userLogged)}>Buy Now</Button>
+        <Button onClick={() => handleBuyNowClick(userLogged)}>
+          {' '}
+          {disabled ? `Sold Out` : `Buy Now`}
+        </Button>
       </div>
       <ModalPayment
         visible={isModalOpen}
@@ -108,10 +155,16 @@ const FromCreatorBox = ({
   );
 };
 
+interface IFromCollectorsBox {
+  minimunPrice: number;
+  countProductListings: number;
+  totalSupply?: any;
+}
+
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
-}: IFromCollectorsBox) => {
+}: IFromCollectorsBox): JSX.Element => {
   return (
     <Container>
       <BoxColumn>
@@ -137,27 +190,17 @@ const FromCollectorsBox = ({
   );
 };
 
-const NotAvailable = () => {
-  return (
-    <Container>
-      <h4>Not available</h4>
-    </Container>
-  );
-};
-
-// FIXME: Refactored function
-// const ButtonBlock = (props: IButtonBlock) => {
 const SkuButtonBlock = (props: {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
   user: User;
+  onBuyNow: () => void;
   collectors: Collector[];
-}): JSX.Element | null => {
+}) => {
   const {
     totalSupplyUpcoming,
     circulatingSupply,
     countSkuListings,
     countProductListings,
-    minStartDate,
     minSkuPrice,
     totalSupplyLeft,
     minCurrentBid,
@@ -168,11 +211,14 @@ const SkuButtonBlock = (props: {
     redeemable,
     series,
     royaltyFeePercentage,
+    minStartDate = new Date(0),
+    totalSkuListingSuppyLeft,
   } = props.sku;
 
-  const listingId = props.collectors.find(
-    (collector) => (collector.listing.status = 'active')
-  )?.listing._id;
+  // const listingId = props.collectors.find(
+  //   (collector) => (collector.listing.status = 'active')
+  // )?.listing._id;
+  const listingId = 'test';
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
@@ -183,15 +229,18 @@ const SkuButtonBlock = (props: {
   // FIXME: Hardcoded data
   const totalNewSupplyLeft = totalSupplyLeft;
 
-  if (!hasSkus && !hasProducts) return <NotAvailable />;
+  if (!hasSkus && !hasProducts) {
+    return <NotAvailable />;
+  }
 
-  if (isUpcoming)
-    return (
-      <Container>
-        {' '}
-        <UpcomingData minStartDate={minStartDate} />
-      </Container>
-    );
+  // TODO: No definition for isUpcoming
+  // if (isUpcoming){
+  //   return (
+  //     <Container>
+  //       {' '}
+  //       <UpcomingData minStartDate={minStartDate} />
+  //     </Container>
+  //   );}
 
   if (hasSkus && hasProducts) {
     return (
@@ -202,6 +251,9 @@ const SkuButtonBlock = (props: {
           product={props.sku}
           user={props.user}
           listingId={listingId}
+          minStartDate={minStartDate}
+          totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+          onBuyNow={props.onBuyNow}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
@@ -220,20 +272,24 @@ const SkuButtonBlock = (props: {
         product={props.sku}
         user={props.user}
         listingId={listingId}
+        minStartDate={minStartDate}
+        totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+        onBuyNow={props.onBuyNow}
       />
     );
-  }
 
-  if (hasMintedProducts) {
-    return (
-      <FromCollectorsBox
+    {
+      /* TODO: In future will enable the collectors box */
+    }
+    {
+      /* <FromCollectorsBox
         minimunPrice={minCurrentBid}
-        totalSupply={totalNewSupplyLeft}
+        totalSupply={0}
         countProductListings={countProductListings}
-      />
-    );
+      /> */
+    }
   }
-  return null;
+  return <></>;
 };
 
 const Container = styled.div`
@@ -252,11 +308,11 @@ const BoxColumn = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #ffffff;
-  color: #000000;
+  background-color: ${(props) => (props.disabled ? '#2D2D2D' : '#FFFFFF')};
+  color: ${(props) => (props.disabled ? '#5F5F5F' : '#000000')};
   border: 0;
   height: 56px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   border-radius: 22px;
   width: 186px;
   outline: none;

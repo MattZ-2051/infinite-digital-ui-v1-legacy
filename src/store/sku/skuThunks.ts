@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSkuTiles } from 'services/api/sku';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -13,9 +13,8 @@ interface IError {
   errorMessage: string;
 }
 
-// TODO: Rename
 export const getSkuTilesThunk = createAsyncThunk<
-  SkuWithFunctionsPopulated[],
+  Sku[],
   IPayloadParams,
   {
     rejectValue: IError;
