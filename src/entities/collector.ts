@@ -3,7 +3,8 @@ import { User } from './user';
 
 export interface Collector {
   createdAt: Date;
-  listing: Array<Listing>;
+  activeProductListing: Listing;
+  listings: Listing[];
   owner: User;
   redeemedStatus: string;
   serialNumber: string;

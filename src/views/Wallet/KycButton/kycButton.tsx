@@ -19,7 +19,7 @@ const KycButton = ({}: any): JSX.Element => {
   }, []);
 
   const client: Client = new Persona.Client({
-    templateId: 'tmpl_JAZjHuAT738Q63BdgCuEJQre',
+    templateId: 'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
     environment: 'sandbox',
     referenceId: userToken,
     onLoad: (error) => {
