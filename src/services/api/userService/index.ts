@@ -1,4 +1,5 @@
 import { Card } from 'entities/card';
+import { ITransaction, TransactionData } from 'entities/transaction';
 import { USDCAddress } from 'entities/usdcAddress';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
@@ -19,6 +20,18 @@ export const getMe = async (token: string): Promise<User> => {
   const response = await axiosInstance.request<User>({
     method: 'GET',
     url: `/users/me`,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return response.data;
+};
+
+export const getMyTransactions = async (
+  token: string
+): Promise<ITransaction[]> => {
+  const response = await axiosInstance.request<ITransaction[]>({
+    method: 'GET',
+    url: `/users/me/transactions`,
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -123,6 +136,18 @@ export const getUser = async (userId: string): Promise<User> => {
       // Something happened in setting up the request and triggered an err
       throw new Error('Bad Request');
     }
+  }
+};
+
+export const getPersonalToken = async (token: string): Promise<any> => {
+  try {
+    const response = await axiosInstance.get(`/users/personal-token`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw new Error('Error getting personal token');
   }
 };
 
