@@ -174,7 +174,11 @@ const SkuDetail = (): JSX.Element => {
             </ProductDetail>
 
             <ButtonsContainer>
-              <SkuButtonBlock sku={skuDetails} user={loggedInUser} />
+              <SkuButtonBlock
+                collectors={collectors}
+                sku={skuDetails}
+                user={loggedInUser}
+              />
             </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>

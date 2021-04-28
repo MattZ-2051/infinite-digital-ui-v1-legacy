@@ -3,10 +3,10 @@ import styled from 'styled-components/macro';
 import { formatCountdown } from 'utils/dates';
 import { SkuWithFunctionsPopulated } from 'entities/sku';
 import { User } from 'entities/user';
+import { Collector } from 'entities/collector';
 import Toast from 'utils/Toast';
 import { useAppSelector } from 'store/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
-
 import ModalPayment from '../../ModalPayment';
 
 // FIXME: ButtonBlock Interface may be off
@@ -30,6 +30,7 @@ interface IFromCreatorBox {
   totalNewSupplyLeft: number;
   product: SkuWithFunctionsPopulated;
   user: User;
+  listingId?: string;
 }
 
 interface IFromCollectorsBox {
@@ -55,6 +56,7 @@ const FromCreatorBox = ({
   totalNewSupplyLeft,
   product,
   user,
+  listingId,
 }: IFromCreatorBox) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect } = useAuth0();
@@ -148,6 +150,7 @@ const NotAvailable = () => {
 const SkuButtonBlock = (props: {
   sku: SkuWithFunctionsPopulated;
   user: User;
+  collectors: Collector[];
 }): JSX.Element | null => {
   const {
     totalSupplyUpcoming,
@@ -167,6 +170,9 @@ const SkuButtonBlock = (props: {
     royaltyFeePercentage,
   } = props.sku;
 
+  const listingId = props.collectors.find(
+    (collector) => (collector.listing.status = 'active')
+  )?.listing._id;
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
@@ -195,6 +201,7 @@ const SkuButtonBlock = (props: {
           totalNewSupplyLeft={totalNewSupplyLeft}
           product={props.sku}
           user={props.user}
+          listingId={listingId}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
@@ -212,6 +219,7 @@ const SkuButtonBlock = (props: {
         totalNewSupplyLeft={totalNewSupplyLeft}
         product={props.sku}
         user={props.user}
+        listingId={listingId}
       />
     );
   }
