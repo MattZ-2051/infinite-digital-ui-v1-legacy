@@ -54,25 +54,13 @@ const SkuDetail = (): JSX.Element => {
 
   async function fetchCollectors() {
     const collectors = await getProductCollectors(skuid);
-    console.log(collectors);
+    console.log({ collectors });
     setCollectors(collectors);
   }
 
   useEffect(() => {
-    // FIXME: cc
-    // getSku(skuid, { includeFunctions: true }).then((skuWithFunctions) => {
-    //   console.log(skuWithFunctions);
-    //   if (skuWithFunctions) {
-    //     setSkuDetails(skuWithFunctions);
-    //   }
-    // });
     fetchProducts();
     fetchCollectors();
-
-    // const collectors = getCollectors().then((res) => {
-    //   console.log(res.data.collectors);
-    //   setCollectors(res.data.collectors);
-    // });
   }, [skuid]);
 
   useEffect(() => {
@@ -83,11 +71,11 @@ const SkuDetail = (): JSX.Element => {
     }
   }, [skus]);
 
-  // TODO: Can pass token here
   useEffect(() => {
     (async () => {
       dispatch(
         getSkuTilesThunk({
+          // TODO: Can pass token here
           token: '',
           // queryParams: `?${urlQueryString.toString()}`,
         })
@@ -96,8 +84,8 @@ const SkuDetail = (): JSX.Element => {
     // TODO: This may neeed to be refreshed more often
   }, [dispatch]);
 
-  // TODO: Not in use
   const showModal = (): void => {
+    // TODO: Enable modal based on available funds?
     // if(hasFunds) {
     //   modalMode.current = 'hasFunds';
     //   setModalPaymentVisible(true);
@@ -186,7 +174,7 @@ const SkuDetail = (): JSX.Element => {
             </ProductDetail>
 
             <ButtonsContainer>
-              <SkuButtonBlock sku={skuDetails} />
+              <SkuButtonBlock sku={skuDetails} onBuyNow={showModal} />
             </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>

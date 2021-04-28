@@ -27,7 +27,9 @@ export const getProductsOwnedByUser = async (
   return response.data;
 };
 
-export const getProductCollectors = async (skuId) => {
+export const getProductCollectors = async (
+  skuId: string
+): Promise<Collector[]> => {
   const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
     url: `/products/collectors/${skuId}`,
