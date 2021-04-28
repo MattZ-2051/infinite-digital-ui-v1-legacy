@@ -32,6 +32,7 @@
     "jwt-decode": "^3.1.2",
     "luxon": "^1.26.0",
     "moment": "^2.29.1",
+    "persona": "^3.9.0",
     "react": "^17.0.1",
     "react-coinbase-commerce": "^1.5.1",
     "react-credit-cards": "^0.8.3",
