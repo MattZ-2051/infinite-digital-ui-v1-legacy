@@ -8,8 +8,9 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
-
+import { useHistory } from 'react-router-dom';
 import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
+import { useAppSelector } from 'store/hooks';
 
 export interface IModalProps {
   visible: boolean;
@@ -31,7 +32,18 @@ const ModalPayment = ({
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
+  const username = useAppSelector((state) => state.session.user.username);
 
+  const history = useHistory();
+
+  const handleActionButton = () => {
+    if (mode === 'noFunds') {
+      history.push({
+        pathname: `/wallet/${username}`,
+        state: { modalOpen: true },
+      });
+    }
+  };
   // TODO: Add buyersfee
 
   const Content: any = () => (
@@ -155,6 +167,7 @@ const ModalPayment = ({
             textDecoration: 'none',
             textTransform: 'capitalize',
           }}
+          onClick={handleActionButton}
         >
           {mode === 'hasFunds' && 'Place Order'}
           {mode === 'noFunds' && 'Add Funds'}

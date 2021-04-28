@@ -13,7 +13,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export const S: any = {};
 
-const Wallet = () => {
+const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
   const userId = useAppSelector((state) => state.session.user.id);
@@ -29,6 +29,9 @@ const Wallet = () => {
 
   useEffect(() => {
     fetchUser();
+    if (props?.location?.state?.modalOpen) {
+      setIsModalOpen(true);
+    }
   }, []);
 
   const handleClose = () => {
