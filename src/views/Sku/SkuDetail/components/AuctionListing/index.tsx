@@ -30,15 +30,12 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
               style={{ textDecoration: 'none' }}
             >
               <AuctionItem
+                activeProductListing={el.activeProductListing}
                 key={el.serialNumber}
                 serialNumber={el.serialNumber}
                 ownerName={el.owner.username}
-                highestBid={el.listing
-                  .map((listing) => listing.minBid)
-                  .reduce((p, c) => Math.min(p, c))}
-                endDate={el.listing
-                  .map((listing) => listing.endDate)
-                  .reduce((p, c) => (p > c ? p : c))}
+                highestBid={el.activeProductListing?.price}
+                endDate={el.activeProductListing?.endDate}
               />
             </Link>
           ))}
