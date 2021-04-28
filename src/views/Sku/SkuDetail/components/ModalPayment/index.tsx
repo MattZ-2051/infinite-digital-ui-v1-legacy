@@ -8,15 +8,15 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
-
-import { IProduct, IUser } from '../ActionButtons/SkuButtonBlock';
+import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { User } from 'entities/user';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: string;
-  product: IProduct;
-  user: IUser;
+  product: SkuWithFunctionsPopulated;
+  user: User;
   showSerial?: boolean;
 }
 
@@ -37,7 +37,7 @@ const ModalPayment = ({
   const Content: any = () => (
     <>
       <S.ImageContainer>
-        <img src={product.image} alt="" />
+        <img src={product.imageUrls[0]} alt="" />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>

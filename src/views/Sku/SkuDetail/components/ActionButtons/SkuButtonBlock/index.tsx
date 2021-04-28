@@ -6,22 +6,6 @@ import { User } from 'entities/user';
 
 import ModalPayment from '../../ModalPayment';
 
-export interface IUser {
-  availableBalance: number;
-}
-
-export interface IProduct {
-  name: string;
-  rarity: string;
-  image: string;
-  redeemable: boolean;
-  series: {
-    name: string;
-  };
-  minSkuPrice: number;
-  royaltyFeePercentage: number;
-}
-
 // FIXME: ButtonBlock Interface may be off
 export interface IButtonBlock {
   totalSupplyUpcoming: number;
@@ -41,8 +25,8 @@ interface IUpcomingData {
 interface IFromCreatorBox {
   skuPrice: number;
   totalNewSupplyLeft: number;
-  product: IProduct;
-  user: IUser;
+  product: SkuWithFunctionsPopulated;
+  user: User;
 }
 
 interface IFromCollectorsBox {
@@ -165,22 +149,6 @@ const SkuButtonBlock = (props: {
     royaltyFeePercentage,
   } = props.sku;
 
-  const product: IProduct = {
-    name,
-    rarity,
-    image: imageUrls[0],
-    redeemable,
-    series,
-    minSkuPrice,
-    royaltyFeePercentage,
-  };
-
-  const { availableBalance } = props.user;
-
-  const user: IUser = {
-    availableBalance,
-  };
-
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
@@ -207,8 +175,8 @@ const SkuButtonBlock = (props: {
         <FromCreatorBox
           skuPrice={minSkuPrice}
           totalNewSupplyLeft={totalNewSupplyLeft}
-          product={product}
-          user={user}
+          product={props.sku}
+          user={props.user}
         />
         <FromCollectorsBox
           minimunPrice={minCurrentBid}
@@ -224,8 +192,8 @@ const SkuButtonBlock = (props: {
       <FromCreatorBox
         skuPrice={minSkuPrice}
         totalNewSupplyLeft={totalNewSupplyLeft}
-        product={product}
-        user={user}
+        product={props.sku}
+        user={props.user}
       />
     );
   }
