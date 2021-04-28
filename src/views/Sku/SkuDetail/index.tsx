@@ -13,40 +13,23 @@ import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
-import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
+import { Sku } from 'entities/sku';
+import { skuFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
-
-type ReleasedCounterProps = {
-  totalSupplyUpcoming: number;
-};
-
-const ReleasedCounter = ({ totalSupplyUpcoming }: ReleasedCounterProps) => {
-  const text = 'to be released';
-
-  return (
-    <>
-      {totalSupplyUpcoming} {text}
-    </>
-  );
-};
+import { SkuCounter } from './components/SkuCounter/skuCounter';
 
 const SkuDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const skus = useAppSelector((state) => state.sku.skus);
 
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<SkuWithFunctionsPopulated>(
-    skuWithFunctionsPopulatedFactory.build()
-  );
+  const [skuDetails, setSkuDetails] = useState<Sku>(skuFactory.build());
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
-  const [featuredProducts, setFeaturedProducts] = useState<
-    SkuWithFunctionsPopulated[]
-  >([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Sku[]>([]);
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
     if (skuTiles) {
@@ -56,25 +39,13 @@ const SkuDetail = (): JSX.Element => {
 
   async function fetchCollectors() {
     const collectors = await getProductCollectors(skuid);
-    console.log(collectors);
+    console.log({ collectors });
     setCollectors(collectors);
   }
 
   useEffect(() => {
-    // FIXME: cc
-    // getSku(skuid, { includeFunctions: true }).then((skuWithFunctions) => {
-    //   console.log(skuWithFunctions);
-    //   if (skuWithFunctions) {
-    //     setSkuDetails(skuWithFunctions);
-    //   }
-    // });
     fetchProducts();
     fetchCollectors();
-
-    // const collectors = getCollectors().then((res) => {
-    //   console.log(res.data.collectors);
-    //   setCollectors(res.data.collectors);
-    // });
   }, [skuid]);
 
   useEffect(() => {
@@ -85,11 +56,11 @@ const SkuDetail = (): JSX.Element => {
     }
   }, [skus]);
 
-  // TODO: Can pass token here
   useEffect(() => {
     (async () => {
       dispatch(
         getSkuTilesThunk({
+          // TODO: Can pass token here
           token: '',
           // queryParams: `?${urlQueryString.toString()}`,
         })
@@ -98,8 +69,8 @@ const SkuDetail = (): JSX.Element => {
     // TODO: This may neeed to be refreshed more often
   }, [dispatch]);
 
-  // TODO: Not in use
   const showModal = (): void => {
+    // TODO: Enable modal based on available funds?
     // if(hasFunds) {
     //   modalMode.current = 'hasFunds';
     //   setModalPaymentVisible(true);
@@ -154,8 +125,7 @@ const SkuDetail = (): JSX.Element => {
                   fontSize: '24px',
                 }}
               >
-                {/* TODO: Using issuer.username here for brand */}
-                <Brand>{skuDetails?.issuer?.username || ''}</Brand>
+                <Brand>{skuDetails?.issuerName || ''}</Brand>
                 <Rarity>
                   <span></span>
                   {skuDetails?.rarity}
@@ -173,9 +143,7 @@ const SkuDetail = (): JSX.Element => {
               </p>
 
               <p>
-                <ReleasedCounter
-                  totalSupplyUpcoming={skuDetails.totalSupplyUpcoming}
-                />
+                <SkuCounter sku={skuDetails} />
               </p>
 
               <LineDivider />
@@ -188,7 +156,7 @@ const SkuDetail = (): JSX.Element => {
             </ProductDetail>
 
             <ButtonsContainer>
-              <SkuButtonBlock sku={skuDetails} />
+              <SkuButtonBlock sku={skuDetails} onBuyNow={showModal} />
             </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>

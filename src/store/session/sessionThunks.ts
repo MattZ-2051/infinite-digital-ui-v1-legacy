@@ -1,9 +1,9 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { getProductsOwnedByUser } from 'services/api/productService';
-import { getMe, getMyCards } from 'services/api/userService';
+import { getMe, getMyCards, updateUsername } from 'services/api/userService';
 
 // First argument to the payload creator
 interface IPayloadParams {
@@ -11,8 +11,20 @@ interface IPayloadParams {
   userId: string;
 }
 
+interface UsernamePayloadParams {
+  token: string;
+  userId: string;
+  username: string;
+}
+
 interface TokenPayload {
   token: string;
+}
+
+interface RejectWithValue<RejectValue> {
+  readonly payload: RejectValue;
+  name: string;
+  message: string;
 }
 
 // Custom errors
@@ -26,11 +38,11 @@ export const getUserInfoThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('users/me', async (data, thunkApi) => {
+>('users/me', async (payloadParams, thunkApi) => {
   try {
-    const response = await getMe(data.token);
+    const data = await getMe(payloadParams.token);
 
-    return response.data;
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -44,13 +56,14 @@ export const getUserCollectionThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('products?owner=:user', async (data, thunkApi) => {
+>('products?owner=:user', async (payloadParams, thunkApi) => {
   try {
-    const response = await getProductsOwnedByUser(data.userId, data.token);
-    // console.log('response thunk :', response);
-    // console.log('response thunkx data :', response);
+    const data = await getProductsOwnedByUser(
+      payloadParams.userId,
+      payloadParams.token
+    );
 
-    return response;
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
@@ -64,14 +77,39 @@ export const getUserCardsThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('/wallet', async (data, thunkApi) => {
-  try {
-    const response = await getMyCards(data.token);
+>(
+  '/wallet',
+  async (
+    payloadParams,
+    thunkApi
+  ): Promise<Wallet | RejectWithValue<IError>> => {
+    try {
+      const data = await getMyCards(payloadParams.token);
 
-    return response.data;
-  } catch (err) {
+      return data;
+    } catch (err) {
+      return thunkApi.rejectWithValue({
+        errorMessage: err.response.data.error_description,
+      } as IError);
+    }
+  }
+);
+
+export const updateUsernameThunk = createAsyncThunk<
+  User,
+  UsernamePayloadParams,
+  {
+    rejectValue: IError;
+  }
+>('/user/:id', async ({ token, userId, username }, thunkApi) => {
+  try {
+    const response = await updateUsername(token, userId, username);
+    return response;
+  } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description,
+      errorMessage: e.message,
     } as IError);
   }
 });
+
+export const deleteUser = createAction('/user/delete');

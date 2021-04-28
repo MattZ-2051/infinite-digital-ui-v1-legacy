@@ -1,12 +1,12 @@
-import { Sku, SkuWithFunctions, SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { axiosInstance } from '../coreService';
 
 export const getSkuTiles = async (options?: {
   queryParams?: string;
   token?: string;
-}): Promise<SkuWithFunctionsPopulated[] | undefined> => {
+}): Promise<Sku[]> => {
   try {
-    const response = await axiosInstance.request<SkuWithFunctionsPopulated[]>({
+    const response = await axiosInstance.request<Sku[]>({
       method: 'GET',
       url: `/skus/tiles/${options?.queryParams || ''}`,
       headers: {
@@ -16,14 +16,17 @@ export const getSkuTiles = async (options?: {
     return response.data;
   } catch (e) {
     console.error(`getSkuTiles: Error requesting sku tile details. ${e}`);
-    return undefined;
+    throw new Error(e);
   }
 };
 
-export const getFeaturedSkuTiles = async (): Promise<
-  SkuWithFunctionsPopulated[] | undefined
-> => {
-  return await getSkuTiles({ queryParams: `?featured=true` });
+export const getFeaturedSkuTiles = async (options?: {
+  token?: string;
+}): Promise<Sku[] | undefined> => {
+  return await getSkuTiles({
+    token: options?.token,
+    queryParams: `?featured=true`,
+  });
 };
 
 export const getSku = async <T extends boolean = false>(
@@ -32,7 +35,7 @@ export const getSku = async <T extends boolean = false>(
     token?: string;
     includeFunctions?: T;
   }
-): Promise<SkuCallReturnType<T> | undefined> => {
+): Promise<SkuCallReturnType<T>> => {
   try {
     const response = await axiosInstance.request<SkuCallReturnType<T>>({
       method: 'GET',
@@ -46,11 +49,11 @@ export const getSku = async <T extends boolean = false>(
     return response.data;
   } catch (e) {
     console.error(`getSku: Error requesting sku details. ${e}`);
-    return undefined;
+    throw new Error(e);
   }
 };
 
 // We're using this SkuCallReturnType because the /skus endpoint returns
 // a "Sku" if includeFunctions is false
 // but a "SkuWithFunctions" if includeFunctions is true
-type SkuCallReturnType<T> = T extends true ? SkuWithFunctions : Sku;
+type SkuCallReturnType<T> = T extends true ? Sku : Sku;

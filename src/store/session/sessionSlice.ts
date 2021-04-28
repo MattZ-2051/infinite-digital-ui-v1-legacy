@@ -3,11 +3,13 @@ import {
   getUserInfoThunk,
   getUserCollectionThunk,
   getUserCardsThunk,
+  updateUsernameThunk,
+  deleteUser,
 } from './sessionThunks';
 
 interface UsersState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: null | string;
+  error: null | any;
   user: any;
   userCollection: any;
   userCards: any;
@@ -50,6 +52,18 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.userCards = payload;
+    });
+    builder.addCase(updateUsernameThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = payload;
+    });
+    builder.addCase(deleteUser, (state, {}) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = {};
     });
   },
 });

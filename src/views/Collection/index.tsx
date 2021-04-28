@@ -5,7 +5,6 @@ import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { User } from 'entities/user';
 
 const Collection = () => {
   const [user, setUser] = useState<any>(null);
@@ -14,12 +13,11 @@ const Collection = () => {
   const { isAuthenticated } = useAuth0();
 
   async function fetchUser() {
-    const res = await getUser(userId).then((data) => {
-      return data;
-    });
-    if (res.status === 200) {
-      setUser(res.data);
-      return res.data;
+    try {
+      const res = await getUser(userId);
+      setUser(res);
+    } catch (e) {
+      console.log(e);
     }
   }
 

@@ -16,7 +16,7 @@ export interface IProps {
   children: JSX.Element;
 }
 
-const AppLayout = ({ children }: IProps) => {
+const AppLayout = ({ children }: IProps): JSX.Element => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
@@ -6,12 +6,16 @@ import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png';
 import sukuIcon from 'assets/img/icons/suku-icon.png';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import circleIcon from 'assets/img/icons/circle-icon.png';
+import usdcIcon from 'assets/img/icons/usdc.png';
 import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { useAppSelector } from 'store/hooks';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
+import { USDCDeposit } from '../USDCDeposit/USDCDeposit';
+import { getMe, getPersonalToken } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
 
@@ -48,13 +52,47 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const S: any = {};
 
-const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
+const DepositModal = ({
+  isModalOpen,
+  handleClose,
+}: IDepositModal): JSX.Element => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const history = useHistory();
   const userCards = useAppSelector((state) => state.session.userCards);
   const username = useAppSelector((state) => state.session.user.username);
+  const [isUSDCModalOpen, setIsUSDCModelOpen] = useState<boolean>(false);
+  const [coinbaseMetadata, setCoinbaseMetadata] = useState<{
+    token: string;
+    userId: string;
+  }>();
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    getCoinbaseMetadata();
+  }, []);
+
+  async function getCoinbaseMetadata() {
+    let token = '';
+    try {
+      const res = await getPersonalToken(await getAccessTokenSilently());
+      token = res.token;
+    } catch (e) {
+      console.log(e);
+      token = 'error fetching token';
+    }
+    const extUser = await getMe(await getAccessTokenSilently());
+    setCoinbaseMetadata({ userId: extUser._id, token: token });
+  }
+
+  function openUSDCModal() {
+    setIsUSDCModelOpen(true);
+  }
+
+  function closeUSDCModal() {
+    setIsUSDCModelOpen(false);
+  }
 
   const handleRedirect = () => {
     if (userCards.cards.length >= 1) {
@@ -100,8 +138,10 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
             background: 'none',
             border: 'none',
             textAlign: 'left',
+            padding: 0,
           }}
           checkoutId={coinbaseCheckoutId}
+          customMetadata={coinbaseMetadata}
         >
           <S.Row>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -122,6 +162,26 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
             </div>
           </S.Row>
         </CoinbaseCommerceButton>
+        <S.Row onClick={openUSDCModal}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img width="50px" src={usdcIcon} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <S.RowText>USDC</S.RowText>
+            <S.RowSubText>
+              Deposit USDC to your wallet (on Ethereum)
+            </S.RowSubText>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <ArrowForwardIosIcon style={{ color: '#9e9e9e' }} />
+          </div>
+        </S.Row>
         <S.Row>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={sukuIcon} />
@@ -140,6 +200,16 @@ const DepositModal = ({ isModalOpen, handleClose }: IDepositModal) => {
             <ArrowForwardIosIcon style={{ color: '#9e9e9e' }} />
           </div>
         </S.Row>
+        <ModalComponent open={isUSDCModalOpen}>
+          <S.ExitIcon>
+            <img
+              src={exitIcon}
+              onClick={closeUSDCModal}
+              className="icon__exit"
+            />
+          </S.ExitIcon>
+          <USDCDeposit />
+        </ModalComponent>
       </div>
     </div>
   );
