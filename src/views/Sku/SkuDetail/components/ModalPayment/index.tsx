@@ -42,7 +42,7 @@ const ModalPayment = ({
   const buyAction = async () => {
     const { getAccessTokenSilently } = useAuth0();
     const userToken = await getAccessTokenSilently();
-    // TODO: Get product id 
+    // TODO: Get product id
     // TODO: Catch service result
     patchListingsPurchase(userToken, 'test');
   };
