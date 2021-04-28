@@ -4,6 +4,7 @@ import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
 
+// TODO: Commented code
 // the following endpoint is deprecated:
 // export const getUserInfoByAuth0Id = async (userId: string, token: string) => {
 //   const response = await axiosInstance.request<User[]>({

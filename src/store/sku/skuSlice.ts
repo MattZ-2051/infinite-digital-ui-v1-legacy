@@ -1,13 +1,10 @@
 import { createSlice, SerializedError } from '@reduxjs/toolkit';
 import { getSkuTilesThunk } from './skuThunks';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
-import { skuWithFunctionsPopulatedFactory } from './skuFactory';
-
-// TODO: Create slice for products
-// TODO: Create slice for listings
+import { Sku } from 'entities/sku';
+import { skuFactory } from './skuFactory';
 
 interface InitialListingState {
-  skus: SkuWithFunctionsPopulated[];
+  skus: Sku[];
   loading: 'idle' | 'pending';
   currentRequestId: string | undefined;
   error: SerializedError | string | null;
@@ -16,7 +13,7 @@ interface InitialListingState {
 export const skuSlice = createSlice({
   name: 'sku',
   initialState: <InitialListingState>{
-    skus: [skuWithFunctionsPopulatedFactory.build()],
+    skus: [skuFactory.build()],
     loading: 'idle',
     currentRequestId: undefined,
     error: null,

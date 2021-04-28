@@ -1,28 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { formatCountdown } from 'utils/dates';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { formatCountdown, dateToPrettyString } from 'utils/dates';
+import { Sku } from 'entities/sku';
 
-// FIXME: ButtonBlock Interface may be off
-export interface IButtonBlock {
-  totalSupplyUpcoming: number;
-  circulatingSupply: number;
-  minStartDate: string;
-  minSkuPrice: number;
-  minCurrentBid: number;
-  totalNewSupplyLeft?: number; // TODO: check this
-  countProductListings?: number; // TODO: Check this
-  countSkuListings?: number; // TODO: Check this
-}
-
+const NotAvailable = (): JSX.Element => {
+  return (
+    <Container>
+      <h4>Not available</h4>
+    </Container>
+  );
+};
 interface IUpcomingData {
-  minStartDate?: Date;
+  startDate?: Date;
 }
+
+const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
+  let parsedStartDate = startDate;
+
+  if (typeof startDate === 'string') {
+    parsedStartDate = new Date(startDate);
+  }
+
+  const [countdown, setCountdown] = useState(formatCountdown(parsedStartDate));
+  // NOTE: Can be abstracted into a hook
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCountdown(formatCountdown(parsedStartDate));
+    }, 1000);
+    // Clear timeout if the component is unmounted
+    return () => clearTimeout(timer);
+  });
+
+  return (
+    <>
+      <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          textAlign: 'right',
+        }}
+      >
+        <span style={{ fontSize: '24px' }}>{countdown}</span>
+        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
+          {dateToPrettyString(startDate)}
+        </small>
+      </div>
+    </>
+  );
+};
 
 interface IFromCreatorBox {
   skuPrice: number;
-  totalNewSupplyLeft: number;
+  minStartDate: Date;
+  totalSkuListingSuppyLeft: number;
+  onBuyNow: () => void;
 }
+
+const FromCreatorBox = ({
+  skuPrice,
+  minStartDate,
+  totalSkuListingSuppyLeft = 0,
+  onBuyNow,
+}: IFromCreatorBox): JSX.Element => {
+  if (minStartDate > new Date()) {
+    return (
+      <Container>
+        <UpcomingData startDate={minStartDate} />
+      </Container>
+    );
+  }
+
+  const disabled = !totalSkuListingSuppyLeft;
+
+  return (
+    <Container>
+      <BoxColumn>
+        <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
+        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
+          Initial Release Price
+        </small>
+      </BoxColumn>
+      <BoxColumn style={{ textAlign: 'center' }}>
+        <span style={{ fontSize: '28px' }}>${skuPrice}</span>
+        <small style={{ fontSize: '15px' }}>
+          ({totalSkuListingSuppyLeft} left)
+        </small>
+      </BoxColumn>
+      <div>
+        <Button disabled={disabled} onClick={onBuyNow}>
+          {disabled ? `Sold Out` : `Buy Now`}
+        </Button>
+      </div>
+    </Container>
+  );
+};
 
 interface IFromCollectorsBox {
   minimunPrice: number;
@@ -30,47 +102,10 @@ interface IFromCollectorsBox {
   totalSupply?: any;
 }
 
-const UpcomingData = ({ minStartDate }: IUpcomingData) => {
-  // TODO: better message with missing minStartDate
-  const countdown = minStartDate ? formatCountdown(minStartDate) : '';
-  return (
-    <>
-      {/* TODO: Use rem instead of px to easily adjust layout on different viewport sizes */}
-      <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-      <span style={{ fontSize: '24px' }}>{countdown}</span>
-    </>
-  );
-};
-
-const FromCreatorBox = ({ skuPrice, totalNewSupplyLeft }: IFromCreatorBox) => {
-  return (
-    <Container>
-      <BoxColumn>
-        <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
-        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Initial Listing Price
-        </small>
-      </BoxColumn>
-      <BoxColumn>
-        <span style={{ fontSize: '28px' }}>${skuPrice}</span>
-        <small style={{ fontSize: '15px' }}>({totalNewSupplyLeft} left)</small>
-      </BoxColumn>
-      <div>
-        <Button
-          disabled
-          style={{ backgroundColor: '#2D2D2D', color: '#5F5F5F' }}
-        >
-          Buy Now
-        </Button>
-      </div>
-    </Container>
-  );
-};
-
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
-}: IFromCollectorsBox) => {
+}: IFromCollectorsBox): JSX.Element => {
   return (
     <Container>
       <BoxColumn>
@@ -96,89 +131,45 @@ const FromCollectorsBox = ({
   );
 };
 
-const NotAvailable = () => {
-  return (
-    <Container>
-      <h4>Not available</h4>
-    </Container>
-  );
-};
-
-// FIXME: Refactored function
-// const ButtonBlock = (props: IButtonBlock) => {
 const SkuButtonBlock = (props: {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
+  onBuyNow: () => void;
 }): JSX.Element | null => {
-  console.log();
   const {
-    totalSupplyUpcoming,
-    circulatingSupply,
-    // FIXME: Commented props
-    // countSkuListings,
-    // countProductListings,
-    minStartDate,
+    countSkuListings,
+    minStartDate = new Date(0),
     minSkuPrice,
-    // totalNewSupplyLeft,
-    minCurrentBid,
+    totalSkuListingSuppyLeft,
+    // totalSupplyUpcoming,
+    // countProductListings,
+    // minCurrentBid,
   } = props.sku;
 
-  const isUpcoming = !!totalSupplyUpcoming;
-  const hasMintedProducts = !!circulatingSupply;
+  const hasSkus = !!countSkuListings;
 
-  // FIXME: hardcoded data
-  // const hasSkus = !!countSkuListings;
+  // TODO: When adding collector component, this needs to be checked for here also
   // const hasProducts = !!countProductListings;
-  const hasSkus = false;
-  const hasProducts = false;
-  // FIXME: Hardcoded data
-  const totalNewSupplyLeft = 69;
-  const countProductListings = 96;
 
-  if (!hasSkus && !hasProducts) return <NotAvailable />;
-
-  if (isUpcoming)
-    return (
-      <Container>
-        {' '}
-        <UpcomingData minStartDate={minStartDate} />
-      </Container>
-    );
-
-  if (hasSkus && hasProducts) {
-    return (
-      <>
-        <FromCreatorBox
-          skuPrice={minSkuPrice}
-          totalNewSupplyLeft={totalNewSupplyLeft}
-        />
-        <FromCollectorsBox
-          minimunPrice={minCurrentBid}
-          totalSupply={totalNewSupplyLeft}
-          countProductListings={countProductListings}
-        />
-      </>
-    );
+  if (!hasSkus) {
+    return <NotAvailable />;
   }
 
-  if (hasSkus) {
-    return (
+  return (
+    <>
       <FromCreatorBox
         skuPrice={minSkuPrice}
-        totalNewSupplyLeft={totalNewSupplyLeft}
+        minStartDate={minStartDate}
+        totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+        onBuyNow={props.onBuyNow}
       />
-    );
-  }
-
-  if (hasMintedProducts) {
-    return (
-      <FromCollectorsBox
+      {/* TODO: In future will enable the collectors box */}
+      {/* <FromCollectorsBox
         minimunPrice={minCurrentBid}
-        totalSupply={totalNewSupplyLeft}
+        totalSupply={0}
         countProductListings={countProductListings}
-      />
-    );
-  }
-  return null;
+      /> */}
+    </>
+  );
 };
 
 const Container = styled.div`
@@ -197,11 +188,11 @@ const BoxColumn = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #ffffff;
-  color: #000000;
+  background-color: ${(props) => (props.disabled ? '#2D2D2D' : '#FFFFFF')};
+  color: ${(props) => (props.disabled ? '#5F5F5F' : '#000000')};
   border: 0;
   height: 56px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   border-radius: 22px;
   width: 186px;
   outline: none;

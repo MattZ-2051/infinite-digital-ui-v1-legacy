@@ -5,7 +5,7 @@ import GlobalStyle from 'styles/globalStyles';
 import AppLayout from './layouts/AppLayout';
 import Router from './router';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <CssBaseline />
