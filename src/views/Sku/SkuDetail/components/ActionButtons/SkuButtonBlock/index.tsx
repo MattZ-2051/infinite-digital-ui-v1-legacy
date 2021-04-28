@@ -215,10 +215,11 @@ const SkuButtonBlock = (props: {
     totalSkuListingSuppyLeft,
   } = props.sku;
 
-  // const listingId = props.collectors.find(
-  //   (collector) => (collector.listing.status = 'active')
-  // )?.listing._id;
-  const listingId = 'test';
+  const listingId = props.collectors
+    .map(({ listing }) => listing)
+    .flat()
+    .find((listing) => listing.status === 'active')?._id;
+
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
 
