@@ -33,6 +33,7 @@ const ModalPayment = ({
   showSerial = false,
 }: IModalProps) => {
   // TODO: Add buyersfee
+  const { getAccessTokenSilently } = useAuth0();
 
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
@@ -41,11 +42,16 @@ const ModalPayment = ({
   const history = useHistory();
 
   const buyAction = async () => {
-    const { getAccessTokenSilently } = useAuth0();
+    console.log('=====================');
+    console.log('!!! product =>', product);
+    console.log('=====================');
     const userToken = await getAccessTokenSilently();
     // TODO: Get product id
     // TODO: Catch service result
-    patchListingsPurchase(userToken, 'test');
+    const result = await patchListingsPurchase(userToken, product._id);
+    console.log('=====================');
+    console.log('result', result);
+    console.log('=====================');
   };
 
   const handleActionButton = () => {
