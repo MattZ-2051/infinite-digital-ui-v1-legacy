@@ -159,7 +159,6 @@ const SkuDetail = (): JSX.Element => {
             </ProductDetail>
 
             <ButtonsContainer>
-              {/* TODO: Why Sku type instead of SkuWithFunctionsPopulated ? */}
               <SkuButtonBlock
                 sku={skuDetails}
                 user={loggedInUser}

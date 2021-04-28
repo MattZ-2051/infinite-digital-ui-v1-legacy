@@ -255,6 +255,7 @@ const SkuButtonBlock = (props: {
       /> */
     }
   }
+  return <></>;
 };
 
 const Container = styled.div`
