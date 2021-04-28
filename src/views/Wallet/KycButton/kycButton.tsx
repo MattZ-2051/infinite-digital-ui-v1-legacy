@@ -10,14 +10,13 @@ const KycButton = ({}: any): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
 
   async function initializeToken() {
-    // const token = await getPersonalToken(await getAccessTokenSilently());
-    const token = 'abc'; // temp solution while backend is being fixed.
-    setUserToken(token);
+    const res = await getPersonalToken(await getAccessTokenSilently());
+    setUserToken(res.token);
   }
 
   useEffect(() => {
     initializeToken();
-  });
+  }, []);
 
   const client: Client = new Persona.Client({
     templateId: 'tmpl_JAZjHuAT738Q63BdgCuEJQre',

@@ -139,11 +139,17 @@ export const getUser = async (userId: string): Promise<User> => {
   }
 };
 
-export const getPersonalToken = async (token: string): Promise<any> => {
+export const getPersonalToken = async (
+  token: string
+): Promise<{ token: string }> => {
   try {
-    const response = await axiosInstance.get(`/users/personal-token`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axiosInstance.post<{ token: string }>(
+      `/users/personal-token`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (err) {
     console.log(err);
