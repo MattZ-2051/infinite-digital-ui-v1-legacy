@@ -1,5 +1,5 @@
 import { Collector } from 'entities/collector';
-import { Product, ProductWithFunctions } from 'entities/product';
+import { ProductWithFunctions } from 'entities/product';
 import { axiosInstance } from '../coreService';
 
 export const getProducts = async (token: string) => {
@@ -14,13 +14,13 @@ export const getProducts = async (token: string) => {
 
 export const getProductsOwnedByUser = async (
   userId: string,
-  token: string
+  token: string,
+  includeFunctions = false
 ): Promise<ProductWithFunctions[]> => {
   const response = await axiosInstance.request<ProductWithFunctions[]>({
     method: 'GET',
     url: `/products`,
-    // FIXME: If `includeFunctions` is true, then the interface is populated otherwise just Product
-    params: { owner: userId, includeFunctions: true },
+    params: { owner: userId, includeFunctions },
     headers: { Authorization: `Bearer ${token}` },
   });
 

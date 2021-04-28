@@ -13,7 +13,7 @@ import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { skuWithFunctionsPopulatedFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
@@ -37,16 +37,14 @@ const SkuDetail = (): JSX.Element => {
   const skus = useAppSelector((state) => state.sku.skus);
 
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<SkuWithFunctionsPopulated>(
+  const [skuDetails, setSkuDetails] = useState<Sku>(
     skuWithFunctionsPopulatedFactory.build()
   );
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
 
-  const [featuredProducts, setFeaturedProducts] = useState<
-    SkuWithFunctionsPopulated[]
-  >([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Sku[]>([]);
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
     if (skuTiles) {

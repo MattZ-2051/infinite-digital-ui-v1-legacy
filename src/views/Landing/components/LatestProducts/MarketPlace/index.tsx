@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
-  const [tiles, setTiles] = useState<SkuWithFunctionsPopulated[]>([]);
+  const [tiles, setTiles] = useState<Sku[]>([]);
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();

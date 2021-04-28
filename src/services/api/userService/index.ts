@@ -1,4 +1,6 @@
+import { AxiosResponse } from 'axios';
 import { User } from 'entities/user';
+import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
 
 // the following endpoint is deprecated:
@@ -12,18 +14,20 @@ import { axiosInstance } from '../coreService';
 //   return response;
 // };
 
-export const getMe = async (token: string) => {
+export const getMe = async (token: string): Promise<User> => {
   const response = await axiosInstance.request<User>({
     method: 'GET',
     url: `/users/me`,
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return response;
+  return response.data;
 };
 
-export const getMyCards = async (token: string) => {
-  const response = await axiosInstance.request({
+export const getMyCards = async (
+  token: string
+): Promise<AxiosResponse<Wallet>> => {
+  const response = await axiosInstance.request<Wallet>({
     method: 'GET',
     url: '/wallet',
     headers: { Authorization: `Bearer ${token}` },

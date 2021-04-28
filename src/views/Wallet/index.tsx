@@ -23,8 +23,8 @@ const Wallet = () => {
   const username = useAppSelector((state) => state.session.user.username);
 
   async function fetchUser() {
-    const res = await getMe(await getAccessTokenSilently());
-    setUser(res.data);
+    const extUser = await getMe(await getAccessTokenSilently());
+    setUser(extUser);
   }
 
   useEffect(() => {
