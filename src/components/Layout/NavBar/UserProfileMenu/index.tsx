@@ -5,7 +5,8 @@ import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';
 import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-settings.svg';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { deleteUser } from 'store/session/sessionThunks';
 
 interface IProps {
   visible?: any;
@@ -13,6 +14,7 @@ interface IProps {
 }
 
 const UserProfileMenu = ({ visible, setVisible }: IProps) => {
+  const dispatch = useAppDispatch();
   const { logout } = useAuth0();
   const username = useAppSelector((state) => state.session.user.username);
   const history = useHistory();
@@ -23,6 +25,7 @@ const UserProfileMenu = ({ visible, setVisible }: IProps) => {
   };
 
   const handleLogout = () => {
+    dispatch(deleteUser());
     logout({ returnTo: window.location.origin });
     setVisible(false);
   };
