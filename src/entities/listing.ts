@@ -2,12 +2,13 @@ export interface Listing {
   _id: string;
   canceled: boolean;
   type: 'sku' | 'product';
+  sku?: string;
+  product?: string;
   issuer: string;
-  sku: string;
   price: number;
-  saleType: string;
-  supply: 10;
-  minBid: 100;
+  saleType: 'auction' | 'fixed';
+  supply: number;
+  minBid: number;
   startDate: Date;
   endDate: Date;
   createdAt: Date;

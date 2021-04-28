@@ -2,12 +2,14 @@ import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
+import { Listing } from 'entities/listing';
 
 export interface AuctionItemProps {
   serialNumber: string;
   ownerName: string;
   highestBid: number;
   endDate: Date;
+  activeProductListing: Listing;
 }
 
 const AuctionItem = ({
@@ -15,6 +17,7 @@ const AuctionItem = ({
   ownerName,
   highestBid,
   endDate,
+  activeProductListing,
 }: AuctionItemProps): JSX.Element => {
   return (
     <Container>
@@ -29,7 +32,11 @@ const AuctionItem = ({
 
       <AuctionDetail>
         <div>
-          Bid for
+          {!activeProductListing
+            ? 'Not for sale'
+            : activeProductListing?.saleType === 'auction'
+            ? 'Bid for'
+            : 'On sale for'}
           <RightArrow
             style={{ marginLeft: '10px', marginRight: '10px', height: '10px' }}
           />
@@ -39,9 +46,9 @@ const AuctionItem = ({
           <br />
         </div>
 
-        <strong style={{ color: 'black' }}>
+        {/* <strong style={{ color: 'black' }}>
           Expires in {formatCountdown(new Date(endDate))}
-        </strong>
+        </strong> */}
       </AuctionDetail>
 
       <RightArrow style={{ marginLeft: '20px' }} />

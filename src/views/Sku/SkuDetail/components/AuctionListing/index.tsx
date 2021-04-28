@@ -30,11 +30,12 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
               style={{ textDecoration: 'none' }}
             >
               <AuctionItem
+                activeProductListing={el.activeProductListing}
                 key={el.serialNumber}
                 serialNumber={el.serialNumber}
                 ownerName={el.owner.username}
-                highestBid={el.listing.minBid} // TODO: is this minBid? There is no other variable available.
-                endDate={el.listing.endDate}
+                highestBid={el.activeProductListing?.price}
+                endDate={el.activeProductListing?.endDate}
               />
             </Link>
           ))}
