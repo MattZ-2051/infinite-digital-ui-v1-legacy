@@ -23,7 +23,7 @@ interface IFromCreatorBox {
   product: Sku;
   user: User;
   minStartDate: Date;
-  totalSkuListingSuppyLeft: number;
+  totalSkuListingSupplyLeft: number;
   onBuyNow: () => void;
 }
 
@@ -63,10 +63,17 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
   );
 };
 
+interface IFromCreatorBox {
+  skuPrice: number;
+  minStartDate: Date;
+  totalSkuListingSupplyLeft: number;
+  onBuyNow: () => void;
+}
+
 const FromCreatorBox = ({
   skuPrice,
   minStartDate,
-  totalSkuListingSuppyLeft = 0,
+  totalSkuListingSupplyLeft = 0,
   onBuyNow,
   product,
   user,
@@ -87,7 +94,7 @@ const FromCreatorBox = ({
   };
   const modalMode =
     user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
-  const disabled = !totalSkuListingSuppyLeft;
+  const disabled = !totalSkuListingSupplyLeft;
 
   return (
     <Container>
@@ -100,7 +107,7 @@ const FromCreatorBox = ({
       <BoxColumn style={{ textAlign: 'center' }}>
         <span style={{ fontSize: '28px' }}>${skuPrice}</span>
         <small style={{ fontSize: '15px' }}>
-          ({totalSkuListingSuppyLeft} left)
+          ({totalSkuListingSupplyLeft} left)
         </small>
       </BoxColumn>
       <div>
@@ -175,12 +182,11 @@ const SkuButtonBlock = (props: {
     series,
     royaltyFeePercentage,
     minStartDate = new Date(0),
-    totalSkuListingSuppyLeft,
+    totalSkuListingSupplyLeft,
   } = props.sku;
 
   const hasSkus = !!countSkuListings;
   const hasProducts = !!countProductListings;
-  const userLogged = !!Object.entries(props.user).length;
 
   if (!hasSkus && !hasProducts) {
     return <NotAvailable />;
@@ -204,7 +210,7 @@ const SkuButtonBlock = (props: {
           product={props.sku}
           user={props.user}
           minStartDate={minStartDate}
-          totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+          totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
           onBuyNow={props.onBuyNow}
         />
         <FromCollectorsBox
@@ -224,7 +230,7 @@ const SkuButtonBlock = (props: {
         product={props.sku}
         user={props.user}
         minStartDate={minStartDate}
-        totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+        totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
         onBuyNow={props.onBuyNow}
       />
     );
