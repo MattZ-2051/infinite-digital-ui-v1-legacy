@@ -210,7 +210,7 @@ const SkuButtonBlock = (props: {
   //     </Container>
   //   );}
 
-  if (hasSkus && hasProducts && userLogged) {
+  if (hasSkus && hasProducts) {
     return (
       <>
         <FromCreatorBox
@@ -231,7 +231,7 @@ const SkuButtonBlock = (props: {
     );
   }
 
-  if (hasSkus && userLogged) {
+  if (hasSkus) {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}
