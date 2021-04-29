@@ -127,25 +127,25 @@ const StyledDiv = styled.div`
 const LegendaryStyle = styled.p`
   font-size: 16px;
   padding-left: 8px;
+  background: -moz-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
   background: -webkit-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
+  background: linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
   padding-top: 0.25rem;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  background: -moz-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
 `;
 
 const UncommonStyle = styled.p`
   font-size: 16px;
   padding-left: 8px;
+  background: -moz-linear-gradient(45deg, #171717 0%, #777777 100%);
   background: -webkit-linear-gradient(45deg, #171717 0%, #777777 100%);
+  background: linear-gradient(45deg, #171717 0%, #777777 100%);
   padding-top: 0.25rem;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  background: -moz-linear-gradient(45deg, #171717 0%, #777777 100%);
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
 `;
 
 const RareStyle = styled.p`
@@ -160,20 +160,27 @@ const RareStyle = styled.p`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background: -moz-linear-gradient(41.72deg, #00eb7c -14.01%, #11d6ec 90.62%);
+  background: -webkit-linear-gradient(
+    41.72deg,
+    #00eb7c -14.01%,
+    #11d6ec 90.62%
+  );
+  background: linear-gradient(41.72deg, #00eb7c -14.01%, #11d6ec 90.62%);
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
+  background-clip: text;
 `;
 
 const EpicStyle = styled.p`
   font-size: 16px;
   padding-left: 8px;
+  background: -moz-linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
   background: -webkit-linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
+  background: linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
   padding-top: 0.25rem;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  background: -moz-linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
 `;
 
 export default Rarity;
