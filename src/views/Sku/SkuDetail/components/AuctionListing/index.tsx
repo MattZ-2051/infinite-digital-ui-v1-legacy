@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import AuctionItem from './AuctionItem';
 import { Link } from 'react-router-dom';
@@ -12,10 +11,6 @@ export interface Props {
 
 const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   const limitCollectors = collectors.slice(0, 4); //TODO: limit this in the backend?
-
-  useEffect(() => {
-    // mockServer();
-  }, []);
 
   if (hasProducts) {
     return (

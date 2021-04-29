@@ -9,18 +9,6 @@ import { useAppSelector } from 'store/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
 import ModalPayment from '../../ModalPayment';
 
-// FIXME: ButtonBlock Interface may be off
-export interface IButtonBlock {
-  totalSupplyUpcoming: number;
-  circulatingSupply: number;
-  minStartDate: string;
-  minSkuPrice: number;
-  minCurrentBid: number;
-  totalNewSupplyLeft?: number; // TODO: check this
-  countProductListings?: number; // TODO: Check this
-  countSkuListings?: number; // TODO: Check this
-}
-
 const NotAvailable = (): JSX.Element => {
   return (
     <Container>
@@ -200,7 +188,7 @@ const SkuButtonBlock = (props: {
   user: User;
   onBuyNow: () => void;
   collectors: Collector[];
-}) => {
+}): JSX.Element => {
   const {
     totalSupplyUpcoming,
     circulatingSupply,
@@ -229,10 +217,6 @@ const SkuButtonBlock = (props: {
 
   const hasSkus = !!countSkuListings;
   const hasProducts = !!countProductListings;
-  const userLogged = !!Object.entries(props.user).length;
-
-  // FIXME: Hardcoded data
-  const totalNewSupplyLeft = totalSupplyLeft;
 
   // TODO: No definition for isUpcoming
   // if (isUpcoming){
@@ -248,7 +232,7 @@ const SkuButtonBlock = (props: {
       <>
         <FromCreatorBox
           skuPrice={minSkuPrice}
-          totalNewSupplyLeft={totalNewSupplyLeft}
+          totalNewSupplyLeft={totalSupplyLeft}
           product={props.sku}
           user={props.user}
           listingId={listingId}
@@ -269,7 +253,7 @@ const SkuButtonBlock = (props: {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}
-        totalNewSupplyLeft={totalNewSupplyLeft}
+        totalNewSupplyLeft={totalSupplyLeft}
         product={props.sku}
         user={props.user}
         listingId={listingId}
@@ -278,17 +262,6 @@ const SkuButtonBlock = (props: {
         onBuyNow={props.onBuyNow}
       />
     );
-
-    {
-      /* TODO: In future will enable the collectors box */
-    }
-    {
-      /* <FromCollectorsBox
-        minimunPrice={minCurrentBid}
-        totalSupply={0}
-        countProductListings={countProductListings}
-      /> */
-    }
   }
 
   return <NotAvailable />;

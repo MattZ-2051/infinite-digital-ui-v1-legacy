@@ -77,9 +77,11 @@ const Wallet = (props) => {
           <div style={{ paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
+          {/*  Temporary Hide feature will be enabled Post-MVP
+
           <div style={{ paddingTop: '12px' }}>
             <S.ActionButton>Withdrawal</S.ActionButton>
-          </div>
+          </div> */}
           <div style={{ paddingTop: '12px' }}>
             <KycButton />
           </div>
@@ -98,6 +100,8 @@ const Wallet = (props) => {
               Latest Transactions
             </S.Tab>
             <span style={{ padding: '0 20px' }}></span>
+            {/* Temporary Hide feature will be enabled Post-MVP
+
             <S.Tab
               style={{
                 borderBottom: `${
@@ -108,7 +112,7 @@ const Wallet = (props) => {
               onClick={() => setSelectedTab(1)}
             >
               Active Bids
-            </S.Tab>
+            </S.Tab> */}
             <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
           {selectedTab === 0 && (
@@ -121,12 +125,14 @@ const Wallet = (props) => {
                 })}
             </>
           )}
+          {/*  Temporary Hide feature will be enabled Post-MVP
+
           {selectedTab === 1 && (
             <>
               <ActiveBids bidType="not-exceeded" />
               <ActiveBids bidType="exceeded" />
             </>
-          )}
+          )} */}
         </S.LatestTransactionsContainer>
       </S.PageContentContainer>
       <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
