@@ -27,13 +27,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   async function fetchData() {
     try {
       const res = await getProductsOwnedByUser(userId, '');
-      console.log(res);
       if (res) {
         setUserItems(res);
       }
-    } catch (err) {
-      console.log('eerr', err);
-    }
+    } catch (err) {}
   }
 
   useEffect(() => {

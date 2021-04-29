@@ -90,7 +90,6 @@ export const generateUSDCAddress = async (
     );
     return response.data;
   } catch (err) {
-    console.log(err);
     throw new Error('Error generating USDC address');
   }
 };
@@ -113,7 +112,6 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
       throw new Error('No Response Received');
     } else {
       // Something happened in setting up the request and triggered an err
-      console.log(err);
       throw new Error('Bad Request');
     }
   }
@@ -153,7 +151,6 @@ export const getPersonalToken = async (
     );
     return response.data;
   } catch (err) {
-    console.log(err);
     throw new Error('Error getting personal token');
   }
 };
