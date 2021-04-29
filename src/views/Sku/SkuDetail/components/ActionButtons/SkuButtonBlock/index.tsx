@@ -3,7 +3,10 @@ import styled from 'styled-components/macro';
 import { formatCountdown, dateToPrettyString } from 'utils/dates';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
-
+import { Collector } from 'entities/collector';
+import Toast from 'utils/Toast';
+import { useAppSelector } from 'store/hooks';
+import { useAuth0 } from '@auth0/auth0-react';
 import ModalPayment from '../../ModalPayment';
 
 const NotAvailable = (): JSX.Element => {
@@ -15,6 +18,17 @@ const NotAvailable = (): JSX.Element => {
 };
 interface IUpcomingData {
   startDate?: Date;
+}
+
+interface IFromCreatorBox {
+  skuPrice: number;
+  totalNewSupplyLeft: number;
+  product: Sku;
+  user: User;
+  listingId?: string;
+  minStartDate: Date;
+  totalSkuListingSupplyLeft: number;
+  onBuyNow: () => void;
 }
 
 const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
@@ -53,16 +67,6 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
   );
 };
 
-interface IFromCreatorBox {
-  skuPrice: number;
-  totalNewSupplyLeft: number;
-  product: Sku;
-  user: User;
-  minStartDate: Date;
-  totalSkuListingSupplyLeft: number;
-  onBuyNow: () => void;
-}
-
 const FromCreatorBox = ({
   skuPrice,
   minStartDate,
@@ -70,8 +74,36 @@ const FromCreatorBox = ({
   onBuyNow,
   product,
   user,
+  listingId,
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginWithRedirect } = useAuth0();
+  const hasFounds = user.availableBalance >= product.minSkuPrice;
+  const modalMode = hasFounds ? 'hasFunds' : 'noFunds';
+
+  const loggedInUser = useAppSelector((state) => state.session.user);
+  const userLogged = !!Object.entries(loggedInUser).length;
+
+  const handleBuyNowClick = (userLogged: boolean) => {
+    // TODO: Check this call with pablo
+    // onBuyNow();
+    if (userLogged) {
+      setIsModalOpen(true);
+    } else {
+      Toast.error(
+        <>
+          You need to{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            Log in
+          </a>{' '}
+          in order to complete the purchase
+        </>
+      );
+    }
+  };
+
+  // TODO: Review this attribute
+  const disabled = !totalSkuListingSupplyLeft || !listingId;
 
   if (minStartDate > new Date()) {
     return (
@@ -80,14 +112,6 @@ const FromCreatorBox = ({
       </Container>
     );
   }
-  const handleBuyNowClick = () => {
-    // TODO: Check this call with pablo
-    onBuyNow();
-    setIsModalOpen(true);
-  };
-  const modalMode =
-    user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
-  const disabled = !totalSkuListingSupplyLeft;
 
   return (
     <Container>
@@ -104,7 +128,11 @@ const FromCreatorBox = ({
         </small>
       </BoxColumn>
       <div>
-        <Button disabled={disabled} onClick={handleBuyNowClick}>
+        <Button
+          disabled={disabled}
+          onClick={() => handleBuyNowClick(userLogged)}
+        >
+          {' '}
           {disabled ? `Sold Out` : `Buy Now`}
         </Button>
       </div>
@@ -114,6 +142,7 @@ const FromCreatorBox = ({
         mode={modalMode}
         product={product}
         user={user}
+        listingId={listingId}
       />
     </Container>
   );
@@ -158,6 +187,7 @@ const SkuButtonBlock = (props: {
   sku: Sku;
   user: User;
   onBuyNow: () => void;
+  collectors: Collector[];
 }): JSX.Element => {
   const {
     totalSupplyUpcoming,
@@ -178,12 +208,24 @@ const SkuButtonBlock = (props: {
     totalSkuListingSupplyLeft,
   } = props.sku;
 
+  const listingId = props.collectors.find(
+    (collector) => collector.activeProductListing
+  )?.activeProductListing._id;
+
+  const isUpcoming = !!totalSupplyUpcoming;
+  const hasMintedProducts = !!circulatingSupply;
+
   const hasSkus = !!countSkuListings;
   const hasProducts = !!countProductListings;
 
-  if (!hasSkus && !hasProducts) {
-    return <NotAvailable />;
-  }
+  // TODO: No definition for isUpcoming
+  // if (isUpcoming){
+  //   return (
+  //     <Container>
+  //       {' '}
+  //       <UpcomingData minStartDate={minStartDate} />
+  //     </Container>
+  //   );}
 
   if (hasSkus && hasProducts) {
     return (
@@ -193,6 +235,7 @@ const SkuButtonBlock = (props: {
           totalNewSupplyLeft={totalSupplyLeft}
           product={props.sku}
           user={props.user}
+          listingId={listingId}
           minStartDate={minStartDate}
           totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
           onBuyNow={props.onBuyNow}
@@ -213,13 +256,15 @@ const SkuButtonBlock = (props: {
         totalNewSupplyLeft={totalSupplyLeft}
         product={props.sku}
         user={props.user}
+        listingId={listingId}
         minStartDate={minStartDate}
         totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
         onBuyNow={props.onBuyNow}
       />
     );
   }
-  return <></>;
+
+  return <NotAvailable />;
 };
 
 const Container = styled.div`

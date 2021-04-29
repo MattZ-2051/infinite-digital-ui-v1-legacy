@@ -14,7 +14,7 @@ import { ITransaction } from 'entities/transaction';
 import KycButton from './KycButton/kycButton';
 export const S: any = {};
 
-const Wallet = () => {
+const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
   const userId = useAppSelector((state) => state.session.user.id);
@@ -38,6 +38,9 @@ const Wallet = () => {
   useEffect(() => {
     fetchUser();
     fetchTransactions();
+    if (props?.location?.state?.modalOpen) {
+      setIsModalOpen(true);
+    }
   }, []);
 
   const handleClose = () => {
