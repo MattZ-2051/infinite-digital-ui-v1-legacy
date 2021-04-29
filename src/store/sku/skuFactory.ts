@@ -52,7 +52,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   maxBid: 0,
   minPrice: 0,
   issuerName: '',
-  totalSkuListingSuppyLeft: 0,
+  totalSkuListingSupplyLeft: 0,
   countSkuListings: 0,
   countAllSkuListings: 0,
   countProductListings: 0,
