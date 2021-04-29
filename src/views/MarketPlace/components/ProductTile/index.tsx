@@ -6,7 +6,7 @@ import { Sku } from 'entities/sku';
 interface Props {
   sku: Sku;
   productSerialNumber: string;
-  purchasedDate?: string;
+  pillInfo?: string;
   redeemable: boolean;
   status?: string;
 }
@@ -14,22 +14,22 @@ interface Props {
 const ProductTile = ({
   sku,
   productSerialNumber,
-  purchasedDate,
+  pillInfo,
   status,
 }: Props): JSX.Element => {
   return (
     <Tile
       sku={sku}
       redeemable={true}
-      status={status || 'active-listing'}
+      status={'active-listing'}
       icon={redeemIcon}
       skuImg={sku.graphicUrl}
       skuRarity={sku.rarity}
-      topLeft={sku.issuer?.username || ''}
+      topLeft={sku.issuerName}
       middle={sku.name}
       bottomLeft={sku.series.name}
       bottomRight={productSerialNumber?.toString()}
-      pillInfo={purchasedDate}
+      pillInfo={pillInfo}
     />
   );
 };

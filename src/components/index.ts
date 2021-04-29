@@ -16,7 +16,7 @@ export { default as ProductTiles } from './ProductTiles';
 export { default as RangeSlider } from './RangeSlider';
 export { default as Rarity } from './Rarity';
 export { default as SearchBar } from './SearchBar';
-export { default as SquircleContainer } from './SquircleContainer';
+export { default as SquircleContainer } from './Squircle';
 export { default as StarRatings } from './StarRatings';
 export { default as Tab } from './Tab';
 export { default as TabsContainer } from './TabsContainer';

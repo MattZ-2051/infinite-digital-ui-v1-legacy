@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import ModalComponent from 'components/Modal';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import checkIconImg from 'assets/img/icons/check-icon.png';
-import { updateUsername } from 'services/api/userService';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -20,34 +19,30 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.session.user.id);
-  const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState<boolean>(false);
+  const stateError = useAppSelector((state) => state.session.error);
 
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
     const res = await dispatch(updateUsernameThunk(data));
-    if (res.payload?.errorMessage) {
-      setError(res.payload?.errorMessage);
+    if (res.type.split('/')[3] === 'rejected') {
       setConfirmed(false);
-
-      return;
+    } else {
+      setConfirmed(true);
     }
-    setConfirmed(true);
-    setError(null);
-    setTimeout(() => {
-      setConfirmed(false);
-      handleClose();
-    }, 1500);
+
+    setNewUsername('');
     return;
   };
 
   const handleChange = (e) => {
+    setConfirmed(false);
     setNewUsername(e.target.value);
   };
 
   return (
-    <ModalComponent open={isModalOpen}>
+    <ModalComponent open={isModalOpen} height="330px">
       <S.Container>
         {
           <S.Body>
@@ -61,17 +56,20 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
               </S.SubHeader>
               <S.Input>
                 <S.At>@</S.At>
-                <S.UsernameInput onChange={handleChange} value={newUsername} />
+                <S.UsernameInput
+                  onChange={handleChange}
+                  value={newUsername}
+                  placeHolderText="Username"
+                />
                 <S.CheckIcon>
-                  {confirmed && <S.CheckIconImg src={checkIconImg} />}
+                  {confirmed && stateError === null && (
+                    <S.CheckIconImg src={checkIconImg} />
+                  )}
                 </S.CheckIcon>
               </S.Input>
               <S.Border></S.Border>
-              <S.SubHeader style={{ color: 'red' }}>{error}</S.SubHeader>
-              <div style={{ paddingTop: '20px' }}>
-                <S.Button onClick={handleSubmit}>
-                  {confirmed ? 'Username Updated' : 'Update Username'}
-                </S.Button>
+              <div style={{ paddingTop: '40px' }}>
+                <S.Button onClick={handleSubmit}>Update Username</S.Button>
               </div>
             </S.Content>
           </S.Body>
@@ -84,7 +82,6 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
 S.Container = styled.div`
   positioin: absolute;
   width: 410px;
-  height: 315px;
   background-color: white;
   outline: none;
   border-radius: 10px

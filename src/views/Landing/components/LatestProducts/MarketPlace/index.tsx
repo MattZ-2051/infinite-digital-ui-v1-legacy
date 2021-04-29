@@ -38,8 +38,7 @@ const MarketPlace = () => {
                   status="tbd"
                   productSerialNumber="1"
                   key={index}
-                  // TODO: Find out why this is not a Date
-                  purchasedDate="1k"
+                  pillInfo="1k"
                 />
               </TileContainer>
             );
