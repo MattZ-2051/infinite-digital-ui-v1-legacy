@@ -170,7 +170,7 @@ const SkuButtonBlock = (props: {
   sku: Sku;
   user: User;
   onBuyNow: () => void;
-}) => {
+}): JSX.Element => {
   const {
     totalSupplyUpcoming,
     circulatingSupply,
@@ -194,9 +194,6 @@ const SkuButtonBlock = (props: {
   const hasProducts = !!countProductListings;
   const userLogged = !!Object.entries(props.user).length;
 
-  // FIXME: Hardcoded data
-  const totalNewSupplyLeft = totalSupplyLeft;
-
   if (!hasSkus && !hasProducts) {
     return <NotAvailable />;
   }
@@ -210,12 +207,12 @@ const SkuButtonBlock = (props: {
   //     </Container>
   //   );}
 
-  if (hasSkus && hasProducts && userLogged) {
+  if (hasSkus && hasProducts) {
     return (
       <>
         <FromCreatorBox
           skuPrice={minSkuPrice}
-          totalNewSupplyLeft={totalNewSupplyLeft}
+          totalNewSupplyLeft={totalSupplyLeft}
           product={props.sku}
           user={props.user}
           minStartDate={minStartDate}
@@ -231,11 +228,11 @@ const SkuButtonBlock = (props: {
     );
   }
 
-  if (hasSkus && userLogged) {
+  if (hasSkus) {
     return (
       <FromCreatorBox
         skuPrice={minSkuPrice}
-        totalNewSupplyLeft={totalNewSupplyLeft}
+        totalNewSupplyLeft={totalSupplyLeft}
         product={props.sku}
         user={props.user}
         minStartDate={minStartDate}
