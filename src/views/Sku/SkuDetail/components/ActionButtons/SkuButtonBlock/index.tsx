@@ -6,18 +6,6 @@ import { User } from 'entities/user';
 
 import ModalPayment from '../../ModalPayment';
 
-// FIXME: ButtonBlock Interface may be off
-export interface IButtonBlock {
-  totalSupplyUpcoming: number;
-  circulatingSupply: number;
-  minStartDate: string;
-  minSkuPrice: number;
-  minCurrentBid: number;
-  totalNewSupplyLeft?: number; // TODO: check this
-  countProductListings?: number; // TODO: Check this
-  countSkuListings?: number; // TODO: Check this
-}
-
 const NotAvailable = (): JSX.Element => {
   return (
     <Container>
