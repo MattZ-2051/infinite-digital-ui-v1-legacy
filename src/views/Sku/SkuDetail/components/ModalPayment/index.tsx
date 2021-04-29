@@ -57,7 +57,7 @@ const ModalPayment = ({
         // TODO: Check payment
         if (result) {
           setStatusMode('completed');
-          Toast.error(purchase.patchListingsPurchaseSuccess);
+          Toast.success(purchase.patchListingsPurchaseSuccess);
         }
         setLoading(false);
       } catch (e) {
