@@ -64,6 +64,8 @@ const ModalPayment = ({
         setLoading(false);
         Toast.error(purchase.patchListingsPurchaseError);
       }
+    } else {
+      Toast.error(purchase.patchListingsPurchaseError);
     }
   };
 
@@ -152,22 +154,25 @@ const ModalPayment = ({
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
-      <S.Detail>
-        <S.DetailRowPrice>
-          <span>Subtotal:</span>
-          <span>${product.minSkuPrice}</span>
-        </S.DetailRowPrice>
-      </S.Detail>
+      {statusMode === 'hasFunds' && (
+        <>
+          <S.Detail>
+            <S.DetailRowPrice>
+              <span>Subtotal:</span>
+              <span>${product.minSkuPrice}</span>
+            </S.DetailRowPrice>
+          </S.Detail>
 
-      <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+          <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
-      <S.Detail>
-        <S.DetailRowPrice>
-          <span>Total:</span>
-          <strong>${product.minSkuPrice}</strong>
-        </S.DetailRowPrice>
-      </S.Detail>
-
+          <S.Detail>
+            <S.DetailRowPrice>
+              <span>Total:</span>
+              <strong>${product.minSkuPrice}</strong>
+            </S.DetailRowPrice>
+          </S.Detail>
+        </>
+      )}
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
           {statusMode === 'hasFunds' && (
