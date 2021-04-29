@@ -115,7 +115,7 @@ const FromCreatorBox = ({
   };
 
   // TODO: Review this attribute
-  const disabled = !totalSkuListingSupplyLeft;
+  const disabled = !totalSkuListingSupplyLeft || !listingId;
 
   if (minStartDate > new Date()) {
     return (
