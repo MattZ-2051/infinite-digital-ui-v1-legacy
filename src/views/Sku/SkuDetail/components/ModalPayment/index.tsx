@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'components/Modal';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
@@ -8,16 +8,25 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import handIcon from 'assets/img/icons/hand-icon.png';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
+import { useHistory } from 'react-router-dom';
+import { useAppSelector } from 'store/hooks';
+import { patchListingsPurchase } from 'services/api/listingService';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
+import Toast from 'utils/Toast';
+import { purchase } from 'utils/messages';
+
+type Modes = 'completed' | 'hasFunds' | 'noFunds';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
-  mode: string;
+  mode: Modes;
   product: Sku;
   user: User;
   showSerial?: boolean;
+  listingId?: string;
 }
 
 const ModalPayment = ({
@@ -27,12 +36,51 @@ const ModalPayment = ({
   product,
   user,
   showSerial = false,
+  listingId,
 }: IModalProps) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const [statusMode, setStatusMode] = useState<Modes>(mode);
+  const [loading, setLoading] = useState(false);
+
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
+  const username = useAppSelector((state) => state.session.user.username);
+  const history = useHistory();
 
-  // TODO: Add buyersfee
+  const buyAction = async () => {
+    if (listingId) {
+      setLoading(true);
+      const userToken = await getAccessTokenSilently();
+      try {
+        const result = await patchListingsPurchase(userToken, listingId);
+        // TODO: Check payment
+        if (result) {
+          setStatusMode('completed');
+          Toast.success(purchase.patchListingsPurchaseSuccess);
+        }
+        setLoading(false);
+      } catch (e) {
+        setLoading(false);
+        Toast.error(purchase.patchListingsPurchaseError);
+      }
+    } else {
+      Toast.error(purchase.patchListingsPurchaseError);
+    }
+  };
+
+  const handleActionButton = () => {
+    if (statusMode === 'noFunds') {
+      history.push({
+        pathname: `/wallet/${username}`,
+        state: { modalOpen: true },
+      });
+    } else if (statusMode === 'hasFunds') {
+      buyAction();
+    } else if (statusMode === 'completed') {
+      history.push(`/product/${product._id}`);
+    }
+  };
 
   const Content: any = () => (
     <>
@@ -45,13 +93,13 @@ const ModalPayment = ({
 
       <S.Header>
         <S.Title>
-          {mode === 'hasFunds' && <>Confirm your order:</>}
-          {mode === 'noFunds' && (
+          {statusMode === 'hasFunds' && <>Confirm your order:</>}
+          {statusMode === 'noFunds' && (
             <>
               <img src={alertIcon} alt="" /> Whoops, Insuficient funds!
             </>
           )}
-          {mode === 'completed' && (
+          {statusMode === 'completed' && (
             <>
               <img src={handIcon} alt="" /> Yeah! Payment sucessful.
             </>
@@ -59,12 +107,12 @@ const ModalPayment = ({
         </S.Title>
 
         <S.SubTitle>
-          {mode === 'hasFunds' && (
+          {statusMode === 'hasFunds' && (
             <span style={{ color: '#12C95F' }}>
               Your current balance ${user.availableBalance}
             </span>
           )}
-          {mode === 'noFunds' && (
+          {statusMode === 'noFunds' && (
             <span style={{ color: '#E74C3C' }}>
               Your wallet balance ${user.availableBalance}
             </span>
@@ -106,25 +154,28 @@ const ModalPayment = ({
 
       <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
-      <S.Detail>
-        <S.DetailRowPrice>
-          <span>Subtotal:</span>
-          <span>${product.minSkuPrice}</span>
-        </S.DetailRowPrice>
-      </S.Detail>
+      {statusMode === 'hasFunds' && (
+        <>
+          <S.Detail>
+            <S.DetailRowPrice>
+              <span>Subtotal:</span>
+              <span>${product.minSkuPrice}</span>
+            </S.DetailRowPrice>
+          </S.Detail>
 
-      <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+          <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
-      <S.Detail>
-        <S.DetailRowPrice>
-          <span>Total:</span>
-          <strong>${product.minSkuPrice}</strong>
-        </S.DetailRowPrice>
-      </S.Detail>
-
+          <S.Detail>
+            <S.DetailRowPrice>
+              <span>Total:</span>
+              <strong>${product.minSkuPrice}</strong>
+            </S.DetailRowPrice>
+          </S.Detail>
+        </>
+      )}
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
-          {mode === 'hasFunds' && (
+          {statusMode === 'hasFunds' && (
             <>
               {product.royaltyFeePercentage && (
                 <strong>
@@ -136,10 +187,10 @@ const ModalPayment = ({
               your wallet.
             </>
           )}
-          {mode === 'noFunds' && (
+          {statusMode === 'noFunds' && (
             <> You need more founds to make this purchase.</>
           )}
-          {mode === 'completed' && (
+          {statusMode === 'completed' && (
             <>
               You successfully bought this item, and <br /> now is part of your
               collection.
@@ -155,13 +206,15 @@ const ModalPayment = ({
             textDecoration: 'none',
             textTransform: 'capitalize',
           }}
+          onClick={handleActionButton}
+          disabled={loading}
         >
-          {mode === 'hasFunds' && 'Place Order'}
-          {mode === 'noFunds' && 'Add Funds'}
-          {mode === 'completed' && 'View Your Product'}
+          {statusMode === 'hasFunds' && 'Place Order'}
+          {statusMode === 'noFunds' && 'Add Funds'}
+          {statusMode === 'completed' && 'View Your Product'}
         </Button>
 
-        {mode === 'completed' && (
+        {statusMode === 'completed' && (
           <div style={{ marginTop: '20px' }}>
             <Link style={{ textDecoration: 'none' }} to={''}>
               Back to Marketplace

@@ -2,13 +2,12 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
-import { ReactComponent as RedeemableIcon } from 'assets/svg/icons/redeemable.svg';
+import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
 import { Collector } from 'entities/collector';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
@@ -41,7 +40,6 @@ const SkuDetail = (): JSX.Element => {
 
   async function fetchCollectors() {
     const collectors = await getProductCollectors(skuid);
-    console.log({ collectors });
     setCollectors(collectors);
   }
 
@@ -152,14 +150,21 @@ const SkuDetail = (): JSX.Element => {
               <LineDivider />
 
               {skuDetails?.redeemable && (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <RedeemableIcon /> &nbsp; Redeemable
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <RedeemIcon />
+                  &nbsp; Redeemable
                 </div>
               )}
             </ProductDetail>
 
             <ButtonsContainer>
               <SkuButtonBlock
+                collectors={collectors}
                 sku={skuDetails}
                 user={loggedInUser}
                 onBuyNow={showModal}
@@ -334,7 +339,7 @@ const LineDivider = styled.div`
   background-color: #464646;
   width: 40px;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const ProductContainer = styled.div`

@@ -18,6 +18,11 @@ const AuctionItem = ({
   endDate,
   activeProductListing,
 }: AuctionItemProps): JSX.Element => {
+  const auctionDetailMsg = !activeProductListing
+    ? 'Not for sale'
+    : activeProductListing?.saleType === 'auction'
+    ? 'Bid for'
+    : 'On sale for';
   return (
     <Container>
       {/* <Avatar /> */}
@@ -26,25 +31,29 @@ const AuctionItem = ({
         <span>
           <strong style={{ color: 'black' }}>{`#${serialNumber}`}</strong>
         </span>
-        <span>{ownerName}</span>
+        <span style={{ color: '#9E9E9E' }}>{ownerName}</span>
       </UserDetail>
 
       <AuctionDetail>
         <div>
-          {!activeProductListing
-            ? 'Not for sale'
-            : activeProductListing?.saleType === 'auction'
-            ? 'Bid for'
-            : 'On sale for'}
-          <RightArrow
-            style={{ marginLeft: '10px', marginRight: '10px', height: '10px' }}
-          />
-          <span
-            style={{ fontWeight: 'bold', color: 'black' }}
-          >{`$${highestBid}`}</span>{' '}
+          <span style={{ color: '#9E9E9E' }}>{auctionDetailMsg}</span>
+          {activeProductListing && (
+            <>
+              <RightArrow
+                style={{
+                  marginLeft: '10px',
+                  marginRight: '10px',
+                  height: '10px',
+                }}
+              />
+              <span
+                style={{ fontWeight: 'bold', color: 'black' }}
+              >{`$${highestBid}`}</span>{' '}
+            </>
+          )}
           <br />
         </div>
-
+        {/*  */}
         {/* <strong style={{ color: 'black' }}>
           Expires in {formatCountdown(new Date(endDate))}
         </strong> */}

@@ -11,7 +11,20 @@ interface IProps {
   tx: ITransaction;
 }
 
+interface DateTimeOptions {
+  year: 'numeric';
+  month: 'long';
+  day: 'numeric';
+}
+
 const Transaction = ({ tx }: IProps) => {
+  const txCreatedAtDate = new Date(tx.createdAt);
+  const options: DateTimeOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
   return (
     <Container>
       <TransactionDescription>
@@ -118,7 +131,9 @@ const Transaction = ({ tx }: IProps) => {
       </TransactionDescription>
 
       <TransactionDetail>
-        <span style={{ color: '#9E9E9E' }}>{tx.createdAt}</span>
+        <span style={{ color: '#9E9E9E' }}>
+          {txCreatedAtDate.toLocaleDateString('en-US', options)}
+        </span>
       </TransactionDetail>
 
       <TransactionDetail>
