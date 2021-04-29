@@ -7,12 +7,13 @@ interface IProps {
   children: any;
   open?: boolean;
   onClose?: any;
+  height?: string;
 }
 
-const ModalComponent = ({ children, ...props }: IProps) => {
+const ModalComponent = ({ children, height, ...props }: IProps) => {
   return (
     <ModalContainer {...(props as any)}>
-      <ModalBody>{children}</ModalBody>
+      <ModalBody height={height}>{children}</ModalBody>
     </ModalContainer>
   );
 };
@@ -26,11 +27,11 @@ const ModalContainer: any = styled(Modal)`
   // backdrop-filter: blur(2px);
 ` as React.ComponentType<ModalProps>;
 
-const ModalBody = styled.div`
+const ModalBody = styled.div<{ height?: string }>`
   background-color: #ffffff;
   position: absolute;
   min-width: 400px;
-  min-height: 400px;
+  min-height: ${(props) => (props.height ? `${props.height}` : `400px`)};
   padding: 20px;
   border-radius: 12px;
   outline: none;

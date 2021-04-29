@@ -177,7 +177,7 @@ export const updateUsername = async (
     return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error(err.response.data);
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`
