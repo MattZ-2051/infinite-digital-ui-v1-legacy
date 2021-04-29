@@ -17,16 +17,6 @@ interface IUpcomingData {
   startDate?: Date;
 }
 
-interface IFromCreatorBox {
-  skuPrice: number;
-  totalNewSupplyLeft: number;
-  product: Sku;
-  user: User;
-  minStartDate: Date;
-  totalSkuListingSupplyLeft: number;
-  onBuyNow: () => void;
-}
-
 const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
   let parsedStartDate = startDate;
 
@@ -65,6 +55,9 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
 
 interface IFromCreatorBox {
   skuPrice: number;
+  totalNewSupplyLeft: number;
+  product: Sku;
+  user: User;
   minStartDate: Date;
   totalSkuListingSupplyLeft: number;
   onBuyNow: () => void;
@@ -192,15 +185,6 @@ const SkuButtonBlock = (props: {
     return <NotAvailable />;
   }
 
-  // TODO: No definition for isUpcoming
-  // if (isUpcoming){
-  //   return (
-  //     <Container>
-  //       {' '}
-  //       <UpcomingData minStartDate={minStartDate} />
-  //     </Container>
-  //   );}
-
   if (hasSkus && hasProducts) {
     return (
       <>
@@ -234,17 +218,6 @@ const SkuButtonBlock = (props: {
         onBuyNow={props.onBuyNow}
       />
     );
-
-    {
-      /* TODO: In future will enable the collectors box */
-    }
-    {
-      /* <FromCollectorsBox
-        minimunPrice={minCurrentBid}
-        totalSupply={0}
-        countProductListings={countProductListings}
-      /> */
-    }
   }
   return <></>;
 };
