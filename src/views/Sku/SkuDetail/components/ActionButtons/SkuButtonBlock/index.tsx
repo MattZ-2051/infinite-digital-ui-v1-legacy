@@ -234,10 +234,6 @@ const SkuButtonBlock = (props: {
   // FIXME: Hardcoded data
   const totalNewSupplyLeft = totalSupplyLeft;
 
-  if (!hasSkus && !hasProducts) {
-    return <NotAvailable />;
-  }
-
   // TODO: No definition for isUpcoming
   // if (isUpcoming){
   //   return (
@@ -294,7 +290,8 @@ const SkuButtonBlock = (props: {
       /> */
     }
   }
-  return <></>;
+
+  return <NotAvailable />;
 };
 
 const Container = styled.div`
