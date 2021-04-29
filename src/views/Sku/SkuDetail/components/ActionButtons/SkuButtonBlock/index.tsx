@@ -39,7 +39,7 @@ interface IFromCreatorBox {
   user: User;
   listingId?: string;
   minStartDate: Date;
-  totalSkuListingSuppyLeft: number;
+  totalSkuListingSupplyLeft: number;
   onBuyNow: () => void;
 }
 
@@ -82,7 +82,7 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
 const FromCreatorBox = ({
   skuPrice,
   minStartDate,
-  totalSkuListingSuppyLeft = 0,
+  totalSkuListingSupplyLeft = 0,
   onBuyNow,
   product,
   user,
@@ -115,7 +115,7 @@ const FromCreatorBox = ({
   };
 
   // TODO: Review this attribute
-  const disabled = !totalSkuListingSuppyLeft;
+  const disabled = !totalSkuListingSupplyLeft;
 
   if (minStartDate > new Date()) {
     return (
@@ -136,7 +136,7 @@ const FromCreatorBox = ({
       <BoxColumn style={{ textAlign: 'center' }}>
         <span style={{ fontSize: '28px' }}>${skuPrice}</span>
         <small style={{ fontSize: '15px' }}>
-          ({totalSkuListingSuppyLeft} left)
+          ({totalSkuListingSupplyLeft} left)
         </small>
       </BoxColumn>
       <div>
@@ -217,7 +217,7 @@ const SkuButtonBlock = (props: {
     series,
     royaltyFeePercentage,
     minStartDate = new Date(0),
-    totalSkuListingSuppyLeft,
+    totalSkuListingSupplyLeft,
   } = props.sku;
 
   const listingId = props.collectors.find(
@@ -253,7 +253,7 @@ const SkuButtonBlock = (props: {
           user={props.user}
           listingId={listingId}
           minStartDate={minStartDate}
-          totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+          totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
           onBuyNow={props.onBuyNow}
         />
         <FromCollectorsBox
@@ -274,7 +274,7 @@ const SkuButtonBlock = (props: {
         user={props.user}
         listingId={listingId}
         minStartDate={minStartDate}
-        totalSkuListingSuppyLeft={totalSkuListingSuppyLeft}
+        totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
         onBuyNow={props.onBuyNow}
       />
     );
