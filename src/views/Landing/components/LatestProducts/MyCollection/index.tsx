@@ -53,7 +53,7 @@ export const MyCollection = () => {
                   status={type}
                   productSerialNumber={item.serialNumber}
                   key={item._id}
-                  purchasedDate="1k"
+                  pillInfo="1k"
                 />
               </S.TileContainer>
             );
