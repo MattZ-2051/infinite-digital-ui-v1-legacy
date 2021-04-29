@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { formatCountdown, dateToPrettyString } from 'utils/dates';
 import { Sku } from 'entities/sku';
+import { User } from 'entities/user';
+
+import ModalPayment from '../../ModalPayment';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -52,6 +55,9 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
 
 interface IFromCreatorBox {
   skuPrice: number;
+  totalNewSupplyLeft: number;
+  product: Sku;
+  user: User;
   minStartDate: Date;
   totalSkuListingSupplyLeft: number;
   onBuyNow: () => void;
@@ -62,7 +68,11 @@ const FromCreatorBox = ({
   minStartDate,
   totalSkuListingSupplyLeft = 0,
   onBuyNow,
+  product,
+  user,
 }: IFromCreatorBox): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (minStartDate > new Date()) {
     return (
       <Container>
@@ -70,7 +80,13 @@ const FromCreatorBox = ({
       </Container>
     );
   }
-
+  const handleBuyNowClick = () => {
+    // TODO: Check this call with pablo
+    onBuyNow();
+    setIsModalOpen(true);
+  };
+  const modalMode =
+    user.availableBalance < product.minSkuPrice ? 'noFunds' : 'hasFunds';
   const disabled = !totalSkuListingSupplyLeft;
 
   return (
@@ -88,10 +104,17 @@ const FromCreatorBox = ({
         </small>
       </BoxColumn>
       <div>
-        <Button disabled={disabled} onClick={onBuyNow}>
+        <Button disabled={disabled} onClick={handleBuyNowClick}>
           {disabled ? `Sold Out` : `Buy Now`}
         </Button>
       </div>
+      <ModalPayment
+        visible={isModalOpen}
+        setModalPaymentVisible={setIsModalOpen}
+        mode={modalMode}
+        product={product}
+        user={user}
+      />
     </Container>
   );
 };
@@ -133,43 +156,70 @@ const FromCollectorsBox = ({
 
 const SkuButtonBlock = (props: {
   sku: Sku;
+  user: User;
   onBuyNow: () => void;
-}): JSX.Element | null => {
+}): JSX.Element => {
   const {
+    totalSupplyUpcoming,
+    circulatingSupply,
     countSkuListings,
-    minStartDate = new Date(0),
+    countProductListings,
     minSkuPrice,
+    totalSupplyLeft,
+    minCurrentBid,
+    name,
+    rarity,
+    imageUrls,
+    totalSupply,
+    redeemable,
+    series,
+    royaltyFeePercentage,
+    minStartDate = new Date(0),
     totalSkuListingSupplyLeft,
-    // totalSupplyUpcoming,
-    // countProductListings,
-    // minCurrentBid,
   } = props.sku;
 
   const hasSkus = !!countSkuListings;
+  const hasProducts = !!countProductListings;
 
-  // TODO: When adding collector component, this needs to be checked for here also
-  // const hasProducts = !!countProductListings;
-
-  if (!hasSkus) {
+  if (!hasSkus && !hasProducts) {
     return <NotAvailable />;
   }
 
-  return (
-    <>
+  if (hasSkus && hasProducts) {
+    return (
+      <>
+        <FromCreatorBox
+          skuPrice={minSkuPrice}
+          totalNewSupplyLeft={totalSupplyLeft}
+          product={props.sku}
+          user={props.user}
+          minStartDate={minStartDate}
+          totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
+          onBuyNow={props.onBuyNow}
+        />
+        <FromCollectorsBox
+          minimunPrice={minCurrentBid}
+          totalSupply={totalSupply}
+          countProductListings={countProductListings}
+        />
+      </>
+    );
+  }
+
+  if (hasSkus) {
+    return (
       <FromCreatorBox
         skuPrice={minSkuPrice}
+        totalNewSupplyLeft={totalSupplyLeft}
+        product={props.sku}
+        user={props.user}
         minStartDate={minStartDate}
         totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
         onBuyNow={props.onBuyNow}
       />
-      {/* TODO: In future will enable the collectors box */}
-      {/* <FromCollectorsBox
-        minimunPrice={minCurrentBid}
-        totalSupply={0}
-        countProductListings={countProductListings}
-      /> */}
-    </>
-  );
+    );
+  }
+  return <></>;
 };
 
 const Container = styled.div`

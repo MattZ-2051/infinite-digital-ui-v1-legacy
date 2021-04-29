@@ -1,6 +1,5 @@
 import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
-import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
 import { Listing } from 'entities/listing';
 

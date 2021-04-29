@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
 import { Collector } from 'entities/collector';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
@@ -21,6 +22,7 @@ import { SkuCounter } from './components/SkuCounter/skuCounter';
 
 const SkuDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const loggedInUser = useAppSelector((state) => state.session.user);
   const skus = useAppSelector((state) => state.sku.skus);
 
   const { skuid } = useParams<{ skuid: string }>();
@@ -93,11 +95,12 @@ const SkuDetail = (): JSX.Element => {
 
   return (
     <div>
-      <ModalPayment
+      {/* TODO: Fix modal props */}
+      {/* <ModalPayment
         visible={modalPaymentVisible}
         setModalPaymentVisible={setModalPaymentVisible}
         mode={modalMode.current}
-      />
+      /> */}
 
       <HeaderContainer>
         <HeaderContent>
@@ -156,7 +159,11 @@ const SkuDetail = (): JSX.Element => {
             </ProductDetail>
 
             <ButtonsContainer>
-              <SkuButtonBlock sku={skuDetails} onBuyNow={showModal} />
+              <SkuButtonBlock
+                sku={skuDetails}
+                user={loggedInUser}
+                onBuyNow={showModal}
+              />
             </ButtonsContainer>
           </HeaderRight>
         </HeaderContent>

@@ -2,9 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Return type of the payload creator
 // TODO: REVIEW THIS
-interface IResponse {
-  test?: any;
-}
+interface IResponse {}
 
 // First argument to the payload creator
 interface IPayloadParams {

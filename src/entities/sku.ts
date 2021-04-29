@@ -56,4 +56,5 @@ export interface Sku {
   };
   createdAt?: Date;
   updatedAt?: Date;
+  royaltyFeePercentage: number;
 }
