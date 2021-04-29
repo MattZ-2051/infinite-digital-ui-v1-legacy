@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'components/Modal';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
@@ -14,14 +14,19 @@ import { patchListingsPurchase } from 'services/api/listingService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
+import Toast from 'utils/Toast';
+import { purchase } from 'utils/messages';
+
+type Modes = 'completed' | 'hasFunds' | 'noFunds';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
-  mode: string;
+  mode: Modes;
   product: Sku;
   user: User;
   showSerial?: boolean;
+  listingId?: string;
 }
 
 const ModalPayment = ({
@@ -31,9 +36,11 @@ const ModalPayment = ({
   product,
   user,
   showSerial = false,
+  listingId,
 }: IModalProps) => {
-  // TODO: Add buyersfee
   const { getAccessTokenSilently } = useAuth0();
+  const [statusMode, setStatusMode] = useState<Modes>(mode);
+  const [loading, setLoading] = useState(false);
 
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
@@ -42,26 +49,34 @@ const ModalPayment = ({
   const history = useHistory();
 
   const buyAction = async () => {
-    console.log('=====================');
-    console.log('!!! product =>', product);
-    console.log('=====================');
-    const userToken = await getAccessTokenSilently();
-    // TODO: Get product id
-    // TODO: Catch service result
-    const result = await patchListingsPurchase(userToken, product._id);
-    console.log('=====================');
-    console.log('result', result);
-    console.log('=====================');
+    if (listingId) {
+      setLoading(true);
+      const userToken = await getAccessTokenSilently();
+      try {
+        const result = await patchListingsPurchase(userToken, listingId);
+        // TODO: Check payment
+        if (result) {
+          setStatusMode('completed');
+          Toast.error(purchase.patchListingsPurchaseSuccess);
+        }
+        setLoading(false);
+      } catch (e) {
+        setLoading(false);
+        Toast.error(purchase.patchListingsPurchaseError);
+      }
+    }
   };
 
   const handleActionButton = () => {
-    if (mode === 'noFunds') {
+    if (statusMode === 'noFunds') {
       history.push({
         pathname: `/wallet/${username}`,
         state: { modalOpen: true },
       });
-    } else if (mode === 'hasFunds') {
+    } else if (statusMode === 'hasFunds') {
       buyAction();
+    } else if (statusMode === 'completed') {
+      // TODO: Go to product view (5.x Product page)
     }
   };
 
@@ -76,13 +91,13 @@ const ModalPayment = ({
 
       <S.Header>
         <S.Title>
-          {mode === 'hasFunds' && <>Confirm your order:</>}
-          {mode === 'noFunds' && (
+          {statusMode === 'hasFunds' && <>Confirm your order:</>}
+          {statusMode === 'noFunds' && (
             <>
               <img src={alertIcon} alt="" /> Whoops, Insuficient funds!
             </>
           )}
-          {mode === 'completed' && (
+          {statusMode === 'completed' && (
             <>
               <img src={handIcon} alt="" /> Yeah! Payment sucessful.
             </>
@@ -90,12 +105,12 @@ const ModalPayment = ({
         </S.Title>
 
         <S.SubTitle>
-          {mode === 'hasFunds' && (
+          {statusMode === 'hasFunds' && (
             <span style={{ color: '#12C95F' }}>
               Your current balance ${user.availableBalance}
             </span>
           )}
-          {mode === 'noFunds' && (
+          {statusMode === 'noFunds' && (
             <span style={{ color: '#E74C3C' }}>
               Your wallet balance ${user.availableBalance}
             </span>
@@ -155,7 +170,7 @@ const ModalPayment = ({
 
       <S.Footer>
         <p style={{ marginBottom: '32px', color: '#7D7D7D' }}>
-          {mode === 'hasFunds' && (
+          {statusMode === 'hasFunds' && (
             <>
               {product.royaltyFeePercentage && (
                 <strong>
@@ -167,10 +182,10 @@ const ModalPayment = ({
               your wallet.
             </>
           )}
-          {mode === 'noFunds' && (
+          {statusMode === 'noFunds' && (
             <> You need more founds to make this purchase.</>
           )}
-          {mode === 'completed' && (
+          {statusMode === 'completed' && (
             <>
               You successfully bought this item, and <br /> now is part of your
               collection.
@@ -187,13 +202,14 @@ const ModalPayment = ({
             textTransform: 'capitalize',
           }}
           onClick={handleActionButton}
+          disabled={loading}
         >
-          {mode === 'hasFunds' && 'Place Order'}
-          {mode === 'noFunds' && 'Add Funds'}
-          {mode === 'completed' && 'View Your Product'}
+          {statusMode === 'hasFunds' && 'Place Order'}
+          {statusMode === 'noFunds' && 'Add Funds'}
+          {statusMode === 'completed' && 'View Your Product'}
         </Button>
 
-        {mode === 'completed' && (
+        {statusMode === 'completed' && (
           <div style={{ marginTop: '20px' }}>
             <Link style={{ textDecoration: 'none' }} to={''}>
               Back to Marketplace

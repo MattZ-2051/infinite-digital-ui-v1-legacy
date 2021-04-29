@@ -150,6 +150,7 @@ const FromCreatorBox = ({
         mode={modalMode}
         product={product}
         user={user}
+        listingId={listingId}
       />
     </Container>
   );
@@ -215,10 +216,9 @@ const SkuButtonBlock = (props: {
     totalSkuListingSuppyLeft,
   } = props.sku;
 
-  const listingId = props.collectors
-    .map(({ listing }) => listing)
-    .flat()
-    .find((listing) => listing.status === 'active')?._id;
+  const listingId = props.collectors.find(
+    (collector) => collector.activeProductListing
+  )?.activeProductListing._id;
 
   const isUpcoming = !!totalSupplyUpcoming;
   const hasMintedProducts = !!circulatingSupply;
