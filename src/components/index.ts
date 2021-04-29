@@ -8,7 +8,7 @@ export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as FilterBox } from './FilterBox';
 export { default as FilterChip } from './FilterChip';
 export { default as ImageGallery } from './ImageGallery';
-export { default as Modal } from './Modal';
+export { default as ModalComponent } from './Modal';
 export { default as Notification } from './Notification';
 export { default as PrivateComponent } from './PrivateComponent';
 export { default as ProductPanel } from './ProductPanel';

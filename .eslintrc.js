@@ -26,6 +26,6 @@ module.exports = {
     'react/prop-types': 'off',
     'prettier/prettier': 'error',
     '@typescript-eslint/interface-name-prefix': [0],
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
   },
 };

@@ -25,7 +25,7 @@ export interface Sku {
   totalSupplyLeft: number;
   totalSkuSupplyLeft: number;
   totalSupplyUpcoming: number;
-  totalSkuListingSuppyLeft: number;
+  totalSkuListingSupplyLeft: number;
   countSkuListings: number;
   countAllSkuListings: number;
   countProductListings: number;
@@ -56,4 +56,5 @@ export interface Sku {
   };
   createdAt?: Date;
   updatedAt?: Date;
+  royaltyFeePercentage: number;
 }
