@@ -114,6 +114,7 @@ const FromCreatorBox = ({
     }
   };
 
+  // TODO: Review this attribute
   const disabled = !totalSkuListingSuppyLeft;
 
   if (minStartDate > new Date()) {
@@ -139,7 +140,10 @@ const FromCreatorBox = ({
         </small>
       </BoxColumn>
       <div>
-        <Button onClick={() => handleBuyNowClick(userLogged)}>
+        <Button
+          disabled={disabled}
+          onClick={() => handleBuyNowClick(userLogged)}
+        >
           {' '}
           {disabled ? `Sold Out` : `Buy Now`}
         </Button>
