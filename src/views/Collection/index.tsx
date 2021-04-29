@@ -34,7 +34,7 @@ const Collection = () => {
 };
 
 const Container = styled.div`
-  height: 100vh;
+  height: 130vh;
 `;
 
 export default Collection;
