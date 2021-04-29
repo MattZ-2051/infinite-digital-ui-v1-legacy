@@ -76,7 +76,7 @@ const ModalPayment = ({
     } else if (statusMode === 'hasFunds') {
       buyAction();
     } else if (statusMode === 'completed') {
-      // TODO: Go to product view (5.x Product page)
+      history.push(`/product/${product._id}`);
     }
   };
 
