@@ -53,27 +53,27 @@ export const addFundsToUserWallet = async (
   token: string,
   data: any,
   cardId: string
-) => {
+): Promise<Wallet> => {
   try {
     const response = await axiosInstance.post(
       `/wallet/cards/${cardId}/payments`,
       data,
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    return response;
+    return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error(err.response.message);
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`
        * is an instance of XMLHttpRequest in the browser and an instance
        * of http.ClientRequest in Node.js
        */
-      return 'No Response Received';
+      throw new Error('No Response Received');
     } else {
       // Something happened in setting up the request and triggered an err
-      return 'Bad Request';
+      throw new Error('Bad Request');
     }
   }
 };
@@ -125,7 +125,7 @@ export const removeUserCC = async (token: string, cardId: string) => {
     return response;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error('Error Occured');
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`

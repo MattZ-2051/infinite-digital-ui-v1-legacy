@@ -7,10 +7,14 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
-import { addFundsToUserWallet, removeUserCC } from 'services/api/userService';
+import { addFundsToUserWallet } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import CurrencyInput from 'react-currency-input-field';
-import { getUserCardsThunk } from 'store/session/sessionThunks';
+import {
+  getUserCardsThunk,
+  removeUserCCThunk,
+  addFundsThunk,
+} from 'store/session/sessionThunks';
 
 const S: any = {};
 
@@ -41,9 +45,12 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    const res = await addFundsToUserWallet(userToken, fundsBody, userCard.id);
-    console.log('add funds res', res);
-    if (res.status === 201) {
+    const res = await dispatch(
+      addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
+    );
+
+    console.log(res.type.split('/')[5]);
+    if (res.type.split('/')[5] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
       history.push(`/wallet/${username}/deposit/success`);
     } else {
@@ -53,8 +60,7 @@ const AddFunds = () => {
 
   const removeCard = async () => {
     const userToken = await getAccessTokenSilently();
-    const res = await removeUserCC(userToken, userCard.id);
-    console.log(res);
+    dispatch(removeUserCCThunk({ token: userToken, id: userCard.id }));
   };
 
   const year = userCard.expYear.toString().slice(2, 4);

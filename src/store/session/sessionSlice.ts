@@ -7,6 +7,7 @@ import {
   deleteUser,
   createNewCCThunk,
   removeUserCCThunk,
+  addFundsThunk,
 } from './sessionThunks';
 
 interface UsersState {
@@ -92,6 +93,17 @@ export const sessionSlice = createSlice({
       state.userCards = payload;
     });
     builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = error.message;
+    });
+    builder.addCase(addFundsThunk.fulfilled, (state) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+    });
+    builder.addCase(addFundsThunk.rejected, (state, { error }) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }

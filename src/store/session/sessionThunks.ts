@@ -10,6 +10,7 @@ import {
   updateUsername,
   removeUserCC,
   createNewCC,
+  addFundsToUserWallet,
 } from 'services/api/userService';
 
 interface Values {
@@ -22,8 +23,14 @@ interface IPayloadParams {
   id: string;
 }
 
-interface CCPayload {
+interface NewCCPayloadParams {
   token: string;
+  data: Values;
+}
+
+interface AddFundsPayloadParams {
+  token: string;
+  cardId: string;
   data: Values;
 }
 
@@ -134,31 +141,66 @@ export const removeUserCCThunk = createAsyncThunk<
   {
     rejectValue: IError;
   }
->('/wallet/cards/:id', async ({ token, id }, thunkApi) => {
-  try {
-    const response = await removeUserCC(token, id);
-    return response;
-  } catch (e) {
-    return thunkApi.rejectWithValue({
-      errorMessage: e.message,
-    } as IError);
+>(
+  '/wallet/cards/:id/delete',
+  async (
+    { token, id },
+    thunkApi
+  ): Promise<Wallet | RejectWithValue<IError>> => {
+    try {
+      const response = await removeUserCC(token, id);
+      return response.data;
+    } catch (e) {
+      return thunkApi.rejectWithValue({
+        errorMessage: e.message,
+      } as IError);
+    }
   }
-});
+);
 
 export const createNewCCThunk = createAsyncThunk<
   Card,
-  CCPayload,
+  NewCCPayloadParams,
   {
     rejectValue: IError;
   }
->('/wallet/cards/:id', async ({ token, data }, thunkApi) => {
-  try {
-    const response = await createNewCC(token, data);
-    return response;
-  } catch (e) {
-    return thunkApi.rejectWithValue({
-      errorMessage: e.message,
-    } as IError);
+>(
+  '/wallet/cards/new',
+  async (
+    { token, data },
+    thunkApi
+  ): Promise<Card | RejectWithValue<IError>> => {
+    try {
+      const response = await createNewCC(token, data);
+      return response;
+    } catch (e) {
+      return thunkApi.rejectWithValue({
+        errorMessage: e.message,
+      } as IError);
+    }
   }
-});
+);
+
+export const addFundsThunk = createAsyncThunk<
+  Wallet,
+  AddFundsPayloadParams,
+  {
+    rejectValue: IError;
+  }
+>(
+  '/wallet/cards/:cardId/payments`',
+  async (
+    { token, data, cardId },
+    thunkApi
+  ): Promise<Wallet | RejectWithValue<IError>> => {
+    try {
+      const response = await addFundsToUserWallet(token, data, cardId);
+      return response;
+    } catch (e) {
+      return thunkApi.rejectWithValue({
+        errorMessage: e.message,
+      } as IError);
+    }
+  }
+);
 export const deleteUser = createAction('/user/delete');

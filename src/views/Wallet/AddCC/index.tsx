@@ -59,7 +59,9 @@ const AddCC = () => {
     if (checkErrors) {
       return;
     }
-    dispatch(createNewCCThunk({ token: userToken, data: cardInfo }));
+    const res = dispatch(
+      createNewCCThunk({ token: userToken, data: cardInfo })
+    );
   };
 
   const clearState = () => {
