@@ -5,6 +5,8 @@ import {
   getUserCardsThunk,
   updateUsernameThunk,
   deleteUser,
+  createNewCCThunk,
+  removeUserCCThunk,
 } from './sessionThunks';
 
 interface UsersState {
@@ -70,6 +72,18 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.user = {};
+    });
+    builder.addCase(createNewCCThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = payload;
+    });
+    builder.addCase(createNewCCThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = error.message;
     });
   },
 });

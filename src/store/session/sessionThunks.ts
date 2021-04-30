@@ -2,6 +2,7 @@ import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { ProductWithFunctions } from 'entities/product';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
+import { Card } from 'entities/card';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import {
   getMe,
@@ -11,10 +12,19 @@ import {
   createNewCC,
 } from 'services/api/userService';
 
+interface Values {
+  [key: string]: any;
+}
+
 // First argument to the payload creator
 interface IPayloadParams {
   token: string;
   id: string;
+}
+
+interface CCPayload {
+  token: string;
+  data: Values;
 }
 
 interface UsernamePayloadParams {
@@ -119,34 +129,36 @@ export const updateUsernameThunk = createAsyncThunk<
 });
 
 export const removeUserCCThunk = createAsyncThunk<
-  Wallet,
+  Card,
   IPayloadParams,
   {
     rejectValue: IError;
   }
 >('/wallet/cards/:id', async ({ token, id }, thunkApi) => {
-  const response = await removeUserCC(token, id);
-  if (response.status !== 200) {
+  try {
+    const response = await removeUserCC(token, id);
+    return response;
+  } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: response.message,
+      errorMessage: e.message,
     } as IError);
   }
-  return response.data;
 });
 
 export const createNewCCThunk = createAsyncThunk<
-  Wallet,
-  IPayloadParams,
+  Card,
+  CCPayload,
   {
     rejectValue: IError;
   }
->('/wallet/cards/:id', async ({ token, id }, thunkApi) => {
-  const response = await removeUserCC(token, id);
-  if (response.status !== 200) {
+>('/wallet/cards/:id', async ({ token, data }, thunkApi) => {
+  try {
+    const response = await createNewCC(token, data);
+    return response;
+  } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: response.message,
+      errorMessage: e.message,
     } as IError);
   }
-  return response.data;
 });
 export const deleteUser = createAction('/user/delete');

@@ -102,7 +102,7 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
     return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error('Error occured');
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`

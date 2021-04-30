@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import { useAppSelector } from 'store/hooks';
-import { createNewCC } from 'services/api/userService';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { createNewCCThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { validate, errors, state, Values } from './helper';
@@ -15,6 +15,7 @@ const AddCC = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
   const [formError, setFormError] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,16 +59,7 @@ const AddCC = () => {
     if (checkErrors) {
       return;
     }
-    const res = await createNewCC(userToken, cardInfo);
-    console.log('add cc res', res);
-    console.log(res);
-    if (false) {
-      setFormError(true);
-      setTimeout(() => {
-        setFormError(false);
-      }, 3000);
-      return;
-    }
+    dispatch(createNewCCThunk({ token: userToken, data: cardInfo }));
   };
 
   const clearState = () => {

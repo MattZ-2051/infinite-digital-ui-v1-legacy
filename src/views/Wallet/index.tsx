@@ -149,9 +149,11 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            <S.SeeMore onClick={handleShowChange}>
-              {(showMore && 'See Less') || 'Show More'}
-            </S.SeeMore>
+            {transactions.length > 5 && (
+              <S.SeeMore onClick={handleShowChange}>
+                {(showMore && 'See Less') || 'Show More'}
+              </S.SeeMore>
+            )}
           </S.FlexRow>
         </div>
       </S.PageContentContainer>
