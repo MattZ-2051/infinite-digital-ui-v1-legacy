@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -13,6 +12,7 @@ import {
   updateFilters,
   updateFilter,
 } from 'store/marketplace/marketplaceSlice';
+import { SkuWithTotal } from 'entities/sku';
 // Components
 import SearchInput from './components/Filters/SearchInput';
 import SortByFilter from './components/Filters/SortByFilter';
@@ -26,7 +26,7 @@ const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
-  const skus = useAppSelector((store) => store.sku.skus);
+  const skus = useAppSelector((state) => state.sku.skus) as SkuWithTotal;
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
@@ -148,8 +148,8 @@ const MarketPlace = (): JSX.Element => {
           <ProductsGrid>
             {/* Sku Tile data from store being rendered with Sku Tiles */}
 
-            {skus instanceof Array &&
-              skus.map((sku) => {
+            {skus.data instanceof Array &&
+              skus.data.map((sku) => {
                 return <SkuTile sku={sku} key={sku._id} />;
               })}
           </ProductsGrid>

@@ -13,5 +13,4 @@ export interface User {
   updatedAt: string;
   username: string;
   transactions?: ITransaction[];
-  errorMessage?: string;
 }

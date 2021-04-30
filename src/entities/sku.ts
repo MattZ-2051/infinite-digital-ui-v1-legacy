@@ -58,3 +58,8 @@ export interface Sku {
   updatedAt?: Date;
   royaltyFeePercentage: number;
 }
+
+export interface SkuWithTotal {
+  data: Sku[];
+  total: string;
+}

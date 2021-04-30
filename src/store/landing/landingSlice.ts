@@ -14,7 +14,6 @@ export const listingSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      //console.log('payload: ', payload)
       state.features = payload;
     });
   },

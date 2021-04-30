@@ -27,8 +27,6 @@ const defaultFilters: IFilters = {
 };
 
 export const getDefaultParams = () => {
-  // console.log('%c getDefaultParams ', 'background: #222; color: #bada55');
-
   const queryString = window.location.search;
   const urlParams: any = new URLSearchParams(queryString);
   const filters: IFilters = JSON.parse(JSON.stringify(defaultFilters));

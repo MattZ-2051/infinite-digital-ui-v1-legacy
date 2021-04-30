@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
-import { Sku } from 'entities/sku';
+import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
-  const [tiles, setTiles] = useState<Sku[]>([]);
+  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: '' });
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
@@ -28,7 +28,7 @@ const MarketPlace = () => {
       </HeaderContainer>
       <ProductContainer>
         {tiles &&
-          tiles.map((el, index) => {
+          tiles.data.map((el, index) => {
             if (index >= 16) return null;
             return (
               <TileContainer key={index} index={index}>

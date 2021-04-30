@@ -4,7 +4,10 @@ import { Sku } from 'entities/sku';
 import { skuFactory } from './skuFactory';
 
 interface InitialListingState {
-  skus: Sku[];
+  skus: {
+    data: Sku[];
+    total: string;
+  };
   loading: 'idle' | 'pending';
   currentRequestId: string | undefined;
   error: SerializedError | string | null;
@@ -13,7 +16,10 @@ interface InitialListingState {
 export const skuSlice = createSlice({
   name: 'sku',
   initialState: <InitialListingState>{
-    skus: [skuFactory.build()],
+    skus: {
+      data: [skuFactory.build()],
+      total: '',
+    },
     loading: 'idle',
     currentRequestId: undefined,
     error: null,
@@ -30,7 +36,10 @@ export const skuSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.skus = payload;
+      state.skus = {
+        data: payload.data,
+        total: payload.total,
+      };
       state.currentRequestId = undefined;
     });
     builder.addCase(getSkuTilesThunk.rejected, (state, action) => {
