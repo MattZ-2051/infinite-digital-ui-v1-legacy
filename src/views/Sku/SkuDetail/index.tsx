@@ -98,12 +98,6 @@ const SkuDetail = (): JSX.Element => {
     }
   };
 
-  console.log(skuDetails.data);
-
-  if (!skuDetails.data) {
-    return <div>erqewr</div>;
-  }
-
   return (
     <div>
       {/* TODO: Fix modal props */}
