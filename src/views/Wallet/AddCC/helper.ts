@@ -19,6 +19,47 @@ export const errors: Errors = {
   postalCode: false,
 };
 
+export const handleChange = (e, setCardInfo) => {
+  const { name, value } = e.target;
+
+  if (name.includes('num-')) {
+    const keyName = name.split('-')[1];
+    setCardInfo((prevState) => ({
+      ...prevState,
+      [keyName]: value.replace(/[^0-9]/g, ''),
+    }));
+    return;
+  }
+  if (name.includes('billingDetails-')) {
+    const keyName = name.split('-')[1];
+
+    if (keyName === 'name') {
+      setCardInfo((prevState) => ({
+        ...prevState,
+        billingDetails: {
+          ...prevState?.billingDetails,
+          [keyName]: value.replace(/[^a-zA-Z\s]/gi, ''), //value.replace(/[^a-zA-Z]/gi, ''),
+          //numbers /[^0-9]/g, ''
+        },
+      }));
+      return;
+    }
+    setCardInfo((prevState) => ({
+      ...prevState,
+      billingDetails: {
+        ...prevState?.billingDetails,
+        [keyName]: value,
+      },
+    }));
+    return;
+  }
+  setCardInfo((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+  return;
+};
+
 export const validate = (ccInfo, setFieldError) => {
   const year = new Date().getFullYear() - 1;
 

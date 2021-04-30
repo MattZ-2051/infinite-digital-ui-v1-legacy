@@ -134,7 +134,7 @@ const Wallet = (props) => {
                 {transactions &&
                   transactions.map((tx, index) => {
                     // TODO: Add pagination instead of static limit 5
-                    if (index >= 5) return null;
+                    // if (index >= 5) return null;
                     return <Transaction tx={tx} key={index} />;
                   })}
               </>

@@ -90,13 +90,12 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.userCards = payload;
     });
     builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = error.message;
+      state.error = 'Error Removing Credit Card';
     });
     builder.addCase(addFundsThunk.fulfilled, (state) => {
       if (state.loading === 'pending') {
@@ -107,7 +106,7 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = error.message;
+      state.error = 'Error Adding Funds';
     });
   },
 });

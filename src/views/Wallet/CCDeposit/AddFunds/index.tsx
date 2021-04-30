@@ -7,7 +7,6 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { Container } from '../index';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
-import { addFundsToUserWallet } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import CurrencyInput from 'react-currency-input-field';
 import {
@@ -49,7 +48,6 @@ const AddFunds = () => {
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
 
-    console.log(res.type.split('/')[5]);
     if (res.type.split('/')[5] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
       history.push(`/wallet/${username}/deposit/success`);
@@ -60,7 +58,15 @@ const AddFunds = () => {
 
   const removeCard = async () => {
     const userToken = await getAccessTokenSilently();
-    dispatch(removeUserCCThunk({ token: userToken, id: userCard.id }));
+    const res = await dispatch(
+      removeUserCCThunk({ token: userToken, id: userCard.id })
+    );
+
+    if (res.type.split('/')[5] === 'rejected') {
+      return;
+    } else {
+      history.push(`/wallet/${username}`);
+    }
   };
 
   const year = userCard.expYear.toString().slice(2, 4);
