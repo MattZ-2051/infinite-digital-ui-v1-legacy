@@ -5,6 +5,9 @@ import {
   getUserCardsThunk,
   updateUsernameThunk,
   deleteUser,
+  createNewCCThunk,
+  removeUserCCThunk,
+  addFundsThunk,
 } from './sessionThunks';
 
 interface UsersState {
@@ -70,6 +73,40 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.user = {};
+    });
+    builder.addCase(createNewCCThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.userCards = payload;
+    });
+    builder.addCase(createNewCCThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = error.message;
+    });
+    builder.addCase(removeUserCCThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+    });
+    builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = 'Error Removing Credit Card';
+    });
+    builder.addCase(addFundsThunk.fulfilled, (state) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+    });
+    builder.addCase(addFundsThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = 'Error Adding Funds';
     });
   },
 });

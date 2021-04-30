@@ -2,62 +2,46 @@ import React from 'react';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import { useAppSelector } from 'store/hooks';
-import { createNewCC } from 'services/api/userService';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import {
+  createNewCCThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
-import { validate, errors, state, Values } from './helper';
+import { validate, errors, state, Values, handleChange } from './helper';
+import { useHistory } from 'react-router-dom';
 
 const AddCC = () => {
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [fieldError, setFieldError] = useState(errors);
-  const userEmail = useAppSelector((state) => state.session.user.email);
+  const loggedInUser = useAppSelector((state) => state.session.user);
   const { getAccessTokenSilently } = useAuth0();
   const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name.includes('billingDetails')) {
-      const keyName = name.split('-')[1];
-
-      if (keyName === 'name') {
-        setCardInfo((prevState) => ({
-          ...prevState,
-          billingDetails: {
-            ...prevState?.billingDetails,
-            [keyName]: value, //value.replace(/[^a-zA-Z]/gi, ''),
-          },
-        }));
-        return;
-      }
-      setCardInfo((prevState) => ({
-        ...prevState,
-        billingDetails: {
-          ...prevState?.billingDetails,
-          [keyName]: value,
-        },
-      }));
-      return;
-    }
-    setCardInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    return;
-  };
+  const [formError, setFormError] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
-    cardInfo.metadata.email = userEmail;
+    cardInfo.metadata.email = loggedInUser.email;
     cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
     cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
     const checkErrors = validate(cardInfo, setFieldError);
     if (checkErrors) {
       return;
     }
-    const res = await createNewCC(userToken, cardInfo);
+    const res = await dispatch(
+      createNewCCThunk({ token: userToken, data: cardInfo })
+    );
+
+    if (res.type.split('/')[4] === 'rejected') {
+      setFormError(true);
+    } else {
+      dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
+      history.push(`/wallet/${loggedInUser.username}`);
+    }
   };
 
   const clearState = () => {
@@ -65,6 +49,7 @@ const AddCC = () => {
     setIsOpen(false);
   };
 
+  console.log(cardInfo);
   return (
     <S.Container>
       <S.Box>
@@ -80,7 +65,9 @@ const AddCC = () => {
           </S.Row>
         </S.HeaderContainer>
         <S.Row>
-          <S.EnterDetailsText>Enter the card details below</S.EnterDetailsText>
+          <S.EnterDetailsText>
+            {formError ? 'An Error Occurred' : 'Enter the card details below'}
+          </S.EnterDetailsText>
         </S.Row>
         <S.Row>
           <S.FormInput
@@ -94,7 +81,7 @@ const AddCC = () => {
             helperText={
               fieldError?.cardNumber && 'Enter a valid credit card number'
             }
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, setCardInfo)}
             value={cardInfo?.cardNumber}
           />
         </S.Row>
@@ -104,11 +91,11 @@ const AddCC = () => {
             label="Exp Date MM"
             size="medium"
             required
-            name="expMonth"
+            name="num-expMonth"
             error={fieldError?.expMonth}
             helperText={fieldError?.expMonth && 'Enter a valid month format MM'}
-            onChange={handleChange}
-            type="number"
+            onChange={(e) => handleChange(e, setCardInfo)}
+            type="text"
             value={cardInfo?.expMonth}
             style={{ paddingRight: '10px' }}
           />
@@ -117,11 +104,11 @@ const AddCC = () => {
             label="Exp Date YYYY"
             size="medium"
             required
-            name="expYear"
+            name="num-expYear"
             error={fieldError?.expYear}
             helperText={fieldError?.expYear && 'Enter a valid year format YYYY'}
-            onChange={handleChange}
-            type="number"
+            onChange={(e) => handleChange(e, setCardInfo)}
+            type="text"
             value={cardInfo?.expYear}
             style={{ paddingRight: '10px' }}
           />
@@ -131,7 +118,7 @@ const AddCC = () => {
             size="medium"
             required
             name="cvv"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, setCardInfo)}
             error={fieldError?.cvv}
             helperText={
               fieldError?.cvv && 'Enter a valid 3 digit card cvv number'
@@ -159,7 +146,7 @@ const AddCC = () => {
                 fullWidth
                 required
                 name="billingDetails-name"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 value={cardInfo?.billingDetails.name}
                 error={fieldError?.name}
                 helperText={fieldError?.name && 'Enter a valid name'}
@@ -172,7 +159,7 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 name="billingDetails-line1"
                 value={cardInfo?.billingDetails.line1}
                 error={fieldError?.line1}
@@ -186,7 +173,7 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 name="billingDetails-line2"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 value={cardInfo?.billingDetails.line2}
               />
             </S.Row>
@@ -197,7 +184,7 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 name="billingDetails-postalCode"
                 value={cardInfo?.billingDetails.postalCode}
                 error={fieldError?.postalCode}
@@ -214,7 +201,7 @@ const AddCC = () => {
                 fullWidth
                 required
                 name="billingDetails-city"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 value={cardInfo?.billingDetails.city}
                 error={fieldError?.city}
                 helperText={fieldError?.city && 'Enter a valid city'}
@@ -226,7 +213,7 @@ const AddCC = () => {
                 label="District"
                 size="medium"
                 fullWidth
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 name="billingDetails-district"
                 value={cardInfo?.billingDetails.district}
               />
@@ -238,7 +225,7 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setCardInfo)}
                 name="billingDetails-country"
                 value={cardInfo?.billingDetails.country}
               />
@@ -250,7 +237,7 @@ const AddCC = () => {
                 size="medium"
                 fullWidth
                 required
-                onChange={handleChange}
+               onChange={(e) => handleChange(e, setCardInfo)}
               />
             </S.Row> */}
           </S.Div>

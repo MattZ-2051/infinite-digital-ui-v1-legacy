@@ -6,10 +6,11 @@ import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
 import { getMe, getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { ITransaction } from 'entities/transaction';
 import KycButton from './KycButton/kycButton';
 export const S: any = {};
@@ -21,12 +22,14 @@ const Wallet = (props) => {
   const [user, setUser] = useState<User>();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
 
   const username = useAppSelector((state) => state.session.user.username);
 
   async function fetchUser() {
     const res = await getMe(await getAccessTokenSilently());
+    dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
     setUser(res);
   }
 
@@ -131,7 +134,7 @@ const Wallet = (props) => {
                 {transactions &&
                   transactions.map((tx, index) => {
                     // TODO: Add pagination instead of static limit 5
-                    if (index >= 5) return null;
+                    // if (index >= 5) return null;
                     return <Transaction tx={tx} key={index} />;
                   })}
               </>
@@ -146,9 +149,11 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            <S.SeeMore onClick={handleShowChange}>
-              {(showMore && 'See Less') || 'Show More'}
-            </S.SeeMore>
+            {transactions.length > 5 && (
+              <S.SeeMore onClick={handleShowChange}>
+                {(showMore && 'See Less') || 'Show More'}
+              </S.SeeMore>
+            )}
           </S.FlexRow>
         </div>
       </S.PageContentContainer>

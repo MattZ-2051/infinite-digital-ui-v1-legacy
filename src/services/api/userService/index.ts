@@ -53,27 +53,27 @@ export const addFundsToUserWallet = async (
   token: string,
   data: any,
   cardId: string
-) => {
+): Promise<Wallet> => {
   try {
     const response = await axiosInstance.post(
       `/wallet/cards/${cardId}/payments`,
       data,
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    return response;
+    return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error(err.response.message);
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`
        * is an instance of XMLHttpRequest in the browser and an instance
        * of http.ClientRequest in Node.js
        */
-      return 'No Response Received';
+      throw new Error('No Response Received');
     } else {
       // Something happened in setting up the request and triggered an err
-      return 'Bad Request';
+      throw new Error('Bad Request');
     }
   }
 };
@@ -102,7 +102,7 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
     return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error('Error occured');
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`
@@ -117,7 +117,30 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
   }
 };
 
-export const getUser = async (userId: string): Promise<User> => {
+export const removeUserCC = async (token: string, cardId: string) => {
+  try {
+    const response = await axiosInstance.delete(`/wallet/cards/${cardId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (err) {
+    if (err.response) {
+      throw new Error('Error Occured');
+    } else if (err.request) {
+      /*
+       * The request was made but no response was received, `err.request`
+       * is an instance of XMLHttpRequest in the browser and an instance
+       * of http.ClientRequest in Node.js
+       */
+      throw new Error('No Response Received');
+    } else {
+      // Something happened in setting up the request and triggered an err
+      throw new Error('Bad Request');
+    }
+  }
+};
+
+export const getUser = async (userId: string) => {
   try {
     const response = await axiosInstance.get<User>(`/users/${userId}`);
     return response.data;

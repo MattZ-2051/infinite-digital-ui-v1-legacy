@@ -38,7 +38,7 @@ const Landing = () => {
         dispatch(getUserInfoThunk({ token: userToken }));
         if (loggedInUser) {
           dispatch(
-            getUserCollectionThunk({ token: '', userId: loggedInUser['id'] })
+            getUserCollectionThunk({ token: '', id: loggedInUser['id'] })
           );
           dispatch(getUserCardsThunk({ token: userToken }));
         }
