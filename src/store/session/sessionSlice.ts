@@ -77,9 +77,21 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.user = payload;
+      state.userCards = payload;
     });
     builder.addCase(createNewCCThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = error.message;
+    });
+    builder.addCase(removeUserCCThunk.fulfilled, (state, { payload }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.userCards = payload;
+    });
+    builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }

@@ -129,7 +129,7 @@ export const updateUsernameThunk = createAsyncThunk<
 });
 
 export const removeUserCCThunk = createAsyncThunk<
-  Card,
+  Wallet,
   IPayloadParams,
   {
     rejectValue: IError;
