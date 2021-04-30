@@ -1,10 +1,10 @@
-import { Sku } from 'entities/sku';
+import { Sku, SkuWithTotal } from 'entities/sku';
 import { axiosInstance } from '../coreService';
 
 export const getSkuTiles = async (options?: {
   queryParams?: string;
   token?: string;
-}): Promise<Sku[]> => {
+}): Promise<SkuWithTotal> => {
   try {
     const response = await axiosInstance.request<Sku[]>({
       method: 'GET',
@@ -13,7 +13,12 @@ export const getSkuTiles = async (options?: {
         ...(options?.token && { Authorization: `Bearer ${options?.token}` }),
       },
     });
-    return response.data;
+    const { data, headers } = response;
+    const total: string = headers['content-range'];
+    return {
+      data,
+      total,
+    };
   } catch (e) {
     console.error(`getSkuTiles: Error requesting sku tile details. ${e}`);
     throw new Error(e);
@@ -22,7 +27,7 @@ export const getSkuTiles = async (options?: {
 
 export const getFeaturedSkuTiles = async (options?: {
   token?: string;
-}): Promise<Sku[] | undefined> => {
+}): Promise<SkuWithTotal | undefined> => {
   return await getSkuTiles({
     token: options?.token,
     queryParams: `?featured=true`,

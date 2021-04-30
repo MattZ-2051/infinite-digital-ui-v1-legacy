@@ -1,20 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSkuTiles } from 'services/api/sku';
-import { Sku } from 'entities/sku';
+import { SkuWithTotal } from 'entities/sku';
 
-// First argument to the payload creator
 interface IPayloadParams {
   queryParams?: string;
   token?: string;
 }
 
-// Custom errors
 interface IError {
   errorMessage: string;
 }
 
 export const getSkuTilesThunk = createAsyncThunk<
-  Sku[],
+  SkuWithTotal,
   IPayloadParams,
   {
     rejectValue: IError;

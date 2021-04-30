@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
@@ -13,7 +12,7 @@ import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { Sku } from 'entities/sku';
+import { SkuWithTotal } from 'entities/sku';
 import { skuFactory } from 'store/sku/skuFactory';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
@@ -22,19 +21,27 @@ import { SkuCounter } from './components/SkuCounter/skuCounter';
 const SkuDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.session.user);
-  const skus = useAppSelector((state) => state.sku.skus);
-
+  const skus = useAppSelector((state) => state.sku.skus) as SkuWithTotal;
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<Sku>(skuFactory.build());
+  const [skuDetails, setSkuDetails] = useState<SkuWithTotal>({
+    data: [skuFactory.build()],
+    total: '',
+  });
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
+  const [featuredProducts, setFeaturedProducts] = useState<SkuWithTotal>({
+    data: [skuFactory.build()],
+    total: '',
+  });
 
-  const [featuredProducts, setFeaturedProducts] = useState<Sku[]>([]);
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
     if (skuTiles) {
-      setFeaturedProducts(skuTiles);
+      setFeaturedProducts({
+        data: skuTiles.data,
+        total: skuTiles.total,
+      });
     }
   }
 
@@ -49,10 +56,10 @@ const SkuDetail = (): JSX.Element => {
   }, [skuid]);
 
   useEffect(() => {
-    const filteredSkus = skus.filter((sku) => sku._id === skuid);
+    const filteredSkus = skus.data.filter((sku) => sku._id === skuid);
     if (filteredSkus.length > 0) {
       // TODO: Only pulling the first one
-      setSkuDetails(filteredSkus[0]);
+      setSkuDetails({ data: filteredSkus, total: '' });
     }
   }, [skus]);
 
@@ -91,6 +98,12 @@ const SkuDetail = (): JSX.Element => {
     }
   };
 
+  console.log(skuDetails.data);
+
+  if (!skuDetails.data) {
+    return <div>erqewr</div>;
+  }
+
   return (
     <div>
       {/* TODO: Fix modal props */}
@@ -103,9 +116,12 @@ const SkuDetail = (): JSX.Element => {
       <HeaderContainer>
         <HeaderContent>
           <HeaderLeft>
-            {skuDetails && (
+            {skuDetails.data && (
               <ImageGallery
-                images={[skuDetails.graphicUrl, ...skuDetails.imageUrls]}
+                images={[
+                  skuDetails.data[0].graphicUrl,
+                  ...skuDetails.data[0].imageUrls,
+                ]}
               />
             )}
           </HeaderLeft>
@@ -115,7 +131,10 @@ const SkuDetail = (): JSX.Element => {
                 <a href="/marketplace" style={{ color: 'white' }}>
                   Marketplace
                 </a>{' '}
-                / <span style={{ color: '#7C7C7C' }}>{skuDetails?.name}</span>
+                /{' '}
+                <span style={{ color: '#7C7C7C' }}>
+                  {skuDetails.data && skuDetails.data[0].name}
+                </span>
               </Breadcrumbs>
 
               <div
@@ -126,30 +145,30 @@ const SkuDetail = (): JSX.Element => {
                   fontSize: '24px',
                 }}
               >
-                <Brand>{skuDetails?.issuerName || ''}</Brand>
+                <Brand>{skuDetails.data[0]?.issuerName || ''}</Brand>
                 <Rarity>
                   <span></span>
-                  {skuDetails?.rarity}
+                  {skuDetails?.data[0]?.rarity}
                 </Rarity>
               </div>
 
-              <SkuTitle>{skuDetails?.name}</SkuTitle>
+              <SkuTitle>{skuDetails?.data[0]?.name}</SkuTitle>
 
               <p
                 style={{
                   fontSize: '18px',
                 }}
               >
-                # {skuDetails?.series?.name}
+                # {skuDetails?.data[0]?.series?.name}
               </p>
 
               <p>
-                <SkuCounter sku={skuDetails} />
+                <SkuCounter sku={skuDetails.data[0]} />
               </p>
 
               <LineDivider />
 
-              {skuDetails?.redeemable && (
+              {skuDetails[0]?.redeemable && (
                 <div
                   style={{
                     display: 'flex',
@@ -165,7 +184,7 @@ const SkuDetail = (): JSX.Element => {
             <ButtonsContainer>
               <SkuButtonBlock
                 collectors={collectors}
-                sku={skuDetails}
+                sku={skuDetails.data[0] || {}}
                 user={loggedInUser}
                 onBuyNow={showModal}
               />
@@ -179,7 +198,7 @@ const SkuDetail = (): JSX.Element => {
       >
         <Description>
           <SectionTitle>Description</SectionTitle>
-          {skuDetails?.description}
+          {/* {skuDetails?.description} */}
         </Description>
 
         {collectors && (
@@ -191,8 +210,8 @@ const SkuDetail = (): JSX.Element => {
         <SectionTitle>Related Releases</SectionTitle>
 
         <ProductContainer>
-          {featuredProducts &&
-            featuredProducts.map((el, index) => {
+          {featuredProducts.data &&
+            featuredProducts.data.map((el, index) => {
               if (index >= 5) return null;
               return (
                 <TileContainer key={index} index={index}>

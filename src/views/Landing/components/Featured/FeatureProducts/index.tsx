@@ -4,11 +4,11 @@ import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import SlideBox from './SlideBox';
-import { Sku } from 'entities/sku';
+import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 
 const FeatureProducts = () => {
-  const [tiles, setTiles] = useState<Sku[]>([]);
+  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: '' });
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
@@ -28,8 +28,10 @@ const FeatureProducts = () => {
   return (
     <Container id="feature-products">
       <Slider {...settings}>
-        {tiles instanceof Array &&
-          tiles.map((product, key) => <SlideBox key={key} product={product} />)}
+        {tiles.data instanceof Array &&
+          tiles.data.map((product, key) => (
+            <SlideBox key={key} product={product} />
+          ))}
       </Slider>
     </Container>
   );

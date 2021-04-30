@@ -1,5 +1,5 @@
 import DateTime from 'luxon/src/datetime.js';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 export const formatCountdown = (date: Date): string => {
   //Iso to local time
@@ -26,5 +26,5 @@ export const formatCountdown = (date: Date): string => {
 };
 
 export const dateToPrettyString = (date: Date): string => {
-  return moment(date).format('LLL');
+  return format(date, 'LLL');
 };
