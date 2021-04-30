@@ -1,9 +1,9 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 interface SkuProps {
-  sku: SkuWithFunctionsPopulated;
+  sku: Sku;
 }
 
 const SkuTile = ({ sku }: SkuProps): JSX.Element => {
@@ -19,12 +19,21 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     totalSupplyUpcoming,
     series,
   } = sku;
+
   const currentTime = new Date().getTime();
   const skuStartDateTime = new Date(
     // TODO: hardcoded date?
     startDate || '2021-04-12T19:03:02.439Z'
   ).getTime();
-  let status = '';
+  let status: /*SKU Tile Types*/
+  | 'upcoming'
+    | 'active'
+    | 'no-sale'
+    | /*Product Tile Types */ 'unique'
+    | 'purchased'
+    | 'active-listing'
+    | 'no-active-listing'
+    | '' = '';
   let skuUpcomingTime = '';
   let bottomRightText: any = '';
   let pillInfo: any = '';
@@ -71,10 +80,10 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   return (
     <Tile
       sku={sku}
-      topLeft={issuer?.username || ''}
+      topLeft={issuer?.username}
       skuRarity={rarity}
       middle={name}
-      bottomLeft={series?._id || ''}
+      bottomLeft={series?.name}
       bottomRight={bottomRightText}
       status={status}
       redeemable={false}

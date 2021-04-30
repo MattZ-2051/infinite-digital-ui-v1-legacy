@@ -4,6 +4,7 @@ import {
   getUserCollectionThunk,
   getUserCardsThunk,
   updateUsernameThunk,
+  deleteUser,
 } from './sessionThunks';
 
 interface UsersState {
@@ -57,6 +58,18 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.user = payload;
+    });
+    builder.addCase(updateUsernameThunk.rejected, (state, { error }) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.error = 'Username already registered';
+    });
+    builder.addCase(deleteUser, (state, {}) => {
+      if (state.loading === 'pending') {
+        state.loading = 'idle';
+      }
+      state.user = {};
     });
   },
 });

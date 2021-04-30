@@ -25,7 +25,7 @@ export const collectorsGET = [
       featured: true,
       imageUrls: ['http://example.com/1.png', 'http://example.com/2.png'],
       supplyType: 'variable',
-      maxSupply: 200,
+      // maxSupply: 200, deprecated
       graphicUrl:
         'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
       name: 'M Jordan Limited',

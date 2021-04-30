@@ -8,19 +8,22 @@ import ActiveBids from './ActiveBids';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
-import { getMe } from 'services/api/userService';
+import { getMe, getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
+import { ITransaction } from 'entities/transaction';
+import KycButton from './KycButton/kycButton';
+export const S: any = {};
 
-const S: any = {};
-
-const Wallet = () => {
+const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
   const userId = useAppSelector((state) => state.session.user.id);
   const [user, setUser] = useState<User>();
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
+  const [showMore, setShowMore] = useState<boolean>(false);
 
   const username = useAppSelector((state) => state.session.user.username);
 
@@ -30,8 +33,17 @@ const Wallet = () => {
     setUser(res);
   }
 
+  async function fetchTransactions() {
+    const res = await getMyTransactions(await getAccessTokenSilently());
+    setTransactions(res);
+  }
+
   useEffect(() => {
     fetchUser();
+    fetchTransactions();
+    if (props?.location?.state?.modalOpen) {
+      setIsModalOpen(true);
+    }
   }, []);
 
   const handleClose = () => {
@@ -42,8 +54,12 @@ const Wallet = () => {
     setIsModalOpen(true);
   };
 
+  const handleShowChange = () => {
+    setShowMore(!showMore);
+  };
+
   return (
-    <S.Container>
+    <S.Container showMore={showMore}>
       <S.PageHeaderContainer>
         <S.Link to={`/collection/${userId}`}>
           {' '}
@@ -65,27 +81,41 @@ const Wallet = () => {
             <S.AvailableText>Available:</S.AvailableText>$
             {user?.availableBalance} (after active bids)
           </S.AvailableAmount>
-          <div style={{ paddingBottom: '12px', paddingTop: '36px' }}>
+          <div style={{ paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
+          {/*  Temporary Hide feature will be enabled Post-MVP
+
           <div style={{ paddingTop: '12px' }}>
             <S.ActionButton>Withdrawal</S.ActionButton>
+          </div> */}
+          <div style={{ paddingTop: '12px' }}>
+            <KycButton />
           </div>
         </S.TotalBalanceContainer>
-        <S.LatestTransactionsContainer>
-          <div style={{ position: 'relative' }}>
-            <S.Tab
-              style={{
-                borderBottom: `${
-                  selectedTab === 0 ? '2px solid black' : 'none'
-                }`,
-                color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-              }}
-              onClick={() => setSelectedTab(0)}
-            >
-              Latest Transactions
-            </S.Tab>
-            <span style={{ padding: '0 20px' }}></span>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'hidden',
+          }}
+        >
+          <S.LatestTransactionsContainer overflow={showMore} id="test">
+            <div style={{ position: 'relative' }}>
+              <S.Tab
+                style={{
+                  borderBottom: `${
+                    selectedTab === 0 ? '2px solid black' : 'none'
+                  }`,
+                  color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
+                }}
+                onClick={() => setSelectedTab(0)}
+              >
+                Latest Transactions
+              </S.Tab>
+              <span style={{ padding: '0 20px' }}></span>
+              {/* Temporary Hide feature will be enabled Post-MVP
+
             <S.Tab
               style={{
                 borderBottom: `${
@@ -96,33 +126,41 @@ const Wallet = () => {
               onClick={() => setSelectedTab(1)}
             >
               Active Bids
-            </S.Tab>
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-          </div>
-          {selectedTab === 0 && (
-            <>
-              {user?.transactions &&
-                user.transactions.map((tx, index) => {
-                  // TODO: Add pagination instead of static limit 5
-                  if (index >= 5) return null;
-                  return <Transaction tx={tx} key={index} />;
-                })}
-            </>
-          )}
+            </S.Tab> */}
+              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+            </div>
+            {selectedTab === 0 && (
+              <>
+                {transactions &&
+                  transactions.map((tx, index) => {
+                    // TODO: Add pagination instead of static limit 5
+                    if (index >= 5) return null;
+                    return <Transaction tx={tx} key={index} />;
+                  })}
+              </>
+            )}
+            {/*  Temporary Hide feature will be enabled Post-MVP
+
           {selectedTab === 1 && (
             <>
               <ActiveBids bidType="not-exceeded" />
               <ActiveBids bidType="exceeded" />
             </>
-          )}
-        </S.LatestTransactionsContainer>
+          )} */}
+          </S.LatestTransactionsContainer>
+          <S.FlexRow>
+            <S.SeeMore onClick={handleShowChange}>
+              {(showMore && 'See Less') || 'Show More'}
+            </S.SeeMore>
+          </S.FlexRow>
+        </div>
       </S.PageContentContainer>
       <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
     </S.Container>
   );
 };
 
-S.Container = styled.div`
+S.Container = styled.div<{ showMore: boolean }>`
   height: 100vh;
 `;
 
@@ -146,6 +184,12 @@ S.BalanceAmount = styled.span`
   font-size: 48px;
 `;
 
+S.FlexRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 S.AvailableAmount = styled.span`
   font-size: 16px;
   font-weight: 400;
@@ -166,6 +210,20 @@ S.Tab = styled.span`
   }
 `;
 
+S.SeeMore = styled.p`
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: end;
+  padding-top: 20px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  width: fit-content;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 S.PageHeaderContainer = styled.div`
   background-color: black;
   height: 25%;
@@ -182,9 +240,10 @@ S.TotalBalanceContainer = styled.div`
   padding: 48px;
 `;
 
-S.LatestTransactionsContainer = styled.div`
+S.LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
   padding-left: 48px;
   padding: 48px;
+  overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
 `;
 
 S.PageContentContainer = styled.div`

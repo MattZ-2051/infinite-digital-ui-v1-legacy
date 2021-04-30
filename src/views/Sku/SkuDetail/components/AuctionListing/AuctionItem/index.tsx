@@ -1,13 +1,14 @@
 import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
-import { formatCountdown } from 'utils/dates';
 import styled from 'styled-components/macro';
+import { Listing } from 'entities/listing';
 
 export interface AuctionItemProps {
   serialNumber: string;
   ownerName: string;
   highestBid: number;
   endDate: Date;
+  activeProductListing: Listing;
 }
 
 const AuctionItem = ({
@@ -15,7 +16,13 @@ const AuctionItem = ({
   ownerName,
   highestBid,
   endDate,
-}: AuctionItemProps) => {
+  activeProductListing,
+}: AuctionItemProps): JSX.Element => {
+  const auctionDetailMsg = !activeProductListing
+    ? 'Not for sale'
+    : activeProductListing?.saleType === 'auction'
+    ? 'Bid for'
+    : 'On sale for';
   return (
     <Container>
       {/* <Avatar /> */}
@@ -24,25 +31,32 @@ const AuctionItem = ({
         <span>
           <strong style={{ color: 'black' }}>{`#${serialNumber}`}</strong>
         </span>
-        <span>{ownerName}</span>
+        <span style={{ color: '#9E9E9E' }}>{ownerName}</span>
       </UserDetail>
 
       <AuctionDetail>
         <div>
-          Bid for
-          <RightArrow
-            style={{ marginLeft: '10px', marginRight: '10px', height: '10px' }}
-          />
-          <span
-            style={{ fontWeight: 'bold', color: 'black' }}
-          >{`$${highestBid}`}</span>{' '}
+          <span style={{ color: '#9E9E9E' }}>{auctionDetailMsg}</span>
+          {activeProductListing && (
+            <>
+              <RightArrow
+                style={{
+                  marginLeft: '10px',
+                  marginRight: '10px',
+                  height: '10px',
+                }}
+              />
+              <span
+                style={{ fontWeight: 'bold', color: 'black' }}
+              >{`$${highestBid}`}</span>{' '}
+            </>
+          )}
           <br />
         </div>
-
-        <strong style={{ color: 'black' }}>
-          {/* TODO Hardcoded date */}
-          Expires in {formatCountdown(new Date('2021-04-30T23:00:00.000Z'))}
-        </strong>
+        {/*  */}
+        {/* <strong style={{ color: 'black' }}>
+          Expires in {formatCountdown(new Date(endDate))}
+        </strong> */}
       </AuctionDetail>
 
       <RightArrow style={{ marginLeft: '20px' }} />

@@ -1,8 +1,11 @@
 import { Card } from 'entities/card';
+import { ITransaction, TransactionData } from 'entities/transaction';
+import { USDCAddress } from 'entities/usdcAddress';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
 
+// TODO: Commented code
 // the following endpoint is deprecated:
 // export const getUserInfoByAuth0Id = async (userId: string, token: string) => {
 //   const response = await axiosInstance.request<User[]>({
@@ -18,6 +21,18 @@ export const getMe = async (token: string): Promise<User> => {
   const response = await axiosInstance.request<User>({
     method: 'GET',
     url: `/users/me`,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return response.data;
+};
+
+export const getMyTransactions = async (
+  token: string
+): Promise<ITransaction[]> => {
+  const response = await axiosInstance.request<ITransaction[]>({
+    method: 'GET',
+    url: `/users/me/transactions`,
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -63,6 +78,22 @@ export const addFundsToUserWallet = async (
   }
 };
 
+export const generateUSDCAddress = async (
+  token: string
+): Promise<USDCAddress> => {
+  try {
+    const response = await axiosInstance.get<USDCAddress>(
+      `/wallet/usdc/address`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error('Error generating USDC address');
+  }
+};
+
 export const createNewCC = async (token: string, data: any): Promise<Card> => {
   try {
     const response = await axiosInstance.post<Card>('/wallet/cards', data, {
@@ -81,7 +112,6 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
       throw new Error('No Response Received');
     } else {
       // Something happened in setting up the request and triggered an err
-      console.log(err);
       throw new Error('Bad Request');
     }
   }
@@ -131,6 +161,23 @@ export const getUser = async (userId: string) => {
   }
 };
 
+export const getPersonalToken = async (
+  token: string
+): Promise<{ token: string }> => {
+  try {
+    const response = await axiosInstance.post<{ token: string }>(
+      `/users/personal-token`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw new Error('Error getting personal token');
+  }
+};
+
 export const updateUsername = async (
   token: string,
   userId: string,
@@ -150,7 +197,7 @@ export const updateUsername = async (
     return response.data;
   } catch (err) {
     if (err.response) {
-      return err.response.data;
+      throw new Error(err.response.data);
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MyItems from './MyItems';
+import Items from './Items';
 import MyReleases from './MyReleases';
 import SortByFilter from './SortByFilter';
 import { User } from 'entities/user';
 import { useHistory } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
+import { getProductsOwnedByUser } from 'services/api/productService';
+import { ProductWithFunctions } from 'entities/product';
 
 interface IProps {
   user?: User | null;
@@ -16,8 +18,24 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const history = useHistory();
   const loggedInUser = useAppSelector((state) => state.session.user);
+  const [userItems, setUserItems] = useState<
+    ProductWithFunctions[] | undefined
+  >();
 
   const userId = history.location.pathname.split('/')[2];
+
+  async function fetchData() {
+    try {
+      const res = await getProductsOwnedByUser(userId, '');
+      if (res) {
+        setUserItems(res);
+      }
+    } catch (err) {}
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [userId]);
 
   let userStatus = '';
 
@@ -76,7 +94,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
 
-          {selectedTab === 0 && <MyItems />}
+          {selectedTab === 0 && <Items userItems={userItems} />}
         </>
       )}
       {userStatus === 'loggedInIssuer' && (
@@ -123,7 +141,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && <MyReleases />}
-          {selectedTab === 1 && <MyItems />}
+          {selectedTab === 1 && <Items userItems={userItems} />}
         </>
       )}
       {userStatus === 'notCurrentUserProfileIssuer' && (
@@ -171,7 +189,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && <MyReleases />}
-          {selectedTab === 1 && <MyItems />}
+          {selectedTab === 1 && <Items userItems={userItems} />}
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
@@ -207,7 +225,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && <MyItems />}
+          {selectedTab === 0 && <Items userItems={userItems} />}
         </>
       )}
     </Container>
@@ -217,6 +235,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 const Container = styled.div`
   width: 100%;
   padding: 40px;
+  height: 100vh;
 `;
 
 const GrayLine = styled.div`

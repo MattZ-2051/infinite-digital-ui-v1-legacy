@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import Tab from 'components/Tab';
 import Tabs from 'components/TabsContainer';
 import MarketPlace from './MarketPlace';
-import MyItems from 'views/Collection/UserCollectionTabs/MyItems';
+import Items from 'views/Collection/UserCollectionTabs/Items';
 import { MyCollection } from './MyCollection';
 
 export interface IProps {

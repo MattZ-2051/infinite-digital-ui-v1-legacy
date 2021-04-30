@@ -28,7 +28,7 @@ const CheckBox = ({ label, width, options }) => {
         {options instanceof Array &&
           options.map((option, index) => {
             return (
-              <div style={{ padding: '6px 16px' }}>
+              <div key={index} style={{ padding: '6px 16px' }}>
                 <FormControl component="fieldset">
                   <FormGroup aria-label="position" row>
                     <FormControlLabel

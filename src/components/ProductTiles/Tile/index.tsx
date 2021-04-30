@@ -5,19 +5,27 @@ import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
 import Rarity from 'components/Rarity';
 import { Link } from 'react-router-dom';
-import { SkuWithFunctionsPopulated } from 'entities/sku';
+import { Sku } from 'entities/sku';
 
 interface Props {
-  sku: SkuWithFunctionsPopulated;
-  topLeft: string | undefined;
-  skuRarity: string | undefined;
-  middle: string | undefined;
-  bottomLeft: string | undefined;
-  bottomRight: string | undefined;
-  status: string | undefined;
-  skuImg: string | undefined;
-  redeemable: boolean | undefined;
-  pillInfo: string | undefined;
+  sku: Sku;
+  topLeft?: string;
+  skuRarity?: string;
+  middle?: string;
+  bottomLeft?: string;
+  bottomRight?: string;
+  status?: /*SKU Tile Types*/
+  | 'upcoming'
+    | 'active'
+    | 'no-sale'
+    | /*Product Tile Types */ 'unique'
+    | 'purchased'
+    | 'active-listing'
+    | 'no-active-listing'
+    | '';
+  skuImg?: string;
+  redeemable?: boolean;
+  pillInfo?: string;
   icon?: string;
 }
 

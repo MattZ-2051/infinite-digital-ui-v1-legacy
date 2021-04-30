@@ -4,14 +4,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import GlobalStyle from 'styles/globalStyles';
 import AppLayout from './layouts/AppLayout';
 import Router from './router';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './utils/Toast/styles.css';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <CssBaseline />
       <GlobalStyle />
       <AppLayout>
-        <Router />
+        <>
+          <Router />
+          <ToastContainer
+            hideProgressBar={true}
+            toastClassName="custom-notify"
+          />
+        </>
       </AppLayout>
     </BrowserRouter>
   );
