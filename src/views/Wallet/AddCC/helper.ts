@@ -22,8 +22,15 @@ export const errors: Errors = {
 export const handleChange = (e, setCardInfo) => {
   const { name, value } = e.target;
 
-  if (name.includes('num-')) {
-    const keyName = name.split('-')[1];
+  console.log(name.includes('num-'));
+  console.log(name);
+  if (name.includes('num-') || name === 'cardNumber' || name === 'cvv') {
+    let keyName = name.split('-')[1];
+    console.log('there');
+    if (!keyName) {
+      console.log('way over there');
+      keyName = name;
+    }
     setCardInfo((prevState) => ({
       ...prevState,
       [keyName]: value.replace(/[^0-9]/g, ''),
@@ -32,13 +39,33 @@ export const handleChange = (e, setCardInfo) => {
   }
   if (name.includes('billingDetails-')) {
     const keyName = name.split('-')[1];
-
-    if (keyName === 'name') {
+    console.log('keyName', keyName);
+    console.log('name', name);
+    if (
+      keyName === 'name' ||
+      keyName === 'city' ||
+      keyName === 'district' ||
+      keyName === 'country'
+    ) {
+      console.log('here');
       setCardInfo((prevState) => ({
         ...prevState,
         billingDetails: {
           ...prevState?.billingDetails,
           [keyName]: value.replace(/[^a-zA-Z\s]/gi, ''), //value.replace(/[^a-zA-Z]/gi, ''),
+          //numbers /[^0-9]/g, ''
+        },
+      }));
+      return;
+    }
+    if (keyName === 'postalCode') {
+      console.log('keyName', keyName);
+      console.log('name', name);
+      setCardInfo((prevState) => ({
+        ...prevState,
+        billingDetails: {
+          ...prevState?.billingDetails,
+          [keyName]: value.replace(/[^0-9]/g, ''), //value.replace(/[^a-zA-Z]/gi, ''),
           //numbers /[^0-9]/g, ''
         },
       }));
@@ -182,8 +209,8 @@ export const validate = (ccInfo, setFieldError) => {
 export const state: Values = {
   cardNumber: '',
   cvv: '',
-  expMonth: 0,
-  expYear: 0,
+  expMonth: '',
+  expYear: '',
   metadata: {
     email: '',
     phoneNumber: '+14155555555',

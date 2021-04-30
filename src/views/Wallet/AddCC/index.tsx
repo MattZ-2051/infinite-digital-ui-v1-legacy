@@ -49,6 +49,7 @@ const AddCC = () => {
     setIsOpen(false);
   };
 
+  console.log(cardInfo);
   return (
     <S.Container>
       <S.Box>
@@ -107,7 +108,7 @@ const AddCC = () => {
             error={fieldError?.expYear}
             helperText={fieldError?.expYear && 'Enter a valid year format YYYY'}
             onChange={(e) => handleChange(e, setCardInfo)}
-            type="number"
+            type="text"
             value={cardInfo?.expYear}
             style={{ paddingRight: '10px' }}
           />
