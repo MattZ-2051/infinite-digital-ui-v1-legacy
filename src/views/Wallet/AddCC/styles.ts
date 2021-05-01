@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import TextField from '@material-ui/core/TextField';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Select from '@material-ui/core/Select';
 
 export const S: any = {};
 
@@ -50,6 +51,10 @@ S.FormInputError = styled(TextField)`
   .MuiInput-underline:after {
     border-bottom: 2px solid red;
   }
+`;
+
+S.DropDown = styled(Select)`
+  width: 100%;
 `;
 
 S.FormInput = styled(TextField)`

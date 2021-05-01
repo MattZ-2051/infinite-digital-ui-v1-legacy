@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
@@ -11,6 +10,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { validate, errors, state, Values, handleChange } from './helper';
 import { useHistory } from 'react-router-dom';
+import MenuItem from '@material-ui/core/MenuItem';
+import countriesList from 'assets/location/countries.json';
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -19,15 +20,20 @@ const AddCC = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
   const [formError, setFormError] = useState<boolean>(false);
+  const [contryCode, selectedCountryCode] = useState<string>(
+    countriesList[0].countryShortName
+  );
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   const handleSubmit = async () => {
+    //contryCode
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
     cardInfo.metadata.email = loggedInUser.email;
     cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
     cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
+    cardInfo.billingDetails.country = contryCode;
     const checkErrors = validate(cardInfo, setFieldError);
     if (checkErrors) {
       return;
@@ -49,7 +55,11 @@ const AddCC = () => {
     setIsOpen(false);
   };
 
-  console.log(cardInfo);
+  const handleCountry = (event) => {
+    const countryCode = event.target.value;
+    selectedCountryCode(countryCode);
+  };
+
   return (
     <S.Container>
       <S.Box>
@@ -219,27 +229,22 @@ const AddCC = () => {
               />
             </S.Row>
             <S.Row>
-              <S.FormInput
-                id="standard-basic"
-                label="Country Code"
-                size="medium"
-                fullWidth
-                required
-                onChange={(e) => handleChange(e, setCardInfo)}
+              <S.DropDown
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 name="billingDetails-country"
-                value={cardInfo?.billingDetails.country}
-              />
+                value={contryCode}
+                onChange={(value) => {
+                  handleCountry(value);
+                }}
+              >
+                {countriesList.map((el, index) => (
+                  <MenuItem key={index} value={el.countryShortName}>
+                    {el.countryName}
+                  </MenuItem>
+                ))}
+              </S.DropDown>
             </S.Row>
-            {/* <S.Row>
-              <S.FormInput
-                id="standard-basic"
-                label="Country Code"
-                size="medium"
-                fullWidth
-                required
-               onChange={(e) => handleChange(e, setCardInfo)}
-              />
-            </S.Row> */}
           </S.Div>
         ) : null}
         <S.ButtonContainer>
