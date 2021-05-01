@@ -14,7 +14,10 @@ export const getSkuTiles = async (options?: {
       },
     });
     const { data, headers } = response;
-    const total: string = headers['content-range'];
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+
     return {
       data,
       total,

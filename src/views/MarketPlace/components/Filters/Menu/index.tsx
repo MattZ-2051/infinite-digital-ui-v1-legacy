@@ -12,23 +12,23 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
       <Li>
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <Button
-            onClick={() => handleFilter('status', 'all')}
+            onClick={() => handleFilter('status', '')}
             style={{
-              color: `${activeFilterStatus === 'all' ? 'black' : '#9e9e9e'}`,
+              color: `${activeFilterStatus === '' ? 'black' : '#9e9e9e'}`,
             }}
           >
             All
           </Button>
-          <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
+          {/* <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
             (12, 244)
-          </small>
+          </small> */}
         </div>
       </Li>
       <Li>
         <Button
-          onClick={() => handleFilter('status', 'released')}
+          onClick={() => handleFilter('status', 'active')}
           style={{
-            color: `${activeFilterStatus === 'released' ? 'black' : '#9e9e9e'}`,
+            color: `${activeFilterStatus === 'active' ? 'black' : '#9e9e9e'}`,
           }}
         >
           Released
@@ -44,18 +44,6 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
           Upcoming
         </Button>
       </Li>
-      <Li>
-        <Button
-          onClick={() => handleFilter('status', 'no-one-selling')}
-          style={{
-            color: `${
-              activeFilterStatus === 'no-one-selling' ? 'black' : '#9e9e9e'
-            }`,
-          }}
-        >
-          No One Selling
-        </Button>
-      </Li>
     </ButtonFilters>
   );
 };
@@ -65,7 +53,7 @@ const ButtonFilters = styled.ul`
   padding: 0;
   font-size: 24px;
   small {
-            font - size: 16px;
+    font-size: 16px;
   }
 `;
 

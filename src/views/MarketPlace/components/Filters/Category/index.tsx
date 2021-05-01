@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -8,7 +8,7 @@ export interface IProps {
   handleFilter: (name: string, data: any) => void;
 }
 
-const CategoryFilter: React.FC<IProps> = ({ handleFilter }) => {
+const CategoryFilter = ({ handleFilter }) => {
   const selectedItems = useRef<any>([]);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {

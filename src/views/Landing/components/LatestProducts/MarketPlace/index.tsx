@@ -7,7 +7,7 @@ import ProductTile from 'views/MarketPlace/components/ProductTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
-  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: '' });
+  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();

@@ -3,50 +3,30 @@ import { useState } from 'react';
 import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { useRef } from 'react';
 
 interface IProps {
-  options: string[];
-  width?: string;
-  handleFilter: (name: string, data: any) => void;
-  activeFilterSort: string;
+  options: any; //TODO: change type
+  handleSort: (sortValue: string) => void;
+  activeSort: string;
 }
 
-const S: any = {};
-
-const SortByFilter = ({
-  width,
-  options,
-  handleFilter,
-  activeFilterSort,
-}: IProps) => {
-  const getCurrentFilterOption = (el) => {
-    if (el === activeFilterSort) {
-      return el;
-    } else {
-      return 'Release Date';
-    }
-  };
-
-  const currentLabel = options.filter(getCurrentFilterOption);
-
+const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
-  const [newLabel, setNewLabel] = useState<string | undefined>(currentLabel[0]);
-  const selectedItems = useRef<any>([]);
-
-  const handleCheck = (e: React.MouseEvent<HTMLDivElement>) => {
+  const getCurrentLabel = () => {
+    return options.filter((option) => {
+      option.value === activeSort;
+    });
+  };
+  const [label, setLabel] = useState<string | undefined>(
+    getCurrentLabel().name
+  );
+  const handleDropDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
-    const name = target.children[0].innerHTML;
+    const filterValue = target.id;
+    const filterName = target.dataset.name;
 
-    if (name) {
-      selectedItems.current.push(name);
-    } else {
-      selectedItems.current = selectedItems.current.filter(
-        (item: string) => item !== name
-      );
-    }
-    handleFilter('sort', name);
-    setNewLabel(name);
+    handleSort(filterValue);
+    setLabel(filterName);
     setIsHidden(true);
   };
 
@@ -54,8 +34,9 @@ const SortByFilter = ({
     setIsHidden(!isHidden);
   };
 
-  const getNewOptions = (el) => {
-    return el !== newLabel;
+  // Delete the current selected from the options
+  const getNewOptions = (option) => {
+    return option.value !== activeSort;
   };
 
   options = options.filter(getNewOptions);
@@ -64,7 +45,7 @@ const SortByFilter = ({
     <S.Container>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <S.SortBy>Sort by:</S.SortBy>
-        <S.Label>{newLabel}</S.Label>
+        <S.Label>{label}</S.Label>
         {isHidden ? (
           <S.DownArrow
             style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
@@ -84,12 +65,14 @@ const SortByFilter = ({
               options.map((option, index) => {
                 return (
                   <S.DropDownDiv
-                    onClick={handleCheck}
-                    style={{ height: '38px' }}
                     key={index}
+                    id={option.value}
+                    data-name={option.name}
+                    onClick={handleDropDown}
+                    style={{ height: '38px' }}
                   >
                     <p style={{ fontWeight: 400, fontSize: '16px' }}>
-                      {option}
+                      {option.name}
                     </p>
                   </S.DropDownDiv>
                 );
@@ -100,6 +83,8 @@ const SortByFilter = ({
     </S.Container>
   );
 };
+
+const S: any = {};
 
 S.Container = styled.div`
   display: flex;
@@ -138,7 +123,6 @@ S.Label = styled.span`
 S.HiddenDiv = styled.div`
   color: black;
   overflow-y: auto;
-  max-height: 140px;
   position: absolute;
   width: 180px;
   background-color: white;
@@ -157,13 +141,13 @@ S.HiddenDiv = styled.div`
 S.DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
-  width 160px;
+  width: 160px;
   color: #9e9e9e;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   :hover {
-    background-color: #D6D6D6;
+    background-color: #d6d6d6;
     color: white;
     cursor: pointer;
     color: black;

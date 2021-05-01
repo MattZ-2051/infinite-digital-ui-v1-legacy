@@ -1,43 +1,56 @@
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 // Local
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import Filters from './components/Filters';
 import {
-  getDefaultParams,
+  processUrlParams,
   updateFilters,
   updateFilter,
+  updatePagination,
+  updateSortBy,
 } from 'store/marketplace/marketplaceSlice';
+import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
+import { sortByItems } from 'config/marketplace';
 // Components
 import SearchInput from './components/Filters/SearchInput';
 import SortByFilter from './components/Filters/SortByFilter';
 import SkuTile from './components/SkuTile';
+// Icons
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 
 const MarketPlace = (): JSX.Element => {
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [page, setPage] = useState(1);
+  const activeFilters = useAppSelector((store) => store.marketplace.filters);
+  const activePagination = useAppSelector(
+    (store) => store.marketplace.pagination
+  );
+  const activeSort = useAppSelector((store) => store.marketplace.sortBy);
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const [filtersVisible, setFiltersVisible] = useState(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
-  const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const skus = useAppSelector((state) => state.sku.skus) as SkuWithTotal;
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
 
-  // Create the url query-string using the redux stored filters
-  const createQueryString = (filters) => {
+  // Create the url query-string using the redux stored data: filters, sort, pagination
+  const createQueryString = (
+    filters,
+    pagination: { page: string; perPage: string },
+    sort: string
+  ) => {
     const params = new URLSearchParams();
 
+    // Filters
     Object.keys(filters).forEach((categoryName) => {
       const categoryValue = filters[categoryName];
-
       if (categoryValue && categoryValue.length) {
         if (categoryValue instanceof Array) {
           switch (categoryName) {
@@ -50,7 +63,7 @@ const MarketPlace = (): JSX.Element => {
               params.append('maxPrice', categoryValue[1]);
               break;
             default:
-              params.append(categoryName, categoryValue.join('+'));
+              params.append(categoryName, categoryValue.join(','));
               break;
           }
         } else {
@@ -58,61 +71,103 @@ const MarketPlace = (): JSX.Element => {
         }
       }
     });
+
+    // Pagination
+    if (pagination) {
+      params.append('page', pagination.page);
+      params.append('per_page', pagination.perPage);
+    }
+
+    // SearchBy
+    if (sort) {
+      params.append('sortBy', sort);
+    }
     return params;
   };
-
-  useEffect(() => {
-    if (isMounted.current) {
-      isMounted.current = false;
-    } else {
-      // Avoid regenerating the url if the user press the browser back button
-      if (regenerateUrl.current) {
-        const queryString = createQueryString(activeFilters);
-        history.push(`/marketplace?${queryString.toString()}`);
-      } else {
-        regenerateUrl.current = true;
-      }
-    }
-  }, [activeFilters]);
-
-  const toggleFilters = () => {
-    setFiltersVisible((filtersVisible) => !filtersVisible);
-  };
-
-  useEffect(() => {
-    return history.listen(() => {
-      if (history.action === 'POP') {
-        regenerateUrl.current = false;
-        const urlParams = getDefaultParams();
-        dispatch(updateFilters(urlParams));
-      }
-    });
-  }, [history]);
 
   const handleFilter = (name: string, value: any) => {
     const payload = {
       filterName: name,
       filterValue: value,
     };
-
     dispatch(updateFilter(payload));
   };
 
+  const handlePagination = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+    dispatch(updatePagination({ page: String(value), perPage: '6' }));
+  };
+
+  const handleSort = (sortValue: string) => {
+    dispatch(updateSortBy(sortValue));
+  };
+
+  const toggleFilters = () => {
+    setFiltersVisible((filtersVisible) => !filtersVisible);
+  };
+
+  // Load initial data on mount
   useEffect(() => {
-    (async () => {
+    (() => {
       dispatch(
         getSkuTilesThunk({
-          token: '',
-          queryParams: `?${urlQueryString.toString()}`,
+          queryParams: `${urlQueryString.toString()}`,
         })
       );
+      const page = new URLSearchParams(urlQueryString).get('page');
+      if (page) setPage(Number(page));
     })();
-    // TODO: This may neeed to be refreshed more often
   }, [dispatch]);
 
+  // Request new data on filters change
+  useEffect(() => {
+    if (isMounted.current) {
+      isMounted.current = false;
+    } else {
+      // Avoid regenerating the url if the user press the browser back button
+      const queryString = createQueryString(
+        activeFilters,
+        activePagination,
+        activeSort
+      );
+      if (regenerateUrl.current) {
+        history.push(`/marketplace?${queryString.toString()}`);
+        dispatch(
+          getSkuTilesThunk({
+            queryParams: `?${queryString.toString()}`,
+          })
+        );
+        console.log('activePagination', activePagination);
+        //setPage
+      } else {
+        console.log('activePagination', activePagination);
+        regenerateUrl.current = true;
+        dispatch(
+          getSkuTilesThunk({
+            queryParams: `?${queryString.toString()}`,
+          })
+        );
+      }
+    }
+  }, [activeFilters, activePagination, activeSort]);
+
+  // Update the filters on browser back btn
+  useEffect(() => {
+    return history.listen(() => {
+      if (history.action === 'POP') {
+        regenerateUrl.current = false;
+        const urlParams = processUrlParams();
+        dispatch(updateFilters(urlParams));
+      }
+    });
+  }, [history]);
+
   return (
-    <Container>
-      <Header>
+    <S.Container>
+      <S.Header>
         <h2>MarketPlace</h2>
 
         <SearchInput
@@ -120,124 +175,52 @@ const MarketPlace = (): JSX.Element => {
           activeFilters={activeFilters}
         />
 
-        <ToggleFilter onClick={toggleFilters}>
+        <S.ToggleFilter onClick={toggleFilters}>
           {filtersVisible ? <CloseIcon /> : <FilterIcon />}
-        </ToggleFilter>
+        </S.ToggleFilter>
 
         <SortByFilter
-          options={[
-            'Release Date',
-            'Rarity',
-            'Price high to low',
-            'Price low to high',
-          ]}
-          handleFilter={handleFilter}
-          activeFilterSort={activeFilters.sort}
+          handleSort={handleSort}
+          activeSort={activeSort}
+          options={sortByItems}
         />
-      </Header>
+      </S.Header>
 
       {filtersVisible && matchesMobile && (
         <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
       )}
 
-      <Main>
-        <Sidebar>
+      <S.Main>
+        <S.Sidebar>
           <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
-        </Sidebar>
-        <Content>
-          <ProductsGrid>
-            {/* Sku Tile data from store being rendered with Sku Tiles */}
-
-            {skus.data instanceof Array &&
-              skus.data.map((sku) => {
+        </S.Sidebar>
+        <S.Content>
+          {/* Sku Tile data from store being rendered with Sku Tiles */}
+          {skus.data instanceof Array && skus.data.length ? (
+            <S.ProductsGrid>
+              {skus.data.map((sku) => {
                 return <SkuTile sku={sku} key={sku._id} />;
               })}
-          </ProductsGrid>
+            </S.ProductsGrid>
+          ) : (
+            <>
+              <h4>No matches found</h4>
+              <p>Please try another search.</p>
+            </>
+          )}
 
-          <PaginationContainer>
-            <Pagination count={10} variant="outlined" />
-          </PaginationContainer>
-        </Content>
-      </Main>
-    </Container>
+          <S.PaginationContainer>
+            <Pagination
+              count={Math.ceil(skus.total / 6)}
+              page={page}
+              onChange={handlePagination}
+              variant="outlined"
+            />
+          </S.PaginationContainer>
+        </S.Content>
+      </S.Main>
+    </S.Container>
   );
 };
-
-const Container = styled.div`
-  width: 1440px;
-  margin: auto;
-  padding: 48px 80px 48px 80px;
-
-  @media screen and (max-width: 1440px) {
-    width: 100%;
-  }
-`;
-
-const Header = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-
-  @media screen and (max-width: 1140px) {
-    flex-direction: column;
-  }
-`;
-
-const Main = styled.main`
-  display: flex;
-`;
-
-const Content = styled.section`
-  width: 100%;
-`;
-
-const Sidebar = styled.aside`
-  width: 300px;
-  min-width: 300px;
-  // height: 50vh;
-  margin-right: 24px;
-
-  @media screen and (max-width: 1140px) {
-    display: none;
-  }
-`;
-
-const ToggleFilter = styled.div`
-  display: none;
-  width: 40px;
-  height: 40px;
-  background-color: #f0f0f0;
-  border-radius: 15px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: #dadada;
-  }
-
-  @media screen and (max-width: 1140px) {
-    display: block;
-    margin: 10px 0 10px 0;
-    display: flex;
-  }
-`;
-
-const ProductsGrid = styled.div`
-  margin: auto;
-  display: grid;
-  grid-gap: 24px;
-  grid-template-columns: repeat(auto-fit, 300px);
-  justify-content: space-evenly;
-  margin-top: 20px;
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
 
 export default MarketPlace;

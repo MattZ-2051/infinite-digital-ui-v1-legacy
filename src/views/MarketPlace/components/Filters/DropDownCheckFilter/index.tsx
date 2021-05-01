@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
-import { useRef } from 'react';
-import { useEffectOnce } from 'react-use';
+// Icons
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 interface IProps {
   label?: string;
   width?: string;
-  options?: string[];
+  options: { id: string; name: string }[];
   handleFilter: (name: string, data: any) => void;
   filterCategory: 'category' | 'brand' | 'series' | 'rarity';
   activeFilters: any;
@@ -26,20 +25,15 @@ const DropDownCheckFilter = ({
   filterCategory,
   activeFilters,
 }: IProps) => {
-  const selectedItems = useRef<any>([]);
-
-  useEffectOnce(() => {
-    selectedItems.current.push(...activeFilters);
-  });
-
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
-    const name = target.name;
-    const value = target.checked;
-    if (value) {
-      handleFilter(filterCategory, [...activeFilters, name]);
+    const id = target.id;
+    const checked = target.checked;
+
+    if (checked) {
+      handleFilter(filterCategory, [...activeFilters, id]);
     } else {
-      const filteredList = activeFilters.filter((el: string) => el !== name);
+      const filteredList = activeFilters.filter((el: string) => el !== id);
       handleFilter(filterCategory, filteredList);
     }
   };
@@ -67,7 +61,7 @@ const DropDownCheckFilter = ({
           options.map((option, index) => {
             return (
               <div
-                style={{ padding: '8px 10px', marginLeft: '-10px' }}
+                style={{ padding: '4px 10px', marginLeft: '-10px' }}
                 key={index}
               >
                 <FormControl component="fieldset">
@@ -80,19 +74,19 @@ const DropDownCheckFilter = ({
                             color: 'black',
                             backgroundColor: 'transparent',
                           }}
-                          id={option}
-                          name={option}
-                          checked={activeFilters.indexOf(option) !== -1}
+                          id={option.id}
+                          name={option.name}
+                          checked={activeFilters.indexOf(option.id) !== -1}
                           onChange={handleCheck}
                           color="default"
                           disableRipple
                         />
                       }
-                      label={option}
+                      label={option.name}
                       labelPlacement="end"
                       style={{
                         color: `${
-                          activeFilters.indexOf(option) !== -1
+                          activeFilters.indexOf(option.id) !== -1
                             ? 'black'
                             : '#9e9e9e'
                         }`,

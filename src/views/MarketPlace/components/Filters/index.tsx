@@ -1,33 +1,61 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from 'store/hooks';
-import {
-  updateFilter,
-  restoreFilters,
-} from 'store/marketplace/marketplaceSlice';
+import { restoreFilters } from 'store/marketplace/marketplaceSlice';
+// Local
+import { getCategories } from 'services/api/categoryService';
+import { getSeries } from 'services/api/seriesService';
+// Components
 import Menu from './Menu';
 import Date from './Date';
-import PriceRange from './PriceRange';
+// import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
 
 export interface IProps {
-  activeFilters: any;
+  activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
 }
 
 const Filters = ({ handleFilter, activeFilters }: IProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
-  const [isHidden, setIsHidden] = useState<boolean | undefined>(false);
+  const [categories, setCategories] = useState([]);
+  const [series, setSeries] = useState([]);
+
+  const dropDownOptions = {
+    category: categories,
+    rarity: [
+      { id: 'legendary', name: 'Legendary' },
+      { id: 'epic', name: 'Epic' },
+      { id: 'rare', name: 'Rare' },
+      { id: 'uncommon', name: 'Uncommon' },
+    ],
+    series,
+  };
+
+  //TODO: refactor later
+  // Get checkboxes options
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    getSeries()
+      .then((data) => {
+        setSeries(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const clearFilters = () => {
-    history.push('/marketplace');
     dispatch(restoreFilters());
-    setIsHidden(true);
   };
 
   return (
@@ -58,29 +86,33 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       <SelectedFilters
         handleFilter={handleFilter}
         activeFilters={activeFilters}
+        options={dropDownOptions}
       />
+
       <Date handleFilter={handleFilter} />
-      <PriceRange
+
+      {/* <PriceRange
         handleFilter={handleFilter}
         defaultFilter={activeFilters.price}
-      />
+      /> */}
+
       <DropDownCheckFilter
         label="Category"
-        options={['category1', 'category 2', 'category 3']}
+        options={dropDownOptions.category}
         handleFilter={handleFilter}
         filterCategory="category"
         activeFilters={activeFilters.category}
       />
       <DropDownCheckFilter
         label="Series"
-        options={['series1', 'series 2', 'series 3']}
+        options={dropDownOptions.series}
         handleFilter={handleFilter}
         filterCategory="series"
         activeFilters={activeFilters.series}
       />
       <DropDownCheckFilter
         label="Rarity"
-        options={['Legendary', 'Epic', 'Rare', 'Uncommon']}
+        options={dropDownOptions.rarity}
         handleFilter={handleFilter}
         filterCategory="rarity"
         activeFilters={activeFilters.rarity}

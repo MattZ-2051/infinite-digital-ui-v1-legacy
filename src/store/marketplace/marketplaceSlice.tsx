@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type ReleaseStatus = 'all' | 'released' | 'upcoming' | 'noOneSelling';
+type ReleaseStatus = 'active' | 'upcoming' | ''; // 'noOneSelling'
 
 interface IFilters {
   status: ReleaseStatus;
@@ -10,26 +10,47 @@ interface IFilters {
   brand: string[];
   series: string[];
   search: string;
-  sort: string;
   rarity: string[];
 }
 
+interface IPagination {
+  page: string;
+  perPage: string;
+}
+
+interface IState {
+  loading: string;
+  error: string | null;
+  filters: IFilters;
+  sortBy: string; // 'startDate' | 'rarity' | 'price
+  pagination: IPagination;
+}
+
 const defaultFilters: IFilters = {
-  status: 'all',
+  status: '',
   date: [],
   price: [],
   category: [],
   brand: [],
   series: [],
   search: '',
-  sort: '',
   rarity: [],
 };
 
 export const getDefaultParams = () => {
   const queryString = window.location.search;
-  const urlParams: any = new URLSearchParams(queryString);
+  return new URLSearchParams(queryString);
+};
+
+// Get the filters, pagination and sortBy from url params
+export const processUrlParams = () => {
+  const urlParams: any = getDefaultParams(); //TODO: change type
   const filters: IFilters = JSON.parse(JSON.stringify(defaultFilters));
+  const pagination: IPagination = {
+    page: '1',
+    perPage: '6',
+  };
+  let sortBy = 'startDate:asc';
 
   for (const param of urlParams) {
     const paramName: string = param[0];
@@ -50,27 +71,33 @@ export const getDefaultParams = () => {
       case 'search':
         filters.search = paramValue;
         break;
-      case 'sort':
-        filters.sort = paramValue;
+      case 'sortBy':
+        sortBy = paramValue;
+        break;
+      case 'page':
+        pagination.page = paramValue;
+        break;
+      case 'per_page':
+        pagination.perPage = paramValue;
         break;
       default:
-        if (filters[paramName]) filters[paramName] = paramValue.split('+');
+        if (filters[paramName]) filters[paramName] = paramValue.split(',');
         break;
     }
   }
-  return filters;
+  return {
+    filters,
+    pagination,
+    sortBy,
+  };
 };
-
-interface IState {
-  loading: string;
-  error: string | null;
-  filters: IFilters;
-}
 
 const initialState: IState = {
   loading: 'idle',
   error: null,
-  filters: getDefaultParams(),
+  filters: processUrlParams().filters,
+  sortBy: processUrlParams().sortBy,
+  pagination: processUrlParams().pagination,
 };
 
 export const marketplaceSlice = createSlice({
@@ -87,9 +114,21 @@ export const marketplaceSlice = createSlice({
     restoreFilters: (state) => {
       state.filters = defaultFilters;
     },
+    updatePagination: (state, action) => {
+      state.pagination = action.payload;
+    },
+    updateSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
   },
 });
 
 const { actions } = marketplaceSlice;
-export const { updateFilter, updateFilters, restoreFilters } = actions;
+export const {
+  updateFilter,
+  updateFilters,
+  restoreFilters,
+  updatePagination,
+  updateSortBy,
+} = actions;
 export default marketplaceSlice.reducer;
