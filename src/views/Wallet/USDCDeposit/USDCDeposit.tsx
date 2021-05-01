@@ -8,6 +8,7 @@ import etherscanService, {
 } from 'services/api/etherscan/etherscan.service';
 import { S as StylesFromCreditCard } from '../AddCC/styles';
 import { S as StylesFromWallet } from '../index';
+import { CircleLoader } from 'react-spinners';
 
 interface IUSDCDepositProps {
   existingCard?: boolean;
@@ -18,6 +19,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [txLink, setTxLink] = useState<string>();
+  const [color, setColor] = useState('#222222');
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -72,7 +74,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
         </p>
         <p>
           {buttonDisabled && !usdcAddress && <p>Loading...</p>}
-          {usdcAddress && (
+          {userUsdcAddress && (
             <StylesFromCreditCard.FormInput
               size="medium"
               fullWidth
@@ -81,7 +83,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
             />
           )}
         </p>
-        {usdcAddress && (
+        {userUsdcAddress && (
           <p style={{ maxWidth: '300px', margin: 'auto' }}>
             <small>
               This is a USDC (Ethereum mainnet) address. Please do not send any
@@ -90,7 +92,16 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
             </small>
           </p>
         )}
-        {usdcAddress && !txLink && <p>Waiting for transaction...</p>}
+        {userUsdcAddress && !txLink && (
+          <p>
+            <CircleLoader
+              color={color}
+              loading={usdcAddress && !txLink}
+              css={'display:block;margin: 0 auto;'}
+              size={100}
+            />
+          </p>
+        )}
         <p>{errorMsg}</p>
         {txLink && (
           <>

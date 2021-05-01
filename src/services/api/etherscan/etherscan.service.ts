@@ -30,8 +30,8 @@ class EtherscanService {
         '?module=block' +
         '&action=getblocknobytime' +
         '&timestamp=' +
-        Math.floor(Date.now() / 1000 - 1000) +
-        '&closest=after' +
+        Math.floor(Date.now() / 1000) +
+        '&closest=before' +
         '&apikey=' +
         this.apiKey
     );
