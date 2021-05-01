@@ -34,10 +34,29 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
               />
             </Link>
           ))}
+        {limitCollectors &&
+          limitCollectors.map((el, index) => (
+            <Link
+              key={index}
+              to={'/marketplace/' + el.sku}
+              style={{ textDecoration: 'none' }}
+            >
+              <AuctionItem
+                activeProductListing={el.activeProductListing}
+                key={el.serialNumber}
+                serialNumber={el.serialNumber}
+                ownerName={el.owner.username}
+                highestBid={el.activeProductListing?.price}
+                endDate={el.activeProductListing?.endDate}
+              />
+            </Link>
+          ))}
 
+        {/*
+        TODO: see if we still need this
         <ViewAllLink to={'/marketplace/' + collectors[0]?.sku + '/collectors'}>
           View all collectors
-        </ViewAllLink>
+        </ViewAllLink> */}
       </Container>
     );
   } else {
@@ -53,6 +72,13 @@ const Container = styled.div`
   width: 46%;
   max-width: 713px;
   margin-left: 64px;
+  height: 400px;
+  overflow: hidden;
+  padding-right: 10px;
+  :hover {
+    cursor: pointer;
+    overflow: auto;
+  }
 `;
 
 const SectionTitle = styled.h2`
