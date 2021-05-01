@@ -21,14 +21,9 @@ export const errors: Errors = {
 
 export const handleChange = (e, setCardInfo) => {
   const { name, value } = e.target;
-
-  console.log(name.includes('num-'));
-  console.log(name);
   if (name.includes('num-') || name === 'cardNumber' || name === 'cvv') {
     let keyName = name.split('-')[1];
-    console.log('there');
     if (!keyName) {
-      console.log('way over there');
       keyName = name;
     }
     setCardInfo((prevState) => ({
@@ -39,15 +34,12 @@ export const handleChange = (e, setCardInfo) => {
   }
   if (name.includes('billingDetails-')) {
     const keyName = name.split('-')[1];
-    console.log('keyName', keyName);
-    console.log('name', name);
     if (
       keyName === 'name' ||
       keyName === 'city' ||
       keyName === 'district' ||
       keyName === 'country'
     ) {
-      console.log('here');
       setCardInfo((prevState) => ({
         ...prevState,
         billingDetails: {
@@ -59,8 +51,6 @@ export const handleChange = (e, setCardInfo) => {
       return;
     }
     if (keyName === 'postalCode') {
-      console.log('keyName', keyName);
-      console.log('name', name);
       setCardInfo((prevState) => ({
         ...prevState,
         billingDetails: {
@@ -147,7 +137,8 @@ export const validate = (ccInfo, setFieldError) => {
   if (
     parseInt(ccInfo.expMonth, 10) > 12 ||
     parseInt(ccInfo.expMonth, 10) < 0 ||
-    ccInfo.expMonth.length > 2
+    ccInfo.expMonth.toString().length > 2 ||
+    ccInfo.expMonth.toString().length < 1
   ) {
     setFieldError((prevState) => ({
       ...prevState,
@@ -161,9 +152,11 @@ export const validate = (ccInfo, setFieldError) => {
     }));
   }
 
+  console.log(ccInfo.expYear);
   if (
-    parseInt(ccInfo.expYear, 10) <= year ||
-    ccInfo.expYear.toString().length !== 4
+    ccInfo.expYear <= year ||
+    ccInfo.expYear.toString().length !== 4 ||
+    ccInfo.expYear.toString()[0] === '0'
   ) {
     setFieldError((prevState) => ({
       ...prevState,
@@ -213,7 +206,6 @@ export const state: Values = {
   expYear: '',
   metadata: {
     email: '',
-    phoneNumber: '+14155555555',
   },
   billingDetails: {
     name: '',

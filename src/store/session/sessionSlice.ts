@@ -66,7 +66,6 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = 'Username already registered';
     });
     builder.addCase(deleteUser, (state, {}) => {
       if (state.loading === 'pending') {
@@ -84,7 +83,6 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = error.message;
     });
     builder.addCase(removeUserCCThunk.fulfilled, (state, { payload }) => {
       if (state.loading === 'pending') {
@@ -95,18 +93,16 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = 'Error Removing Credit Card';
     });
     builder.addCase(addFundsThunk.fulfilled, (state) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
     });
-    builder.addCase(addFundsThunk.rejected, (state, { error }) => {
+    builder.addCase(addFundsThunk.rejected, (state) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.error = 'Error Adding Funds';
     });
   },
 });
