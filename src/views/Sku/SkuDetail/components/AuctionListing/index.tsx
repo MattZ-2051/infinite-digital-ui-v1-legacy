@@ -33,6 +33,23 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
               />
             </Link>
           ))}
+        {limitCollectors &&
+          limitCollectors.map((el, index) => (
+            <Link
+              key={index}
+              to={'/marketplace/' + el.sku}
+              style={{ textDecoration: 'none' }}
+            >
+              <AuctionItem
+                activeProductListing={el.activeProductListing}
+                key={el.serialNumber}
+                serialNumber={el.serialNumber}
+                ownerName={el.owner.username}
+                highestBid={el.activeProductListing?.price}
+                endDate={el.activeProductListing?.endDate}
+              />
+            </Link>
+          ))}
 
         {/*
         TODO: see if we still need this (from Matt)

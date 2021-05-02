@@ -24,6 +24,9 @@ const AuctionItem = ({
     : activeProductListing?.saleType === 'auction'
     ? 'Bid for'
     : 'On sale for';
+  if (activeProductListing) {
+    activeProductListing.status = 'upcoming';
+  }
 
   if (activeProductListing?.status === 'upcoming') {
     auctionDetailMsg = formatCountdown(
