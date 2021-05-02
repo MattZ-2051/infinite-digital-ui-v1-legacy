@@ -8,7 +8,7 @@ import etherscanService, {
 } from 'services/api/etherscan/etherscan.service';
 import { S as StylesFromCreditCard } from '../AddCC/styles';
 import { S as StylesFromWallet } from '../index';
-import { CircleLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 
 interface IUSDCDepositProps {
   existingCard?: boolean;
@@ -19,7 +19,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [txLink, setTxLink] = useState<string>();
-  const [color, setColor] = useState('#222222');
+  const [color, setColor] = useState('#000');
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -94,11 +94,12 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
         )}
         {userUsdcAddress && !txLink && (
           <p>
-            <CircleLoader
+            <PulseLoader
               color={color}
               loading={usdcAddress && !txLink}
               css={'display:block;margin: 0 auto;'}
-              size={100}
+              size={9}
+              margin={3}
             />
           </p>
         )}
