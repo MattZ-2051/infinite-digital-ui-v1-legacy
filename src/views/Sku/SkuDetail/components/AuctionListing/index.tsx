@@ -15,8 +15,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   if (hasProducts) {
     return (
       <Container>
-        <SectionTitle>Buy from Collectors</SectionTitle>
-
+        <SectionTitle>Collectors</SectionTitle>
         {limitCollectors &&
           limitCollectors.map((el, index) => (
             <Link
@@ -62,7 +61,8 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
   } else {
     return (
       <Container>
-        <p style={{ textAlign: 'center' }}>Initial release upcoming</p>
+        <SectionTitle>Collectors</SectionTitle>
+        <NoOwners>No one owns this item yet</NoOwners>
       </Container>
     );
   }
@@ -85,9 +85,15 @@ const SectionTitle = styled.h2`
   font-weight: 600 !important;
   font-size: 24px;
   border-bottom: 1px solid #ebebeb;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-weight: 500px;
   color: black;
+`;
+
+const NoOwners = styled.span`
+  font-size: 16px;
+  color: #9e9e9e;
+  font-weight: 600;
 `;
 
 const ViewAllLink = styled(Link)`

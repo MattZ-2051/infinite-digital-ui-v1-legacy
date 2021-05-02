@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import styled from 'styled-components/macro';
 import { Listing } from 'entities/listing';
+import { formatCountdown } from 'utils/dates';
 
 export interface AuctionItemProps {
   serialNumber: string;
@@ -18,11 +19,21 @@ const AuctionItem = ({
   endDate,
   activeProductListing,
 }: AuctionItemProps): JSX.Element => {
-  const auctionDetailMsg = !activeProductListing
+  let auctionDetailMsg = !activeProductListing
     ? 'Not for sale'
     : activeProductListing?.saleType === 'auction'
     ? 'Bid for'
     : 'On sale for';
+  if (activeProductListing) {
+    activeProductListing.status = 'upcoming';
+  }
+
+  if (activeProductListing?.status === 'upcoming') {
+    auctionDetailMsg = formatCountdown(
+      new Date(activeProductListing.startDate)
+    );
+  }
+
   return (
     <Container>
       {/* <Avatar /> */}
@@ -35,24 +46,32 @@ const AuctionItem = ({
       </UserDetail>
 
       <AuctionDetail>
-        <div>
-          <span style={{ color: '#9E9E9E' }}>{auctionDetailMsg}</span>
-          {activeProductListing && (
-            <>
-              <RightArrow
-                style={{
-                  marginLeft: '10px',
-                  marginRight: '10px',
-                  height: '10px',
-                }}
-              />
-              <span
-                style={{ fontWeight: 'bold', color: 'black' }}
-              >{`$${highestBid}`}</span>{' '}
-            </>
-          )}
-          <br />
-        </div>
+        {activeProductListing?.status === 'upcoming' && (
+          <span style={{ color: '#9E9E9E' }}>
+            {auctionDetailMsg.replaceAll('-', '')}
+          </span>
+        )}
+        {activeProductListing?.status !== 'upcoming' && (
+          <div>
+            <span style={{ color: '#9E9E9E' }}>{auctionDetailMsg}</span>
+            {activeProductListing && (
+              <>
+                <RightArrow
+                  style={{
+                    marginLeft: '10px',
+                    marginRight: '10px',
+                    height: '10px',
+                  }}
+                />
+                <span
+                  style={{ fontWeight: 'bold', color: 'black' }}
+                >{`$${highestBid}`}</span>{' '}
+              </>
+            )}
+            <br />
+          </div>
+        )}
+
         {/*  */}
         {/* <strong style={{ color: 'black' }}>
           Expires in {formatCountdown(new Date(endDate))}
