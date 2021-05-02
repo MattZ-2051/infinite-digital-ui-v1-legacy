@@ -37,8 +37,8 @@ const AddCC = () => {
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
     cardInfo.metadata.email = loggedInUser.email;
-    // cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
-    // cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
+    cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
+    cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
     cardInfo.billingDetails.country = contryCode;
     const checkErrors = validate(cardInfo, setFieldError);
     if (checkErrors) {
@@ -73,8 +73,6 @@ const AddCC = () => {
     const countryCode = event.target.value;
     selectedCountryCode(countryCode);
   };
-
-  console.log(cardInfo);
 
   return (
     <>
