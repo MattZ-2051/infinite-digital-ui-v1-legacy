@@ -26,5 +26,7 @@ export const formatCountdown = (date: Date): string => {
 };
 
 export const dateToPrettyString = (date: Date): string => {
-  return format(date, 'LLL');
+  date = new Date(date);
+  const options: any = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options); // returns string: April 29, 2021
 };

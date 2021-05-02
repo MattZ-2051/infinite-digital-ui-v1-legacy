@@ -8,6 +8,7 @@ import Toast from 'utils/Toast';
 import { useAppSelector } from 'store/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
 import ModalPayment from '../../ModalPayment';
+import { Listing } from 'entities/listing';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -18,25 +19,12 @@ const NotAvailable = (): JSX.Element => {
 };
 interface IUpcomingData {
   startDate?: Date;
+  price: number;
 }
 
-interface IFromCreatorBox {
-  skuPrice: number;
-  totalNewSupplyLeft: number;
-  product: Sku;
-  user: User;
-  listingId?: string;
-  minStartDate: Date;
-  totalSkuListingSupplyLeft: number;
-  onBuyNow: () => void;
-}
-
-const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
-  let parsedStartDate = startDate;
-
-  if (typeof startDate === 'string') {
-    parsedStartDate = new Date(startDate);
-  }
+const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
+  const parsedStartDate = new Date(startDate);
+  console.log(parsedStartDate);
 
   const [countdown, setCountdown] = useState(formatCountdown(parsedStartDate));
   // NOTE: Can be abstracted into a hook
@@ -50,43 +38,59 @@ const UpcomingData = ({ startDate = new Date() }: IUpcomingData) => {
 
   return (
     <>
-      <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          textAlign: 'right',
-        }}
-      >
-        <span style={{ fontSize: '24px' }}>{countdown}</span>
-        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          {dateToPrettyString(startDate)}
-        </small>
-      </div>
+      <Container>
+        <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'right',
+          }}
+        >
+          <BoxColumn>
+            <span style={{ fontSize: '28px' }}>Price:</span>
+            <small style={{ fontSize: '15px' }}>{price}</small>
+          </BoxColumn>
+          <BoxColumn>
+            <span style={{ fontSize: '24px' }}>{countdown}</span>
+            <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
+              {dateToPrettyString(startDate)}
+            </small>
+          </BoxColumn>
+        </div>
+      </Container>
     </>
   );
 };
 
+interface IFromCreatorBox {
+  sku: Sku;
+  onBuyNow: () => void;
+  price?: number;
+  user: User;
+  buttonDisabled: boolean;
+  buttonLabel: string;
+}
+
 const FromCreatorBox = ({
-  skuPrice,
-  minStartDate,
-  totalSkuListingSupplyLeft = 0,
+  sku,
   onBuyNow,
-  product,
+  price,
   user,
-  listingId,
+  buttonDisabled,
+  buttonLabel,
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect } = useAuth0();
-  const hasFounds = user.availableBalance >= product.minSkuPrice;
-  const modalMode = hasFounds ? 'hasFunds' : 'noFunds';
+  const hasFunds = price ? user.availableBalance >= price : false;
+  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userLogged = !!Object.entries(loggedInUser).length;
 
   const handleBuyNowClick = (userLogged: boolean) => {
     // TODO: Check this call with pablo
-    // onBuyNow();
+    onBuyNow();
     if (userLogged) {
       setIsModalOpen(true);
     } else {
@@ -102,47 +106,40 @@ const FromCreatorBox = ({
     }
   };
 
-  // TODO: Review this attribute
-  const disabled = !totalSkuListingSupplyLeft || !listingId;
-
-  if (minStartDate > new Date()) {
-    return (
-      <Container>
-        <UpcomingData startDate={minStartDate} />
-      </Container>
-    );
-  }
+  const activeListings = sku.skuListings.filter(
+    (skuListings) => skuListings.status == 'active'
+  );
+  const activeListing = activeListings[0];
 
   return (
     <Container>
       <BoxColumn>
         <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
         <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Initial Release Price
+          Initial Release
         </small>
       </BoxColumn>
       <BoxColumn style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '28px' }}>${skuPrice}</span>
+        <span style={{ fontSize: '28px' }}>${price}</span>
         <small style={{ fontSize: '15px' }}>
-          ({totalSkuListingSupplyLeft} left)
+          ({sku.totalSkuSupplyLeft} left)
         </small>
       </BoxColumn>
       <div>
         <Button
-          disabled={disabled}
+          disabled={buttonDisabled}
           onClick={() => handleBuyNowClick(userLogged)}
         >
-          {' '}
-          {disabled ? `Sold Out` : `Buy Now`}
+          {buttonLabel}
         </Button>
       </div>
       <ModalPayment
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}
-        product={product}
+        sku={sku}
         user={user}
-        listingId={listingId}
+        listing={activeListing}
       />
     </Container>
   );
@@ -183,84 +180,117 @@ const FromCollectorsBox = ({
   );
 };
 
-const SkuButtonBlock = (props: {
+interface ISkuButtonBlock {
   sku: Sku;
   user: User;
-  onBuyNow: () => void;
+  onBuyNow: any;
   collectors: Collector[];
-}): JSX.Element => {
-  const {
-    totalSupplyUpcoming,
-    circulatingSupply,
-    countSkuListings,
-    countProductListings,
-    minSkuPrice,
-    totalSupplyLeft,
-    minCurrentBid,
-    name,
-    rarity,
-    imageUrls,
-    totalSupply,
-    redeemable,
-    series,
-    royaltyFeePercentage,
-    minStartDate = new Date(0),
-    totalSkuListingSupplyLeft,
-  } = props.sku;
+}
 
-  const listingId = props.collectors.find(
-    (collector) => collector.activeProductListing
-  )?.activeProductListing._id;
+const SkuButtonBlock = ({
+  sku,
+  user,
+  onBuyNow,
+  collectors,
+}: ISkuButtonBlock): JSX.Element => {
+  const hasSkuListings = sku.skuListings.length > 0;
 
-  const isUpcoming = !!totalSupplyUpcoming;
-  const hasMintedProducts = !!circulatingSupply;
+  if (!hasSkuListings) {
+    return <></>; // Returning empty for now
+    // need to remove this return after MVP
+    // This scenario is for the direct product listing (post-MVP)
 
-  const hasSkus = !!countSkuListings;
-  const hasProducts = !!countProductListings;
+    // this is STATE 0 = 1 product listing only = no sku listings
+    const upcomingProductListings = collectors.filter(
+      (collector) => collector.upcomingProductListing
+    );
+    if (upcomingProductListings.length > 0) {
+      const upcomingProductListing =
+        upcomingProductListings[0].upcomingProductListing;
+      if (upcomingProductListing?.saleType === 'fixed') {
+        // Price attribute: upcomingProductListing.price
+        return <> return countdown timer for upcoming </>;
+      } else if (upcomingProductListing?.saleType === 'auction') {
+        // Price attribute: upcomingProductListing.minBid
+        return <> auction scenario - return countdown timer</>;
+      }
+    }
+    const activeProductListings = collectors.filter(
+      (collector) => collector.activeProductListing
+    );
+    if (activeProductListings.length > 0) {
+      const activeProductListing =
+        activeProductListings[0].activeProductListing;
+      return <> {activeProductListing?.price} </>;
+    }
+    if (
+      upcomingProductListings.length === 0 &&
+      activeProductListings.length === 0
+    ) {
+      // This is a product listing
+      return (
+        <>
+          <FromCreatorBox
+            sku={sku}
+            user={user}
+            onBuyNow={onBuyNow}
+            buttonDisabled={true}
+            buttonLabel="Not for sale"
+          />
+        </>
+      );
+    }
+  }
 
-  // TODO: No definition for isUpcoming
-  // if (isUpcoming){
-  //   return (
-  //     <Container>
-  //       {' '}
-  //       <UpcomingData minStartDate={minStartDate} />
-  //     </Container>
-  //   );}
+  if (sku.totalSupply === 0 && sku.totalSupplyUpcoming > 0) {
+    const upcomingSkuListings = sku.skuListings.filter(
+      (skuListing) => skuListing.status === 'upcoming'
+    );
+    const startDate = upcomingSkuListings[0].startDate;
+    const price = upcomingSkuListings[0].price;
+    return <UpcomingData startDate={startDate} price={price} />;
+  }
 
-  if (hasSkus && hasProducts) {
+  if (sku.totalSkuSupplyLeft > 0) {
+    const activeSkus = sku.skuListings.filter(
+      (skuListing) => skuListing.status === 'active'
+    );
+    const skuPrice = activeSkus[0].price;
     return (
       <>
         <FromCreatorBox
-          skuPrice={minSkuPrice}
-          totalNewSupplyLeft={totalSupplyLeft}
-          product={props.sku}
-          user={props.user}
-          listingId={listingId}
-          minStartDate={minStartDate}
-          totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
-          onBuyNow={props.onBuyNow}
+          sku={sku}
+          price={skuPrice}
+          user={user}
+          onBuyNow={onBuyNow}
+          buttonDisabled={false}
+          buttonLabel="Buy Now"
         />
-        <FromCollectorsBox
+        {/* <FromCollectorsBox
           minimunPrice={minCurrentBid}
           totalSupply={totalSupply}
           countProductListings={countProductListings}
-        />
+        /> */}
       </>
     );
   }
 
-  if (hasSkus) {
+  if (sku.totalSkuSupplyLeft < 1 && hasSkuListings) {
+    const expiredSkus = sku.skuListings.filter(
+      (skuListing) => skuListing.status === 'expired'
+    );
+    const skuPrice = expiredSkus[0].price;
     return (
-      <FromCreatorBox
-        skuPrice={minSkuPrice}
-        totalNewSupplyLeft={totalSupplyLeft}
-        product={props.sku}
-        user={props.user}
-        listingId={listingId}
-        minStartDate={minStartDate}
-        totalSkuListingSupplyLeft={totalSkuListingSupplyLeft}
-        onBuyNow={props.onBuyNow}
-      />
+      <>
+        <FromCreatorBox
+          sku={sku}
+          price={skuPrice}
+          user={user}
+          onBuyNow={onBuyNow}
+          buttonDisabled={true}
+          buttonLabel="Sold Out"
+        />
+      </>
     );
   }
 

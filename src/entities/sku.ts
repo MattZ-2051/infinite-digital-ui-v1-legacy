@@ -1,3 +1,5 @@
+import { Listing } from './listing';
+
 export interface Sku {
   _id: string;
   rarity: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
@@ -25,10 +27,12 @@ export interface Sku {
   totalSupplyLeft: number;
   totalSkuSupplyLeft: number;
   totalSupplyUpcoming: number;
-  totalSkuListingSupplyLeft: number;
+  totalSkuListingSupplyLeft?: number;
+  totalSkuListingSupply?: number;
   countSkuListings: number;
   countAllSkuListings: number;
   countProductListings: number;
+  skuListings: Listing[];
   series: {
     _id: string;
     name: string;

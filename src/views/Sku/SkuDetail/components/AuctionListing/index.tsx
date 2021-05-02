@@ -24,14 +24,16 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
               to={'/marketplace/' + el.sku}
               style={{ textDecoration: 'none' }}
             >
-              <AuctionItem
-                activeProductListing={el.activeProductListing}
-                key={el.serialNumber}
-                serialNumber={el.serialNumber}
-                ownerName={el.owner.username}
-                highestBid={el.activeProductListing?.price}
-                endDate={el.activeProductListing?.endDate}
-              />
+              {el.activeProductListing && (
+                <AuctionItem
+                  activeProductListing={el.activeProductListing}
+                  key={el.serialNumber}
+                  serialNumber={el.serialNumber}
+                  ownerName={el.owner.username}
+                  highestBid={el.activeProductListing?.price}
+                  endDate={el.activeProductListing?.endDate}
+                />
+              )}
             </Link>
           ))}
 

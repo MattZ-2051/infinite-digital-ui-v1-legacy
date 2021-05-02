@@ -3,46 +3,38 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
-import { useAppSelector, useAppDispatch } from 'store/hooks';
-import { getFeaturedSkuTiles } from 'services/api/sku';
-import { getSkuTilesThunk } from 'store/sku/skuThunks';
+import { useAppSelector } from 'store/hooks';
+import { getFeaturedSkuTiles, getSku } from 'services/api/sku';
 import { Collector } from 'entities/collector';
 // Components
 import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
-import ModalPayment from './components/ModalPayment';
 import AuctionListing from './components/AuctionListing';
-import { SkuWithTotal } from 'entities/sku';
-import { skuFactory } from 'store/sku/skuFactory';
+import { Sku } from 'entities/sku';
 import ProductTile from 'views/MarketPlace/components/ProductTile';
 import { getProductCollectors } from 'services/api/productService';
 import { SkuCounter } from './components/SkuCounter/skuCounter';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const SkuDetail = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const loggedInUser = useAppSelector((state) => state.session.user);
-  const skus = useAppSelector((state) => state.sku.skus) as SkuWithTotal;
   const { skuid } = useParams<{ skuid: string }>();
-  const [skuDetails, setSkuDetails] = useState<SkuWithTotal>({
-    data: [skuFactory.build()],
-    total: 0,
-  });
   const [collectors, setCollectors] = useState<Collector[]>([]);
+  const [sku, setSku] = useState<Sku>();
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
-  const [featuredProducts, setFeaturedProducts] = useState<SkuWithTotal>({
-    data: [skuFactory.build()],
-    total: 0,
-  });
+  const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    fetchSku();
+    fetchProducts();
+    fetchCollectors();
+  }, [skuid]);
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
-    if (skuTiles) {
-      setFeaturedProducts({
-        data: skuTiles.data,
-        total: skuTiles.total,
-      });
-    }
+    setFeaturedProducts(skuTiles.data);
   }
 
   async function fetchCollectors() {
@@ -50,148 +42,93 @@ const SkuDetail = (): JSX.Element => {
     setCollectors(collectors);
   }
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCollectors();
-  }, [skuid]);
-
-  useEffect(() => {
-    const filteredSkus = skus.data.filter((sku) => sku._id === skuid);
-    if (filteredSkus.length > 0) {
-      // TODO: Only pulling the first one
-      setSkuDetails({ data: filteredSkus, total: 0 });
-    }
-  }, [skus]);
-
-  useEffect(() => {
-    (async () => {
-      dispatch(
-        getSkuTilesThunk({
-          // TODO: Can pass token here
-          token: '',
-          // queryParams: `?${urlQueryString.toString()}`,
-        })
-      );
-    })();
-    // TODO: This may neeed to be refreshed more often
-  }, [dispatch]);
+  async function fetchSku() {
+    const sku = await getSku<true>(skuid, {
+      token: await getAccessTokenSilently(),
+      includeFunctions: true,
+    });
+    setSku(sku);
+  }
 
   const showModal = (): void => {
-    // TODO: Enable modal based on available funds?
-    // if(hasFunds) {
-    //   modalMode.current = 'hasFunds';
-    //   setModalPaymentVisible(true);
-    // } else {
-    //   modalMode.current = 'noFunds';
-    //   setModalPaymentVisible(true);
-    // }
     setModalPaymentVisible(true);
   };
 
-  // TODO: Note in use
-  const Buy = () => {
-    const completed = true;
-
-    if (completed) {
-      modalMode.current = 'completed';
-      setModalPaymentVisible(true);
-    }
-  };
-
-  console.log(skuDetails.data);
-
-  if (!skuDetails.data) {
-    return <div>erqewr</div>;
-  }
+  console.log(sku);
 
   return (
     <div>
-      {/* TODO: Fix modal props */}
-      {/* <ModalPayment
-        visible={modalPaymentVisible}
-        setModalPaymentVisible={setModalPaymentVisible}
-        mode={modalMode.current}
-      /> */}
+      {sku && (
+        <HeaderContainer>
+          <HeaderContent>
+            <HeaderLeft>
+              <ImageGallery images={[sku.graphicUrl, ...sku.imageUrls]} />
+            </HeaderLeft>
+            <HeaderRight>
+              <ProductDetail>
+                <Breadcrumbs>
+                  <a href="/marketplace" style={{ color: 'white' }}>
+                    Marketplace
+                  </a>{' '}
+                  / <span style={{ color: '#7C7C7C' }}>{sku && sku.name}</span>
+                </Breadcrumbs>
 
-      <HeaderContainer>
-        <HeaderContent>
-          <HeaderLeft>
-            {skuDetails.data && (
-              <ImageGallery
-                images={[
-                  skuDetails.data[0].graphicUrl,
-                  ...skuDetails.data[0].imageUrls,
-                ]}
-              />
-            )}
-          </HeaderLeft>
-          <HeaderRight>
-            <ProductDetail>
-              <Breadcrumbs>
-                <a href="/marketplace" style={{ color: 'white' }}>
-                  Marketplace
-                </a>{' '}
-                /{' '}
-                <span style={{ color: '#7C7C7C' }}>
-                  {skuDetails.data && skuDetails.data[0].name}
-                </span>
-              </Breadcrumbs>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'baseline',
-                  justifyContent: 'space-between',
-                  fontSize: '24px',
-                }}
-              >
-                <Brand>{skuDetails.data[0]?.issuerName || ''}</Brand>
-                <Rarity>
-                  <span></span>
-                  {skuDetails?.data[0]?.rarity}
-                </Rarity>
-              </div>
-
-              <SkuTitle>{skuDetails?.data[0]?.name}</SkuTitle>
-
-              <p
-                style={{
-                  fontSize: '18px',
-                }}
-              >
-                # {skuDetails?.data[0]?.series?.name}
-              </p>
-
-              <p>
-                <SkuCounter sku={skuDetails.data[0]} />
-              </p>
-
-              <LineDivider />
-
-              {skuDetails[0]?.redeemable && (
                 <div
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    fontSize: '24px',
                   }}
                 >
-                  <RedeemIcon />
-                  &nbsp; Redeemable
+                  <Brand>{sku?.issuerName || ''}</Brand>
+                  <Rarity>
+                    <span></span>
+                    {sku?.rarity}
+                  </Rarity>
                 </div>
-              )}
-            </ProductDetail>
 
-            <ButtonsContainer>
-              <SkuButtonBlock
-                collectors={collectors}
-                sku={skuDetails.data[0] || {}}
-                user={loggedInUser}
-                onBuyNow={showModal}
-              />
-            </ButtonsContainer>
-          </HeaderRight>
-        </HeaderContent>
-      </HeaderContainer>
+                <SkuTitle>{sku?.name}</SkuTitle>
+
+                <p
+                  style={{
+                    fontSize: '18px',
+                  }}
+                >
+                  # {sku?.series?.name}
+                </p>
+
+                <p>
+                  <SkuCounter sku={sku} />
+                </p>
+
+                <LineDivider />
+
+                {sku?.redeemable && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <RedeemIcon />
+                    &nbsp; Redeemable
+                  </div>
+                )}
+              </ProductDetail>
+
+              <ButtonsContainer>
+                <SkuButtonBlock
+                  collectors={collectors}
+                  sku={sku}
+                  user={loggedInUser}
+                  onBuyNow={showModal}
+                />
+              </ButtonsContainer>
+            </HeaderRight>
+          </HeaderContent>
+        </HeaderContainer>
+      )}
 
       <Section
         style={{ paddingTop: '55px', flexDirection: 'row', color: '#9E9E9E' }}
@@ -210,8 +147,8 @@ const SkuDetail = (): JSX.Element => {
         <SectionTitle>Related Releases</SectionTitle>
 
         <ProductContainer>
-          {featuredProducts.data &&
-            featuredProducts.data.map((el, index) => {
+          {featuredProducts &&
+            featuredProducts.map((el, index) => {
               if (index >= 5) return null;
               return (
                 <TileContainer key={index} index={index}>

@@ -17,6 +17,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   endDate: undefined,
   createdAt: undefined,
   updatedAt: undefined,
+  skuListings: [],
   series: {
     _id: '000000000000000000000000',
     name: 'Loading...',
