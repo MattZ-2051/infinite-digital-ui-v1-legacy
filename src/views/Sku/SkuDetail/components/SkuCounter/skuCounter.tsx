@@ -6,6 +6,10 @@ type SkuCounterProps = {
 };
 
 export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
+  if (sku.totalSkuListingSupply == 0) {
+    return <></>;
+  }
+
   if (!sku.minStartDate) {
     // weird edge case that we're not expecting
     return <>To be released.</>;
@@ -17,7 +21,7 @@ export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
   } else {
     // released
     if (sku.totalSupply > 0) {
-      return <>{sku.totalSupplyLeft} to be released</>;
+      return <>{sku.totalSupplyLeft} released</>;
     } else {
       // weird edge case that we're not expecting
       return <></>;

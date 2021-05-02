@@ -30,7 +30,7 @@ export const getSkuTiles = async (options?: {
 
 export const getFeaturedSkuTiles = async (options?: {
   token?: string;
-}): Promise<SkuWithTotal | undefined> => {
+}): Promise<SkuWithTotal> => {
   return await getSkuTiles({
     token: options?.token,
     queryParams: `?featured=true`,

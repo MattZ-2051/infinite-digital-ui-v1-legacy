@@ -16,6 +16,7 @@ import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import Toast from 'utils/Toast';
 import { purchase } from 'utils/messages';
+import { Listing } from 'entities/listing';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds';
 
@@ -23,21 +24,21 @@ export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: Modes;
-  product: Sku;
+  sku: Sku;
   user: User;
   showSerial?: boolean;
-  listingId?: string;
+  listing?: Listing;
 }
 
 const ModalPayment = ({
   visible,
   setModalPaymentVisible,
   mode,
-  product,
+  sku: product,
   user,
   showSerial = false,
-  listingId,
-}: IModalProps) => {
+  listing,
+}: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [loading, setLoading] = useState(false);
@@ -49,11 +50,11 @@ const ModalPayment = ({
   const history = useHistory();
 
   const buyAction = async () => {
-    if (listingId) {
+    if (listing) {
       setLoading(true);
       const userToken = await getAccessTokenSilently();
       try {
-        const result = await patchListingsPurchase(userToken, listingId);
+        const result = await patchListingsPurchase(userToken, listing._id);
         // TODO: Check payment
         if (result) {
           setStatusMode('completed');
