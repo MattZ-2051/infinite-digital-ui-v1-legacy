@@ -6,6 +6,7 @@ import checkIconImg from 'assets/img/icons/check-icon.png';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import Toast from 'components/Toast';
 
 interface Props {
   isModalOpen: boolean;
@@ -20,16 +21,22 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.session.user.id);
   const [confirmed, setConfirmed] = useState<boolean>(false);
-  const stateError = useAppSelector((state) => state.session.error);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
+    if (newUsername.length === 0) {
+      setErrorMessage('Please enter new username');
+      return;
+    }
     const res = await dispatch(updateUsernameThunk(data));
     if (res.type.split('/')[3] === 'rejected') {
       setConfirmed(false);
+      setErrorMessage('Username already registered');
     } else {
       setConfirmed(true);
+      setErrorMessage('');
     }
 
     setNewUsername('');
@@ -42,40 +49,43 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   };
 
   return (
-    <ModalComponent open={isModalOpen} height="330px">
-      <S.Container>
-        {
-          <S.Body>
-            <S.Icon>
-              <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
-            </S.Icon>
-            <S.Content>
-              <S.Header>Edit Profile</S.Header>
-              <S.SubHeader>
-                Lorem ipsum dolor sit amet, adipiscing elit.
-              </S.SubHeader>
-              <S.Input>
-                <S.At>@</S.At>
-                <S.UsernameInput
-                  onChange={handleChange}
-                  value={newUsername}
-                  placeHolderText="Username"
-                />
-                <S.CheckIcon>
-                  {confirmed && stateError === null && (
-                    <S.CheckIconImg src={checkIconImg} />
-                  )}
-                </S.CheckIcon>
-              </S.Input>
-              <S.Border></S.Border>
-              <div style={{ paddingTop: '40px' }}>
-                <S.Button onClick={handleSubmit}>Update Username</S.Button>
-              </div>
-            </S.Content>
-          </S.Body>
-        }
-      </S.Container>
-    </ModalComponent>
+    <>
+      <ModalComponent open={isModalOpen} height="280px">
+        <S.Container>
+          {
+            <S.Body>
+              <S.Icon>
+                <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
+              </S.Icon>
+              <S.Content>
+                <S.Header>Edit Profile</S.Header>
+                {errorMessage === '' ? null : (
+                  <S.SubHeader style={{ color: 'red' }}>
+                    {errorMessage}
+                  </S.SubHeader>
+                )}
+
+                <S.Input>
+                  <S.At>@</S.At>
+                  <S.UsernameInput
+                    onChange={handleChange}
+                    value={newUsername}
+                    placeHolderText="Username"
+                  />
+                  <S.CheckIcon>
+                    {confirmed && <S.CheckIconImg src={checkIconImg} />}
+                  </S.CheckIcon>
+                </S.Input>
+                <S.Border></S.Border>
+                <div style={{ paddingTop: '40px' }}>
+                  <S.Button onClick={handleSubmit}>Update Username</S.Button>
+                </div>
+              </S.Content>
+            </S.Body>
+          }
+        </S.Container>
+      </ModalComponent>
+    </>
   );
 };
 

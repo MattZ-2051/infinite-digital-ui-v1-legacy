@@ -111,9 +111,6 @@ const DepositModal = ({
       <div style={{ padding: '0 40px 40px 40px' }}>
         <S.Header>Select a payment to deposit</S.Header>
         <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-        <S.SubHeader>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </S.SubHeader>
         <S.Row onClick={handleRedirect}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={circleIcon} />

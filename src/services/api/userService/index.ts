@@ -122,7 +122,7 @@ export const removeUserCC = async (token: string, cardId: string) => {
     const response = await axiosInstance.delete(`/wallet/cards/${cardId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response;
+    return response.data;
   } catch (err) {
     if (err.response) {
       throw new Error('Error Occured');
@@ -140,7 +140,7 @@ export const removeUserCC = async (token: string, cardId: string) => {
   }
 };
 
-export const getUser = async (userId: string) => {
+export const getUser = async (userId: string): Promise<User> => {
   try {
     const response = await axiosInstance.get<User>(`/users/${userId}`);
     return response.data;

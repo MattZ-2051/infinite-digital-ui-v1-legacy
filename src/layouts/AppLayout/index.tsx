@@ -37,7 +37,7 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         </HeaderContent>
       </Header>
 
-      <Toast isVisible={false} status={'success'}>
+      <Toast isVisible={false} status={'success'} setIsVisible={() => false}>
         This is a simple error message. Can we help you to{' '}
         <a style={{ color: 'black' }}>fix the problem?</a>
       </Toast>

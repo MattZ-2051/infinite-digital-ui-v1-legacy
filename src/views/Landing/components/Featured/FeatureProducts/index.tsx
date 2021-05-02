@@ -8,7 +8,7 @@ import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 
 const FeatureProducts = () => {
-  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: '' });
+  const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();

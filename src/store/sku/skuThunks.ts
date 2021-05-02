@@ -18,9 +18,10 @@ export const getSkuTilesThunk = createAsyncThunk<
     rejectValue: IError;
   }
 >('skus/get', async (payloadParams, thunkApi) => {
-  const { token } = payloadParams || {};
+  const { queryParams } = payloadParams || '';
+
   try {
-    const data = await getSkuTiles({ token });
+    const data = await getSkuTiles({ queryParams });
     if (!data) {
       throw new Error(`No data returned from API`);
     }

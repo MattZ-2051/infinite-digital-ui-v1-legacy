@@ -6,7 +6,7 @@ import { skuFactory } from './skuFactory';
 interface InitialListingState {
   skus: {
     data: Sku[];
-    total: string;
+    total: number;
   };
   loading: 'idle' | 'pending';
   currentRequestId: string | undefined;
@@ -18,7 +18,7 @@ export const skuSlice = createSlice({
   initialState: <InitialListingState>{
     skus: {
       data: [skuFactory.build()],
-      total: '',
+      total: 0,
     },
     loading: 'idle',
     currentRequestId: undefined,

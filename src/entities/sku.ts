@@ -61,5 +61,5 @@ export interface Sku {
 
 export interface SkuWithTotal {
   data: Sku[];
-  total: string;
+  total: number;
 }

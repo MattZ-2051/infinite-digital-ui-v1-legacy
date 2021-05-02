@@ -11,14 +11,14 @@ export interface IProps {
 }
 
 const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
-  const [value, setValue] = React.useState<number[]>([0, 1000]);
+  const [value, setValue] = React.useState<number[]>([0, 2000]);
   const [isHidden, setIsHidden] = React.useState<boolean | undefined>(true);
 
   useEffect(() => {
     if (defaultFilter.length) {
       return setValue([...defaultFilter]);
     } else {
-      return setValue([10, 50]);
+      return setValue([0, 2000]);
     }
   }, [defaultFilter]);
 

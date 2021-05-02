@@ -25,14 +25,14 @@ const SkuDetail = (): JSX.Element => {
   const { skuid } = useParams<{ skuid: string }>();
   const [skuDetails, setSkuDetails] = useState<SkuWithTotal>({
     data: [skuFactory.build()],
-    total: '',
+    total: 0,
   });
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>('');
   const [featuredProducts, setFeaturedProducts] = useState<SkuWithTotal>({
     data: [skuFactory.build()],
-    total: '',
+    total: 0,
   });
 
   async function fetchProducts() {
@@ -59,7 +59,7 @@ const SkuDetail = (): JSX.Element => {
     const filteredSkus = skus.data.filter((sku) => sku._id === skuid);
     if (filteredSkus.length > 0) {
       // TODO: Only pulling the first one
-      setSkuDetails({ data: filteredSkus, total: '' });
+      setSkuDetails({ data: filteredSkus, total: 0 });
     }
   }, [skus]);
 
@@ -97,6 +97,12 @@ const SkuDetail = (): JSX.Element => {
       setModalPaymentVisible(true);
     }
   };
+
+  console.log(skuDetails.data);
+
+  if (!skuDetails.data) {
+    return <div>erqewr</div>;
+  }
 
   return (
     <div>

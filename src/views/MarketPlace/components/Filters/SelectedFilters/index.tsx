@@ -1,13 +1,13 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import Chip from './Chip';
 
 export interface IProps {
-  activeFilters: any;
+  activeFilters: any; // TODO: change type
   handleFilter: (name: string, data: any) => void;
+  options: any; // TODO: change type
 }
 
-const SelectedFilters = ({ handleFilter, activeFilters }: IProps) => {
+const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
   const handleDelete = (filterCategory: string, value: any) => {
     let filterValues = [];
 
@@ -21,56 +21,74 @@ const SelectedFilters = ({ handleFilter, activeFilters }: IProps) => {
         );
         break;
     }
-
     handleFilter(filterCategory, filterValues);
   };
 
+  // Find the name/label of the filter by id
+  const findFilterLabel = (
+    options: any, // TODO: change type
+    filterId: string,
+    categoryName: string
+  ) => {
+    let label = '';
+
+    options[categoryName].forEach((el: { name: string; id: string }) => {
+      if (el.id === filterId) {
+        label = el.name;
+      }
+    });
+
+    return label;
+  };
+
+  // Create chips for the dropdown-checkbox filters
   const createFilterCategoryChips = (
-    categoryName,
-    categoryItems,
-    chipArray
+    categoryName: string,
+    categoryItems: string[],
+    chipElements: JSX.Element[]
   ) => {
     return categoryItems.map((value) => {
-      chipArray.push(
+      chipElements.push(
         <Chip
-          label={value}
+          label={findFilterLabel(options, value, categoryName)}
           filterCategory={categoryName}
           handleDelete={handleDelete}
+          id={value}
         />
       );
     });
   };
 
-  const formatChipDateValue = (value) => {
+  const formatChipDateValue = (value: string[]) => {
     const result = `${value[0].slice(5)} to ${value[1].slice(5)}`;
     return result;
   };
 
-  const formatRangeChipValue = (value) => {
+  const formatRangeChipValue = (value: number[]) => {
     const result = `$${value[0]} to $${value[1]}`;
     return result;
   };
 
   const ChipItems = () => {
-    const chipElements: any = [];
-    Object.keys(activeFilters).map((category) => {
-      if (activeFilters[category]?.length) {
-        switch (category) {
+    const chipElements: JSX.Element[] = [];
+    Object.keys(activeFilters).map((categoryName) => {
+      if (activeFilters[categoryName]?.length) {
+        switch (categoryName) {
           case 'category':
           case 'brand':
           case 'series':
           case 'rarity':
             createFilterCategoryChips(
-              category,
-              activeFilters[category],
+              categoryName,
+              activeFilters[categoryName],
               chipElements
             );
             break;
           case 'date':
             chipElements.push(
               <Chip
-                label={formatChipDateValue(activeFilters[category])}
-                filterCategory={category}
+                label={formatChipDateValue(activeFilters[categoryName])}
+                filterCategory={categoryName}
                 handleDelete={handleDelete}
               />
             );
@@ -78,8 +96,8 @@ const SelectedFilters = ({ handleFilter, activeFilters }: IProps) => {
           case 'price':
             chipElements.push(
               <Chip
-                label={formatRangeChipValue(activeFilters[category])}
-                filterCategory={category}
+                label={formatRangeChipValue(activeFilters[categoryName])}
+                filterCategory={categoryName}
                 handleDelete={handleDelete}
               />
             );
@@ -89,8 +107,8 @@ const SelectedFilters = ({ handleFilter, activeFilters }: IProps) => {
           default:
             chipElements.push(
               <Chip
-                label={activeFilters[category]}
-                filterCategory={category}
+                label={activeFilters[categoryName]}
+                filterCategory={categoryName}
                 handleDelete={handleDelete}
               />
             );
