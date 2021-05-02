@@ -152,7 +152,6 @@ export const validate = (ccInfo, setFieldError) => {
     }));
   }
 
-  console.log(ccInfo.expYear);
   if (
     ccInfo.expYear <= year ||
     ccInfo.expYear.toString().length !== 4 ||
