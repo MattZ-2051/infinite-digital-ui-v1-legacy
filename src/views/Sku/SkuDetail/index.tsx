@@ -53,8 +53,6 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  console.log(sku);
-
   return (
     <div>
       {sku && (
