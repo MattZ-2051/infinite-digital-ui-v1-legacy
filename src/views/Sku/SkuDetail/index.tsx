@@ -44,7 +44,6 @@ const SkuDetail = (): JSX.Element => {
 
   async function fetchSku() {
     const sku = await getSku<true>(skuid, {
-      token: await getAccessTokenSilently(),
       includeFunctions: true,
     });
     setSku(sku);

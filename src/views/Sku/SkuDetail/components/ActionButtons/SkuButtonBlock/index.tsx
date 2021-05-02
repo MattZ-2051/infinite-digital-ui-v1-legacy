@@ -81,17 +81,14 @@ const FromCreatorBox = ({
   buttonLabel,
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const hasFunds = price ? user.availableBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
-  const loggedInUser = useAppSelector((state) => state.session.user);
-  const userLogged = !!Object.entries(loggedInUser).length;
-
-  const handleBuyNowClick = (userLogged: boolean) => {
+  const handleBuyNowClick = () => {
     // TODO: Check this call with pablo
     onBuyNow();
-    if (userLogged) {
+    if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
       Toast.error(
@@ -126,10 +123,7 @@ const FromCreatorBox = ({
         </small>
       </BoxColumn>
       <div>
-        <Button
-          disabled={buttonDisabled}
-          onClick={() => handleBuyNowClick(userLogged)}
-        >
+        <Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
           {buttonLabel}
         </Button>
       </div>
