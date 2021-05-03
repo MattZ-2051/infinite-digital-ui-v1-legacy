@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { ProductWithFunctions } from 'entities/product';
 import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
+import ModalPayment from '../Modal';
+import Toast from 'utils/Toast';
 
 const S: any = {};
+
+export type Status =
+  | 'not-for-sale'
+  | 'buy-now'
+  | 'create-sale'
+  | 'active-sale'
+  | '';
 
 interface Props {
   product: ProductWithFunctions | undefined;
@@ -14,10 +23,12 @@ interface Props {
 }
 
 const History = ({ product, transactionHistory }: Props) => {
-  const { isAuthenticated } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const loggedInUser = useAppSelector((state) => state.session.user.id);
-  let status: 'not-for-sale' | 'buy-now' | 'create-sale' | 'active-sale' | '' =
-    '';
+  let status: Status = '';
 
   if (isAuthenticated) {
     if (
@@ -49,63 +60,104 @@ const History = ({ product, transactionHistory }: Props) => {
     }
   }
 
+  const handleSaleAction = () => {
+    if (isAuthenticated) {
+      setIsModalOpen(true);
+    } else {
+      Toast.error(
+        <>
+          You need to{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            Log in
+          </a>{' '}
+          in order to complete the purchase
+        </>
+      );
+    }
+  };
+
+  const hasFunds = product?.sku.minPrice
+    ? loggedInUser.availableBalance >= product?.sku.minPrice
+    : false;
+  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+
   return (
-    <S.Container>
-      <S.Title>
-        <div>
-          <S.TitleText style={{ color: 'white' }}>Marketplace</S.TitleText> /{' '}
-          <S.TitleText style={{ color: 'white' }}>
-            {product?.sku.name}
-          </S.TitleText>{' '}
-          / #{product?.serialNumber}
-        </div>
-      </S.Title>
-      <S.Header>
-        <S.FlexDiv>
-          <S.ProductId>#{product?._id.slice(0, 4)}</S.ProductId>/
-          <S.ProductOwner>
-            Owner
-            <S.Owner>@ {product?.owner.username}</S.Owner>
-          </S.ProductOwner>
-        </S.FlexDiv>
-        {status === 'buy-now' && (
-          <S.Button hover={true}>Buy Now for $1400</S.Button>
-        )}
-        {status === 'create-sale' && (
-          <S.Button width="130px" hover={true}>
-            Create Sale
-          </S.Button>
-        )}
-        {status === 'not-for-sale' && (
-          <S.Button className="button_noSale" width="130px" hover={false}>
-            Not for sale
-          </S.Button>
-        )}
-        {status === 'active-sale' && (
+    <>
+      <S.Container>
+        <S.Title>
           <div>
-            <S.FlexColumn>
-              <S.ActiveAmount>${'1400'}</S.ActiveAmount>
-              <div style={{ display: 'flex' }}>
-                <S.StatusText>Status:</S.StatusText>
-                <S.ActiveText>active</S.ActiveText>
-              </div>
-            </S.FlexColumn>
+            <S.TitleText style={{ color: 'white' }}>Marketplace</S.TitleText> /{' '}
+            <S.TitleText style={{ color: 'white' }}>
+              {product?.sku.name}
+            </S.TitleText>{' '}
+            / #{product?.serialNumber}
           </div>
-        )}
-      </S.Header>
-      <S.FlexDiv>
-        <S.History>History</S.History>
-        <S.GrayLine>Line</S.GrayLine>
-      </S.FlexDiv>
-      <S.TransactionHistory>
-        {transactionHistory instanceof Array &&
-          transactionHistory.map((transaction) => {
-            return (
-              <Transaction key={transaction._id} transaction={transaction} />
-            );
-          })}
-      </S.TransactionHistory>
-    </S.Container>
+        </S.Title>
+        <S.Header>
+          <S.FlexDiv>
+            <S.ProductId>#{product?._id.slice(0, 4)}</S.ProductId>/
+            <S.ProductOwner>
+              Owner
+              <S.Owner>@ {product?.owner.username}</S.Owner>
+            </S.ProductOwner>
+          </S.FlexDiv>
+          {status === 'buy-now' && (
+            <S.Button onClick={handleSaleAction} hover={true}>
+              Buy Now for ${product?.listing.price}
+            </S.Button>
+          )}
+          {status === 'create-sale' && (
+            <S.Button onClick={handleSaleAction} width="130px" hover={true}>
+              Create Sale
+              {/* TODO: add modal */}
+            </S.Button>
+          )}
+          {status === 'not-for-sale' && (
+            <S.Button
+              onClick={handleSaleAction}
+              className="button_noSale"
+              width="130px"
+              hover={false}
+            >
+              Not for sale
+            </S.Button>
+          )}
+          {status === 'active-sale' && (
+            <div>
+              <S.FlexColumn>
+                <S.ActiveAmount>${'1400'}</S.ActiveAmount>
+                <div style={{ display: 'flex' }}>
+                  <S.StatusText>Status:</S.StatusText>
+                  <S.ActiveText>active</S.ActiveText>
+                </div>
+              </S.FlexColumn>
+            </div>
+          )}
+        </S.Header>
+        <S.FlexDiv>
+          <S.History>History</S.History>
+          <S.GrayLine>Line</S.GrayLine>
+        </S.FlexDiv>
+        <S.TransactionHistory>
+          {transactionHistory instanceof Array &&
+            transactionHistory.map((transaction) => {
+              return (
+                <Transaction key={transaction._id} transaction={transaction} />
+              );
+            })}
+        </S.TransactionHistory>
+      </S.Container>
+      {product && (
+        <ModalPayment
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          product={product}
+          mode={modalMode}
+          status={status}
+          activeAmount={1400}
+        />
+      )}
+    </>
   );
 };
 

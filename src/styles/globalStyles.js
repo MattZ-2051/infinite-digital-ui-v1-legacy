@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: 'josefin-sans', sans-serif;
+    font-family: 'PlusJakartaSans', sans-serif;
     font-size: 1rem;
     background: white;
   }
@@ -131,5 +131,15 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  // Mui pagination
+  .MuiPaginationItem-page.Mui-selected {
+    background-color: rgb(0 0 0);
+    color: white;
+
+    &:hover {
+      color: black;
+    }
+}
 `;
 export default GlobalStyle;

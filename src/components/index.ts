@@ -22,3 +22,4 @@ export { default as Tab } from './Tab';
 export { default as TabsContainer } from './TabsContainer';
 export { default as TextField } from './TextFIeld';
 export { default as Toast } from './Toast';
+export { default as CheckBox } from './CheckBox';

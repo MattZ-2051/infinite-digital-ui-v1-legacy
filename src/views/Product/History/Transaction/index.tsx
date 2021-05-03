@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const S: any = {};
 
@@ -14,10 +15,15 @@ const Transaction = ({ transaction }: Props) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
 
+  console.log(transaction);
+
   const handleRedirectToCollections = () => {
     history.push(`/collection/${transaction.owner.id}`);
   };
 
+  const handleTransactionLink = () => {
+    window.open(transaction.transactionData.hederaTransaction?.explorerLink);
+  };
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -60,8 +66,8 @@ const Transaction = ({ transaction }: Props) => {
         onMouseLeave={() => setShowLink(false)}
       >
         {showLink && (
-          <S.HederaLink>
-            <span>hedera link</span>
+          <S.HederaLink onClick={handleTransactionLink}>
+            Transaction Details
           </S.HederaLink>
         )}
         <S.LinkIcon className="icon_link" />
@@ -104,8 +110,10 @@ S.HederaLink = styled.div`
   right: 20%;
   bottom: 30px;
   border-radius: 35px;
+  overflow: hidden;
   :hover {
     cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
