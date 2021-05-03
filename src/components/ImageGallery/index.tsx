@@ -35,7 +35,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
           <img src={images[selectedImage]} alt="" />
         )}
 
-        <Squircle
+        {/* <Squircle
           size={40}
           bgColor="white"
           style={{
@@ -46,7 +46,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
           }} //TODO: create StyledComponent
         >
           <TDRotationIcon />
-        </Squircle>
+        </Squircle> */}
       </ImageContainer>
 
       <ThumbnailMenu>
@@ -58,7 +58,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                 active={selectedImage === index}
                 onClick={() => handleImageChange(index)}
               >
-                <STDGraphicIcon />
+                {/* <STDGraphicIcon /> */}
                 {el?.endsWith('mov') || el?.endsWith('mp4') ? (
                   <video
                     style={{
@@ -81,16 +81,16 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   );
 };
 
-const STDGraphicIcon = styled(TDGraphicIcon)`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 222;
-  padding: 3px;
-  width: 23px;
-  height: 23px;
-  background-color: #ffffff;
-`;
+// const STDGraphicIcon = styled(TDGraphicIcon)`
+//   position: absolute;
+//   top: 10px;
+//   right: 10px;
+//   z-index: 222;
+//   padding: 3px;
+//   width: 23px;
+//   height: 23px;
+//   background-color: #ffffff;
+// `;
 
 const Container = styled.div<{ height?: string }>`
   position: relative;
