@@ -273,7 +273,7 @@ const SkuButtonBlock = ({
     const expiredSkus = sku.skuListings.filter(
       (skuListing) => skuListing.status === 'expired'
     );
-    const skuPrice = expiredSkus[0].price;
+    const skuPrice = expiredSkus[0]?.price;
     return (
       <>
         <FromCreatorBox
