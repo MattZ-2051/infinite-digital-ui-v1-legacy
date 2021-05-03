@@ -28,23 +28,31 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
     history.push(`/wallet/${loggedInUser}`);
   };
 
-  if (isAuthenticated === true) {
-    if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
-      userStatus = 'loggedInIssuer';
-    } else if (userId === loggedInUser.id) {
-      userStatus = 'loggedIn';
-    } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
-      userStatus = 'notCurrentUserProfileIssuer';
-    } else if (userId !== loggedInUser.id) {
-      userStatus = 'notCurrentUserProfile';
-    }
-  } else {
-    if (user?.role === 'issuer') {
-      userStatus = 'notCurrentUserProfileIssuer';
+  const checkStatus = () => {
+    if (isAuthenticated === true) {
+      if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
+        userStatus = 'loggedInIssuer';
+        return userStatus;
+      } else if (userId === loggedInUser.id) {
+        userStatus = 'loggedIn';
+        return userStatus;
+      } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+        userStatus = 'notCurrentUserProfileIssuer';
+        return userStatus;
+      } else if (userId !== loggedInUser.id) {
+        userStatus = 'notCurrentUserProfile';
+        return userStatus;
+      }
     } else {
-      userStatus = 'notCurrentUserProfile';
+      if (user?.role === 'issuer') {
+        userStatus = 'notCurrentUserProfileIssuer';
+        return userStatus;
+      } else {
+        userStatus = 'notCurrentUserProfile';
+        return userStatus;
+      }
     }
-  }
+  };
 
   const handleUsernameEdit = (e) => {
     setIsModalOpen(true);
@@ -53,6 +61,8 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
+  checkStatus();
 
   return (
     <S.Container>

@@ -1,0 +1,220 @@
+import React from 'react';
+import styled from 'styled-components/macro';
+import { ProductWithFunctions } from 'entities/product';
+import Transaction from './Transaction';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useAppSelector } from 'store/hooks';
+import { ITransaction } from 'entities/transaction';
+
+const S: any = {};
+
+interface Props {
+  product: ProductWithFunctions | undefined;
+  transactionHistory: ITransaction[] | null;
+}
+
+const History = ({ product, transactionHistory }: Props) => {
+  const { isAuthenticated } = useAuth0();
+  const loggedInUser = useAppSelector((state) => state.session.user.id);
+  let status: 'not-for-sale' | 'buy-now' | 'create-sale' | 'active-sale' | '' =
+    '';
+
+  if (isAuthenticated) {
+    if (
+      loggedInUser.id === product?.owner._id &&
+      product?.listing.canceled === true
+    ) {
+      status = 'create-sale';
+    } else if (
+      loggedInUser.id === product?.owner._id &&
+      product?.listing.canceled === false
+    ) {
+      status = 'active-sale';
+    } else if (
+      loggedInUser.id !== product?.owner._id &&
+      product?.listing.canceled === true
+    ) {
+      status = 'not-for-sale';
+    } else if (
+      loggedInUser.id !== product?.owner._id &&
+      product?.listing.canceled === false
+    ) {
+      status = 'buy-now';
+    }
+  } else {
+    if (product?.listing.canceled === true) {
+      status = 'not-for-sale';
+    } else if (product?.listing.canceled === false) {
+      status = 'buy-now';
+    }
+  }
+
+  return (
+    <S.Container>
+      <S.Title>
+        <div>
+          <S.TitleText style={{ color: 'white' }}>Marketplace</S.TitleText> /{' '}
+          <S.TitleText style={{ color: 'white' }}>
+            {product?.sku.name}
+          </S.TitleText>{' '}
+          / #{product?.serialNumber}
+        </div>
+      </S.Title>
+      <S.Header>
+        <S.FlexDiv>
+          <S.ProductId>#{product?._id.slice(0, 4)}</S.ProductId>/
+          <S.ProductOwner>
+            Owner
+            <S.Owner>@ {product?.owner.username}</S.Owner>
+          </S.ProductOwner>
+        </S.FlexDiv>
+        {status === 'buy-now' && (
+          <S.Button hover={true}>Buy Now for $1400</S.Button>
+        )}
+        {status === 'create-sale' && (
+          <S.Button width="130px" hover={true}>
+            Create Sale
+          </S.Button>
+        )}
+        {status === 'not-for-sale' && (
+          <S.Button className="button_noSale" width="130px" hover={false}>
+            Not for sale
+          </S.Button>
+        )}
+        {status === 'active-sale' && (
+          <div>
+            <S.FlexColumn>
+              <S.ActiveAmount>${'1400'}</S.ActiveAmount>
+              <div style={{ display: 'flex' }}>
+                <S.StatusText>Status:</S.StatusText>
+                <S.ActiveText>active</S.ActiveText>
+              </div>
+            </S.FlexColumn>
+          </div>
+        )}
+      </S.Header>
+      <S.FlexDiv>
+        <S.History>History</S.History>
+        <S.GrayLine>Line</S.GrayLine>
+      </S.FlexDiv>
+      <S.TransactionHistory>
+        {transactionHistory instanceof Array &&
+          transactionHistory.map((transaction) => {
+            return (
+              <Transaction key={transaction._id} transaction={transaction} />
+            );
+          })}
+      </S.TransactionHistory>
+    </S.Container>
+  );
+};
+
+S.Container = styled.div`
+  padding: 48px 0 48px 48px;
+`;
+
+S.ActiveAmount = styled.span`
+  font-size: 24px;
+  color: white;
+  font-weight: 600;
+`;
+
+S.FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+S.ActiveText = styled.span`
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+S.StatusText = styled.span`
+  color: #7c7c7c;
+  font-size: 16px;
+  font-weight: 600;
+  padding-right: 5px;
+`;
+
+S.FlexDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+S.TitleText = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+S.ProductId = styled.span`
+  font-size: 48px;
+  color: white;
+  font-weight: 600;
+  padding-right: 16px;
+`;
+
+S.TransactionHistory = styled.div``;
+
+S.History = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 2px solid white;
+  padding-bottom: 16px;
+`;
+
+S.GrayLine = styled.div`
+  border-bottom: 2px solid #2e2e2e;
+  width: 100%;
+  color: #1a1a1a;
+  padding-bottom: 16px;
+`;
+
+S.ProductOwner = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  padding-left: 16px;
+`;
+
+S.Owner = styled.span`
+  color: white;
+`;
+
+S.Button = styled.button<{ width: string; hover: boolean }>`
+  border: none;
+  width: ${(props) => (props.width ? props.width : '190px')};
+  height: 40px;
+  border-radius: 35px;
+  background-color: #2e2e2e;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  ${(props) =>
+    props.hover
+      ? `:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+  }`
+      : 'color: #9e9e9e'}
+`;
+
+S.Header = styled.div`
+  font-size: 48px;
+  font-weight: 600;
+  color: #7c7c7c;
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  justify-content: space-between;
+`;
+
+S.Title = styled.div`
+  color: #7c7c7c;
+  font-size: 16px;
+`;
+
+export default History;

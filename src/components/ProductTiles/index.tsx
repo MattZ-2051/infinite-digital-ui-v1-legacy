@@ -6,7 +6,7 @@ import Title from './Tile';
 export const StyledCard = styled(Card)`
   max-width: 302px;
   min-width: 302px;
-  min-height: 430px;
+  height: 430px;
   overflow: initial;
   border-radius: 20px;
   position: relative;
@@ -24,10 +24,11 @@ export const Row = styled.div`
   align-items: center;
 `;
 
-export const StyledCardImg = styled(CardMedia)`
+export const CardImg = styled.img`
   height: 240px;
   width: 302px;
   border-radius: 20px 20px 0 0;
+  object-fit: cover;
 `;
 
 export const RedeemIcon = styled.img`

@@ -1,32 +1,36 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { StyledCard, Row, StyledCardImg, RedeemIcon } from '../index';
+import { StyledCard, Row, CardImg, RedeemIcon } from '../index';
 import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
+import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
 import Rarity from 'components/Rarity';
-import { Link } from 'react-router-dom';
 import { Sku } from 'entities/sku';
 
 interface Props {
   sku: Sku;
-  topLeft?: string;
-  skuRarity?: string;
-  middle?: string;
-  bottomLeft?: string;
-  bottomRight?: string;
-  status?: /*SKU Tile Types*/
-  | 'upcoming'
+  topLeft: string;
+  skuRarity: string;
+  middle: string;
+  bottomLeft: string;
+  bottomRight: string;
+  status:
+    | 'unique'
+    /*SKU Tile Types*/
+    | 'upcoming-sku'
     | 'active'
     | 'no-sale'
-    | /*Product Tile Types */ 'unique'
-    | 'purchased'
+    /*Product Tile Types */
+    | 'upcoming-product'
     | 'active-listing'
     | 'no-active-listing'
     | '';
-  skuImg?: string;
-  redeemable?: boolean;
-  pillInfo?: string;
-  icon?: string;
+  skuImg: string;
+  redeemable: boolean;
+  pillInfo: string;
+  unique: boolean;
+  handleRedirect: () => void;
+  supplyType: string;
 }
 
 const Tile = ({
@@ -40,12 +44,16 @@ const Tile = ({
   skuImg,
   redeemable,
   pillInfo,
-  icon,
+  unique,
+  handleRedirect,
+  supplyType,
 }: Props): JSX.Element => {
   return (
-    <CardContainer>
+    <CardContainer onClick={handleRedirect}>
       <StyledCard>
-        {redeemable ? <RedeemIcon src={icon} /> : null}
+        {redeemable ? (
+          <RedeemIcon src={redeemIcon} style={{ position: 'absolute' }} />
+        ) : null}
 
         {skuImg?.endsWith('mov') || skuImg?.endsWith('mp4') ? (
           <video
@@ -61,46 +69,50 @@ const Tile = ({
             src={skuImg}
           ></video>
         ) : (
-          <StyledCardImg image={skuImg || productImg} />
+          <CardImg src={skuImg || productImg} alt="" />
         )}
 
         <CardContent
           style={{
             backgroundColor: 'white',
-            padding: '5px 16px 0 16px',
             borderRadius: '20px',
+            paddingTop: '10px',
           }}
         >
           <Row>
-            <IssuerName>{topLeft}</IssuerName>
-            <Rarity type={skuRarity || 'rare'} />
+            <IssuerName style={{ fontSize: '16px' }}>
+              {topLeft?.length > 15 ? `${topLeft?.slice(0, 15)}...` : topLeft}
+            </IssuerName>
+            <Rarity type={skuRarity} />
           </Row>
-          <Link to={'/marketplace/' + sku._id}>
-            <SkuName>{middle}</SkuName>
-          </Link>
+
+          <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
-              # {bottomLeft}
+              <span style={{ paddingRight: '5px' }}>#</span> {bottomLeft}
             </BottomCardText>
-            {status === 'upcoming' && (
-              <BottomCardText>{bottomRight || '0'} Dropping</BottomCardText>
+            {status === 'upcoming-sku' && (
+              <BottomCardText>
+                {' '}
+                {supplyType === 'variable' ? null : <>{bottomRight} Dropping</>}
+              </BottomCardText>
             )}
-            {status === 'unique' && (
+            {unique && (
               <BottomCardText style={{ color: '#ff0000' }}>
                 Unique Item!
               </BottomCardText>
             )}
             {status === 'active' && (
-              <BottomCardText>{bottomRight} For Sale</BottomCardText>
-            )}
-            {status === 'purchased' && (
-              <BottomCardText>Owned by {bottomRight} people</BottomCardText>
+              <BottomCardText>
+                {supplyType === 'variable' ? null : `${bottomRight} For Sale`}
+              </BottomCardText>
             )}
             {status === 'no-sale' && (
               <BottomCardText>Owned by {bottomRight} people</BottomCardText>
             )}
             {status === 'active-listing' && (
               <SerialNum>
+                {/* TODO: check if we are going to use serialNum */}
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -109,6 +121,7 @@ const Tile = ({
             )}
             {status === 'no-active-listing' && (
               <SerialNum>
+                {/* TODO: check if we are going to use serialNum */}
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -118,7 +131,7 @@ const Tile = ({
           </Row>
         </CardContent>
       </StyledCard>
-      {status === 'upcoming' && (
+      {status.split('-')[0] === 'upcoming' && (
         <Pill style={{ backgroundColor: 'black' }}>
           <PillText>Upcoming in:</PillText>
           <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
@@ -126,7 +139,7 @@ const Tile = ({
       )}
       {status === 'active-listing' && (
         <Pill style={{ backgroundColor: 'black' }}>
-          <PillText>Current Bid:</PillText>
+          <PillText>Current Price:</PillText>
           <PillInfo>${pillInfo}</PillInfo>
         </Pill>
       )}
@@ -138,28 +151,12 @@ const Tile = ({
       )}
       {status === 'no-sale' && (
         <Pill style={{ backgroundColor: '#e5e5e5' }}>
-          <PillInfo
-            style={{
-              fontWeight: 500,
-              backgroundColor: '#e5e5e5',
-              margin: 'auto',
-              color: '#9E9E9E',
-            }}
-          >
-            No one selling
-          </PillInfo>
+          <NotForSale>No one selling</NotForSale>
         </Pill>
       )}
       {status === 'no-active-listing' && (
-        <Pill style={{ backgroundColor: '#E5E5E5' }}>
-          <PillText style={{ color: '#9e9e9e' }}>Estimated value:</PillText>
-          <PillInfo style={{ color: '#9e9e9e' }}>${pillInfo}</PillInfo>
-        </Pill>
-      )}
-      {status === 'purchased' && (
         <Pill style={{ backgroundColor: '#e5e5e5' }}>
-          <PillText style={{ color: '#9e9e9e' }}>Purchased on:</PillText>
-          <PillInfo style={{ color: '#9e9e9e' }}>{pillInfo}</PillInfo>
+          <NotForSale>Not for sale</NotForSale>
         </Pill>
       )}
     </CardContainer>
@@ -171,6 +168,19 @@ const CardContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: fit-content;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const NotForSale = styled.span`
+  font-weight: 500;
+  backgound-color: #e5e5e5;
+  margin: auto;
+  color: #9e9e9e;
+  font-size: 24px;
+  line-height: 32px;
+  height: 32px;
 `;
 
 const SerialNum = styled.p`
@@ -215,6 +225,8 @@ const BottomCardText = styled.p`
   font-size: 15px;
   letter-spacing: 0em;
   text-align: end;
+  display: flex;
+  align-items: center;
 `;
 
 const SkuName = styled.p`

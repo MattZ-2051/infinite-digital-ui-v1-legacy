@@ -11,7 +11,7 @@ import ImageGallery from 'components/ImageGallery';
 import SkuButtonBlock from './components/ActionButtons/SkuButtonBlock';
 import AuctionListing from './components/AuctionListing';
 import { Sku } from 'entities/sku';
-import ProductTile from 'views/MarketPlace/components/ProductTile';
+import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { getProductCollectors } from 'services/api/productService';
 import { SkuCounter } from './components/SkuCounter/skuCounter';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -149,14 +149,8 @@ const SkuDetail = (): JSX.Element => {
               if (index >= 5) return null;
               return (
                 <TileContainer key={index} index={index}>
-                  <ProductTile
-                    sku={el}
-                    redeemable={true}
-                    status="tbd"
-                    productSerialNumber="1"
-                    key={index}
-                    pillInfo="1k"
-                  />
+                  {/*TODO from Matt: find out what kind of tile is going to be rendererd here and handle redirect when clicked*/}
+                  <SkuTile sku={el} key={index} />
                 </TileContainer>
               );
             })}

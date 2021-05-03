@@ -15,7 +15,7 @@ export const getProducts = async (token: string) => {
 export const getProductsOwnedByUser = async (
   userId: string,
   token: string,
-  includeFunctions = false
+  includeFunctions = true
 ): Promise<ProductWithFunctions[]> => {
   const response = await axiosInstance.request<ProductWithFunctions[]>({
     method: 'GET',
@@ -36,4 +36,41 @@ export const getProductCollectors = async (
   });
 
   return response.data;
+};
+
+export const getSingleProduct = async (productId: string) => {
+  try {
+    const res = await axiosInstance.request({
+      method: 'GET',
+      url: `/products/${productId}`,
+    });
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getProductTransactionHistory = async (productId: string) => {
+  try {
+    const res = await axiosInstance.request({
+      method: 'GET',
+      url: `/products/${productId}/transactions`,
+    });
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getReleasesOwnedByUser = async (issuerId: string) => {
+  try {
+    const res = await axiosInstance.request({
+      method: 'GET',
+      url: `/skus/tiles`,
+      params: { issuerId: issuerId },
+    });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
 };

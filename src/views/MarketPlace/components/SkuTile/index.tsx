@@ -1,6 +1,8 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { Sku } from 'entities/sku';
+import { formatCountdown } from 'utils/dates';
+import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
   sku: Sku;
@@ -8,7 +10,7 @@ interface SkuProps {
 
 const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   const {
-    startDate,
+    _id,
     minPrice,
     issuer,
     name,
@@ -18,47 +20,26 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     totalSupplyLeft,
     totalSupplyUpcoming,
     series,
+    minStartDate,
+    redeemable,
+    maxSupply,
+    supplyType,
   } = sku;
 
+  const history = useHistory();
+  const skuStartDateTime = new Date(minStartDate || '').getTime();
   const currentTime = new Date().getTime();
-  const skuStartDateTime = new Date(
-    // TODO: hardcoded date?
-    startDate || '2021-04-12T19:03:02.439Z'
-  ).getTime();
-  let status: /*SKU Tile Types*/
-  | 'upcoming'
-    | 'active'
-    | 'no-sale'
-    | /*Product Tile Types */ 'unique'
-    | 'purchased'
-    | 'active-listing'
-    | 'no-active-listing'
-    | '' = '';
+
+  let status: /*SKU Tile Types*/ 'upcoming' | 'active' | 'no-sale' | '' = '';
   let skuUpcomingTime = '';
-  let bottomRightText: any = '';
-  let pillInfo: any = '';
-
-  function calcDiff(currentDate, skuStartDate) {
-    let diff = (skuStartDate - currentDate) / 1000;
-    diff = Math.abs(Math.floor(diff));
-
-    const days = Math.floor(diff / (24 * 60 * 60));
-    let leftSec = diff - days * 24 * 60 * 60;
-
-    const hrs = Math.floor(leftSec / (60 * 60));
-    leftSec = leftSec - hrs * 60 * 60;
-
-    const min = Math.floor(leftSec / 60);
-    leftSec = leftSec - min * 60;
-
-    return days + 'd' + ' ' + hrs + 'hr' + ' ' + min + 'm';
-  }
+  let bottomRightText: string | number = '';
+  let pillInfo: string | number = '';
 
   const checkStatus = () => {
     if (skuStartDateTime > currentTime) {
       status = 'upcoming';
       bottomRightText = totalSupplyUpcoming;
-      skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
+      skuUpcomingTime = formatCountdown(minStartDate || new Date());
       pillInfo = skuUpcomingTime;
       return;
     } else if (totalSupplyLeft > 0) {
@@ -66,7 +47,7 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
       bottomRightText = totalSupplyLeft;
       pillInfo = minPrice;
       return;
-    } else if (minPrice === 0 || !minPrice) {
+    } else if (totalSupplyLeft === 0) {
       status = 'no-sale';
       bottomRightText = circulatingSupply;
       return;
@@ -76,6 +57,9 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   };
 
   checkStatus();
+  const handleRedirect = () => {
+    history.push(`/marketplace/${_id}`);
+  };
 
   return (
     <Tile
@@ -86,9 +70,12 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
       bottomLeft={series?.name}
       bottomRight={bottomRightText}
       status={status}
-      redeemable={false}
+      redeemable={redeemable}
       pillInfo={pillInfo}
       skuImg={graphicUrl}
+      unique={maxSupply === 1}
+      handleRedirect={handleRedirect}
+      supplyType={supplyType}
     />
   );
 };

@@ -25,6 +25,8 @@ const Collection = () => {
     fetchUser();
   }, [userId]);
 
+  if (user === null) return <h1>Loading</h1>;
+
   return (
     <Container>
       <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
@@ -33,8 +35,6 @@ const Collection = () => {
   );
 };
 
-const Container = styled.div`
-  height: 130vh;
-`;
+const Container = styled.div``;
 
 export default Collection;

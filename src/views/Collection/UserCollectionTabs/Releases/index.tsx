@@ -1,26 +1,21 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import ProductTile from '../../../MarketPlace/components/ProductTile';
-import { ProductWithFunctions } from 'entities/product';
+import SkuTile from 'views/MarketPlace/components/SkuTile';
+import { Sku } from 'entities/sku';
 
 interface Props {
-  userItems: ProductWithFunctions[] | undefined;
+  userReleases: Sku[] | undefined;
   collection?: boolean;
 }
 
-const Items = ({ userItems, collection }: Props) => {
+const Releases = ({ userReleases, collection }: Props) => {
   return (
     <Container collection={collection || false}>
-      {userItems &&
-        userItems.map((product: ProductWithFunctions, index) => {
-          if (product.sku === null) return;
+      {userReleases &&
+        userReleases.map((sku: Sku, index) => {
           return (
-            <TileContainer key={product._id} index={index}>
-              <ProductTile
-                product={product}
-                productSerialNumber={product.serialNumber}
-                key={product._id}
-              />
+            <TileContainer key={sku._id} index={index}>
+              <SkuTile sku={sku} />
             </TileContainer>
           );
         })}
@@ -50,4 +45,4 @@ const Container = styled.div<{ collection?: boolean }>`
    width: 100%;`}
 `;
 
-export default Items;
+export default Releases;

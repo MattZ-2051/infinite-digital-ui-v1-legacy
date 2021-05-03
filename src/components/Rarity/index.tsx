@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 
 export interface IProps {
-  type: any;
+  type?: string;
 }
 
 interface RarityColors {
@@ -22,11 +22,6 @@ const rarityColors: RarityColors = {
 const Rarity = ({ type }: IProps) => {
   return (
     <>
-      {type === 'common' && (
-        <StyledDiv>
-          <p style={{ fontSize: '12px' }}>COMMON</p>
-        </StyledDiv>
-      )}
       {type === 'rare' && (
         <div
           style={{
@@ -110,19 +105,6 @@ const Rarity = ({ type }: IProps) => {
     </>
   );
 };
-
-const StyledDiv = styled.div`
-  background-color: ${(props) => props.color || 'white'};
-  color: var(--grey-40);
-  height: 50%;
-  height: 23px;
-  width: 94px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px 16px 2px 16px;
-  border-radius: 16px;
-`;
 
 const LegendaryStyle = styled.p`
   font-size: 16px;

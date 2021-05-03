@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Items from './Items';
-import MyReleases from './MyReleases';
-import SortByFilter from './SortByFilter';
+import Releases from './Releases';
 import { User } from 'entities/user';
 import { useHistory } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
-import { getProductsOwnedByUser } from 'services/api/productService';
+import {
+  getProductsOwnedByUser,
+  getReleasesOwnedByUser,
+} from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
+import { Sku } from 'entities/sku';
 
 interface IProps {
-  user?: User | null;
+  user: User;
   isAuthenticated: boolean;
 }
 
@@ -21,16 +24,22 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   const [userItems, setUserItems] = useState<
     ProductWithFunctions[] | undefined
   >();
+  const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
 
   const userId = history.location.pathname.split('/')[2];
 
   async function fetchData() {
-    try {
-      const res = await getProductsOwnedByUser(userId, '');
-      if (res) {
-        setUserItems(res);
+    const itemsRes = await getProductsOwnedByUser(user._id, '');
+    if (itemsRes) {
+      setUserItems(itemsRes);
+    }
+
+    if (user.role === 'issuer') {
+      const releasesRes = await getReleasesOwnedByUser(user._id);
+      if (releasesRes) {
+        setUserReleases(releasesRes);
       }
-    } catch (err) {}
+    }
   }
 
   useEffect(() => {
@@ -39,23 +48,36 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 
   let userStatus = '';
 
-  if (isAuthenticated === true) {
-    if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
-      userStatus = 'loggedInIssuer';
-    } else if (userId === loggedInUser.id) {
-      userStatus = 'loggedIn';
-    } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
-      userStatus = 'notCurrentUserProfileIssuer';
-    } else if (userId !== loggedInUser.id) {
-      userStatus = 'notCurrentUserProfile';
-    }
-  } else {
-    if (user?.role === 'issuer') {
-      userStatus = 'notCurrentUserProfileIssuer';
+  const checkStatus = () => {
+    if (isAuthenticated === true) {
+      if (userId === loggedInUser.id && user.role === 'issuer') {
+        userStatus = 'loggedInIssuer';
+        return userStatus;
+      } else if (userId === loggedInUser.id) {
+        userStatus = 'loggedIn';
+        return userStatus;
+      } else if (userId !== loggedInUser.id && user.role === 'issuer') {
+        userStatus = 'notCurrentUserProfileIssuer';
+        return userStatus;
+      } else if (userId !== loggedInUser.id) {
+        userStatus = 'notCurrentUserProfile';
+        return userStatus;
+      }
     } else {
-      userStatus = 'notCurrentUserProfile';
+      if (user.role === 'issuer') {
+        userStatus = 'notCurrentUserProfileIssuer';
+        return userStatus;
+      } else {
+        userStatus = 'notCurrentUserProfile';
+        return userStatus;
+      }
     }
-  }
+  };
+
+  checkStatus();
+
+  console.log('stats', userStatus);
+  console.log('releases', userReleases);
 
   // TODO: REVIEW
   const placeHolderFunc = () => null;
@@ -85,16 +107,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 </Tab>
               </div>
               <span style={{ padding: '0 20px' }}></span>
-              <SortByFilter
-                options={['Latest', 'test']}
-                handleFilter={placeHolderFunc}
-                activeFilterSort={''}
-              />
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
 
-          {selectedTab === 0 && <Items userItems={userItems} />}
+          {selectedTab === 0 && (
+            <Items userItems={userItems} collection={true} />
+          )}
         </>
       )}
       {userStatus === 'loggedInIssuer' && (
@@ -132,16 +151,15 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                   My Items
                 </Tab>
               </div>
-              <SortByFilter
-                options={['Latest', 'option']}
-                handleFilter={placeHolderFunc}
-                activeFilterSort={''}
-              />
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && <MyReleases />}
-          {selectedTab === 1 && <Items userItems={userItems} />}
+          {selectedTab === 0 && (
+            <Releases userReleases={userReleases} collection={true} />
+          )}
+          {selectedTab === 1 && (
+            <Items userItems={userItems} collection={true} />
+          )}
         </>
       )}
       {userStatus === 'notCurrentUserProfileIssuer' && (
@@ -179,17 +197,16 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                   Items
                 </Tab>
               </div>
-              <SortByFilter
-                options={['Latest']}
-                handleFilter={placeHolderFunc}
-                activeFilterSort={''}
-              />
             </div>
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && <MyReleases />}
-          {selectedTab === 1 && <Items userItems={userItems} />}
+          {selectedTab === 0 && (
+            <Releases userReleases={userReleases} collection={true} />
+          )}
+          {selectedTab === 1 && (
+            <Items userItems={userItems} collection={true} />
+          )}
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
@@ -216,16 +233,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 </Tab>
               </div>
               <span style={{ padding: '0 20px' }}></span>
-              <SortByFilter
-                options={['Latest']}
-                handleFilter={placeHolderFunc}
-                activeFilterSort={''}
-              />
             </div>
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && <Items userItems={userItems} />}
+          {selectedTab === 0 && (
+            <Items userItems={userItems} collection={true} />
+          )}
         </>
       )}
     </Container>
@@ -241,6 +255,7 @@ const Container = styled.div`
 const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
   width: 80%;
+  padding-bottom: 12.25px;
 `;
 
 const Tab = styled.span`

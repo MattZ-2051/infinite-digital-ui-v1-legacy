@@ -36,10 +36,10 @@ export const MyCollection = () => {
       </S.HeaderContainer>
       <S.ProductContainer>
         {userItems instanceof Array &&
-          userItems.map((item, index) => {
+          userItems.map((product, index) => {
             let type = 'active-listing';
-            const sku = item.sku;
-            if (item.listing.status === 'active') {
+            const sku = product.sku;
+            if (product.listing.status === 'active') {
               type = 'active-listing';
             } else {
               type = 'no-active-listing';
@@ -48,12 +48,9 @@ export const MyCollection = () => {
             return (
               <S.TileContainer key={index} index={index}>
                 <ProductTile
-                  sku={sku}
-                  redeemable={true}
-                  status={type}
-                  productSerialNumber={item.serialNumber}
-                  key={item._id}
-                  pillInfo="1k"
+                  product={product}
+                  productSerialNumber={product.serialNumber}
+                  key={product._id}
                 />
               </S.TileContainer>
             );

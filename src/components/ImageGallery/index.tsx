@@ -6,9 +6,10 @@ import Squircle from 'components/Squircle';
 
 export interface ImageGalleryProps {
   images: string[];
+  height?: string;
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -16,7 +17,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
   };
 
   return (
-    <Container>
+    <Container height={height}>
       <ImageContainer>
         {images[selectedImage]?.endsWith('mov') ||
         images[selectedImage]?.endsWith('mp4') ? (
@@ -91,13 +92,13 @@ const STDGraphicIcon = styled(TDGraphicIcon)`
   background-color: #ffffff;
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ height?: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #f4f4f4;
-  height: 100%;
+  height: ${(props) => (props.height ? `${props.height};` : `100%;`)}
   width: 100%;
   max-width: 700px;
   max-height: 700px;

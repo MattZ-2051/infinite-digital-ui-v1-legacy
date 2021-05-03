@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CircularButton from 'components/Buttons/CircularButton';
 import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
-import ProductTile from 'views/MarketPlace/components/ProductTile';
+import SkuTile from 'views/MarketPlace/components/SkuTile';
 
 const MarketPlace = () => {
   // const { listings } = useAppSelector((state) => state.listings);
@@ -32,14 +32,7 @@ const MarketPlace = () => {
             if (index >= 16) return null;
             return (
               <TileContainer key={index} index={index}>
-                <ProductTile
-                  sku={el}
-                  redeemable={true}
-                  status="tbd"
-                  productSerialNumber="1"
-                  key={index}
-                  pillInfo="1k"
-                />
+                <SkuTile sku={el} key={index} />
               </TileContainer>
             );
           })}

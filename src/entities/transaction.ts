@@ -1,7 +1,10 @@
+import { User } from './user';
+
 export interface ITransaction {
   _id: string;
-  owner: string;
+  owner: User;
   type:
+    | 'mint'
     | 'topup'
     | 'purchase'
     | 'payment'

@@ -10,7 +10,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   supplyType: 'variable',
   featured: false,
   redeemable: false,
-  // maxSupply: 0, deprecated
+  maxSupply: 0,
   imageUrls: [],
   graphicUrl: '',
   startDate: undefined,

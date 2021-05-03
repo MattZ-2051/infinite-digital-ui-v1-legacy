@@ -20,4 +20,8 @@ export interface ProductWithFunctions {
   listing: Listing;
   sku: Sku;
   serialNumber: string;
+  activeProductListing: Listing[];
+  expiredProductListing: Listing[];
+  soldProductListing: Listing[];
+  upcomingProductListing: Listing[];
 }

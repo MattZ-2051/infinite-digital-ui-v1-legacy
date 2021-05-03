@@ -11,6 +11,7 @@ import Collection from 'views/Collection';
 import Wallet from 'views/Wallet';
 import SkuDetail from 'views/Sku/SkuDetail';
 import Collectors from 'views/Sku/Collectors';
+import Product from 'views/Product';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -24,7 +25,8 @@ const RouterComponent = () => {
 
       {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
-
+      {/* Product */}
+      <Route exact path="/product/:productId" component={Product} />
       {/* Sku */}
       <Route exact path="/marketplace/:skuid" component={SkuDetail} />
       <Route path="/marketplace/:skuid/collectors" component={Collectors} />
