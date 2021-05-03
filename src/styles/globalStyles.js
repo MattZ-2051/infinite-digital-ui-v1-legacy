@@ -131,5 +131,15 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  // Mui pagination
+  .MuiPaginationItem-page.Mui-selected {
+    background-color: rgb(0 0 0);
+    color: white;
+
+    &:hover {
+      color: black;
+    }
+}
 `;
 export default GlobalStyle;

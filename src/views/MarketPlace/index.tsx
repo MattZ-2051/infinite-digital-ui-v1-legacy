@@ -215,7 +215,6 @@ const MarketPlace = (): JSX.Element => {
               count={Math.ceil(skus.total / 6)}
               page={page}
               onChange={handlePagination}
-              variant="outlined"
             />
           </S.PaginationContainer>
         </S.Content>
