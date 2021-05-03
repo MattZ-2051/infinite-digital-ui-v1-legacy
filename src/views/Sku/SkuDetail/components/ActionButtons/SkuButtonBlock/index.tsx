@@ -41,7 +41,9 @@ const UpcomingData = ({
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>${price}</span>
-          <small style={{ fontSize: '15px' }}>({items} items)</small>
+          <small style={{ fontSize: '15px' }}>
+            {items && `(${items} items)`}
+          </small>
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'right' }}>
           <span style={{ fontSize: '28px' }}>{countdown}</span>
@@ -107,7 +109,8 @@ const FromCreatorBox = ({
       <BoxColumn style={{ textAlign: 'center' }}>
         <span style={{ fontSize: '28px' }}> {price && `$${price}`}</span>
         <small style={{ fontSize: '15px' }}>
-          {sku?.totalSkuSupplyLeft >= 0 && `(${sku?.totalSkuSupplyLeft} left)`}
+          {sku?.totalSkuListingSupplyLeft >= 0 &&
+            `(${sku?.totalSkuListingSupplyLeft} left)`}
         </small>
       </BoxColumn>
       <div>
@@ -175,9 +178,18 @@ const SkuButtonBlock = ({
   onBuyNow,
   collectors,
 }: ISkuButtonBlock): JSX.Element => {
-  const hasSkuListings = sku.skuListings.length > 0;
+  const numSkuListings = sku.skuListings.length;
+  const activeListings = sku.skuListings.filter(
+    (skuListing) => skuListing.status === 'active' && !skuListing.canceled
+  );
+  const upcomingSkuListings = sku.skuListings.filter(
+    (skuListing) => skuListing.status === 'upcoming' && !skuListing.canceled
+  );
+  const canceledSkuListings = sku.skuListings.filter(
+    (skuListing) => skuListing.canceled
+  );
 
-  if (!hasSkuListings) {
+  if (!numSkuListings) {
     return <></>; // Returning empty for now
     // need to remove this return after MVP
     // This scenario is for the direct product listing (post-MVP)
@@ -226,40 +238,38 @@ const SkuButtonBlock = ({
   }
 
   /**
-   * Upcoming only product listing
+   * Upcoming sku listings
    */
-  if (sku.totalSupply === 0 && sku.totalSupplyUpcoming > 0) {
-    const upcomingSkuListings = sku.skuListings.filter(
-      (skuListing) => skuListing.status === 'upcoming'
+  if (upcomingSkuListings.length > 0 && !activeListings.length) {
+    const upcomingSkuListing = upcomingSkuListings[0];
+    const startDate = upcomingSkuListing.startDate;
+    const price = upcomingSkuListing.price;
+    // TODO: Changed this from supplyLeft (not in api response) to supply
+    const numItems = upcomingSkuListing.supply;
+
+    return (
+      <UpcomingData startDate={startDate} price={price} items={numItems} />
     );
 
-    if (upcomingSkuListings.length) {
-      const upcomingSkuListing = upcomingSkuListings[0];
-      const startDate = upcomingSkuListing.startDate;
-      const saleType = upcomingSkuListing.saleType;
-      const numItems = upcomingSkuListing.supplyLeft;
-
-      if (saleType === 'auction') {
-        const minBid = upcomingSkuListing.minBid;
-        return (
-          <UpcomingData startDate={startDate} price={minBid} items={numItems} />
-        );
-      } else if (saleType === 'fixed') {
-        const price = upcomingSkuListing.price;
-        return (
-          <UpcomingData startDate={startDate} price={price} items={numItems} />
-        );
-      }
-    }
+    // TODO: Will implement when auctions are available
+    // const saleType = upcomingSkuListing.saleType;
+    // if (saleType === 'auction') {
+    //   const minBid = upcomingSkuListing.minBid;
+    //   return (
+    //     <UpcomingData startDate={startDate} price={minBid} items={numItems} />
+    //   );
+    // } else if (saleType === 'fixed') {
+    //   const price = upcomingSkuListing.price;
+    //   return (
+    //     <UpcomingData startDate={startDate} price={price} items={numItems} />
+    //   );
+    // }
   }
 
   /**
-   * Active product listing
+   * Active sku listing
    */
-  if (sku.totalSkuSupplyLeft > 0) {
-    const activeListings = sku.skuListings.filter(
-      (skuListing) => skuListing.status === 'active'
-    );
+  if (activeListings.length && sku.totalSkuListingSupplyLeft) {
     const activeListing = activeListings?.[0];
     const skuPrice = activeListing?.price;
     const saleType = activeListing?.saleType;
@@ -289,7 +299,7 @@ const SkuButtonBlock = ({
   /**
    * Not for sale
    */
-  if (sku.totalSkuSupplyLeft < 1 && hasSkuListings) {
+  if (sku.totalSkuSupplyLeft < 1 && numSkuListings) {
     const expiredListings = sku.skuListings.filter(
       (skuListing) => skuListing.status === 'expired'
     );
