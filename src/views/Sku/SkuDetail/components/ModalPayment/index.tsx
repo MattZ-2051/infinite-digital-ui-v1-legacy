@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'components/Modal';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';

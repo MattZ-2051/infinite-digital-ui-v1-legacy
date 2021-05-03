@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,20 +12,23 @@ import { getMe, getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { ITransaction } from 'entities/transaction';
+import MuiDivider from '@material-ui/core/Divider';
 import KycButton from './KycButton/kycButton';
-export const S: any = {};
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
-  const userId = useAppSelector((state) => state.session.user.id);
   const [user, setUser] = useState<User>();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
-
-  const username = useAppSelector((state) => state.session.user.username);
+  const { username, id: userId } = useAppSelector(
+    (state) => state.session.user
+  );
+  const { kycPending, kycMaxLevel } = useAppSelector(
+    (state) => state.session.userCards
+  );
 
   async function fetchUser() {
     const res = await getMe(await getAccessTokenSilently());
@@ -76,21 +79,31 @@ const Wallet = (props) => {
             </S.Tab>
             <S.GrayLine></S.GrayLine>
           </div>
+
           <S.BalanceAmount>${user?.balance}</S.BalanceAmount>
+
           <S.AvailableAmount>
             <S.AvailableText>Available:</S.AvailableText>$
             {user?.availableBalance} (after active bids)
           </S.AvailableAmount>
+
           <div style={{ paddingTop: '36px' }}>
-            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
+            <S.ActionButton onClick={handleOpen} disabled={kycMaxLevel !== 2}>
+              Deposit
+            </S.ActionButton>
           </div>
+
           {/*  Temporary Hide feature will be enabled Post-MVP
 
           <div style={{ paddingTop: '12px' }}>
             <S.ActionButton>Withdrawal</S.ActionButton>
           </div> */}
-          <div style={{ paddingTop: '12px' }}>
-            <KycButton />
+
+          <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+
+          <div>
+            Account Verification Status: <br />
+            <KycButton kycPending={kycPending} kycMaxLevel={kycMaxLevel} />
           </div>
         </S.TotalBalanceContainer>
         <div
@@ -161,6 +174,8 @@ const Wallet = (props) => {
     </S.Container>
   );
 };
+
+export const S: any = {};
 
 S.Container = styled.div<{ showMore: boolean }>`
   height: 100vh;

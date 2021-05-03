@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 import Persona, { Client } from 'persona';
-import { S as StylesFromWallet } from '../index';
 import { getPersonalToken } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import ReactTooltip from 'react-tooltip';
+import * as S from './styles';
 
-const KycButton = ({}: any): JSX.Element => {
+const KycButton = ({
+  kycPending,
+  kycMaxLevel,
+}: {
+  kycPending: boolean;
+  kycMaxLevel: number;
+}): JSX.Element | null => {
   const [userToken, setUserToken] = useState<string>();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -54,11 +62,40 @@ const KycButton = ({}: any): JSX.Element => {
     client.open();
   }
 
-  return (
-    <StylesFromWallet.ActionButton onClick={openClient}>
-      Verification Status: tbd
-    </StylesFromWallet.ActionButton>
-  );
+  if (kycMaxLevel === 1) {
+    return (
+      <S.Container>
+        <S.VerifiedUserOutlinedIcon />
+        <S.LevelIndicator>lvl 1</S.LevelIndicator>
+      </S.Container>
+    );
+  } else if (kycMaxLevel === 2) {
+    return (
+      <S.Container>
+        <S.VerifiedUserIcon />
+        <S.LevelIndicator>lvl 2</S.LevelIndicator>
+      </S.Container>
+    );
+  }
+
+  if (kycPending) {
+    return (
+      <S.Container>
+        <AccessTimeIcon /> <S.StatusText>Pending...</S.StatusText>
+      </S.Container>
+    );
+  } else {
+    return (
+      <S.Container>
+        <ReactTooltip className="extraClass" delayHide={500} effect="solid">
+          <S.LearnMore href="#">Learn more</S.LearnMore>
+        </ReactTooltip>
+        <S.BlockIcon onClick={openClient} data-tip />
+        <S.ArrowDropDownIcon />
+        <S.StatusText>Unverified</S.StatusText>
+      </S.Container>
+    );
+  }
 };
 
 export default KycButton;
