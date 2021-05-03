@@ -49,6 +49,11 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
+    fundsBody.amount = fundsBody.amount?.replace(',', '');
+    if (isNaN(Number(fundsBody?.amount))) {
+      displayToast('error', 'An Error Occurred: Please enter a valid amount.');
+      return;
+    }
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
@@ -67,20 +72,22 @@ const AddFunds = () => {
     );
 
     if (res.type.split('/')[5] === 'rejected') {
-      setIsToastVisible(true);
-      setToastStatus('error');
-      setToastMessage('An Error Occurred');
+      displayToast('error', 'An Error Occurred');
       return;
     } else {
-      setIsToastVisible(true);
-      setToastStatus('success');
-      setToastMessage('Card Successfully Removed');
+      displayToast('success', 'Card Successfully Removed');
 
       setTimeout(() => {
         history.push(`/wallet/${username}/addcreditcard`);
       }, 2500);
     }
   };
+
+  function displayToast(type: 'success' | 'error', msg: string) {
+    setIsToastVisible(true);
+    setToastStatus(type);
+    setToastMessage(msg);
+  }
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();
