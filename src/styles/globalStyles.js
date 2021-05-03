@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: 'josefin-sans', sans-serif;
+    font-family: 'PlusJakartaSans', sans-serif;
     font-size: 1rem;
     background: white;
   }

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import Divider from 'components/Divider';
 import TextButton from 'components/Buttons/TextButton';
@@ -16,6 +15,8 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   const { visible, setVisible, ref } = useOutsideAlert(false);
   const user = useAppSelector((state) => state.session.user);
 
+  console.log(visible);
+
   return (
     <Container>
       <Divider gap={32}>
@@ -31,14 +32,15 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
 
         {isAuthenticated && (
           <AcountInfoContainer>
-            <div ref={ref} style={{ display: 'flex', alignItems: 'center' }}>
-              <AccountIcon
-                src={avatarIcon}
-                onClick={() => setVisible(!visible)}
-              />
+            <div
+              ref={ref}
+              onClick={() => setVisible(!visible)}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <AccountIcon src={avatarIcon} />
               {visible ? <UserProfileMenu setVisible={setVisible} /> : null}
+              <Username>@{user.username}</Username>
             </div>
-            <Username>@{user.username}</Username>
           </AcountInfoContainer>
         )}
 
