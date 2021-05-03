@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
+import InputLabel from '@material-ui/core/InputLabel';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import {
   createNewCCThunk,
@@ -254,10 +255,11 @@ const AddCC = () => {
                   value={cardInfo?.billingDetails.district}
                 />
               </S.Row>
+              <br />
+              <InputLabel id="country">Country</InputLabel>
               <S.Row>
                 <S.DropDown
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId="country"
                   name="billingDetails-country"
                   value={contryCode}
                   onChange={(value) => {
