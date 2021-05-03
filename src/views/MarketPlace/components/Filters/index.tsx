@@ -89,7 +89,7 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         options={dropDownOptions}
       />
 
-      <Date handleFilter={handleFilter} />
+      {/* <Date handleFilter={handleFilter} /> */}
 
       {/* <PriceRange
         handleFilter={handleFilter}
@@ -103,13 +103,13 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         filterCategory="category"
         activeFilters={activeFilters.category}
       />
-      <DropDownCheckFilter
+      {/* <DropDownCheckFilter
         label="Series"
         options={dropDownOptions.series}
         handleFilter={handleFilter}
         filterCategory="series"
         activeFilters={activeFilters.series}
-      />
+      /> */}
       <DropDownCheckFilter
         label="Rarity"
         options={dropDownOptions.rarity}
