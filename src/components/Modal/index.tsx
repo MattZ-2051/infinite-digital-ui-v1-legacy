@@ -19,6 +19,7 @@ const ModalComponent = ({ children, height, ...props }: IProps) => {
 };
 
 const ModalContainer: any = styled(Modal)`
+  overflow-y: scroll;
   z-index: 1400 !important;
   display: flex;
   align-items: center;
@@ -28,6 +29,7 @@ const ModalContainer: any = styled(Modal)`
 ` as React.ComponentType<ModalProps>;
 
 const ModalBody = styled.div<{ height?: string }>`
+  margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
   min-width: 400px;
@@ -35,6 +37,9 @@ const ModalBody = styled.div<{ height?: string }>`
   padding: 20px;
   border-radius: 12px;
   outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export default ModalComponent;

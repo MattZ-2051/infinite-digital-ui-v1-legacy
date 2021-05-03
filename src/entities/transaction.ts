@@ -33,6 +33,7 @@ export interface TransactionData {
 export interface HederaTransaction {
   transactionHash: string;
   transactionId: string;
+  explorerLink: string;
   from: string;
   to: string;
   tokenId: string;

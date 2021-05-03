@@ -6,6 +6,7 @@ import Rarity from 'components/Rarity';
 import { useAppSelector } from 'store/hooks';
 import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 import { useHistory } from 'react-router-dom';
+import { skuFactory } from 'store/sku/skuFactory';
 
 interface Props {
   product: ProductWithFunctions | undefined;
@@ -14,6 +15,7 @@ interface Props {
 const S: any = {};
 
 const ProductDetails = ({ product }: Props) => {
+  //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
 
@@ -23,7 +25,10 @@ const ProductDetails = ({ product }: Props) => {
 
   let redeemable = false;
 
-  if (loggedInUser.id === product?.owner.id) {
+  if (
+    loggedInUser.id === product?.owner.id &&
+    product?.sku.redeemable === true
+  ) {
     redeemable = true;
   }
   return (
@@ -44,9 +49,6 @@ const ProductDetails = ({ product }: Props) => {
           Series <S.SkuSeries>{product?.sku.series.name}</S.SkuSeries>
         </div>
         <S.Flex>
-          <S.SkuInfo color="#7c7c7c">SKU:</S.SkuInfo>
-          <S.SkuInfo>{product?.serialNumber}</S.SkuInfo>
-          <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>
           {redeemable && (
             <S.Flex alignItems="baseline">
               <S.RedeemIcon />
@@ -54,18 +56,19 @@ const ProductDetails = ({ product }: Props) => {
               <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>
             </S.Flex>
           )}
-          <S.SkuInfo color="#7c7c7c">
-            {product?.listing.supply} released
-          </S.SkuInfo>
+          {product?.sku.supplyType !== 'variable' && (
+            <S.SkuInfo color="#7c7c7c">
+              {product?.listing.supply} released
+            </S.SkuInfo>
+          )}
+
           <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
             (See All)
           </S.SkuInfo>
         </S.Flex>
         <S.Description>Description</S.Description>
         <S.GreyLine></S.GreyLine>
-        <S.DescriptionText>
-          The Perception Shoe is now a Reality.
-        </S.DescriptionText>
+        <S.DescriptionText>{product?.sku.description}</S.DescriptionText>
       </S.Body>
     </S.Container>
   );
