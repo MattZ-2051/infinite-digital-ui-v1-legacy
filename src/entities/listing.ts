@@ -14,5 +14,5 @@ export interface Listing {
   createdAt: Date;
   updatedAt: Date;
   supplyLeft: number;
-  status: string;
+  status: 'upcoming' | 'expired' | 'active' | 'sold';
 }

@@ -30,3 +30,7 @@ export const dateToPrettyString = (date: Date): string => {
   const options: any = { year: 'numeric', month: 'long', day: 'numeric' };
   return date.toLocaleDateString('en-US', options); // returns string: April 29, 2021
 };
+
+export const formatDate = (date: Date): string => {
+  return format(date, 'PPPp');
+};

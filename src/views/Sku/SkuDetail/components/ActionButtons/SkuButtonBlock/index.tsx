@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-import { formatCountdown, dateToPrettyString } from 'utils/dates';
+import { formatDate } from 'utils/dates';
+import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Collector } from 'entities/collector';
-import Toast from 'utils/Toast';
-import { useAppSelector } from 'store/hooks';
-import { useAuth0 } from '@auth0/auth0-react';
-import ModalPayment from '../../ModalPayment';
 import { Listing } from 'entities/listing';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useCountdown } from 'hooks/useCountdown';
+import ModalPayment from '../../ModalPayment';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -20,44 +20,35 @@ const NotAvailable = (): JSX.Element => {
 interface IUpcomingData {
   startDate?: Date;
   price: number;
+  items: number;
 }
 
-const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
+const UpcomingData = ({
+  startDate = new Date(),
+  price,
+  items,
+}: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
-  console.log(parsedStartDate);
-
-  const [countdown, setCountdown] = useState(formatCountdown(parsedStartDate));
-  // NOTE: Can be abstracted into a hook
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCountdown(formatCountdown(parsedStartDate));
-    }, 1000);
-    // Clear timeout if the component is unmounted
-    return () => clearTimeout(timer);
-  });
+  const countdown = useCountdown(parsedStartDate);
 
   return (
     <>
+      {' '}
       <Container>
-        <span style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming in:</span>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            textAlign: 'right',
-          }}
-        >
-          <BoxColumn>
-            <span style={{ fontSize: '28px' }}>Price:</span>
-            <small style={{ fontSize: '15px' }}>{price}</small>
-          </BoxColumn>
-          <BoxColumn>
-            <span style={{ fontSize: '24px' }}>{countdown}</span>
-            <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-              {dateToPrettyString(startDate)}
-            </small>
-          </BoxColumn>
-        </div>
+        <BoxColumn>
+          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming</h4>
+          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>{''}</small>
+        </BoxColumn>
+        <BoxColumn style={{ textAlign: 'center' }}>
+          <span style={{ fontSize: '28px' }}>${price}</span>
+          <small style={{ fontSize: '15px' }}>({items} items)</small>
+        </BoxColumn>
+        <BoxColumn style={{ textAlign: 'right' }}>
+          <span style={{ fontSize: '28px' }}>{countdown}</span>
+          <small style={{ fontSize: '14px', color: '#8E8E8E' }}>
+            {formatDate(startDate)}
+          </small>
+        </BoxColumn>
       </Container>
     </>
   );
@@ -65,6 +56,7 @@ const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
 
 interface IFromCreatorBox {
   sku: Sku;
+  listing?: Listing;
   onBuyNow: () => void;
   price?: number;
   user: User;
@@ -74,6 +66,7 @@ interface IFromCreatorBox {
 
 const FromCreatorBox = ({
   sku,
+  listing,
   onBuyNow,
   price,
   user,
@@ -103,11 +96,6 @@ const FromCreatorBox = ({
     }
   };
 
-  const activeListings = sku.skuListings.filter(
-    (skuListings) => skuListings.status == 'active'
-  );
-  const activeListing = activeListings[0];
-
   return (
     <Container>
       <BoxColumn>
@@ -117,9 +105,9 @@ const FromCreatorBox = ({
         </small>
       </BoxColumn>
       <BoxColumn style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '28px' }}>${price}</span>
+        <span style={{ fontSize: '28px' }}> {price && `$${price}`}</span>
         <small style={{ fontSize: '15px' }}>
-          ({sku.totalSkuSupplyLeft} left)
+          {sku?.totalSkuSupplyLeft >= 0 && `(${sku?.totalSkuSupplyLeft} left)`}
         </small>
       </BoxColumn>
       <div>
@@ -133,7 +121,7 @@ const FromCreatorBox = ({
         mode={modalMode}
         sku={sku}
         user={user}
-        listing={activeListing}
+        listing={listing}
       />
     </Container>
   );
@@ -142,7 +130,7 @@ const FromCreatorBox = ({
 interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
-  totalSupply?: any;
+  totalSupply?: number;
 }
 
 const FromCollectorsBox = ({
@@ -177,7 +165,7 @@ const FromCollectorsBox = ({
 interface ISkuButtonBlock {
   sku: Sku;
   user: User;
-  onBuyNow: any;
+  onBuyNow: () => void;
   collectors: Collector[];
 }
 
@@ -226,6 +214,7 @@ const SkuButtonBlock = ({
         <>
           <FromCreatorBox
             sku={sku}
+            listing={undefined}
             user={user}
             onBuyNow={onBuyNow}
             buttonDisabled={true}
@@ -236,25 +225,53 @@ const SkuButtonBlock = ({
     }
   }
 
+  /**
+   * Upcoming only product listing
+   */
   if (sku.totalSupply === 0 && sku.totalSupplyUpcoming > 0) {
     const upcomingSkuListings = sku.skuListings.filter(
       (skuListing) => skuListing.status === 'upcoming'
     );
-    const startDate = upcomingSkuListings[0].startDate;
-    const price = upcomingSkuListings[0].price;
-    return <UpcomingData startDate={startDate} price={price} />;
+
+    if (upcomingSkuListings.length) {
+      const upcomingSkuListing = upcomingSkuListings[0];
+      const startDate = upcomingSkuListing.startDate;
+      const saleType = upcomingSkuListing.saleType;
+      const numItems = upcomingSkuListing.supplyLeft;
+
+      if (saleType === 'auction') {
+        const minBid = upcomingSkuListing.minBid;
+        return (
+          <UpcomingData startDate={startDate} price={minBid} items={numItems} />
+        );
+      } else if (saleType === 'fixed') {
+        const price = upcomingSkuListing.price;
+        return (
+          <UpcomingData startDate={startDate} price={price} items={numItems} />
+        );
+      }
+    }
   }
 
+  /**
+   * Active product listing
+   */
   if (sku.totalSkuSupplyLeft > 0) {
-    const activeSkus = sku.skuListings.filter(
+    const activeListings = sku.skuListings.filter(
       (skuListing) => skuListing.status === 'active'
     );
-    const skuPrice = activeSkus[0].price;
+    const activeListing = activeListings?.[0];
+    const skuPrice = activeListing?.price;
+    const saleType = activeListing?.saleType;
+    // TODO: When 'auction' saleType is implemented, the price should display bid price
+    const displayPrice = saleType === 'fixed' ? skuPrice : skuPrice;
+
     return (
       <>
         <FromCreatorBox
           sku={sku}
-          price={skuPrice}
+          listing={activeListing}
+          price={displayPrice}
           user={user}
           onBuyNow={onBuyNow}
           buttonDisabled={false}
@@ -269,15 +286,20 @@ const SkuButtonBlock = ({
     );
   }
 
+  /**
+   * Not for sale
+   */
   if (sku.totalSkuSupplyLeft < 1 && hasSkuListings) {
-    const expiredSkus = sku.skuListings.filter(
+    const expiredListings = sku.skuListings.filter(
       (skuListing) => skuListing.status === 'expired'
     );
-    const skuPrice = expiredSkus[0]?.price;
+    const expiredListing = expiredListings[0];
+    const skuPrice = expiredListing?.price;
     return (
       <>
         <FromCreatorBox
           sku={sku}
+          listing={expiredListing}
           price={skuPrice}
           user={user}
           onBuyNow={onBuyNow}
