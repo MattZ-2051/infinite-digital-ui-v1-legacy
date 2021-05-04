@@ -64,6 +64,10 @@ const Container = styled.div`
     cursor: pointer;
     overflow: auto;
   }
+
+  @media screen and (max-width: 960px) {
+    margin-left: 0;
+  }
 `;
 
 const SectionTitle = styled.h2`
