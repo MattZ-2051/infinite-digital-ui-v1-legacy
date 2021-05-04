@@ -11,9 +11,10 @@ const BetaIcon = styled.div`
   width: 47px;
   height: 21px;
   text-align: center;
-  padding: 3px;
+  padding: 1px;
   border-radius: 25px;
   font-size: 13px;
+  font-weight: 600;
 `;
 
 export default Beta;
