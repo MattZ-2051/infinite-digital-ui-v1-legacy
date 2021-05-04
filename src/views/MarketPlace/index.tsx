@@ -185,11 +185,11 @@ const MarketPlace = (): JSX.Element => {
           {filtersVisible ? <CloseIcon /> : <FilterIcon />}
         </S.ToggleFilter>
 
-        <SortByFilter
+        {/* <SortByFilter
           handleSort={handleSort}
           activeSort={activeSort}
           options={sortByItems}
-        />
+        /> */}
       </S.Header>
 
       {filtersVisible && matchesMobile && (
