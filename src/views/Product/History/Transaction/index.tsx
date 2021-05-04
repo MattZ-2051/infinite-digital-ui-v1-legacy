@@ -22,6 +22,7 @@ const Transaction = ({ transaction }: Props) => {
   const handleTransactionLink = () => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
+
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -34,7 +35,9 @@ const Transaction = ({ transaction }: Props) => {
               'success' && (
               <S.FlexDiv>
                 <S.Description>Bought for</S.Description>
-                <S.Amount>${transaction.transactionData.amount}</S.Amount>
+                <S.Amount>
+                  ${transaction.transactionData.amount || '200'}
+                </S.Amount>
               </S.FlexDiv>
             )}
           {transaction.type === 'mint' && (
@@ -125,7 +128,7 @@ S.TransactionDetails = styled.div`
   flex-direction: column;
   padding-right: 10px;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 S.LinkIcon = styled(linkSVG)`
@@ -142,11 +145,12 @@ S.Description = styled.span`
   color: #9e9e9e;
   font-weight: 600;
   font-size: 16px;
+  padding-right: 10px;
 `;
 
 S.FlexDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
 `;
@@ -158,7 +162,7 @@ S.Amount = styled.span`
 `;
 
 S.Date = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   color: #9e9e9e;
 `;
 
