@@ -8,8 +8,8 @@ import NavBar from 'components/Layout/NavBar';
 import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
-import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
-import AriaLogo from 'assets/img/logos/Aria_Gradient.png';
+import { ReactComponent as SukuLogo } from 'assets/svg/logos/suku.svg';
+import { ReactComponent as AriaLogo } from 'assets/svg/logos/aria-white.svg';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
@@ -28,14 +28,13 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         <HeaderContent>
           <HeaderLeft>
             <Link to="/">
-              <img src={AriaLogo} alt="Aria logo" width="170px" />
+              <AriaLogo />
             </Link>
             <div className="powered">
-              {/* <Beta /> */}
-              Powered BY
-              <p>
-                <span>SU</span>KU
-              </p>
+              <span>Powered by</span>
+              <span>
+                <SukuLogo />
+              </span>
             </div>
           </HeaderLeft>
           <NavBar isSmall={isSmall} />
@@ -61,18 +60,20 @@ const Header = styled.header`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
   .powered {
+    margin-top: 5px;
     color: #fff;
     padding-left: 15px;
-    font-size: 9px;
-    > p {
-      font-size: 22px;
-      line-height: 13px;
-      margin: 0px;
-      font-weight: 200;
-      span {
-        font-weight: 600;
-      }
+    font-family: Plus Jakarta Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    span:first-child {
+      margin-right: 4px;
     }
   }
 `;
