@@ -31,9 +31,6 @@ const History = ({ product, transactionHistory }: Props) => {
   const loggedInUser = useAppSelector((state) => state.session.user.id);
   let status: Status = '';
 
-  console.log('product', product);
-  console.log('transactions', transactionHistory);
-
   if (product?.listing === undefined) {
     status = 'not-for-sale';
   } else {
