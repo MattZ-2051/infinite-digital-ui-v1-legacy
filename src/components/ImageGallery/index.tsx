@@ -108,6 +108,10 @@ const Container = styled.div<{ height?: string }>`
     width: 100%;
     user-select: none;
   }
+
+  @media screen and (max-width: 960px) {
+    max-width: 100%;
+  }
 `;
 
 const ImageContainer = styled.div`
