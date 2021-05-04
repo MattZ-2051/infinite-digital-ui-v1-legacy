@@ -9,6 +9,7 @@ import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 export interface IProps {
   children: JSX.Element;
@@ -39,8 +40,7 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         This is a simple error message. Can we help you to{' '}
         <a style={{ color: 'black' }}>fix the problem?</a>
       </Toast>
-
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
       <Footer />
     </>
   );
