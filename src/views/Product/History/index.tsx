@@ -31,6 +31,11 @@ const History = ({ product, transactionHistory }: Props) => {
   const loggedInUser = useAppSelector((state) => state.session.user.id);
   let status: Status = '';
 
+  console.log('product', product);
+
+  // if (product?.listing.canceled === undefined) {
+  //   status = 'not-for-sale';
+  // } else {
   if (isAuthenticated) {
     if (
       loggedInUser.id === product?.owner._id &&
@@ -60,6 +65,7 @@ const History = ({ product, transactionHistory }: Props) => {
       status = 'buy-now';
     }
   }
+  // }
 
   const handleSaleAction = () => {
     if (isAuthenticated) {
@@ -164,7 +170,8 @@ const History = ({ product, transactionHistory }: Props) => {
 
 S.Container = styled.div`
   padding: 48px 0 48px 48px;
-  height: 70%;
+  height: 100%;
+  overflow: hidden;
 `;
 
 S.ActiveAmount = styled.span`
