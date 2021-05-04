@@ -15,8 +15,6 @@ const Transaction = ({ transaction }: Props) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
 
-  console.log(transaction);
-
   const handleRedirectToCollections = () => {
     history.push(`/collection/${transaction.owner.id}`);
   };

@@ -15,8 +15,6 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   const { visible, setVisible, ref } = useOutsideAlert(false);
   const user = useAppSelector((state) => state.session.user);
 
-  console.log(visible);
-
   return (
     <Container>
       <Divider gap={32}>
