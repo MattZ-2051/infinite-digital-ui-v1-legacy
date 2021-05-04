@@ -32,40 +32,41 @@ const History = ({ product, transactionHistory }: Props) => {
   let status: Status = '';
 
   console.log('product', product);
+  console.log('transactions', transactionHistory);
 
-  // if (product?.listing.canceled === undefined) {
-  //   status = 'not-for-sale';
-  // } else {
-  if (isAuthenticated) {
-    if (
-      loggedInUser.id === product?.owner._id &&
-      product?.listing.canceled === true
-    ) {
-      status = 'create-sale';
-    } else if (
-      loggedInUser.id === product?.owner._id &&
-      product?.listing.canceled === false
-    ) {
-      status = 'active-sale';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.listing.canceled === true
-    ) {
-      status = 'not-for-sale';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.listing.canceled === false
-    ) {
-      status = 'buy-now';
-    }
+  if (product?.listing === undefined) {
+    status = 'not-for-sale';
   } else {
-    if (product?.listing.canceled === true) {
-      status = 'not-for-sale';
-    } else if (product?.listing.canceled === false) {
-      status = 'buy-now';
+    if (isAuthenticated) {
+      if (
+        loggedInUser.id === product?.owner._id &&
+        product?.listing.canceled === true
+      ) {
+        status = 'create-sale';
+      } else if (
+        loggedInUser.id === product?.owner._id &&
+        product?.listing.canceled === false
+      ) {
+        status = 'active-sale';
+      } else if (
+        loggedInUser.id !== product?.owner._id &&
+        product?.listing.canceled === true
+      ) {
+        status = 'not-for-sale';
+      } else if (
+        loggedInUser.id !== product?.owner._id &&
+        product?.listing.canceled === false
+      ) {
+        status = 'buy-now';
+      }
+    } else {
+      if (product?.listing.canceled === true) {
+        status = 'not-for-sale';
+      } else if (product?.listing.canceled === false) {
+        status = 'buy-now';
+      }
     }
   }
-  // }
 
   const handleSaleAction = () => {
     if (isAuthenticated) {
