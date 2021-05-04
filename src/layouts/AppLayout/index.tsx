@@ -9,6 +9,8 @@ import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
+import AriaLogo from 'assets/img/logos/Aria_Gradient.png';
+
 import ErrorBoundary from 'components/ErrorBoundary';
 
 export interface IProps {
@@ -26,10 +28,14 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         <HeaderContent>
           <HeaderLeft>
             <Link to="/">
-              <InfiniteLogo fill="white" width="170px" />
+              <img src={AriaLogo} alt="Aria logo" width="170px" />
             </Link>
-            <div style={{ paddingLeft: '15px', paddingBottom: '10px' }}>
-              <Beta />
+            <div className="powered">
+              {/* <Beta /> */}
+              Powered BY
+              <p>
+                <span>SU</span>KU
+              </p>
             </div>
           </HeaderLeft>
           <NavBar isSmall={isSmall} />
@@ -55,6 +61,20 @@ const Header = styled.header`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  .powered {
+    color: #fff;
+    padding-left: 15px;
+    font-size: 9px;
+    > p {
+      font-size: 22px;
+      line-height: 13px;
+      margin: 0px;
+      font-weight: 200;
+      span {
+        font-weight: 600;
+      }
+    }
+  }
 `;
 
 const HeaderContent = styled.div`
