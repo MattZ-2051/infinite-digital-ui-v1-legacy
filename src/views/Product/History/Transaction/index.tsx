@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { formatDate } from 'utils/dates';
 
 const S: any = {};
 
@@ -31,33 +31,32 @@ const Transaction = ({ transaction }: Props) => {
       </S.Username>
       <S.TransactionInfo>
         <S.TransactionDetails>
-          {transaction.type === 'purchase' && (
-            <S.FlexDiv>
-              <S.Description>Bought for</S.Description>
-              <S.Amount>${transaction.transactionData.amount}</S.Amount>
-            </S.FlexDiv>
-          )}
+          {transaction.type === 'purchase' &&
+            transaction.transactionData.hederaTransaction?.status.toLowerCase() ===
+              'success' && (
+              <S.FlexDiv>
+                <S.Description>Bought for</S.Description>
+                <S.Amount>${transaction.transactionData.amount}</S.Amount>
+              </S.FlexDiv>
+            )}
           {transaction.type === 'mint' && (
             <S.FlexDiv>
-              <S.Description>Minted by</S.Description>
-              <S.UsernameTypeMint onClick={handleRedirectToCollections}>
-                @{transaction.owner.username}
-              </S.UsernameTypeMint>
+              <S.Amount>Minted</S.Amount>
             </S.FlexDiv>
           )}
           {transaction.type === 'transfer' && (
             <S.FlexDiv>
-              <S.Description>Transferred to @username</S.Description>
-              <S.Amount>${transaction.transactionData.amount}</S.Amount>
+              <S.Amount>Recieved Transfer</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'sale' && (
+          {/* removed for now */}
+          {/* {transaction.type === 'sale' && (
             <S.FlexDiv>
               <S.Description>Sold for</S.Description>
               <S.Amount>${transaction.transactionData.amount}</S.Amount>
             </S.FlexDiv>
-          )}
-          <S.Date>{transaction.createdAt}</S.Date>
+          )} */}
+          <S.Date>{formatDate(new Date(transaction.createdAt))}</S.Date>
         </S.TransactionDetails>
       </S.TransactionInfo>
       <div
@@ -138,7 +137,6 @@ S.LinkIcon = styled(linkSVG)`
   :hover {
     stroke: white;
     cursor: pointer;
-    transform: scale(1.1);
   }
 `;
 
@@ -159,10 +157,6 @@ S.Amount = styled.span`
   color: white;
   font-weight: 600;
   font-size: 16px;
-  :hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
 `;
 
 S.Date = styled.span`
@@ -176,7 +170,6 @@ S.Username = styled.span`
   :hover {
     cursor: pointer;
     color: white;
-    transform: scale(1.1);
   }
 `;
 

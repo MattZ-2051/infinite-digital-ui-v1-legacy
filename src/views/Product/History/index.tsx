@@ -5,6 +5,7 @@ import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
+import { Link } from 'react-router-dom';
 import ModalPayment from '../Modal';
 import Toast from 'utils/Toast';
 
@@ -86,10 +87,10 @@ const History = ({ product, transactionHistory }: Props) => {
       <S.Container>
         <S.Title>
           <div>
-            <S.TitleText style={{ color: 'white' }}>Marketplace</S.TitleText> /{' '}
-            <S.TitleText style={{ color: 'white' }}>
+            <S.TitleLink to="/marketplace">Marketplace</S.TitleLink> /{' '}
+            <S.TitleLink to={`/marketplace/${product?.sku._id}`}>
               {product?.sku.name}
-            </S.TitleText>{' '}
+            </S.TitleLink>{' '}
             / #{product?.serialNumber}
           </div>
         </S.Title>
@@ -163,6 +164,7 @@ const History = ({ product, transactionHistory }: Props) => {
 
 S.Container = styled.div`
   padding: 48px 0 48px 48px;
+  height: 70%;
 `;
 
 S.ActiveAmount = styled.span`
@@ -196,9 +198,14 @@ S.FlexDiv = styled.div`
   align-items: center;
 `;
 
-S.TitleText = styled.span`
+S.TitleLink = styled(Link)`
   font-size: 16px;
   font-weight: 600;
+  color: white;
+  text-decoration: none;
+  :focus {
+    color: white;
+  }
 `;
 
 S.ProductId = styled.span`
@@ -208,7 +215,15 @@ S.ProductId = styled.span`
   padding-right: 16px;
 `;
 
-S.TransactionHistory = styled.div``;
+S.TransactionHistory = styled.div`
+  overflow: hidden;
+  height: 100%;
+  overflow-x: hidden;
+  :hover {
+    overflow-y: auto;
+    cursor: pointer;
+  }
+`;
 
 S.History = styled.span`
   font-size: 16px;
