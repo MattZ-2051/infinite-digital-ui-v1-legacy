@@ -86,6 +86,7 @@ S.Header = styled.h3`
   padding-top: 40px;
   font-size: 32px;
   line-height: 51.2px;
+  font-weight: 600;
 `;
 
 S.ProductContainer = styled.div`

@@ -67,6 +67,7 @@ const HeaderContainer = styled.div`
 const Header = styled.h3`
   padding-top: 40px;
   font-size: 32px;
+  font-weight: 600;
   line-height: 51.2px;
   @media screen and (max-width: 600px) {
     padding: 0;
