@@ -54,13 +54,13 @@ const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
 const HeaderContainer = styled.div`
   @media screen and (max-width: 600px) {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin: auto;
   }
   display: flex;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
+  align-items: baseline;
   padding-bottom: 28px;
 `;
 
