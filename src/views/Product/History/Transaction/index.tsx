@@ -31,21 +31,21 @@ const Transaction = ({ transaction }: Props) => {
       <S.TransactionInfo>
         <S.TransactionDetails>
           {transaction.type === 'purchase' &&
-            transaction.transactionData.hederaTransaction?.status.toLowerCase() ===
-              'success' && (
+            transaction.transactionData.hederaTransaction?.status ===
+              'SUCCESS' && (
               <S.FlexDiv>
                 <S.Description>Bought for</S.Description>
                 <S.Amount>
-                  ${transaction.transactionData.amount || '200'}
+                  ${transaction.transactionData.cost.totalCost}
                 </S.Amount>
               </S.FlexDiv>
             )}
-          {transaction.type === 'mint' && (
+          {transaction.type === 'nft_mint' && (
             <S.FlexDiv>
               <S.Amount>Minted</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'transfer' && (
+          {transaction.type === 'nft_transfer' && (
             <S.FlexDiv>
               <S.Amount>Recieved Transfer</S.Amount>
             </S.FlexDiv>
