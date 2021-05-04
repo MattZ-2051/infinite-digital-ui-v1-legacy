@@ -13,6 +13,7 @@ import {
   updateFilter,
   updatePagination,
   updateSortBy,
+  setMarketplaceState,
 } from 'store/marketplace/marketplaceSlice';
 import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
@@ -119,7 +120,7 @@ const MarketPlace = (): JSX.Element => {
         })
       );
       const page = new URLSearchParams(urlQueryString).get('page');
-      if (page) setPage(Number(page));
+      setPage(Number(page));
     })();
   }, [dispatch]);
 
@@ -141,10 +142,7 @@ const MarketPlace = (): JSX.Element => {
             queryParams: `?${queryString.toString()}`,
           })
         );
-        console.log('activePagination', activePagination);
-        //setPage
       } else {
-        console.log('activePagination', activePagination);
         regenerateUrl.current = true;
         dispatch(
           getSkuTilesThunk({
@@ -161,7 +159,14 @@ const MarketPlace = (): JSX.Element => {
       if (history.action === 'POP') {
         regenerateUrl.current = false;
         const urlParams = processUrlParams();
-        dispatch(updateFilters(urlParams));
+        dispatch(
+          setMarketplaceState({
+            filters: urlParams.filters,
+            pagination: urlParams.pagination,
+            sortBy: urlParams.sortBy,
+          })
+        );
+        setPage(Number(urlParams.pagination.page));
       }
     });
   }, [history]);

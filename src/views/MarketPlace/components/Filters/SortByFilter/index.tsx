@@ -14,11 +14,11 @@ const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const getCurrentLabel = () => {
     return options.filter((option) => {
-      option.value === activeSort;
+      return option.value === activeSort;
     });
   };
   const [label, setLabel] = useState<string | undefined>(
-    getCurrentLabel().name
+    getCurrentLabel()[0].name
   );
   const handleDropDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
@@ -89,7 +89,6 @@ const S: any = {};
 S.Container = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 300px;
   position: relative;
 `;
 
@@ -121,10 +120,10 @@ S.Label = styled.span`
 `;
 
 S.HiddenDiv = styled.div`
+  width: max-content;
   color: black;
   overflow-y: auto;
   position: absolute;
-  width: 180px;
   background-color: white;
   right: 5%;
   border-radius: 20px;
@@ -141,7 +140,6 @@ S.HiddenDiv = styled.div`
 S.DropDownDiv = styled.div`
   padding: 9px 16px;
   border-radius: 20px;
-  width: 160px;
   color: #9e9e9e;
   display: flex;
   justify-content: flex-end;

@@ -20,7 +20,10 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
       <Divider gap={32}>
-        <TextButton to="/marketplace" color="white">
+        <TextButton
+          to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+          color="white"
+        >
           Marketplace
         </TextButton>
 

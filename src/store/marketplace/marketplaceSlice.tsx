@@ -120,6 +120,13 @@ export const marketplaceSlice = createSlice({
     updateSortBy: (state, action) => {
       state.sortBy = action.payload;
     },
+    setMarketplaceState: (state, action) => {
+      //Useful for the browser back button
+      const { filters, pagination, sortBy } = action.payload;
+      state.filters = filters;
+      state.pagination = pagination;
+      state.sortBy = sortBy;
+    },
   },
 });
 
@@ -130,5 +137,6 @@ export const {
   restoreFilters,
   updatePagination,
   updateSortBy,
+  setMarketplaceState,
 } = actions;
 export default marketplaceSlice.reducer;

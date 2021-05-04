@@ -1,11 +1,19 @@
 export const sortByItems = [
   {
-    name: 'Release Date',
+    name: 'Release date low to high',
     value: 'startDate:asc',
   },
   {
-    name: 'Rarity',
+    name: 'Release date high to low',
+    value: 'startDate:desc',
+  },
+  {
+    name: 'Rarity low to high',
     value: 'rarity:asc',
+  },
+  {
+    name: 'Rarity high to low',
+    value: 'rarity:desc',
   },
   {
     name: 'Price high to low',

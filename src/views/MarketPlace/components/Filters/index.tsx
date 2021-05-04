@@ -54,6 +54,12 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      clearFilters();
+    };
+  }, []);
+
   const clearFilters = () => {
     dispatch(restoreFilters());
   };

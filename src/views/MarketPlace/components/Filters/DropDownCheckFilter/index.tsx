@@ -76,7 +76,7 @@ const DropDownCheckFilter = ({
                           }}
                           id={option.id}
                           name={option.name}
-                          checked={activeFilters.indexOf(option.id) !== -1}
+                          checked={activeFilters?.indexOf(option.id) !== -1}
                           onChange={handleCheck}
                           color="default"
                           disableRipple
@@ -86,7 +86,7 @@ const DropDownCheckFilter = ({
                       labelPlacement="end"
                       style={{
                         color: `${
-                          activeFilters.indexOf(option.id) !== -1
+                          activeFilters?.indexOf(option.id) !== -1
                             ? 'black'
                             : '#9e9e9e'
                         }`,
