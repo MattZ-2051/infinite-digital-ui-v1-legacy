@@ -76,9 +76,6 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 
   checkStatus();
 
-  console.log('stats', userStatus);
-  console.log('releases', userReleases);
-
   // TODO: REVIEW
   const placeHolderFunc = () => null;
   return (
@@ -255,7 +252,7 @@ const Container = styled.div`
 const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
   width: 80%;
-  padding-bottom: 12.25px;
+  padding-bottom: 14px;
 `;
 
 const Tab = styled.span`
