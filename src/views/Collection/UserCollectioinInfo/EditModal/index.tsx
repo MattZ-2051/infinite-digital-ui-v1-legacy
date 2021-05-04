@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import ModalComponent from 'components/Modal';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
@@ -19,13 +19,24 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   const [newUsername, setNewUsername] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.session.user.id);
+  const user = useAppSelector((state) => state.session.user);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  useEffect(() => {
+    setConfirmed(false);
+    setNewUsername(user.username);
+  }, []);
+
+  const handleModalClose = () => {
+    handleClose();
+    setErrorMessage('');
+    setConfirmed(false);
+  };
+
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
-    const data = { token: token, userId: userId, username: newUsername };
+    const data = { token: token, userId: user.id, username: newUsername };
     if (newUsername.length === 0) {
       setErrorMessage('Please enter new username');
       return;
@@ -37,9 +48,12 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     } else {
       setConfirmed(true);
       setErrorMessage('');
+      setNewUsername('');
+      setTimeout(() => {
+        handleModalClose();
+      }, 1000);
     }
 
-    setNewUsername('');
     return;
   };
 
@@ -55,7 +69,7 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
           {
             <S.Body>
               <S.Icon>
-                <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
+                <S.ExitIconImg src={exitIconImg} onClick={handleModalClose} />
               </S.Icon>
               <S.Content>
                 <S.Header>Edit Profile</S.Header>
