@@ -23,6 +23,8 @@ const Transaction = ({ transaction }: Props) => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
 
+  console.log('transaction', transaction);
+
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -36,7 +38,7 @@ const Transaction = ({ transaction }: Props) => {
               <S.FlexDiv>
                 <S.Description>Bought for</S.Description>
                 <S.Amount>
-                  ${transaction.transactionData.cost.totalCost}
+                  ${transaction.transactionData.cost?.totalCost || '200'}
                 </S.Amount>
               </S.FlexDiv>
             )}

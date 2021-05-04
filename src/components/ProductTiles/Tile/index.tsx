@@ -89,7 +89,7 @@ const Tile = ({
           <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
-              <span style={{ paddingRight: '5px' }}>#</span> {bottomLeft}
+              {bottomLeft}
             </BottomCardText>
             {status === 'upcoming-sku' && (
               <BottomCardText>
@@ -108,7 +108,7 @@ const Tile = ({
               </BottomCardText>
             )}
             {status === 'no-sale' && (
-              <BottomCardText>Owned by {bottomRight} people</BottomCardText>
+              <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
             {status === 'active-listing' && (
               <SerialNum>
