@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import GlobalStyle from 'styles/globalStyles';
@@ -7,10 +6,12 @@ import Router from './router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './utils/Toast/styles.css';
+import ScrollToTop from 'components/ScrollToTop';
 
 const App = (): JSX.Element => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <CssBaseline />
       <GlobalStyle />
       <AppLayout>
