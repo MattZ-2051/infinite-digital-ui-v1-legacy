@@ -128,7 +128,8 @@ const SkuDetail = (): JSX.Element => {
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
         <S.Description>
           <S.SectionTitle>Description</S.SectionTitle>
-          {sku?.description}
+          <div dangerouslySetInnerHTML={{ __html: sku?.description || '' }} />
+          {/* {sku?.description} */}
         </S.Description>
 
         {collectors && (
