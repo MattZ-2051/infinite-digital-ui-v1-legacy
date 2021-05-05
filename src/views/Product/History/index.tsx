@@ -166,6 +166,10 @@ S.Container = styled.div`
   padding: 48px 0 48px 48px;
   height: 100%;
   overflow: hidden;
+
+  @media screen and (max-width: 1160px) {
+    padding: 48px 24px 48px 24px;
+  }
 `;
 
 S.ActiveAmount = styled.span`
@@ -247,6 +251,10 @@ S.TransactionHistory = styled.div`
   :hover {
     overflow-y: auto;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 1160px) {
+    padding-right: 0;
   }
 `;
 
