@@ -6,6 +6,7 @@ export interface IProps {
 }
 
 interface RarityColors {
+  common: string;
   uncommon: string;
   rare: string;
   legendary: string;
@@ -13,6 +14,7 @@ interface RarityColors {
 }
 
 const rarityColors: RarityColors = {
+  common: 'white',
   uncommon: 'linear-gradient(45deg, #171717 0%, #777777 100%)',
   rare: 'linear-gradient(41.72deg, #00EB7C -14.01%, #11D6EC 90.62%)',
   legendary: 'linear-gradient(45deg, #FF9412 0%, #FFF72D 98.96%)',
@@ -40,6 +42,26 @@ const Rarity = ({ type }: IProps) => {
             }}
           ></span>
           <RareStyle>Rare</RareStyle>
+        </div>
+      )}
+      {type === 'common' && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <span
+            style={{
+              backgroundColor: 'white',
+              width: '16px',
+              height: '16px',
+              borderRadius: '50%',
+              background: `${rarityColors['common']}`,
+            }}
+          ></span>
+          <CommonStyle>Common</CommonStyle>
         </div>
       )}
       {type === 'uncommon' && (
@@ -151,6 +173,12 @@ const RareStyle = styled.p`
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
   background-clip: text;
+`;
+
+const CommonStyle = styled.p`
+  font-size: 16px;
+  padding-left: 8px;
+  color: #8e8e8e;
 `;
 
 const EpicStyle = styled.p`
