@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component<MyProps, MyState> {
       // Error path
       return (
         <div>
-          <h2>Something went wrong.</h2>
+          <h3>Something went wrong.</h3>
         </div>
       );
     }

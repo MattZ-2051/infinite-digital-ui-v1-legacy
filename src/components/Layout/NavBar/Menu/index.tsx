@@ -15,12 +15,13 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
   const { visible, setVisible, ref } = useOutsideAlert(false);
   const user = useAppSelector((state) => state.session.user);
 
-  console.log(visible);
-
   return (
     <Container>
       <Divider gap={32}>
-        <TextButton to="/marketplace" color="white">
+        <TextButton
+          to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+          color="white"
+        >
           Marketplace
         </TextButton>
 

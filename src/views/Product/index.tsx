@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components/macro';
+import { useEffect, useState } from 'react';
 import History from './History';
 import {
   getSingleProduct,
@@ -8,8 +7,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { ProductWithFunctions as ProductType } from 'entities/product';
 import ProductDetails from './ProductDetails';
-
-const S: any = {};
+import * as S from './styles';
 
 const Product = ({}) => {
   const history = useHistory();
@@ -31,19 +29,12 @@ const Product = ({}) => {
 
   return (
     <S.Container>
-      <ProductDetails product={product} />
-      <History product={product} transactionHistory={transactionHistory} />
+      <S.Content>
+        <ProductDetails product={product} />
+        <History product={product} transactionHistory={transactionHistory} />
+      </S.Content>
     </S.Container>
   );
 };
-
-S.Container = styled.div`
-  height: 100vh;
-  background-color: #1a1a1a;
-  color: white;
-  display: grid;
-  padding: 0 80px;
-  grid-template-columns: 480px 1fr;
-`;
 
 export default Product;

@@ -88,9 +88,7 @@ const Wallet = (props) => {
           </S.AvailableAmount>
 
           <div style={{ paddingTop: '36px' }}>
-            <S.ActionButton onClick={handleOpen} disabled={kycMaxLevel !== 2}>
-              Deposit
-            </S.ActionButton>
+            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
 
           {/*  Temporary Hide feature will be enabled Post-MVP
@@ -296,7 +294,7 @@ S.ActionButton = styled.button`
 
 S.GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
-  padding-top: 10px;
+  padding-top: 12px;
   width: 80%;
 `;
 

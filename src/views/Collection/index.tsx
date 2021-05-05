@@ -5,6 +5,7 @@ import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { PulseLoader } from 'react-spinners';
 
 const Collection = () => {
   const [user, setUser] = useState<any>(null);
@@ -25,7 +26,20 @@ const Collection = () => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <h1>Loading</h1>;
+  if (user === null) {
+    return (
+      <Container>
+        <PulseLoader
+          size={50}
+          color={'#000'}
+          margin={10}
+          css={
+            'display:flex;justify-content:center;align-items:center;height:80%;'
+          }
+        />
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -35,6 +49,9 @@ const Collection = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  width: 100%;
+`;
 
 export default Collection;

@@ -54,19 +54,20 @@ const ProductDiv = styled(({ first, ...rest }) => <div {...rest} />)`
 const HeaderContainer = styled.div`
   @media screen and (max-width: 600px) {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin: auto;
   }
   display: flex;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
+  align-items: baseline;
   padding-bottom: 28px;
 `;
 
 const Header = styled.h3`
   padding-top: 40px;
   font-size: 32px;
+  font-weight: 600;
   line-height: 51.2px;
   @media screen and (max-width: 600px) {
     padding: 0;
