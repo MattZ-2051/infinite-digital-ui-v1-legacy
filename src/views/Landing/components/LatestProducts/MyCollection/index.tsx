@@ -48,6 +48,7 @@ export const MyCollection = () => {
             return (
               <S.TileContainer key={index} index={index}>
                 <ProductTile
+                  theme="light"
                   product={product}
                   productSerialNumber={product.serialNumber}
                   key={product._id}

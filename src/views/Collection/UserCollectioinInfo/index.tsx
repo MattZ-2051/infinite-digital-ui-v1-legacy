@@ -127,7 +127,6 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
 S.EditIconContainer = styled.div`
   width: 24px;
   height: 24px;
-  background-color: black;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -137,7 +136,6 @@ S.Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
   color: white;
   width: 100%;
   height: 30vh;

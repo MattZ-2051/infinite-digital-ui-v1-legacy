@@ -15,7 +15,7 @@ import Product from 'views/Product';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
-const RouterComponent = () => {
+const RouterComponent = (): JSX.Element => {
   const location: any = useLocation();
   const background = location.state && location.state.background;
 

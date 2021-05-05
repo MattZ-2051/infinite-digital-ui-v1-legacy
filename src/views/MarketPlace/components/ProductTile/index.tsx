@@ -8,9 +8,14 @@ import { formatCountdown } from 'utils/dates';
 interface Props {
   product: ProductWithFunctions;
   productSerialNumber: string;
+  theme: 'light' | 'dark';
 }
 
-const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
+const ProductTile = ({
+  product,
+  productSerialNumber,
+  theme = 'light',
+}: Props): JSX.Element => {
   let status: /*Product Tile Types */
   'active-listing' | 'no-active-listing' | 'upcoming' | '' = '';
   const history = useHistory();
@@ -43,6 +48,7 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
 
   return (
     <Tile
+      theme={theme}
       sku={sku}
       redeemable={true}
       status={status}

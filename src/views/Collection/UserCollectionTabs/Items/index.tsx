@@ -6,17 +6,23 @@ import { ProductWithFunctions } from 'entities/product';
 interface Props {
   userItems: ProductWithFunctions[] | undefined;
   collection?: boolean;
+  theme?: 'light' | 'dark';
 }
 
-const Items = ({ userItems, collection }: Props) => {
+const Items = ({
+  userItems,
+  collection,
+  theme = 'light',
+}: Props): JSX.Element => {
   return (
     <Container collection={collection || false}>
       {userItems &&
         userItems.map((product: ProductWithFunctions, index) => {
           if (product.sku === null) return;
           return (
-            <TileContainer key={product._id} index={index}>
+            <TileContainer theme={theme} key={product._id} index={index}>
               <ProductTile
+                theme="dark"
                 product={product}
                 productSerialNumber={product.serialNumber}
                 key={product._id}

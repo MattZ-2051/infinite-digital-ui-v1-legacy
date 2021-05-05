@@ -150,7 +150,7 @@ const SkuDetail = (): JSX.Element => {
               return (
                 <TileContainer key={index} index={index}>
                   {/*TODO from Matt: find out what kind of tile is going to be rendererd here and handle redirect when clicked*/}
-                  <SkuTile sku={el} key={index} />
+                  <SkuTile sku={el} key={index} theme="light" />
                 </TileContainer>
               );
             })}
