@@ -246,7 +246,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 const Container = styled.div`
   width: 100%;
   padding: 40px;
-  height: 70vh;
+  height: 100vh;
 `;
 
 const GrayLine = styled.div`
