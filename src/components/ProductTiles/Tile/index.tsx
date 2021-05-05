@@ -61,6 +61,7 @@ const Tile = ({
               height: '240px',
               width: '302px',
               borderRadius: '20px 20px 0 0',
+              objectFit: 'cover',
             }}
             autoPlay={true}
             controls={false}
@@ -89,7 +90,7 @@ const Tile = ({
           <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
-              <span style={{ paddingRight: '5px' }}>#</span> {bottomLeft}
+              {bottomLeft}
             </BottomCardText>
             {status === 'upcoming-sku' && (
               <BottomCardText>
@@ -108,7 +109,7 @@ const Tile = ({
               </BottomCardText>
             )}
             {status === 'no-sale' && (
-              <BottomCardText>Owned by {bottomRight} people</BottomCardText>
+              <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
             {status === 'active-listing' && (
               <SerialNum>
@@ -133,8 +134,7 @@ const Tile = ({
       </StyledCard>
       {status.split('-')[0] === 'upcoming' && (
         <Pill style={{ backgroundColor: 'black' }}>
-          <PillText>Upcoming in:</PillText>
-          <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
+          <Upcoming>Upcoming</Upcoming>
         </Pill>
       )}
       {status === 'active-listing' && (
@@ -178,6 +178,16 @@ const NotForSale = styled.span`
   backgound-color: #e5e5e5;
   margin: auto;
   color: #9e9e9e;
+  font-size: 24px;
+  line-height: 32px;
+  height: 32px;
+`;
+
+const Upcoming = styled.span`
+  font-weight: 500;
+  backgound-color: black;
+  margin: auto;
+  color: #c4c4c4;
   font-size: 24px;
   line-height: 32px;
   height: 32px;

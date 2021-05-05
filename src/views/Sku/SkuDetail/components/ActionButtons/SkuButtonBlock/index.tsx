@@ -17,6 +17,13 @@ const NotAvailable = (): JSX.Element => {
     </Container>
   );
 };
+const ComingSoon = (): JSX.Element => {
+  return (
+    <Container>
+      <h4>Coming soon...</h4>
+    </Container>
+  );
+};
 interface IUpcomingData {
   startDate?: Date;
   price: number;
@@ -178,7 +185,7 @@ const SkuButtonBlock = ({
   const hasSkuListings = sku.skuListings.length > 0;
 
   if (!hasSkuListings) {
-    return <></>; // Returning empty for now
+    return <ComingSoon />; // Returning empty for now
     // need to remove this return after MVP
     // This scenario is for the direct product listing (post-MVP)
 

@@ -6,6 +6,7 @@ type SkuCounterProps = {
 };
 
 export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
+  if (sku.supplyType === 'variable') return <></>;
   if (sku.totalSkuListingSupply == 0) {
     return <></>;
   }
