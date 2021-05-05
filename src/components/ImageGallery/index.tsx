@@ -24,6 +24,8 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
           <video
             style={{
               width: '100%',
+              objectFit: 'cover',
+              height: '100%',
             }}
             autoPlay={true}
             controls={false}
@@ -107,6 +109,10 @@ const Container = styled.div<{ height?: string }>`
   img {
     width: 100%;
     user-select: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    max-width: 100%;
   }
 `;
 

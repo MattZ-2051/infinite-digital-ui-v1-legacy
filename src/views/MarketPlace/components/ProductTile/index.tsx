@@ -1,7 +1,6 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { ProductWithFunctions } from 'entities/product';
-import { Sku } from 'entities/sku';
 import { useHistory } from 'react-router-dom';
 import { formatCountdown } from 'utils/dates';
 
@@ -44,7 +43,7 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
   return (
     <Tile
       sku={sku}
-      redeemable={true}
+      redeemable={sku.redeemable}
       status={status}
       skuImg={sku.graphicUrl}
       skuRarity={sku.rarity}

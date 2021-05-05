@@ -4,6 +4,7 @@ import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
+import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 
 const S: any = {};
 
@@ -15,8 +16,6 @@ const Transaction = ({ transaction }: Props) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
 
-  console.log(transaction);
-
   const handleRedirectToCollections = () => {
     history.push(`/collection/${transaction.owner.id}`);
   };
@@ -24,6 +23,7 @@ const Transaction = ({ transaction }: Props) => {
   const handleTransactionLink = () => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
+
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -32,19 +32,21 @@ const Transaction = ({ transaction }: Props) => {
       <S.TransactionInfo>
         <S.TransactionDetails>
           {transaction.type === 'purchase' &&
-            transaction.transactionData.hederaTransaction?.status.toLowerCase() ===
-              'success' && (
+            transaction.transactionData.hederaTransaction?.status ===
+              'SUCCESS' && (
               <S.FlexDiv>
                 <S.Description>Bought for</S.Description>
-                <S.Amount>${transaction.transactionData.amount}</S.Amount>
+                <S.Amount>
+                  ${transaction.transactionData.cost?.totalCost || '200'}
+                </S.Amount>
               </S.FlexDiv>
             )}
-          {transaction.type === 'mint' && (
+          {transaction.type === 'nft_mint' && (
             <S.FlexDiv>
               <S.Amount>Minted</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'transfer' && (
+          {transaction.type === 'nft_transfer' && (
             <S.FlexDiv>
               <S.Amount>Recieved Transfer</S.Amount>
             </S.FlexDiv>
@@ -65,9 +67,12 @@ const Transaction = ({ transaction }: Props) => {
         onMouseLeave={() => setShowLink(false)}
       >
         {showLink && (
-          <S.HederaLink onClick={handleTransactionLink}>
-            Transaction Details
-          </S.HederaLink>
+          <div>
+            <S.ToolTip title="Testing">Testing</S.ToolTip>
+            <S.ToolTipText onClick={handleTransactionLink}>
+              {transaction.transactionData.hederaTransaction?.explorerLink}
+            </S.ToolTipText>
+          </div>
         )}
         <S.LinkIcon className="icon_link" />
       </div>
@@ -97,7 +102,33 @@ S.UsernameTypeMint = styled.span`
   padding-left: 10px;
 `;
 
-S.HederaLink = styled.div`
+S.ToolTip = styled(ToolTip)`
+  position: absolute;
+  bottom: 30px;
+  color: black;
+  right: -4em;
+  width: 190px;
+  height: 38px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+S.ToolTipText = styled.span`
+  position: absolute;
+  bottom: 3em;
+  color: black;
+  width: 175px;
+  overflow: hidden;
+  font-size: 14px;
+  left: -5.5em;
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+S.Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,7 +137,6 @@ S.HederaLink = styled.div`
   height: 40px;
   width: 190px;
   position: absolute;
-  right: 20%;
   bottom: 30px;
   border-radius: 35px;
   overflow: hidden;
@@ -127,7 +157,7 @@ S.TransactionDetails = styled.div`
   flex-direction: column;
   padding-right: 10px;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 S.LinkIcon = styled(linkSVG)`
@@ -144,11 +174,12 @@ S.Description = styled.span`
   color: #9e9e9e;
   font-weight: 600;
   font-size: 16px;
+  padding-right: 10px;
 `;
 
 S.FlexDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
 `;
@@ -160,7 +191,7 @@ S.Amount = styled.span`
 `;
 
 S.Date = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   color: #9e9e9e;
 `;
 

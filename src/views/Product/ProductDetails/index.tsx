@@ -7,6 +7,7 @@ import { useAppSelector } from 'store/hooks';
 import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 import { useHistory } from 'react-router-dom';
 import { skuFactory } from 'store/sku/skuFactory';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface Props {
   product: ProductWithFunctions | undefined;
@@ -18,18 +19,22 @@ const ProductDetails = ({ product }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
+  const { isAuthenticated } = useAuth0();
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${product?.sku._id}`);
   };
 
   let redeemable = false;
 
-  if (
-    loggedInUser.id === product?.owner.id &&
-    product?.sku.redeemable === true
-  ) {
-    redeemable = true;
+  if (isAuthenticated) {
+    if (
+      loggedInUser.id === product?.owner.id &&
+      product?.sku.redeemable === true
+    ) {
+      redeemable = true;
+    }
   }
+
   return (
     <S.Container>
       {product && (
@@ -44,9 +49,6 @@ const ProductDetails = ({ product }: Props) => {
           <Rarity type={product?.sku.rarity} />
         </S.Flex>
         <S.SkuName>{product?.sku.name}</S.SkuName>
-        <div>
-          Series <S.SkuSeries>{product?.sku.series.name}</S.SkuSeries>
-        </div>
         <S.Flex>
           {redeemable && (
             <S.Flex alignItems="baseline">
@@ -57,7 +59,7 @@ const ProductDetails = ({ product }: Props) => {
           )}
           {product?.sku.supplyType !== 'variable' && (
             <S.SkuInfo color="#7c7c7c">
-              {product?.listing.supply} released
+              {product?.sku?.circulatingSupply} released
             </S.SkuInfo>
           )}
 
