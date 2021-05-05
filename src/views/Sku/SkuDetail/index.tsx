@@ -15,6 +15,7 @@ import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { getProductCollectors } from 'services/api/productService';
 import { SkuCounter } from './components/SkuCounter/skuCounter';
 import { useAuth0 } from '@auth0/auth0-react';
+import Rarity from 'components/Rarity';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -79,10 +80,7 @@ const SkuDetail = (): JSX.Element => {
                   }}
                 >
                   <S.Brand>{sku?.issuerName || ''}</S.Brand>
-                  <S.Rarity>
-                    <span></span>
-                    {sku?.rarity}
-                  </S.Rarity>
+                  <Rarity type={sku?.rarity} />
                 </div>
 
                 <S.SkuTitle>{sku?.name}</S.SkuTitle>
@@ -130,7 +128,7 @@ const SkuDetail = (): JSX.Element => {
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
         <S.Description>
           <S.SectionTitle>Description</S.SectionTitle>
-          {/* {skuDetails?.description} */}
+          {sku?.description}
         </S.Description>
 
         {collectors && (
