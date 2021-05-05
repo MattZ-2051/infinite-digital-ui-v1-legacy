@@ -105,12 +105,12 @@ const Tile = ({
                 Unique Item!
               </BottomCardText>
             )}
-            {status === 'active' && (
+            {status === 'active' && !unique && (
               <BottomCardText>
                 {supplyType === 'variable' ? null : `${bottomRight} For Sale`}
               </BottomCardText>
             )}
-            {status === 'no-sale' && (
+            {status === 'no-sale' && !unique && (
               <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
             {status === 'active-listing' && (
@@ -122,7 +122,7 @@ const Tile = ({
                 </span>
               </SerialNum>
             )}
-            {status === 'no-active-listing' && (
+            {status === 'no-active-listing' && !unique && (
               <SerialNum>
                 {/* TODO: check if we are going to use serialNum */}
                 Serial:
