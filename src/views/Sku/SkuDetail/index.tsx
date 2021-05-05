@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
 import { useAppSelector } from 'store/hooks';
@@ -26,6 +26,7 @@ const SkuDetail = (): JSX.Element => {
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
+  const history = useHistory();
 
   useEffect(() => {
     fetchSku();
@@ -54,6 +55,11 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
+  const handleRedirectToIssuer = () => {
+    history.push(`/collection/${sku?.issuer._id}`);
+  };
+
+  console.log(sku);
   return (
     <div>
       {sku && (
@@ -79,7 +85,9 @@ const SkuDetail = (): JSX.Element => {
                     fontSize: '24px',
                   }}
                 >
-                  <S.Brand>{sku?.issuerName || ''}</S.Brand>
+                  <S.Brand onClick={handleRedirectToIssuer}>
+                    {sku?.issuerName || ''}
+                  </S.Brand>
                   <Rarity type={sku?.rarity} />
                 </div>
 

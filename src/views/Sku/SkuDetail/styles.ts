@@ -61,6 +61,9 @@ export const Brand = styled.h3`
   font-size: 24px;
   color: #8e8e8e;
   margin-bottom: 16px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const ButtonsContainer = styled.div`
