@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import * as CSS from 'csstype';
 
 interface ImageProps {
   src: string;
@@ -30,6 +31,7 @@ const ImageContainer = styled.div<{ imageUrl?: string }>`
       ? 'url(' + props.imageUrl + ')'
       : 'url(https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png)'};
   background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,23 +40,22 @@ const ImageContainer = styled.div<{ imageUrl?: string }>`
 interface BackgroundImageContainerProps {
   src?: string;
   alt?: string;
-  width?: string;
-  height?: string;
   children?: JSX.Element;
+  styles: CSS.Properties;
 }
 
 export const BackgroundImageContainer = (
   props: BackgroundImageContainerProps
 ): JSX.Element => {
-  const { src, children, width, height } = props;
+  const { src, children, styles } = props;
 
   if (src) {
     return (
-      <ImageContainer style={{ width, height }} imageUrl={src}>
+      <ImageContainer style={{ ...styles }} imageUrl={src}>
         {children && children}
       </ImageContainer>
     );
   } else {
-    return <div style={{ width, height }}>{children && children}</div>;
+    return <div style={{ ...styles }}>{children && children}</div>;
   }
 };

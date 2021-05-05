@@ -85,13 +85,13 @@ const Collection = (): JSX.Element => {
   }
 
   return (
-    <Container
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <Container>
       <BackgroundImageContainer
         src={bannerPhotoUrl}
-        height="500px"
-        width="1400px"
+        styles={{
+          height: '500px',
+          width: '100%',
+        }}
       >
         <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
       </BackgroundImageContainer>
@@ -146,6 +146,9 @@ const Collection = (): JSX.Element => {
 const Container = styled.div`
   background-color: black;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   > * {
     background-color: black;
