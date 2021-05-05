@@ -111,7 +111,7 @@ const Container = styled.div<{ height?: string }>`
     user-select: none;
   }
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1160px) {
     max-width: 100%;
   }
 `;
