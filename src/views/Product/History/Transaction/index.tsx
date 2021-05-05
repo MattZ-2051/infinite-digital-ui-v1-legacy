@@ -24,8 +24,6 @@ const Transaction = ({ transaction }: Props) => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
 
-  console.log('transaction', transaction);
-
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>

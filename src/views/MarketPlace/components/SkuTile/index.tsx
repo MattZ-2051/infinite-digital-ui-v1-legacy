@@ -69,8 +69,6 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     history.push(`/marketplace/${_id}`);
   };
 
-  console.log('sku', sku);
-
   return (
     <Tile
       sku={sku}
