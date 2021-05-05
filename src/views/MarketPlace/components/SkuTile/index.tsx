@@ -26,6 +26,7 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     supplyType,
     productListings,
     skuListings,
+    issuerName,
   } = sku;
 
   const history = useHistory();
@@ -68,10 +69,12 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     history.push(`/marketplace/${_id}`);
   };
 
+  console.log('sku', sku);
+
   return (
     <Tile
       sku={sku}
-      topLeft={issuer?.username}
+      topLeft={issuerName}
       skuRarity={rarity}
       middle={name}
       bottomLeft={series?.name}
