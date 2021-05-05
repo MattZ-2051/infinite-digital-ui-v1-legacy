@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import ModalPayment from '../Modal';
 import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
+import { useHistory } from 'react-router-dom';
 
 const S: any = {};
 
@@ -28,13 +29,18 @@ interface Props {
 const History = ({ product, transactionHistory }: Props) => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
-
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loggedInUser = useAppSelector((state) => state.session.user.id);
   let status: Status = '';
 
   status = 'upcoming';
+
+  const handleRedirectToOwnerPage = () => {
+    console.log('here');
+    history.push(`/collection/${product?.owner.id}`);
+  };
 
   const handleSaleAction = () => {
     if (isAuthenticated) {
@@ -74,7 +80,9 @@ const History = ({ product, transactionHistory }: Props) => {
             <S.ProductId>#{product?._id.slice(0, 4)}</S.ProductId>/
             <S.ProductOwner>
               Owner
-              <S.Owner>@ {product?.owner.username}</S.Owner>
+              <S.Owner onClick={handleRedirectToOwnerPage}>
+                @ {product?.owner.username}
+              </S.Owner>
             </S.ProductOwner>
           </S.FlexDiv>
           {status === 'upcoming' && (
@@ -266,6 +274,9 @@ S.ProductOwner = styled.div`
 
 S.Owner = styled.span`
   color: white;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 S.Button = styled.button<{ width: string; hover: boolean }>`
