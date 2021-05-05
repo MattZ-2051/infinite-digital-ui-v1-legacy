@@ -57,7 +57,7 @@ const ProductDetails = ({ product }: Props) => {
           )}
           {product?.sku.supplyType !== 'variable' && (
             <S.SkuInfo color="#7c7c7c">
-              {product?.sku.circulatingSupply} released
+              {product?.sku?.circulatingSupply} released
             </S.SkuInfo>
           )}
 
