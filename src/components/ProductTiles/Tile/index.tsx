@@ -87,7 +87,9 @@ const Tile = ({
             <Rarity type={skuRarity} />
           </Row>
 
-          <SkuName>{middle}</SkuName>
+          <SkuName>
+            {middle?.length > 17 ? `${middle?.slice(0, 17)}...` : middle}
+          </SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
               {bottomLeft}
