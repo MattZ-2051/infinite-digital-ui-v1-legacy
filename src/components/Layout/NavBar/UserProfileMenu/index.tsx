@@ -33,12 +33,14 @@ const UserProfileMenu = ({ visible, setVisible }: IProps) => {
   return (
     <Container>
       <ButtonContainer>
+        {/* TODO: ADD Later - Disable for ARIA MVP -
+
         <Button onClick={handleWalletRedirect}>
           <IconContainer>
             <WalletIcon className="icon_wallet" />
           </IconContainer>
           <Label>My Wallet</Label>
-        </Button>
+        </Button> */}
         <Button onClick={handleLogout}>
           <IconContainer>
             <SignOutIcon className="icon_signout" />
@@ -95,9 +97,7 @@ const Button = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  padding: 5px;
-`;
+const ButtonContainer = styled.div``;
 
 const Label = styled.span`
   padding-left: 10px;

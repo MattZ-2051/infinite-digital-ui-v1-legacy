@@ -98,8 +98,8 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
           </S.UsernameIconContainer>
           <S.ButtonContainer>
             <ProfileButton
-              label="My Wallet"
-              handleClick={handleWalletRedirect}
+              label="My Wallet (Coming Soon)"
+              // TODO: ADD Later - Disable for ARIA MVP - handleClick={handleWalletRedirect}
             />
           </S.ButtonContainer>
         </>
