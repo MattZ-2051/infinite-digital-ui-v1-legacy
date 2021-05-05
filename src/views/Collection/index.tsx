@@ -85,7 +85,9 @@ const Collection = (): JSX.Element => {
   }
 
   return (
-    <Container>
+    <Container
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
       <BackgroundImageContainer
         src={bannerPhotoUrl}
         height="500px"
