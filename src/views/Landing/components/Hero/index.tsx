@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components/macro';
 // Local
 import Button from 'components/Buttons/Button';
-import heroImg from 'assets/img/backgrounds/hero-bg.jpeg';
 // Icons
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ariaImg from 'assets/img/backgrounds/aria-landing-top.png';
 
 interface IProps {
   login: () => void;
@@ -19,12 +18,6 @@ const scrollToProducts = () => {
 const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
   return (
     <Container>
-      <Title>
-        Collect <span>-</span> Connect <span>-</span> Curate
-      </Title>
-
-      <Subtitle>Your home for premium NFT collectibles</Subtitle>
-
       {!isAuthenticated && (
         <Button
           color="white"
@@ -34,11 +27,6 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
           START YOUR COLLECTOY TODAY
         </Button>
       )}
-
-      <ArrowButton onClick={scrollToProducts}>
-        <ArrowDropDownIcon fontSize="large" style={{ color: 'white' }} />
-        <ArrowDropDownIcon fontSize="large" style={{ color: 'black' }} />
-      </ArrowButton>
     </Container>
   );
 };
@@ -50,7 +38,7 @@ const Container = styled.section`
   align-items: center;
   justify-content: center;
   height: calc(100vh - 135px);
-  background-image: url(${heroImg});
+  background-image: url(${ariaImg});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

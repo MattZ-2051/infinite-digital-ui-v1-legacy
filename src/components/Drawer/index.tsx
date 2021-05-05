@@ -9,6 +9,7 @@ interface IProps {
   [rest: string]: any;
 }
 
+
 const DrawerComponent = ({ children, ...rest }: IProps) => {
   return (
     <StyledDrawer {...rest} data-testid="drawer">
