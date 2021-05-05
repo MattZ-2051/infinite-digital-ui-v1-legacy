@@ -20,7 +20,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
           limitCollectors.map((el, index) => (
             <Link
               key={index}
-              to={'/marketplace/' + el.sku}
+              to={'/product/' + el._id}
               style={{ textDecoration: 'none' }}
             >
               {el.activeProductListing && (

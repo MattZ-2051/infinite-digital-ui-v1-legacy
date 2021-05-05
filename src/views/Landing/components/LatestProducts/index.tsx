@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Tab from 'components/Tab';
-import Tabs from 'components/TabsContainer';
-import MarketPlace from './MarketPlace';
-import Items from 'views/Collection/UserCollectionTabs/Items';
-import { MyCollection } from './MyCollection';
+import AriaLanding from './AriaLanding';
 
 export interface IProps {
   isAuthenticated: boolean;
@@ -16,46 +12,7 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
   const handleChange = (event: React.ChangeEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
-  return (
-    <Container>
-      {isAuthenticated && (
-        <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
-          <Tab
-            label="Marketplace"
-            disableFocusRipple
-            disableRipple
-            data-testid="marketplaceTab"
-          />
-          <Tab
-            label="My Collection"
-            disableFocusRipple
-            disableRipple
-            data-testid="myCollectionTab"
-          />
-        </Tabs>
-      )}
-      {!isAuthenticated && (
-        <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
-          <Tab
-            label="Marketplace"
-            disableFocusRipple
-            disableRipple
-            data-testid="marketplaceTab"
-          />
-        </Tabs>
-      )}
-
-      {selectedTab === 0 && <MarketPlace />}
-      {/**
-       * TODO: Replace MyCollection component
-       * There is a very similar component (MyItems) in
-       * /views/Collection/UserCollectionTabs/MyItems/index.tsx
-       * MyItems is almost doing the same thing but the CSS does not look good with this view
-       * Those two components should be merged.
-       */}
-      {selectedTab === 1 && <MyCollection />}
-    </Container>
-  );
+  return <Container>{selectedTab === 0 && <AriaLanding />}</Container>;
 };
 
 const Container = styled.section`

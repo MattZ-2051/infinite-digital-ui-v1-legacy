@@ -13,6 +13,7 @@ import Hero from './components/Hero';
 import FeatureProducts from './components/Featured/FeatureProducts';
 // import FeatureBoxes from './Featured/FeatureBoxes';
 import LatestProducts from './components/LatestProducts';
+import SignUp from './components/SignUp';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
@@ -52,6 +53,7 @@ const Landing = () => {
       {/* Temporary comment to hide DropBoxes see issue #86
       <FeatureBoxes />
       */}
+      <SignUp />
       <FeatureProducts />
       <LatestProducts isAuthenticated={isAuthenticated} />
     </main>

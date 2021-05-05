@@ -18,7 +18,6 @@ const ProductDetails = ({ product }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
-
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${product?.sku._id}`);
   };
@@ -82,6 +81,10 @@ S.Body = styled.div`
 S.Container = styled.div`
   background-color: white;
   overflow: auto;
+  height: 100vh;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 S.Description = styled.p`
