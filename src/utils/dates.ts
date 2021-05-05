@@ -1,5 +1,5 @@
 import DateTime from 'luxon/src/datetime.js';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 export const formatCountdown = (date: Date): string => {
   //Iso to local time
@@ -32,5 +32,9 @@ export const dateToPrettyString = (date: Date): string => {
 };
 
 export const formatDate = (date: Date): string => {
-  return format(date, 'PPPp');
+  let parsedDate = date;
+  if (typeof parsedDate === 'string') {
+    parsedDate = parseISO(parsedDate);
+  }
+  return format(parsedDate, 'PPPp');
 };
