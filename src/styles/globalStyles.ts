@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { mediaQueries } from 'theme/media';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -15,6 +16,18 @@ const GlobalStyle = createGlobalStyle`
     https://material-ui.com/components/hidden/
     https://material-ui.com/customization/breakpoints/
   */
+
+  ${mediaQueries.sm} {
+    font-size: 10px;
+  }
+
+  ${mediaQueries.md} {
+    font-size: 12px;
+  }
+
+  ${mediaQueries.lg} {
+    font-size: 14px;
+  }
 
  :root {
     // Colors

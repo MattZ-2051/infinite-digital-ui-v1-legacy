@@ -9,6 +9,8 @@ import { persistStore } from 'redux-persist';
 import store from './store';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { createBrowserHistory } from 'history';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './theme/theme';
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
@@ -29,17 +31,19 @@ const providerConfig = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Auth0Provider
-          {...providerConfig}
-          useRefreshTokens={true}
-          cacheLocation="localstorage"
-        >
-          <App />
-        </Auth0Provider>
-      </PersistGate>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Auth0Provider
+            {...providerConfig}
+            useRefreshTokens={true}
+            cacheLocation="localstorage"
+          >
+            <App />
+          </Auth0Provider>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

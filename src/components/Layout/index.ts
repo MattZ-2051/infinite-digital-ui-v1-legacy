@@ -1,8 +1,19 @@
 import styled from 'styled-components';
 
-export const FlexRow = styled.div`
+export const FlexRow = styled.div<{ theme }>`
   display: flex;
-  flex-direction: row;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    flex-direction: column;
+  }
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    flex-direction: column;
+  }
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    flex-direction: row;
+  }
 `;
 
 export const FlexColumn = styled.div<{ childMargin?: string }>`
@@ -10,6 +21,6 @@ export const FlexColumn = styled.div<{ childMargin?: string }>`
   flex-direction: column;
 
   > * {
-    margin: ${(props) => (props.childMargin ? `${props.childMargin};` : `0`)};
+    margin: ${({ childMargin }) => (childMargin ? `${childMargin};` : `0`)};
   }
 `;
