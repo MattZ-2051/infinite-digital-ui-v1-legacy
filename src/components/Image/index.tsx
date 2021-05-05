@@ -48,9 +48,13 @@ export const BackgroundImageContainer = (
 ): JSX.Element => {
   const { src, children, width, height } = props;
 
-  return (
-    <ImageContainer style={{ width, height }} imageUrl={src}>
-      {children && children}
-    </ImageContainer>
-  );
+  if (src) {
+    return (
+      <ImageContainer style={{ width, height }} imageUrl={src}>
+        {children && children}
+      </ImageContainer>
+    );
+  } else {
+    return <div style={{ width, height }}>{children && children}</div>;
+  }
 };

@@ -11,6 +11,7 @@ import {
 } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
+import { productFactory } from '../../../store/product/productFactory';
 
 interface IProps {
   user: User;
@@ -229,8 +230,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 };
 
 const Container = styled.div<{ theme?: 'light' | 'dark' }>`
-  background-color: ${(props) => (props.theme === 'dark' ? 'black' : 'white')};
-  color: ${(props) => (props.theme === 'dark' ? 'white' : 'black')};
+  background-color: ${({ theme }) => (theme === 'dark' ? 'black' : 'white')};
+  color: ${({ theme }) => (theme === 'dark' ? 'white' : 'black')};
   width: 100%;
   padding: 40px;
   height: 100vh;
@@ -243,18 +244,18 @@ const GrayLine = styled.div`
 `;
 
 const Tab = styled.div<{ selected: boolean; theme?: 'light' | 'dark' }>`
-  background-color: ${(props) => (props.theme === 'dark' ? 'black' : 'white')};
-  color: ${(props) =>
-    props.theme === 'dark'
-      ? props.selected
+  background-color: ${({ theme }) => (theme === 'dark' ? 'black' : 'white')};
+  color: ${({ theme, selected }) =>
+    theme === 'dark'
+      ? selected
         ? 'white'
         : 'white'
-      : props.selected
+      : selected
       ? 'black'
       : '#9e9e9e'};
-  border-bottom: ${(props) =>
-    props.selected
-      ? props.theme === 'dark'
+  border-bottom: ${({ theme, selected }) =>
+    selected
+      ? theme === 'dark'
         ? '2px solid white'
         : '2px solid black'
       : 'none'};

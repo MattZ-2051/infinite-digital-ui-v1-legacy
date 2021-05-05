@@ -16,7 +16,10 @@ interface IProps {
 
 const S: any = {};
 
-const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
+const UserCollectioinInfo = ({
+  user,
+  isAuthenticated,
+}: IProps): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

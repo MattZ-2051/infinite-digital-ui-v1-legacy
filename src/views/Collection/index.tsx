@@ -13,20 +13,22 @@ import { userFactory } from 'store/user/userFactory';
 import { PulseLoader } from 'react-spinners';
 
 const splitLastSentence = (text: string): [string, string] => {
-  const splitText = text.split('.');
+  const splitText = text.split('. ');
 
-  let lastSentence = splitText?.pop() + '.';
-  if (lastSentence === '.') {
-    lastSentence = splitText.pop() + '.';
+  if (!splitText || splitText.length === 0) {
+    return ['', ''];
   }
 
-  if (lastSentence === '".') {
-    lastSentence = splitText.pop() + '."';
+  if (splitText.length === 1) {
+    return [splitText[0], ''];
   }
 
-  const startText =
-    splitText?.length &&
-    splitText?.reduce((text, currentText) => (text = text + currentText + '.'));
+  let lastSentence = splitText?.pop();
+  if (lastSentence === '') {
+    lastSentence = splitText.pop();
+  }
+
+  const startText = splitText?.length && splitText.join('. ') + '. ';
 
   return [startText || '', lastSentence || ''];
 };
@@ -92,12 +94,16 @@ const Collection = (): JSX.Element => {
         <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
       </BackgroundImageContainer>
       <FlexRow style={{ margin: '5rem' }}>
-        <Container style={{ marginRight: '2.5rem' }}>
-          <Image src={midPhotoUrl} height="648px" width="518px" />
-        </Container>
+        {midPhotoUrl && (
+          <Container style={{ marginRight: '2.5rem' }}>
+            <Image src={midPhotoUrl} height="648px" width="518px" />
+          </Container>
+        )}
         <Container style={{ marginLeft: '2.5rem' }}>
           <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
-            <Image src={descriptionIcon} height="98px" width="98px" />
+            {descriptionIcon && (
+              <Image src={descriptionIcon} height="98px" width="98px" />
+            )}
             <TextContainer textAlign="left" fontSize="28">
               {descriptionHeaderMain}
               <GradientText textAlign="left" fontSize="28">
@@ -120,7 +126,9 @@ const Collection = (): JSX.Element => {
           childMargin="1rem"
           style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
         >
-          <Image src={footerPhotoUrl} height="600px" width="500px" />
+          {footerPhotoUrl && (
+            <Image src={footerPhotoUrl} height="600px" width="500px" />
+          )}
           <TextContainer textAlign="center" fontSize="48" fontWeight="400">
             {taglineMain}
             <GradientText textAlign="center" fontSize="48" fontWeight="400">
