@@ -9,8 +9,12 @@ interface IProps {
   onClose?: any;
 }
 
-const DrawerComponent = ({ children, ...rest }: IProps) => {
-  return <StyledDrawer data-testid="drawer">{children}</StyledDrawer>;
+const DrawerComponent = ({ children, open, onClose }: IProps) => {
+  return (
+    <StyledDrawer data-testid="drawer" open={open} onClose={onClose}>
+      {children}
+    </StyledDrawer>
+  );
 };
 
 const StyledDrawer = styled(Drawer)`
