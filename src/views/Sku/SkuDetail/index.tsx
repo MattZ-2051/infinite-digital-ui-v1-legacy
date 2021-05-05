@@ -90,7 +90,7 @@ const SkuDetail = (): JSX.Element => {
                     fontSize: '18px',
                   }}
                 >
-                  # {sku?.series?.name}
+                  {sku?.series?.name}
                 </p>
 
                 <p>
