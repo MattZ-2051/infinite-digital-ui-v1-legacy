@@ -44,9 +44,6 @@ const ProductDetails = ({ product }: Props) => {
           <Rarity type={product?.sku.rarity} />
         </S.Flex>
         <S.SkuName>{product?.sku.name}</S.SkuName>
-        <div>
-          Series <S.SkuSeries>{product?.sku.series.name}</S.SkuSeries>
-        </div>
         <S.Flex>
           {redeemable && (
             <S.Flex alignItems="baseline">
