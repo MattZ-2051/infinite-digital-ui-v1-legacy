@@ -11,7 +11,6 @@ import {
 } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
-import { productFactory } from '../../../store/product/productFactory';
 
 interface IProps {
   user: User;
