@@ -10,6 +10,7 @@ import { Image, BackgroundImageContainer } from 'components/Image';
 import { TextContainer, GradientText } from '../../components/Text';
 import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
+import { PulseLoader } from 'react-spinners';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text.split('.');
@@ -66,7 +67,20 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <h1>Loading</h1>;
+  if (user === null) {
+    return (
+      <Container>
+        <PulseLoader
+          size={50}
+          color={'#000'}
+          margin={10}
+          css={
+            'display:flex;justify-content:center;align-items:center;height:80%;'
+          }
+        />
+      </Container>
+    );
+  }
 
   return (
     <Container>

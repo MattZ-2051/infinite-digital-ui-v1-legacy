@@ -4,6 +4,7 @@ import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
+import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 
 const S: any = {};
 
@@ -23,6 +24,8 @@ const Transaction = ({ transaction }: Props) => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
 
+  console.log('transaction', transaction);
+
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -31,21 +34,21 @@ const Transaction = ({ transaction }: Props) => {
       <S.TransactionInfo>
         <S.TransactionDetails>
           {transaction.type === 'purchase' &&
-            transaction.transactionData.hederaTransaction?.status.toLowerCase() ===
-              'success' && (
+            transaction.transactionData.hederaTransaction?.status ===
+              'SUCCESS' && (
               <S.FlexDiv>
                 <S.Description>Bought for</S.Description>
                 <S.Amount>
-                  ${transaction.transactionData.amount || '200'}
+                  ${transaction.transactionData.cost?.totalCost || '200'}
                 </S.Amount>
               </S.FlexDiv>
             )}
-          {transaction.type === 'mint' && (
+          {transaction.type === 'nft_mint' && (
             <S.FlexDiv>
               <S.Amount>Minted</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'transfer' && (
+          {transaction.type === 'nft_transfer' && (
             <S.FlexDiv>
               <S.Amount>Recieved Transfer</S.Amount>
             </S.FlexDiv>
@@ -66,9 +69,12 @@ const Transaction = ({ transaction }: Props) => {
         onMouseLeave={() => setShowLink(false)}
       >
         {showLink && (
-          <S.HederaLink onClick={handleTransactionLink}>
-            Transaction Details
-          </S.HederaLink>
+          <div>
+            <S.ToolTip title="Testing">Testing</S.ToolTip>
+            <S.ToolTipText onClick={handleTransactionLink}>
+              {transaction.transactionData.hederaTransaction?.explorerLink}
+            </S.ToolTipText>
+          </div>
         )}
         <S.LinkIcon className="icon_link" />
       </div>
@@ -98,7 +104,33 @@ S.UsernameTypeMint = styled.span`
   padding-left: 10px;
 `;
 
-S.HederaLink = styled.div`
+S.ToolTip = styled(ToolTip)`
+  position: absolute;
+  bottom: 30px;
+  color: black;
+  right: -4em;
+  width: 190px;
+  height: 38px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+S.ToolTipText = styled.span`
+  position: absolute;
+  bottom: 3em;
+  color: black;
+  width: 175px;
+  overflow: hidden;
+  font-size: 14px;
+  left: -5.5em;
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+S.Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +139,6 @@ S.HederaLink = styled.div`
   height: 40px;
   width: 190px;
   position: absolute;
-  right: 20%;
   bottom: 30px;
   border-radius: 35px;
   overflow: hidden;

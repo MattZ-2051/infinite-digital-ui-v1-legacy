@@ -42,7 +42,7 @@ S.Container = styled.div`
   background-color: #1a1a1a;
   color: white;
   display: grid;
-  padding: 0 80px;
+  padding-left: 80px;
   grid-template-columns: 480px 1fr;
 `;
 
