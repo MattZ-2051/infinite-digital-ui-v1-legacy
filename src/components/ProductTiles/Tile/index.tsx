@@ -61,6 +61,7 @@ const Tile = ({
               height: '240px',
               width: '302px',
               borderRadius: '20px 20px 0 0',
+              objectFit: 'cover',
             }}
             autoPlay={true}
             controls={false}
