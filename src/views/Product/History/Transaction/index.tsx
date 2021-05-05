@@ -4,6 +4,7 @@ import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
+import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 
 const S: any = {};
 
@@ -68,9 +69,12 @@ const Transaction = ({ transaction }: Props) => {
         onMouseLeave={() => setShowLink(false)}
       >
         {showLink && (
-          <S.HederaLink onClick={handleTransactionLink}>
-            Transaction Details
-          </S.HederaLink>
+          <div>
+            <S.ToolTip title="Testing">Testing</S.ToolTip>
+            <S.ToolTipText onClick={handleTransactionLink}>
+              {transaction.transactionData.hederaTransaction?.explorerLink}
+            </S.ToolTipText>
+          </div>
         )}
         <S.LinkIcon className="icon_link" />
       </div>
@@ -100,7 +104,33 @@ S.UsernameTypeMint = styled.span`
   padding-left: 10px;
 `;
 
-S.HederaLink = styled.div`
+S.ToolTip = styled(ToolTip)`
+  position: absolute;
+  bottom: 30px;
+  color: black;
+  right: -4em;
+  width: 190px;
+  height: 38px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+S.ToolTipText = styled.span`
+  position: absolute;
+  bottom: 3em;
+  color: black;
+  width: 175px;
+  overflow: hidden;
+  font-size: 14px;
+  left: -5.5em;
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+S.Link = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,7 +139,6 @@ S.HederaLink = styled.div`
   height: 40px;
   width: 190px;
   position: absolute;
-  right: 20%;
   bottom: 30px;
   border-radius: 35px;
   overflow: hidden;

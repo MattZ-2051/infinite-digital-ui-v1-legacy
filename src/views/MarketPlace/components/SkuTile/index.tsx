@@ -24,6 +24,8 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     redeemable,
     maxSupply,
     supplyType,
+    productListings,
+    skuListings,
   } = sku;
 
   const history = useHistory();
@@ -36,6 +38,11 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   let pillInfo: string | number = '';
 
   const checkStatus = () => {
+    if (productListings?.length === 0 && skuListings.length === 0) {
+      status = 'upcoming';
+      return;
+    }
+
     if (skuStartDateTime > currentTime) {
       status = 'upcoming';
       bottomRightText = totalSupplyUpcoming;
