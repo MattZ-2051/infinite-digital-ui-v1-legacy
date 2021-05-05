@@ -45,7 +45,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
   useEffect(() => {
     fetchData();
-  }, [userId]);
+  }, [selectedTab, userId]);
 
   let userStatus = '';
 
