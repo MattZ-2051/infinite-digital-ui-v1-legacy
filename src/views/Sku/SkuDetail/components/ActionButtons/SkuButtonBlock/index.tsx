@@ -17,13 +17,6 @@ const NotAvailable = (): JSX.Element => {
     </Container>
   );
 };
-const ComingSoon = (): JSX.Element => {
-  return (
-    <Container>
-      <h4>Coming soon...</h4>
-    </Container>
-  );
-};
 interface IUpcomingData {
   startDate?: Date;
   price: number;

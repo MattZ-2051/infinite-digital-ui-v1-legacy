@@ -12,5 +12,4 @@ export interface Collector {
   sku: string;
   tokenId: string;
   updatedAt: Date;
-  _id: string;
 }

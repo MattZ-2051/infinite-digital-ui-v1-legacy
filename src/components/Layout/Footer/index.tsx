@@ -9,14 +9,18 @@ import Hidden from '@material-ui/core/Hidden';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import RedditIcon from '@material-ui/icons/Reddit';
+import { ReactComponent as tictocIcon } from 'assets/svg/logos/tictoc.svg';
 import { ReactComponent as instagramIcon } from 'assets/svg/logos/instagram.svg';
-import { ReactComponent as linkedinIcon } from 'assets/svg/logos/linkedin.svg';
+import { ReactComponent as discordIcon } from 'assets/svg/logos/discord.svg';
 
-const LinkedinIcon = () => (
-  <SvgIcon viewBox="0 0 15 16" component={linkedinIcon} />
+const TicTocIcon = () => (
+  <SvgIcon viewBox="0 -1 14 19" component={tictocIcon} />
 );
 const InstagramIcon = () => (
   <SvgIcon viewBox="0 0 15 16" component={instagramIcon} />
+);
+const DiscordIcon = () => (
+  <SvgIcon viewBox="0 0 15 16" component={discordIcon} />
 );
 
 const Footer = () => {
@@ -49,11 +53,11 @@ const Footer = () => {
 
         <FooterBottom>
           <Divider gap={24} tag="nav">
-            <TextButton to="/privacy" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Privacy Policy
             </TextButton>
 
-            <TextButton to="/tc" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Terms & Conditions
             </TextButton>
           </Divider>
@@ -66,24 +70,41 @@ const Footer = () => {
 
           <Divider gap={16} tag="nav">
             <IconButton
+              icon={TwitterIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open('https://twitter.com/get_infinite', '_blank')
+              }
+            />
+            <IconButton
               icon={InstagramIcon}
               color="white"
               radius={8}
               onClick={() =>
-                window.open('http://instagram.com/TheAriaNetwork', '_blank')
+                window.open('https://www.instagram.com/get_infinite/', '_blank')
               }
             />
             <IconButton
-              icon={LinkedinIcon}
+              icon={TicTocIcon}
               color="white"
               radius={8}
               onClick={() =>
                 window.open(
-                  'https://www.linkedin.com/company/vrm-aria',
+                  'https://www.tiktok.com/@get_infinite?lang=en',
                   '_blank'
                 )
               }
             />
+            <IconButton
+              icon={RedditIcon}
+              color="white"
+              radius={8}
+              onClick={() =>
+                window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')
+              }
+            />
+            <IconButton icon={DiscordIcon} color="white" radius={8} />
           </Divider>
 
           <Hidden mdUp>

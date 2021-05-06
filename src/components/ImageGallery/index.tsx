@@ -24,8 +24,6 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
           <video
             style={{
               width: '100%',
-              objectFit: 'cover',
-              height: '100%',
             }}
             autoPlay={true}
             controls={false}

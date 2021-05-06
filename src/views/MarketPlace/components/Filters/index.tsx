@@ -102,13 +102,13 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         defaultFilter={activeFilters.price}
       /> */}
 
-      {/* <DropDownCheckFilter
+      <DropDownCheckFilter
         label="Category"
         options={dropDownOptions.category}
         handleFilter={handleFilter}
         filterCategory="category"
         activeFilters={activeFilters.category}
-      /> */}
+      />
       {/* <DropDownCheckFilter
         label="Series"
         options={dropDownOptions.series}

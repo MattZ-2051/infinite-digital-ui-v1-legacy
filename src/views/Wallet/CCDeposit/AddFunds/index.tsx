@@ -14,7 +14,7 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from 'store/session/sessionThunks';
-import Toast from 'utils/Toast';
+import Toast from 'components/Toast';
 
 const S: any = {};
 
@@ -25,6 +25,11 @@ const AddFunds = () => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
+  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
+  const [toastStatus, setToastStatus] = useState<'error' | 'success'>(
+    'success'
+  );
+  const [toastMessage, setToastMessage] = useState<string>('');
   const fundsBody = {
     email: userCard.metadata.email,
     amount: amount,
@@ -44,11 +49,6 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    fundsBody.amount = fundsBody.amount?.replace(',', '');
-    if (isNaN(Number(fundsBody?.amount))) {
-      Toast.error('An Error Occurred: Please enter a valid amount.');
-      return;
-    }
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
@@ -67,10 +67,14 @@ const AddFunds = () => {
     );
 
     if (res.type.split('/')[5] === 'rejected') {
-      Toast.error('An Error Occurred');
+      setIsToastVisible(true);
+      setToastStatus('error');
+      setToastMessage('An Error Occurred');
       return;
     } else {
-      Toast.success('Card Successfully Removed');
+      setIsToastVisible(true);
+      setToastStatus('success');
+      setToastMessage('Card Successfully Removed');
 
       setTimeout(() => {
         history.push(`/wallet/${username}/addcreditcard`);
@@ -84,67 +88,78 @@ const AddFunds = () => {
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
 
   return (
-    <Container>
-      <S.ContentContainer>
-        <S.Row
-          style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
-        >
-          <S.HeaderDiv>
-            <img src={circleIcon} alt="" />
-            <S.HeaderText>Circle Payments</S.HeaderText>
-          </S.HeaderDiv>
-        </S.Row>
-        <div style={{ paddingTop: '25px' }}>
-          <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
-        </div>
-        <S.CardContainer>
-          <S.CreditCard
-            name=" "
-            expiry={expDate}
-            focus=""
-            number={`************${userCard.last4}`}
-            preview={true}
-            issuer={`${userCard.network}`}
-          />
-        </S.CardContainer>
-        <S.Row>
-          <div>
-            <span>Credit Card</span>
-            <span style={{ color: '#00c44f', paddingLeft: '5px' }}>
-              (Active)
-            </span>
+    <>
+      <Toast
+        isVisible={isToastVisible}
+        status={toastStatus}
+        setIsVisible={setIsToastVisible}
+      >
+        {toastMessage}
+      </Toast>
+      <Container>
+        <S.ContentContainer>
+          <S.Row
+            style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
+          >
+            <S.HeaderDiv>
+              <img src={circleIcon} alt="" />
+              <S.HeaderText>Circle Payments</S.HeaderText>
+            </S.HeaderDiv>
+          </S.Row>
+          <div style={{ paddingTop: '25px' }}>
+            <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
           </div>
-          <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
-        </S.Row>
-        <div
-          style={{
-            paddingTop: '25px',
-            borderBottom: '2px solid #ebebeb',
-            paddingBottom: '10px',
-          }}
-        >
-          <S.DollarSign>$</S.DollarSign>
-          {/* <S.AmountInput
+          <S.CardContainer>
+            <S.CreditCard
+              name=" "
+              expiry={expDate}
+              focus=""
+              number={`************${userCard.last4}`}
+              preview={true}
+              issuer={`${userCard.network}`}
+            />
+          </S.CardContainer>
+          <S.Row>
+            <div>
+              <span>Credit Card</span>
+              <span style={{ color: '#00c44f', paddingLeft: '5px' }}>
+                (Active)
+              </span>
+            </div>
+            <S.RemoveCCButton onClick={removeCard}>
+              Remove Card
+            </S.RemoveCCButton>
+          </S.Row>
+          <div
+            style={{
+              paddingTop: '25px',
+              borderBottom: '2px solid #ebebeb',
+              paddingBottom: '10px',
+            }}
+          >
+            <S.DollarSign>$</S.DollarSign>
+            {/* <S.AmountInput
             placeholder="Enter Amount"
             onChange={(e) => setAmount(e.target.value)}
           /> */}
-          <S.AmountInput
-            id="amount"
-            name="amount-input"
-            placeholder="Enter Amount"
-            decimalsLimit={2}
-            onChange={handleChange}
-            maxLength={10}
-            step={10}
-            defaultValue={0.0}
-            allowNegativeValue={false}
-          />
-        </div>
-        <div style={{ padding: '25px 0' }}>
-          <S.AddFundsButton onClick={addFunds}>Add Funds</S.AddFundsButton>
-        </div>
-      </S.ContentContainer>
-    </Container>
+            <S.AmountInput
+              id="amount"
+              name="amount-input"
+              placeholder="Enter Amount"
+              decimalsLimit={2}
+              onChange={handleChange}
+              maxLength={10}
+              step={10}
+              defaultValue={0.0}
+              allowNegativeValue={false}
+            />
+          </div>
+          <div style={{ padding: '25px 0' }}>
+            <S.AddFundsButton onClick={addFunds}>Add Funds</S.AddFundsButton>
+          </div>
+        </S.ContentContainer>
+      </Container>
+    </>
   );
 };
 

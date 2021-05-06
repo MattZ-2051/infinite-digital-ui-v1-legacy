@@ -67,9 +67,6 @@ const DepositModal = ({
     token: string;
     userId: string;
   }>();
-  const { kycPending, kycMaxLevel } = useAppSelector(
-    (state) => state.session.userCards
-  );
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -90,7 +87,6 @@ const DepositModal = ({
   }
 
   function openUSDCModal() {
-    if (kycMaxLevel !== 2) return;
     setIsUSDCModelOpen(true);
   }
 
@@ -143,7 +139,6 @@ const DepositModal = ({
           }}
           checkoutId={coinbaseCheckoutId}
           customMetadata={coinbaseMetadata}
-          disabled={kycMaxLevel !== 2}
         >
           <S.Row>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -169,11 +164,7 @@ const DepositModal = ({
             <img width="50px" src={usdcIcon} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <S.RowText
-              style={{ color: `${kycMaxLevel !== 2 ? '#9e9e9e' : 'black'}` }}
-            >
-              USDC
-            </S.RowText>
+            <S.RowText>USDC</S.RowText>
             <S.RowSubText>
               Deposit USDC to your wallet (on Ethereum)
             </S.RowSubText>

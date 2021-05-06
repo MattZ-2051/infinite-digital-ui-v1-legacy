@@ -3,8 +3,7 @@ import styled from 'styled-components/macro';
 import { ITransaction } from 'entities/transaction';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
-import { formatDate } from 'utils/dates';
-import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
+import { Link } from 'react-router-dom';
 
 const S: any = {};
 
@@ -16,6 +15,8 @@ const Transaction = ({ transaction }: Props) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
 
+  console.log(transaction);
+
   const handleRedirectToCollections = () => {
     history.push(`/collection/${transaction.owner.id}`);
   };
@@ -23,7 +24,6 @@ const Transaction = ({ transaction }: Props) => {
   const handleTransactionLink = () => {
     window.open(transaction.transactionData.hederaTransaction?.explorerLink);
   };
-
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -31,34 +31,33 @@ const Transaction = ({ transaction }: Props) => {
       </S.Username>
       <S.TransactionInfo>
         <S.TransactionDetails>
-          {transaction.type === 'purchase' &&
-            transaction.transactionData.hederaTransaction?.status ===
-              'SUCCESS' && (
-              <S.FlexDiv>
-                <S.Description>Bought for</S.Description>
-                <S.Amount>
-                  ${transaction.transactionData.cost?.totalCost || '200'}
-                </S.Amount>
-              </S.FlexDiv>
-            )}
-          {transaction.type === 'nft_mint' && (
+          {transaction.type === 'purchase' && (
             <S.FlexDiv>
-              <S.Amount>Minted</S.Amount>
+              <S.Description>Bought for</S.Description>
+              <S.Amount>${transaction.transactionData.amount}</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'nft_transfer' && (
+          {transaction.type === 'mint' && (
             <S.FlexDiv>
-              <S.Amount>Recieved Transfer</S.Amount>
+              <S.Description>Minted by</S.Description>
+              <S.UsernameTypeMint onClick={handleRedirectToCollections}>
+                @{transaction.owner.username}
+              </S.UsernameTypeMint>
             </S.FlexDiv>
           )}
-          {/* removed for now */}
-          {/* {transaction.type === 'sale' && (
+          {transaction.type === 'transfer' && (
+            <S.FlexDiv>
+              <S.Description>Transferred to @username</S.Description>
+              <S.Amount>${transaction.transactionData.amount}</S.Amount>
+            </S.FlexDiv>
+          )}
+          {transaction.type === 'sale' && (
             <S.FlexDiv>
               <S.Description>Sold for</S.Description>
               <S.Amount>${transaction.transactionData.amount}</S.Amount>
             </S.FlexDiv>
-          )} */}
-          <S.Date>{formatDate(new Date(transaction.createdAt))}</S.Date>
+          )}
+          <S.Date>{transaction.createdAt}</S.Date>
         </S.TransactionDetails>
       </S.TransactionInfo>
       <div
@@ -67,12 +66,9 @@ const Transaction = ({ transaction }: Props) => {
         onMouseLeave={() => setShowLink(false)}
       >
         {showLink && (
-          <div>
-            <S.ToolTip title="Testing">Testing</S.ToolTip>
-            <S.ToolTipText onClick={handleTransactionLink}>
-              {transaction.transactionData.hederaTransaction?.explorerLink}
-            </S.ToolTipText>
-          </div>
+          <S.HederaLink onClick={handleTransactionLink}>
+            Transaction Details
+          </S.HederaLink>
         )}
         <S.LinkIcon className="icon_link" />
       </div>
@@ -102,33 +98,7 @@ S.UsernameTypeMint = styled.span`
   padding-left: 10px;
 `;
 
-S.ToolTip = styled(ToolTip)`
-  position: absolute;
-  bottom: 30px;
-  color: black;
-  right: -4em;
-  width: 190px;
-  height: 38px;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-S.ToolTipText = styled.span`
-  position: absolute;
-  bottom: 3em;
-  color: black;
-  width: 175px;
-  overflow: hidden;
-  font-size: 14px;
-  left: -5.5em;
-  :hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
-
-S.Link = styled.div`
+S.HederaLink = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,6 +107,7 @@ S.Link = styled.div`
   height: 40px;
   width: 190px;
   position: absolute;
+  right: 20%;
   bottom: 30px;
   border-radius: 35px;
   overflow: hidden;
@@ -157,7 +128,7 @@ S.TransactionDetails = styled.div`
   flex-direction: column;
   padding-right: 10px;
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-end;
 `;
 
 S.LinkIcon = styled(linkSVG)`
@@ -167,6 +138,7 @@ S.LinkIcon = styled(linkSVG)`
   :hover {
     stroke: white;
     cursor: pointer;
+    transform: scale(1.1);
   }
 `;
 
@@ -174,12 +146,11 @@ S.Description = styled.span`
   color: #9e9e9e;
   font-weight: 600;
   font-size: 16px;
-  padding-right: 10px;
 `;
 
 S.FlexDiv = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
@@ -188,10 +159,14 @@ S.Amount = styled.span`
   color: white;
   font-weight: 600;
   font-size: 16px;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 S.Date = styled.span`
-  font-size: 13px;
+  font-size: 14px;
   color: #9e9e9e;
 `;
 
@@ -201,6 +176,7 @@ S.Username = styled.span`
   :hover {
     cursor: pointer;
     color: white;
+    transform: scale(1.1);
   }
 `;
 

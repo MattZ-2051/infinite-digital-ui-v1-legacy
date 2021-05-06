@@ -24,9 +24,6 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
     redeemable,
     maxSupply,
     supplyType,
-    productListings,
-    skuListings,
-    issuerName,
   } = sku;
 
   const history = useHistory();
@@ -39,11 +36,6 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   let pillInfo: string | number = '';
 
   const checkStatus = () => {
-    if (productListings?.length === 0 && skuListings.length === 0) {
-      status = 'upcoming';
-      return;
-    }
-
     if (skuStartDateTime > currentTime) {
       status = 'upcoming';
       bottomRightText = totalSupplyUpcoming;
@@ -72,7 +64,7 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   return (
     <Tile
       sku={sku}
-      topLeft={issuerName}
+      topLeft={issuer?.username}
       skuRarity={rarity}
       middle={name}
       bottomLeft={series?.name}

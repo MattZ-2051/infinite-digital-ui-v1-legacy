@@ -8,9 +8,7 @@ import NavBar from 'components/Layout/NavBar';
 import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
-import { ReactComponent as SukuLogo } from 'assets/svg/logos/suku.svg';
-import { ReactComponent as AriaLogo } from 'assets/svg/logos/aria-white.svg';
-
+import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 export interface IProps {
@@ -28,13 +26,10 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         <HeaderContent>
           <HeaderLeft>
             <Link to="/">
-              <AriaLogo />
+              <InfiniteLogo fill="white" width="170px" />
             </Link>
-            <div className="powered">
-              <span>Powered by</span>
-              <span>
-                <SukuLogo />
-              </span>
+            <div style={{ paddingLeft: '15px', paddingBottom: '10px' }}>
+              <Beta />
             </div>
           </HeaderLeft>
           <NavBar isSmall={isSmall} />
@@ -60,22 +55,6 @@ const Header = styled.header`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
-  .powered {
-    margin-top: 5px;
-    color: #fff;
-    padding-left: 15px;
-    font-family: Plus Jakarta Sans;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    span:first-child {
-      margin-right: 4px;
-    }
-  }
 `;
 
 const HeaderContent = styled.div`

@@ -13,9 +13,6 @@ import SkuDetail from 'views/Sku/SkuDetail';
 import Collectors from 'views/Sku/Collectors';
 import Product from 'views/Product';
 
-import TC from 'views/Legal/tc';
-import Privacy from 'views/Legal/privacy';
-
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
 const RouterComponent = () => {
@@ -61,10 +58,6 @@ const RouterComponent = () => {
 
       {/* All */}
       <Route path="/example" component={UnderConstruction} />
-
-      {/* Legal */}
-      <Route path="/tc" component={TC} />
-      <Route path="/privacy" component={Privacy} />
     </Switch>
   );
 };

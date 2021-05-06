@@ -44,7 +44,7 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
           name="search"
           value={searchValue}
           type="text"
-          placeholder="Search by name"
+          placeholder="Search by brand, series, name, SKU or type"
         />
       </InputDiv>
     </>
