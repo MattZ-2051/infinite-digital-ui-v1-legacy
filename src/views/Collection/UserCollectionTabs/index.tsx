@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
-  const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const history = useHistory();
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -45,7 +45,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
   useEffect(() => {
     fetchData();
-  }, [selectedTab, userId]);
+  }, [selectedTab, userId, user]);
 
   let userStatus = '';
 
@@ -91,7 +91,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
                   theme={theme}
                   selected={selectedTab === 0}
@@ -99,7 +99,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 >
                   My Items
                 </Tab>
-              </div>
+              </TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
@@ -120,7 +120,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
                   selected={selectedTab === 0}
                   theme={theme}
@@ -136,7 +136,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 >
                   My Items
                 </Tab>
-              </div>
+              </TabBar>
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
@@ -162,7 +162,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
                   selected={selectedTab === 0}
                   theme={theme}
@@ -178,7 +178,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 >
                   Items
                 </Tab>
-              </div>
+              </TabBar>
             </div>
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
@@ -205,7 +205,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
                   selected={selectedTab === 0}
                   theme={theme}
@@ -213,7 +213,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 >
                   Items
                 </Tab>
-              </div>
+              </TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
 
@@ -240,6 +240,11 @@ const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
   width: 80%;
   padding-bottom: 14px;
+`;
+
+const TabBar = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const Tab = styled.div<{ selected: boolean; theme?: 'light' | 'dark' }>`
