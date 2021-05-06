@@ -45,8 +45,8 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
-    descriptionHeader
+  const [descriptionBodyMain, descriptionBodyGradient] = splitLastSentence(
+    descriptionBody
   );
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
@@ -107,9 +107,9 @@ const Collection = (): JSX.Element => {
               <Image src={descriptionIcon} height="98px" width="98px" />
             )}
             <TextContainer textAlign="left" fontSize="28">
-              {descriptionHeaderMain}
+              {descriptionBodyMain}
               <GradientText textAlign="left" fontSize="28">
-                {descriptionHeaderGradient}
+                {descriptionBodyGradient}
               </GradientText>
             </TextContainer>
             <TextContainer fontSize="18">{descriptionBody}</TextContainer>
