@@ -138,6 +138,7 @@ const SkuDetail = (): JSX.Element => {
       >
         <Description>
           <SectionTitle>Description</SectionTitle>
+          <div dangerouslySetInnerHTML={{ __html: sku?.description || '' }} />
           {/* {skuDetails?.description} */}
         </Description>
 
