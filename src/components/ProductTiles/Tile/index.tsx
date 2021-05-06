@@ -61,6 +61,7 @@ const Tile = ({
               height: '240px',
               width: '302px',
               borderRadius: '20px 20px 0 0',
+              objectFit: 'cover',
             }}
             autoPlay={true}
             controls={false}
@@ -76,7 +77,7 @@ const Tile = ({
           style={{
             backgroundColor: 'white',
             borderRadius: '20px',
-            paddingTop: '10px',
+            paddingTop: '0px',
           }}
         >
           <Row>
@@ -86,12 +87,10 @@ const Tile = ({
             <Rarity type={skuRarity} />
           </Row>
 
-          <SkuName>
-            {middle?.length > 17 ? `${middle?.slice(0, 17)}...` : middle}
-          </SkuName>
+          <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
-              <span style={{ paddingRight: '5px' }}>#</span> {bottomLeft}
+              {bottomLeft}
             </BottomCardText>
             {status === 'upcoming-sku' && (
               <BottomCardText>
@@ -100,8 +99,8 @@ const Tile = ({
               </BottomCardText>
             )}
             {unique && (
-              <BottomCardText style={{ color: '#ff0000' }}>
-                Unique Item!
+              <BottomCardText style={{ color: '#9e9e9e' }}>
+                1 of 1
               </BottomCardText>
             )}
             {status === 'active' && !unique && (
@@ -109,8 +108,8 @@ const Tile = ({
                 {supplyType === 'variable' ? null : `${bottomRight} For Sale`}
               </BottomCardText>
             )}
-            {status === 'no-sale' && (
-              <BottomCardText>Owned by {bottomRight} people</BottomCardText>
+            {status === 'no-sale' && !unique && (
+              <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
             {status === 'active-listing' && (
               <SerialNum>
@@ -135,8 +134,7 @@ const Tile = ({
       </StyledCard>
       {status.split('-')[0] === 'upcoming' && (
         <Pill style={{ backgroundColor: 'black' }}>
-          <PillText>Upcoming in:</PillText>
-          <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
+          <Upcoming>Upcoming</Upcoming>
         </Pill>
       )}
       {status === 'active-listing' && (
@@ -176,11 +174,21 @@ const CardContainer = styled.div`
 `;
 
 const NotForSale = styled.span`
-  font-weight: 500;
+  font-weight: 700;
   backgound-color: #e5e5e5;
   margin: auto;
   color: #9e9e9e;
-  font-size: 24px;
+  font-size: 20px;
+  line-height: 32px;
+  height: 32px;
+`;
+
+const Upcoming = styled.span`
+  font-weight: 700;
+  backgound-color: black;
+  margin: auto;
+  color: white;
+  font-size: 20px;
   line-height: 32px;
   height: 32px;
 `;
@@ -207,7 +215,7 @@ const Pill = styled.div`
 `;
 
 const PillText = styled.span`
-  font-weight: 400;
+  font-weight: 700;
   font-size: 16px;
   line-height: 20.24px;
   color: #c4c4c4;
@@ -223,7 +231,7 @@ const PillInfo = styled.span`
 
 const BottomCardText = styled.p`
   display: flex;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 15px;
   letter-spacing: 0em;
   text-align: end;
@@ -233,15 +241,15 @@ const BottomCardText = styled.p`
 
 const SkuName = styled.p`
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 32px;
   letter-spacing: 0em;
   margin: 0;
-  padding-top: 8px;
+  height: 52px;
 `;
 
 const IssuerName = styled.p`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 20.24px;
   color: #9e9e9e;

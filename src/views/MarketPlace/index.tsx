@@ -22,6 +22,7 @@ import { sortByItems } from 'config/marketplace';
 import SearchInput from './components/Filters/SearchInput';
 import SortByFilter from './components/Filters/SortByFilter';
 import SkuTile from './components/SkuTile';
+import PageLoader from 'components/PageLoader';
 // Icons
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
@@ -171,6 +172,7 @@ const MarketPlace = (): JSX.Element => {
     });
   }, [history]);
 
+  if (!skus) return <PageLoader />;
   return (
     <S.Container>
       <S.Header>

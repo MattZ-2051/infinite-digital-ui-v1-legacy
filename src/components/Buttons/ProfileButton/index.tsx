@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 interface IProps {
   label: string;
-  // TODO: ADD Later - Disable for ARIA MVP -  handleClick?: () => void;
+  handleClick?: () => void;
 }
 
-const ProfileButton = ({ label }: IProps) => {
-  return <Button disabled={true}>{label}</Button>;
+const ProfileButton = ({ label, handleClick }: IProps) => {
+  return <Button onClick={handleClick}>{label}</Button>;
 };
 
 const Button = styled.button`
@@ -15,6 +15,9 @@ const Button = styled.button`
   background-color: transparent;
   color: white;
   font-weight: 600;
+  :hover {
+    cursor: pointer;
+  }
   :focus {
     outline: none;
   }

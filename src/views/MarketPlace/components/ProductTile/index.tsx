@@ -1,7 +1,6 @@
 import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { ProductWithFunctions } from 'entities/product';
-import { Sku } from 'entities/sku';
 import { useHistory } from 'react-router-dom';
 import { formatCountdown } from 'utils/dates';
 
@@ -21,19 +20,19 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
   };
 
   const checkStatus = (product) => {
-    if (product?.upcomingProductListing.length !== 0) {
+    if (product?.upcomingProductListings?.length !== 0) {
       status = 'upcoming';
       pillInfo = formatCountdown(
-        new Date(product.upcomingProductListing[0].startDate)
+        new Date(product?.upcomingProductListings[0]?.startDate)
       );
       return status;
-    } else if (product?.activeProductListing.length !== 0) {
+    } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
       pillInfo = product?.listing.price;
       return status;
     } else if (
-      product?.activeProductListing.length === 0 &&
-      product.upcomingProductListing.length === 0
+      product?.activeProductListings.length === 0 &&
+      product?.upcomingProductListings?.length === 0
     ) {
       status = 'no-active-listing';
       return status;
@@ -44,7 +43,7 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
   return (
     <Tile
       sku={sku}
-      redeemable={true}
+      redeemable={sku.redeemable}
       status={status}
       skuImg={sku.graphicUrl}
       skuRarity={sku.rarity}

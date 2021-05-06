@@ -5,6 +5,7 @@ import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import PageLoader from 'components/PageLoader';
 
 const Collection = () => {
   const [user, setUser] = useState<any>(null);
@@ -25,7 +26,7 @@ const Collection = () => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <h1>Loading</h1>;
+  if (user === null) return <PageLoader />;
 
   return (
     <Container>

@@ -5,6 +5,7 @@ import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
+import { Link } from 'react-router-dom';
 import ModalPayment from '../Modal';
 import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
@@ -17,10 +18,11 @@ export type Status =
   | 'buy-now'
   | 'create-sale'
   | 'active-sale'
+  | 'upcoming'
   | '';
 
 interface Props {
-  product: ProductWithFunctions | undefined;
+  product: ProductWithFunctions | null;
   transactionHistory: ITransaction[] | null;
 }
 
@@ -28,44 +30,14 @@ const History = ({ product, transactionHistory }: Props) => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loggedInUser = useAppSelector((state) => state.session.user.id);
   let status: Status = '';
 
-  if (isAuthenticated) {
-    if (
-      loggedInUser.id === product?.owner._id &&
-      product?.listing.canceled === true
-    ) {
-      status = 'create-sale';
-    } else if (
-      loggedInUser.id === product?.owner._id &&
-      product?.listing.canceled === false
-    ) {
-      status = 'active-sale';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.listing.canceled === true
-    ) {
-      status = 'not-for-sale';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.listing.canceled === false
-    ) {
-      status = 'buy-now';
-    }
-  } else {
-    if (product?.listing.canceled === true) {
-      status = 'not-for-sale';
-    } else if (product?.listing.canceled === false) {
-      status = 'buy-now';
-    }
-  }
+  status = 'upcoming';
 
   const handleRedirectToOwnerPage = () => {
-    console.log('here');
     history.push(`/collection/${product?.owner.id}`);
   };
 
@@ -90,15 +62,18 @@ const History = ({ product, transactionHistory }: Props) => {
     : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
+  console.log(product);
+  console.log(transactionHistory);
+
   return (
     <>
       <S.Container>
         <S.Title>
           <div>
-            <S.TitleText style={{ color: 'white' }}>Marketplace</S.TitleText> /{' '}
-            <S.TitleText style={{ color: 'white' }}>
+            <S.TitleLink to="/marketplace">Marketplace</S.TitleLink> /{' '}
+            <S.TitleLink to={`/marketplace/${product?.sku._id}`}>
               {product?.sku.name}
-            </S.TitleText>{' '}
+            </S.TitleLink>{' '}
             / #{product?.serialNumber}
           </div>
         </S.Title>
@@ -112,38 +87,55 @@ const History = ({ product, transactionHistory }: Props) => {
               </S.Owner>
             </S.ProductOwner>
           </S.FlexDiv>
-          {status === 'buy-now' && (
-            <S.Button onClick={handleSaleAction} hover={true}>
-              Buy Now for ${product?.listing.price}
-            </S.Button>
+          {status === 'upcoming' && (
+            <>
+              <div
+                style={{ position: 'relative', paddingRight: '80px' }}
+                onMouseEnter={() => setShowLink(true)}
+                onMouseLeave={() => setShowLink(false)}
+              >
+                {showLink && (
+                  <div>
+                    <S.ToolTip title="Testing">Testing</S.ToolTip>
+                    <S.ToolTipText>NFT Auction Coming Soon</S.ToolTipText>
+                  </div>
+                )}
+                <S.Button width="130px">Upcoming</S.Button>
+              </div>
+            </>
           )}
-          {status === 'create-sale' && (
-            <S.Button onClick={handleSaleAction} width="130px" hover={true}>
-              Create Sale
-              {/* TODO: add modal */}
-            </S.Button>
-          )}
-          {status === 'not-for-sale' && (
-            <S.Button
-              onClick={handleSaleAction}
-              className="button_noSale"
-              width="130px"
-              hover={false}
-            >
-              Not for sale
-            </S.Button>
-          )}
-          {status === 'active-sale' && (
-            <div>
-              <S.FlexColumn>
-                <S.ActiveAmount>${'1400'}</S.ActiveAmount>
-                <div style={{ display: 'flex' }}>
-                  <S.StatusText>Status:</S.StatusText>
-                  <S.ActiveText>active</S.ActiveText>
-                </div>
-              </S.FlexColumn>
-            </div>
-          )}
+          {/* {status === 'buy-now' && (
+          <S.Button onClick={handleSaleAction} hover={true}>
+            Buy Now for ${product?.listing.price}
+          </S.Button>
+        )} */}
+          {/* {status === 'create-sale' && (
+          <S.Button onClick={handleSaleAction} width="130px" hover={true}>
+            Create Sale
+
+          </S.Button>
+        )} */}
+          {/* {status === 'not-for-sale' && (
+          <S.Button
+            onClick={handleSaleAction}
+            className="button_noSale"
+            width="130px"
+            hover={false}
+          >
+            Not for sale
+          </S.Button>
+        )} */}
+          {/* {status === 'active-sale' && (
+          <div>
+            <S.FlexColumn>
+              <S.ActiveAmount>${'1400'}</S.ActiveAmount>
+              <div style={{ display: 'flex' }}>
+                <S.StatusText>Status:</S.StatusText>
+                <S.ActiveText>active</S.ActiveText>
+              </div>
+            </S.FlexColumn>
+          </div>
+        )} */}
         </S.Header>
         <S.FlexDiv>
           <S.History>History</S.History>
@@ -176,7 +168,7 @@ S.Container = styled.div`
   padding: 48px 0 48px 48px;
   height: 100%;
   overflow: hidden;
-
+  width: 100%;
   @media screen and (max-width: 1160px) {
     padding: 48px 24px 48px 24px;
   }
@@ -211,11 +203,38 @@ S.StatusText = styled.span`
 S.FlexDiv = styled.div`
   display: flex;
   align-items: center;
+  padding-right: 80px;
 `;
 
-S.TitleText = styled.span`
+S.TitleLink = styled(Link)`
   font-size: 16px;
   font-weight: 600;
+  color: white;
+  text-decoration: none;
+  :focus {
+    color: white;
+  }
+`;
+
+S.ToolTip = styled(ToolTip)`
+  position: absolute;
+  left: -1em;
+  bottom: 45px;
+  color: black;
+  width: 206px;
+  height: 38px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+S.ToolTipText = styled.span`
+  position: absolute;
+  left: -2.25em;
+  bottom: 4em;
+  color: black;
+  overflow: hidden;
+  font-size: 14px;
 `;
 
 S.ProductId = styled.span`
@@ -253,6 +272,7 @@ S.GrayLine = styled.div`
   width: 100%;
   color: #1a1a1a;
   padding-bottom: 16px;
+  padding-right: 80px;
 `;
 
 S.ProductOwner = styled.div`
