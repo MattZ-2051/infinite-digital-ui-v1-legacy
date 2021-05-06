@@ -8,15 +8,20 @@ interface IProps {
   login: (options?: { screen_hint: string }) => void;
   logout: (redirect?: any) => void;
   isAuthenticated: boolean;
-  user: { name: string };
+  user?: { name: string };
 }
 
-const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
+const MobileMenu = ({
+  login,
+  logout,
+  isAuthenticated,
+  user,
+}: IProps): JSX.Element => {
   const userData = useAppSelector((state) => state.session.user);
   return (
     <>
       {isAuthenticated && (
-        <Title data-testid="user-name">Hello {user?.name}!</Title>
+        <Title data-testid="user-name">Hello {user?.name || ''}!</Title>
       )}
 
       {!isAuthenticated && (

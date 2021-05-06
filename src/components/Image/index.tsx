@@ -32,6 +32,7 @@ const ImageContainer = styled.div<{ imageUrl?: string }>`
       : 'url(https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png)'};
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
