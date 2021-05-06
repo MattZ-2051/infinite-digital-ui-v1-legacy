@@ -109,8 +109,13 @@ const Container = styled.div<{ height?: string }>`
     user-select: none;
   }
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1160px) {
     max-width: 100%;
+  }
+
+  @media screen and (max-width: 640px) {
+    overflow: auto;
+    height: auto !important;
   }
 `;
 

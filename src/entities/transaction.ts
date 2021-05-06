@@ -4,15 +4,13 @@ export interface ITransaction {
   _id: string;
   owner: User;
   type:
-    | 'transfer'
     | 'mint'
-    | 'nft_mint'
     | 'topup'
     | 'purchase'
     | 'payment'
     | 'redeem'
     | 'sale'
-    | 'nft_transfer'
+    | 'transfer'
     | 'withdrawal';
   transactionData: TransactionData;
   createdAt: Date;
@@ -30,20 +28,6 @@ export interface TransactionData {
   buyer: string;
   seller: string;
   ownerAvailableBalance: number;
-  cost: Cost;
-}
-
-interface Cost {
-  finalPayout: number;
-  initialBuyersFee: number;
-  initialBuyersFeePercentage: number;
-  initialSellersFee: number;
-  initialSellersFeePercentage: number;
-  resale: boolean;
-  resaleBuyersFeePercentage: number;
-  resaleSellersFeePercentage: number;
-  serviceEarnings: number;
-  totalCost: number;
 }
 
 export interface HederaTransaction {

@@ -1,23 +1,19 @@
-import React from 'react';
-import styled from 'styled-components/macro';
 import { ProductWithFunctions } from 'entities/product';
 import ImageGallery from 'components/ImageGallery';
 import Rarity from 'components/Rarity';
 import { useAppSelector } from 'store/hooks';
-import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 import { useHistory } from 'react-router-dom';
-import { skuFactory } from 'store/sku/skuFactory';
+import * as S from './styles';
 
 interface Props {
   product: ProductWithFunctions | undefined;
 }
 
-const S: any = {};
-
 const ProductDetails = ({ product }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
+
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${product?.sku._id}`);
   };
@@ -72,82 +68,5 @@ const ProductDetails = ({ product }: Props) => {
     </S.Container>
   );
 };
-
-S.Body = styled.div`
-  color: black;
-  padding: 34px;
-`;
-
-S.Container = styled.div`
-  background-color: white;
-  overflow: auto;
-  height: 100vh;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-S.Description = styled.p`
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
-  padding-top: 32px;
-`;
-
-S.SkuSeries = styled.span`
-  font-size: 18px;
-`;
-
-S.RedeemIcon = styled(RedeemSvg)`
-  margin-right: 10px;
-`;
-
-S.SkuName = styled.p`
-  font-size: 48px;
-  font-weight: 600;
-  margin: 0;
-  padding: 16px 0;
-`;
-
-S.SkuInfo = styled.span<{ color: string; hover?: boolean }>`
-  font-size: 16px;
-  color: ${(props) => `${props.color}`};
-  padding-right: 10px;
-  margin: 0;
-  padding-top: 16px;
-  ${(props) =>
-    props.hover
-      ? `:hover {
-    cursor: pointer;
-    border-bottom: 1px solid black;
-    transform: scale(1.1);
-  }`
-      : ``};
-`;
-
-S.Issuer = styled.div`
-  font-size: 24px;
-  font-weight: 600;
-  color: #7c7c7c;
-`;
-
-S.Flex = styled.div<{ justifyContent: string; alignItems: string }>`
-  display: flex;
-  justify-content: ${(props) => props.justifyContent};
-  align-items: ${(props) => props.alignItems};
-`;
-
-S.GreyLine = styled.div`
-  border-bottom: 2px solid #ebebeb;
-  width: 100%;
-  padding-top: 16px;
-`;
-
-S.DescriptionText = styled.p`
-  padding-top: 24px;
-  color: #9e9e9e;
-  font-size: 16px;
-  margin: 0;
-`;
 
 export default ProductDetails;

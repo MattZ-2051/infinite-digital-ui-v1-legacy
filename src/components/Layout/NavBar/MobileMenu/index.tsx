@@ -1,4 +1,4 @@
-import React from 'react';
+import { useAppSelector } from 'store/hooks';
 import styled from 'styled-components/macro';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TextButton from 'components/Buttons/TextButton';
@@ -12,6 +12,7 @@ interface IProps {
 }
 
 const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
+  const userData = useAppSelector((state) => state.session.user);
   return (
     <>
       {isAuthenticated && (
@@ -36,19 +37,22 @@ const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
 
       <ListMenu>
         <Item>
-          <TextButton type="link" color="white" to="drop-boxes">
-            Drop Boxes
-          </TextButton>
-        </Item>
-        <Item>
-          <TextButton type="link" color="white" to="marketplace">
+          <TextButton
+            type="link"
+            color="white"
+            to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+          >
             Marketplace
           </TextButton>
         </Item>
 
         {isAuthenticated && (
           <Item>
-            <TextButton type="link" color="white" to="my-collection">
+            <TextButton
+              type="link"
+              to={`/collection/${userData.id}`}
+              color="white"
+            >
               My Collection
             </TextButton>
           </Item>

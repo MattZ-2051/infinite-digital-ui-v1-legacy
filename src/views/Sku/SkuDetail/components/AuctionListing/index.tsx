@@ -20,7 +20,7 @@ const AuctionListing: React.FC<Props> = ({ collectors, hasProducts }) => {
           limitCollectors.map((el, index) => (
             <Link
               key={index}
-              to={'/product/' + el._id}
+              to={'/marketplace/' + el.sku}
               style={{ textDecoration: 'none' }}
             >
               {el.activeProductListing && (
@@ -63,10 +63,6 @@ const Container = styled.div`
   :hover {
     cursor: pointer;
     overflow: auto;
-  }
-
-  @media screen and (max-width: 960px) {
-    margin-left: 0;
   }
 `;
 

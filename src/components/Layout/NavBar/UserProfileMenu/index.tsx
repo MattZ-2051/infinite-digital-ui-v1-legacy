@@ -95,9 +95,7 @@ const Button = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  padding: 5px;
-`;
+const ButtonContainer = styled.div``;
 
 const Label = styled.span`
   padding-left: 10px;

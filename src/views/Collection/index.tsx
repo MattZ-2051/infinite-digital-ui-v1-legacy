@@ -69,20 +69,7 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) {
-    return (
-      <Container>
-        <PulseLoader
-          size={50}
-          color={'#000'}
-          margin={10}
-          css={
-            'display:flex;justify-content:center;align-items:center;height:80%;'
-          }
-        />
-      </Container>
-    );
-  }
+  if (user === null) return <h1>Loading</h1>;
 
   return (
     <Container>
@@ -149,6 +136,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  width: 100%;
 
   > * {
     background-color: black;

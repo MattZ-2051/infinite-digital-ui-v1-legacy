@@ -25,9 +25,6 @@ const SkuTile = ({ sku, theme = 'light' }: SkuProps): JSX.Element => {
     redeemable,
     maxSupply,
     supplyType,
-    productListings,
-    skuListings,
-    issuerName,
   } = sku;
 
   const history = useHistory();
@@ -40,11 +37,6 @@ const SkuTile = ({ sku, theme = 'light' }: SkuProps): JSX.Element => {
   let pillInfo: string | number = '';
 
   const checkStatus = () => {
-    if (productListings?.length === 0 && skuListings.length === 0) {
-      status = 'upcoming';
-      return;
-    }
-
     if (skuStartDateTime > currentTime) {
       status = 'upcoming';
       bottomRightText = totalSupplyUpcoming;
@@ -70,12 +62,10 @@ const SkuTile = ({ sku, theme = 'light' }: SkuProps): JSX.Element => {
     history.push(`/marketplace/${_id}`);
   };
 
-  console.log('sku', sku);
-
   return (
     <Tile
       sku={sku}
-      topLeft={issuerName}
+      topLeft={issuer?.username}
       skuRarity={rarity}
       middle={name}
       bottomLeft={series?.name}

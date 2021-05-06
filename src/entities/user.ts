@@ -20,4 +20,5 @@ export interface User {
   footerPhotoUrl: string;
   tagline: string;
   transactions?: ITransaction[];
+  errorMessage?: string;
 }

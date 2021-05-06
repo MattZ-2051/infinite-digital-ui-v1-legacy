@@ -6,7 +6,7 @@ import Title from './Tile';
 export const StyledCard = styled(Card)`
   max-width: 302px;
   min-width: 302px;
-  height: 450px;
+  height: 430px;
   overflow: initial;
   border-radius: 20px;
   position: relative;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
@@ -9,7 +9,11 @@ export interface IProps {
 }
 
 const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
-  const [searchValue, setSearchValue] = useState(activeFilters.search || '');
+  const activeFilterSearch = activeFilters.search || '';
+  const [searchValue, setSearchValue] = useState(activeFilterSearch);
+  useEffect(() => {
+    setSearchValue(activeFilterSearch);
+  }, [activeFilterSearch]);
   const [debouncedValue, setDebouncedValue] = useState('');
 
   const handleInput = (e: any) => {
@@ -40,7 +44,7 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
           name="search"
           value={searchValue}
           type="text"
-          placeholder="Search by name"
+          placeholder="Search by brand, series, name, SKU or type"
         />
       </InputDiv>
     </>

@@ -50,6 +50,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
     return categoryItems.map((value) => {
       chipElements.push(
         <Chip
+          key={categoryName}
           label={findFilterLabel(options, value, categoryName)}
           filterCategory={categoryName}
           handleDelete={handleDelete}
@@ -71,7 +72,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
 
   const ChipItems = () => {
     const chipElements: JSX.Element[] = [];
-    Object.keys(activeFilters).map((categoryName) => {
+    Object.keys(activeFilters).forEach((categoryName) => {
       if (activeFilters[categoryName]?.length) {
         switch (categoryName) {
           case 'category':
@@ -87,6 +88,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
           case 'date':
             chipElements.push(
               <Chip
+                key={categoryName}
                 label={formatChipDateValue(activeFilters[categoryName])}
                 filterCategory={categoryName}
                 handleDelete={handleDelete}
@@ -96,6 +98,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
           case 'price':
             chipElements.push(
               <Chip
+                key={categoryName}
                 label={formatRangeChipValue(activeFilters[categoryName])}
                 filterCategory={categoryName}
                 handleDelete={handleDelete}
@@ -107,6 +110,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
           default:
             chipElements.push(
               <Chip
+                key={categoryName}
                 label={activeFilters[categoryName]}
                 filterCategory={categoryName}
                 handleDelete={handleDelete}

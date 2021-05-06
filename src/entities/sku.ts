@@ -26,13 +26,12 @@ export interface Sku {
   totalSupplyLeft: number;
   totalSkuSupplyLeft: number;
   totalSupplyUpcoming: number;
-  totalSkuListingSupplyLeft?: number;
+  totalSkuListingSupplyLeft: number;
   totalSkuListingSupply?: number;
   countSkuListings: number;
   countAllSkuListings: number;
   countProductListings: number;
   skuListings: Listing[];
-  productListings?: Listing[];
   series: {
     _id: string;
     name: string;

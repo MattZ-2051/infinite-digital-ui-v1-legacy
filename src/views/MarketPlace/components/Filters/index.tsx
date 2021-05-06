@@ -78,7 +78,7 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
             backgroundColor: '#d6d6d6',
             borderRadius: '5px',
           }}
-        ></div>
+        />
       </div>
       <ClearAllFilterContainer>
         <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>
@@ -102,13 +102,13 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         defaultFilter={activeFilters.price}
       /> */}
 
-      {/* <DropDownCheckFilter
+      <DropDownCheckFilter
         label="Category"
         options={dropDownOptions.category}
         handleFilter={handleFilter}
         filterCategory="category"
         activeFilters={activeFilters.category}
-      /> */}
+      />
       {/* <DropDownCheckFilter
         label="Series"
         options={dropDownOptions.series}
