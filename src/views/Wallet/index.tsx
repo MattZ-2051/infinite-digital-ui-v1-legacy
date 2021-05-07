@@ -88,9 +88,7 @@ const Wallet = (props) => {
           </S.AvailableAmount>
 
           <div style={{ paddingTop: '36px' }}>
-            <S.ActionButton onClick={handleOpen} disabled={kycMaxLevel !== 2}>
-              Deposit
-            </S.ActionButton>
+            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
 
           {/*  Temporary Hide feature will be enabled Post-MVP
@@ -170,7 +168,11 @@ const Wallet = (props) => {
           </S.FlexRow>
         </div>
       </S.PageContentContainer>
-      <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
+      <DepositModal
+        kycMaxLevel={kycMaxLevel}
+        isModalOpen={isModalOpen}
+        handleClose={handleClose}
+      />
     </S.Container>
   );
 };

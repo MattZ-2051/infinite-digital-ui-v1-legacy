@@ -1,25 +1,29 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png';
-import sukuIcon from 'assets/img/icons/suku-icon.png';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import circleIcon from 'assets/img/icons/circle-icon.png';
-import usdcIcon from 'assets/img/icons/usdc.png';
-import ModalComponent from 'components/Modal';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import exitIcon from 'assets/img/icons/exit-icon.png';
-import { useAppSelector } from 'store/hooks';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
+import { useAuth0 } from '@auth0/auth0-react';
+// local
+import ModalComponent from 'components/Modal';
+import { useAppSelector } from 'store/hooks';
 import { USDCDeposit } from '../USDCDeposit/USDCDeposit';
 import { getMe, getPersonalToken } from 'services/api/userService';
-import { useAuth0 } from '@auth0/auth0-react';
+import Toast from 'utils/Toast';
+import { useKycClient } from 'hooks/useKycClient';
+//assets
+import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png';
+import sukuIcon from 'assets/img/icons/suku-icon.png';
+import circleIcon from 'assets/img/icons/circle-icon.png';
+import usdcIcon from 'assets/img/icons/usdc.png';
+import exitIcon from 'assets/img/icons/exit-icon.png';
 
 const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
 
 interface IDepositModal {
+  kycMaxLevel: number;
   isModalOpen?: boolean;
   handleClose: () => void;
 }
@@ -53,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const S: any = {};
 
 const DepositModal = ({
+  kycMaxLevel,
   isModalOpen,
   handleClose,
 }: IDepositModal): JSX.Element => {
@@ -68,6 +73,7 @@ const DepositModal = ({
     userId: string;
   }>();
   const { getAccessTokenSilently } = useAuth0();
+  const KycClient = useKycClient();
 
   useEffect(() => {
     getCoinbaseMetadata();
@@ -87,7 +93,17 @@ const DepositModal = ({
   }
 
   function openUSDCModal() {
-    setIsUSDCModelOpen(true);
+    if (kycMaxLevel !== 2) {
+      Toast.warning(
+        <>
+          To deposit cryptocurrency, please{' '}
+          <a onClick={() => KycClient?.open()}>click here</a> complete the
+          required account validation steps. <a>Learn more.</a>
+        </>
+      );
+    } else {
+      setIsUSDCModelOpen(true);
+    }
   }
 
   function closeUSDCModal() {
@@ -100,6 +116,64 @@ const DepositModal = ({
     } else {
       history.push(`/wallet/${username}/addcreditcard`);
     }
+  };
+
+  const CoinBaseBtn = () => {
+    const bodyBtn = (
+      <S.Row>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={coinbaseIcon} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <S.RowText>Coinbase</S.RowText>
+          <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <ArrowForwardIosIcon className="icon__arrow" />
+        </div>
+      </S.Row>
+    );
+
+    if (kycMaxLevel !== 2) {
+      return (
+        <div
+          onClick={() => {
+            Toast.warning(
+              <>
+                To deposit cryptocurrency, please{' '}
+                <a onClick={() => KycClient?.open()}>click here</a> complete the
+                required account validation steps. <a>Learn more.</a>
+              </>
+            );
+          }}
+          role="button"
+        >
+          {bodyBtn}
+        </div>
+      );
+    }
+
+    return (
+      <CoinbaseCommerceButton
+        style={{
+          width: '100%',
+          background: 'none',
+          border: 'none',
+          textAlign: 'left',
+          padding: 0,
+        }}
+        checkoutId={coinbaseCheckoutId}
+        customMetadata={coinbaseMetadata}
+      >
+        {bodyBtn}
+      </CoinbaseCommerceButton>
+    );
   };
 
   const body = (
@@ -129,36 +203,7 @@ const DepositModal = ({
             <ArrowForwardIosIcon className="icon__arrow" />
           </div>
         </S.Row>
-        <CoinbaseCommerceButton
-          style={{
-            width: '100%',
-            background: 'none',
-            border: 'none',
-            textAlign: 'left',
-            padding: 0,
-          }}
-          checkoutId={coinbaseCheckoutId}
-          customMetadata={coinbaseMetadata}
-        >
-          <S.Row>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={coinbaseIcon} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <S.RowText>Coinbase</S.RowText>
-              <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <ArrowForwardIosIcon className="icon__arrow" />
-            </div>
-          </S.Row>
-        </CoinbaseCommerceButton>
+        <CoinBaseBtn />
         <S.Row onClick={openUSDCModal}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img width="50px" src={usdcIcon} />
