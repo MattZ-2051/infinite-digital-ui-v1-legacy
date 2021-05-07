@@ -168,7 +168,11 @@ const Wallet = (props) => {
           </S.FlexRow>
         </div>
       </S.PageContentContainer>
-      <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
+      <DepositModal
+        kycMaxLevel={kycMaxLevel}
+        isModalOpen={isModalOpen}
+        handleClose={handleClose}
+      />
     </S.Container>
   );
 };

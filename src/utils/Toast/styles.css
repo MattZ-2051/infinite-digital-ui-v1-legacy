@@ -26,3 +26,7 @@
 .Toastify__toast--success {
   background: linear-gradient(89.89deg, #00eb7c 0%, #11d6ec 100%);
 }
+
+.Toastify__toast--warning {
+  background: linear-gradient(45deg, #FFAE12 0%, #F0DA16 98.96%);
+}
