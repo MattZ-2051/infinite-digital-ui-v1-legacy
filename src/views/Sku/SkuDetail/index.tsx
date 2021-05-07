@@ -144,7 +144,10 @@ const SkuDetail = (): JSX.Element => {
         </S.Description>
 
         {collectors && (
-          <AuctionListing collectors={collectors} hasProducts={true} />
+          <AuctionListing
+            collectors={collectors}
+            hasProducts={collectors.length !== 0}
+          />
         )}
       </S.Section>
 
