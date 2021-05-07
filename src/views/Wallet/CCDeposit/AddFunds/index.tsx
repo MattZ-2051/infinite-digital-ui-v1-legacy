@@ -14,6 +14,7 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from 'store/session/sessionThunks';
+import lampIcon from 'assets/img/icons/lamp-icon.png';
 import Toast from 'components/Toast';
 
 const S: any = {};
@@ -130,6 +131,19 @@ const AddFunds = () => {
               Remove Card
             </S.RemoveCCButton>
           </S.Row>
+          <S.FeeReminderContainer>
+            <S.FeeReminderText>
+              Withdrawal of credit card deposits can be initiated 30 days after
+              deposit.
+            </S.FeeReminderText>
+            <S.FeeReminderIconContainer>
+              <img src={lampIcon} alt="" />
+            </S.FeeReminderIconContainer>
+            <S.FeeReminderText>
+              Remember to account for the 5% service fee when choosing your
+              deposit amount
+            </S.FeeReminderText>
+          </S.FeeReminderContainer>
           <div
             style={{
               paddingTop: '25px',
@@ -138,10 +152,6 @@ const AddFunds = () => {
             }}
           >
             <S.DollarSign>$</S.DollarSign>
-            {/* <S.AmountInput
-            placeholder="Enter Amount"
-            onChange={(e) => setAmount(e.target.value)}
-          /> */}
             <S.AmountInput
               id="amount"
               name="amount-input"
@@ -199,6 +209,19 @@ S.CardContainer = styled.div`
 S.AddFundsText = styled.span`
   font-size: 16px;
   color: #7d7d7d;
+`;
+
+S.FeeReminderContainer = styled.div`
+  margin: 24px auto 20px;
+  text-align: center;
+`;
+
+S.FeeReminderText = styled.div`
+  color: #9e9e9e;
+`;
+
+S.FeeReminderIconContainer = styled.div`
+  margin: 10px auto;
 `;
 
 S.HeaderText = styled.span`
