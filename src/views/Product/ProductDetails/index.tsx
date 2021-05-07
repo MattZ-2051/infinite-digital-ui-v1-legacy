@@ -13,6 +13,10 @@ interface Props {
   product: ProductWithFunctions | null;
 }
 
+const createMarkup = (markup) => ({
+  __html: markup,
+});
+
 const ProductDetails = ({ product }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -62,13 +66,17 @@ const ProductDetails = ({ product }: Props) => {
           )}
           {product?.sku.supplyType !== 'variable' && (
             <S.SkuInfo color="#7c7c7c">
-              {product?.sku?.circulatingSupply} released
+              {product?.sku?.maxSupply === 1
+                ? '1 of 1'
+                : `${product?.sku?.circulatingSupply} released`}
             </S.SkuInfo>
           )}
 
-          <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
-            (See All)
-          </S.SkuInfo>
+          {product?.sku?.maxSupply !== 1 && (
+            <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
+              (See All)
+            </S.SkuInfo>
+          )}
         </S.Flex>
         <S.Description>
           Description
@@ -84,7 +92,9 @@ const ProductDetails = ({ product }: Props) => {
         </S.Description>
         <S.GreyLine />
         {(descriptionVisible || !isSmall) && (
-          <S.DescriptionText>{product?.sku.description}</S.DescriptionText>
+          <S.DescriptionText
+            dangerouslySetInnerHTML={createMarkup(product?.sku?.description)}
+          ></S.DescriptionText>
         )}
       </S.Body>
     </S.Container>
