@@ -79,7 +79,7 @@ const History = ({ product, transactionHistory }: Props) => {
         </S.Title>
         <S.Header>
           <S.FlexDiv>
-            <S.ProductId>#{product?._id.slice(0, 4)}</S.ProductId>/
+            <S.ProductId>#{product?.serialNumber}</S.ProductId>/
             <S.ProductOwner>
               Owner
               <S.Owner onClick={handleRedirectToOwnerPage}>

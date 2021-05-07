@@ -90,10 +90,13 @@ const SectionTitle = styled.h2`
   color: black;
 `;
 
-const NoOwners = styled.span`
+const NoOwners = styled.div`
   font-size: 16px;
   color: #9e9e9e;
   font-weight: 600;
+  border-bottom: 1px solid #ebebeb;
+  padding-bottom: 20px;
+  width: 100%;
 `;
 
 const ViewAllLink = styled(Link)`
