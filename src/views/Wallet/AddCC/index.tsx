@@ -131,7 +131,7 @@ const AddCC = () => {
               }
               onChange={(e) => handleChange(e, setCardInfo)}
               type="text"
-              value={cardInfo?.expMonth}
+              value={cardInfo?.expMonth || null}
               style={{ paddingRight: '10px' }}
             />
             <S.FormInput
@@ -140,13 +140,14 @@ const AddCC = () => {
               size="medium"
               required
               name="num-expYear"
-              error={fieldError?.expYear}
+              error={fieldError?.expYear || fieldError?.expYearPassed}
               helperText={
-                fieldError?.expYear && 'Enter a valid year format YYYY'
+                (fieldError?.expYear && 'Enter a valid year format YYYY') ||
+                (fieldError?.expYearPassed && 'Enter a year mayor that actual')
               }
               onChange={(e) => handleChange(e, setCardInfo)}
               type="text"
-              value={cardInfo?.expYear}
+              value={cardInfo?.expYear || null}
               style={{ paddingRight: '10px' }}
             />
             <S.FormInput

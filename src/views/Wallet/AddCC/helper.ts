@@ -10,6 +10,7 @@ export const errors: Errors = {
   cardNumber: false,
   cvv: false,
   expYear: false,
+  expYearPassed: false,
   expMonth: false,
   name: false,
   city: false,
@@ -136,7 +137,7 @@ export const validate = (ccInfo, setFieldError) => {
 
   if (
     parseInt(ccInfo.expMonth, 10) > 12 ||
-    parseInt(ccInfo.expMonth, 10) < 0 ||
+    parseInt(ccInfo.expMonth, 10) <= 0 ||
     ccInfo.expMonth.toString().length > 2 ||
     ccInfo.expMonth.toString().length < 1
   ) {
@@ -153,7 +154,6 @@ export const validate = (ccInfo, setFieldError) => {
   }
 
   if (
-    ccInfo.expYear <= year ||
     ccInfo.expYear.toString().length !== 4 ||
     ccInfo.expYear.toString()[0] === '0'
   ) {
@@ -166,6 +166,19 @@ export const validate = (ccInfo, setFieldError) => {
     setFieldError((prevState) => ({
       ...prevState,
       expYear: false,
+    }));
+  }
+
+  if (ccInfo.expYear <= year) {
+    setFieldError((prevState) => ({
+      ...prevState,
+      expYearPassed: true,
+    }));
+    error = true;
+  } else {
+    setFieldError((prevState) => ({
+      ...prevState,
+      expYearPassed: false,
     }));
   }
 
