@@ -2,10 +2,12 @@ import { ProductWithFunctions } from 'entities/product';
 import ImageGallery from 'components/ImageGallery';
 import Rarity from 'components/Rarity';
 import { useAppSelector } from 'store/hooks';
+import { useState, useRef, useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
-import { skuFactory } from 'store/sku/skuFactory';
-import * as S from './styles';
 import { useAuth0 } from '@auth0/auth0-react';
+import * as S from './styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 interface Props {
   product: ProductWithFunctions | null;
@@ -16,12 +18,12 @@ const ProductDetails = ({ product }: Props) => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const { isAuthenticated } = useAuth0();
+  const [descriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${product?.sku._id}`);
   };
 
   let redeemable = false;
-
   if (isAuthenticated) {
     if (
       loggedInUser.id === product?.owner.id &&
@@ -30,6 +32,11 @@ const ProductDetails = ({ product }: Props) => {
       redeemable = true;
     }
   }
+  const theme = useTheme();
+  const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
+  const toggleDescription = () => {
+    setDescriptionVisible(!descriptionVisible);
+  };
 
   return (
     <S.Container>
@@ -63,9 +70,22 @@ const ProductDetails = ({ product }: Props) => {
             (See All)
           </S.SkuInfo>
         </S.Flex>
-        <S.Description>Description</S.Description>
-        <S.GreyLine></S.GreyLine>
-        <S.DescriptionText>{product?.sku.description}</S.DescriptionText>
+        <S.Description>
+          Description
+          {isSmall && (
+            <S.ShowDescription onClick={toggleDescription}>
+              {!descriptionVisible ? (
+                <S.DownArrow style={{ color: 'black' }} />
+              ) : (
+                <S.UpArrow style={{ color: 'black' }} />
+              )}
+            </S.ShowDescription>
+          )}
+        </S.Description>
+        <S.GreyLine />
+        {(descriptionVisible || !isSmall) && (
+          <S.DescriptionText>{product?.sku.description}</S.DescriptionText>
+        )}
       </S.Body>
     </S.Container>
   );

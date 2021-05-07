@@ -1,4 +1,7 @@
 import styled from 'styled-components/macro';
+// Icons
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 
 export const Body = styled.div`
@@ -20,6 +23,8 @@ export const Container = styled.div`
 `;
 
 export const Description = styled.p`
+  display: flex;
+  justify-content: space-between;
   font-size: 24px;
   font-weight: 600;
   margin: 0;
@@ -83,4 +88,24 @@ export const DescriptionText = styled.p`
   color: #9e9e9e;
   font-size: 16px;
   margin: 0;
+`;
+
+export const DownArrow = styled(KeyboardArrowDownIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const UpArrow = styled(KeyboardArrowUpIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const ShowDescription = styled.button`
+  background-color: transparent;
+  border: none;
+  outline: none;
 `;

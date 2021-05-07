@@ -53,7 +53,6 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
 
 const InputDiv = styled.div`
   height: 40px;
-  min-width: 380px;
   border-radius: 30px;
   background-color: #f8f8f8;
   display: flex;
@@ -65,7 +64,6 @@ const Input = styled.input`
   outline: none;
   text-indent: 20px;
   height: 40px;
-  min-width: 380px;
   background-color: #f8f8f8;
   border-radius: 30px;
 `;
