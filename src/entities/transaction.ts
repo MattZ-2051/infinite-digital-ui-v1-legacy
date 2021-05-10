@@ -4,6 +4,7 @@ export interface ITransaction {
   _id: string;
   owner: User;
   type:
+    | 'deposit'
     | 'transfer'
     | 'mint'
     | 'nft_mint'
@@ -17,11 +18,22 @@ export interface ITransaction {
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;
+  status: 'success' | 'error' | 'pending';
+}
+
+interface Sku {
+  id: string;
+  name: string;
+}
+
+interface Product {
+  serialNumber: string;
+  id: string;
 }
 
 export interface TransactionData {
-  product: string;
-  sku: string;
+  product: Product[];
+  sku: Sku[];
   listing: string;
   amount: number;
   bid: string;
@@ -32,6 +44,7 @@ export interface TransactionData {
   ownerAvailableBalance: number;
   cost: Cost;
   explorerLink: string;
+  status: string;
 }
 
 interface Cost {
