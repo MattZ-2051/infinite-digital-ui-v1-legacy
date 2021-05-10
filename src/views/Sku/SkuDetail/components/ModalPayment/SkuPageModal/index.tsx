@@ -142,7 +142,7 @@ const SkuPageModal = ({
               <S.PriceInfo>${product.minSkuPrice}</S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
-              <S.PriceInfo>{'Service Fee: (5%)'}</S.PriceInfo>
+              <S.PriceInfo>{'Marketplace Fee: (5%)'}</S.PriceInfo>
               <S.PriceInfo>${product.minSkuPrice * 0.05}</S.PriceInfo>
             </S.FlexRow>
           </S.SkuInfo>
