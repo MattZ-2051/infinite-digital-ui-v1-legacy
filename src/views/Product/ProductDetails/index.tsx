@@ -2,7 +2,7 @@ import { ProductWithFunctions } from 'entities/product';
 import ImageGallery from 'components/ImageGallery';
 import Rarity from 'components/Rarity';
 import { useAppSelector } from 'store/hooks';
-import { useState, useRef, useReducer } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';

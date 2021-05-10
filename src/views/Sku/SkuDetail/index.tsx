@@ -17,6 +17,8 @@ import { SkuCounter } from './components/SkuCounter/skuCounter';
 import { useAuth0 } from '@auth0/auth0-react';
 import Rarity from 'components/Rarity';
 import PageLoader from 'components/PageLoader';
+import SkuDescription from './components/SkuDescription';
+import LineDivider from './components/LineDivider';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -107,7 +109,7 @@ const SkuDetail = (): JSX.Element => {
                   <SkuCounter sku={sku} />
                 </p>
 
-                <S.LineDivider />
+                <LineDivider />
 
                 {sku?.redeemable && (
                   <div
@@ -136,11 +138,7 @@ const SkuDetail = (): JSX.Element => {
       )}
 
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
-        <S.Description>
-          <S.SectionTitle>Description</S.SectionTitle>
-          <div dangerouslySetInnerHTML={{ __html: sku?.description || '' }} />
-          {/* {sku?.description} */}
-        </S.Description>
+        <SkuDescription description={sku?.description} />
 
         {collectors && (
           <AuctionListing
@@ -152,7 +150,6 @@ const SkuDetail = (): JSX.Element => {
 
       <S.Section>
         <S.SectionTitle>Related Releases</S.SectionTitle>
-
         <S.ProductContainer>
           {featuredProducts &&
             featuredProducts.map((el, index) => {
@@ -169,11 +166,5 @@ const SkuDetail = (): JSX.Element => {
     </div>
   );
 };
-
-{
-  /* <S.Section
-        style={{ paddingTop: '55px', flexDirection: 'row', color: '#9E9E9E' }}
-      ></S.Section> */
-}
 
 export default SkuDetail;
