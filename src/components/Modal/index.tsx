@@ -33,7 +33,7 @@ const ModalContainer: any = styled(Modal)`
   align-items: center;
   justify-content: center;
   border: none;
-  // backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 ` as React.ComponentType<ModalProps>;
 
 const ModalBody = styled.div<{ height?: string; align?: string }>`

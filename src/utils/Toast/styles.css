@@ -1,7 +1,7 @@
 .Toastify__toast-container {
   left: 0;
   width: 100%;
-  top: 70px;
+  top: 0;
 }
 
 .Toastify__toast {

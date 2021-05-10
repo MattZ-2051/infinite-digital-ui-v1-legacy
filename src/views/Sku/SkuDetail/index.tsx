@@ -62,7 +62,6 @@ const SkuDetail = (): JSX.Element => {
     history.push(`/collection/${sku?.issuer._id}`);
   };
 
-  console.log(sku);
   return (
     <div>
       {sku && (

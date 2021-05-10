@@ -8,7 +8,7 @@ import { Collector } from 'entities/collector';
 import { Listing } from 'entities/listing';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
-import ModalPayment from '../../ModalPayment';
+import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -125,7 +125,7 @@ const FromCreatorBox = ({
           {buttonLabel}
         </Button>
       </div>
-      <ModalPayment
+      <SkuPageModal
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}

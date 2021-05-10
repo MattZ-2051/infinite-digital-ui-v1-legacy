@@ -57,7 +57,7 @@ const ModalPayment = ({
         const result = await patchListingsPurchase(userToken, listing._id);
         // TODO: Check payment
         if (result) {
-          setStatusMode('completed');
+          // setStatusMode('completed');
           Toast.success(purchase.patchListingsPurchaseSuccess);
         }
         setLoading(false);
