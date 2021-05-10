@@ -11,6 +11,7 @@ import {
 } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
+import { Theme } from 'theme/theme';
 
 interface IProps {
   user: User;
@@ -251,22 +252,26 @@ const TabBar = styled.div`
   flex-direction: row;
 `;
 
-const Tab = styled.div<{ selected: boolean; themeStyle?: 'light' | 'dark' }>`
-  background-color: ${({ themeStyle }) =>
-    themeStyle === 'dark' ? 'black' : 'white'};
-  color: ${({ themeStyle, selected }) =>
+const Tab = styled.div<{
+  selected: boolean;
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+}>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark' ? theme.palette.dark.main : theme.palette.light.main};
+  color: ${({ themeStyle, theme, selected }) =>
     themeStyle === 'dark'
       ? selected
-        ? 'white'
-        : 'white'
+        ? theme.palette.dark.secondary
+        : theme.palette.dark.greyText
       : selected
-      ? 'black'
-      : '#9e9e9e'};
-  border-bottom: ${({ themeStyle, selected }) =>
+      ? theme.palette.light.secondary
+      : theme.palette.light.greyText};
+  border-bottom: ${({ themeStyle, theme, selected }) =>
     selected
       ? themeStyle === 'dark'
-        ? '2px solid white'
-        : '2px solid black'
+        ? '2px solid ' + theme.palette.dark.secondary
+        : '2px solid ' + theme.palette.light.secondary
       : 'none'};
   font-weight: 600;
   font-size: 22px;

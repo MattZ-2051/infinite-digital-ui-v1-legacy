@@ -3,6 +3,8 @@ import { mediaQueries, deviceSizes, Devices } from './media';
 
 interface Palette {
   main: string;
+  secondary: string;
+  greyText: string;
   contrastText: string;
 }
 
@@ -11,14 +13,14 @@ interface CommonPalette {
   white: string;
 }
 
-interface Theme extends DefaultTheme {
+export interface Theme extends DefaultTheme {
   devices: Devices;
   mediaQueries: Devices;
   borderRadius: string;
   palette: {
     common: CommonPalette;
-    primary: Palette;
-    secondary: Palette;
+    light: Palette;
+    dark: Palette;
   };
 }
 
@@ -31,13 +33,17 @@ export const theme: Theme = {
       black: '#222831',
       white: '#ffffff',
     },
-    primary: {
+    light: {
       main: 'white',
-      contrastText: 'black',
+      secondary: 'black',
+      greyText: 'grey',
+      contrastText: 'orange',
     },
-    secondary: {
+    dark: {
       main: 'black',
-      contrastText: 'white',
+      secondary: 'white',
+      greyText: 'grey',
+      contrastText: 'orange',
     },
   },
 };

@@ -73,61 +73,63 @@ const Collection = (): JSX.Element => {
   if (user === null) return <h1>Loading</h1>;
 
   return (
-    <ViewContainer>
-      <BackgroundImageContainer
-        src={bannerPhotoUrl}
-        styles={{
-          height: '500px',
-          width: '100%',
-        }}
-      >
-        <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
-      </BackgroundImageContainer>
-      <FlexRow style={{ margin: '5rem' }}>
-        {midPhotoUrl && (
-          <Container style={{ marginRight: '2.5rem' }}>
-            <Image src={midPhotoUrl} height="648px" width="518px" />
+    <Container>
+      <ViewContainer>
+        <BackgroundImageContainer
+          src={bannerPhotoUrl}
+          styles={{
+            height: '500px',
+            width: '100%',
+          }}
+        >
+          <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+        </BackgroundImageContainer>
+        <FlexRow style={{ margin: '5rem' }}>
+          {midPhotoUrl && (
+            <Container style={{ marginRight: '2.5rem' }}>
+              <Image src={midPhotoUrl} height="648px" width="518px" />
+            </Container>
+          )}
+          <Container style={{ marginLeft: '2.5rem' }}>
+            <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
+              {descriptionIcon && (
+                <Image src={descriptionIcon} height="98px" width="98px" />
+              )}
+              <TextContainer textAlign="left" fontSize="28">
+                {descriptionBodyMain}
+                <GradientText textAlign="left" fontSize="28">
+                  {descriptionBodyGradient}
+                </GradientText>
+              </TextContainer>
+              <TextContainer fontSize="18">{descriptionBody}</TextContainer>
+            </FlexColumn>
           </Container>
-        )}
-        <Container style={{ marginLeft: '2.5rem' }}>
-          <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
-            {descriptionIcon && (
-              <Image src={descriptionIcon} height="98px" width="98px" />
+        </FlexRow>
+        <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
+        <Container
+          style={{
+            marginLeft: '2.5rem',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <FlexColumn
+            childMargin="1rem"
+            style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
+          >
+            {footerPhotoUrl && (
+              <Image src={footerPhotoUrl} height="600px" width="500px" />
             )}
-            <TextContainer textAlign="left" fontSize="28">
-              {descriptionBodyMain}
-              <GradientText textAlign="left" fontSize="28">
-                {descriptionBodyGradient}
+            <TextContainer textAlign="center" fontSize="48" fontWeight="400">
+              {taglineMain}
+              <GradientText textAlign="center" fontSize="48" fontWeight="400">
+                {taglineGradient}
               </GradientText>
             </TextContainer>
-            <TextContainer fontSize="18">{descriptionBody}</TextContainer>
           </FlexColumn>
         </Container>
-      </FlexRow>
-      <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
-      <Container
-        style={{
-          marginLeft: '2.5rem',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <FlexColumn
-          childMargin="1rem"
-          style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
-        >
-          {footerPhotoUrl && (
-            <Image src={footerPhotoUrl} height="600px" width="500px" />
-          )}
-          <TextContainer textAlign="center" fontSize="48" fontWeight="400">
-            {taglineMain}
-            <GradientText textAlign="center" fontSize="48" fontWeight="400">
-              {taglineGradient}
-            </GradientText>
-          </TextContainer>
-        </FlexColumn>
-      </Container>
-    </ViewContainer>
+      </ViewContainer>
+    </Container>
   );
 };
 
@@ -139,6 +141,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
+  /* NOTE: This is setting children to black. Might need a more elegant way */
   > * {
     background-color: black;
     color: white;
