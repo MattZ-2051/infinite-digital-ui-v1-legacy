@@ -3,6 +3,7 @@ const purchase = {
     'Oops, something went wrong! Would you like to try again?.',
   patchListingsPurchaseSuccess: 'Purchase succesfully!.',
   patchListingsPurchaseProcessing: 'Processing your Purchase.',
+  termsError: 'Please agree ot the terms and conditions.',
 };
 
 const createSale = {

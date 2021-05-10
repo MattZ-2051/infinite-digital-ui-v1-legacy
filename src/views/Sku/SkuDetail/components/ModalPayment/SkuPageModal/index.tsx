@@ -5,7 +5,7 @@ import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
@@ -39,6 +39,7 @@ const SkuPageModal = ({
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
+  const [checkTerms, setCheckTerms] = useState<boolean>(false);
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
@@ -48,6 +49,10 @@ const SkuPageModal = ({
   );
 
   const buyAction = async () => {
+    if (!checkTerms) {
+      Toast.error(purchase.termsError);
+      return;
+    }
     if (listing) {
       setLoading(true);
       const userToken = await getAccessTokenSilently();
@@ -89,20 +94,24 @@ const SkuPageModal = ({
   const Body = () => {
     return (
       <>
-        <S.ImageContainer>
+        {/* <S.ImageContainer>
           <img src={product.imageUrls[0]} alt="" />
           <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
             <CloseModal style={{ cursor: 'pointer' }} />
           </S.CloseButton>
-        </S.ImageContainer>
+        </S.ImageContainer> */}
         <S.Body>
+          <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+            <CloseModal style={{ cursor: 'pointer' }} />
+          </S.CloseButton>
           <S.Header>
             {statusMode === 'hasFunds' && (
               <>
                 <S.Title>Confirm your order:</S.Title>
                 <S.SubTitle>
                   {' '}
-                  Your current balance ${loggedInUser.availableBalance}
+                  Your current balance $
+                  {parseInt(loggedInUser.availableBalance, 10).toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -113,7 +122,8 @@ const SkuPageModal = ({
                   <S.Title>Whoops, Insuficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your wallet balance is ${loggedInUser.availableBalance}
+                  Your wallet balance is ${' '}
+                  {parseInt(loggedInUser.availableBalance, 10).toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -135,27 +145,39 @@ const SkuPageModal = ({
               <Rarity type={product.rarity} />
             </S.FlexRow>
             <S.SkuName>{product.name}</S.SkuName>
+            <S.SeriesName>{product.series.name}</S.SeriesName>
           </S.SkuInfo>
           <S.SkuInfo>
             <S.FlexRow>
               <S.PriceInfo>Seller Price</S.PriceInfo>
-              <S.PriceInfo>${product.minSkuPrice}</S.PriceInfo>
+              <S.PriceInfo>${product.minSkuPrice.toFixed(2)}</S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
               <S.PriceInfo>{'Marketplace Fee: (5%)'}</S.PriceInfo>
-              <S.PriceInfo>${product.minSkuPrice * 0.05}</S.PriceInfo>
+              <S.PriceInfo>
+                ${(product.minSkuPrice * 0.05).toFixed(2)}
+              </S.PriceInfo>
             </S.FlexRow>
           </S.SkuInfo>
           <S.FlexRow>
             <S.Total>Total:</S.Total>
             <S.Total>
-              ${product.minSkuPrice + product.minSkuPrice * 0.05}
+              ${(product.minSkuPrice + product.minSkuPrice * 0.05).toFixed(2)}
             </S.Total>
           </S.FlexRow>
           {statusMode === 'hasFunds' && (
-            <S.Center>
-              <S.Terms>Terms and Conditions</S.Terms>
-            </S.Center>
+            <S.FlexRow>
+              <div style={{ paddingTop: '20px' }}>
+                <S.Check
+                  color="default"
+                  disableRipple
+                  checked={checkTerms}
+                  onClick={() => setCheckTerms(!checkTerms)}
+                />
+              </div>
+              <S.Terms>I agree to the </S.Terms>{' '}
+              <S.TermLink to="TC"> Terms and Conditions</S.TermLink>
+            </S.FlexRow>
           )}
           <S.Center>
             {statusMode === 'hasFunds' && (

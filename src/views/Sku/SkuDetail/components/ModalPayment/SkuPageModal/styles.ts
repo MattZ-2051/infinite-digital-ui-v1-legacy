@@ -1,4 +1,6 @@
 import styled from 'styled-components/macro';
+import { Link } from 'react-router-dom';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export const S: any = {};
 
@@ -37,6 +39,7 @@ S.Header = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 24px;
+  padding-top: 20px;
 `;
 
 S.Title = styled.p`
@@ -71,10 +74,23 @@ S.FlexRow = styled.div`
   width: 100%;
 `;
 
+S.Check = styled(Checkbox)`
+  .Mui-checked {
+    color: black;
+  }
+  .Mui-checked:hover {
+    border: none;
+    background: none;
+  }
+  color: black;
+  background: transparent;
+`;
+
 S.Center = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 S.SkuName = styled.p`
@@ -82,6 +98,14 @@ S.SkuName = styled.p`
   font-size: 20px;
   font-weight: 600;
   width: 100%;
+`;
+
+S.SeriesName = styled.p`
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  padding-top: 16px;
 `;
 
 S.SkuInfo = styled.div`
@@ -113,9 +137,16 @@ S.Text = styled.p`
   padding-top: 12px;
 `;
 
+S.TermLink = styled(Link)`
+  padding-top: 18px;
+  margin: 0;
+  font-size: 16px;
+`;
+
 S.Terms = styled.p`
   padding-top: 18px;
   margin: 0;
+  font-size: 16px;
 `;
 
 S.Button = styled.button`
