@@ -32,10 +32,8 @@ const History = ({ product, transactionHistory }: Props) => {
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const loggedInUser = useAppSelector((state) => state.session.user.id);
   let status: Status = '';
-
-  status = 'upcoming';
+  const loggedInUser = useAppSelector((state) => state.session.user.id);
 
   const handleRedirectToOwnerPage = () => {
     history.push(`/collection/${product?.owner.id}`);
@@ -57,13 +55,36 @@ const History = ({ product, transactionHistory }: Props) => {
     }
   };
 
+  if (isAuthenticated) {
+    if (loggedInUser.id === product?.owner.id && !product?.listing.canceled) {
+      status = 'create-sale';
+    } else if (
+      loggedInUser.id === product?.owner.id &&
+      product?.listing.canceled
+    ) {
+      status = 'active-sale';
+    } else if (
+      loggedInUser.id !== product?.owner.id &&
+      !product?.listing.canceled
+    ) {
+      status = 'upcoming';
+    } else if (
+      loggedInUser.id !== product?.owner.id &&
+      product?.listing.canceled
+    ) {
+      status = 'buy-now';
+    }
+  } else {
+    if (product?.listing.canceled) {
+      status = 'buy-now';
+    } else if (!product?.listing.canceled) {
+      status = 'upcoming';
+    }
+  }
   const hasFunds = product?.sku.minPrice
     ? loggedInUser.availableBalance >= product?.sku.minPrice
     : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
-
-  console.log(product);
-  console.log(transactionHistory);
 
   return (
     <>
@@ -104,38 +125,41 @@ const History = ({ product, transactionHistory }: Props) => {
               </div>
             </>
           )}
-          {/* {status === 'buy-now' && (
-          <S.Button onClick={handleSaleAction} hover={true}>
-            Buy Now for ${product?.listing.price}
-          </S.Button>
-        )} */}
-          {/* {status === 'create-sale' && (
-          <S.Button onClick={handleSaleAction} width="130px" hover={true}>
-            Create Sale
-
-          </S.Button>
-        )} */}
+          {status === 'buy-now' && (
+            <div style={{ paddingRight: '80px' }}>
+              <S.Button onClick={handleSaleAction} hover={true}>
+                Buy Now for ${product?.listing.price}
+              </S.Button>
+            </div>
+          )}
+          {status === 'create-sale' && (
+            <div style={{ paddingRight: '80px' }}>
+              <S.Button onClick={handleSaleAction} width="130px" hover={true}>
+                Create Sale
+              </S.Button>
+            </div>
+          )}
           {/* {status === 'not-for-sale' && (
-          <S.Button
-            onClick={handleSaleAction}
-            className="button_noSale"
-            width="130px"
-            hover={false}
-          >
-            Not for sale
-          </S.Button>
-        )} */}
-          {/* {status === 'active-sale' && (
-          <div>
-            <S.FlexColumn>
-              <S.ActiveAmount>${'1400'}</S.ActiveAmount>
-              <div style={{ display: 'flex' }}>
-                <S.StatusText>Status:</S.StatusText>
-                <S.ActiveText>active</S.ActiveText>
-              </div>
-            </S.FlexColumn>
-          </div>
-        )} */}
+            <S.Button
+              onClick={handleSaleAction}
+              className="button_noSale"
+              width="130px"
+              hover={false}
+            >
+              Not for sale
+            </S.Button>
+          )} */}
+          {status === 'active-sale' && (
+            <div style={{ paddingRight: '80px' }}>
+              <S.FlexColumn>
+                <S.ActiveAmount>${'1400'}</S.ActiveAmount>
+                <div style={{ display: 'flex' }}>
+                  <S.StatusText>Status:</S.StatusText>
+                  <S.ActiveText>active</S.ActiveText>
+                </div>
+              </S.FlexColumn>
+            </div>
+          )}
         </S.Header>
         <S.FlexDiv>
           <S.History>History</S.History>
