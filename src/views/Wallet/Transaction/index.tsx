@@ -50,12 +50,31 @@ const Transaction = ({ tx }: IProps) => {
             </span>
           </>
         )}
-        {tx.type === 'deposit' && (
+        {tx.type === 'deposit' && tx.transactionData?.service === 'circle' && (
           <>
             <img src={depositIcon} style={{ paddingRight: '24px' }} />
             <span>You added funds from your credit card</span>
           </>
         )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.service === 'circle' &&
+          tx.transactionData?.status === 'completed' && (
+            <>
+              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <span>You added funds from your credit card</span>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.service === 'circle' &&
+          tx.transactionData?.status === 'pending' && (
+            <>
+              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <span>You added funds from your credit card</span>
+              <span style={{ color: 'black', fontWeight: 600 }}>
+                {'(Pending)'}
+              </span>
+            </>
+          )}
       </TransactionDescription>
 
       <TransactionDetail>
@@ -71,8 +90,12 @@ const Transaction = ({ tx }: IProps) => {
           </span>
         )}
 
-        {tx.type === 'deposit' && tx.transactionData?.status === 'success' && (
-          <span style={{ color: '#00C44F' }}>+ ${tx.transactionData}</span>
+        {tx.type === 'deposit' &&
+          tx.transactionData?.status === 'completed' && (
+            <span style={{ color: '#00C44F' }}>+ ${tx.transactionData}</span>
+          )}
+        {tx.type === 'deposit' && tx.transactionData?.status === 'pending' && (
+          <span style={{ color: '#9e9e9e' }}>+ ${tx.transactionData}</span>
         )}
         {tx.type === 'sale' && (
           <span style={{ color: '#00C44F' }}>

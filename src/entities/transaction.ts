@@ -45,6 +45,7 @@ export interface TransactionData {
   cost: Cost;
   explorerLink: string;
   status: string;
+  service: string;
 }
 
 interface Cost {
