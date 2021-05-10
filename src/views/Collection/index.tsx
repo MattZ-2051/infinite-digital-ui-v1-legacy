@@ -87,13 +87,13 @@ const Collection = (): JSX.Element => {
         <FlexRow style={{ margin: '5rem' }}>
           {midPhotoUrl && (
             <Container style={{ marginRight: '2.5rem' }}>
-              <Image src={midPhotoUrl} height="648px" width="518px" />
+              <Image src={midPhotoUrl} maxHeight="648px" maxWidth="518px" />
             </Container>
           )}
           <Container style={{ marginLeft: '2.5rem' }}>
             <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
               {descriptionIcon && (
-                <Image src={descriptionIcon} height="98px" width="98px" />
+                <Image src={descriptionIcon} maxHeight="98px" maxWidth="98px" />
               )}
               <TextContainer textAlign="left" fontSize="28">
                 {descriptionBodyMain}
@@ -118,7 +118,7 @@ const Collection = (): JSX.Element => {
             style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
           >
             {footerPhotoUrl && (
-              <Image src={footerPhotoUrl} height="600px" width="500px" />
+              <Image src={footerPhotoUrl} maxHeight="600px" maxWidth="500px" />
             )}
             <TextContainer textAlign="center" fontSize="48" fontWeight="400">
               {taglineMain}

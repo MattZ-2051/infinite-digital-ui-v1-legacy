@@ -1,24 +1,27 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import * as CSS from 'csstype';
-
 interface ImageProps {
   src: string;
   alt?: string;
-  width?: string;
-  height?: string;
+  maxWidth?: string;
+  maxHeight?: string;
   children?: JSX.Element;
 }
 
 export const Image = (props: ImageProps): JSX.Element => {
-  const { src, alt, width, height, children } = props;
+  const { src, alt, maxWidth, maxHeight, children } = props;
 
   // Import result is the URL of your image
   return (
     <img
       src={src}
       alt={alt}
-      style={{ ...(width && { width }), ...(height && { height }) }}
+      style={{
+        ...(maxWidth && { maxWidth }),
+        ...(maxHeight && { maxHeight }),
+        width: '100%',
+      }}
     >
       {children && children}
     </img>
