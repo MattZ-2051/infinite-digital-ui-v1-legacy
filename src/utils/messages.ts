@@ -5,4 +5,9 @@ const purchase = {
   patchListingsPurchaseProcessing: 'Processing your Purchase.',
 };
 
-export { purchase };
+const createSale = {
+  error: 'Whoops, something went wrong - please try again.',
+  success: 'Congrats! Your sale has started.',
+};
+
+export { purchase, createSale };

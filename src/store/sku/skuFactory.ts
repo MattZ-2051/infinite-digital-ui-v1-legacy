@@ -60,4 +60,5 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   totalSupply: 0,
   totalSkuSupplyLeft: 0,
   royaltyFeePercentage: 0,
+  sellerTransactionFeePercentage: 0,
 });

@@ -61,6 +61,7 @@ export interface Sku {
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;
+  sellerTransactionFeePercentage?: number;
 }
 
 export interface SkuWithTotal {

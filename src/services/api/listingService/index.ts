@@ -26,3 +26,13 @@ export const patchListingsPurchase = async (
 
   return response;
 };
+
+export const postListings = async (
+  token: string,
+  product: Listing
+): Promise<AxiosResponse<void>> => {
+  const response = await axiosInstance.post('/listings', product, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response;
+};

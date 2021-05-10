@@ -7,6 +7,7 @@ import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
 import { Link } from 'react-router-dom';
 import ModalPayment from '../Modal';
+import CreateSale from '../Modal/CreateSale';
 import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 import { useHistory } from 'react-router-dom';
@@ -26,7 +27,7 @@ interface Props {
   transactionHistory: ITransaction[] | null;
 }
 
-const History = ({ product, transactionHistory }: Props) => {
+const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
@@ -174,7 +175,7 @@ const History = ({ product, transactionHistory }: Props) => {
             })}
         </S.TransactionHistory>
       </S.Container>
-      {product && (
+      {product && status !== 'create-sale' && (
         <ModalPayment
           visible={isModalOpen}
           setModalPaymentVisible={setIsModalOpen}
@@ -182,6 +183,13 @@ const History = ({ product, transactionHistory }: Props) => {
           mode={modalMode}
           status={status}
           activeAmount={1400}
+        />
+      )}
+      {product && status === 'create-sale' && (
+        <CreateSale
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          product={product}
         />
       )}
     </>
