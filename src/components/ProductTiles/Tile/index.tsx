@@ -18,10 +18,11 @@ interface Props {
     | 'unique'
     /*SKU Tile Types*/
     | 'upcoming-sku'
+    | 'upcoming-sku-time'
     | 'active'
     | 'no-sale'
     /*Product Tile Types */
-    | 'upcoming-product'
+    | 'upcoming-product-time'
     | 'active-listing'
     | 'no-active-listing'
     | '';
@@ -92,7 +93,7 @@ const Tile = ({
             <BottomCardText style={{ textAlign: 'start' }}>
               {bottomLeft}
             </BottomCardText>
-            {status === 'upcoming-sku' && (
+            {status === 'upcoming-sku' && !unique && (
               <BottomCardText>
                 {' '}
                 {supplyType === 'variable' ? null : <>{bottomRight} Dropping</>}
@@ -111,9 +112,8 @@ const Tile = ({
             {status === 'no-sale' && !unique && (
               <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
-            {status === 'active-listing' && (
+            {status === 'active-listing' && !unique && (
               <SerialNum>
-                {/* TODO: check if we are going to use serialNum */}
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -122,7 +122,14 @@ const Tile = ({
             )}
             {status === 'no-active-listing' && !unique && (
               <SerialNum>
-                {/* TODO: check if we are going to use serialNum */}
+                Serial:
+                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                  {bottomRight}
+                </span>
+              </SerialNum>
+            )}
+            {status === 'upcoming-product-time' && !unique && (
+              <SerialNum>
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -132,9 +139,17 @@ const Tile = ({
           </Row>
         </CardContent>
       </StyledCard>
-      {status.split('-')[0] === 'upcoming' && (
+      {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
         <Pill style={{ backgroundColor: 'black' }}>
           <Upcoming>Upcoming</Upcoming>
+        </Pill>
+      )}
+      {status.includes('time') && (
+        <Pill style={{ backgroundColor: 'black' }}>
+          <PillText>Upcoming in:</PillText>
+          <PillInfo style={{ fontSize: '18px' }}>
+            {pillInfo.replaceAll('-', '')}
+          </PillInfo>
         </Pill>
       )}
       {status === 'active-listing' && (
@@ -223,8 +238,8 @@ const PillText = styled.span`
 `;
 
 const PillInfo = styled.span`
-  font-weight: 500;
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 22px;
   line-height: 32px;
   height: 32px;
 `;

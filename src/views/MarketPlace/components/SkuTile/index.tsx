@@ -33,21 +33,22 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
   const skuStartDateTime = new Date(minStartDate || '').getTime();
   const currentTime = new Date().getTime();
 
-  let status: /*SKU Tile Types*/ 'upcoming' | 'active' | 'no-sale' | '' = '';
+  let status: /*SKU Tile Types*/
+  'upcoming-sku' | 'active' | 'no-sale' | 'upcoming-sku-time' | '' = '';
   let skuUpcomingTime = '';
   let bottomRightText: string | number = '';
   let pillInfo: string | number = '';
 
   const checkStatus = () => {
     if (productListings?.length === 0 && skuListings.length === 0) {
-      status = 'upcoming';
+      status = 'upcoming-sku';
       return;
     }
 
-    if (skuStartDateTime > currentTime) {
-      status = 'upcoming';
+    if (totalSupplyLeft === 0 && totalSupplyUpcoming === 0) {
+      status = 'upcoming-sku-time';
       bottomRightText = totalSupplyUpcoming;
-      skuUpcomingTime = formatCountdown(minStartDate || new Date());
+      skuUpcomingTime = formatCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
     } else if (totalSupplyLeft > 0) {

@@ -68,7 +68,7 @@ const ProductDetails = ({ product }: Props) => {
             <S.SkuInfo color="#7c7c7c">
               {product?.sku?.maxSupply === 1
                 ? '1 of 1'
-                : `${product?.sku?.circulatingSupply} released`}
+                : `${product?.totalSupply} released`}
             </S.SkuInfo>
           )}
 

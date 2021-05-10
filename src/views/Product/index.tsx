@@ -28,6 +28,7 @@ const Product = ({}) => {
     fetchData();
   }, []);
 
+  console.log('product', product);
   if (product === null) {
     return <PageLoader />;
   }

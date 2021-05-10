@@ -38,11 +38,15 @@ export const getProductCollectors = async (
   return response.data;
 };
 
-export const getSingleProduct = async (productId: string) => {
+export const getSingleProduct = async (
+  productId: string,
+  includeFunctions = true
+) => {
   try {
     const res = await axiosInstance.request({
       method: 'GET',
       url: `/products/${productId}`,
+      params: { includeFunctions },
     });
     return res;
   } catch (err) {

@@ -24,4 +24,5 @@ export interface ProductWithFunctions {
   expiredProductListings: Listing[];
   soldProductListings: Listing[];
   upcomingProductListings: Listing[];
+  totalSupply: number;
 }

@@ -11,7 +11,7 @@ interface Props {
 
 const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
   let status: /*Product Tile Types */
-  'active-listing' | 'no-active-listing' | 'upcoming' | '' = '';
+  'active-listing' | 'no-active-listing' | 'upcoming-product-time' | '' = '';
   const history = useHistory();
   const { sku } = product;
   let pillInfo = '';
@@ -21,14 +21,14 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
 
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
-      status = 'upcoming';
+      status = 'upcoming-product-time';
       pillInfo = formatCountdown(
         new Date(product?.upcomingProductListings[0]?.startDate)
       );
       return status;
     } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
-      pillInfo = product?.listing.price;
+      pillInfo = product?.activeProductListings[0].price;
       return status;
     } else if (
       product?.activeProductListings.length === 0 &&
