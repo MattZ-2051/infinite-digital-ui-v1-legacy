@@ -31,7 +31,7 @@ interface Props {
   unique: boolean;
   handleRedirect: () => void;
   supplyType: string;
-  theme: 'light' | 'dark';
+  themeStyle: 'light' | 'dark';
 }
 
 const Tile = ({
@@ -46,7 +46,7 @@ const Tile = ({
   redeemable,
   pillInfo,
   unique,
-  theme,
+  themeStyle,
   handleRedirect,
   supplyType,
 }: Props): JSX.Element => {

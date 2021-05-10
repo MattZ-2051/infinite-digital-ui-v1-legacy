@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { FlexColumn, FlexRow } from 'components/Layout';
+import { ViewContainer } from 'components/Layout/Container/ViewContainer';
 import { Image, BackgroundImageContainer } from 'components/Image';
 import { TextContainer, GradientText } from '../../components/Text';
 import { User } from 'entities/user';
@@ -72,7 +73,7 @@ const Collection = (): JSX.Element => {
   if (user === null) return <h1>Loading</h1>;
 
   return (
-    <Container>
+    <ViewContainer>
       <BackgroundImageContainer
         src={bannerPhotoUrl}
         styles={{
@@ -126,7 +127,7 @@ const Collection = (): JSX.Element => {
           </TextContainer>
         </FlexColumn>
       </Container>
-    </Container>
+    </ViewContainer>
   );
 };
 
@@ -136,7 +137,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   width: 100%;
 
   > * {

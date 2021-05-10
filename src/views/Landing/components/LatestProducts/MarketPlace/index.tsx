@@ -8,7 +8,7 @@ import SkuTile from 'views/MarketPlace/components/SkuTile';
 const MarketPlace = (): JSX.Element => {
   // const { listings } = useAppSelector((state) => state.listings);
   const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [themeStyle, setTheme] = useState<'light' | 'dark'>('light');
 
   async function fetchProducts() {
     const skuTiles = await getFeaturedSkuTiles();
@@ -33,7 +33,7 @@ const MarketPlace = (): JSX.Element => {
             if (index >= 16) return null;
             return (
               <TileContainer key={index} index={index}>
-                <SkuTile sku={el} key={index} theme={theme} />
+                <SkuTile sku={el} key={index} themeStyle={themeStyle} />
               </TileContainer>
             );
           })}

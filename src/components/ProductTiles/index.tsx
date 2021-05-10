@@ -35,7 +35,7 @@ export const RedeemIcon = styled.img`
   position: absolute;
   width: 40px;
   right: 5%;
-  top 2%;
+  top: 2%;
 `;
 
 export default Title;

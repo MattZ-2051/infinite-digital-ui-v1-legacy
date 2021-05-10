@@ -19,7 +19,7 @@ interface IProps {
 
 const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
   const history = useHistory();
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [userItems, setUserItems] = useState<
@@ -80,7 +80,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   // TODO: REVIEW
   const placeHolderFunc = () => null;
   return (
-    <Container theme={theme}>
+    <Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
         <>
           <div style={{ position: 'relative', paddingBottom: '30px' }}>
@@ -93,7 +93,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             >
               <TabBar>
                 <Tab
-                  theme={theme}
+                  themeStyle={themeStyle}
                   selected={selectedTab === 0}
                   onClick={() => setSelectedTab(0)}
                 >
@@ -123,7 +123,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <TabBar>
                 <Tab
                   selected={selectedTab === 0}
-                  theme={theme}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   My Releases
@@ -131,7 +131,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
                   selected={selectedTab === 1}
-                  theme={theme}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(1)}
                 >
                   My Items
@@ -144,11 +144,15 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             <Releases
               userReleases={userReleases}
               collection={true}
-              theme={theme}
+              themeStyle={themeStyle}
             />
           )}
           {selectedTab === 1 && (
-            <Items userItems={userItems} collection={true} theme={theme} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
@@ -165,7 +169,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <TabBar>
                 <Tab
                   selected={selectedTab === 0}
-                  theme={theme}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   Releases
@@ -173,7 +177,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
                   selected={selectedTab === 1}
-                  theme={theme}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(1)}
                 >
                   Items
@@ -187,7 +191,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             <Releases
               userReleases={userReleases}
               collection={true}
-              theme={theme}
+              themeStyle={themeStyle}
             />
           )}
           {selectedTab === 1 && (
@@ -208,7 +212,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <TabBar>
                 <Tab
                   selected={selectedTab === 0}
-                  theme={theme}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   Items
@@ -228,12 +232,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   );
 };
 
-const Container = styled.div<{ theme?: 'light' | 'dark' }>`
-  background-color: ${({ theme }) => (theme === 'dark' ? 'black' : 'white')};
-  color: ${({ theme }) => (theme === 'dark' ? 'white' : 'black')};
+const Container = styled.div<{ themeStyle?: 'light' | 'dark' }>`
+  background-color: ${({ themeStyle }) =>
+    themeStyle === 'dark' ? 'black' : 'white'};
+  color: ${({ themeStyle }) => (themeStyle === 'dark' ? 'white' : 'black')};
   width: 100%;
   padding: 40px;
-  height: 100vh;
 `;
 
 const GrayLine = styled.div`
@@ -247,19 +251,20 @@ const TabBar = styled.div`
   flex-direction: row;
 `;
 
-const Tab = styled.div<{ selected: boolean; theme?: 'light' | 'dark' }>`
-  background-color: ${({ theme }) => (theme === 'dark' ? 'black' : 'white')};
-  color: ${({ theme, selected }) =>
-    theme === 'dark'
+const Tab = styled.div<{ selected: boolean; themeStyle?: 'light' | 'dark' }>`
+  background-color: ${({ themeStyle }) =>
+    themeStyle === 'dark' ? 'black' : 'white'};
+  color: ${({ themeStyle, selected }) =>
+    themeStyle === 'dark'
       ? selected
         ? 'white'
         : 'white'
       : selected
       ? 'black'
       : '#9e9e9e'};
-  border-bottom: ${({ theme, selected }) =>
+  border-bottom: ${({ themeStyle, selected }) =>
     selected
-      ? theme === 'dark'
+      ? themeStyle === 'dark'
         ? '2px solid white'
         : '2px solid black'
       : 'none'};
