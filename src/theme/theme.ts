@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { mediaQueries, Devices } from './media';
+import { mediaQueries, deviceSizes, Devices } from './media';
 
 interface Palette {
   main: string;
@@ -12,6 +12,7 @@ interface CommonPalette {
 }
 
 interface Theme extends DefaultTheme {
+  devices: Devices;
   mediaQueries: Devices;
   borderRadius: string;
   palette: {
@@ -22,6 +23,7 @@ interface Theme extends DefaultTheme {
 }
 
 export const theme: Theme = {
+  devices: deviceSizes,
   mediaQueries,
   borderRadius: '4px',
   palette: {

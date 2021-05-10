@@ -6,18 +6,18 @@ export interface Devices {
   xl: string;
 }
 
-const size: Devices = {
+export const deviceSizes: Devices = {
   xs: '0px',
   sm: '600px',
   md: '960px',
-  lg: '1280px',
+  lg: '1440px',
   xl: '1920px',
 };
 
 export const mediaQueries: Devices = {
-  xs: `@media (min-width: ${size.xs})`,
-  sm: `@media (min-width: ${size.sm})`,
-  md: `@media (min-width: ${size.md})`,
-  lg: `@media (min-width: ${size.lg})`,
-  xl: `@media (min-width: ${size.xl})`,
+  xs: `@media (min-width: ${deviceSizes.xs})`,
+  sm: `@media (min-width: ${deviceSizes.sm})`,
+  md: `@media (min-width: ${deviceSizes.md})`,
+  lg: `@media (min-width: ${deviceSizes.lg})`,
+  xl: `@media (min-width: ${deviceSizes.xl})`,
 };
