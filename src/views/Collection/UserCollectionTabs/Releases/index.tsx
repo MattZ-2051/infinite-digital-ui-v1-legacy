@@ -28,7 +28,7 @@ const Releases = ({
   );
 };
 
-const TileContainer = styled.div<{ index: number }>`
+const TileContainer = styled.div<{ index: number; theme }>`
   padding: 0 20px;
   padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
 `;

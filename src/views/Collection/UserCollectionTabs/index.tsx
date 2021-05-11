@@ -258,20 +258,22 @@ const Tab = styled.div<{
   themeStyle?: 'light' | 'dark';
 }>`
   background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.dark.main : theme.palette.light.main};
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
   color: ${({ themeStyle, theme, selected }) =>
     themeStyle === 'dark'
       ? selected
-        ? theme.palette.dark.secondary
+        ? theme.palette.dark.baseComplement
         : theme.palette.dark.greyText
       : selected
-      ? theme.palette.light.secondary
+      ? theme.palette.light.baseComplement
       : theme.palette.light.greyText};
   border-bottom: ${({ themeStyle, theme, selected }) =>
     selected
       ? themeStyle === 'dark'
-        ? '2px solid ' + theme.palette.dark.secondary
-        : '2px solid ' + theme.palette.light.secondary
+        ? '2px solid ' + theme.palette.dark.baseComplement
+        : '2px solid ' + theme.palette.light.baseComplement
       : 'none'};
   font-weight: 600;
   font-size: 22px;

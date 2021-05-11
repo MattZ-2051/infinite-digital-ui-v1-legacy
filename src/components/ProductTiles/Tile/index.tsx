@@ -52,7 +52,7 @@ const Tile = ({
 }: Props): JSX.Element => {
   return (
     <CardContainer onClick={handleRedirect}>
-      <StyledCard>
+      <StyledCard themeStyle={themeStyle}>
         {redeemable ? (
           <RedeemIcon src={redeemIcon} style={{ position: 'absolute' }} />
         ) : null}
@@ -74,13 +74,7 @@ const Tile = ({
           <CardImg src={skuImg || productImg} alt="" />
         )}
 
-        <CardContent
-          style={{
-            backgroundColor: 'white',
-            borderRadius: '20px',
-            paddingTop: '10px',
-          }}
-        >
+        <StyledCardContent themeStyle={themeStyle}>
           <Row>
             <IssuerName style={{ fontSize: '16px' }}>
               {topLeft?.length > 15 ? `${topLeft?.slice(0, 15)}...` : topLeft}
@@ -133,7 +127,7 @@ const Tile = ({
               </SerialNum>
             )}
           </Row>
-        </CardContent>
+        </StyledCardContent>
       </StyledCard>
       {status.split('-')[0] === 'upcoming' && (
         <Pill style={{ backgroundColor: 'black' }}>
@@ -167,6 +161,20 @@ const Tile = ({
   );
 };
 
+const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
+  background-color: 'white';
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.secondaryMain
+      : theme.palette.light.secondaryMain};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.secondaryComplement
+      : theme.palette.light.secondaryComplement};
+  border-radius: '20px';
+  padding-top: '10px';
+`;
+
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
@@ -179,7 +187,7 @@ const CardContainer = styled.div`
 
 const NotForSale = styled.span`
   font-weight: 500;
-  backgound-color: #e5e5e5;
+  background-color: #e5e5e5;
   margin: auto;
   color: #9e9e9e;
   font-size: 24px;

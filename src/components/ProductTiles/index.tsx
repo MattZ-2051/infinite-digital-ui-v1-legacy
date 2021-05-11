@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import CardMedia from '@material-ui/core/CardMedia';
 import Title from './Tile';
 
-export const StyledCard = styled(Card)`
+export const StyledCard = styled(Card)<{ themeStyle; theme }>`
   max-width: 302px;
   min-width: 302px;
   height: 430px;

@@ -2,8 +2,10 @@ import { DefaultTheme } from 'styled-components';
 import { mediaQueries, deviceSizes, Devices } from './media';
 
 interface Palette {
-  main: string;
-  secondary: string;
+  baseMain: string;
+  baseComplement: string;
+  secondaryMain: string;
+  secondaryComplement: string;
   greyText: string;
   contrastText: string;
 }
@@ -34,14 +36,18 @@ export const theme: Theme = {
       white: '#ffffff',
     },
     light: {
-      main: 'white',
-      secondary: 'black',
+      baseMain: 'white',
+      baseComplement: 'black',
+      secondaryMain: 'white',
+      secondaryComplement: 'black',
       greyText: 'grey',
       contrastText: 'orange',
     },
     dark: {
-      main: 'black',
-      secondary: 'white',
+      baseMain: 'black',
+      baseComplement: 'white',
+      secondaryMain: '#1C1C1C',
+      secondaryComplement: 'white',
       greyText: 'grey',
       contrastText: 'orange',
     },
