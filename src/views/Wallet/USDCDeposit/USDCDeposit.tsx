@@ -7,7 +7,7 @@ import etherscanService, {
   CHAIN_ID,
 } from 'services/api/etherscan/etherscan.service';
 import { S as StylesFromCreditCard } from '../AddCC/styles';
-import { S as StylesFromWallet } from '../index';
+import { ActionButton } from '../styles';
 import { PulseLoader } from 'react-spinners';
 
 interface IUSDCDepositProps {
@@ -67,9 +67,9 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
       <div style={{ textAlign: 'center' }}>
         <p>
           {!buttonDisabled && (
-            <StylesFromWallet.ActionButton onClick={getUSDCAddress}>
+            <ActionButton onClick={getUSDCAddress}>
               Generate USDC Address
-            </StylesFromWallet.ActionButton>
+            </ActionButton>
           )}
         </p>
         <p>
