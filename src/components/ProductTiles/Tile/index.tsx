@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
 import Rarity from 'components/Rarity';
 import { Sku } from 'entities/sku';
+import Emoji from 'components/Emoji';
 
 interface Props {
   sku: Sku;
@@ -97,6 +98,7 @@ const Tile = ({
             )}
             {unique && (
               <BottomCardText style={{ color: '#ff0000' }}>
+                <Emoji label="fire" symbol="🔥" />
                 Unique Item!
               </BottomCardText>
             )}
@@ -130,30 +132,30 @@ const Tile = ({
         </StyledCardContent>
       </StyledCard>
       {status.split('-')[0] === 'upcoming' && (
-        <Pill style={{ backgroundColor: 'black' }}>
+        <Pill themeStyle={themeStyle} active={true}>
           <PillText>Upcoming in:</PillText>
           <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
         </Pill>
       )}
       {status === 'active-listing' && (
-        <Pill style={{ backgroundColor: 'black' }}>
+        <Pill themeStyle={themeStyle} active={true}>
           <PillText>Current Price:</PillText>
           <PillInfo>${pillInfo}</PillInfo>
         </Pill>
       )}
       {status === 'active' && (
-        <Pill style={{ backgroundColor: 'black' }}>
+        <Pill themeStyle={themeStyle} active={true}>
           <PillText> Lowest Price:</PillText>
           <PillInfo>${pillInfo}</PillInfo>
         </Pill>
       )}
       {status === 'no-sale' && (
-        <Pill style={{ backgroundColor: '#e5e5e5' }}>
+        <Pill themeStyle={themeStyle} active={false}>
           <NotForSale>No one selling</NotForSale>
         </Pill>
       )}
       {status === 'no-active-listing' && (
-        <Pill style={{ backgroundColor: '#e5e5e5' }}>
+        <Pill themeStyle={themeStyle} active={false}>
           <NotForSale>Not for sale</NotForSale>
         </Pill>
       )}
@@ -162,7 +164,6 @@ const Tile = ({
 };
 
 const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
-  background-color: 'white';
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
       ? theme.palette.dark.secondaryMain
@@ -171,8 +172,9 @@ const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
     themeStyle === 'dark'
       ? theme.palette.dark.secondaryComplement
       : theme.palette.light.secondaryComplement};
-  border-radius: '20px';
-  padding-top: '10px';
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-top: 10px;
 `;
 
 const CardContainer = styled.div`
@@ -187,9 +189,7 @@ const CardContainer = styled.div`
 
 const NotForSale = styled.span`
   font-weight: 500;
-  background-color: #e5e5e5;
   margin: auto;
-  color: #9e9e9e;
   font-size: 24px;
   line-height: 32px;
   height: 32px;
@@ -203,7 +203,23 @@ const SerialNum = styled.p`
   color: #9e9e9e;
 `;
 
-const Pill = styled.div`
+const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
+  background-color: ${({ themeStyle, theme, active }) =>
+    themeStyle === 'dark'
+      ? active
+        ? theme.palette.dark.accentMain
+        : theme.palette.dark.baseMain
+      : active
+      ? theme.palette.light.accentMain
+      : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme, active }) =>
+    themeStyle === 'dark'
+      ? active
+        ? theme.palette.dark.accentComplement
+        : theme.palette.dark.secondaryComplement
+      : active
+      ? theme.palette.light.accentComplement
+      : theme.palette.light.secondaryComplement};
   position: relative;
   width: 270px;
   height: 56px;
@@ -225,7 +241,7 @@ const PillText = styled.span`
 `;
 
 const PillInfo = styled.span`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 24px;
   line-height: 32px;
   height: 32px;

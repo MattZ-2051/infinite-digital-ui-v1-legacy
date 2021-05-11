@@ -6,6 +6,8 @@ interface Palette {
   baseComplement: string;
   secondaryMain: string;
   secondaryComplement: string;
+  accentMain: string;
+  accentComplement: string;
   greyText: string;
   contrastText: string;
 }
@@ -40,6 +42,8 @@ export const theme: Theme = {
       baseComplement: 'black',
       secondaryMain: 'white',
       secondaryComplement: 'black',
+      accentMain: '#EFEFEF',
+      accentComplement: '#9E9E9E',
       greyText: 'grey',
       contrastText: 'orange',
     },
@@ -48,6 +52,8 @@ export const theme: Theme = {
       baseComplement: 'white',
       secondaryMain: '#1C1C1C',
       secondaryComplement: 'white',
+      accentMain: '#2D2D2D',
+      accentComplement: 'white',
       greyText: 'grey',
       contrastText: 'orange',
     },
