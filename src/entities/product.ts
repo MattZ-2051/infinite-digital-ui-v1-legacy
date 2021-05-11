@@ -25,4 +25,10 @@ export interface ProductWithFunctions {
   soldProductListings: Listing[];
   upcomingProductListings: Listing[];
   totalSupply: number;
+  circulatingSupply?: number;
+  minSkuPrice: number;
+  resaleBuyersFeePercentage: number;
+  resaleSellersFeePercentage: number;
+  royaltyFeePercentage: number;
+  totalSupplyLeft: number;
 }

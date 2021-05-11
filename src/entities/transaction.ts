@@ -14,7 +14,8 @@ export interface ITransaction {
     | 'redeem'
     | 'sale'
     | 'nft_transfer'
-    | 'withdrawal';
+    | 'withdrawal'
+    | 'nft_transfer_manual';
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;

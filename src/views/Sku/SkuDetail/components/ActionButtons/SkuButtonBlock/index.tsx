@@ -9,6 +9,7 @@ import { Listing } from 'entities/listing';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
 import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
+import { useAppSelector } from 'store/hooks';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -84,7 +85,10 @@ const FromCreatorBox = ({
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-  const hasFunds = price ? user.availableBalance >= price : false;
+  const userBalance = useAppSelector(
+    (state) => state.session.userCards.balance.amount
+  );
+  const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
   const handleBuyNowClick = () => {

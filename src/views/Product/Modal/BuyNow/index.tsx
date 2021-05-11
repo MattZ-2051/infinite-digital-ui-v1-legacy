@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
-import { Sku } from 'entities/sku';
-import { User } from 'entities/user';
-import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useHistory, Link } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
@@ -14,6 +11,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
+import { ProductWithFunctions } from 'entities/product';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -21,20 +19,16 @@ interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
   mode: Modes;
-  sku: Sku;
-  user?: User;
-  listing?: Listing;
+  product: ProductWithFunctions;
   serialNum?: string;
 }
 
-const SkuPageModal = ({
+const BuyNowModal = ({
   visible,
   setModalPaymentVisible,
   mode,
-  sku: product,
-  user,
+  product,
   serialNum,
-  listing,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
@@ -42,10 +36,10 @@ const SkuPageModal = ({
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
 
   const loggedInUser = useAppSelector((state) => state.session.user);
-  const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.userCards.balance.amount
   );
+  const history = useHistory();
 
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
@@ -56,15 +50,19 @@ const SkuPageModal = ({
       Toast.error(purchase.termsError);
       return;
     }
-    if (listing) {
+    if (product.listing) {
       setLoading(true);
       const userToken = await getAccessTokenSilently();
       try {
-        const result = await patchListingsPurchase(userToken, listing._id);
+        const result = await patchListingsPurchase(
+          userToken,
+          product.listing._id
+        );
         // TODO: Check payment
         if (result) {
-          setStatusMode('processing');
+          // setStatusMode('processing');
           Toast.success(purchase.patchListingsPurchaseProcessing);
+          setModalPaymentVisible(false);
         }
         setLoading(false);
       } catch (e) {
@@ -119,7 +117,7 @@ const SkuPageModal = ({
             )}
             {statusMode === 'noFunds' && (
               <>
-                <div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <img src={alertIcon} alt="" />{' '}
                   <S.Title>Whoops, Insuficient funds!</S.Title>
                 </div>
@@ -143,16 +141,16 @@ const SkuPageModal = ({
           </S.Header>
           <S.SkuInfo>
             <S.FlexRow>
-              <S.IssuerName>{product.issuerName}</S.IssuerName>
-              <Rarity type={product.rarity} />
+              <S.IssuerName>{product?.sku?.issuerName}</S.IssuerName>
+              <Rarity type={product?.sku?.rarity} />
             </S.FlexRow>
-            <S.SkuName>{product.name}</S.SkuName>
+            <S.SkuName>{product?.sku?.name}</S.SkuName>
             <S.FlexRow>
-              <S.SeriesName>{product?.series?.name}</S.SeriesName>
+              <S.SeriesName>{product?.sku?.series?.name}</S.SeriesName>
               {serialNum && (
-                <div>
-                  <S.SerialName>Serial</S.SerialName>
-                  <S.SeriesName>{serialNum}</S.SeriesName>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <S.SerialNum>Serial:</S.SerialNum>
+                  <S.SeriesName>#{serialNum}</S.SeriesName>
                 </div>
               )}
             </S.FlexRow>
@@ -160,15 +158,15 @@ const SkuPageModal = ({
           <S.SkuInfo>
             <S.FlexRow>
               <S.PriceInfo>Seller Price:</S.PriceInfo>
-              <S.PriceInfo>${product.minSkuPrice.toFixed(2)}</S.PriceInfo>
+              <S.PriceInfo>${product.listing.price.toFixed(2)}</S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
-              <S.PriceInfo>{`Marketplace Fee (${product?.sellerTransactionFeePercentage}%):`}</S.PriceInfo>
+              <S.PriceInfo>{`Marketplace Fee (${product?.sku.sellerTransactionFeePercentage}%):`}</S.PriceInfo>
               <S.PriceInfo>
                 $
                 {(
-                  product.minSkuPrice *
-                  (product.sellerTransactionFeePercentage / 100)
+                  product.listing.price *
+                  (product.sku.sellerTransactionFeePercentage / 100)
                 ).toFixed(2)}
               </S.PriceInfo>
             </S.FlexRow>
@@ -178,9 +176,9 @@ const SkuPageModal = ({
             <S.Total>
               $
               {(
-                product.minSkuPrice +
-                product.minSkuPrice *
-                  (product.sellerTransactionFeePercentage / 100)
+                product.listing.price +
+                product.listing.price *
+                  (product.sku.sellerTransactionFeePercentage / 100)
               ).toFixed(2)}
             </S.Total>
           </S.FlexRow>
@@ -251,4 +249,4 @@ const SkuPageModal = ({
   );
 };
 
-export default SkuPageModal;
+export default BuyNowModal;

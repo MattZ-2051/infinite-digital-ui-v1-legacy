@@ -46,7 +46,7 @@ const Transaction = ({ transaction }: Props) => {
               <S.Amount>Minted</S.Amount>
             </S.FlexDiv>
           )}
-          {transaction.type === 'nft_transfer' && (
+          {transaction.type === 'nft_transfer_manual' && (
             <S.FlexDiv>
               <S.Amount>Recieved Transfer</S.Amount>
             </S.FlexDiv>
@@ -68,7 +68,7 @@ const Transaction = ({ transaction }: Props) => {
       >
         {showLink && (
           <div>
-            <S.ToolTip title="Testing">Testing</S.ToolTip>
+            <S.ToolTip></S.ToolTip>
             <S.ToolTipText onClick={handleTransactionLink}>
               {transaction.transactionData?.explorerLink}
             </S.ToolTipText>

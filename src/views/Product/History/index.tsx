@@ -11,6 +11,7 @@ import CreateSale from '../Modal/CreateSale';
 import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 import { useHistory } from 'react-router-dom';
+import BuyNowModal from '../Modal/BuyNow';
 
 const S: any = {};
 
@@ -32,9 +33,16 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = useAppSelector((state) => state.session.user);
+  const userBalance = useAppSelector(
+    (state) => state.session.userCards.balance.amount
+  );
+  const price = product?.listing.price;
+  const hasFunds = price ? userBalance >= price : false;
+  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
   let status: Status = '';
-  const loggedInUser = useAppSelector((state) => state.session.user.id);
+  const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
     history.push(`/collection/${product?.owner.id}`);
@@ -57,35 +65,40 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   if (isAuthenticated) {
-    if (loggedInUser.id === product?.owner.id && !product?.listing.canceled) {
+    if (
+      loggedInUser.id === product?.owner._id &&
+      product?.activeProductListings?.length === 0
+    ) {
       status = 'create-sale';
+      console.log('1');
     } else if (
-      loggedInUser.id === product?.owner.id &&
-      product?.listing.canceled
+      loggedInUser.id === product?.owner._id &&
+      product?.activeProductListings?.length !== 0
     ) {
       status = 'active-sale';
+      console.log('2');
     } else if (
-      loggedInUser.id !== product?.owner.id &&
-      !product?.listing.canceled
+      loggedInUser.id !== product?.owner._id &&
+      product?.activeProductListings?.length === 0
     ) {
       status = 'upcoming';
+      console.log('3');
     } else if (
-      loggedInUser.id !== product?.owner.id &&
-      product?.listing.canceled
+      loggedInUser.id !== product?.owner._id &&
+      product?.activeProductListings?.length !== 0
     ) {
       status = 'buy-now';
+      console.log('4');
     }
   } else {
-    if (product?.listing.canceled) {
+    // check if listing products obj in arr is equal to owner id
+    // check if listing.issuer is equal to owner Id for upcoming to
+    if (product?.activeProductListings?.length !== 0) {
       status = 'buy-now';
-    } else if (!product?.listing.canceled) {
+    } else if (product?.activeProductListings?.length === 0) {
       status = 'upcoming';
     }
   }
-  const hasFunds = product?.sku.minPrice
-    ? loggedInUser.availableBalance >= product?.sku.minPrice
-    : false;
-  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
   return (
     <>
@@ -153,7 +166,9 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           {status === 'active-sale' && (
             <div style={{ paddingRight: '80px' }}>
               <S.FlexColumn>
-                <S.ActiveAmount>${'1400'}</S.ActiveAmount>
+                <S.ActiveAmount>
+                  ${product?.activeProductListings[0]?.price}
+                </S.ActiveAmount>
                 <div style={{ display: 'flex' }}>
                   <S.StatusText>Status:</S.StatusText>
                   <S.ActiveText>active</S.ActiveText>
@@ -169,13 +184,23 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         <S.TransactionHistory>
           {transactionHistory instanceof Array &&
             transactionHistory.map((transaction) => {
-              return (
-                <Transaction key={transaction._id} transaction={transaction} />
-              );
+              if (
+                transaction.type !==
+                ('nft_transfer_manual' || 'nft_mint' || 'purchase')
+              ) {
+                return null;
+              } else {
+                return (
+                  <Transaction
+                    key={transaction._id}
+                    transaction={transaction}
+                  />
+                );
+              }
             })}
         </S.TransactionHistory>
       </S.Container>
-      {product && status !== 'create-sale' && (
+      {/* {product && status !== ('create-sale' || 'buy-now') && (
         <ModalPayment
           visible={isModalOpen}
           setModalPaymentVisible={setIsModalOpen}
@@ -184,12 +209,21 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           status={status}
           activeAmount={1400}
         />
-      )}
+      )} */}
       {product && status === 'create-sale' && (
         <CreateSale
           visible={isModalOpen}
           setModalPaymentVisible={setIsModalOpen}
           product={product}
+        />
+      )}
+      {product && status === 'buy-now' && (
+        <BuyNowModal
+          setModalPaymentVisible={setIsModalOpen}
+          product={product}
+          serialNum={product.serialNumber}
+          visible={isModalOpen}
+          mode={modalMode}
         />
       )}
     </>
@@ -278,7 +312,7 @@ S.ProductId = styled.span`
 
 S.TransactionHistory = styled.div`
   overflow: hidden;
-  height: 100%;
+  height: 80%;
   overflow-x: hidden;
   padding-right: 80px;
 

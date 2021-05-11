@@ -1,6 +1,7 @@
 import { Listing } from 'entities/listing';
 import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../coreService';
+import { ProductWithFunctions } from 'entities/product';
 
 export const getListings = async (
   token: string
@@ -29,9 +30,9 @@ export const patchListingsPurchase = async (
 
 export const postListings = async (
   token: string,
-  product: Listing
+  body: any
 ): Promise<AxiosResponse<void>> => {
-  const response = await axiosInstance.post('/listings', product, {
+  const response = await axiosInstance.post('/listings', body, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response;

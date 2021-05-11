@@ -9,6 +9,7 @@ import Button from 'components/Buttons/Button';
 import TextFIeld from 'components/TextFIeld';
 import CheckBox from 'components/CheckBox';
 import { Status } from '../History';
+import Rarity from 'components/Rarity';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds';
 
@@ -51,13 +52,15 @@ const ModalPayment = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      <S.ImageContainer>
+      {/* <S.ImageContainer>
         <img src={sku.imageUrls[0]} alt="" />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
-      </S.ImageContainer>
-
+      </S.ImageContainer> */}
+      <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+        <CloseModal style={{ cursor: 'pointer' }} />
+      </S.CloseButton>
       <S.Header>
         <S.Title>Confirm your bid:</S.Title>
         <S.SubTitle style={{ color: '#12C95F' }}>
@@ -70,9 +73,7 @@ const ModalPayment = ({
         <S.Detail>
           <S.DetailRow>
             <span style={{ color: '#9E9E9E' }}>Shoes</span>
-            <S.Rarity>
-              <span></span> {sku.rarity}
-            </S.Rarity>
+            <Rarity type={sku.rarity} />
           </S.DetailRow>
 
           <S.DetailRow style={{ fontSize: '20px' }}>

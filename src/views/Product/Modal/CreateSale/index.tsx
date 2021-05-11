@@ -10,6 +10,7 @@ import { postListings } from 'services/api/listingService';
 import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
+import Rarity from 'components/Rarity';
 
 export interface IModalProps {
   visible: boolean;
@@ -23,7 +24,7 @@ const CreateSale = ({
   product,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
-  const [price, setPrice] = useState<number>();
+  const [price, setPrice] = useState<string>('0');
   const [serviceFee, setServiceFee] = useState<number>();
   const [royaltyFee, setRoyaltyFee] = useState<number>();
   const [total, setTotal] = useState<number>();
@@ -32,24 +33,32 @@ const CreateSale = ({
   useEffect(() => {
     if (price) {
       const serviceFee =
-        ((product?.sku?.sellerTransactionFeePercentage || 0) * price) / 100;
+        ((product?.sku?.sellerTransactionFeePercentage || 0) *
+          parseInt(price, 10)) /
+        100;
       const royaltyFee =
-        ((product?.sku?.royaltyFeePercentage || 0) * price) / 100;
+        ((product?.sku?.royaltyFeePercentage || 0) * parseInt(price, 10)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
-      setTotal(price - serviceFee - royaltyFee);
+      setTotal(parseInt(price, 10) - serviceFee - royaltyFee);
     }
   }, [price]);
 
   const startSale = async () => {
     setLoading(true);
+    console.log(price);
+    console.log(typeof price);
     const userToken = await getAccessTokenSilently();
     try {
       const result = await postListings(userToken, {
-        ...product.listing,
-        price: price || 0,
+        price: parseInt(price, 10) || 0,
         type: 'product',
         product: product?._id,
+        saleType: 'fixed',
+        startDate: new Date(),
+        issuer: product?.owner?._id,
+        sku: product.sku,
+        supply: 1,
       });
       if (result) {
         Toast.success(createSale.success);
@@ -69,13 +78,15 @@ const CreateSale = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      <S.ImageContainer>
+      {/* <S.ImageContainer>
         <img src={product?.sku?.imageUrls[0]} alt="" />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal />
         </S.CloseButton>
-      </S.ImageContainer>
-
+      </S.ImageContainer> */}
+      <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+        <CloseModal />
+      </S.CloseButton>
       <S.Header>
         <S.Title>Create Sale</S.Title>
         <S.SubTitle>
@@ -89,9 +100,7 @@ const CreateSale = ({
         <S.Detail>
           <S.DetailRow>
             <span>{product?.sku?.issuerName}</span>
-            <S.Rarity>
-              <span></span> {product?.sku?.rarity}
-            </S.Rarity>
+            <Rarity type={product?.sku?.rarity} />
           </S.DetailRow>
 
           <S.DetailRow style={{ fontSize: '20px' }}>

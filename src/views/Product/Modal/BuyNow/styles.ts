@@ -68,6 +68,7 @@ S.SerialNum = styled.p`
   color: #9e9e9e;
   font-weight: 600;
   padding-top: 16px;
+  padding-right: 10px;
 `;
 
 S.Body = styled.div`
