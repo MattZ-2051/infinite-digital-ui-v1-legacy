@@ -7,7 +7,6 @@ export interface ITransaction {
     | 'deposit'
     | 'transfer'
     | 'mint'
-    | 'nft_mint'
     | 'topup'
     | 'purchase'
     | 'payment'
@@ -15,7 +14,8 @@ export interface ITransaction {
     | 'sale'
     | 'nft_transfer'
     | 'withdrawal'
-    | 'nft_transfer_manual';
+    | 'nft_transfer_manual'
+    | 'nft_mint';
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;
