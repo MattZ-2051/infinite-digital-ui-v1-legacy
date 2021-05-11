@@ -58,11 +58,12 @@ const BuyNowModal = ({
           userToken,
           product.listing._id
         );
+
+        console.log('res', result);
         // TODO: Check payment
         if (result) {
-          // setStatusMode('processing');
-          Toast.success(purchase.patchListingsPurchaseProcessing);
-          setModalPaymentVisible(false);
+          setStatusMode('completed');
+          Toast.success('Purchase Successful!');
         }
         setLoading(false);
       } catch (e) {
@@ -136,6 +137,14 @@ const BuyNowModal = ({
                 <S.SubTitle style={{ color: '#7d7d7d' }}>
                   We will notify you when complete
                 </S.SubTitle>
+              </>
+            )}
+            {statusMode === 'completed' && (
+              <>
+                <S.Title>
+                  <Emoji symbol="🤘" />
+                  Yeah Payment Successful!
+                </S.Title>
               </>
             )}
           </S.Header>
@@ -227,6 +236,29 @@ const BuyNowModal = ({
                 <S.SubButton onClick={handleWalletRouteChange}>
                   View Pending Transactions
                 </S.SubButton>
+              </div>
+            </div>
+          )}
+          {statusMode === 'completed' && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                paddingTop: '32px',
+              }}
+            >
+              <S.Button disabled={loading} onClick={handleActionButton}>
+                View Your Product
+              </S.Button>
+              <div style={{ marginTop: '20px' }}>
+                <Link
+                  style={{ textDecoration: 'none' }}
+                  to={`/collection/${loggedInUser.id}`}
+                >
+                  Back to Marketplace
+                </Link>
               </div>
             </div>
           )}

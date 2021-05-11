@@ -52,7 +52,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
-      Toast.error(
+      Toast.warning(
         <>
           You need to{' '}
           <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>

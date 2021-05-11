@@ -20,6 +20,7 @@ const AuctionItem = ({
   endDate,
   activeProductListing,
 }: AuctionItemProps): JSX.Element => {
+  console.log('listing', activeProductListing);
   const auctionDetailMsg = !activeProductListing
     ? 'View Details'
     : activeProductListing?.saleType === 'auction'
