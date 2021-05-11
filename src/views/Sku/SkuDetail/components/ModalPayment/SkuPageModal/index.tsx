@@ -94,6 +94,11 @@ const SkuPageModal = ({
   const handleWalletRouteChange = () => {
     history.push(`/wallet/${loggedInUser.username}`);
   };
+
+  const handleTCRouteChange = () => {
+    history.push('/tc');
+  };
+
   const Body = () => {
     return (
       <>
@@ -197,7 +202,9 @@ const SkuPageModal = ({
                 />
               </div>
               <S.Terms>I agree to the </S.Terms>{' '}
-              <S.TermLink to="TC"> Terms and Conditions</S.TermLink>
+              <S.TermLink onClick={handleTCRouteChange}>
+                Terms and Conditions
+              </S.TermLink>
             </S.Center>
           )}
           <S.Center>

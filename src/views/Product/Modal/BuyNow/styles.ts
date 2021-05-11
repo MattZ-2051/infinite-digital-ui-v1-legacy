@@ -146,10 +146,13 @@ S.Text = styled.p`
   padding-top: 12px;
 `;
 
-S.TermLink = styled(Link)`
+S.TermLink = styled.p`
   padding-top: 18px;
   margin: 0;
   font-size: 16px;
+  margin-left: 10px;
+  font-weight: 600;
+  border-bottom: 1px solid black;
 `;
 
 S.Terms = styled.p`
