@@ -21,7 +21,7 @@ export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
   } else {
     // released
     if (sku.totalSupply > 0) {
-      return <>{sku.totalSupplyLeft} released</>;
+      return <>{sku.totalSupply} released</>;
     } else {
       // weird edge case that we're not expecting
       return <></>;

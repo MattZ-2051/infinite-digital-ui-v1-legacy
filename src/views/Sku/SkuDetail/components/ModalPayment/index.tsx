@@ -57,7 +57,7 @@ const ModalPayment = ({
         const result = await patchListingsPurchase(userToken, listing._id);
         // TODO: Check payment
         if (result) {
-          setStatusMode('completed');
+          // setStatusMode('completed');
           Toast.success(purchase.patchListingsPurchaseSuccess);
         }
         setLoading(false);
@@ -159,8 +159,12 @@ const ModalPayment = ({
         <>
           <S.Detail>
             <S.DetailRowPrice>
-              <span>Subtotal:</span>
-              <span>${product.minSkuPrice}</span>
+              <span>Seller Price:</span>
+              <span>$100</span>
+            </S.DetailRowPrice>
+            <S.DetailRowPrice>
+              <span>Service Fee: (5%)</span>
+              <span>$5</span>
             </S.DetailRowPrice>
           </S.Detail>
 
@@ -234,6 +238,7 @@ const ModalPayment = ({
       }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      align="none"
     >
       <Content />
     </Modal>

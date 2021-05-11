@@ -91,7 +91,6 @@ const KycButton = ({
           <S.LearnMore href="#">Learn more</S.LearnMore>
         </ReactTooltip>
         <S.BlockIcon onClick={openClient} data-tip />
-        <S.ArrowDropDownIcon />
         <S.StatusText>Unverified</S.StatusText>
       </S.Container>
     );

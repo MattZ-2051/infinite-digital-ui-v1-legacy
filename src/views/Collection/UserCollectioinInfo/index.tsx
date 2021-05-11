@@ -28,7 +28,7 @@ const UserCollectioinInfo = ({
   let userStatus = '';
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${loggedInUser}`);
+    history.push(`/wallet/${loggedInUser.username}`);
   };
 
   const checkStatus = () => {
@@ -101,8 +101,8 @@ const UserCollectioinInfo = ({
           </S.UsernameIconContainer>
           <S.ButtonContainer>
             <ProfileButton
-              label="My Wallet (Coming Soon)"
-              // TODO: ADD Later - Disable for ARIA MVP - handleClick={handleWalletRedirect}
+              label="My Wallet"
+              handleClick={handleWalletRedirect}
             />
           </S.ButtonContainer>
         </>

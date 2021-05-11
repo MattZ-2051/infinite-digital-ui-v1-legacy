@@ -7,9 +7,10 @@ import { formatCountdown } from 'utils/dates';
 export interface AuctionItemProps {
   serialNumber: string;
   ownerName: string;
-  highestBid: number;
-  endDate: Date;
-  activeProductListing: Listing;
+  highestBid?: number;
+  endDate?: Date;
+  activeProductListing?: Listing;
+  listings: Listing[];
 }
 
 const AuctionItem = ({
@@ -19,17 +20,12 @@ const AuctionItem = ({
   endDate,
   activeProductListing,
 }: AuctionItemProps): JSX.Element => {
-  let auctionDetailMsg = !activeProductListing
-    ? 'Not for sale'
+  console.log('listing', activeProductListing);
+  const auctionDetailMsg = !activeProductListing
+    ? 'View Details'
     : activeProductListing?.saleType === 'auction'
     ? 'Bid for'
     : 'On sale for';
-
-  if (activeProductListing?.status === 'upcoming') {
-    auctionDetailMsg = formatCountdown(
-      new Date(activeProductListing.startDate)
-    );
-  }
 
   return (
     <Container>
@@ -43,31 +39,19 @@ const AuctionItem = ({
       </UserDetail>
 
       <AuctionDetail>
-        {activeProductListing?.status === 'upcoming' && (
-          <span style={{ color: '#9E9E9E' }}>
-            {auctionDetailMsg.replaceAll('-', '')}
+        <div>
+          <span style={{ color: '#9E9E9E', marginRight: '10px' }}>
+            {auctionDetailMsg}
           </span>
-        )}
-        {activeProductListing?.status !== 'upcoming' && (
-          <div>
-            <span style={{ color: '#9E9E9E' }}>{auctionDetailMsg}</span>
-            {activeProductListing && (
-              <>
-                <RightArrow
-                  style={{
-                    marginLeft: '10px',
-                    marginRight: '10px',
-                    height: '10px',
-                  }}
-                />
-                <span
-                  style={{ fontWeight: 'bold', color: 'black' }}
-                >{`$${highestBid}`}</span>{' '}
-              </>
-            )}
-            <br />
-          </div>
-        )}
+          {activeProductListing && (
+            <>
+              <span
+                style={{ fontWeight: 'bold', color: 'black' }}
+              >{`$${highestBid}`}</span>{' '}
+            </>
+          )}
+          <br />
+        </div>
 
         {/*  */}
         {/* <strong style={{ color: 'black' }}>

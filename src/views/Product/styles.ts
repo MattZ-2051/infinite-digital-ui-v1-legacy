@@ -1,7 +1,12 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
+  height: 100vh;
   background-color: #1a1a1a;
+  color: white;
+  display: grid;
+  padding-left: 80px;
+  grid-template-columns: 480px 1fr;
 `;
 
 export const Content = styled.div`

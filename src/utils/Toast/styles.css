@@ -1,12 +1,15 @@
 .Toastify__toast-container {
   left: 0;
   width: 100%;
-  top: 70px;
+  top: 0;
+  padding: 0;
 }
 
 .Toastify__toast {
   color: #000;
   border-radius: 0px;
+  padding: 0;
+  margin: 0;
 }
 
 .Toastify__close-button {
@@ -25,4 +28,8 @@
 
 .Toastify__toast--success {
   background: linear-gradient(89.89deg, #00eb7c 0%, #11d6ec 100%);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(45deg, #ffae12 0%, #f0da16 98.96%);
 }

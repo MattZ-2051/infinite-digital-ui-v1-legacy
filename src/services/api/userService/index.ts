@@ -63,7 +63,7 @@ export const addFundsToUserWallet = async (
     return response.data;
   } catch (err) {
     if (err.response) {
-      throw new Error(err.response.message);
+      throw new Error(err.response.data.message);
     } else if (err.request) {
       /*
        * The request was made but no response was received, `err.request`

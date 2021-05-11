@@ -34,7 +34,8 @@ const TextField = ({
   const inputProps = {
     name,
     placeholder,
-    onchange: handleChange,
+    value: inputValue,
+    onChange: handleChange,
   };
 
   return (
@@ -44,7 +45,7 @@ const TextField = ({
       money: (
         <S.InputMoneyContainer>
           <span>$</span>
-          <S.InputMoney {...inputProps} type="number" />,
+          <S.InputMoney {...inputProps} type="number" />
         </S.InputMoneyContainer>
       ),
     }[type] || <S.Input {...inputProps} type="text" />

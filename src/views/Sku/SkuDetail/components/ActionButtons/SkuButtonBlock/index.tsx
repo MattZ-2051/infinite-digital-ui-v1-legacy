@@ -8,12 +8,20 @@ import { Collector } from 'entities/collector';
 import { Listing } from 'entities/listing';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
-import ModalPayment from '../../ModalPayment';
+import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
+import { useAppSelector } from 'store/hooks';
 
 const NotAvailable = (): JSX.Element => {
   return (
     <Container>
       <h4>Not available</h4>
+    </Container>
+  );
+};
+const ComingSoon = (): JSX.Element => {
+  return (
+    <Container>
+      <h4>Coming soon...</h4>
     </Container>
   );
 };
@@ -77,7 +85,10 @@ const FromCreatorBox = ({
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-  const hasFunds = price ? user.availableBalance >= price : false;
+  const userBalance = useAppSelector(
+    (state) => state.session.userCards?.balance?.amount
+  );
+  const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
 
   const handleBuyNowClick = () => {
@@ -118,7 +129,7 @@ const FromCreatorBox = ({
           {buttonLabel}
         </Button>
       </div>
-      <ModalPayment
+      <SkuPageModal
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}
@@ -349,7 +360,6 @@ const Button = styled.button`
   outline: none;
   font-size: 20px;
   font-weight: 600;
-  font-family: 'josefin-sans';
 `;
 
 export default SkuButtonBlock;

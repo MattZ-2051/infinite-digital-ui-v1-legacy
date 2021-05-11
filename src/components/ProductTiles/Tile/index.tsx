@@ -19,10 +19,11 @@ interface Props {
     | 'unique'
     /*SKU Tile Types*/
     | 'upcoming-sku'
+    | 'upcoming-sku-time'
     | 'active'
     | 'no-sale'
     /*Product Tile Types */
-    | 'upcoming-product'
+    | 'upcoming-product-time'
     | 'active-listing'
     | 'no-active-listing'
     | '';
@@ -64,6 +65,7 @@ const Tile = ({
               height: '240px',
               width: '302px',
               borderRadius: '20px 20px 0 0',
+              objectFit: 'cover',
             }}
             autoPlay={true}
             controls={false}
@@ -83,14 +85,12 @@ const Tile = ({
             <Rarity type={skuRarity} />
           </Row>
 
-          <SkuName>
-            {middle?.length > 17 ? `${middle?.slice(0, 17)}...` : middle}
-          </SkuName>
+          <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <BottomCardText style={{ textAlign: 'start' }}>
-              <span style={{ paddingRight: '5px' }}>#</span> {bottomLeft}
+              {bottomLeft}
             </BottomCardText>
-            {status === 'upcoming-sku' && (
+            {status === 'upcoming-sku' && !unique && (
               <BottomCardText>
                 {' '}
                 {supplyType === 'variable' ? null : <>{bottomRight} Dropping</>}
@@ -107,12 +107,11 @@ const Tile = ({
                 {supplyType === 'variable' ? null : `${bottomRight} For Sale`}
               </BottomCardText>
             )}
-            {status === 'no-sale' && (
-              <BottomCardText>Owned by {bottomRight} people</BottomCardText>
+            {status === 'no-sale' && !unique && (
+              <BottomCardText>{bottomRight} Owned</BottomCardText>
             )}
-            {status === 'active-listing' && (
+            {status === 'active-listing' && !unique && (
               <SerialNum>
-                {/* TODO: check if we are going to use serialNum */}
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -121,7 +120,14 @@ const Tile = ({
             )}
             {status === 'no-active-listing' && !unique && (
               <SerialNum>
-                {/* TODO: check if we are going to use serialNum */}
+                Serial:
+                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                  {bottomRight}
+                </span>
+              </SerialNum>
+            )}
+            {status === 'upcoming-product-time' && !unique && (
+              <SerialNum>
                 Serial:
                 <span style={{ color: 'black', paddingLeft: '5px' }}>
                   {bottomRight}
@@ -131,10 +137,17 @@ const Tile = ({
           </Row>
         </StyledCardContent>
       </StyledCard>
-      {status.split('-')[0] === 'upcoming' && (
-        <Pill themeStyle={themeStyle} active={true}>
+      {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
+        <Pill themeStyle={themeStyle} active={false}>
+          <Upcoming>Upcoming</Upcoming>
+        </Pill>
+      )}
+      {status.includes('time') && (
+        <Pill themeStyle={themeStyle} active={false}>
           <PillText>Upcoming in:</PillText>
-          <PillInfo style={{ fontSize: '20px' }}>{pillInfo}</PillInfo>
+          <PillInfo style={{ fontSize: '18px' }}>
+            {pillInfo.replaceAll('-', '')}
+          </PillInfo>
         </Pill>
       )}
       {status === 'active-listing' && (
@@ -174,7 +187,7 @@ const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
       : theme.palette.light.secondaryComplement};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  padding-top: 10px;
+  padding-top: 0px;
 `;
 
 const CardContainer = styled.div`
@@ -188,9 +201,19 @@ const CardContainer = styled.div`
 `;
 
 const NotForSale = styled.span`
-  font-weight: 500;
+  font-weight: 700;
+  background-color: #e5e5e5;
   margin: auto;
-  font-size: 24px;
+  color: #9e9e9e;
+  font-size: 20px;
+  line-height: 32px;
+  height: 32px;
+`;
+
+const Upcoming = styled.span`
+  font-weight: 700;
+  margin: auto;
+  font-size: 20px;
   line-height: 32px;
   height: 32px;
 `;
@@ -211,7 +234,7 @@ const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
         : theme.palette.dark.accentSecondary
       : active
       ? theme.palette.light.accentMain
-      : theme.palette.light.accentSecondary};
+      : theme.palette.light.baseComplement};
   color: ${({ themeStyle, theme, active }) =>
     themeStyle === 'dark'
       ? active
@@ -233,7 +256,7 @@ const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
 `;
 
 const PillText = styled.span`
-  font-weight: 400;
+  font-weight: 700;
   font-size: 16px;
   line-height: 20.24px;
   color: #c4c4c4;
@@ -242,14 +265,14 @@ const PillText = styled.span`
 
 const PillInfo = styled.span`
   font-weight: 600;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 32px;
   height: 32px;
 `;
 
 const BottomCardText = styled.p`
   display: flex;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 15px;
   letter-spacing: 0em;
   text-align: end;
@@ -259,15 +282,15 @@ const BottomCardText = styled.p`
 
 const SkuName = styled.p`
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 32px;
   letter-spacing: 0em;
   margin: 0;
-  padding-top: 8px;
+  height: 52px;
 `;
 
 const IssuerName = styled.p`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 20.24px;
   color: #9e9e9e;

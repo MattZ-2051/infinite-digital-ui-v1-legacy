@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
 // import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -27,6 +26,7 @@ const ButtonWhite = css`
   &:hover {
     background-color: var(--grey-40);
     color: #ffffff;
+    cursor: pointer;
   }
 `;
 
@@ -35,6 +35,7 @@ const ButtonBlack = css`
   color: #ffffff;
   &:hover {
     background-color: var(--grey-40);
+    cursor: pointer;
   }
 `;
 
@@ -52,6 +53,7 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     &:hover {
       box-shadow: none;
       background-color: var(--grey-40);
+      cursor: pointer;
     }
     .MuiSvgIcon-root {
       font-size: 15px;

@@ -31,103 +31,50 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && (
           <>
             <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-            <span>You purchased something for</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.amount}
+            <span>
+              You bought {tx.transactionData.sku[0]?.name}{' '}
+              <span style={{ color: 'black', fontWeight: 600 }}>
+                #{tx.transactionData.product[0]?.serialNumber}
+              </span>
             </span>
           </>
         )}
         {tx.type === 'sale' && (
           <>
-            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-            <span>You sold</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.amount}
-            </span>
-          </>
-        )}
-        {tx.type === 'transfer' && (
-          <>
-            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-            <span>You transferred</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.amount}
-            </span>
-          </>
-        )}
-        {tx.type === 'withdrawal' && (
-          <>
-            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-            <span>You withdrew</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.amount}
-            </span>
-          </>
-        )}
-        {tx.type === 'payment' && (
-          <>
-            <img src={depositIcon} style={{ paddingRight: '24px' }} />
-            <span>You transferred</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.circleReceipt?.amount.amount}
-            </span>
-          </>
-        )}
-        {tx.type === 'topup' && (
-          <>
             <img src={dollarSign} style={{ paddingRight: '24px' }} />
-            <span>You made a deposit</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.circleReceipt?.amount.amount}
+            <span>
+              You sold {tx.transactionData.sku[0]?.name}
+              <span style={{ color: 'black', fontWeight: 600 }}>
+                {tx.transactionData.product[0]?.serialNumber}
+              </span>
             </span>
           </>
         )}
-        {tx.type === 'redeem' && (
+        {tx.type === 'deposit' && tx.transactionData?.service === 'circle' && (
           <>
             <img src={depositIcon} style={{ paddingRight: '24px' }} />
-            <span>Redeem tx tbd...</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              ${tx.transactionData.amount}
-            </span>
+            <span>You added funds from your credit card</span>
           </>
         )}
-        {/* <>
-          <img src={depositIcon} style={{ paddingRight: '24px' }} />
-          <span>You added funds from your credit card ending in</span>
-          <span style={{ color: 'black', paddingLeft: '5px' }}>
-            {'creditCardId'}
-          </span>
-          <img src={coinbaseIcon} style={{ paddingRight: '24px' }} />
-          <div>
-            <span>You added funds using</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>Coinbase</span>
-          </div>
-          <img src={withdrawIcon} style={{ paddingRight: '24px' }} />
-          <div>
-            <span>You withdrew funds to your bank account ending in</span>
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              {'creditCardId'}
-            </span>
-          </div>
-          <img src={dollarSign} style={{ paddingRight: '24px' }} />
-          <div>
-            <span>You sold {'K8IROS 8.1 - BK Shadow'}</span>
-            <span style={{ color: 'black', padding: '0 5px' }}>{'#2468'}</span>
-            to
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              {'@drBrown'}
-            </span>
-          </div>
-          <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-          <div>
-            <span>You bought {'Goat IV'}</span>
-            <span style={{ color: 'black', padding: '0 5px' }}>{'#2468'}</span>
-            from
-            <span style={{ color: 'black', paddingLeft: '5px' }}>
-              {'@jamesjean'}
-            </span>
-          </div>
-        </> */}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.service === 'circle' &&
+          tx.transactionData?.status === 'completed' && (
+            <>
+              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <span>You added funds from your credit card</span>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.service === 'circle' &&
+          tx.transactionData?.status === 'pending' && (
+            <>
+              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <span>You added funds from your credit card</span>
+              <span style={{ color: 'black', fontWeight: 600 }}>
+                {'(Pending)'}
+              </span>
+            </>
+          )}
       </TransactionDescription>
 
       <TransactionDetail>
@@ -137,32 +84,23 @@ const Transaction = ({ tx }: IProps) => {
       </TransactionDetail>
 
       <TransactionDetail>
-        {tx.type === 'purchase' && (
-          <span style={{ color: '#00C44F' }}>
-            + ${tx.transactionData.amount}
+        {tx.type === 'purchase' && tx.status === 'success' && (
+          <span style={{ color: '#DA1010' }}>
+            - ${tx.transactionData.cost.totalCost}
           </span>
         )}
-        {tx.type === 'payment' && (
-          <span style={{ color: '#00C44F' }}>
-            + ${tx.transactionData.circleReceipt?.amount.amount}
-          </span>
-        )}
-        {tx.type === 'topup' && (
-          <span style={{ color: '#00C44F' }}>
-            + ${tx.transactionData.circleReceipt?.amount.amount}
-          </span>
-        )}
-        {tx.type === 'redeem' && (
-          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
+
+        {tx.type === 'deposit' &&
+          tx.transactionData?.status === 'completed' && (
+            <span style={{ color: '#00C44F' }}>+ ${tx.transactionData}</span>
+          )}
+        {tx.type === 'deposit' && tx.transactionData?.status === 'pending' && (
+          <span style={{ color: '#9e9e9e' }}>+ ${tx.transactionData}</span>
         )}
         {tx.type === 'sale' && (
-          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
-        )}
-        {tx.type === 'transfer' && (
-          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
-        )}
-        {tx.type === 'withdrawal' && (
-          <span style={{ color: '#DA1010' }}>- {'$tbd'}</span>
+          <span style={{ color: '#00C44F' }}>
+            + ${tx.transactionData.cost?.totalCost}
+          </span>
         )}
       </TransactionDetail>
     </Container>

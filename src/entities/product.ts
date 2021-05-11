@@ -20,8 +20,15 @@ export interface ProductWithFunctions {
   listing: Listing;
   sku: Sku;
   serialNumber: string;
-  activeProductListing: Listing[];
-  expiredProductListing: Listing[];
-  soldProductListing: Listing[];
-  upcomingProductListing: Listing[];
+  activeProductListings: Listing[];
+  expiredProductListings: Listing[];
+  soldProductListings: Listing[];
+  upcomingProductListings: Listing[];
+  totalSupply: number;
+  circulatingSupply?: number;
+  minSkuPrice: number;
+  resaleBuyersFeePercentage: number;
+  resaleSellersFeePercentage: number;
+  royaltyFeePercentage: number;
+  totalSupplyLeft: number;
 }

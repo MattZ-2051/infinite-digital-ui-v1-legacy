@@ -42,6 +42,25 @@ const Rarity = ({ type }: IProps) => {
           <RareStyle>Rare</RareStyle>
         </div>
       )}
+      {type === 'common' && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+          }}
+        >
+          <span
+            style={{
+              width: '16px',
+              height: '16px',
+              borderRadius: '50%',
+              background: 'white',
+            }}
+          ></span>
+          <CommonStyle>Common</CommonStyle>
+        </div>
+      )}
       {type === 'uncommon' && (
         <div
           style={{
@@ -52,7 +71,6 @@ const Rarity = ({ type }: IProps) => {
         >
           <span
             style={{
-              backgroundColor: 'black',
               width: '16px',
               height: '16px',
               borderRadius: '50%',
@@ -72,7 +90,6 @@ const Rarity = ({ type }: IProps) => {
         >
           <span
             style={{
-              backgroundColor: 'black',
               width: '16px',
               height: '16px',
               borderRadius: '50%',
@@ -92,7 +109,6 @@ const Rarity = ({ type }: IProps) => {
         >
           <span
             style={{
-              backgroundColor: 'black',
               width: '16px',
               height: '16px',
               borderRadius: '50%',
@@ -107,8 +123,11 @@ const Rarity = ({ type }: IProps) => {
 };
 
 const LegendaryStyle = styled.p`
+  font-weight: 600;
   font-size: 16px;
   padding-left: 8px;
+  padding-bottom: 5px;
+
   background: -moz-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
   background: -webkit-linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
   background: linear-gradient(45deg, #ff9412 0%, #fff72d 98.96%);
@@ -119,11 +138,12 @@ const LegendaryStyle = styled.p`
 `;
 
 const UncommonStyle = styled.p`
+  font-weight: 600;
   font-size: 16px;
+  padding-bottom: 5px;
+
   padding-left: 8px;
-  background: -moz-linear-gradient(45deg, #171717 0%, #777777 100%);
-  background: -webkit-linear-gradient(45deg, #171717 0%, #777777 100%);
-  background: linear-gradient(45deg, #171717 0%, #777777 100%);
+  background: #777777;
   padding-top: 0.25rem;
   -webkit-background-clip: text;
   background-clip: text;
@@ -131,7 +151,10 @@ const UncommonStyle = styled.p`
 `;
 
 const RareStyle = styled.p`
+  font-weight: 600;
   font-size: 16px;
+  padding-bottom: 5px;
+
   padding-left: 8px;
   background: -webkit-linear-gradient(
     41.72deg,
@@ -153,9 +176,20 @@ const RareStyle = styled.p`
   background-clip: text;
 `;
 
-const EpicStyle = styled.p`
+const CommonStyle = styled.p`
   font-size: 16px;
   padding-left: 8px;
+  font-weight: 600;
+  color: #8e8e8e;
+  padding-bottom: 5px;
+  padding-top: 0.25rem;
+`;
+
+const EpicStyle = styled.p`
+  font-weight: 600;
+  font-size: 16px;
+  padding-left: 8px;
+  padding-bottom: 5px;
   background: -moz-linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
   background: -webkit-linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);
   background: linear-gradient(45deg, #40c9ff 0%, #e81cff 100%);

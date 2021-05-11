@@ -11,7 +11,7 @@ const SuccessPage = () => {
   const history = useHistory();
   const username = useAppSelector((state) => state.session.user.username);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards.balance
+    (state) => state.session.userCards?.balance
   );
 
   const handleMarketplaceRedirect = () => {

@@ -14,7 +14,8 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from 'store/session/sessionThunks';
-import Toast from 'components/Toast';
+import lampIcon from 'assets/img/icons/lamp-icon.png';
+import Toast from 'utils/Toast';
 
 const S: any = {};
 
@@ -25,11 +26,6 @@ const AddFunds = () => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
-  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
-  const [toastStatus, setToastStatus] = useState<'error' | 'success'>(
-    'success'
-  );
-  const [toastMessage, setToastMessage] = useState<string>('');
   const fundsBody = {
     email: userCard.metadata.email,
     amount: amount,
@@ -49,6 +45,11 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
+    fundsBody.amount = fundsBody.amount?.replace(',', '');
+    if (isNaN(Number(fundsBody?.amount))) {
+      Toast.error('An Error Occurred: Please enter a valid amount.');
+      return;
+    }
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
@@ -56,6 +57,8 @@ const AddFunds = () => {
       dispatch(getUserCardsThunk({ token: userToken }));
       history.push(`/wallet/${username}/deposit/success`);
     } else {
+      // FIXME: make async thunk typesafe to avoid any type
+      Toast.error((res?.payload as any)?.errorMessage);
       history.push(`/wallet/${username}/deposit/error`);
     }
   };
@@ -67,15 +70,10 @@ const AddFunds = () => {
     );
 
     if (res.type.split('/')[5] === 'rejected') {
-      setIsToastVisible(true);
-      setToastStatus('error');
-      setToastMessage('An Error Occurred');
+      Toast.error('An Error Occurred');
       return;
     } else {
-      setIsToastVisible(true);
-      setToastStatus('success');
-      setToastMessage('Card Successfully Removed');
-
+      Toast.success('Card Successfully Removed');
       setTimeout(() => {
         history.push(`/wallet/${username}/addcreditcard`);
       }, 2500);
@@ -89,13 +87,6 @@ const AddFunds = () => {
 
   return (
     <>
-      <Toast
-        isVisible={isToastVisible}
-        status={toastStatus}
-        setIsVisible={setIsToastVisible}
-      >
-        {toastMessage}
-      </Toast>
       <Container>
         <S.ContentContainer>
           <S.Row
@@ -130,6 +121,19 @@ const AddFunds = () => {
               Remove Card
             </S.RemoveCCButton>
           </S.Row>
+          <S.FeeReminderContainer>
+            <S.FeeReminderText>
+              Withdrawal of credit card deposits can be initiated 30 days after
+              deposit.
+            </S.FeeReminderText>
+            <S.FeeReminderIconContainer>
+              <img src={lampIcon} alt="" />
+            </S.FeeReminderIconContainer>
+            <S.FeeReminderText>
+              Remember to account for the 5% service fee when choosing your
+              deposit amount
+            </S.FeeReminderText>
+          </S.FeeReminderContainer>
           <div
             style={{
               paddingTop: '25px',
@@ -138,10 +142,6 @@ const AddFunds = () => {
             }}
           >
             <S.DollarSign>$</S.DollarSign>
-            {/* <S.AmountInput
-            placeholder="Enter Amount"
-            onChange={(e) => setAmount(e.target.value)}
-          /> */}
             <S.AmountInput
               id="amount"
               name="amount-input"
@@ -199,6 +199,19 @@ S.CardContainer = styled.div`
 S.AddFundsText = styled.span`
   font-size: 16px;
   color: #7d7d7d;
+`;
+
+S.FeeReminderContainer = styled.div`
+  margin: 24px auto 20px;
+  text-align: center;
+`;
+
+S.FeeReminderText = styled.div`
+  color: #9e9e9e;
+`;
+
+S.FeeReminderIconContainer = styled.div`
+  margin: 10px auto;
 `;
 
 S.HeaderText = styled.span`

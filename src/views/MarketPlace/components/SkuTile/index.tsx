@@ -25,22 +25,31 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     redeemable,
     maxSupply,
     supplyType,
+    productListings,
+    skuListings,
+    issuerName,
   } = sku;
 
   const history = useHistory();
   const skuStartDateTime = new Date(minStartDate || '').getTime();
   const currentTime = new Date().getTime();
 
-  let status: /*SKU Tile Types*/ 'upcoming' | 'active' | 'no-sale' | '' = '';
+  let status: /*SKU Tile Types*/
+  'upcoming-sku' | 'active' | 'no-sale' | 'upcoming-sku-time' | '' = '';
   let skuUpcomingTime = '';
   let bottomRightText: string | number = '';
   let pillInfo: string | number = '';
 
   const checkStatus = () => {
-    if (skuStartDateTime > currentTime) {
-      status = 'upcoming';
+    if (productListings?.length === 0 && skuListings.length === 0) {
+      status = 'upcoming-sku';
+      return;
+    }
+
+    if (totalSupplyLeft === 0 && totalSupplyUpcoming === 0) {
+      status = 'upcoming-sku-time';
       bottomRightText = totalSupplyUpcoming;
-      skuUpcomingTime = formatCountdown(minStartDate || new Date());
+      skuUpcomingTime = formatCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
     } else if (totalSupplyLeft > 0) {
@@ -65,7 +74,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   return (
     <Tile
       sku={sku}
-      topLeft={issuer?.username}
+      topLeft={issuerName}
       skuRarity={rarity}
       middle={name}
       bottomLeft={series?.name}

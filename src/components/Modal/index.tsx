@@ -8,12 +8,20 @@ interface IProps {
   open?: boolean;
   onClose?: any;
   height?: string;
+  align?: string;
 }
 
-const ModalComponent = ({ children, height, ...props }: IProps) => {
+const ModalComponent = ({
+  children,
+  height,
+  align,
+  ...props
+}: IProps): JSX.Element => {
   return (
     <ModalContainer {...(props as any)}>
-      <ModalBody height={height}>{children}</ModalBody>
+      <ModalBody align={align} height={height}>
+        {children}
+      </ModalBody>
     </ModalContainer>
   );
 };
@@ -25,10 +33,10 @@ const ModalContainer: any = styled(Modal)`
   align-items: center;
   justify-content: center;
   border: none;
-  // backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 ` as React.ComponentType<ModalProps>;
 
-const ModalBody = styled.div<{ height?: string }>`
+const ModalBody = styled.div<{ height?: string; align?: string }>`
   margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
@@ -39,7 +47,7 @@ const ModalBody = styled.div<{ height?: string }>`
   outline: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: ${(props) => (props.align ? `${props.align}` : `center`)};
 `;
 
 export default ModalComponent;

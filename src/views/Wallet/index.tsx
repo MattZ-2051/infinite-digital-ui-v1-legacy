@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import Transaction from './Transaction';
 import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
 import { getMe, getMyTransactions } from 'services/api/userService';
@@ -14,6 +11,7 @@ import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
 import KycButton from './KycButton/kycButton';
+import * as S from './styles';
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
@@ -63,16 +61,17 @@ const Wallet = (props) => {
 
   return (
     <S.Container showMore={showMore}>
-      <S.PageHeaderContainer>
+      <S.Header>
         <S.Link to={`/collection/${userId}`}>
           {' '}
           <S.BackArrow />
           Back To My Collection
         </S.Link>
         <S.HeaderText>My Wallet</S.HeaderText>
-      </S.PageHeaderContainer>
-      <S.PageContentContainer>
-        <S.TotalBalanceContainer>
+      </S.Header>
+
+      <S.Main>
+        <S.LeftCol>
           <div>
             <S.Tab style={{ borderBottom: '2px solid black' }}>
               Total Balance
@@ -88,9 +87,7 @@ const Wallet = (props) => {
           </S.AvailableAmount>
 
           <div style={{ paddingTop: '36px' }}>
-            <S.ActionButton onClick={handleOpen} disabled={kycMaxLevel !== 2}>
-              Deposit
-            </S.ActionButton>
+            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
           </div>
 
           {/*  Temporary Hide feature will be enabled Post-MVP
@@ -105,14 +102,9 @@ const Wallet = (props) => {
             Account Verification Status: <br />
             <KycButton kycPending={kycPending} kycMaxLevel={kycMaxLevel} />
           </div>
-        </S.TotalBalanceContainer>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            overflowY: 'hidden',
-          }}
-        >
+        </S.LeftCol>
+
+        <S.RightCol>
           <S.LatestTransactionsContainer overflow={showMore} id="test">
             <div style={{ position: 'relative' }}>
               <S.Tab
@@ -146,9 +138,11 @@ const Wallet = (props) => {
               <>
                 {transactions &&
                   transactions.map((tx, index) => {
-                    // TODO: Add pagination instead of static limit 5
-                    // if (index >= 5) return null;
-                    return <Transaction tx={tx} key={index} />;
+                    if (tx.type !== ('purchase' || 'deposit' || 'sale')) {
+                      return null;
+                    } else {
+                      return <Transaction tx={tx} key={index} />;
+                    }
                   })}
               </>
             )}
@@ -168,143 +162,16 @@ const Wallet = (props) => {
               </S.SeeMore>
             )}
           </S.FlexRow>
-        </div>
-      </S.PageContentContainer>
-      <DepositModal isModalOpen={isModalOpen} handleClose={handleClose} />
+        </S.RightCol>
+      </S.Main>
+
+      <DepositModal
+        kycMaxLevel={kycMaxLevel}
+        isModalOpen={isModalOpen}
+        handleClose={handleClose}
+      />
     </S.Container>
   );
 };
-
-export const S: any = {};
-
-S.Container = styled.div<{ showMore: boolean }>`
-  height: 100vh;
-`;
-
-S.Link = styled(Link)`
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: #cbcbcb;
-`;
-
-S.BackArrow = styled(ArrowBackIosIcon)`
-  font-size: 16px;
-  color: #cbcbcb;
-  padding-bottom: 2px;
-`;
-
-S.BalanceAmount = styled.span`
-  padding-top: 15px;
-  font-weight: 500;
-  font-size: 48px;
-`;
-
-S.FlexRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-S.AvailableAmount = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-`;
-
-S.Tab = styled.span`
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 27.83px;
-  padding-bottom: 12px;
-  border: none;
-  position: relative;
-  :hover {
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-`;
-
-S.SeeMore = styled.p`
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  text-align: end;
-  padding-top: 20px;
-  padding-right: 40px;
-  padding-bottom: 40px;
-  width: fit-content;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-S.PageHeaderContainer = styled.div`
-  background-color: black;
-  height: 25%;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 48px;
-  justify-content: flex-end;
-`;
-
-S.TotalBalanceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 48px;
-`;
-
-S.LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
-  padding-left: 48px;
-  padding: 48px;
-  overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
-`;
-
-S.PageContentContainer = styled.div`
-  height: 75%;
-  display: grid;
-  grid-template-columns: 30% 70%;
-`;
-
-S.HeaderText = styled.span`
-  font-size: 30px;
-  font-weight: 600;
-  padding-top: 32px;
-`;
-
-S.ActionButton = styled.button`
-  width: 269px;
-  height: 56px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
-  font-weight: 600;
-  font-size: 20px;
-  border-radius: 35px;
-  :hover {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-`;
-
-S.GrayLine = styled.div`
-  border-bottom: 2px solid #d8d8d8;
-  padding-top: 12px;
-  width: 80%;
-`;
-
-S.AvailableText = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-  color: #9e9e9e;
-  padding-right: 8px;
-`;
 
 export default Wallet;

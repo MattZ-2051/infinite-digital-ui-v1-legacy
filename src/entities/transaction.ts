@@ -4,22 +4,37 @@ export interface ITransaction {
   _id: string;
   owner: User;
   type:
+    | 'deposit'
+    | 'transfer'
     | 'mint'
     | 'topup'
     | 'purchase'
     | 'payment'
     | 'redeem'
     | 'sale'
-    | 'transfer'
-    | 'withdrawal';
+    | 'nft_transfer'
+    | 'withdrawal'
+    | 'nft_transfer_manual'
+    | 'nft_mint';
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;
+  status: 'success' | 'error' | 'pending';
+}
+
+interface Sku {
+  id: string;
+  name: string;
+}
+
+interface Product {
+  serialNumber: string;
+  id: string;
 }
 
 export interface TransactionData {
-  product: string;
-  sku: string;
+  product: Product[];
+  sku: Sku[];
   listing: string;
   amount: number;
   bid: string;
@@ -28,6 +43,23 @@ export interface TransactionData {
   buyer: string;
   seller: string;
   ownerAvailableBalance: number;
+  cost: Cost;
+  explorerLink: string;
+  status: string;
+  service: string;
+}
+
+interface Cost {
+  finalPayout: number;
+  initialBuyersFee: number;
+  initialBuyersFeePercentage: number;
+  initialSellersFee: number;
+  initialSellersFeePercentage: number;
+  resale: boolean;
+  resaleBuyersFeePercentage: number;
+  resaleSellersFeePercentage: number;
+  serviceEarnings: number;
+  totalCost: number;
 }
 
 export interface HederaTransaction {

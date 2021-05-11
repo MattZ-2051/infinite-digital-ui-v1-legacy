@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Pagination from '@material-ui/lab/Pagination';
+import styled from 'styled-components/macro';
+// Local
 import Items from './Items';
 import Releases from './Releases';
 import { User } from 'entities/user';
-import { useHistory } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 import {
   getProductsOwnedByUser,
@@ -27,13 +29,16 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     ProductWithFunctions[] | undefined
   >();
   const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
-
   const userId = history.location.pathname.split('/')[2];
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(1);
+  const perPage = 6;
 
   async function fetchData() {
-    const itemsRes = await getProductsOwnedByUser(user._id, '');
-    if (itemsRes) {
-      setUserItems(itemsRes);
+    const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
+    if (itemsRes.data) {
+      setUserItems(itemsRes.data);
+      setTotal(itemsRes.total);
     }
 
     if (user.role === 'issuer') {
@@ -77,6 +82,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   };
 
   checkStatus();
+
+  const handlePagination = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+    //dispatch(updatePagination({ page: String(value), perPage: '6' }));
+  };
 
   // TODO: REVIEW
   const placeHolderFunc = () => null;
@@ -229,6 +242,11 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           )}
         </>
       )}
+      <Pagination
+        count={Math.ceil(total / perPage)}
+        page={page}
+        onChange={handlePagination}
+      />
     </Container>
   );
 };

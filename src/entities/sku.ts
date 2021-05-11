@@ -15,7 +15,7 @@ export interface Sku {
   startDate?: Date;
   endDate?: Date;
   issuerName: string;
-  minStartDate?: Date;
+  minStartDate: Date;
   maxEndDate?: Date;
   minSkuPrice: number;
   maxBid: number; // The cheapest price a sku can be sold
@@ -32,6 +32,7 @@ export interface Sku {
   countAllSkuListings: number;
   countProductListings: number;
   skuListings: Listing[];
+  productListings?: Listing[];
   series: {
     _id: string;
     name: string;
@@ -60,6 +61,7 @@ export interface Sku {
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;
+  sellerTransactionFeePercentage: number;
 }
 
 export interface SkuWithTotal {

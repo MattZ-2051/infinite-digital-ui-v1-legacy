@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
@@ -11,7 +11,7 @@ import { Image, BackgroundImageContainer } from 'components/Image';
 import { TextContainer, GradientText } from '../../components/Text';
 import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
-import { PulseLoader } from 'react-spinners';
+import PageLoader from 'components/PageLoader';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text.split('. ');
@@ -70,7 +70,7 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <h1>Loading</h1>;
+  if (user === null) return <PageLoader />;
 
   return (
     <Container>

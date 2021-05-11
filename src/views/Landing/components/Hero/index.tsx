@@ -31,7 +31,7 @@ const Hero: React.FC<IProps> = ({ login, isAuthenticated }: IProps) => {
           onClick={() => login()}
           data-testid="start-collection-btn"
         >
-          START YOUR COLLECTOY TODAY
+          START YOUR COLLECTION TODAY
         </Button>
       )}
 

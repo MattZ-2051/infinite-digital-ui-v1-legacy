@@ -12,6 +12,9 @@ import Wallet from 'views/Wallet';
 import SkuDetail from 'views/Sku/SkuDetail';
 import Collectors from 'views/Sku/Collectors';
 import Product from 'views/Product';
+import TC from 'views/Legal/tc';
+import Privacy from 'views/Legal/privacy';
+import Help from 'views/Legal/help';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -56,6 +59,10 @@ const RouterComponent = (): JSX.Element => {
 
       <Route path="/collection/:userId" component={Collection} />
 
+      {/* Legal */}
+      <Route path="/tc" component={TC} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/help" component={Help} />
       {/* All */}
       <Route path="/example" component={UnderConstruction} />
     </Switch>

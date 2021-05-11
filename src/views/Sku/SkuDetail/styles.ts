@@ -43,10 +43,6 @@ export const ProductDetail = styled.div`
   padding: 48px 80px 20px 48px;
 `;
 
-export const Description = styled.div`
-  width: 54%;
-`;
-
 export const Listing = styled.div`
   width: 46%;
   max-width: 713px;
@@ -98,6 +94,7 @@ export const Section = styled.section<ISection>`
   padding: ${(props) => props.padding || '0 80px 48px 80px'};
   margin: auto;
   font-size: 16px;
+  // border: solid red 1px;
 
   @media screen and (max-width: 960px) {
     flex-direction: column;
@@ -108,7 +105,8 @@ export const Section = styled.section<ISection>`
 export const SectionTitle = styled.h2`
   font-weight: 600 !important;
   font-size: 24px;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 2px solid #ebebeb;
+  line-height: 2.2;
   margin-bottom: 40px;
   font-weight: 500px;
   color: black;
@@ -160,6 +158,7 @@ export const ProductContainer = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   height: 36em;
+  margin-bottom: 30px;
 
   @media screen and (max-width: 960px) {
     flex-direction: column;

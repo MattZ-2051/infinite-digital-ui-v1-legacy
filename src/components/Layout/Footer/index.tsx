@@ -33,11 +33,7 @@ const Footer = () => {
               FAQ
             </TextButton> */}
 
-            <TextButton
-              to="https://sukulab.github.io/infinite-kb/#/"
-              color="grey"
-              size="small"
-            >
+            <TextButton to="/help" color="grey" size="small">
               Help
             </TextButton>
 

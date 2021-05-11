@@ -43,7 +43,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
     updatedAt: undefined,
     createdAt: undefined,
   },
-  minStartDate: undefined,
+  minStartDate: new Date(),
   maxEndDate: undefined,
   minSkuPrice: 0,
   minCurrentBid: 0,
@@ -60,4 +60,5 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   totalSupply: 0,
   totalSkuSupplyLeft: 0,
   royaltyFeePercentage: 0,
+  sellerTransactionFeePercentage: 0,
 });
