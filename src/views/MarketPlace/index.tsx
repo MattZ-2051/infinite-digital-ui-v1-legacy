@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -9,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import Filters from './components/Filters';
 import {
   processUrlParams,
-  updateFilters,
   updateFilter,
   updatePagination,
   updateSortBy,
@@ -17,10 +15,10 @@ import {
 } from 'store/marketplace/marketplaceSlice';
 import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
-import { sortByItems } from 'config/marketplace';
+// import { sortByItems } from 'config/marketplace';
 // Components
 import SearchInput from './components/Filters/SearchInput';
-import SortByFilter from './components/Filters/SortByFilter';
+// import SortByFilter from './components/Filters/SortByFilter';
 import SkuTile from './components/SkuTile';
 import PageLoader from 'components/PageLoader';
 // Icons
@@ -222,6 +220,7 @@ const MarketPlace = (): JSX.Element => {
               count={Math.ceil(skus.total / 6)}
               page={page}
               onChange={handlePagination}
+              siblingCount={matchesMobile ? 0 : 1}
             />
           </S.PaginationContainer>
         </S.Content>
