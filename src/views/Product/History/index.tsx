@@ -35,7 +35,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards.balance.amount
+    (state) => state.session.userCards?.balance?.amount
   );
   const price = product?.listing.price;
   const hasFunds = price ? userBalance >= price : false;

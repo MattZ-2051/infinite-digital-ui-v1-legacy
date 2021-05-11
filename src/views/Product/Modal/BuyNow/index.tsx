@@ -37,7 +37,7 @@ const BuyNowModal = ({
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards.balance.amount
+    (state) => state.session.userCards?.balance?.amount
   );
   const history = useHistory();
 

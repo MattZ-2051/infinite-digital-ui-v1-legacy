@@ -44,7 +44,7 @@ const SkuPageModal = ({
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const userBalance = useAppSelector(
-    (state) => state.session.userCards.balance.amount
+    (state) => state.session.userCards?.balance?.amount
   );
 
   const royaltyFee = Math.round(
