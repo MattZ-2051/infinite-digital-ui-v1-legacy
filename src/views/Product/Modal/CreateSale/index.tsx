@@ -46,8 +46,6 @@ const CreateSale = ({
 
   const startSale = async () => {
     setLoading(true);
-    console.log(price);
-    console.log(typeof price);
     const userToken = await getAccessTokenSilently();
     try {
       const result = await postListings(userToken, {

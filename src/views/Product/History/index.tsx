@@ -70,25 +70,21 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       product?.activeProductListings?.length === 0
     ) {
       status = 'create-sale';
-      console.log('1');
     } else if (
       loggedInUser.id === product?.owner._id &&
       product?.activeProductListings?.length !== 0
     ) {
       status = 'active-sale';
-      console.log('2');
     } else if (
       loggedInUser.id !== product?.owner._id &&
       product?.activeProductListings?.length === 0
     ) {
       status = 'upcoming';
-      console.log('3');
     } else if (
       loggedInUser.id !== product?.owner._id &&
       product?.activeProductListings?.length !== 0
     ) {
       status = 'buy-now';
-      console.log('4');
     }
   } else {
     // check if listing products obj in arr is equal to owner id
