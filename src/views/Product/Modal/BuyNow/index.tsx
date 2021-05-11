@@ -59,7 +59,6 @@ const BuyNowModal = ({
           product.listing._id
         );
 
-        console.log('res', result);
         // TODO: Check payment
         if (result) {
           setStatusMode('completed');
