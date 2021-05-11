@@ -360,7 +360,6 @@ const Button = styled.button`
   outline: none;
   font-size: 20px;
   font-weight: 600;
-  font-family: 'josefin-sans';
 `;
 
 export default SkuButtonBlock;
