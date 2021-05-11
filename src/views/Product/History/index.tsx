@@ -180,10 +180,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         <S.TransactionHistory>
           {transactionHistory instanceof Array &&
             transactionHistory.map((transaction) => {
-              if (
-                transaction.type !==
-                ('nft_transfer_manual' || 'nft_mint' || 'purchase')
-              ) {
+              if (!transaction.type.includes('nft' || 'purchase')) {
                 return null;
               } else {
                 return (
