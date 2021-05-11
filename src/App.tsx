@@ -7,22 +7,32 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './utils/Toast/styles.css';
 import ScrollToTop from 'components/ScrollToTop';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: 'PlusJakartaSans, sans-serif',
+  },
+});
 
 const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <CssBaseline />
-      <GlobalStyle />
-      <AppLayout>
-        <>
-          <Router />
-          <ToastContainer
-            hideProgressBar={true}
-            toastClassName="custom-notify"
-          />
-        </>
-      </AppLayout>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <GlobalStyle />
+        <AppLayout>
+          <>
+            <Router />
+            <ToastContainer
+              hideProgressBar={true}
+              toastClassName="custom-notify"
+            />
+          </>
+        </AppLayout>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
