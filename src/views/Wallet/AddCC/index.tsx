@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,7 +13,19 @@ import { validate, errors, state, Values, handleChange } from './helper';
 import { useHistory } from 'react-router-dom';
 import Toast from 'components/Toast';
 import MenuItem from '@material-ui/core/MenuItem';
-import countriesList from 'assets/location/countries.json';
+import countries from 'assets/location/country-states-OFAC-flag.json';
+import { Country, District } from 'entities/country';
+
+const countriesList: Array<Country> = countries
+  .filter((item) => item.ofac === 'false')
+  .map((item) => ({
+    name: item.name,
+    iso2: item.iso2,
+    states: item.states.map((state) => ({
+      name: state.name,
+      stateCode: state.state_code,
+    })),
+  }));
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,9 +34,13 @@ const AddCC = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [cardInfo, setCardInfo] = useState<Values | undefined>(state);
   const [formError, setFormError] = useState<boolean>(false);
-  const [contryCode, selectedCountryCode] = useState<string>(
-    countriesList[0].countryShortName
+  const [country, setSelectedCountry] = useState<Country | undefined>(
+    countriesList[0]
   );
+  const [districtList, setDistrictList] = useState<Array<District>>(
+    country?.states || []
+  );
+  const [district, setDistrict] = useState<District | undefined>();
   const dispatch = useAppDispatch();
   const history = useHistory();
   const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
@@ -33,14 +49,18 @@ const AddCC = () => {
   );
   const [toastMessage, setToastMessage] = useState<string>('');
 
+  useEffect(() => {
+    setDistrictList(country?.states || []);
+  }, [country]);
+
   const handleSubmit = async () => {
-    //contryCode
     if (cardInfo === undefined) return;
     const userToken = await getAccessTokenSilently();
     cardInfo.metadata.email = loggedInUser.email;
     cardInfo.expMonth = parseInt(cardInfo?.expMonth, 10);
     cardInfo.expYear = parseInt(cardInfo?.expYear, 10);
-    cardInfo.billingDetails.country = contryCode;
+    cardInfo.billingDetails.country = country?.iso2;
+    cardInfo.billingDetails.district = district?.stateCode;
     const checkErrors = validate(cardInfo, setFieldError);
     if (checkErrors) {
       return;
@@ -71,8 +91,17 @@ const AddCC = () => {
   };
 
   const handleCountry = (event) => {
-    const countryCode = event.target.value;
-    selectedCountryCode(countryCode);
+    const selectedCountry = event.target.value;
+    setSelectedCountry(
+      countriesList.find((item) => item.iso2 === selectedCountry)
+    );
+  };
+
+  const handleDistirct = (event) => {
+    const selectedDistrict = event.target.value;
+    setDistrict(
+      districtList.find((item) => item.stateCode === selectedDistrict)
+    );
   };
 
   return (
@@ -245,31 +274,35 @@ const AddCC = () => {
                   helperText={fieldError?.city && 'Enter a valid city'}
                 />
               </S.Row>
-              <S.Row>
-                <S.FormInput
-                  id="standard-basic"
-                  label="District"
-                  size="medium"
-                  fullWidth
-                  onChange={(e) => handleChange(e, setCardInfo)}
-                  name="billingDetails-district"
-                  value={cardInfo?.billingDetails.district}
-                />
-              </S.Row>
               <br />
               <InputLabel id="country">Country</InputLabel>
               <S.Row>
                 <S.DropDown
                   labelId="country"
                   name="billingDetails-country"
-                  value={contryCode}
+                  value={country?.iso2 || ''}
                   onChange={(value) => {
                     handleCountry(value);
                   }}
                 >
-                  {countriesList.map((el, index) => (
-                    <MenuItem key={index} value={el.countryShortName}>
-                      {el.countryName}
+                  {countriesList.map((el) => (
+                    <MenuItem key={el.iso2} value={el.iso2}>
+                      {el.name}
+                    </MenuItem>
+                  ))}
+                </S.DropDown>
+              </S.Row>
+              <InputLabel id="state">State/Province</InputLabel>
+              <S.Row>
+                <S.DropDown
+                  labelId="state"
+                  name="billingDetails-state"
+                  value={district?.stateCode || ''}
+                  onChange={(event) => handleDistirct(event)}
+                >
+                  {districtList?.map((el) => (
+                    <MenuItem key={el.stateCode} value={el?.stateCode || ''}>
+                      {el.name}
                     </MenuItem>
                   ))}
                 </S.DropDown>
