@@ -1,5 +1,4 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { ProductWithFunctions } from 'entities/product';
 
@@ -33,21 +32,24 @@ const TileContainer = styled.div<{ index: number }>`
   padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
 `;
 
-const Container = styled.div<{ collection?: boolean }>`
-  ${({ collection }) =>
-    collection
-      ? `margin: auto;
-  overflow: hidden;
+const hasCollection = css`
+  margin: auto;
   :hover {
     overflow: auto;
   }
   display: flex;
   flex-wrap: wrap;
-  max-height: 80%;
-  width: 100%;`
-      : `display: flex;
+  width: 100%;
+`;
+
+const noCollection = css`
+  display: flex;
   overflow: auto;
-   width: 100%;`}
+  width: 100%;
+`;
+
+const Container = styled.div<{ collection?: boolean }>`
+  ${({ collection }) => (collection ? hasCollection : noCollection)}
 `;
 
 export default Items;

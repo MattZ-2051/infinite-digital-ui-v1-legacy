@@ -19,8 +19,8 @@ export const MyCollection = () => {
     const token = await getAccessTokenSilently();
     const extUser = await getMe(token);
     const res = await getProductsOwnedByUser(extUser._id, token);
-    if (res) {
-      setUserItems(res);
+    if (res.data) {
+      setUserItems(res.data);
     }
   }
 

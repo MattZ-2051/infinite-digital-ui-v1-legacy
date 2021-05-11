@@ -49,7 +49,7 @@ const ProductTile = ({ product, productSerialNumber }: Props): JSX.Element => {
       skuRarity={sku.rarity}
       topLeft={sku.issuerName}
       middle={sku.name}
-      bottomLeft={sku.series.name}
+      bottomLeft={sku.series?.name}
       bottomRight={productSerialNumber?.toString()}
       pillInfo={pillInfo}
       unique={sku.maxSupply === 1}

@@ -74,7 +74,7 @@ export const getUserInfoThunk = createAsyncThunk<
 });
 
 export const getUserCollectionThunk = createAsyncThunk<
-  ProductWithFunctions[],
+  { data: ProductWithFunctions[]; total: number },
   IPayloadParams,
   {
     rejectValue: IError;

@@ -15,16 +15,27 @@ export const getProducts = async (token: string) => {
 export const getProductsOwnedByUser = async (
   userId: string,
   token: string,
+  page?: number,
+  perPage?: number,
   includeFunctions = true
-): Promise<ProductWithFunctions[]> => {
+): Promise<{ data: ProductWithFunctions[]; total: number }> => {
+  const params = { owner: userId, includeFunctions };
+  if (page) {
+    params['page'] = page;
+    params['per_page'] = perPage;
+  }
   const response = await axiosInstance.request<ProductWithFunctions[]>({
     method: 'GET',
     url: `/products`,
-    params: { owner: userId, includeFunctions },
+    params,
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return response.data;
+  const { data, headers } = response;
+  const contentRange: string = headers['content-range'];
+  const rangeArray = contentRange.split('/');
+  const total = Number(rangeArray[1]);
+  return { data, total };
 };
 
 export const getProductCollectors = async (
