@@ -97,9 +97,12 @@ const Tile = ({
               </BottomCardText>
             )}
             {unique && (
-              <BottomCardText style={{ color: '#ff0000' }}>
-                <Emoji label="fire" symbol="🔥" />
-                Unique Item!
+              <BottomCardText
+                style={{ color: '#ff0000', whiteSpace: 'nowrap' }}
+              >
+                <span>
+                  <Emoji label="fire" symbol="🔥" /> Unique Item!
+                </span>
               </BottomCardText>
             )}
             {status === 'active' && !unique && (
