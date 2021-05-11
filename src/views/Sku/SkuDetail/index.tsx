@@ -32,13 +32,14 @@ const SkuDetail = (): JSX.Element => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchSku();
-    fetchProducts();
+    fetchSku().then((sku) => {
+      fetchProducts(sku?.issuer?._id);
+    });
     fetchCollectors();
   }, [skuid]);
 
-  async function fetchProducts() {
-    const skuTiles = await getFeaturedSkuTiles();
+  async function fetchProducts(issuerId: string) {
+    const skuTiles = await getFeaturedSkuTiles({ issuerId: issuerId });
     setFeaturedProducts(skuTiles.data);
   }
 
@@ -52,6 +53,7 @@ const SkuDetail = (): JSX.Element => {
       includeFunctions: true,
     });
     setSku(sku);
+    return sku;
   }
 
   const showModal = (): void => {
