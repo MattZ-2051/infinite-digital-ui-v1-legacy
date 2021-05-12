@@ -15,7 +15,7 @@ import PageLoader from 'components/PageLoader';
 import { Media } from 'components/Media/Media';
 
 const splitLastSentence = (text: string): [string, string] => {
-  const splitText = text.split('. ');
+  const splitText = text?.split('. ');
 
   if (!splitText || splitText.length === 0) {
     return ['', ''];

@@ -204,9 +204,7 @@ const CardContainer = styled.div`
 
 const NotForSale = styled.span`
   font-weight: 700;
-  background-color: #e5e5e5;
   margin: auto;
-  color: #9e9e9e;
   font-size: 20px;
   line-height: 32px;
   height: 32px;

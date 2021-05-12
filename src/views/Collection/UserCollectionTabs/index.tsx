@@ -120,7 +120,11 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           </div>
 
           {selectedTab === 0 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              themeStyle={themeStyle}
+              userItems={userItems}
+              collection={true}
+            />
           )}
         </>
       )}
@@ -209,7 +213,11 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             />
           )}
           {selectedTab === 1 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
@@ -238,7 +246,11 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
