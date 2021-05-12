@@ -105,8 +105,12 @@ const Tile = ({
               </BottomCardText>
             )}
             {status === 'active' && !unique && (
-              <BottomCardText>
-                {supplyType === 'variable' ? null : `${bottomRight} For Sale`}
+              <BottomCardText style={{ color: '#9e9e9e' }}>
+                {supplyType === 'variable'
+                  ? `${sku.circulatingSupply || 0} Released`
+                  : supplyType === 'fixed'
+                  ? `${sku.totalSkuListingSupplyLeft || 0} For Sale`
+                  : null}
               </BottomCardText>
             )}
             {status === 'no-sale' && !unique && (

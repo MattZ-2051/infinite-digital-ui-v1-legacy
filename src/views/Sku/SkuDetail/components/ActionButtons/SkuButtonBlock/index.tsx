@@ -355,7 +355,7 @@ const BoxColumn = styled.div`
   flex-direction: column;
 
   /* @media screen and (max-width: 600px) {
-    
+
   } */
 `;
 

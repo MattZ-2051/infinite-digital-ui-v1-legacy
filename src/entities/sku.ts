@@ -6,7 +6,7 @@ export interface Sku {
   name: string;
   description: string;
   display: boolean;
-  supplyType: 'variable'; // TODO: add more supply types
+  supplyType: 'variable' | 'fixed'; // TODO: add more supply types
   featured: boolean;
   redeemable: boolean;
   maxSupply?: number;

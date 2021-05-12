@@ -49,7 +49,7 @@ export const SkuName = styled.p`
 export const SkuInfo = styled.span<{ color?: string; hover?: boolean }>`
   font-size: 16px;
   color: ${(props) => `${props.color}`};
-  padding-right: 10px;
+  margin-right: 10px;
   margin: 0;
   padding-top: 16px;
   ${(props) =>
