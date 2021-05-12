@@ -22,6 +22,7 @@ const Wallet = (props) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
+  const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
   const { username, id: userId } = useAppSelector(
     (state) => state.session.user
   );
@@ -47,6 +48,9 @@ const Wallet = (props) => {
     if (props?.location?.state?.modalOpen) {
       setIsModalOpen(true);
     }
+
+    const el = document.getElementById('tx');
+    setIsElOverflown(isOverflown(el));
   }, []);
 
   const handleClose = () => {
@@ -71,9 +75,15 @@ const Wallet = (props) => {
     }
   });
 
+  function isOverflown(element) {
+    return (
+      element.scrollHeight > element.clientHeight ||
+      element.scrollWidth > element.clientWidth
+    );
+  }
+
   if (!user || !transactions) return <PageLoader />;
 
-  console.log(filteredTransactions);
   return (
     <S.Container showMore={showMore}>
       <S.Header>
@@ -98,7 +108,7 @@ const Wallet = (props) => {
 
           <S.AvailableAmount>
             <S.AvailableText>Available:</S.AvailableText>$
-            {user?.availableBalance.toFixed(2)} (after active bids)
+            {user?.availableBalance?.toFixed(2)} (after active bids)
           </S.AvailableAmount>
 
           <div style={{ paddingTop: '36px' }}>
@@ -150,7 +160,7 @@ const Wallet = (props) => {
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
           </S.TabContainer>
-          <S.LatestTransactionsContainer overflow={showMore} id="test">
+          <S.LatestTransactionsContainer overflow={showMore} id="tx">
             {selectedTab === 0 && (
               <>
                 {filteredTransactions &&
@@ -169,7 +179,7 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {filteredTransactions.length > 8 && (
+            {isElOverflown && (
               <S.SeeMore onClick={handleShowChange}>
                 {(showMore && '- View Less') || '+ View All'}
               </S.SeeMore>

@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import EditIcon from '@material-ui/icons/Edit';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
 import EditModal from './EditModal';
+import * as S from './styles';
 
 interface IProps {
   user: User | undefined;
   isAuthenticated: boolean;
 }
-
-const S: any = {};
 
 const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -29,7 +25,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   };
 
   const checkStatus = () => {
-    if (isAuthenticated === true) {
+    if (isAuthenticated) {
       if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
         userStatus = 'loggedInIssuer';
         return userStatus;
@@ -54,7 +50,7 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
     }
   };
 
-  const handleUsernameEdit = (e) => {
+  const handleUsernameEdit = () => {
     setIsModalOpen(true);
   };
 
@@ -74,15 +70,14 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
               @ {loggedInUser.username}
             </span>
             <S.EditIconContainer>
-              <EditIcon style={{ fontSize: '14px' }} />
+              <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />
             </S.EditIconContainer>
           </S.UsernameIconContainer>
           <S.ButtonContainer>
-            <ProfileButton label="My Account" />
-            <div style={{ padding: '0 10px' }}>
-              <S.ButtonDivider></S.ButtonDivider>
-            </div>
-            <ProfileButton label="My Wallet" />
+            <ProfileButton
+              label="My Wallet"
+              handleClick={handleWalletRedirect}
+            />
           </S.ButtonContainer>
         </>
       )}
@@ -124,70 +119,4 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   );
 };
 
-S.EditIconContainer = styled.div`
-  width: 24px;
-  height: 24px;
-  background-color: black;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-`;
-
-S.Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: black;
-  color: white;
-  width: 100%;
-  height: 30vh;
-  flex-direction: column;
-  position: relative;
-`;
-
-S.EditIcon = styled.img`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-S.ButtonContainer = styled.div`
-  background-color: #252525;
-  width: 232px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-`;
-
-S.AccountIcon = styled(AccountCircleIcon)`
-  font-size: 120px;
-`;
-
-S.UsernameIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-bottom: 16px;
-`;
-
-S.ExitIcon = styled.img`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-S.UsernameInput = styled.input`
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  text-align: center;
-  :focus {
-    outline: none;
-  }
-  width: fit-content;
-`;
 export default UserCollectioinInfo;

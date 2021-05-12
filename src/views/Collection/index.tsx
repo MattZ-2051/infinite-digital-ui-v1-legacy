@@ -16,6 +16,7 @@ const Collection = () => {
   async function fetchUser() {
     try {
       const res = await getUser(userId);
+      console.log(res);
       setUser(res);
     } catch (e) {
       console.log(e);
@@ -26,7 +27,7 @@ const Collection = () => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <PageLoader />;
+  if (!user) return <PageLoader />;
 
   return (
     <Container>
