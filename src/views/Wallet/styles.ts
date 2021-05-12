@@ -132,15 +132,16 @@ export const HeaderText = styled.span`
 export const ActionButton = styled.button`
   width: 269px;
   height: 56px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: white;
+  background-color: black;
+  border: none;
   font-weight: 600;
   font-size: 20px;
   border-radius: 35px;
+  border: 2px solid black;
   :hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: pointer;
   }
   :focus {
