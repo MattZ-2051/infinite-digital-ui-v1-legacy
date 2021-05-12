@@ -251,10 +251,15 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   );
 };
 
-const Container = styled.div<{ themeStyle?: 'light' | 'dark' }>`
-  background-color: ${({ themeStyle }) =>
-    themeStyle === 'dark' ? 'black' : 'white'};
-  color: ${({ themeStyle }) => (themeStyle === 'dark' ? 'white' : 'black')};
+const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
   width: 100%;
   padding: 40px;
 `;

@@ -6,9 +6,8 @@ import Title from './Tile';
 export const StyledCard = styled(Card)<{ themeStyle; theme }>`
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
+      ? theme.palette.dark.secondaryMain
       : theme.palette.light.baseMain};
-  background-color: black;
   /* TODO: min/max width? */
   max-width: 302px;
   min-width: 302px;

@@ -239,7 +239,7 @@ const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
         ? theme.palette.dark.accentMain
         : theme.palette.dark.accentSecondary
       : active
-      ? theme.palette.light.accentMain
+      ? theme.palette.light.baseComplement
       : theme.palette.light.baseComplement};
   color: ${({ themeStyle, theme, active }) =>
     themeStyle === 'dark'

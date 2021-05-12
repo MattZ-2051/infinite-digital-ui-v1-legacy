@@ -21,7 +21,7 @@ const Items = ({
           return (
             <TileContainer key={product._id} index={index}>
               <ProductTile
-                themeStyle="dark"
+                themeStyle={themeStyle}
                 product={product}
                 productSerialNumber={product.serialNumber}
                 key={product._id}
