@@ -62,7 +62,11 @@ const Wallet = (props) => {
   };
 
   const filteredTransactions = transactions.filter((tx, index) => {
-    if (tx.type === 'purchase' || tx.type === 'deposit' || tx.type === 'sale') {
+    if (
+      ((tx.type === 'purchase' || tx.type === 'deposit') &&
+        (tx.status === 'pending' || tx.status === 'success')) ||
+      tx.type === 'sale'
+    ) {
       return tx;
     }
   });
@@ -94,7 +98,7 @@ const Wallet = (props) => {
 
           <S.AvailableAmount>
             <S.AvailableText>Available:</S.AvailableText>$
-            {user?.availableBalance} (after active bids)
+            {user?.availableBalance.toFixed(2)} (after active bids)
           </S.AvailableAmount>
 
           <div style={{ paddingTop: '36px' }}>
@@ -153,10 +157,6 @@ const Wallet = (props) => {
                   filteredTransactions.map((tx, index) => {
                     return <Transaction tx={tx} key={index} />;
                   })}
-                {filteredTransactions &&
-                  filteredTransactions.map((tx, index) => {
-                    return <Transaction tx={tx} key={index} />;
-                  })}
               </>
             )}
             {/*  Temporary Hide feature will be enabled Post-MVP
@@ -169,9 +169,9 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {filteredTransactions.length > 3 && (
+            {filteredTransactions.length > 8 && (
               <S.SeeMore onClick={handleShowChange}>
-                {(showMore && 'See Less') || 'Show More'}
+                {(showMore && '- View Less') || '+ View All'}
               </S.SeeMore>
             )}
           </S.FlexRow>

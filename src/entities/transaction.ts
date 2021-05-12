@@ -40,13 +40,24 @@ export interface TransactionData {
   bid: string;
   hederaTransaction?: HederaTransaction;
   circleReceipt?: CircleReceipt;
-  buyer: string;
-  seller: string;
+  buyer: {
+    _id: string;
+    username: string;
+  };
+  seller: {
+    _id: string;
+    username: string;
+  };
   ownerAvailableBalance: number;
   cost: Cost;
   explorerLink: string;
   status: string;
   service: string;
+  deposit?: {
+    id: string;
+    type: string;
+    amount: string;
+  };
 }
 
 interface Cost {

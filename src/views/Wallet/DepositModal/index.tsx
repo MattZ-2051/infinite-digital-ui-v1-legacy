@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       position: 'absolute',
-      width: '750px',
-      height: '800px',
+      width: '550px',
+      height: '650px',
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
       paddingTop: '16px',
@@ -230,7 +230,7 @@ const DepositModal = ({
               justifyContent: 'flex-end',
             }}
           >
-            <ArrowForwardIosIcon style={{ color: '#9e9e9e' }} />
+            <ArrowForwardIosIcon className="icon__arrow" />
           </div>
         </S.Row>
         <S.Row>
@@ -269,7 +269,7 @@ const DepositModal = ({
 
 S.GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
-  padding-top: 10px;
+  padding-top: 12px;
   width: 80%;
 `;
 

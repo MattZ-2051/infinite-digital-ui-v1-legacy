@@ -21,7 +21,7 @@ export const Header = styled.div`
 `;
 
 export const Main = styled.div`
-  height: 75%;
+  height: 100vh;
   display: grid;
   grid-template-columns: 30% 70%;
 
@@ -108,7 +108,7 @@ export const SeeMore = styled.p`
 
 export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
   padding: 0 48px;
-  height: ${(props) => (props.overflow ? `100%` : `33%`)};
+  height: ${(props) => (props.overflow ? `100%` : `100%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
 
   @media screen and (max-width: 960px) {
