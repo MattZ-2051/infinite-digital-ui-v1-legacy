@@ -28,7 +28,7 @@ const Transaction = ({ tx }: IProps) => {
   return (
     <Container>
       <TransactionDescription>
-        {tx.type === 'purchase' && (
+        {tx.type === 'purchase' && tx.status === 'success' && (
           <>
             <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
             <span>

@@ -11,17 +11,22 @@ import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
+import { Status } from '../../History/index';
 
 export interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: (a: boolean) => void;
   product: ProductWithFunctions;
+  setStatus: (a: Status) => void;
+  setActiveSalePrice: (a: number) => void;
 }
 
 const CreateSale = ({
   visible,
   setModalPaymentVisible,
   product,
+  setStatus,
+  setActiveSalePrice,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
@@ -61,7 +66,9 @@ const CreateSale = ({
       if (result) {
         Toast.success(createSale.success);
         setLoading(false);
+        setStatus('active-sale');
         setModalPaymentVisible(false);
+        setActiveSalePrice(result.data?.price);
       }
     } catch (e) {
       setLoading(false);
@@ -107,7 +114,7 @@ const CreateSale = ({
 
           <S.DetailRow>
             <span>
-              {product?.sku?.series.name} /{' '}
+              {product?.sku?.series?.name} /{' '}
               {product?.sku?.redeemable && (
                 <>
                   <Redeemable /> Redeemable

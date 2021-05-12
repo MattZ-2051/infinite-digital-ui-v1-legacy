@@ -83,7 +83,7 @@ const ModalPayment = ({
 
           <S.DetailRow>
             <span>
-              {sku.series.name} /{' '}
+              {sku.series?.name} /{' '}
               {sku.redeemable && (
                 <>
                   <Redeemable /> Redeemable
