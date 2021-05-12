@@ -10,6 +10,7 @@ interface Palette {
   accentComplement: string;
   accentSecondary: string;
   greyText: string;
+  darkGreyText: string;
   contrastText: string;
 }
 
@@ -47,6 +48,7 @@ export const theme: Theme = {
       accentSecondary: '#EFEFEF',
       accentComplement: '#9E9E9E',
       greyText: 'grey',
+      darkGreyText: '#717171',
       contrastText: 'orange',
     },
     dark: {
@@ -58,6 +60,7 @@ export const theme: Theme = {
       accentSecondary: '#252525',
       accentComplement: 'white',
       greyText: 'grey',
+      darkGreyText: '#717171',
       contrastText: 'orange',
     },
   },

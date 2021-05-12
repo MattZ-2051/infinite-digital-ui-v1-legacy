@@ -87,9 +87,12 @@ const Tile = ({
 
           <SkuName>{middle}</SkuName>
           <Row style={{ paddingTop: '8px' }}>
-            <BottomCardText style={{ textAlign: 'start' }}>
+            <AccentCardText
+              themeStyle={themeStyle}
+              style={{ textAlign: 'start' }}
+            >
               {bottomLeft}
-            </BottomCardText>
+            </AccentCardText>
             {status === 'upcoming-sku' && !unique && (
               <BottomCardText>
                 {' '}
@@ -281,6 +284,13 @@ const BottomCardText = styled.p`
   text-align: end;
   display: flex;
   align-items: center;
+`;
+
+const AccentCardText = styled(BottomCardText)<{ theme; themeStyle }>`
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.darkGreyText
+      : theme.palette.light.baseComplement};
 `;
 
 const SkuName = styled.p`
