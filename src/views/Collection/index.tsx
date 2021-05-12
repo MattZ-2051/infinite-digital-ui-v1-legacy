@@ -76,16 +76,31 @@ const Collection = (): JSX.Element => {
   return (
     <Container>
       <ViewContainer>
-        <BackgroundImageContainer
-          src={bannerPhotoUrl}
-          styles={{
-            height: '500px',
-            width: '100%',
+        {bannerPhotoUrl ? (
+          <BackgroundImageContainer
+            src={bannerPhotoUrl}
+            styles={{
+              height: '500px',
+              width: '100%',
+            }}
+          >
+            <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+          </BackgroundImageContainer>
+        ) : (
+          <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
+        )}
+        <FlexRow
+          style={{
+            margin: '5rem',
+            display:
+              midPhotoUrl ||
+              descriptionIcon ||
+              descriptionBodyMain ||
+              descriptionBodyGradient
+                ? 'flex'
+                : 'hidden',
           }}
         >
-          <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
-        </BackgroundImageContainer>
-        <FlexRow style={{ margin: '5rem' }}>
           {midPhotoUrl && (
             <Container style={{ marginRight: '2.5rem' }}>
               <Media
@@ -103,9 +118,9 @@ const Collection = (): JSX.Element => {
                 />
               )}
               <TextContainer textAlign="left" fontSize="28">
-                {descriptionBodyMain}
+                {descriptionBodyMain && descriptionBodyMain}
                 <GradientText textAlign="left" fontSize="28">
-                  {descriptionBodyGradient}
+                  {descriptionBodyGradient && descriptionBodyGradient}
                 </GradientText>
               </TextContainer>
               <TextContainer fontSize="18">{descriptionBody}</TextContainer>
