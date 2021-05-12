@@ -1,9 +1,9 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import { StyledCard, Row, CardImg, RedeemIcon } from '../index';
 import productImg from 'assets/img/backgrounds/product-image.jpeg';
 import CardContent from '@material-ui/core/CardContent';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
+import isoLogoBlack from 'assets/img/backgrounds/placeholder-img.jpg';
 import Rarity from 'components/Rarity';
 import { Sku } from 'entities/sku';
 
@@ -71,7 +71,14 @@ const Tile = ({
             src={skuImg}
           ></video>
         ) : (
-          <CardImg src={skuImg || productImg} alt="" />
+          <CardImg
+            src={skuImg || productImg}
+            alt=""
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = isoLogoBlack;
+            }}
+          />
         )}
 
         <CardContent
