@@ -115,25 +115,34 @@ const Tile = ({
             {status === 'active-listing' && !unique && (
               <SerialNum>
                 Serial:
-                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                <ComplementText
+                  themeStyle={themeStyle}
+                  style={{ paddingLeft: '5px' }}
+                >
                   {bottomRight}
-                </span>
+                </ComplementText>
               </SerialNum>
             )}
             {status === 'no-active-listing' && !unique && (
               <SerialNum>
                 Serial:
-                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                <ComplementText
+                  themeStyle={themeStyle}
+                  style={{ paddingLeft: '5px' }}
+                >
                   {bottomRight}
-                </span>
+                </ComplementText>
               </SerialNum>
             )}
             {status === 'upcoming-product-time' && !unique && (
               <SerialNum>
                 Serial:
-                <span style={{ color: 'black', paddingLeft: '5px' }}>
+                <ComplementText
+                  themeStyle={themeStyle}
+                  style={{ paddingLeft: '5px' }}
+                >
                   {bottomRight}
-                </span>
+                </ComplementText>
               </SerialNum>
             )}
           </Row>
@@ -200,6 +209,13 @@ const CardContainer = styled.div`
   :hover {
     cursor: pointer;
   }
+`;
+
+const ComplementText = styled.span<{ theme; themeStyle }>`
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
 `;
 
 const NotForSale = styled.span`
