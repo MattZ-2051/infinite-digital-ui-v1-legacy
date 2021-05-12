@@ -27,7 +27,7 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
     if (newUsername.length === 0) {
-      setErrorMessage('Please enter new username');
+      setErrorMessage('Please enter a new username');
       return;
     }
     const res = await dispatch(updateUsernameThunk(data));
@@ -37,6 +37,10 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     } else {
       setConfirmed(true);
       setErrorMessage('');
+      setTimeout(() => {
+        setConfirmed(false);
+        handleClose();
+      }, 1500);
     }
 
     setNewUsername('');
@@ -58,7 +62,7 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
                 <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
               </S.Icon>
               <S.Content>
-                <S.Header>Edit Profile</S.Header>
+                <S.Header>Edit Your Username</S.Header>
                 {errorMessage === '' ? null : (
                   <S.SubHeader style={{ color: 'red' }}>
                     {errorMessage}

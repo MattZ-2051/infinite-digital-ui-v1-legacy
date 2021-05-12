@@ -31,16 +31,14 @@ const Transaction = ({ transaction }: Props) => {
       </S.Username>
       <S.TransactionInfo>
         <S.TransactionDetails>
-          {transaction.type === 'purchase' &&
-            transaction.transactionData.hederaTransaction?.status ===
-              'SUCCESS' && (
-              <S.FlexDiv>
-                <S.Description>Bought for</S.Description>
-                <S.Amount>
-                  ${transaction.transactionData.cost?.totalCost || '200'}
-                </S.Amount>
-              </S.FlexDiv>
-            )}
+          {transaction.type === 'purchase' && transaction.status === 'success' && (
+            <S.FlexDiv>
+              <S.Description>Bought for</S.Description>
+              <S.Amount>
+                ${transaction.transactionData.cost?.totalCost || '200'}
+              </S.Amount>
+            </S.FlexDiv>
+          )}
           {transaction.type === 'nft_mint' && (
             <S.FlexDiv>
               <S.Amount>Minted</S.Amount>

@@ -74,6 +74,12 @@ const ProductDetails = ({ product }: Props) => {
 
           {product?.sku?.maxSupply !== 1 && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
+              {product?.sku?.supplyType === 'variable' &&
+                product?.sku?.circulatingSupply > 0 &&
+                `${product?.sku?.circulatingSupply || 0} Released `}
+              {product?.sku?.supplyType === 'fixed' &&
+                product?.sku?.totalSupply > 0 &&
+                `${product?.sku?.totalSupply || 0} Released `}
               (See All)
             </S.SkuInfo>
           )}

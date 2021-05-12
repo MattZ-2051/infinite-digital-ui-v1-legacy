@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   margin: auto;
-  max-width: 1440px;
+  // max-width: 1440px;
   height: 100vh;
   background-color: #1a1a1a;
   color: white;

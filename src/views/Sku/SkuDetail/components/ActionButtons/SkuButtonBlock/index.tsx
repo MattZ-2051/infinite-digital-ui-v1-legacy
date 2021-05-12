@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components/macro';
 import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
@@ -111,24 +111,24 @@ const FromCreatorBox = ({
 
   return (
     <Container>
-      <BoxColumn>
-        <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
-        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Initial Release
-        </small>
-      </BoxColumn>
-      <BoxColumn style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '28px' }}> {price && `$${price}`}</span>
-        <small style={{ fontSize: '15px' }}>
-          {sku?.totalSkuListingSupplyLeft >= 0 &&
-            `(${sku?.totalSkuListingSupplyLeft} left)`}
-        </small>
-      </BoxColumn>
-      <div>
-        <Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
-          {buttonLabel}
-        </Button>
-      </div>
+      <Detail>
+        <BoxColumn>
+          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
+          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
+            Initial Release
+          </small>
+        </BoxColumn>
+        <BoxColumn style={{ textAlign: 'center' }}>
+          <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
+          <small style={{ fontSize: '15px' }}>
+            {sku?.totalSkuListingSupplyLeft >= 0 &&
+              `(${sku?.totalSkuListingSupplyLeft} left)`}
+          </small>
+        </BoxColumn>
+      </Detail>
+      <Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
+        {buttonLabel}
+      </Button>
       <SkuPageModal
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
@@ -341,12 +341,22 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: black;
+
+  @media screen and (max-width: 600px) {
+    height: auto;
+    padding: 24px;
+    flex-direction: column;
+  }
 `;
 
 const BoxColumn = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  /* @media screen and (max-width: 600px) {
+
+  } */
 `;
 
 const Button = styled.button`
@@ -360,6 +370,22 @@ const Button = styled.button`
   outline: none;
   font-size: 20px;
   font-weight: 600;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    margin-top: 24px;
+  }
+`;
+
+const Detail = styled.div`
+  display: flex;
+  width: 52%;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 600px) {
+    justify-content: space-between;
+    width: 100%;
+  }
 `;
 
 export default SkuButtonBlock;

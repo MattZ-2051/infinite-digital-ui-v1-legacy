@@ -12,11 +12,12 @@ import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
 import KycButton from './KycButton/kycButton';
 import * as S from './styles';
+import PageLoader from 'components/PageLoader';
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
-  const [user, setUser] = useState<User>();
+  // const [user, setUser] = useState<User>();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
@@ -24,14 +25,15 @@ const Wallet = (props) => {
   const { username, id: userId } = useAppSelector(
     (state) => state.session.user
   );
+  const user = useAppSelector((state) => state.session.user);
   const { kycPending, kycMaxLevel } = useAppSelector(
     (state) => state.session.userCards
   );
 
   async function fetchUser() {
-    const res = await getMe(await getAccessTokenSilently());
+    // const res = await getMe(await getAccessTokenSilently());
     dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
-    setUser(res);
+    // setUser(res);
   }
 
   async function fetchTransactions() {
@@ -59,6 +61,15 @@ const Wallet = (props) => {
     setShowMore(!showMore);
   };
 
+  const filteredTransactions = transactions.filter((tx, index) => {
+    if (tx.type === 'purchase' || tx.type === 'deposit' || tx.type === 'sale') {
+      return tx;
+    }
+  });
+
+  if (!user || !transactions) return <PageLoader />;
+
+  console.log(filteredTransactions);
   return (
     <S.Container showMore={showMore}>
       <S.Header>
@@ -105,7 +116,7 @@ const Wallet = (props) => {
         </S.LeftCol>
 
         <S.RightCol>
-          <S.LatestTransactionsContainer overflow={showMore} id="test">
+          <S.TabContainer>
             <div style={{ position: 'relative' }}>
               <S.Tab
                 style={{
@@ -134,15 +145,17 @@ const Wallet = (props) => {
             </S.Tab> */}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
+          </S.TabContainer>
+          <S.LatestTransactionsContainer overflow={showMore} id="test">
             {selectedTab === 0 && (
               <>
-                {transactions &&
-                  transactions.map((tx, index) => {
-                    if (tx.type !== ('purchase' || 'deposit' || 'sale')) {
-                      return null;
-                    } else {
-                      return <Transaction tx={tx} key={index} />;
-                    }
+                {filteredTransactions &&
+                  filteredTransactions.map((tx, index) => {
+                    return <Transaction tx={tx} key={index} />;
+                  })}
+                {filteredTransactions &&
+                  filteredTransactions.map((tx, index) => {
+                    return <Transaction tx={tx} key={index} />;
                   })}
               </>
             )}
@@ -156,7 +169,7 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {transactions.length > 5 && (
+            {filteredTransactions.length > 3 && (
               <S.SeeMore onClick={handleShowChange}>
                 {(showMore && 'See Less') || 'Show More'}
               </S.SeeMore>

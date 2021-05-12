@@ -107,10 +107,17 @@ export const SeeMore = styled.p`
 `;
 
 export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
-  padding-left: 48px;
-  padding: 48px;
+  padding: 0 48px;
+  height: ${(props) => (props.overflow ? `100%` : `33%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
 
+  @media screen and (max-width: 960px) {
+    padding: 24px;
+  }
+`;
+
+export const TabContainer = styled.div`
+  padding: 48px 48px 0 48px;
   @media screen and (max-width: 960px) {
     padding: 24px;
   }

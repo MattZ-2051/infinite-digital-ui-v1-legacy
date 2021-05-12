@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { ProductWithFunctions } from 'entities/product';
 import Transaction from './Transaction';
@@ -37,18 +37,37 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
   );
+  const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
+    product?.activeProductListings[0]?.price
+  );
   const price = product?.listing.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const [status, setStatus] = useState<Status>('');
 
-  let status: Status = '';
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
     history.push(`/collection/${product?.owner._id}`);
   };
 
+  const productListingExists = () => {
+    return (
+      product?.activeProductListings.some((item) => item._id === product._id) ||
+      product?.upcomingProductListings.some((item) => item._id === product._id)
+    );
+  };
+
   const handleSaleAction = () => {
+    if (productListingExists()) {
+      return Toast.error(
+        <>
+          Another active or upcoming sale listing for this product already
+          exists. Please <Link to="/help">contact support</Link> if you believe
+          this is an error
+        </>
+      );
+    }
     if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
@@ -64,37 +83,54 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     }
   };
 
-  if (isAuthenticated) {
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (
+        loggedInUser.id === product?.owner._id &&
+        product?.activeProductListings?.length === 0
+      ) {
+        setStatus('create-sale');
+      } else if (
+        loggedInUser.id === product?.owner._id &&
+        product?.activeProductListings?.length !== 0
+      ) {
+        setStatus('active-sale');
+      } else if (
+        loggedInUser.id !== product?.owner._id &&
+        product?.activeProductListings?.length === 0
+      ) {
+        setStatus('not-for-sale');
+      } else if (
+        loggedInUser.id !== product?.owner._id &&
+        product?.activeProductListings?.length !== 0
+      ) {
+        setStatus('buy-now');
+      }
+    } else {
+      if (product?.activeProductListings?.length !== 0) {
+        setStatus('buy-now');
+      } else if (product?.activeProductListings?.length === 0) {
+        setStatus('not-for-sale');
+      }
+    }
+  }, []);
+
+  if (status === '') return <></>;
+  const filteredTransactions = transactionHistory?.filter((tx, index) => {
     if (
-      loggedInUser.id === product?.owner._id &&
-      product?.activeProductListings?.length === 0
+      (tx.type === 'nft_transfer_manual' &&
+        tx.status !== 'error' &&
+        tx.status !== 'pending') ||
+      (tx.type === 'purchase' &&
+        tx.status !== 'error' &&
+        tx.status !== 'pending') ||
+      (tx.type === 'nft_mint' &&
+        tx.status !== 'error' &&
+        tx.status !== 'pending')
     ) {
-      status = 'create-sale';
-    } else if (
-      loggedInUser.id === product?.owner._id &&
-      product?.activeProductListings?.length !== 0
-    ) {
-      status = 'active-sale';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.activeProductListings?.length === 0
-    ) {
-      status = 'upcoming';
-    } else if (
-      loggedInUser.id !== product?.owner._id &&
-      product?.activeProductListings?.length !== 0
-    ) {
-      status = 'buy-now';
+      return tx;
     }
-  } else {
-    // check if listing products obj in arr is equal to owner id
-    // check if listing.issuer is equal to owner Id for upcoming to
-    if (product?.activeProductListings?.length !== 0) {
-      status = 'buy-now';
-    } else if (product?.activeProductListings?.length === 0) {
-      status = 'upcoming';
-    }
-  }
+  });
 
   return (
     <>
@@ -145,26 +181,26 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           {status === 'create-sale' && (
             <div style={{ paddingRight: '80px' }}>
               <S.Button onClick={handleSaleAction} width="130px" hover={true}>
-                Create Sale
+                Sell your NFT
               </S.Button>
             </div>
           )}
-          {/* {status === 'not-for-sale' && (
-            <S.Button
-              onClick={handleSaleAction}
-              className="button_noSale"
-              width="130px"
-              hover={false}
-            >
-              Not for sale
-            </S.Button>
-          )} */}
+          {status === 'not-for-sale' && (
+            <div style={{ paddingRight: '80px' }}>
+              <S.Button
+                onClick={handleSaleAction}
+                className="button_noSale"
+                width="130px"
+                hover={false}
+              >
+                Not for sale
+              </S.Button>
+            </div>
+          )}
           {status === 'active-sale' && (
             <div style={{ paddingRight: '80px' }}>
               <S.FlexColumn>
-                <S.ActiveAmount>
-                  ${product?.activeProductListings[0]?.price}
-                </S.ActiveAmount>
+                <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                 <div style={{ display: 'flex' }}>
                   <S.StatusText>Status:</S.StatusText>
                   <S.ActiveText>active</S.ActiveText>
@@ -178,22 +214,11 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           <S.GrayLine>Line</S.GrayLine>
         </S.FlexDiv>
         <S.TransactionHistory>
-          {transactionHistory instanceof Array &&
-            transactionHistory.map((transaction) => {
-              if (
-                transaction.type !== 'nft_transfer_manual' &&
-                transaction.type !== 'purchase' &&
-                transaction.type !== 'nft_mint'
-              ) {
-                return null;
-              } else {
-                return (
-                  <Transaction
-                    key={transaction._id}
-                    transaction={transaction}
-                  />
-                );
-              }
+          {filteredTransactions instanceof Array &&
+            filteredTransactions.map((transaction) => {
+              return (
+                <Transaction key={transaction._id} transaction={transaction} />
+              );
             })}
         </S.TransactionHistory>
       </S.Container>
@@ -212,6 +237,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           visible={isModalOpen}
           setModalPaymentVisible={setIsModalOpen}
           product={product}
+          setStatus={setStatus}
+          setActiveSalePrice={setActiveSalePrice}
         />
       )}
       {product && status === 'buy-now' && (
@@ -221,6 +248,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           serialNum={product.serialNumber}
           visible={isModalOpen}
           mode={modalMode}
+          setStatus={setStatus}
         />
       )}
     </>

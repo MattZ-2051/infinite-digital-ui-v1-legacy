@@ -18,13 +18,12 @@ export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
   if (sku.minStartDate > new Date()) {
     // upcoming
     return <>{sku.totalSupplyUpcoming} to be released</>;
+  } else if (sku.supplyType === 'variable' && sku.circulatingSupply > 0) {
+    return <>{sku.circulatingSupply} released</>;
+  } else if (sku.supplyType === 'fixed' && sku.totalSupply > 0) {
+    return <>{sku.totalSupply} released</>;
   } else {
-    // released
-    if (sku.totalSupply > 0) {
-      return <>{sku.totalSupply} released</>;
-    } else {
-      // weird edge case that we're not expecting
-      return <></>;
-    }
+    // weird edge case that we're not expecting
+    return <></>;
   }
 };

@@ -6,7 +6,7 @@ export interface Sku {
   name: string;
   description: string;
   display: boolean;
-  supplyType: 'variable'; // TODO: add more supply types
+  supplyType: 'variable' | 'fixed'; // TODO: add more supply types
   featured: boolean;
   redeemable: boolean;
   maxSupply?: number;
@@ -61,6 +61,7 @@ export interface Sku {
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;
+  resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
 }
 
