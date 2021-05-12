@@ -93,11 +93,7 @@ const CreateSale = ({
         <CloseModal />
       </S.CloseButton>
       <S.Header>
-        <S.Title>Create Sale</S.Title>
-        <S.SubTitle>
-          Once you start the sale it cannot be canceled automatically, contact
-          support for help.
-        </S.SubTitle>
+        <S.Title>List Your NFT For Sale</S.Title>
       </S.Header>
       <S.ModalContainer>
         <S.StyledMuiDivider />
@@ -114,10 +110,10 @@ const CreateSale = ({
 
           <S.DetailRow>
             <span>
-              {product?.sku?.series?.name} /{' '}
+              {product?.sku?.series?.name}
               {product?.sku?.redeemable && (
                 <>
-                  <Redeemable /> Redeemable
+                  <Redeemable /> / Redeemable
                 </>
               )}
             </span>
@@ -142,7 +138,7 @@ const CreateSale = ({
             <div>
               <span>
                 Marketplace fee: (
-                {product?.sku?.sellerTransactionFeePercentage || 0}
+                {product?.sku?.resaleSellersFeePercentage || 0}
                 %)
               </span>
             </div>
@@ -150,15 +146,17 @@ const CreateSale = ({
               <span>${serviceFee?.toFixed(0)}</span>
             </div>
           </S.DetailRowPrice>
-          <S.DetailRowPrice>
-            <div>
-              <span>
-                Creator royalty fee: ({product?.sku?.royaltyFeePercentage || 0}
-                %)
-              </span>
-            </div>
-            <div>${royaltyFee?.toFixed(0)}</div>
-          </S.DetailRowPrice>
+          {product?.sku?.royaltyFeePercentage > 0 && (
+            <S.DetailRowPrice>
+              <div>
+                <span>
+                  Creator royalty fee:
+                  {product?.sku?.royaltyFeePercentage} %
+                </span>
+              </div>
+              <div>${royaltyFee?.toFixed(0)}</div>
+            </S.DetailRowPrice>
+          )}
         </S.Detail>
 
         <S.StyledMuiDivider />
@@ -175,8 +173,17 @@ const CreateSale = ({
         </S.Detail>
         <S.Footer>
           <p>
-            All resales of this product are subject to a 5% royalty fee set by
-            and to be paid to the original creator.
+            Listing your NFT for sale on the marketplace will allow it to be
+            purchased by other users. Once you list your NFT for sale, it cannot
+            be canceled automatically.
+            <br />
+            <a
+              target="_blank"
+              href="https://support.suku.world/"
+              rel="noreferrer"
+            >
+              Click here to learn more.
+            </a>
           </p>
         </S.Footer>
         <Button

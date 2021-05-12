@@ -51,7 +51,23 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     history.push(`/collection/${product?.owner._id}`);
   };
 
+  const productListingExists = () => {
+    return (
+      product?.activeProductListings.some((item) => item._id === product._id) ||
+      product?.upcomingProductListings.some((item) => item._id === product._id)
+    );
+  };
+
   const handleSaleAction = () => {
+    if (productListingExists()) {
+      return Toast.error(
+        <>
+          Another active or upcoming sale listing for this product already
+          exists. Please <Link to="/help">contact support</Link> if you believe
+          this is an error
+        </>
+      );
+    }
     if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
@@ -165,7 +181,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           {status === 'create-sale' && (
             <div style={{ paddingRight: '80px' }}>
               <S.Button onClick={handleSaleAction} width="130px" hover={true}>
-                Create Sale
+                Sell your NFT
               </S.Button>
             </div>
           )}
