@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { StyledCard, Row, CardImg, RedeemIcon } from '../index';
-import productImg from 'assets/img/backgrounds/product-image.jpeg';
+import { StyledCard, Row, RedeemIcon } from '../index';
 import CardContent from '@material-ui/core/CardContent';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
 import Rarity from 'components/Rarity';
 import { Sku } from 'entities/sku';
 import Emoji from 'components/Emoji';
+import { Media } from '../../Media/Media';
 
 interface Props {
   sku: Sku;
@@ -59,23 +59,15 @@ const Tile = ({
           <RedeemIcon src={redeemIcon} style={{ position: 'absolute' }} />
         ) : null}
 
-        {skuImg?.endsWith('mov') || skuImg?.endsWith('mp4') ? (
-          <video
-            style={{
-              height: '240px',
-              width: '302px',
-              borderRadius: '20px 20px 0 0',
-              objectFit: 'cover',
-            }}
-            autoPlay={true}
-            controls={false}
-            loop={true}
-            muted={true}
-            src={skuImg}
-          ></video>
-        ) : (
-          <CardImg src={skuImg || productImg} alt="" />
-        )}
+        <Media
+          src={skuImg}
+          styles={{
+            height: '240px',
+            width: '302px',
+            borderRadius: '20px 20px 0 0',
+            objectFit: 'cover',
+          }}
+        />
 
         <StyledCardContent themeStyle={themeStyle}>
           <Row>

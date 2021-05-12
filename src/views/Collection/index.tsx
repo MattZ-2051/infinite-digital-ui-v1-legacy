@@ -7,11 +7,12 @@ import { getUser } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import { FlexColumn, FlexRow } from 'components/Layout';
 import { ViewContainer } from 'components/Layout/Container/ViewContainer';
-import { Image, BackgroundImageContainer } from 'components/Image';
+import { BackgroundImageContainer } from 'components/Image';
 import { TextContainer, GradientText } from '../../components/Text';
 import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
 import PageLoader from 'components/PageLoader';
+import { Media } from 'components/Media/Media';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text.split('. ');
@@ -87,13 +88,19 @@ const Collection = (): JSX.Element => {
         <FlexRow style={{ margin: '5rem' }}>
           {midPhotoUrl && (
             <Container style={{ marginRight: '2.5rem' }}>
-              <Image src={midPhotoUrl} maxHeight="648px" maxWidth="518px" />
+              <Media
+                src={midPhotoUrl}
+                styles={{ maxHeight: '648px', maxWidth: '518px' }}
+              />
             </Container>
           )}
           <Container style={{ marginLeft: '2.5rem' }}>
             <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
               {descriptionIcon && (
-                <Image src={descriptionIcon} maxHeight="98px" maxWidth="98px" />
+                <Media
+                  src={descriptionIcon}
+                  styles={{ maxHeight: '98px', maxWidth: '98px' }}
+                />
               )}
               <TextContainer textAlign="left" fontSize="28">
                 {descriptionBodyMain}
@@ -117,7 +124,10 @@ const Collection = (): JSX.Element => {
             style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
           >
             {footerPhotoUrl && (
-              <Image src={footerPhotoUrl} maxHeight="600px" maxWidth="500px" />
+              <Media
+                src={footerPhotoUrl}
+                styles={{ maxHeight: '600px', maxWidth: '500px' }}
+              />
             )}
             <TextContainer textAlign="center" fontSize="48" fontWeight="400">
               {taglineMain}

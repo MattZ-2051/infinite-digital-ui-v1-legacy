@@ -4,13 +4,12 @@ import * as CSS from 'csstype';
 interface ImageProps {
   src: string;
   alt?: string;
-  maxWidth?: string;
-  maxHeight?: string;
   children?: JSX.Element;
+  styles?: CSS.Properties;
 }
 
 export const Image = (props: ImageProps): JSX.Element => {
-  const { src, alt, maxWidth, maxHeight, children } = props;
+  const { src, alt, styles, children } = props;
 
   // Import result is the URL of your image
   return (
@@ -18,9 +17,8 @@ export const Image = (props: ImageProps): JSX.Element => {
       src={src}
       alt={alt}
       style={{
-        ...(maxWidth && { maxWidth }),
-        ...(maxHeight && { maxHeight }),
         width: '100%',
+        ...styles,
       }}
     >
       {children && children}
@@ -28,10 +26,10 @@ export const Image = (props: ImageProps): JSX.Element => {
   );
 };
 
-const ImageContainer = styled.div<{ imageUrl?: string }>`
-  background-image: ${(props) =>
-    props.imageUrl
-      ? 'url(' + props.imageUrl + ')'
+export const ImageContainer = styled.div<{ src?: string }>`
+  background-image: ${({ src }) =>
+    src
+      ? 'url(' + src + ')'
       : 'url(https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder.png)'};
   background-size: cover;
   background-repeat: no-repeat;
@@ -45,7 +43,7 @@ interface BackgroundImageContainerProps {
   src?: string;
   alt?: string;
   children?: JSX.Element;
-  styles: CSS.Properties;
+  styles?: CSS.Properties;
 }
 
 export const BackgroundImageContainer = (
@@ -55,7 +53,7 @@ export const BackgroundImageContainer = (
 
   if (src) {
     return (
-      <ImageContainer style={{ ...styles }} imageUrl={src}>
+      <ImageContainer style={{ ...styles }} src={src}>
         {children && children}
       </ImageContainer>
     );
