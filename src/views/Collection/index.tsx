@@ -38,7 +38,6 @@ const splitLastSentence = (text: string): [string, string] => {
 const Collection = (): JSX.Element => {
   const [user, setUser] = useState<User>(userFactory.build());
   const {
-    profilePhotoUrl,
     bannerPhotoUrl,
     midPhotoUrl,
     descriptionIcon,
@@ -47,8 +46,8 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionBodyMain, descriptionBodyGradient] = splitLastSentence(
-    descriptionBody
+  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
+    descriptionHeader
   );
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
@@ -95,10 +94,11 @@ const Collection = (): JSX.Element => {
             display:
               midPhotoUrl ||
               descriptionIcon ||
-              descriptionBodyMain ||
-              descriptionBodyGradient
+              descriptionHeaderMain ||
+              descriptionHeaderGradient ||
+              descriptionBody
                 ? 'flex'
-                : 'hidden',
+                : 'none',
           }}
         >
           {midPhotoUrl && (
@@ -118,9 +118,9 @@ const Collection = (): JSX.Element => {
                 />
               )}
               <TextContainer textAlign="left" fontSize="28">
-                {descriptionBodyMain && descriptionBodyMain}
+                {descriptionHeaderMain && descriptionHeaderMain}
                 <GradientText textAlign="left" fontSize="28">
-                  {descriptionBodyGradient && descriptionBodyGradient}
+                  {descriptionHeaderGradient && descriptionHeaderGradient}
                 </GradientText>
               </TextContainer>
               <TextContainer fontSize="18">{descriptionBody}</TextContainer>

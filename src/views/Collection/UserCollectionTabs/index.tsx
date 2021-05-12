@@ -254,7 +254,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           )}
         </>
       )}
-      <Pagination
+      <StyledPagination
+        themeStyle={themeStyle}
         count={Math.ceil(total / perPage)}
         page={page}
         onChange={handlePagination}
@@ -262,6 +263,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     </Container>
   );
 };
+
+const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
+`;
 
 const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
   background-color: ${({ themeStyle, theme }) =>
