@@ -83,7 +83,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         loggedInUser.id !== product?.owner._id &&
         product?.activeProductListings?.length === 0
       ) {
-        setStatus('upcoming');
+        setStatus('not-for-sale');
       } else if (
         loggedInUser.id !== product?.owner._id &&
         product?.activeProductListings?.length !== 0
@@ -94,7 +94,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       if (product?.activeProductListings?.length !== 0) {
         setStatus('buy-now');
       } else if (product?.activeProductListings?.length === 0) {
-        setStatus('upcoming');
+        setStatus('not-for-sale');
       }
     }
   }, []);
@@ -169,16 +169,18 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.Button>
             </div>
           )}
-          {/* {status === 'not-for-sale' && (
-            <S.Button
-              onClick={handleSaleAction}
-              className="button_noSale"
-              width="130px"
-              hover={false}
-            >
-              Not for sale
-            </S.Button>
-          )} */}
+          {status === 'not-for-sale' && (
+            <div style={{ paddingRight: '80px' }}>
+              <S.Button
+                onClick={handleSaleAction}
+                className="button_noSale"
+                width="130px"
+                hover={false}
+              >
+                Not for sale
+              </S.Button>
+            </div>
+          )}
           {status === 'active-sale' && (
             <div style={{ paddingRight: '80px' }}>
               <S.FlexColumn>
