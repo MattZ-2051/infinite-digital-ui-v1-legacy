@@ -113,6 +113,7 @@ export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
 
   @media screen and (max-width: 960px) {
     padding: 24px;
+    overflow-y: auto;
   }
 `;
 

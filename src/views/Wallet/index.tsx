@@ -68,7 +68,9 @@ const Wallet = (props) => {
   const filteredTransactions = transactions.filter((tx, index) => {
     if (
       ((tx.type === 'purchase' || tx.type === 'deposit') &&
-        (tx.status === 'pending' || tx.status === 'success')) ||
+        (tx.status === 'pending' ||
+          tx.status === 'success' ||
+          tx.status === 'error')) ||
       tx.type === 'sale'
     ) {
       return tx;
@@ -84,6 +86,8 @@ const Wallet = (props) => {
 
   if (!user || !transactions) return <PageLoader />;
 
+  console.log(filteredTransactions);
+  console.log(isElOverflown);
   return (
     <S.Container showMore={showMore}>
       <S.Header>

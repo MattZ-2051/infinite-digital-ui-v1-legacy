@@ -57,6 +57,19 @@ const Transaction = ({ tx }: IProps) => {
             <S.Bold>(Pending)</S.Bold>
           </>
         )}
+        {tx.type === 'purchase' && tx.status === 'error' && (
+          <>
+            <S.Icon src={purchaseIcon} />
+            <span>You tried buying {tx.transactionData.sku[0]?.name} from</span>
+            <S.Bold>
+              @
+              {tx.transactionData?.seller?.username.length > 16
+                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
+                : tx.transactionData?.seller?.username}
+            </S.Bold>
+            <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
+          </>
+        )}
         {tx.type === 'sale' && (
           <>
             <S.Icon src={dollarSign} />
@@ -89,6 +102,15 @@ const Transaction = ({ tx }: IProps) => {
               <S.Icon src={depositIcon} />
               <span>You added funds from your credit card</span>
               <S.Bold>(Pending)</S.Bold>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'cc' &&
+          tx.status === 'error' && (
+            <>
+              <S.Icon src={usdcIcon} />
+              <span>You tried to add funds</span>
+              <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
             </>
           )}
         {tx.type === 'deposit' &&
@@ -129,13 +151,18 @@ const Transaction = ({ tx }: IProps) => {
       <S.TransactionDetail>
         {tx.type === 'purchase' && tx.status === 'success' && (
           <S.Color color="#DA1010">
-            - ${tx.transactionData.cost.totalCost}
+            - ${tx.transactionData?.cost?.totalCost}
           </S.Color>
         )}
 
         {tx.type === 'purchase' && tx.status === 'pending' && (
           <S.Color color="#9e9e9e">
-            - ${tx.transactionData.cost.totalCost}
+            - ${tx.transactionData?.cost?.totalCost}
+          </S.Color>
+        )}
+        {tx.type === 'purchase' && tx.status === 'error' && (
+          <S.Color color="black" style={{ textDecoration: 'line-through' }}>
+            ${tx.transactionData?.cost?.totalCost}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'success' && (
@@ -150,7 +177,7 @@ const Transaction = ({ tx }: IProps) => {
         )}
         {tx.type === 'deposit' && tx.status === 'error' && (
           <S.Color color="black" style={{ textDecoration: 'line-through' }}>
-            + ${tx.transactionData?.deposit?.amount}
+            ${tx.transactionData?.deposit?.amount}
           </S.Color>
         )}
         {tx.type === 'sale' && (
