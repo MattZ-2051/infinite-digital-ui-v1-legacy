@@ -6,7 +6,7 @@ import ProfileButton from 'components/Buttons/ProfileButton';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
 import EditModal from './EditModal';
-
+import * as S from './styles';
 interface IProps {
   user: User | undefined;
   isAuthenticated: boolean;
@@ -64,7 +64,7 @@ const UserCollectioinInfo = ({
   checkStatus();
 
   return (
-    <Container>
+    <S.Container>
       {userStatus === 'loggedInIssuer' && (
         <>
           {user?.profilePhotoUrl ? (
@@ -76,21 +76,21 @@ const UserCollectioinInfo = ({
               src={user.profilePhotoUrl}
             />
           ) : (
-            <AccountIcon />
+            <S.AccountIcon />
           )}
-          <UsernameIconContainer>
+          <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @ {loggedInUser.username}
             </span>
-            <EditIconContainer>
-              <StyledEditIcon
+            <S.EditIconContainer>
+              <S.EditIcon
                 onClick={handleUsernameEdit}
                 src={editIconImg}
                 style={{ fontSize: '14px' }}
               />
-            </EditIconContainer>
-          </UsernameIconContainer>
-          <ButtonContainer>
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton
               label="My Account"
               handleClick={handleWalletRedirect}
@@ -99,29 +99,29 @@ const UserCollectioinInfo = ({
               {/* <ButtonDivider></ButtonDivider> */}
             </div>
             <ProfileButton label="My Wallet" />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
       {userStatus === 'loggedIn' && (
         <>
-          <UsernameIconContainer>
+          <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @ {loggedInUser.username}
             </span>
-            <EditIconContainer>
-              <StyledEditIcon
+            <S.EditIconContainer>
+              <S.EditIcon
                 onClick={handleUsernameEdit}
                 src={editIconImg}
                 style={{ fontSize: '14px' }}
               />
-            </EditIconContainer>
-          </UsernameIconContainer>
-          <ButtonContainer>
+            </S.EditIconContainer>
+          </S.UsernameIconContainer>
+          <S.ButtonContainer>
             <ProfileButton
               label="My Wallet"
               handleClick={handleWalletRedirect}
             />
-          </ButtonContainer>
+          </S.ButtonContainer>
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
@@ -143,7 +143,7 @@ const UserCollectioinInfo = ({
               src={user.profilePhotoUrl}
             />
           ) : (
-            <AccountIcon />
+            <S.AccountIcon />
           )}
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             @ {user?.username}
@@ -151,72 +151,8 @@ const UserCollectioinInfo = ({
         </>
       )}
       <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
-    </Container>
+    </S.Container>
   );
 };
 
-const EditIconContainer = styled.div`
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  width: 100%;
-  height: 30vh;
-  flex-direction: column;
-  position: relative;
-`;
-
-const StyledEditIcon = styled.img`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  background-color: #252525;
-  width: 232px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-`;
-
-const AccountIcon = styled.div`
-  font-size: 120px;
-`;
-
-const UsernameIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-bottom: 16px;
-`;
-
-const ExitIcon = styled.img`
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-const UsernameInput = styled.input`
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  text-align: center;
-  :focus {
-    outline: none;
-  }
-  width: fit-content;
-`;
 export default UserCollectioinInfo;
