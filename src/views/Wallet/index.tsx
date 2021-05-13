@@ -23,6 +23,9 @@ const Wallet = (props) => {
   const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
   const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
+  const walletCurrency = useAppSelector(
+    (state) => state.session.userCards?.balance?.currency
+  );
   const { username, id: userId } = useAppSelector(
     (state) => state.session.user
   );
@@ -108,12 +111,17 @@ const Wallet = (props) => {
             <S.GrayLine></S.GrayLine>
           </div>
 
-          <S.BalanceAmount>${user?.balance}</S.BalanceAmount>
+          <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
 
-          <S.AvailableAmount>
-            <S.AvailableText>Available:</S.AvailableText>$
-            {user?.availableBalance?.toFixed(2)} (after active bids)
-          </S.AvailableAmount>
+          <S.Available>
+            <S.AvailableText>Available:</S.AvailableText>
+            <S.AvailableAmount>
+              ${user?.availableBalance?.toFixed(2)}
+              <S.AvailableSubText>
+                (Excludes pending transactions)
+              </S.AvailableSubText>
+            </S.AvailableAmount>
+          </S.Available>
 
           <div style={{ paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>

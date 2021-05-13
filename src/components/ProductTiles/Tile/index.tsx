@@ -107,9 +107,7 @@ const Tile = ({
               </BottomCardText>
             )}
             {unique && (
-              <BottomCardText style={{ color: '#9e9e9e' }}>
-                1 of 1
-              </BottomCardText>
+              <BottomCardText style={{ color: 'black' }}>1 of 1</BottomCardText>
             )}
             {status === 'active' && !unique && (
               <BottomCardText style={{ color: '#9e9e9e' }}>
@@ -257,7 +255,7 @@ const PillInfo = styled.span`
 
 const BottomCardText = styled.p`
   display: flex;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   letter-spacing: 0em;
   text-align: end;

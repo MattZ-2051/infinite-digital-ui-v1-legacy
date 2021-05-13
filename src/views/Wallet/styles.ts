@@ -74,7 +74,22 @@ export const FlexRow = styled.div`
 
 export const AvailableAmount = styled.span`
   font-size: 16px;
+  font-weight: 600;
+  color: black;
+`;
+
+export const Available = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 16px;
+`;
+
+export const AvailableSubText = styled.span`
+  font-size: 14px;
+  color: #9e9e9e;
   font-weight: 400;
+  padding-left: 5px;
 `;
 
 export const Tab = styled.span`
@@ -162,7 +177,7 @@ export const GrayLine = styled.div`
 
 export const AvailableText = styled.span`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   color: #9e9e9e;
   padding-right: 8px;
 `;
