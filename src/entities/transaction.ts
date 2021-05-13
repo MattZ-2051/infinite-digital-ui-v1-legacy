@@ -29,7 +29,7 @@ interface Sku {
 
 interface Product {
   serialNumber: string;
-  id: string;
+  _id: string;
 }
 
 export interface TransactionData {
