@@ -109,9 +109,11 @@ const UserCollectioinInfo = ({
               @ {loggedInUser.username}
             </span>
             <EditIconContainer>
-              <StyledEditIcon onClick={handleUsernameEdit}>
-                <img src={editIconImg} />
-              </StyledEditIcon>
+              <StyledEditIcon
+                onClick={handleUsernameEdit}
+                src={editIconImg}
+                style={{ fontSize: '14px' }}
+              />
             </EditIconContainer>
           </UsernameIconContainer>
           <ButtonContainer>
