@@ -4,7 +4,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 export const EditIconContainer = styled.div`
   width: 24px;
   height: 24px;
-  background-color: black;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -14,13 +13,13 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
   color: white;
   width: 100%;
   height: 30vh;
   flex-direction: column;
   position: relative;
 `;
+
 export const EditIcon = styled.img`
   :hover {
     transform: scale(1.1);
@@ -38,7 +37,7 @@ export const ButtonContainer = styled.div`
   border-radius: 20px;
 `;
 
-export const AccountIcon = styled(AccountCircleIcon)`
+export const AccountIcon = styled.div`
   font-size: 120px;
 `;
 
