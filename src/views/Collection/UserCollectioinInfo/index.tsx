@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
@@ -5,14 +6,16 @@ import ProfileButton from 'components/Buttons/ProfileButton';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
 import EditModal from './EditModal';
-import * as S from './styles';
 
 interface IProps {
   user: User | undefined;
   isAuthenticated: boolean;
 }
 
-const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
+const UserCollectioinInfo = ({
+  user,
+  isAuthenticated,
+}: IProps): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -61,42 +64,62 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
   checkStatus();
 
   return (
-    <S.Container>
+    <Container>
       {userStatus === 'loggedInIssuer' && (
         <>
-          <S.AccountIcon />
-          <S.UsernameIconContainer>
+          {user?.profilePhotoUrl ? (
+            <img
+              style={{
+                width: '140px',
+                height: '140px',
+              }}
+              src={user.profilePhotoUrl}
+            />
+          ) : (
+            <AccountIcon />
+          )}
+          <UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @ {loggedInUser.username}
             </span>
-            <S.EditIconContainer>
-              <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />
-            </S.EditIconContainer>
-          </S.UsernameIconContainer>
-          <S.ButtonContainer>
+            <EditIconContainer>
+              <StyledEditIcon
+                onClick={handleUsernameEdit}
+                src={editIconImg}
+                style={{ fontSize: '14px' }}
+              />
+            </EditIconContainer>
+          </UsernameIconContainer>
+          <ButtonContainer>
             <ProfileButton
-              label="My Wallet"
+              label="My Account"
               handleClick={handleWalletRedirect}
             />
-          </S.ButtonContainer>
+            <div style={{ padding: '0 10px' }}>
+              {/* <ButtonDivider></ButtonDivider> */}
+            </div>
+            <ProfileButton label="My Wallet" />
+          </ButtonContainer>
         </>
       )}
       {userStatus === 'loggedIn' && (
         <>
-          <S.UsernameIconContainer>
+          <UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
               @ {loggedInUser.username}
             </span>
-            <S.EditIconContainer>
-              <S.EditIcon onClick={handleUsernameEdit} src={editIconImg} />
-            </S.EditIconContainer>
-          </S.UsernameIconContainer>
-          <S.ButtonContainer>
+            <EditIconContainer>
+              <StyledEditIcon onClick={handleUsernameEdit}>
+                <img src={editIconImg} />
+              </StyledEditIcon>
+            </EditIconContainer>
+          </UsernameIconContainer>
+          <ButtonContainer>
             <ProfileButton
               label="My Wallet"
               handleClick={handleWalletRedirect}
             />
-          </S.ButtonContainer>
+          </ButtonContainer>
         </>
       )}
       {userStatus === 'notCurrentUserProfile' && (
@@ -108,15 +131,90 @@ const UserCollectioinInfo = ({ user, isAuthenticated }: IProps) => {
       )}
       {userStatus === 'notCurrentUserProfileIssuer' && (
         <>
-          <S.AccountIcon />
+          {user?.profilePhotoUrl ? (
+            <img
+              style={{
+                width: '140px',
+                height: '140px',
+                borderRadius: '50px',
+              }}
+              src={user.profilePhotoUrl}
+            />
+          ) : (
+            <AccountIcon />
+          )}
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             @ {user?.username}
           </span>
         </>
       )}
       <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
-    </S.Container>
+    </Container>
   );
 };
 
+const EditIconContainer = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  height: 30vh;
+  flex-direction: column;
+  position: relative;
+`;
+
+const StyledEditIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  background-color: #252525;
+  width: 232px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+`;
+
+const AccountIcon = styled.div`
+  font-size: 120px;
+`;
+
+const UsernameIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+`;
+
+const ExitIcon = styled.img`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+const UsernameInput = styled.input`
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: center;
+  :focus {
+    outline: none;
+  }
+  width: fit-content;
+`;
 export default UserCollectioinInfo;

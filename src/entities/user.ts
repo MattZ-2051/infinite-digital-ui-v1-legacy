@@ -1,5 +1,4 @@
 import { ITransaction } from './transaction';
-
 export interface User {
   _id: string;
   id: string;
@@ -12,6 +11,14 @@ export interface User {
   role: string;
   updatedAt: string;
   username: string;
+  profilePhotoUrl: string;
+  bannerPhotoUrl: string;
+  midPhotoUrl: string;
+  descriptionIcon: string;
+  descriptionHeader: string;
+  descriptionBody: string;
+  footerPhotoUrl: string;
+  tagline: string;
   transactions?: ITransaction[];
   errorMessage?: string;
 }

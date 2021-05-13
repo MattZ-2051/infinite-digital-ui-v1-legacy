@@ -13,6 +13,7 @@ import {
 } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
+import { Theme } from 'theme/theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface IProps {
@@ -20,8 +21,9 @@ interface IProps {
   isAuthenticated: boolean;
 }
 
-const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
-  const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
   const history = useHistory();
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [userItems, setUserItems] = useState<
@@ -51,7 +53,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
 
   useEffect(() => {
     fetchData();
-  }, [userId, page]);
+  }, [selectedTab, userId, user]);
 
   let userStatus = '';
 
@@ -94,8 +96,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   // TODO: REVIEW
   const placeHolderFunc = () => null;
   return (
-    // TODO: DRY
-    <Container>
+    <Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
         <>
           <div style={{ position: 'relative', paddingBottom: '30px' }}>
@@ -106,26 +107,26 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 0 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  themeStyle={themeStyle}
+                  selected={selectedTab === 0}
                   onClick={() => setSelectedTab(0)}
                 >
                   My Items
                 </Tab>
-              </div>
+              </TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
 
           {selectedTab === 0 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              themeStyle={themeStyle}
+              userItems={userItems}
+              collection={true}
+            />
           )}
         </>
       )}
@@ -139,39 +140,39 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 0 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  selected={selectedTab === 0}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   My Releases
                 </Tab>
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 1 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 1 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  selected={selectedTab === 1}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(1)}
                 >
                   My Items
                 </Tab>
-              </div>
+              </TabBar>
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && (
-            <Releases userReleases={userReleases} collection={true} />
+            <Releases
+              userReleases={userReleases}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
           {selectedTab === 1 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
@@ -185,40 +186,40 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 0 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  selected={selectedTab === 0}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   Releases
                 </Tab>
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 1 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 1 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  selected={selectedTab === 1}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(1)}
                 >
                   Items
                 </Tab>
-              </div>
+              </TabBar>
             </div>
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && (
-            <Releases userReleases={userReleases} collection={true} />
+            <Releases
+              userReleases={userReleases}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
           {selectedTab === 1 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
@@ -232,30 +233,31 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
                 alignItems: 'center',
               }}
             >
-              <div>
+              <TabBar>
                 <Tab
-                  style={{
-                    borderBottom: `${
-                      selectedTab === 0 ? '2px solid black' : 'none'
-                    }`,
-                    color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-                  }}
+                  selected={selectedTab === 0}
+                  themeStyle={themeStyle}
                   onClick={() => setSelectedTab(0)}
                 >
                   Items
                 </Tab>
-              </div>
+              </TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
           {selectedTab === 0 && (
-            <Items userItems={userItems} collection={true} />
+            <Items
+              userItems={userItems}
+              collection={true}
+              themeStyle={themeStyle}
+            />
           )}
         </>
       )}
-      <Pagination
+      <StyledPagination
+        themeStyle={themeStyle}
         count={Math.ceil(total / perPage)}
         page={page}
         onChange={handlePagination}
@@ -265,7 +267,26 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps) => {
   );
 };
 
-const Container = styled.div`
+const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
+`;
+
+const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
   width: 100%;
   padding: 40px;
 `;
@@ -276,7 +297,34 @@ const GrayLine = styled.div`
   padding-bottom: 14px;
 `;
 
-const Tab = styled.span`
+const TabBar = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Tab = styled.div<{
+  selected: boolean;
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+}>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme, selected }) =>
+    themeStyle === 'dark'
+      ? selected
+        ? theme.palette.dark.baseComplement
+        : theme.palette.dark.greyText
+      : selected
+      ? theme.palette.light.baseComplement
+      : theme.palette.light.greyText};
+  border-bottom: ${({ themeStyle, theme, selected }) =>
+    selected
+      ? themeStyle === 'dark'
+        ? '2px solid ' + theme.palette.dark.baseComplement
+        : '2px solid ' + theme.palette.light.baseComplement
+      : 'none'};
   font-weight: 600;
   font-size: 22px;
   line-height: 27.83px;

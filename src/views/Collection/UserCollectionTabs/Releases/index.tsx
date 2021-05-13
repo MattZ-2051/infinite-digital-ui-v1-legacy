@@ -6,16 +6,21 @@ import { Sku } from 'entities/sku';
 interface Props {
   userReleases: Sku[] | undefined;
   collection?: boolean;
+  themeStyle: 'light' | 'dark';
 }
 
-const Releases = ({ userReleases, collection }: Props) => {
+const Releases = ({
+  userReleases,
+  collection,
+  themeStyle = 'light',
+}: Props): JSX.Element => {
   return (
     <Container collection={collection || false}>
       {userReleases &&
         userReleases.map((sku: Sku, index) => {
           return (
             <TileContainer key={sku._id} index={index}>
-              <SkuTile sku={sku} />
+              <SkuTile sku={sku} themeStyle={themeStyle} />
             </TileContainer>
           );
         })}
@@ -23,7 +28,7 @@ const Releases = ({ userReleases, collection }: Props) => {
   );
 };
 
-const TileContainer = styled.div<{ index: number }>`
+const TileContainer = styled.div<{ index: number; theme }>`
   padding: 0 20px;
   padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
 `;

@@ -98,7 +98,7 @@ const Container = styled.div<{ height?: string }>`
   flex-direction: column;
   justify-content: space-between;
   background-color: #f4f4f4;
-  height: ${(props) => (props.height ? `${props.height};` : `100%;`)}
+  height: ${(props) => (props.height ? `${props.height};` : `100%`)};
   width: 100%;
   max-width: 700px;
   max-height: 700px;

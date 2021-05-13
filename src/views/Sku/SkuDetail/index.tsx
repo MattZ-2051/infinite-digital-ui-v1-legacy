@@ -155,11 +155,12 @@ const SkuDetail = (): JSX.Element => {
         <S.ProductContainer>
           {featuredProducts &&
             featuredProducts.map((el, index) => {
+              // TODO: Stopping after index 5
               if (index >= 5) return null;
               return (
                 <S.TileContainer key={index} index={index}>
                   {/*TODO from Matt: find out what kind of tile is going to be rendererd here and handle redirect when clicked*/}
-                  <SkuTile sku={el} key={index} />
+                  <SkuTile sku={el} key={index} themeStyle="light" />
                 </S.TileContainer>
               );
             })}

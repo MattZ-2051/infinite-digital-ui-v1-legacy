@@ -10,7 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const S: any = {};
 
-export const MyCollection = () => {
+export const MyCollection = (): JSX.Element => {
   const [userItems, setUserItems] = useState<ProductWithFunctions[]>([]);
   const { getAccessTokenSilently, user } = useAuth0();
   const userId = useAppSelector((state) => state.session.user.id);
@@ -48,6 +48,7 @@ export const MyCollection = () => {
             return (
               <S.TileContainer key={index} index={index}>
                 <ProductTile
+                  themeStyle="light"
                   product={product}
                   productSerialNumber={product.serialNumber}
                   key={product._id}

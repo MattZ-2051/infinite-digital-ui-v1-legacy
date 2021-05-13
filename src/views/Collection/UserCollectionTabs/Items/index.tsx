@@ -5,9 +5,14 @@ import { ProductWithFunctions } from 'entities/product';
 interface Props {
   userItems: ProductWithFunctions[] | undefined;
   collection?: boolean;
+  themeStyle?: 'light' | 'dark';
 }
 
-const Items = ({ userItems, collection }: Props) => {
+const Items = ({
+  userItems,
+  collection,
+  themeStyle = 'light',
+}: Props): JSX.Element => {
   return (
     <Container collection={collection || false}>
       {userItems &&
@@ -16,6 +21,7 @@ const Items = ({ userItems, collection }: Props) => {
           return (
             <TileContainer key={product._id} index={index}>
               <ProductTile
+                themeStyle={themeStyle}
                 product={product}
                 productSerialNumber={product.serialNumber}
                 key={product._id}

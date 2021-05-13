@@ -29,7 +29,7 @@ const NavBar = ({ isSmall }: IProps) => {
           login={loginWithRedirect}
           logout={logout}
           isAuthenticated={isAuthenticated}
-          user={user}
+          user={{ name: user?.name || '' }}
         />
       </Drawer>
 

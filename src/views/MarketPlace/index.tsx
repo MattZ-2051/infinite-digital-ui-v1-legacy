@@ -212,7 +212,7 @@ const MarketPlace = (): JSX.Element => {
             <>
               <S.ProductsGrid>
                 {skus.data.map((sku) => {
-                  return <SkuTile sku={sku} key={sku._id} />;
+                  return <SkuTile themeStyle="light" sku={sku} key={sku._id} />;
                 })}
               </S.ProductsGrid>
 

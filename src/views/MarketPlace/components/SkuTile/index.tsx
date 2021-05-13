@@ -6,9 +6,10 @@ import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
   sku: Sku;
+  themeStyle: 'light' | 'dark';
 }
 
-const SkuTile = ({ sku }: SkuProps): JSX.Element => {
+const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const {
     _id,
     minPrice,
@@ -85,6 +86,7 @@ const SkuTile = ({ sku }: SkuProps): JSX.Element => {
       unique={maxSupply === 1}
       handleRedirect={handleRedirect}
       supplyType={supplyType}
+      themeStyle={themeStyle}
     />
   );
 };

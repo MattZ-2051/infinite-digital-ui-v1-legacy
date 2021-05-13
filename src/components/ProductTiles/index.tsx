@@ -1,13 +1,16 @@
 import Card from '@material-ui/core/Card';
 import styled from 'styled-components/macro';
-import CardMedia from '@material-ui/core/CardMedia';
 import Title from './Tile';
 
-export const StyledCard = styled(Card)`
+export const StyledCard = styled(Card)<{ themeStyle; theme }>`
+  background-color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.secondaryMain
+      : theme.palette.light.baseMain};
+  /* TODO: min/max width? */
   max-width: 302px;
   min-width: 302px;
-  height: 450px;
-  overflow: initial;
+  overflow: hidden;
   border-radius: 20px;
   position: relative;
 `;
@@ -35,7 +38,7 @@ export const RedeemIcon = styled.img`
   position: absolute;
   width: 40px;
   right: 5%;
-  top 2%;
+  top: 2%;
 `;
 
 export default Title;
