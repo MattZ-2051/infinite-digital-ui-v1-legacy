@@ -86,16 +86,19 @@ const Tile = ({
               {bottomLeft}
             </AccentCardText>
             {status === 'upcoming-sku' && !unique && (
-              <BottomCardText>
+              <BottomCardText themeStyle={themeStyle}>
                 {' '}
                 {supplyType === 'variable' ? null : <>{bottomRight} Dropping</>}
               </BottomCardText>
             )}
             {unique && (
-              <BottomCardText style={{ color: 'black' }}>1 of 1</BottomCardText>
+              <BottomCardText themeStyle={themeStyle}>1 of 1</BottomCardText>
             )}
             {status === 'active' && !unique && (
-              <BottomCardText style={{ color: '#9e9e9e' }}>
+              <BottomCardText
+                themeStyle={themeStyle}
+                style={{ color: '#9e9e9e' }}
+              >
                 {supplyType === 'variable'
                   ? `${sku.circulatingSupply || 0} Released`
                   : supplyType === 'fixed'
@@ -104,7 +107,9 @@ const Tile = ({
               </BottomCardText>
             )}
             {status === 'no-sale' && !unique && (
-              <BottomCardText>{bottomRight} Owned</BottomCardText>
+              <BottomCardText themeStyle={themeStyle}>
+                {bottomRight} Owned
+              </BottomCardText>
             )}
             {status === 'active-listing' && !unique && (
               <SerialNum>
@@ -280,7 +285,11 @@ const PillInfo = styled.span`
   height: 32px;
 `;
 
-const BottomCardText = styled.p`
+const BottomCardText = styled.p<{ theme; themeStyle }>`
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
   display: flex;
   font-weight: 600;
   font-size: 15px;

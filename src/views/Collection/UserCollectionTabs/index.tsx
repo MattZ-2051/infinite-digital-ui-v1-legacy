@@ -270,12 +270,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
-      ? theme.palette.dark.baseComplement
-      : theme.palette.light.baseComplement};
-  color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
       ? theme.palette.dark.baseMain
       : theme.palette.light.baseMain};
+  color: ${({ themeStyle, theme }) =>
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseComplement
+      : theme.palette.light.baseComplement};
 `;
 
 const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
