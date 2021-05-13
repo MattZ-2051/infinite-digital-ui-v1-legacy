@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-import { useState } from 'react';
+import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -14,8 +14,8 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from 'store/session/sessionThunks';
-import lampIcon from 'assets/img/icons/lamp-icon.png';
 import Toast from 'utils/Toast';
+import LoadingButton from 'components/Buttons/LoadingButton';
 
 const S: any = {};
 
@@ -126,13 +126,6 @@ const AddFunds = () => {
               Withdrawal of credit card deposits can be initiated 30 days after
               deposit.
             </S.FeeReminderText>
-            <S.FeeReminderIconContainer>
-              <img src={lampIcon} alt="" />
-            </S.FeeReminderIconContainer>
-            <S.FeeReminderText>
-              Remember to account for the 5% service fee when choosing your
-              deposit amount
-            </S.FeeReminderText>
           </S.FeeReminderContainer>
           <div
             style={{
@@ -155,7 +148,14 @@ const AddFunds = () => {
             />
           </div>
           <div style={{ padding: '25px 0' }}>
-            <S.AddFundsButton onClick={addFunds}>Add Funds</S.AddFundsButton>
+            <S.AddFundsButton
+              onClick={addFunds}
+              loadingComponentRender={() => (
+                <PulseLoader color="#FFF" size={9} loading={true} />
+              )}
+            >
+              Add Funds
+            </S.AddFundsButton>
           </div>
         </S.ContentContainer>
       </Container>
@@ -237,7 +237,7 @@ S.ContentContainer = styled.div`
   // background-color: white;
 `;
 
-S.AddFundsButton = styled.button`
+S.AddFundsButton = styled(LoadingButton)`
   width: 410px;
   height: 56px;
   border: none;
