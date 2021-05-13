@@ -70,7 +70,7 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [userId]);
 
-  if (!user) return <PageLoader />;
+  if (user._id === '0') return <PageLoader />;
 
   return (
     <Container>
