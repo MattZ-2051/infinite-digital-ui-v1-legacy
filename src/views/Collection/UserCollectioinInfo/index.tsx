@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components/macro';
 import ProfileButton from 'components/Buttons/ProfileButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import EditIcon from '@material-ui/icons/Edit';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
 import EditModal from './EditModal';
@@ -30,7 +28,7 @@ const UserCollectioinInfo = ({
   };
 
   const checkStatus = () => {
-    if (isAuthenticated === true) {
+    if (isAuthenticated) {
       if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
         userStatus = 'loggedInIssuer';
         return userStatus;
@@ -55,7 +53,7 @@ const UserCollectioinInfo = ({
     }
   };
 
-  const handleUsernameEdit = (e) => {
+  const handleUsernameEdit = () => {
     setIsModalOpen(true);
   };
 
@@ -85,11 +83,18 @@ const UserCollectioinInfo = ({
               @ {loggedInUser.username}
             </span>
             <EditIconContainer>
-              <StyledEditIcon style={{ fontSize: '14px' }} />
+              <StyledEditIcon
+                onClick={handleUsernameEdit}
+                src={editIconImg}
+                style={{ fontSize: '14px' }}
+              />
             </EditIconContainer>
           </UsernameIconContainer>
           <ButtonContainer>
-            <ProfileButton label="My Account" />
+            <ProfileButton
+              label="My Account"
+              handleClick={handleWalletRedirect}
+            />
             <div style={{ padding: '0 10px' }}>
               {/* <ButtonDivider></ButtonDivider> */}
             </div>
@@ -167,7 +172,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const StyledEditIcon = styled(EditIcon)`
+const StyledEditIcon = styled.img`
   :hover {
     transform: scale(1.1);
     cursor: pointer;
@@ -184,7 +189,7 @@ const ButtonContainer = styled.div`
   border-radius: 20px;
 `;
 
-const AccountIcon = styled(AccountCircleIcon)`
+const AccountIcon = styled.div`
   font-size: 120px;
 `;
 

@@ -14,6 +14,7 @@ import {
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
 import { Theme } from 'theme/theme';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface IProps {
   user: User;
@@ -33,6 +34,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(1);
   const perPage = 6;
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
 
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
@@ -259,6 +261,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
         count={Math.ceil(total / perPage)}
         page={page}
         onChange={handlePagination}
+        siblingCount={matchesMobile ? 0 : 1}
       />
     </Container>
   );

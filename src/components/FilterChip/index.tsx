@@ -46,8 +46,8 @@ const StyledDiv = styled.div`
   font-size: 12px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
+  align-items: center !important;
+  padding: 5px 15px;
 `;
 
 const Clear = styled(ClearIcon)`

@@ -22,6 +22,10 @@ const Wallet = (props) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
+  const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
+  const walletCurrency = useAppSelector(
+    (state) => state.session.userCards?.balance?.currency
+  );
   const { username, id: userId } = useAppSelector(
     (state) => state.session.user
   );
@@ -47,6 +51,9 @@ const Wallet = (props) => {
     if (props?.location?.state?.modalOpen) {
       setIsModalOpen(true);
     }
+
+    const el = document.getElementById('tx');
+    setIsElOverflown(isOverflown(el));
   }, []);
 
   const handleClose = () => {
@@ -62,14 +69,28 @@ const Wallet = (props) => {
   };
 
   const filteredTransactions = transactions.filter((tx, index) => {
-    if (tx.type === 'purchase' || tx.type === 'deposit' || tx.type === 'sale') {
+    if (
+      ((tx.type === 'purchase' || tx.type === 'deposit') &&
+        (tx.status === 'pending' ||
+          tx.status === 'success' ||
+          tx.status === 'error')) ||
+      tx.type === 'sale'
+    ) {
       return tx;
     }
   });
 
+  function isOverflown(element) {
+    return (
+      element.scrollHeight > element.clientHeight ||
+      element.scrollWidth > element.clientWidth
+    );
+  }
+
   if (!user || !transactions) return <PageLoader />;
 
   console.log(filteredTransactions);
+  console.log(isElOverflown);
   return (
     <S.Container showMore={showMore}>
       <S.Header>
@@ -90,12 +111,17 @@ const Wallet = (props) => {
             <S.GrayLine></S.GrayLine>
           </div>
 
-          <S.BalanceAmount>${user?.balance}</S.BalanceAmount>
+          <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
 
-          <S.AvailableAmount>
-            <S.AvailableText>Available:</S.AvailableText>$
-            {user?.availableBalance} (after active bids)
-          </S.AvailableAmount>
+          <S.Available>
+            <S.AvailableText>Available:</S.AvailableText>
+            <S.AvailableAmount>
+              ${user?.availableBalance?.toFixed(2)}
+              <S.AvailableSubText>
+                (Excludes pending transactions)
+              </S.AvailableSubText>
+            </S.AvailableAmount>
+          </S.Available>
 
           <div style={{ paddingTop: '36px' }}>
             <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
@@ -146,13 +172,9 @@ const Wallet = (props) => {
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
           </S.TabContainer>
-          <S.LatestTransactionsContainer overflow={showMore} id="test">
+          <S.LatestTransactionsContainer overflow={showMore} id="tx">
             {selectedTab === 0 && (
               <>
-                {filteredTransactions &&
-                  filteredTransactions.map((tx, index) => {
-                    return <Transaction tx={tx} key={index} />;
-                  })}
                 {filteredTransactions &&
                   filteredTransactions.map((tx, index) => {
                     return <Transaction tx={tx} key={index} />;
@@ -169,9 +191,9 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {filteredTransactions.length > 3 && (
+            {isElOverflown && (
               <S.SeeMore onClick={handleShowChange}>
-                {(showMore && 'See Less') || 'Show More'}
+                {(showMore && '- View Less') || '+ View All'}
               </S.SeeMore>
             )}
           </S.FlexRow>

@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
+import { useUpdateEffect } from 'react-use';
 // Local
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -92,6 +93,7 @@ const MarketPlace = (): JSX.Element => {
       filterValue: value,
     };
     dispatch(updateFilter(payload));
+    setPage(1);
   };
 
   const handlePagination = (
@@ -152,6 +154,10 @@ const MarketPlace = (): JSX.Element => {
     }
   }, [activeFilters, activePagination, activeSort]);
 
+  useUpdateEffect(() => {
+    setPage(1);
+  }, [activeFilters]);
+
   // Update the filters on browser back btn
   useEffect(() => {
     return history.listen(() => {
@@ -203,29 +209,28 @@ const MarketPlace = (): JSX.Element => {
         <S.Content>
           {/* Sku Tile data from store being rendered with Sku Tiles */}
           {skus.data instanceof Array && skus.data.length ? (
-            <S.ProductsGrid>
-              {skus.data.map((sku) => {
-                {
-                  /* TODO: theme is currently hardcoded */
-                }
-                return <SkuTile sku={sku} key={sku._id} themeStyle="light" />;
-              })}
-            </S.ProductsGrid>
-          ) : (
             <>
+              <S.ProductsGrid>
+                {skus.data.map((sku) => {
+                  return <SkuTile themeStyle="light" sku={sku} key={sku._id} />;
+                })}
+              </S.ProductsGrid>
+
+              <S.PaginationContainer>
+                <Pagination
+                  count={Math.ceil(skus.total / 6)}
+                  page={page}
+                  onChange={handlePagination}
+                  siblingCount={matchesMobile ? 0 : 1}
+                />
+              </S.PaginationContainer>
+            </>
+          ) : (
+            <S.NoResults>
               <h4>No matches found</h4>
               <p>Please try another search.</p>
-            </>
+            </S.NoResults>
           )}
-
-          <S.PaginationContainer>
-            <Pagination
-              count={Math.ceil(skus.total / 6)}
-              page={page}
-              onChange={handlePagination}
-              siblingCount={matchesMobile ? 0 : 1}
-            />
-          </S.PaginationContainer>
         </S.Content>
       </S.Main>
     </S.Container>

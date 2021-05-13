@@ -134,6 +134,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 12px;
 `;
 
 export default SelectedFilters;

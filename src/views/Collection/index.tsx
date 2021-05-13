@@ -70,7 +70,7 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [userId]);
 
-  if (user === null) return <PageLoader />;
+  if (!user) return <PageLoader />;
 
   return (
     <Container>

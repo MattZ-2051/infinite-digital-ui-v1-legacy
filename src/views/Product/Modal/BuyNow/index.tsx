@@ -64,8 +64,8 @@ const BuyNowModal = ({
 
         // TODO: Check payment
         if (result) {
-          setStatusMode('completed');
-          Toast.success('Purchase Successful!');
+          setStatusMode('processing');
+          Toast.success('Purchase Pending.');
         }
         setLoading(false);
       } catch (e) {

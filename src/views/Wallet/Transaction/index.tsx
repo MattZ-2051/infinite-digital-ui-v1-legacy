@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import usdcIcon from 'assets/img/icons/usdc.png';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
 import depositIcon from 'assets/img/icons/Added-funds.png';
 import withdrawIcon from 'assets/img/icons/withdraw-icon.png';
 import dollarSign from 'assets/img/icons/dollarSign-icon.png';
 import purchaseIcon from 'assets/img/icons/purchase-icon.png';
 import { ITransaction } from 'entities/transaction';
+import * as S from './styles';
 
 interface IProps {
   tx: ITransaction;
@@ -26,108 +28,166 @@ const Transaction = ({ tx }: IProps) => {
   };
 
   return (
-    <Container>
-      <TransactionDescription>
+    <S.Container>
+      <S.TransactionDescription>
         {tx.type === 'purchase' && tx.status === 'success' && (
           <>
-            <img src={purchaseIcon} style={{ paddingRight: '24px' }} />
-            <span>
-              You bought {tx.transactionData.sku[0]?.name}{' '}
-              <span style={{ color: 'black', fontWeight: 600 }}>
-                #{tx.transactionData.product[0]?.serialNumber}
-              </span>
-            </span>
+            <S.Icon src={purchaseIcon} />
+            <span>You bought {tx.transactionData.sku[0]?.name} </span>
+            <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
+            <span>from</span>
+            <S.Bold>
+              @
+              {tx.transactionData?.seller?.username.length > 16
+                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
+                : tx.transactionData?.seller?.username}
+            </S.Bold>
+          </>
+        )}
+        {tx.type === 'purchase' && tx.status === 'pending' && (
+          <>
+            <S.Icon src={purchaseIcon} />
+            <span>You bought {tx.transactionData.sku[0]?.name} from</span>
+            <S.Bold>
+              @
+              {tx.transactionData?.seller?.username.length > 16
+                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
+                : tx.transactionData?.seller?.username}
+            </S.Bold>
+            <S.Bold>(Pending)</S.Bold>
+          </>
+        )}
+        {tx.type === 'purchase' && tx.status === 'error' && (
+          <>
+            <S.Icon src={purchaseIcon} />
+            <span>You tried buying {tx.transactionData.sku[0]?.name} from</span>
+            <S.Bold>
+              @
+              {tx.transactionData?.seller?.username.length > 16
+                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
+                : tx.transactionData?.seller?.username}
+            </S.Bold>
+            <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
           </>
         )}
         {tx.type === 'sale' && (
           <>
-            <img src={dollarSign} style={{ paddingRight: '24px' }} />
+            <S.Icon src={dollarSign} />
             <span>
               You sold {tx.transactionData.sku[0]?.name}
-              <span style={{ color: 'black', fontWeight: 600 }}>
-                {tx.transactionData.product[0]?.serialNumber}
-              </span>
+              <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
+              to
+              <S.Bold>
+                @{' '}
+                {tx.transactionData?.buyer?.username.length > 16
+                  ? `${tx.transactionData?.buyer?.username.slice(0, 16)}...`
+                  : tx.transactionData?.buyer?.username}
+              </S.Bold>
             </span>
           </>
         )}
-        {tx.type === 'deposit' && tx.transactionData?.service === 'circle' && (
-          <>
-            <img src={depositIcon} style={{ paddingRight: '24px' }} />
-            <span>You added funds from your credit card</span>
-          </>
-        )}
+
         {tx.type === 'deposit' &&
-          tx.transactionData?.service === 'circle' &&
-          tx.transactionData?.status === 'completed' && (
+          tx.transactionData?.deposit?.type === 'cc' &&
+          tx.status === 'success' && (
             <>
-              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <S.Icon src={depositIcon} />
               <span>You added funds from your credit card</span>
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.service === 'circle' &&
-          tx.transactionData?.status === 'pending' && (
+          tx.transactionData?.deposit?.type === 'cc' &&
+          tx.status === 'pending' && (
             <>
-              <img src={depositIcon} style={{ paddingRight: '24px' }} />
+              <S.Icon src={depositIcon} />
               <span>You added funds from your credit card</span>
-              <span style={{ color: 'black', fontWeight: 600 }}>
-                {'(Pending)'}
-              </span>
+              <S.Bold>(Pending)</S.Bold>
             </>
           )}
-      </TransactionDescription>
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'cc' &&
+          tx.status === 'error' && (
+            <>
+              <S.Icon src={usdcIcon} />
+              <span>You tried to add funds</span>
+              <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'crypto' &&
+          tx.status === 'success' && (
+            <>
+              <S.Icon src={usdcIcon} />
+              <span>You added funds in </span>
+              <S.Bold>USDC</S.Bold>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'crypto' &&
+          tx.status === 'pending' && (
+            <>
+              <S.Icon src={usdcIcon} />
+              <span>You added funds in </span>
+              <S.Bold>USDC</S.Bold>
+              <S.Bold>(Pending)</S.Bold>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'crypto' &&
+          tx.status === 'error' && (
+            <>
+              <S.Icon src={usdcIcon} />
+              <span>You tried to add funds by depositing </span>
+              <S.Bold>USDC</S.Bold>
+              <S.Bold>(Transaction Failed)</S.Bold>
+            </>
+          )}
+      </S.TransactionDescription>
 
-      <TransactionDetail>
-        <span style={{ color: '#9E9E9E' }}>
-          {txCreatedAtDate.toLocaleDateString('en-US', options)}
-        </span>
-      </TransactionDetail>
+      <S.TransactionDetail>
+        <S.Date>{txCreatedAtDate.toLocaleDateString('en-US', options)}</S.Date>
+      </S.TransactionDetail>
 
-      <TransactionDetail>
+      <S.TransactionDetail>
         {tx.type === 'purchase' && tx.status === 'success' && (
-          <span style={{ color: '#DA1010' }}>
-            - ${tx.transactionData.cost.totalCost}
-          </span>
+          <S.Color color="#DA1010">
+            - ${tx.transactionData?.cost?.totalCost}
+          </S.Color>
         )}
 
-        {tx.type === 'deposit' &&
-          tx.transactionData?.status === 'completed' && (
-            <span style={{ color: '#00C44F' }}>+ ${tx.transactionData}</span>
-          )}
-        {tx.type === 'deposit' && tx.transactionData?.status === 'pending' && (
-          <span style={{ color: '#9e9e9e' }}>+ ${tx.transactionData}</span>
+        {tx.type === 'purchase' && tx.status === 'pending' && (
+          <S.Color color="#9e9e9e">
+            - ${tx.transactionData?.cost?.totalCost}
+          </S.Color>
+        )}
+        {tx.type === 'purchase' && tx.status === 'error' && (
+          <S.Color color="black" style={{ textDecoration: 'line-through' }}>
+            ${tx.transactionData?.cost?.totalCost}
+          </S.Color>
+        )}
+        {tx.type === 'deposit' && tx.status === 'success' && (
+          <S.Color color="#00C44F">
+            + ${tx.transactionData?.deposit?.amount}
+          </S.Color>
+        )}
+        {tx.type === 'deposit' && tx.status === 'pending' && (
+          <S.Color color="#9e9e9e">
+            + ${tx.transactionData?.deposit?.amount}
+          </S.Color>
+        )}
+        {tx.type === 'deposit' && tx.status === 'error' && (
+          <S.Color color="black" style={{ textDecoration: 'line-through' }}>
+            ${tx.transactionData?.deposit?.amount}
+          </S.Color>
         )}
         {tx.type === 'sale' && (
-          <span style={{ color: '#00C44F' }}>
+          <S.Color color="#00C44F">
             + ${tx.transactionData.cost?.totalCost}
-          </span>
+          </S.Color>
         )}
-      </TransactionDetail>
-    </Container>
+      </S.TransactionDetail>
+    </S.Container>
   );
 };
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 60% 20% 20%;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 20px 0;
-`;
-
-const TransactionDetail = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const TransactionDescription = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-  color: #9e9e9e;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`;
 
 export default Transaction;

@@ -21,7 +21,7 @@ export const Header = styled.div`
 `;
 
 export const Main = styled.div`
-  height: 75%;
+  height: 100vh;
   display: grid;
   grid-template-columns: 30% 70%;
 
@@ -74,7 +74,22 @@ export const FlexRow = styled.div`
 
 export const AvailableAmount = styled.span`
   font-size: 16px;
+  font-weight: 600;
+  color: black;
+`;
+
+export const Available = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 16px;
+`;
+
+export const AvailableSubText = styled.span`
+  font-size: 14px;
+  color: #9e9e9e;
   font-weight: 400;
+  padding-left: 5px;
 `;
 
 export const Tab = styled.span`
@@ -108,11 +123,12 @@ export const SeeMore = styled.p`
 
 export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
   padding: 0 48px;
-  height: ${(props) => (props.overflow ? `100%` : `33%`)};
+  height: ${(props) => (props.overflow ? `100%` : `100%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
 
   @media screen and (max-width: 960px) {
     padding: 24px;
+    overflow-y: auto;
   }
 `;
 
@@ -132,15 +148,16 @@ export const HeaderText = styled.span`
 export const ActionButton = styled.button`
   width: 269px;
   height: 56px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: white;
+  background-color: black;
+  border: none;
   font-weight: 600;
   font-size: 20px;
   border-radius: 35px;
+  border: 2px solid black;
   :hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: pointer;
   }
   :focus {
@@ -160,7 +177,7 @@ export const GrayLine = styled.div`
 
 export const AvailableText = styled.span`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   color: #9e9e9e;
   padding-right: 8px;
 `;

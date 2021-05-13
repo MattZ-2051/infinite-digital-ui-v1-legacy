@@ -172,7 +172,7 @@ const AddCC = () => {
               error={fieldError?.expYear || fieldError?.expYearPassed}
               helperText={
                 (fieldError?.expYear && 'Enter a valid year format YYYY') ||
-                (fieldError?.expYearPassed && 'Enter a year mayor that actual')
+                (fieldError?.expYearPassed && 'Enter a valid year format YYYY')
               }
               onChange={(e) => handleChange(e, setCardInfo)}
               type="text"

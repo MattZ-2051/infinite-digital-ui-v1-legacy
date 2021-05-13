@@ -107,12 +107,24 @@ export const marketplaceSlice = createSlice({
     updateFilter: (state, action) => {
       const { filterName, filterValue } = action.payload;
       state.filters[filterName] = filterValue;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
     updateFilters: (state, action) => {
       state.filters = action.payload;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
     restoreFilters: (state) => {
       state.filters = defaultFilters;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
     updatePagination: (state, action) => {
       state.pagination = action.payload;

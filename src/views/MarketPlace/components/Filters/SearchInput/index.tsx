@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
@@ -44,7 +44,7 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
           name="search"
           value={searchValue}
           type="text"
-          placeholder="Search by name"
+          placeholder="Search"
         />
       </InputDiv>
     </>

@@ -1,8 +1,8 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import { StyledCard, Row, RedeemIcon } from '../index';
 import CardContent from '@material-ui/core/CardContent';
 import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
+import isoLogoBlack from 'assets/img/backgrounds/placeholder-img.jpg';
 import Rarity from 'components/Rarity';
 import { Sku } from 'entities/sku';
 import Emoji from 'components/Emoji';
@@ -92,13 +92,7 @@ const Tile = ({
               </BottomCardText>
             )}
             {unique && (
-              <BottomCardText
-                style={{ color: '#ff0000', whiteSpace: 'nowrap' }}
-              >
-                <span>
-                  <Emoji label="fire" symbol="🔥" /> Unique Item!
-                </span>
-              </BottomCardText>
+              <BottomCardText style={{ color: 'black' }}>1 of 1</BottomCardText>
             )}
             {status === 'active' && !unique && (
               <BottomCardText style={{ color: '#9e9e9e' }}>
@@ -288,7 +282,7 @@ const PillInfo = styled.span`
 
 const BottomCardText = styled.p`
   display: flex;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   letter-spacing: 0em;
   text-align: end;

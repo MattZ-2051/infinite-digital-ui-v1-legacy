@@ -4,6 +4,7 @@ export const Container = styled.div`
   width: 1440px;
   margin: auto;
   padding: 48px 80px 48px 80px;
+  min-height: 83.5vh;
 
   @media screen and (max-width: 1440px) {
     width: 100%;
@@ -78,4 +79,8 @@ export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+export const NoResults = styled.div`
+  padding: 0 80px 0 80px;
 `;
