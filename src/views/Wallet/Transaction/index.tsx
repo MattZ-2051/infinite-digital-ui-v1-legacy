@@ -33,40 +33,57 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && tx.status === 'success' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>You bought {tx.transactionData.sku[0]?.name} </span>
+            <span>
+              You bought
+              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+                {tx.transactionData.sku[0]?.name}
+              </S.Link>
+            </span>
             <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
             <span>from</span>
-            <S.Bold>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
                 : tx.transactionData?.seller?.username}
-            </S.Bold>
+            </S.Link>
           </>
         )}
         {tx.type === 'purchase' && tx.status === 'pending' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>You bought {tx.transactionData.sku[0]?.name} from</span>
-            <S.Bold>
+            <span>
+              You bought
+              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+                {tx.transactionData.sku[0]?.name}
+              </S.Link>
+              from
+            </span>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
                 : tx.transactionData?.seller?.username}
-            </S.Bold>
+            </S.Link>
             <S.Bold>(Pending)</S.Bold>
           </>
         )}
         {tx.type === 'purchase' && tx.status === 'error' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>You tried buying {tx.transactionData.sku[0]?.name} from</span>
-            <S.Bold>
+            <span>
+              You tried buying
+              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+                {tx.transactionData.sku[0]?.name}
+              </S.Link>
+              from
+            </span>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
                 : tx.transactionData?.seller?.username}
-            </S.Bold>
+            </S.Link>
             <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
           </>
         )}
@@ -74,15 +91,18 @@ const Transaction = ({ tx }: IProps) => {
           <>
             <S.Icon src={dollarSign} />
             <span>
-              You sold {tx.transactionData.sku[0]?.name}
-              <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
+              You sold
+              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+                {tx.transactionData.sku[0]?.name}
+                {tx.transactionData.product[0]?.serialNumber}
+              </S.Link>
               to
-              <S.Bold>
-                @{' '}
+              <S.Link to={`/collection/${tx.transactionData?.buyer?.username}`}>
+                @
                 {tx.transactionData?.buyer?.username.length > 16
                   ? `${tx.transactionData?.buyer?.username.slice(0, 16)}...`
                   : tx.transactionData?.buyer?.username}
-              </S.Bold>
+              </S.Link>
             </span>
           </>
         )}
