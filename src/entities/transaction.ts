@@ -58,6 +58,7 @@ export interface TransactionData {
     type: string;
     amount: string;
   };
+  transactionHash: string | undefined;
 }
 
 interface Cost {

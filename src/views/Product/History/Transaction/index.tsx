@@ -20,10 +20,6 @@ const Transaction = ({ transaction }: Props) => {
     history.push(`/collection/${transaction.owner.id}`);
   };
 
-  const handleTransactionLink = () => {
-    window.open(transaction.transactionData.hederaTransaction?.explorerLink);
-  };
-
   return (
     <S.Container>
       <S.Username className="username" onClick={handleRedirectToCollections}>
@@ -67,8 +63,14 @@ const Transaction = ({ transaction }: Props) => {
         {showLink && (
           <div>
             <S.ToolTip></S.ToolTip>
-            <S.ToolTipText onClick={handleTransactionLink}>
-              {transaction.transactionData?.explorerLink}
+            <S.ToolTipText>
+              <a
+                href={transaction.transactionData?.explorerLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                See transaction
+              </a>
             </S.ToolTipText>
           </div>
         )}
@@ -120,9 +122,13 @@ S.ToolTipText = styled.span`
   overflow: hidden;
   font-size: 14px;
   left: -5.5em;
+  text-align: center;
   :hover {
     text-decoration: underline;
     cursor: pointer;
+  }
+  a {
+    font-weight: 400;
   }
 `;
 
