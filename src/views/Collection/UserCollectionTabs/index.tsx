@@ -37,14 +37,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
   async function fetchData() {
-    const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
+    const itemsRes = await getProductsOwnedByUser(userId, '', page, perPage);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
       setTotal(itemsRes.total);
     }
 
     if (user.role === 'issuer') {
-      const releasesRes = await getReleasesOwnedByUser(user._id);
+      const releasesRes = await getReleasesOwnedByUser(userId);
       if (releasesRes) {
         setUserReleases(releasesRes);
       }
