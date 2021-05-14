@@ -18,6 +18,7 @@ export const formatCountdown = (date: Date): string => {
 
     if (daysLeft === 0) return `${hoursLeft}h ${Math.round(minutesLeft)}m`;
     if (daysLeft < 28) return `${daysLeft}d ${hoursLeft}h ${minutesLeft}m`;
+    if (monthsLeft === 0) return `${daysLeft}d`;
     return `${monthsLeft}m ${daysLeft}d`;
   } catch (e) {
     console.error(`formatCountdown: ${e}`);
