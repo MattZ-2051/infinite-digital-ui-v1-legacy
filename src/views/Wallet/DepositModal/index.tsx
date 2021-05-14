@@ -19,8 +19,9 @@ import sukuIcon from 'assets/img/icons/suku-icon.png';
 import circleIcon from 'assets/img/icons/circle-icon.png';
 import usdcIcon from 'assets/img/icons/usdc.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
+import { config } from '../../../config';
 
-const coinbaseCheckoutId = 'd7589053-50e2-4560-b25c-5058274d6b0d';
+const coinbaseCheckoutId = config.misc.coinbaseCheckoutId;
 
 interface IDepositModal {
   kycMaxLevel: number;
