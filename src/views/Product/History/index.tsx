@@ -82,35 +82,61 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       );
     }
   };
-
   useEffect(() => {
     if (isAuthenticated) {
       if (
         loggedInUser.id === product?.owner._id &&
-        product?.activeProductListings?.length === 0
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length === 0
       ) {
         setStatus('create-sale');
       } else if (
         loggedInUser.id === product?.owner._id &&
-        product?.activeProductListings?.length !== 0
+        product?.activeProductListings?.length !== 0 &&
+        product?.upcomingProductListings?.length === 0
       ) {
         setStatus('active-sale');
       } else if (
+        loggedInUser.id === product?.owner._id &&
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length !== 0
+      ) {
+        setStatus('upcoming');
+      } else if (
         loggedInUser.id !== product?.owner._id &&
-        product?.activeProductListings?.length === 0
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length === 0
       ) {
         setStatus('not-for-sale');
       } else if (
         loggedInUser.id !== product?.owner._id &&
-        product?.activeProductListings?.length !== 0
+        product?.activeProductListings?.length !== 0 &&
+        product?.upcomingProductListings.length === 0
       ) {
         setStatus('buy-now');
+      } else if (
+        loggedInUser.id !== product?.owner._id &&
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length !== 0
+      ) {
+        setStatus('upcoming');
       }
     } else {
-      if (product?.activeProductListings?.length !== 0) {
+      if (
+        product?.activeProductListings?.length !== 0 &&
+        product?.upcomingProductListings?.length === 0
+      ) {
         setStatus('buy-now');
-      } else if (product?.activeProductListings?.length === 0) {
+      } else if (
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length === 0
+      ) {
         setStatus('not-for-sale');
+      } else if (
+        product?.activeProductListings?.length === 0 &&
+        product?.upcomingProductListings?.length !== 0
+      ) {
+        setStatus('upcoming');
       }
     }
   }, []);

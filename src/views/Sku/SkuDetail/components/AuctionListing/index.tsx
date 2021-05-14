@@ -28,6 +28,7 @@ const AuctionListing = ({ collectors, hasProducts }: Props) => {
                 ownerName={el.owner.username}
                 highestBid={el.activeProductListing?.price}
                 endDate={el.activeProductListing?.endDate}
+                upcomingProductListing={el.upcomingProductListing}
               />
             }
           </Link>

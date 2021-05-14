@@ -3,6 +3,7 @@ import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import styled from 'styled-components/macro';
 import { Listing } from 'entities/listing';
 import { formatCountdown } from 'utils/dates';
+import { Bold } from 'views/Wallet/Transaction/styles';
 
 export interface AuctionItemProps {
   serialNumber: string;
@@ -11,6 +12,7 @@ export interface AuctionItemProps {
   endDate?: Date;
   activeProductListing?: Listing;
   listings: Listing[];
+  upcomingProductListing?: Listing;
 }
 
 const AuctionItem = ({
@@ -19,13 +21,19 @@ const AuctionItem = ({
   highestBid,
   endDate,
   activeProductListing,
+  upcomingProductListing,
 }: AuctionItemProps): JSX.Element => {
   console.log('listing', activeProductListing);
-  const auctionDetailMsg = !activeProductListing
-    ? 'View Details'
-    : activeProductListing?.saleType === 'auction'
-    ? 'Bid for'
-    : 'On sale for';
+  console.log(upcomingProductListing);
+
+  const auctionDetailMsg =
+    !activeProductListing && !upcomingProductListing
+      ? 'Not for sale'
+      : upcomingProductListing
+      ? 'Upcoming'
+      : activeProductListing?.saleType === 'auction'
+      ? 'Bid for'
+      : 'On sale for';
 
   return (
     <Container>
@@ -39,7 +47,13 @@ const AuctionItem = ({
       </UserDetail>
 
       <AuctionDetail>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
           <span style={{ color: '#9E9E9E', marginRight: '10px' }}>
             {auctionDetailMsg}
           </span>
@@ -51,6 +65,13 @@ const AuctionItem = ({
             </>
           )}
           <br />
+          {upcomingProductListing && (
+            <>
+              <span style={{ fontWeight: 'bold', color: 'black' }}>
+                {formatCountdown(new Date(upcomingProductListing.startDate))}
+              </span>
+            </>
+          )}
         </div>
 
         {/*  */}
