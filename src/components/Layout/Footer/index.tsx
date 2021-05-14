@@ -23,37 +23,45 @@ const DiscordIcon = () => (
   <SvgIcon viewBox="0 0 15 16" component={discordIcon} />
 );
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   return (
     <StyledFooter>
       <FooterContent>
-        <FooterTop>
+        {/* NOTE: Figma design only shows 1 row */}
+        {/* <FooterTop>
           <Divider gap={24} tag="nav">
-            {/* <TextButton to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               FAQ
-            </TextButton> */}
-
+            </TextButton>
             <TextButton to="/help" color="grey" size="small">
               Help
             </TextButton>
-
-            {/* <TextButton to="/" color="grey" size="small">
+            <TextButton to="/" color="grey" size="small">
               Thanks
             </TextButton>
-
             <TextButton to="/" color="white" size="small">
               +
-            </TextButton> */}
+            </TextButton>
           </Divider>
-        </FooterTop>
+        </FooterTop> */}
 
         <FooterBottom>
           <Divider gap={24} tag="nav">
-            <TextButton to="/" color="grey" size="small">
+            <TextButton to="/help" color="grey" size="small">
+              Help
+            </TextButton>
+            <TextButton
+              to="https://www.suku.world/privacy"
+              color="grey"
+              size="small"
+            >
               Privacy Policy
             </TextButton>
-
-            <TextButton to="/" color="grey" size="small">
+            <TextButton
+              to="https://www.suku.world/terms"
+              color="grey"
+              size="small"
+            >
               Terms & Conditions
             </TextButton>
           </Divider>
