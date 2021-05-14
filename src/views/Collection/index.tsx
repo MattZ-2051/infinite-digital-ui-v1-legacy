@@ -59,7 +59,6 @@ const Collection = (): JSX.Element => {
     try {
       const data = await getUser(userId);
       if (data) {
-        console.log(data);
         setUser(data);
       }
     } catch (e) {
