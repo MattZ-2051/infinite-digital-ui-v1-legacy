@@ -14,17 +14,7 @@ export interface IProps {
 const ButtonComponent = ({ children, color, to, ...rest }: IProps) => {
   const location: any = useLocation();
 
-  return to?.includes('http') ? (
-    <TextButton
-      component={'a'}
-      href={to}
-      target="_blank"
-      color={color}
-      {...rest}
-    >
-      {children}
-    </TextButton>
-  ) : (
+  return (
     <TextButton
       component={Link}
       to={to || location.pathname}
