@@ -49,11 +49,11 @@ const Footer = () => {
 
         <FooterBottom>
           <Divider gap={24} tag="nav">
-            <TextButton to="/" color="grey" size="small">
+            <TextButton to="/privacy" color="grey" size="small">
               Privacy Policy
             </TextButton>
 
-            <TextButton to="/" color="grey" size="small">
+            <TextButton to="/tc" color="grey" size="small">
               Terms & Conditions
             </TextButton>
           </Divider>

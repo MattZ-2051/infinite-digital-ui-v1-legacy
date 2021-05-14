@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
+import AudioIcon from 'assets/img/icons/audio-icon.png';
 import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
 import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
 import Squircle from 'components/Squircle';
@@ -8,6 +9,30 @@ export interface ImageGalleryProps {
   images: string[];
   height?: string;
 }
+
+const VideoView = ({ src }: { src: string }) => {
+  return (
+    <video
+      style={{
+        width: '100%',
+      }}
+      autoPlay={true}
+      controls={true}
+      loop={true}
+      muted={true}
+      src={src}
+    ></video>
+  );
+};
+
+const AudioView = ({ src }: { src: string }) => {
+  return (
+    <audio controls autoPlay muted>
+      <source src={src} type="audio/mpeg" />
+      Your browser does not support audio elements.
+    </audio>
+  );
+};
 
 const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -21,20 +46,12 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
       <ImageContainer>
         {images[selectedImage]?.endsWith('mov') ||
         images[selectedImage]?.endsWith('mp4') ? (
-          <video
-            style={{
-              width: '100%',
-            }}
-            autoPlay={true}
-            controls={false}
-            loop={true}
-            muted={true}
-            src={images[selectedImage]}
-          ></video>
+          <VideoView src={images[selectedImage]} />
+        ) : images[selectedImage]?.endsWith('mp3') ? (
+          <AudioView src={images[selectedImage]} />
         ) : (
           <img src={images[selectedImage]} alt="" />
         )}
-
         {/* <Squircle
           size={40}
           bgColor="white"
@@ -70,6 +87,8 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                     muted={true}
                     src={el}
                   ></video>
+                ) : el?.endsWith('mp3') ? (
+                  <img src={AudioIcon} alt="" />
                 ) : (
                   <img src={el} alt="" />
                 )}
@@ -132,8 +151,8 @@ const ThumbnailMenu = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: max-content;
   grid-gap: 8px;
-  left: 20px;
-  bottom: 20px;
+  left: 30px;
+  bottom: 30px;
 `;
 
 interface ThumbnailItemProps {
@@ -142,6 +161,7 @@ interface ThumbnailItemProps {
 
 const Thumbnail = styled.div<ThumbnailItemProps>`
   transition: 0.4s;
+  opacity: 0.6;
   display: flex;
   align-items: center;
   justify-content: center;
