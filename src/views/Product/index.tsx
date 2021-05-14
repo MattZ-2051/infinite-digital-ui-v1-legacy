@@ -9,12 +9,15 @@ import { useHistory } from 'react-router-dom';
 import { ProductWithFunctions as ProductType } from 'entities/product';
 import ProductDetails from './ProductDetails';
 import PageLoader from 'components/PageLoader';
+import { ITransaction } from 'entities/transaction';
 
 const Product = ({}) => {
   const history = useHistory();
   const productId = history.location.pathname.split('/')[2];
   const [product, setProduct] = useState<ProductType | null>(null);
-  const [transactionHistory, setTransactionHistory] = useState(null);
+  const [transactionHistory, setTransactionHistory] = useState<
+    ITransaction[] | null
+  >(null);
 
   async function fetchData() {
     const productRes = await getSingleProduct(productId);
@@ -28,7 +31,7 @@ const Product = ({}) => {
     fetchData();
   }, []);
 
-  if (product === null) {
+  if (!product || !transactionHistory) {
     return <PageLoader />;
   }
 

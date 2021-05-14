@@ -31,13 +31,13 @@ const Transaction = ({ transaction }: Props) => {
             <S.FlexDiv>
               <S.Description>Bought for</S.Description>
               <S.Amount>
-                ${transaction.transactionData.cost?.totalCost || '200'}
+                ${transaction.transactionData.cost?.totalCost}
               </S.Amount>
             </S.FlexDiv>
           )}
           {transaction.type === 'nft_mint' && (
             <S.FlexDiv>
-              <S.Amount>Minted</S.Amount>
+              <S.Amount>NFT Minted</S.Amount>
             </S.FlexDiv>
           )}
           {transaction.type === 'nft_transfer_manual' && (
@@ -52,7 +52,7 @@ const Transaction = ({ transaction }: Props) => {
               <S.Amount>${transaction.transactionData.amount}</S.Amount>
             </S.FlexDiv>
           )} */}
-          <S.Date>{formatDate(new Date(transaction.createdAt))}</S.Date>
+          <S.Date>{formatDate(new Date(transaction.updatedAt))}</S.Date>
         </S.TransactionDetails>
       </S.TransactionInfo>
       <div

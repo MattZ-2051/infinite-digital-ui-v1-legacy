@@ -61,7 +61,7 @@ const AuctionItem = ({
             <>
               <span
                 style={{ fontWeight: 'bold', color: 'black' }}
-              >{`$${highestBid}`}</span>{' '}
+              >{`$${activeProductListing.price}`}</span>{' '}
             </>
           )}
           <br />

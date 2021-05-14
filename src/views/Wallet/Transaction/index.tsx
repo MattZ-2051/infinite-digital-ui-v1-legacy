@@ -42,10 +42,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
             <span>from</span>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
-              @
-              {tx.transactionData?.seller?.username.length > 16
-                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
-                : tx.transactionData?.seller?.username}
+              @{tx.transactionData?.seller?.username}
             </S.Link>
           </>
         )}
@@ -60,10 +57,7 @@ const Transaction = ({ tx }: IProps) => {
               from
             </span>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
-              @
-              {tx.transactionData?.seller?.username.length > 16
-                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
-                : tx.transactionData?.seller?.username}
+              @{tx.transactionData?.seller?.username}
             </S.Link>
             <S.Bold>(Pending)</S.Bold>
           </>
@@ -79,10 +73,7 @@ const Transaction = ({ tx }: IProps) => {
               from
             </span>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
-              @
-              {tx.transactionData?.seller?.username.length > 16
-                ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
-                : tx.transactionData?.seller?.username}
+              @{tx.transactionData?.seller?.username}
             </S.Link>
             <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
           </>
@@ -98,10 +89,7 @@ const Transaction = ({ tx }: IProps) => {
               </S.Link>
               to
               <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
-                @
-                {tx.transactionData?.buyer?.username.length > 16
-                  ? `${tx.transactionData?.buyer?.username.slice(0, 16)}...`
-                  : tx.transactionData?.buyer?.username}
+                @{tx.transactionData?.seller?.username}
               </S.Link>
             </span>
           </>
