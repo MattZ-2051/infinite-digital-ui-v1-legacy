@@ -41,7 +41,7 @@ const Transaction = ({ tx }: IProps) => {
             </span>
             <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
             <span>from</span>
-            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
@@ -59,7 +59,7 @@ const Transaction = ({ tx }: IProps) => {
               </S.Link>
               from
             </span>
-            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
@@ -78,7 +78,7 @@ const Transaction = ({ tx }: IProps) => {
               </S.Link>
               from
             </span>
-            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @
               {tx.transactionData?.seller?.username.length > 16
                 ? `${tx.transactionData?.seller?.username.slice(0, 16)}...`
@@ -97,7 +97,7 @@ const Transaction = ({ tx }: IProps) => {
                 {tx.transactionData.product[0]?.serialNumber}
               </S.Link>
               to
-              <S.Link to={`/collection/${tx.transactionData?.buyer?.username}`}>
+              <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
                 @
                 {tx.transactionData?.buyer?.username.length > 16
                   ? `${tx.transactionData?.buyer?.username.slice(0, 16)}...`
