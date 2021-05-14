@@ -10,7 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import ModalComponent from 'components/Modal';
 import { useAppSelector } from 'store/hooks';
 import { USDCDeposit } from '../USDCDeposit/USDCDeposit';
-import { getMe, getPersonalToken } from 'services/api/userService';
+import { getPersonalToken } from 'services/api/userService';
 import Toast from 'utils/Toast';
 import { useKycClient } from 'hooks/useKycClient';
 //assets
@@ -68,10 +68,7 @@ const DepositModal = ({
   const userCards = useAppSelector((state) => state.session.userCards);
   const username = useAppSelector((state) => state.session.user.username);
   const [isUSDCModalOpen, setIsUSDCModelOpen] = useState<boolean>(false);
-  const [coinbaseMetadata, setCoinbaseMetadata] = useState<{
-    token: string;
-    userId: string;
-  }>();
+  const [coinbaseMetadata, setCoinbaseMetadata] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
   const KycClient = useKycClient();
 
@@ -84,12 +81,10 @@ const DepositModal = ({
     try {
       const res = await getPersonalToken(await getAccessTokenSilently());
       token = res.token;
+      setCoinbaseMetadata(token);
     } catch (e) {
       console.log(e);
-      token = 'error fetching token';
     }
-    const extUser = await getMe(await getAccessTokenSilently());
-    setCoinbaseMetadata({ userId: extUser._id, token: token });
   }
 
   function openUSDCModal() {
@@ -164,7 +159,7 @@ const DepositModal = ({
       );
     }
 
-    return (
+    return coinbaseMetadata ? (
       <CoinbaseCommerceButton
         style={{
           width: '100%',
@@ -178,7 +173,7 @@ const DepositModal = ({
       >
         {bodyBtn}
       </CoinbaseCommerceButton>
-    );
+    ) : null;
   };
 
   const body = (
