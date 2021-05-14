@@ -38,11 +38,9 @@ const CreateSale = ({
   useEffect(() => {
     if (price) {
       const serviceFee =
-        ((product?.sku?.sellerTransactionFeePercentage || 0) *
-          parseInt(price, 10)) /
-        100;
+        (product?.resaleSellersFeePercentage * parseInt(price, 10)) / 100;
       const royaltyFee =
-        ((product?.sku?.royaltyFeePercentage || 0) * parseInt(price, 10)) / 100;
+        (product?.royaltyFeePercentage * parseInt(price, 10)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
       setTotal(parseInt(price, 10) - serviceFee - royaltyFee);
@@ -138,23 +136,23 @@ const CreateSale = ({
             <div>
               <span>
                 Marketplace fee: (
-                {product?.sku?.resaleSellersFeePercentage || 0}
+                {price === '' ? 0 : product?.resaleSellersFeePercentage}
                 %)
               </span>
             </div>
             <div>
-              <span>${serviceFee?.toFixed(0)}</span>
+              <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
             </div>
           </S.DetailRowPrice>
-          {product?.sku?.royaltyFeePercentage > 0 && (
+          {product?.royaltyFeePercentage > 0 && (
             <S.DetailRowPrice>
               <div>
                 <span>
                   Creator royalty fee:
-                  {product?.sku?.royaltyFeePercentage} %
+                  {product?.royaltyFeePercentage} %
                 </span>
               </div>
-              <div>${royaltyFee?.toFixed(0)}</div>
+              <div>${royaltyFee?.toFixed(2)}</div>
             </S.DetailRowPrice>
           )}
         </S.Detail>
@@ -167,7 +165,9 @@ const CreateSale = ({
               <strong>Final Payout:</strong>
             </div>
             <div>
-              <strong style={{ fontSize: '20px' }}>${total?.toFixed(0)}</strong>
+              <strong style={{ fontSize: '20px' }}>
+                ${price === '' ? 0 : total?.toFixed(2)}
+              </strong>
             </div>
           </S.DetailRow>
         </S.Detail>
