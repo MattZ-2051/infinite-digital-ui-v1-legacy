@@ -28,10 +28,15 @@ export const config: AppConfig = {
     apiEndpoint: getEnvVar('REACT_APP_API_ENDPOINT', true),
   },
   misc: {
-    coinbaseCheckoutId: getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', false) || 'd7589053-50e2-4560-b25c-5058274d6b0d',
+    coinbaseCheckoutId:
+      getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', false) ||
+      'd7589053-50e2-4560-b25c-5058274d6b0d',
   },
   blockchain: {
-    chainId: parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', false), 10) || 3,
-    apiKey: getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) || '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
+    chainId:
+      parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', false), 10) || 3,
+    apiKey:
+      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
+      '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
   },
 };
