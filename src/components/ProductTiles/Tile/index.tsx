@@ -77,7 +77,9 @@ const Tile = ({
             <Rarity type={skuRarity} />
           </Row>
 
-          <SkuName>{middle}</SkuName>
+          <SkuName>
+            {middle.length > 34 ? `${middle.slice(0, 34)}...` : middle}
+          </SkuName>
           <Row style={{ paddingTop: '8px' }}>
             <AccentCardText
               themeStyle={themeStyle}
