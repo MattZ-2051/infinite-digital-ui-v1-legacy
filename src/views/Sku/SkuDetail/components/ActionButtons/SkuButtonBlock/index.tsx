@@ -29,16 +29,19 @@ interface IUpcomingData {
   startDate?: Date;
   price: number;
   items: number;
+  supplyType: string;
 }
 
 const UpcomingData = ({
   startDate = new Date(),
   price,
   items,
+  supplyType,
 }: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
 
+  console.log('supply type', supplyType);
   return (
     <>
       {' '}
@@ -49,9 +52,11 @@ const UpcomingData = ({
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>${price}</span>
-          <small style={{ fontSize: '15px' }}>
-            {items && `(${items} items)`}
-          </small>
+          {supplyType === 'variable' && (
+            <small style={{ fontSize: '15px' }}>
+              {items && `(${items} items)`}
+            </small>
+          )}
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'right' }}>
           <span style={{ fontSize: '28px' }}>{countdown}</span>
@@ -120,10 +125,12 @@ const FromCreatorBox = ({
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
-          <small style={{ fontSize: '15px' }}>
-            {sku?.totalSkuListingSupplyLeft >= 0 &&
-              `(${sku?.totalSkuListingSupplyLeft} left)`}
-          </small>
+          {sku.supplyType === 'variable' && (
+            <small style={{ fontSize: '15px' }}>
+              {sku?.totalSkuListingSupplyLeft >= 0 &&
+                `(${sku?.totalSkuListingSupplyLeft} left)`}
+            </small>
+          )}
         </BoxColumn>
       </Detail>
       <Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
@@ -259,7 +266,12 @@ const SkuButtonBlock = ({
     const numItems = upcomingSkuListing.supply;
 
     return (
-      <UpcomingData startDate={startDate} price={price} items={numItems} />
+      <UpcomingData
+        startDate={startDate}
+        price={price}
+        items={numItems}
+        supplyType={sku.supplyType}
+      />
     );
 
     // TODO: Will implement when auctions are available
