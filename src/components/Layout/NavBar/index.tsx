@@ -18,6 +18,7 @@ interface IProps {
 const NavBar = ({ isSmall }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };

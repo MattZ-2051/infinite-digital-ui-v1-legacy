@@ -33,7 +33,7 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     const res = await dispatch(updateUsernameThunk(data));
     if (res.type.split('/')[3] === 'rejected') {
       setConfirmed(false);
-      setErrorMessage('Username already registered');
+      setErrorMessage('An Error Occurred');
     } else {
       setConfirmed(true);
       setErrorMessage('');
