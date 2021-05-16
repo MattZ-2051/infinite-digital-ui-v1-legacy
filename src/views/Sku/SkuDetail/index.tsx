@@ -106,24 +106,45 @@ const SkuDetail = (): JSX.Element => {
                 >
                   {sku?.series?.name}
                 </p>
-
-                <p>
-                  <SkuCounter sku={sku} />
-                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {sku?.redeemable && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <RedeemIcon />
+                      &nbsp; Redeemable{' '}
+                      <span
+                        style={{
+                          color: '#7c7c7c',
+                          fontWeight: 600,
+                          padding: '0 5px',
+                        }}
+                      >
+                        /
+                      </span>
+                    </div>
+                  )}
+                  <span>
+                    <SkuCounter sku={sku} />
+                  </span>
+                </div>
 
                 <LineDivider />
 
-                {sku?.redeemable && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <RedeemIcon />
-                    &nbsp; Redeemable
-                  </div>
-                )}
+                <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                  <S.CreatedBy>Created by</S.CreatedBy>
+                  <S.CreatorName to={`/collection/${sku.issuer._id}`}>
+                    @{sku.issuerName}
+                  </S.CreatorName>
+                </div>
               </S.ProductDetail>
 
               <S.ButtonsContainer>

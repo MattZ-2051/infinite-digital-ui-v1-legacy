@@ -125,7 +125,7 @@ const FromCreatorBox = ({
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
-          {sku.supplyType === 'variable' && (
+          {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
               {sku?.totalSkuListingSupplyLeft >= 0 &&
                 `(${sku?.totalSkuListingSupplyLeft} left)`}

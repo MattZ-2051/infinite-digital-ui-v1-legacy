@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { Link } from 'react-router-dom';
 
 export const HeaderContainer = styled.div`
   background-color: #1a1a1a;
@@ -187,4 +188,20 @@ export const ProductContainer = styled.div`
     width: 1px !important;
     border-radius: 10px;
   }
+`;
+
+export const CreatedBy = styled.p`
+  font-size: 15px;
+  color: #7c7c7c;
+  font-weight: 500;
+  margin: 0;
+`;
+
+export const CreatorName = styled(Link)`
+  font-size: 15px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  margin: 0;
+  padding-left: 5px;
 `;
