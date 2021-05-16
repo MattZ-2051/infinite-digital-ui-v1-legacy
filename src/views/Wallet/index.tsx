@@ -51,7 +51,9 @@ const Wallet = (props) => {
     if (props?.location?.state?.modalOpen) {
       setIsModalOpen(true);
     }
+  }, []);
 
+  useEffect(() => {
     const el = document.getElementById('tx');
     setIsElOverflown(isOverflown(el));
   }, []);
@@ -89,6 +91,8 @@ const Wallet = (props) => {
 
   if (!user || !transactions) return <PageLoader />;
 
+  console.log('filtered transactions', filteredTransactions);
+  console.log(isElOverflown);
   return (
     <S.Container showMore={showMore}>
       <S.Header>

@@ -85,10 +85,10 @@ const Transaction = ({ tx }: IProps) => {
               You sold
               <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
                 {tx.transactionData.sku[0]?.name}
-                {tx.transactionData.product[0]?.serialNumber}
+                <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
               </S.Link>
               to
-              <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
+              <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
                 @{tx.transactionData?.seller?.username}
               </S.Link>
             </span>
@@ -136,7 +136,11 @@ const Transaction = ({ tx }: IProps) => {
             <>
               <S.Icon src={coinbaseIcon} />
               <span>You added funds by depositing </span>
-              <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
+              <S.Bold>
+                $
+                {tx.transactionData.deposit &&
+                  parseInt(tx.transactionData.deposit.amount, 10).toFixed(2)}
+              </S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
             </>
@@ -157,7 +161,11 @@ const Transaction = ({ tx }: IProps) => {
             <>
               <S.Icon src={coinbaseIcon} />
               <span>You added funds by depositing </span>
-              <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
+              <S.Bold>
+                $
+                {tx.transactionData.deposit &&
+                  parseInt(tx.transactionData.deposit.amount, 10).toFixed(2)}
+              </S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
               <S.Bold>(Pending)</S.Bold>
@@ -194,38 +202,44 @@ const Transaction = ({ tx }: IProps) => {
       <S.TransactionDetail>
         {tx.type === 'purchase' && tx.status === 'success' && (
           <S.Color color="#DA1010">
-            - ${tx.transactionData?.cost?.totalCost}
+            - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
           </S.Color>
         )}
 
         {tx.type === 'purchase' && tx.status === 'pending' && (
           <S.Color color="#9e9e9e">
-            - ${tx.transactionData?.cost?.totalCost}
+            - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'purchase' && tx.status === 'error' && (
           <S.Color color="black" style={{ textDecoration: 'line-through' }}>
-            ${tx.transactionData?.cost?.totalCost}
+            ${tx.transactionData?.cost?.totalCost.toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'success' && (
           <S.Color color="#00C44F">
-            + ${tx.transactionData?.deposit?.amount}
+            + $
+            {tx.transactionData.deposit &&
+              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'pending' && (
           <S.Color color="#9e9e9e">
-            + ${tx.transactionData?.deposit?.amount}
+            + $
+            {tx.transactionData.deposit &&
+              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'error' && (
           <S.Color color="black" style={{ textDecoration: 'line-through' }}>
-            ${tx.transactionData?.deposit?.amount}
+            $
+            {tx.transactionData.deposit &&
+              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'sale' && (
           <S.Color color="#00C44F">
-            + ${tx.transactionData.cost?.totalCost}
+            + ${tx.transactionData.cost?.finalPayout.toFixed(2)}
           </S.Color>
         )}
       </S.TransactionDetail>
