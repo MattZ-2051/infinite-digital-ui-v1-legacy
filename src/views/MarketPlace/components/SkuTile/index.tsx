@@ -31,7 +31,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   } = sku;
 
   const history = useHistory();
-  const skuStartDateTime = new Date(minStartDate || '').getTime();
+  const skuStartDateTime = new Date(minStartDate).getTime();
   const currentTime = new Date().getTime();
 
   let status: /*SKU Tile Types*/
@@ -46,13 +46,21 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       return;
     }
 
-    if (totalSupplyLeft === 0 && totalSupplyUpcoming === 0) {
+    if (
+      skuStartDateTime > currentTime &&
+      (sku.upcomingProductListings?.length !== 0 ||
+        sku.upcomingSkuListings?.length !== 0)
+    ) {
       status = 'upcoming-sku-time';
       bottomRightText = totalSupplyUpcoming;
       skuUpcomingTime = formatCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
-    } else if (totalSupplyLeft > 0) {
+    } else if (
+      sku.totalSupplyLeft === 0 ||
+      sku.activeProductListings?.length !== 0 ||
+      sku.activeSkuListings?.length !== 0
+    ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
       pillInfo = minPrice;

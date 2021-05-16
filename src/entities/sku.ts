@@ -33,6 +33,10 @@ export interface Sku {
   countProductListings: number;
   skuListings: Listing[];
   productListings?: Listing[];
+  upcomingSkuListings?: Listing[];
+  upcomingProductListings?: Listing[];
+  activeProductListings?: Listing[];
+  activeSkuListings?: Listing[];
   series: {
     _id: string;
     name: string;

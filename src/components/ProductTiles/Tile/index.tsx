@@ -87,10 +87,14 @@ const Tile = ({
             >
               {bottomLeft}
             </AccentCardText>
-            {status === 'upcoming-sku' && !unique && (
+            {status === 'upcoming-sku-time' && !unique && (
               <BottomCardText themeStyle={themeStyle}>
                 {' '}
-                {supplyType === 'variable' ? null : <>{bottomRight} Dropping</>}
+                {supplyType === 'variable' ? null : (
+                  <>
+                    {sku.totalSupply} of {sku.totalSupply}
+                  </>
+                )}
               </BottomCardText>
             )}
             {unique && (
@@ -102,15 +106,17 @@ const Tile = ({
                 style={{ color: '#9e9e9e' }}
               >
                 {supplyType === 'variable'
-                  ? `${sku.circulatingSupply || 0} Released`
+                  ? `${sku.totalSupply} Released`
                   : supplyType === 'fixed'
-                  ? `${sku.totalSkuListingSupplyLeft || 0} For Sale`
+                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} For Sale`
                   : null}
               </BottomCardText>
             )}
             {status === 'no-sale' && !unique && (
               <BottomCardText themeStyle={themeStyle}>
-                {bottomRight} Owned
+                {sku.supplyType === 'variable'
+                  ? `${sku.totalSupply} Released`
+                  : `${sku.totalSupply} of ${sku.totalSupply} for sale`}
               </BottomCardText>
             )}
             {status === 'active-listing' && !unique && (
