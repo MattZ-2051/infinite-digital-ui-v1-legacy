@@ -49,7 +49,7 @@ const SkuPageModal = ({
   );
 
   const royaltyFee = Math.round(
-    (product.minSkuPrice * product.royaltyFeePercentage) / 100
+    (product?.activeSkuListings[0]?.price * product.royaltyFeePercentage) / 100
   );
 
   const buyAction = async () => {
@@ -166,14 +166,16 @@ const SkuPageModal = ({
           <S.SkuInfo>
             <S.FlexRow>
               <S.PriceInfo>Seller Price:</S.PriceInfo>
-              <S.PriceInfo>${product.minSkuPrice.toFixed(2)}</S.PriceInfo>
+              <S.PriceInfo>
+                ${product?.activeSkuListings[0]?.price.toFixed(2)}
+              </S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
               <S.PriceInfo>{`Marketplace Fee (${product?.sellerTransactionFeePercentage}%):`}</S.PriceInfo>
               <S.PriceInfo>
                 $
                 {(
-                  product.minSkuPrice *
+                  product?.activeSkuListings[0]?.price *
                   (product.sellerTransactionFeePercentage / 100)
                 ).toFixed(2)}
               </S.PriceInfo>
@@ -184,8 +186,8 @@ const SkuPageModal = ({
             <S.Total>
               $
               {(
-                product.minSkuPrice +
-                product.minSkuPrice *
+                product?.activeSkuListings[0]?.price +
+                product?.activeSkuListings[0]?.price *
                   (product.sellerTransactionFeePercentage / 100)
               ).toFixed(2)}
             </S.Total>

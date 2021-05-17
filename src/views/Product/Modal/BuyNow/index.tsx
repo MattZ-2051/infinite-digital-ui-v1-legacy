@@ -172,14 +172,16 @@ const BuyNowModal = ({
           <S.SkuInfo>
             <S.FlexRow>
               <S.PriceInfo>Seller Price:</S.PriceInfo>
-              <S.PriceInfo>${product.listing.price.toFixed(2)}</S.PriceInfo>
+              <S.PriceInfo>
+                ${product.activeProductListings[0]?.price.toFixed(2)}
+              </S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
-              <S.PriceInfo>{`Marketplace Fee (${product?.sku.sellerTransactionFeePercentage}%):`}</S.PriceInfo>
+              <S.PriceInfo>{`Marketplace Fee (${product?.sku.resaleSellersFeePercentage}%):`}</S.PriceInfo>
               <S.PriceInfo>
                 $
                 {(
-                  product.listing.price *
+                  product.activeProductListings[0]?.price *
                   (product.sku.sellerTransactionFeePercentage / 100)
                 ).toFixed(2)}
               </S.PriceInfo>
@@ -190,8 +192,8 @@ const BuyNowModal = ({
             <S.Total>
               $
               {(
-                product.listing.price +
-                product.listing.price *
+                product.activeProductListings[0]?.price +
+                product.activeProductListings[0]?.price *
                   (product.sku.sellerTransactionFeePercentage / 100)
               ).toFixed(2)}
             </S.Total>
