@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import usdcIcon from 'assets/img/icons/usdc.png';
+import usdcIcon from 'assets/img/icons/usdc-icon.png';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
 import depositIcon from 'assets/img/icons/Added-funds.png';
 import withdrawIcon from 'assets/img/icons/withdraw-icon.png';
@@ -77,7 +77,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
-            <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
+            <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
           </>
         )}
         {tx.type === 'sale' && (
@@ -120,19 +120,20 @@ const Transaction = ({ tx }: IProps) => {
           tx.transactionData?.deposit?.type === 'cc' &&
           tx.status === 'error' && (
             <>
-              <S.Icon src={usdcIcon} />
+              <S.Icon src={depositIcon} />
               <span>You tried to add funds</span>
               <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'success' && (
-            <>
-              <S.Icon src={usdcIcon} />
-              <span>You added funds in </span>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {/* <S.Icon src={usdcIcon} /> */}
+              <S.UsdcIcon />
+              <span>You added funds by depositing </span>
               <S.Bold>USDC</S.Bold>
-            </>
+            </div>
           )}
         {tx.type === 'deposit' &&
           tx.transactionData?.deposit?.type === 'coinbase' &&
@@ -150,11 +151,11 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'pending' && (
             <>
               <S.Icon src={usdcIcon} />
-              <span>You added funds in </span>
+              <span>You added funds by </span>
               <S.Bold>USDC</S.Bold>
               <S.Bold>(Pending)</S.Bold>
             </>
@@ -176,7 +177,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'error' && (
             <>
               <S.Icon src={usdcIcon} />
@@ -190,7 +191,7 @@ const Transaction = ({ tx }: IProps) => {
           tx.status === 'error' && (
             <>
               <S.Icon src={coinbaseIcon} />
-              <span>You added funds by depositing </span>
+              <span>You tried to add funds by depositing </span>
               <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>

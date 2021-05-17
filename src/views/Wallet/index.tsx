@@ -97,6 +97,7 @@ const Wallet = (props) => {
 
   if (!user || !transactions) return <PageLoader />;
 
+  console.log(filteredTransactions);
   return (
     <S.Container showMore={showMore}>
       <S.Header>
@@ -117,7 +118,9 @@ const Wallet = (props) => {
             <S.GrayLine></S.GrayLine>
           </div>
 
-          <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
+          <S.BalanceAmount>
+            ${parseFloat(user?.balance).toFixed(2)}
+          </S.BalanceAmount>
 
           <S.Available>
             <S.AvailableText>Available:</S.AvailableText>

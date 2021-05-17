@@ -55,6 +55,7 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
       state.userCards = payload;
+      state.user.balance = payload.balance.amount;
     });
     builder.addCase(updateUsernameThunk.fulfilled, (state, { payload }) => {
       if (state.loading === 'pending') {
@@ -94,7 +95,7 @@ export const sessionSlice = createSlice({
         state.loading = 'idle';
       }
     });
-    builder.addCase(addFundsThunk.fulfilled, (state) => {
+    builder.addCase(addFundsThunk.fulfilled, (state, { payload }) => {
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
