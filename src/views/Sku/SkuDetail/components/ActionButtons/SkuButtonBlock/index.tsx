@@ -343,7 +343,7 @@ const SkuButtonBlock = ({
     );
   }
 
-  return <NotAvailable />;
+  return <></>;
 };
 
 const Container = styled.div`
