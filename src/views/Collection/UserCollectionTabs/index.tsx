@@ -33,11 +33,11 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const userId = history.location.pathname.split('/')[2];
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(1);
-  const perPage = 6;
+  const perPage = 8;
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
   async function fetchData() {
-    const itemsRes = await getProductsOwnedByUser(userId, '');
+    const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
       setTotal(itemsRes.total);
@@ -53,7 +53,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
   useEffect(() => {
     fetchData();
-  }, [selectedTab, userId, user]);
+  }, [selectedTab, userId, page, user]);
 
   let userStatus = '';
 
@@ -90,7 +90,6 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     value: number
   ) => {
     setPage(value);
-    //dispatch(updatePagination({ page: String(value), perPage: '6' }));
   };
 
   // TODO: REVIEW
@@ -256,26 +255,43 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           )}
         </>
       )}
-      <StyledPagination
-        themeStyle={themeStyle}
-        count={Math.ceil(total / perPage)}
-        page={page}
-        onChange={handlePagination}
-        siblingCount={matchesMobile ? 0 : 1}
-      />
+      {total > 1 && (
+        <StyledPagination
+          themeStyle={themeStyle}
+          count={Math.ceil(total / perPage)}
+          page={page}
+          onChange={handlePagination}
+          siblingCount={matchesMobile ? 0 : 1}
+        />
+      )}
     </Container>
   );
 };
 
 const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
-  background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
-      : theme.palette.light.baseMain};
-  color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseComplement
-      : theme.palette.light.baseComplement};
+  .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
+    background-color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark'
+        ? theme.palette.light.baseMain
+        : theme.palette.dark.baseMain};
+
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark'
+        ? theme.palette.dark.baseMain
+        : theme.palette.light.baseMain};
+    &:hover {
+    }
+  }
+  .MuiButtonBase-root.MuiPaginationItem-root {
+    background-color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+  }
+  .MuiPaginationItem-ellipsis {
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+  }
 `;
 
 const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
