@@ -5,6 +5,7 @@ import redeemIcon from 'assets/img/icons/redeem-icon-2.png';
 import isoLogoBlack from 'assets/img/backgrounds/placeholder-img.jpg';
 import Rarity from 'components/Rarity';
 import { Sku } from 'entities/sku';
+import TilePill from './components/TilePill';
 import Emoji from 'components/Emoji';
 import { Media } from '../../Media/Media';
 
@@ -119,6 +120,7 @@ const Tile = ({
                   : `${sku.totalSupply} of ${sku.totalSupply} for sale`}
               </BottomCardText>
             )}
+            {/* TODO DRY */}
             {status === 'active-listing' && !unique && (
               <SerialNum>
                 Serial:
@@ -155,41 +157,7 @@ const Tile = ({
           </Row>
         </StyledCardContent>
       </StyledCard>
-      {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
-        <Pill themeStyle={themeStyle} active={false}>
-          <Upcoming>Upcoming</Upcoming>
-        </Pill>
-      )}
-      {status.includes('time') && (
-        <Pill themeStyle={themeStyle} active={false}>
-          <PillText>Upcoming in:</PillText>
-          <PillInfo style={{ fontSize: '18px' }}>
-            {pillInfo.replaceAll('-', '')}
-          </PillInfo>
-        </Pill>
-      )}
-      {status === 'active-listing' && (
-        <Pill themeStyle={themeStyle} active={true}>
-          <PillText>Current Price:</PillText>
-          <PillInfo>${pillInfo}</PillInfo>
-        </Pill>
-      )}
-      {status === 'active' && (
-        <Pill themeStyle={themeStyle} active={true}>
-          <PillText> Lowest Price:</PillText>
-          <PillInfo>${pillInfo}</PillInfo>
-        </Pill>
-      )}
-      {status === 'no-sale' && (
-        <Pill themeStyle={themeStyle} active={false}>
-          <NotForSale>No one selling</NotForSale>
-        </Pill>
-      )}
-      {status === 'no-active-listing' && (
-        <Pill themeStyle={themeStyle} active={false}>
-          <NotForSale>Not for sale</NotForSale>
-        </Pill>
-      )}
+      <TilePill status={status} pillInfo={pillInfo} />
     </CardContainer>
   );
 };
@@ -276,21 +244,6 @@ const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
   justify-content: space-between;
   padding: 0 25px;
   bottom: 25px;
-`;
-
-const PillText = styled.span`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20.24px;
-  color: #c4c4c4;
-  height: 20px;
-`;
-
-const PillInfo = styled.span`
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 32px;
-  height: 32px;
 `;
 
 const BottomCardText = styled.p<{ theme; themeStyle }>`

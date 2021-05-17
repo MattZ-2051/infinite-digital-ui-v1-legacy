@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import { ReactComponent as UsdcSvg } from 'assets/svg/icons/usdc-tx-icon.svg';
 
 export const Container = styled.div`
   display: grid;
@@ -45,4 +46,8 @@ export const Date = styled.span`
 
 export const Link = styled(NavLink)`
   padding: 0 5px;
+`;
+
+export const UsdcIcon = styled(UsdcSvg)`
+  margin-right: 24px;
 `;

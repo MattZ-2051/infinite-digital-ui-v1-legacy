@@ -27,28 +27,12 @@ const Footer = () => {
   return (
     <StyledFooter>
       <FooterContent>
-        <FooterTop>
+        <FooterBottom>
           <Divider gap={24} tag="nav">
-            {/* <TextButton to="/" color="grey" size="small">
-              FAQ
-            </TextButton> */}
-
             <TextButton to="/help" color="grey" size="small">
               Help
             </TextButton>
 
-            {/* <TextButton to="/" color="grey" size="small">
-              Thanks
-            </TextButton>
-
-            <TextButton to="/" color="white" size="small">
-              +
-            </TextButton> */}
-          </Divider>
-        </FooterTop>
-
-        <FooterBottom>
-          <Divider gap={24} tag="nav">
             <TextButton to="/privacy" color="grey" size="small">
               Privacy Policy
             </TextButton>
@@ -92,15 +76,6 @@ const Footer = () => {
                 )
               }
             />
-            <IconButton
-              icon={RedditIcon}
-              color="white"
-              radius={8}
-              onClick={() =>
-                window.open('https://www.reddit.com/r/SUKUecosystem/', '_blank')
-              }
-            />
-            <IconButton icon={DiscordIcon} color="white" radius={8} />
           </Divider>
 
           <Hidden mdUp>
@@ -115,6 +90,8 @@ const Footer = () => {
 };
 
 const StyledFooter = styled.footer`
+  position: fixed;
+  bottom: 0;
   width: 100%;
   background-color: black;
 `;
@@ -122,23 +99,9 @@ const StyledFooter = styled.footer`
 const FooterContent = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1440px;
-  margin: auto;
-  padding: 20px 50px 20px 50px;
+  padding: 16px 24px 16px 24px;
   font-size: 12px;
   color: white;
-
-  @media screen and (max-width: 960px) {
-    padding: 20px 32px 20px 32px;
-  }
-`;
-
-const FooterTop = styled.div`
-  padding: 8px 0 8px 0;
-
-  @media screen and (max-width: 960px) {
-    text-align: center;
-  }
 `;
 
 const FooterBottom = styled.div`

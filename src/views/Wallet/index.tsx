@@ -17,7 +17,7 @@ import PageLoader from 'components/PageLoader';
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
@@ -32,15 +32,15 @@ const Wallet = (props) => {
   const { username, id: userId } = useAppSelector(
     (state) => state.session.user
   );
-  const user = useAppSelector((state) => state.session.user);
+  // const user = useAppSelector((state) => state.session.user);
   const { kycPending, kycMaxLevel } = useAppSelector(
     (state) => state.session.userCards
   );
 
   async function fetchUser() {
-    // const res = await getMe(await getAccessTokenSilently());
+    const res = await getMe(await getAccessTokenSilently());
     dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
-    // setUser(res);
+    setUser(res);
   }
 
   async function fetchTransactions() {
@@ -201,12 +201,10 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {isElOverflown ? (
+            {isElOverflown && (
               <S.SeeMore onClick={handleShowChange}>
                 {(showMore && '- View Less') || '+ View All'}
               </S.SeeMore>
-            ) : (
-              'All Items'
             )}
           </S.FlexRow>
         </S.RightCol>

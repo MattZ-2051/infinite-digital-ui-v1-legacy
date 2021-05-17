@@ -1,4 +1,3 @@
-import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { Sku } from 'entities/sku';
 import { formatCountdown } from 'utils/dates';
@@ -68,8 +67,6 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     } else if (totalSupplyLeft === 0) {
       status = 'no-sale';
       bottomRightText = circulatingSupply;
-      return;
-    } else {
       return;
     }
   };

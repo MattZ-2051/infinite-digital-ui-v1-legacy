@@ -116,7 +116,7 @@ const Container = styled.div<{ height?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f4f4f4;
+  background-color: #fffff;
   height: ${(props) => (props.height ? `${props.height};` : `100%`)};
   width: 100%;
   max-width: 700px;
@@ -171,6 +171,7 @@ const Thumbnail = styled.div<ThumbnailItemProps>`
   border-color: ${(props) => (props.active ? 'black' : '#d2d2d2')};
   background-color: #f4f4f4;
   cursor: pointer;
+  overflow: hidden;
 
   &:hover {
     border-color: black;

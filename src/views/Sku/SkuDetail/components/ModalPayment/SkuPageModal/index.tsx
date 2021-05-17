@@ -13,7 +13,6 @@ import Modal from 'components/Modal';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
-import Emoji from 'components/Emoji';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -25,6 +24,7 @@ interface IModalProps {
   user?: User;
   listing?: Listing;
   serialNum?: string;
+  onProcessing?: () => void;
 }
 
 const SkuPageModal = ({
@@ -35,6 +35,7 @@ const SkuPageModal = ({
   user,
   serialNum,
   listing,
+  onProcessing,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,7 @@ const SkuPageModal = ({
   );
 
   const royaltyFee = Math.round(
-    (product.minSkuPrice * product.royaltyFeePercentage) / 100
+    (product?.activeSkuListings[0].price * product.royaltyFeePercentage) / 100
   );
 
   const buyAction = async () => {
@@ -83,6 +84,7 @@ const SkuPageModal = ({
         state: { modalOpen: true },
       });
     } else if (statusMode === 'processing') {
+      onProcessing ? onProcessing() : null;
       setModalPaymentVisible(false);
     } else if (statusMode === 'hasFunds') {
       buyAction();
@@ -129,19 +131,18 @@ const SkuPageModal = ({
                   <S.Title>Whoops, Insuficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your wallet balance is ${' '}
-                  {parseInt(userBalance, 10).toFixed(2)}
+                  Your wallet balance is $ {parseFloat(userBalance).toFixed(2)}
                 </S.SubTitle>
               </>
             )}
             {statusMode === 'processing' && (
               <>
                 <S.Title>
-                  {"We're processing your order"}
-                  <Emoji symbol="🙂" />
+                  We will send you an email when your purchase has been
+                  completed.
                 </S.Title>
                 <S.SubTitle style={{ color: '#7d7d7d' }}>
-                  We will notify you when complete
+                  Refresh the page to view the updated status.
                 </S.SubTitle>
               </>
             )}
@@ -165,14 +166,16 @@ const SkuPageModal = ({
           <S.SkuInfo>
             <S.FlexRow>
               <S.PriceInfo>Seller Price:</S.PriceInfo>
-              <S.PriceInfo>${product.minSkuPrice.toFixed(2)}</S.PriceInfo>
+              <S.PriceInfo>
+                ${product?.activeSkuListings[0]?.price.toFixed(2)}
+              </S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
               <S.PriceInfo>{`Marketplace Fee (${product?.sellerTransactionFeePercentage}%):`}</S.PriceInfo>
               <S.PriceInfo>
                 $
                 {(
-                  product.minSkuPrice *
+                  product?.activeSkuListings[0]?.price *
                   (product.sellerTransactionFeePercentage / 100)
                 ).toFixed(2)}
               </S.PriceInfo>
@@ -183,8 +186,8 @@ const SkuPageModal = ({
             <S.Total>
               $
               {(
-                product.minSkuPrice +
-                product.minSkuPrice *
+                product?.activeSkuListings[0]?.price +
+                product?.activeSkuListings[0]?.price *
                   (product.sellerTransactionFeePercentage / 100)
               ).toFixed(2)}
             </S.Total>

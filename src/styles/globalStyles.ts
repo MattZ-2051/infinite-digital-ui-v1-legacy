@@ -99,20 +99,38 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  // Slick-Slider plugin
-  .slick-slider,
-  .slick-list,
-  .slick-slide,
-  .slick-track {
-      height: 100% !important;
+  //Slider
+  .slick-slider {
+    overflow-x: hidden;
   }
 
-  .slick-slide > div {
-    height: 100% !important;
+  .slick-next {
+    right: 25px;
+    z-index: 200;
+  }
+
+  .slick-prev {
+    left: 25px;
+    z-index: 200;
+  }
+
+  .slick-dots {
+    position: static;
+    margin-top: 40px;
+
+    @media screen and (max-width: 600px) {
+      margin-top: 0px
+    }
   }
 
   .slick-dots li button:before {
     font-size: 13px;
+  }
+
+  .slick-track {
+    @media screen and (max-width: 600px) {
+     display: flex;
+    }
   }
 
   // Mui Calendar

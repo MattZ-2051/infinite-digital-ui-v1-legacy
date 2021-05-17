@@ -43,7 +43,7 @@ const CreateSale = ({
         (product?.royaltyFeePercentage * parseInt(price, 10)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
-      setTotal(parseInt(price, 10) - serviceFee - royaltyFee);
+      setTotal(parseFloat(price) - serviceFee - royaltyFee);
     }
   }, [price]);
 
@@ -52,7 +52,7 @@ const CreateSale = ({
     const userToken = await getAccessTokenSilently();
     try {
       const result = await postListings(userToken, {
-        price: parseInt(price, 10) || 0,
+        price: parseFloat(price) || 0,
         type: 'product',
         product: product?._id,
         saleType: 'fixed',
@@ -126,7 +126,7 @@ const CreateSale = ({
         <S.InputContainer>
           <TextField
             type="money"
-            placeholder="Enter amount"
+            placeholder="Enter price"
             onChange={(value) => setPrice(value)}
             name={price}
           />
@@ -135,9 +135,8 @@ const CreateSale = ({
           <S.DetailRowPrice>
             <div>
               <span>
-                Marketplace fee: (
-                {price === '' ? 0 : product?.resaleSellersFeePercentage}
-                %)
+                Marketplace fee ({product?.resaleSellersFeePercentage}
+                %):
               </span>
             </div>
             <div>
@@ -148,8 +147,7 @@ const CreateSale = ({
             <S.DetailRowPrice>
               <div>
                 <span>
-                  Creator royalty fee:
-                  {product?.royaltyFeePercentage} %
+                  Creator royalty fee ({product?.royaltyFeePercentage})% :
                 </span>
               </div>
               <div>${royaltyFee?.toFixed(2)}</div>
@@ -174,8 +172,7 @@ const CreateSale = ({
         <S.Footer>
           <p>
             Listing your NFT for sale on the marketplace will allow it to be
-            purchased by other users. Once you list your NFT for sale, it cannot
-            be canceled automatically.
+            purchased by other users. Once listed for sale it cannot be canceled
             <br />
             <a
               target="_blank"

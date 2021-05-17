@@ -13,10 +13,6 @@ interface Props {
   product: ProductWithFunctions | null;
 }
 
-const createMarkup = (markup) => ({
-  __html: markup,
-});
-
 const ProductDetails = ({ product }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -64,44 +60,36 @@ const ProductDetails = ({ product }: Props) => {
               <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>
             </S.Flex>
           )}
-          {product?.sku.supplyType !== 'variable' && (
+          {product?.sku.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">
-              {product?.sku?.maxSupply === 1
-                ? '1 of 1'
-                : `${product?.totalSupply} released`}
+              {`1 of ${product?.totalSupply}`}
             </S.SkuInfo>
           )}
 
-          {product?.sku?.maxSupply !== 1 && (
+          {product?.sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
               {product?.sku?.supplyType === 'variable' &&
-                product?.sku?.circulatingSupply > 0 &&
                 `${product?.sku?.circulatingSupply || 0} Released `}
-              {product?.sku?.supplyType === 'fixed' &&
-                product?.sku?.totalSupply > 0 &&
-                `${product?.sku?.totalSupply || 0} Released `}
               (See All)
             </S.SkuInfo>
           )}
         </S.Flex>
-        <S.Description>
-          Description
-          {isSmall && (
-            <S.ShowDescription onClick={toggleDescription}>
-              {!descriptionVisible ? (
-                <S.DownArrow style={{ color: 'black' }} />
-              ) : (
-                <S.UpArrow style={{ color: 'black' }} />
-              )}
-            </S.ShowDescription>
-          )}
-        </S.Description>
+        <S.Flex>
+          <S.SkuInfo color="#7c7c7c">
+            Created by:{' '}
+            <S.Link to={`/collection/${product?.owner._id}`}>
+              @{product?.owner.username}
+            </S.Link>
+          </S.SkuInfo>
+        </S.Flex>
         <S.GreyLine />
-        {(descriptionVisible || !isSmall) && (
-          <S.DescriptionText
-            dangerouslySetInnerHTML={createMarkup(product?.sku?.description)}
-          ></S.DescriptionText>
-        )}
+        <S.Footer>
+          <S.Link to={`/marketplace/${product?.sku?._id}`}>
+            {' '}
+            <S.BackArrow />
+            <span>View Release Details</span>
+          </S.Link>
+        </S.Footer>
       </S.Body>
     </S.Container>
   );

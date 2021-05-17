@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
+import { Link as RouterLink } from 'react-router-dom';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export const Body = styled.div`
   color: black;
@@ -108,4 +110,23 @@ export const ShowDescription = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
+`;
+
+export const Footer = styled.div`
+  padding-top: 20px;
+`;
+
+export const Link = styled(RouterLink)`
+  text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+  span {
+    vertical-align: top;
+  }
+`;
+
+export const BackArrow = styled(ArrowBackIosIcon)`
+  font-size: 20px;
+  margin-right: 10px;
 `;
