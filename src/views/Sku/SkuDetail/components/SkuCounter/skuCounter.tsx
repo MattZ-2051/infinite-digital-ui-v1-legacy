@@ -22,7 +22,11 @@ export const SkuCounter = ({ sku }: SkuCounterProps): JSX.Element => {
   } else if (sku.supplyType === 'variable' && sku.circulatingSupply > 0) {
     return <Info>{sku.circulatingSupply} released</Info>;
   } else if (sku.supplyType === 'fixed' && sku.totalSupply > 0) {
-    return <Info>1 of {sku.totalSupply}</Info>;
+    return (
+      <Info>
+        {sku.totalSupply} of {sku.totalSupply}
+      </Info>
+    );
   } else {
     // weird edge case that we're not expecting
     return <></>;

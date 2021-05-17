@@ -38,9 +38,9 @@ const CreateSale = ({
   useEffect(() => {
     if (price) {
       const serviceFee =
-        (product?.resaleSellersFeePercentage * parseInt(price, 10)) / 100;
+        (product?.resaleSellersFeePercentage * parseFloat(price)) / 100;
       const royaltyFee =
-        (product?.royaltyFeePercentage * parseInt(price, 10)) / 100;
+        (product?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
       setTotal(parseFloat(price) - serviceFee - royaltyFee);

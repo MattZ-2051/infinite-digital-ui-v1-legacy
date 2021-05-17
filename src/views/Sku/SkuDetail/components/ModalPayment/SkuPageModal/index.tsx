@@ -13,6 +13,7 @@ import Modal from 'components/Modal';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
+import Emoji from 'components/Emoji';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -32,7 +33,6 @@ const SkuPageModal = ({
   setModalPaymentVisible,
   mode,
   sku: product,
-  user,
   serialNum,
   listing,
   onProcessing,
@@ -42,7 +42,6 @@ const SkuPageModal = ({
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
 
-  const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
@@ -80,7 +79,7 @@ const SkuPageModal = ({
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
-        pathname: `/wallet/${loggedInUser.username}`,
+        pathname: `/wallet`,
         state: { modalOpen: true },
       });
     } else if (statusMode === 'processing') {
@@ -94,7 +93,7 @@ const SkuPageModal = ({
   };
 
   const handleWalletRouteChange = () => {
-    history.push(`/wallet/${loggedInUser.username}`);
+    history.push(`/wallet`);
   };
 
   const handleTCRouteChange = () => {
@@ -138,11 +137,12 @@ const SkuPageModal = ({
             {statusMode === 'processing' && (
               <>
                 <S.Title>
-                  We will send you an email when your purchase has been
-                  completed.
+                  {"We're processing your order"}
+                  <Emoji symbol="🙂" />
                 </S.Title>
                 <S.SubTitle style={{ color: '#7d7d7d' }}>
-                  Refresh the page to view the updated status.
+                  We will send you an email when your purchase has been
+                  completed. Refresh the page to view the updated status.
                 </S.SubTitle>
               </>
             )}

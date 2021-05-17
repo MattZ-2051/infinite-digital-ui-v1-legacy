@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
@@ -24,7 +23,7 @@ const UserCollectioinInfo = ({
   let userStatus = '';
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${loggedInUser.username}`);
+    history.push(`/wallet`);
   };
 
   const checkStatus = () => {

@@ -35,27 +35,19 @@ const RouterComponent = (): JSX.Element => {
       <Route path="/marketplace/:skuid/collectors" component={Collectors} />
 
       {/* User */}
-      <PrivateRoute exact path="/wallet/:userId" component={Wallet} />
+      <PrivateRoute exact path="/wallet" component={Wallet} />
       <PrivateRoute
         exact
-        path="/wallet/:userId/deposit/addfunds"
+        path="/wallet/deposit/addfunds"
         component={AddFunds}
       />
       <PrivateRoute
         exact
-        path="/wallet/:userId/deposit/success"
+        path="/wallet/deposit/success"
         component={SuccessPage}
       />
-      <PrivateRoute
-        exact
-        path="/wallet/:userId/addcreditcard"
-        component={AddCC}
-      />
-      <PrivateRoute
-        exact
-        path="/wallet/:userId/deposit/error"
-        component={ErrorPage}
-      />
+      <PrivateRoute exact path="/wallet/addcreditcard" component={AddCC} />
+      <PrivateRoute exact path="/wallet/deposit/error" component={ErrorPage} />
 
       <Route path="/collection/:userId" component={Collection} />
 

@@ -9,13 +9,12 @@ const S: any = {};
 
 const ErrorPage = () => {
   const history = useHistory();
-  const username = useAppSelector((state) => state.session.user.username);
   const handleRedirectToWallet = () => {
-    history.push(`/wallet/${username}`);
+    history.push(`/wallet`);
   };
 
   const handleRedirectToAddFunds = () => {
-    history.push(`/wallet/${username}/deposit/addfunds`);
+    history.push(`/wallet/deposit/addfunds`);
   };
   return (
     <Container>

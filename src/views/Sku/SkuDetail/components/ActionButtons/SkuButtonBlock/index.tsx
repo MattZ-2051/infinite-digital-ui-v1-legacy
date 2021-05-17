@@ -52,7 +52,7 @@ const UpcomingData = ({
         </BoxColumn>
         <BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>${price}</span>
-          {supplyType === 'variable' && (
+          {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
               {items && `(${items} items)`}
             </small>

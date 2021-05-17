@@ -82,7 +82,8 @@ const Wallet = (props) => {
         (tx.status === 'pending' ||
           tx.status === 'success' ||
           tx.status === 'error')) ||
-      tx.type === 'sale'
+      tx.type === 'sale' ||
+      tx.type === 'royalty_fee'
     ) {
       return tx;
     }
@@ -96,6 +97,8 @@ const Wallet = (props) => {
   }
 
   if (!user || !transactions) return <PageLoader />;
+
+  console.log(filteredTransactions);
 
   return (
     <S.Container showMore={showMore}>

@@ -21,7 +21,6 @@ const S: any = {};
 
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
-  const username = useAppSelector((state) => state.session.user.username);
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -32,7 +31,7 @@ const AddFunds = () => {
   };
 
   if (userCard.status !== 'complete') {
-    history.push(`/wallet/${username}/addcreditcard`);
+    history.push(`/wallet/addcreditcard`);
   }
 
   const handleChange = (e) => {
@@ -55,11 +54,11 @@ const AddFunds = () => {
     );
     if (res.type.split('/')[5] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
-      history.push(`/wallet/${username}/deposit/success`);
+      history.push(`/wallet/deposit/success`);
     } else {
       // FIXME: make async thunk typesafe to avoid any type
       Toast.error((res?.payload as any)?.errorMessage);
-      history.push(`/wallet/${username}/deposit/error`);
+      history.push(`/wallet/deposit/error`);
     }
   };
 
@@ -75,7 +74,7 @@ const AddFunds = () => {
     } else {
       Toast.success('Card Successfully Removed');
       setTimeout(() => {
-        history.push(`/wallet/${username}/addcreditcard`);
+        history.push(`/wallet/addcreditcard`);
       }, 2500);
     }
   };
