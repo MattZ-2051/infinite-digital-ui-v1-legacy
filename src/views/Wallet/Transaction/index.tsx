@@ -8,17 +8,14 @@ import dollarSign from 'assets/img/icons/dollarSign-icon.png';
 import purchaseIcon from 'assets/img/icons/purchase-icon.png';
 import { ITransaction } from 'entities/transaction';
 import * as S from './styles';
-
 interface IProps {
   tx: ITransaction;
 }
-
 interface DateTimeOptions {
   year: 'numeric';
   month: 'long';
   day: 'numeric';
 }
-
 const Transaction = ({ tx }: IProps) => {
   const txCreatedAtDate = new Date(tx.createdAt);
   const options: DateTimeOptions = {
@@ -26,7 +23,6 @@ const Transaction = ({ tx }: IProps) => {
     month: 'long',
     day: 'numeric',
   };
-
   return (
     <S.Container>
       <S.TransactionDescription>
@@ -77,7 +73,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
-            <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
+            <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
           </>
         )}
         {tx.type === 'sale' && (
@@ -98,7 +94,6 @@ const Transaction = ({ tx }: IProps) => {
             </span>
           </>
         )}
-
         {tx.type === 'deposit' &&
           tx.transactionData?.deposit?.type === 'cc' &&
           tx.status === 'success' && (
@@ -126,7 +121,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'success' && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {/* <S.Icon src={usdcIcon} /> */}
@@ -151,22 +146,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'coinbase' &&
-          tx.status === 'success' && (
-            <>
-              <S.Icon src={coinbaseIcon} />
-              <span>You added funds by depositing </span>
-              <S.Bold>
-                $
-                {tx.transactionData.deposit &&
-                  parseFloat(tx.transactionData.deposit.amount).toFixed(2)}
-              </S.Bold>
-              <span>using</span>
-              <S.Bold>Coinbase</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'pending' && (
             <>
               <S.Icon src={usdcIcon} />
@@ -192,7 +172,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'usdc' &&
+          tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'error' && (
             <>
               <S.Icon src={usdcIcon} />
@@ -206,7 +186,7 @@ const Transaction = ({ tx }: IProps) => {
           tx.status === 'error' && (
             <>
               <S.Icon src={coinbaseIcon} />
-              <span>You added funds by depositing </span>
+              <span>You tried to add funds by depositing </span>
               <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
@@ -214,18 +194,15 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
       </S.TransactionDescription>
-
       <S.TransactionDetail>
         <S.Date>{txCreatedAtDate.toLocaleDateString('en-US', options)}</S.Date>
       </S.TransactionDetail>
-
       <S.TransactionDetail>
         {tx.type === 'purchase' && tx.status === 'success' && (
           <S.Color color="#DA1010">
             - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
           </S.Color>
         )}
-
         {tx.type === 'purchase' && tx.status === 'pending' && (
           <S.Color color="#9e9e9e">
             - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
@@ -266,5 +243,4 @@ const Transaction = ({ tx }: IProps) => {
     </S.Container>
   );
 };
-
 export default Transaction;

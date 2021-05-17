@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export const Container = styled.div<{ showMore: boolean }>`
-  min-height: 100vh;
+  min-height: 0vh;
 `;
 
 export const Header = styled.div`
@@ -124,7 +124,7 @@ export const SeeMore = styled.p`
 
 export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
   padding: 0 48px;
-  height: ${(props) => (props.overflow ? `100%` : `100%`)};
+  height: ${(props) => (props.overflow ? `70%` : `70%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
 
   @media screen and (max-width: 960px) {
