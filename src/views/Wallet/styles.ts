@@ -52,6 +52,7 @@ export const Link = styled(RouterLink)`
   display: flex;
   align-items: center;
   color: #cbcbcb;
+  width: fit-content;
 `;
 
 export const BackArrow = styled(ArrowBackIosIcon)`

@@ -35,11 +35,13 @@ const Transaction = ({ tx }: IProps) => {
             <S.Icon src={purchaseIcon} />
             <span>
               You bought
-              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
                 {tx.transactionData.sku[0]?.name}
               </S.Link>
             </span>
-            <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
+            <S.Link to={`/product/${tx.transactionData?.product[0]?._id}`}>
+              #{tx.transactionData.product[0]?.serialNumber}
+            </S.Link>
             <span>from</span>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
@@ -51,7 +53,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Icon src={purchaseIcon} />
             <span>
               You bought
-              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
                 {tx.transactionData.sku[0]?.name}
               </S.Link>
               from
@@ -67,7 +69,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Icon src={purchaseIcon} />
             <span>
               You tried buying
-              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+              <S.Link to={`/marketplace/${tx.transactionData.sku[0]?._id}`}>
                 {tx.transactionData.sku[0]?.name}
               </S.Link>
               from
@@ -83,9 +85,11 @@ const Transaction = ({ tx }: IProps) => {
             <S.Icon src={dollarSign} />
             <span>
               You sold
-              <S.Link to={`/product/${tx.transactionData?.product[0]._id}`}>
+              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
                 {tx.transactionData.sku[0]?.name}
-                <S.Bold>#{tx.transactionData.product[0]?.serialNumber}</S.Bold>
+                <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
+                  #{tx.transactionData.product[0]?.serialNumber}
+                </S.Link>
               </S.Link>
               to
               <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>

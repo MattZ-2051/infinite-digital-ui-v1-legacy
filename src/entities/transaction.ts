@@ -23,7 +23,7 @@ export interface ITransaction {
 }
 
 interface Sku {
-  id: string;
+  _id: string;
   name: string;
 }
 

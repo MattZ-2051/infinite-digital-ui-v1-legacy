@@ -24,6 +24,8 @@ const Wallet = (props) => {
   const [showMore, setShowMore] = useState<boolean>(false);
   const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
   const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
+  const documentElement = document.getElementById('tx');
+
   const walletCurrency = useAppSelector(
     (state) => state.session.userCards?.balance?.currency
   );
@@ -44,8 +46,7 @@ const Wallet = (props) => {
   async function fetchTransactions() {
     const res = await getMyTransactions(await getAccessTokenSilently());
     setTransactions(res);
-    const el = document.getElementById('tx');
-    setIsElOverflown(isOverflown(el));
+
     setTransactionsLoading(false);
   }
 
@@ -56,6 +57,12 @@ const Wallet = (props) => {
       setIsModalOpen(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (documentElement) {
+      setIsElOverflown(isOverflown(documentElement));
+    }
+  }, [documentElement]);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -174,7 +181,14 @@ const Wallet = (props) => {
           <S.LatestTransactionsContainer overflow={showMore} id="tx">
             {selectedTab === 0 && (
               <>
-                {transactionsLoading && <PageLoader size={15} />}
+                {transactionsLoading ? (
+                  <PageLoader size={15} />
+                ) : (
+                  filteredTransactions &&
+                  filteredTransactions.map((tx, index) => {
+                    return <Transaction tx={tx} key={index} />;
+                  })
+                )}
                 {filteredTransactions &&
                   filteredTransactions.map((tx, index) => {
                     return <Transaction tx={tx} key={index} />;
