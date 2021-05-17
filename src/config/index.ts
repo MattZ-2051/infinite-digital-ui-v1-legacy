@@ -16,6 +16,10 @@ interface AppConfig {
     chainId: number;
     apiKey: string;
   };
+  kyc: {
+    templateLvl1: string;
+    environmentType: string;
+  };
 }
 
 export const config: AppConfig = {
@@ -38,5 +42,12 @@ export const config: AppConfig = {
     apiKey:
       getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
       '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
+  },
+  kyc: {
+    templateLvl1:
+      getEnvVar('REACT_APP_PERSONA_TEMPLATE_LVL_1', false) ||
+      'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
+    environmentType:
+      getEnvVar('REACT_APP_PERSONA_ENVIRONMENT_TYPE', false) || 'sandbox',
   },
 };

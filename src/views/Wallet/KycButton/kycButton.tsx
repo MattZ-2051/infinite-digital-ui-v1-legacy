@@ -66,35 +66,26 @@ const KycButton = ({
     return (
       <S.Container>
         <S.VerifiedUserOutlinedIcon />
-        <S.LevelIndicator>lvl 1</S.LevelIndicator>
-      </S.Container>
-    );
-  } else if (kycMaxLevel === 2) {
-    return (
-      <S.Container>
-        <S.VerifiedUserIcon />
-        <S.LevelIndicator>lvl 2</S.LevelIndicator>
+        <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
       </S.Container>
     );
   }
-
   if (kycPending) {
     return (
       <S.Container>
         <AccessTimeIcon /> <S.StatusText>Pending...</S.StatusText>
       </S.Container>
     );
-  } else {
-    return (
-      <S.Container>
-        <ReactTooltip className="extraClass" delayHide={500} effect="solid">
-          <S.LearnMore href="#">Learn more</S.LearnMore>
-        </ReactTooltip>
-        <S.BlockIcon onClick={openClient} data-tip />
-        <S.StatusText>Unverified</S.StatusText>
-      </S.Container>
-    );
   }
+  return (
+    <S.Container>
+      <ReactTooltip className="extraClass" delayHide={500} effect="solid">
+        <S.LearnMore href="#">Learn more</S.LearnMore>
+      </ReactTooltip>
+      <S.BlockIcon onClick={openClient} data-tip />
+      <S.StatusText>Unverified</S.StatusText>
+    </S.Container>
+  );
 };
 
 export default KycButton;
