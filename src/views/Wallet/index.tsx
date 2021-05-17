@@ -82,7 +82,8 @@ const Wallet = (props) => {
         (tx.status === 'pending' ||
           tx.status === 'success' ||
           tx.status === 'error')) ||
-      tx.type === 'sale'
+      tx.type === 'sale' ||
+      tx.type === 'royalty_fee'
     ) {
       return tx;
     }

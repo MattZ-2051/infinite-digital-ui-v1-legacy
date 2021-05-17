@@ -15,6 +15,7 @@ export interface ITransaction {
     | 'nft_transfer'
     | 'withdrawal'
     | 'nft_transfer_manual'
+    | 'royalty_fee'
     | 'nft_mint';
   transactionData: TransactionData;
   createdAt: Date;
@@ -72,6 +73,7 @@ interface Cost {
   resaleSellersFeePercentage: number;
   serviceEarnings: number;
   totalCost: number;
+  royaltyFee?: number;
 }
 
 export interface HederaTransaction {

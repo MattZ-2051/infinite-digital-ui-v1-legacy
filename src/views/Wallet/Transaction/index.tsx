@@ -8,6 +8,7 @@ import dollarSign from 'assets/img/icons/dollarSign-icon.png';
 import purchaseIcon from 'assets/img/icons/purchase-icon.png';
 import { ITransaction } from 'entities/transaction';
 import * as S from './styles';
+
 interface IProps {
   tx: ITransaction;
 }
@@ -83,13 +84,24 @@ const Transaction = ({ tx }: IProps) => {
               You sold
               <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
                 {tx.transactionData.sku[0]?.name}
-                <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
-                  #{tx.transactionData.product[0]?.serialNumber}
-                </S.Link>
+              </S.Link>
+              <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
+                #{tx.transactionData.product[0]?.serialNumber}
               </S.Link>
               to
               <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
                 @{tx.transactionData?.seller?.username}
+              </S.Link>
+            </span>
+          </>
+        )}
+        {tx.type === 'royalty_fee' && (
+          <>
+            <S.Icon src={dollarSign} />
+            <span>
+              You received a royalty payment for the sale of
+              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
+                {tx.transactionData.sku[0]?.name}
               </S.Link>
             </span>
           </>
@@ -149,7 +161,7 @@ const Transaction = ({ tx }: IProps) => {
           tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'pending' && (
             <>
-              <S.Icon src={usdcIcon} />
+              <S.UsdcIcon />
               <span>You added funds by </span>
               <S.Bold>USDC</S.Bold>
               <S.Bold>(Pending)</S.Bold>
@@ -175,7 +187,7 @@ const Transaction = ({ tx }: IProps) => {
           tx.transactionData?.deposit?.type === 'circle' &&
           tx.status === 'error' && (
             <>
-              <S.Icon src={usdcIcon} />
+              <S.UsdcIcon />
               <span>You tried to add funds by depositing </span>
               <S.Bold>USDC</S.Bold>
               <S.Bold>(Transaction Failed)</S.Bold>
@@ -237,6 +249,13 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'sale' && (
           <S.Color color="#00C44F">
             + ${tx.transactionData.cost?.finalPayout.toFixed(2)}
+          </S.Color>
+        )}
+        {tx.type === 'royalty_fee' && (
+          <S.Color color="#00C44F">
+            + $
+            {tx.transactionData.cost.royaltyFee &&
+              tx.transactionData.cost.royaltyFee.toFixed(2)}
           </S.Color>
         )}
       </S.TransactionDetail>
