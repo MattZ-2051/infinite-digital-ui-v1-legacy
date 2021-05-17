@@ -36,7 +36,7 @@ export interface Sku {
   upcomingSkuListings?: Listing[];
   upcomingProductListings?: Listing[];
   activeProductListings?: Listing[];
-  activeSkuListings?: Listing[];
+  activeSkuListings?: any;
   series: {
     _id: string;
     name: string;
