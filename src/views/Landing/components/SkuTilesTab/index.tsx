@@ -20,14 +20,14 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
   return (
     <Container>
       <Tabs value={selectedTab} onChange={handleChange} centered>
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <Tab
             label="My Collection"
             disableFocusRipple
             disableRipple
             data-testid="marketplaceTab"
           />
-        )}
+        )} */}
         <Tab
           label="Latest Releases"
           disableFocusRipple
