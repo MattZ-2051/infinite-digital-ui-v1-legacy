@@ -185,12 +185,9 @@ export const updateUsername = async (
 ): Promise<User> => {
   try {
     const response = await axiosInstance.patch<User>(
-      `/users/${userId}`,
+      `/users/me`,
       {
         username: username,
-        profilePhotoUrl: 'https://place-puppy.com/300x300',
-        bannerPhotoUrl: 'https://place-puppy.com/300x300',
-        tagline: '',
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );

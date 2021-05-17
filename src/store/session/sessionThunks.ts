@@ -130,7 +130,7 @@ export const updateUsernameThunk = createAsyncThunk<
     return response;
   } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: e.message,
+      errorMessage: e,
     } as IError);
   }
 });

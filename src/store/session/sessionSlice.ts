@@ -60,7 +60,7 @@ export const sessionSlice = createSlice({
       if (state.loading === 'pending') {
         state.loading = 'idle';
       }
-      state.user = payload;
+      state.user.username = payload.username;
     });
     builder.addCase(updateUsernameThunk.rejected, (state, { error }) => {
       if (state.loading === 'pending') {
