@@ -80,7 +80,7 @@ const AddCC = () => {
       setToastStatus('success');
       setToastMessage('Card Added');
       setTimeout(() => {
-        history.push(`/wallet/${loggedInUser.username}/deposit/addfunds`);
+        history.push(`/wallet/deposit/addfunds`);
       }, 2500);
     }
   };

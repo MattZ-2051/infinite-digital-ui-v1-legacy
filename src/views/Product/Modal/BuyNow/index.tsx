@@ -80,7 +80,7 @@ const BuyNowModal = ({
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
-        pathname: `/wallet/${loggedInUser.username}`,
+        pathname: `/wallet`,
         state: { modalOpen: true },
       });
     } else if (statusMode === 'processing') {
@@ -93,7 +93,7 @@ const BuyNowModal = ({
   };
 
   const handleWalletRouteChange = () => {
-    history.push(`/wallet/${loggedInUser.username}`);
+    history.push(`/wallet`);
   };
 
   const handleTCRouteChange = () => {

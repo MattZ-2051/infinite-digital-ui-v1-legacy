@@ -46,7 +46,6 @@ const ModalPayment = ({
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
-  const username = useAppSelector((state) => state.session.user.username);
   const history = useHistory();
 
   const buyAction = async () => {
@@ -73,7 +72,7 @@ const ModalPayment = ({
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
-        pathname: `/wallet/${username}`,
+        pathname: `/wallet`,
         state: { modalOpen: true },
       });
     } else if (statusMode === 'hasFunds') {

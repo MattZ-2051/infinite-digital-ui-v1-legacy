@@ -32,7 +32,6 @@ const SkuPageModal = ({
   setModalPaymentVisible,
   mode,
   sku: product,
-  user,
   serialNum,
   listing,
   onProcessing,
@@ -42,7 +41,6 @@ const SkuPageModal = ({
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
 
-  const loggedInUser = useAppSelector((state) => state.session.user);
   const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
@@ -80,7 +78,7 @@ const SkuPageModal = ({
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
-        pathname: `/wallet/${loggedInUser.username}`,
+        pathname: `/wallet`,
         state: { modalOpen: true },
       });
     } else if (statusMode === 'processing') {
@@ -94,7 +92,7 @@ const SkuPageModal = ({
   };
 
   const handleWalletRouteChange = () => {
-    history.push(`/wallet/${loggedInUser.username}`);
+    history.push(`/wallet`);
   };
 
   const handleTCRouteChange = () => {

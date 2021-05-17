@@ -9,7 +9,6 @@ const S: any = {};
 
 const SuccessPage = () => {
   const history = useHistory();
-  const username = useAppSelector((state) => state.session.user.username);
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance
   );
@@ -19,7 +18,7 @@ const SuccessPage = () => {
   };
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${username}`);
+    history.push(`/wallet`);
   };
   return (
     <Container>

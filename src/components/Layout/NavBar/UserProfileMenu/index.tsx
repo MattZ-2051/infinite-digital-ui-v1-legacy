@@ -23,7 +23,7 @@ const UserProfileMenu = ({ visible, setVisible, setIsModalOpen }: IProps) => {
   const history = useHistory();
 
   const handleWalletRedirect = () => {
-    history.push(`/wallet/${username}`);
+    history.push(`/wallet`);
     setVisible(false);
   };
 

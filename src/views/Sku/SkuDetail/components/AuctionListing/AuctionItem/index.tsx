@@ -3,7 +3,6 @@ import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import styled from 'styled-components/macro';
 import { Listing } from 'entities/listing';
 import { formatCountdown } from 'utils/dates';
-import { Bold } from 'views/Wallet/Transaction/styles';
 
 export interface AuctionItemProps {
   serialNumber: string;

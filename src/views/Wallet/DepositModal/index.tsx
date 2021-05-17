@@ -69,7 +69,6 @@ const DepositModal = ({
   const [modalStyle] = useState(getModalStyle);
   const history = useHistory();
   const userCards = useAppSelector((state) => state.session.userCards);
-  const username = useAppSelector((state) => state.session.user.username);
   const [isUSDCModalOpen, setIsUSDCModelOpen] = useState<boolean>(false);
   const [coinbaseMetadata, setCoinbaseMetadata] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
@@ -97,9 +96,9 @@ const DepositModal = ({
 
   const handleRedirect = () => {
     if (userCards.cards.length >= 1) {
-      history.push(`/wallet/${username}/deposit/addfunds`);
+      history.push(`/wallet/deposit/addfunds`);
     } else {
-      history.push(`/wallet/${username}/addcreditcard`);
+      history.push(`/wallet/addcreditcard`);
     }
   };
 
