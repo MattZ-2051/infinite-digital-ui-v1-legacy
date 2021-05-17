@@ -59,11 +59,9 @@ const Container = styled.section`
   max-width: 1440px;
   margin: auto;
   border-radius: 10px;
-  margin-bottom: 60px;
 
   @media screen and (max-width: 960px) {
     padding: 24px;
-    margin-bottom: 140px;
   }
 `;
 
