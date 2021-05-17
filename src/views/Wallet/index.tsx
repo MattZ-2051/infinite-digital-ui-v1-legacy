@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Transaction from './Transaction';
 import DepositModal from './DepositModal';
@@ -116,7 +116,7 @@ const Wallet = (props) => {
             <S.Tab style={{ borderBottom: '2px solid black' }}>
               Total Balance
             </S.Tab>
-            <S.GrayLine></S.GrayLine>
+            <S.GrayLine />
           </div>
 
           <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
@@ -163,7 +163,7 @@ const Wallet = (props) => {
               >
                 Latest Transactions
               </S.Tab>
-              <span style={{ padding: '0 20px' }}></span>
+              <span style={{ padding: '0 20px' }} />
               {/* Temporary Hide feature will be enabled Post-MVP
 
             <S.Tab
@@ -177,7 +177,7 @@ const Wallet = (props) => {
             >
               Active Bids
             </S.Tab> */}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }} />
             </div>
           </S.TabContainer>
           <S.LatestTransactionsContainer overflow={showMore} id="tx">
@@ -214,6 +214,7 @@ const Wallet = (props) => {
 
       <DepositModal
         kycMaxLevel={kycMaxLevel}
+        kycPending={kycPending}
         isModalOpen={isModalOpen}
         handleClose={handleClose}
       />

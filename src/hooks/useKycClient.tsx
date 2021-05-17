@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Persona, { Client } from 'persona';
 import { getPersonalToken } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { config } from '../config';
 
 export const useKycClient = (): Client | undefined => {
   const { getAccessTokenSilently } = useAuth0();
@@ -11,8 +12,8 @@ export const useKycClient = (): Client | undefined => {
     const res = await getPersonalToken(await getAccessTokenSilently());
 
     const client: Client = new Persona.Client({
-      templateId: 'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
-      environment: 'sandbox',
+      templateId: config.kyc.templateLvl1,
+      environment: config.kyc.environmentType,
       referenceId: res.token,
       onLoad: (error) => {
         if (error) {

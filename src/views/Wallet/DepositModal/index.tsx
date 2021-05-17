@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -25,6 +25,7 @@ const coinbaseCheckoutId = config.misc.coinbaseCheckoutId;
 
 interface IDepositModal {
   kycMaxLevel: number;
+  kycPending: boolean;
   isModalOpen?: boolean;
   handleClose: () => void;
 }
@@ -59,6 +60,7 @@ const S: any = {};
 
 const DepositModal = ({
   kycMaxLevel,
+  kycPending,
   isModalOpen,
   handleClose,
 }: IDepositModal): JSX.Element => {
@@ -71,7 +73,8 @@ const DepositModal = ({
   const [isUSDCModalOpen, setIsUSDCModelOpen] = useState<boolean>(false);
   const [coinbaseMetadata, setCoinbaseMetadata] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
-  const KycClient = useKycClient();
+  const kycClient = useKycClient();
+  const kycDisabled = kycMaxLevel !== 1;
 
   useEffect(() => {
     getCoinbaseMetadata();
@@ -88,21 +91,6 @@ const DepositModal = ({
     }
   }
 
-  function openUSDCModal() {
-    setIsUSDCModelOpen(true);
-    if (kycMaxLevel !== 2) {
-      Toast.warning(
-        <>
-          To deposit cryptocurrency, please{' '}
-          <a onClick={() => KycClient?.open()}>click here</a> complete the
-          required account validation steps. <a>Learn more.</a>
-        </>
-      );
-    } else {
-      setIsUSDCModelOpen(true);
-    }
-  }
-
   function closeUSDCModal() {
     setIsUSDCModelOpen(false);
   }
@@ -115,6 +103,20 @@ const DepositModal = ({
     }
   };
 
+  const KycRequiredText = () => (
+    <>
+      To deposit cryptocurrency, please{' '}
+      {kycPending ? (
+        <>wait until we validate your identity</>
+      ) : (
+        <>
+          <a onClick={() => kycClient?.open()}>click here</a> complete the
+          required account validation steps. <a>Learn more.</a>
+        </>
+      )}
+    </>
+  );
+
   const CoinBaseBtn = () => {
     const bodyBtn = (
       <S.Row>
@@ -122,9 +124,7 @@ const DepositModal = ({
           <img src={coinbaseIcon} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <S.RowText
-            style={{ color: `${kycMaxLevel !== 2 ? '#9e9e9e' : 'black'}` }}
-          >
+          <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             Coinbase
           </S.RowText>
           <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
@@ -141,17 +141,11 @@ const DepositModal = ({
       </S.Row>
     );
 
-    if (kycMaxLevel !== 2) {
+    if (kycDisabled) {
       return (
         <div
           onClick={() => {
-            Toast.warning(
-              <>
-                To deposit cryptocurrency, please{' '}
-                <a onClick={() => KycClient?.open()}>click here</a> complete the
-                required account validation steps. <a>Learn more.</a>
-              </>
-            );
+            Toast.warning(<KycRequiredText />);
           }}
           role="button"
         >
@@ -177,6 +171,37 @@ const DepositModal = ({
     ) : null;
   };
 
+  const CircleBtn = () => {
+    return (
+      <S.Row
+        onClick={() =>
+          kycDisabled
+            ? Toast.warning(<KycRequiredText />)
+            : setIsUSDCModelOpen(true)
+        }
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img width="50px" src={usdcIcon} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
+            USDC
+          </S.RowText>
+          <S.RowSubText>Deposit USDC to your wallet (on Ethereum)</S.RowSubText>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <ArrowForwardIosIcon className="icon__arrow" />
+        </div>
+      </S.Row>
+    );
+  };
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <S.ExitIcon>
@@ -185,7 +210,7 @@ const DepositModal = ({
 
       <div style={{ padding: '0 40px 40px 40px' }}>
         <S.Header>Select a payment to deposit</S.Header>
-        <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+        <S.GrayLine style={{ width: '100%' }} />
         <S.Row onClick={handleRedirect}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={circleIcon} />
@@ -205,30 +230,7 @@ const DepositModal = ({
           </div>
         </S.Row>
         <CoinBaseBtn />
-        <S.Row onClick={openUSDCModal}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img width="50px" src={usdcIcon} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <S.RowText
-              style={{ color: `${kycMaxLevel !== 2 ? '#9e9e9e' : 'black'}` }}
-            >
-              USDC
-            </S.RowText>
-            <S.RowSubText>
-              Deposit USDC to your wallet (on Ethereum)
-            </S.RowSubText>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <ArrowForwardIosIcon className="icon__arrow" />
-          </div>
-        </S.Row>
+        <CircleBtn />
         <S.Row>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={sukuIcon} />
