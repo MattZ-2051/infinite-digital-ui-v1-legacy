@@ -43,6 +43,7 @@ export const DetailRow = styled.div`
   display: flex;
   justify-content: space-between;
   color: black;
+  align-items: center;
 `;
 
 export const DetailRowPrice = styled(DetailRow)`
