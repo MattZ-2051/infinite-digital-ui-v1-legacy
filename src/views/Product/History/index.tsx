@@ -149,9 +149,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         (tx.type === 'nft_transfer_manual' &&
           tx.status !== 'error' &&
           tx.status !== 'pending') ||
-        (tx.type === 'purchase' &&
-          tx.status !== 'error' &&
-          tx.status !== 'pending') ||
+        (tx.type === 'purchase' && tx.status === 'success') ||
         (tx.type === 'nft_mint' &&
           tx.status !== 'error' &&
           tx.status !== 'pending')
@@ -159,14 +157,6 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         return tx;
       }
     });
-
-  const firstMint =
-    filteredTransactions &&
-    filteredTransactions[filteredTransactions.length - 2];
-
-  const firstPurchase =
-    filteredTransactions &&
-    filteredTransactions[filteredTransactions.length - 1];
 
   return (
     <>
@@ -252,17 +242,39 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         <S.TransactionHistory>
           {filteredTransactions instanceof Array &&
             filteredTransactions.map((transaction, index) => {
-              if (index === filteredTransactions.length - 1) {
-                return (
-                  <Transaction key={firstMint._id} transaction={firstMint} />
-                );
-              } else if (index === filteredTransactions.length - 2) {
-                return (
-                  <Transaction
-                    key={firstPurchase._id}
-                    transaction={firstPurchase}
-                  />
-                );
+              if (filteredTransactions.length >= 2) {
+                if (index === filteredTransactions.length - 1) {
+                  return (
+                    <Transaction
+                      key={
+                        filteredTransactions[filteredTransactions.length - 2]
+                          ._id
+                      }
+                      transaction={
+                        filteredTransactions[filteredTransactions.length - 2]
+                      }
+                    />
+                  );
+                } else if (index === filteredTransactions.length - 2) {
+                  return (
+                    <Transaction
+                      key={
+                        filteredTransactions[filteredTransactions.length - 1]
+                          ._id
+                      }
+                      transaction={
+                        filteredTransactions[filteredTransactions.length - 1]
+                      }
+                    />
+                  );
+                } else {
+                  return (
+                    <Transaction
+                      key={transaction._id}
+                      transaction={transaction}
+                    />
+                  );
+                }
               } else {
                 return (
                   <Transaction

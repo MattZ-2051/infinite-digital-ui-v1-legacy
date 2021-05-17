@@ -1,10 +1,13 @@
 import styled from 'styled-components/macro';
 import { PulseLoader } from 'react-spinners';
 
-const PageLoader = () => {
+interface Props {
+  size?: number;
+}
+const PageLoader = ({ size }: Props) => {
   return (
     <Container>
-      <PulseLoader size={50} color={'#000'} margin={10} />
+      <PulseLoader size={size || 50} color={'#000'} margin={10} />
     </Container>
   );
 };

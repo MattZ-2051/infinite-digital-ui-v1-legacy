@@ -139,7 +139,7 @@ const Transaction = ({ tx }: IProps) => {
               <S.Bold>
                 $
                 {tx.transactionData.deposit &&
-                  parseInt(tx.transactionData.deposit.amount, 10).toFixed(2)}
+                  parseFloat(tx.transactionData.deposit.amount).toFixed(2)}
               </S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
@@ -164,7 +164,7 @@ const Transaction = ({ tx }: IProps) => {
               <S.Bold>
                 $
                 {tx.transactionData.deposit &&
-                  parseInt(tx.transactionData.deposit.amount, 10).toFixed(2)}
+                  parseFloat(tx.transactionData.deposit.amount).toFixed(2)}
               </S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
@@ -220,21 +220,21 @@ const Transaction = ({ tx }: IProps) => {
           <S.Color color="#00C44F">
             + $
             {tx.transactionData.deposit &&
-              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
+              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'pending' && (
           <S.Color color="#9e9e9e">
             + $
             {tx.transactionData.deposit &&
-              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
+              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'deposit' && tx.status === 'error' && (
           <S.Color color="black" style={{ textDecoration: 'line-through' }}>
             $
             {tx.transactionData.deposit &&
-              parseInt(tx.transactionData?.deposit?.amount, 10).toFixed(2)}
+              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
           </S.Color>
         )}
         {tx.type === 'sale' && (

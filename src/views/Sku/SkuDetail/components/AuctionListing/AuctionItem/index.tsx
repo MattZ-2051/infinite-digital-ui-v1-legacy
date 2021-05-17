@@ -23,9 +23,6 @@ const AuctionItem = ({
   activeProductListing,
   upcomingProductListing,
 }: AuctionItemProps): JSX.Element => {
-  console.log('listing', activeProductListing);
-  console.log(upcomingProductListing);
-
   const auctionDetailMsg =
     !activeProductListing && !upcomingProductListing
       ? 'Not for sale'

@@ -31,7 +31,7 @@ const Transaction = ({ transaction }: Props) => {
             <S.FlexDiv>
               <S.Description>Bought for</S.Description>
               <S.Amount>
-                ${transaction.transactionData.cost?.totalCost}
+                ${transaction.transactionData.cost?.totalCost.toFixed(2)}
               </S.Amount>
             </S.FlexDiv>
           )}

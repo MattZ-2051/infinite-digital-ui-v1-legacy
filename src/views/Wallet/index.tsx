@@ -15,14 +15,15 @@ import * as S from './styles';
 import PageLoader from 'components/PageLoader';
 
 const Wallet = (props) => {
-  const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
-  const [isModalOpen, setIsModalOpen] = useState<boolean | undefined>(false);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // const [user, setUser] = useState<User>();
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const [showMore, setShowMore] = useState<boolean>(false);
   const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
+  const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
   const walletCurrency = useAppSelector(
     (state) => state.session.userCards?.balance?.currency
   );
@@ -43,6 +44,9 @@ const Wallet = (props) => {
   async function fetchTransactions() {
     const res = await getMyTransactions(await getAccessTokenSilently());
     setTransactions(res);
+    const el = document.getElementById('tx');
+    setIsElOverflown(isOverflown(el));
+    setTransactionsLoading(false);
   }
 
   useEffect(() => {
@@ -51,11 +55,6 @@ const Wallet = (props) => {
     if (props?.location?.state?.modalOpen) {
       setIsModalOpen(true);
     }
-  }, []);
-
-  useEffect(() => {
-    const el = document.getElementById('tx');
-    setIsElOverflown(isOverflown(el));
   }, []);
 
   const handleClose = () => {
@@ -91,8 +90,6 @@ const Wallet = (props) => {
 
   if (!user || !transactions) return <PageLoader />;
 
-  console.log('filtered transactions', filteredTransactions);
-  console.log(isElOverflown);
   return (
     <S.Container showMore={showMore}>
       <S.Header>
@@ -177,6 +174,7 @@ const Wallet = (props) => {
           <S.LatestTransactionsContainer overflow={showMore} id="tx">
             {selectedTab === 0 && (
               <>
+                {transactionsLoading && <PageLoader size={15} />}
                 {filteredTransactions &&
                   filteredTransactions.map((tx, index) => {
                     return <Transaction tx={tx} key={index} />;
