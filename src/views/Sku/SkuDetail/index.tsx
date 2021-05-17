@@ -56,6 +56,10 @@ const SkuDetail = (): JSX.Element => {
     return sku;
   }
 
+  const onProcessing = () => {
+    return fetchSku();
+  };
+
   const showModal = (): void => {
     setModalPaymentVisible(true);
   };
@@ -161,6 +165,7 @@ const SkuDetail = (): JSX.Element => {
                   sku={sku}
                   user={loggedInUser}
                   onBuyNow={showModal}
+                  onProcessing={onProcessing}
                 />
               </S.ButtonsContainer>
             </S.HeaderRight>

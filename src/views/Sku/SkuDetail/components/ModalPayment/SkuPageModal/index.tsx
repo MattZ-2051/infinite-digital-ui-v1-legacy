@@ -13,7 +13,6 @@ import Modal from 'components/Modal';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
-import Emoji from 'components/Emoji';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -25,6 +24,7 @@ interface IModalProps {
   user?: User;
   listing?: Listing;
   serialNum?: string;
+  onProcessing?: () => void;
 }
 
 const SkuPageModal = ({
@@ -35,6 +35,7 @@ const SkuPageModal = ({
   user,
   serialNum,
   listing,
+  onProcessing,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
@@ -83,6 +84,7 @@ const SkuPageModal = ({
         state: { modalOpen: true },
       });
     } else if (statusMode === 'processing') {
+      onProcessing ? onProcessing() : null;
       setModalPaymentVisible(false);
     } else if (statusMode === 'hasFunds') {
       buyAction();
@@ -137,11 +139,11 @@ const SkuPageModal = ({
             {statusMode === 'processing' && (
               <>
                 <S.Title>
-                  {"We're processing your order"}
-                  <Emoji symbol="🙂" />
+                  We will send you an email when your purchase has been
+                  completed.
                 </S.Title>
                 <S.SubTitle style={{ color: '#7d7d7d' }}>
-                  We will notify you when complete
+                  Refresh the page to view the updated status.
                 </S.SubTitle>
               </>
             )}

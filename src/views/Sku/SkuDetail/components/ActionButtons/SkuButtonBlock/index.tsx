@@ -77,6 +77,7 @@ interface IFromCreatorBox {
   user: User;
   buttonDisabled: boolean;
   buttonLabel: string;
+  onProcessing?: () => void;
 }
 
 const FromCreatorBox = ({
@@ -87,6 +88,7 @@ const FromCreatorBox = ({
   user,
   buttonDisabled,
   buttonLabel,
+  onProcessing,
 }: IFromCreatorBox): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -143,6 +145,7 @@ const FromCreatorBox = ({
         sku={sku}
         user={user}
         listing={listing}
+        onProcessing={onProcessing}
       />
     </Container>
   );
@@ -188,6 +191,7 @@ interface ISkuButtonBlock {
   user: User;
   onBuyNow: () => void;
   collectors: Collector[];
+  onProcessing?: () => void;
 }
 
 const SkuButtonBlock = ({
@@ -195,6 +199,7 @@ const SkuButtonBlock = ({
   user,
   onBuyNow,
   collectors,
+  onProcessing,
 }: ISkuButtonBlock): JSX.Element => {
   const numSkuListings = sku.skuListings.length;
   const activeListings = sku.skuListings.filter(
@@ -309,6 +314,7 @@ const SkuButtonBlock = ({
           onBuyNow={onBuyNow}
           buttonDisabled={false}
           buttonLabel="Buy Now"
+          onProcessing={onProcessing}
         />
         {/* <FromCollectorsBox
           minimunPrice={minCurrentBid}
