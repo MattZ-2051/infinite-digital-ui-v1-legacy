@@ -97,7 +97,6 @@ const Wallet = (props) => {
 
   if (!user || !transactions) return <PageLoader />;
 
-  console.log(filteredTransactions);
   return (
     <S.Container showMore={showMore}>
       <S.Header>

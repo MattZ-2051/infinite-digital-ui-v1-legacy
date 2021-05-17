@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import styled from 'styled-components/macro';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import SlideBox from './SlideBox';
+import SlideBox from './components/SlideBox';
 import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 
-const FeatureProducts = () => {
+const FeaturedSlider = (): JSX.Element => {
   const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
 
   async function fetchProducts() {
@@ -23,10 +23,12 @@ const FeatureProducts = () => {
 
   const settings = {
     dots: true,
+    infinite: true,
+    arrows: true,
   };
 
   return (
-    <Container id="feature-products">
+    <Container>
       <Slider {...settings}>
         {tiles.data instanceof Array &&
           tiles.data.map((product, key) => (
@@ -38,18 +40,11 @@ const FeatureProducts = () => {
 };
 
 const Container = styled.section`
-  overflow-x: hidden;
+  padding-bottom: 110px;
   color: white;
   background-color: black;
 
   .slick-dots {
-    bottom: 25px;
-    text-align: left;
-    max-width: 1440px;
-    margin: auto;
-    padding: 0 50px 0 50px;
-    position: relative;
-
     @media screen and (max-width: 1280px) {
       padding: 0 32px 0 32px;
     }
@@ -70,4 +65,4 @@ const Container = styled.section`
   }
 `;
 
-export default FeatureProducts;
+export default FeaturedSlider;

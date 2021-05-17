@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'components/Modal';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';

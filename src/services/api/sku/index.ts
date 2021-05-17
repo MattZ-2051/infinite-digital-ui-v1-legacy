@@ -31,13 +31,13 @@ export const getSkuTiles = async (options?: {
 export const getFeaturedSkuTiles = async (options?: {
   token?: string;
   issuerId?: string;
+  queryParams?: string;
 }): Promise<SkuWithTotal> => {
-  console.log(options?.issuerId);
   return await getSkuTiles({
     token: options?.token,
     queryParams: `?featured=true${
       options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
-    }`,
+    }${options?.queryParams || ''}`,
   });
 };
 

@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import Tab from 'components/Tab';
 import Tabs from 'components/TabsContainer';
-import MarketPlace from './MarketPlace';
-import Items from 'views/Collection/UserCollectionTabs/Items';
-import { MyCollection } from './MyCollection';
+import LatestReleases from './components/LatestReleases';
+// import { MyCollection } from './components/MyCollection';
+// import Items from 'views/Collection/UserCollectionTabs/Items';
 
 export interface IProps {
   isAuthenticated: boolean;
 }
 
-const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
+const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent, newValue: number) => {
@@ -18,34 +19,27 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
   };
   return (
     <Container>
-      {isAuthenticated && (
-        <Tabs value={selectedTab} onChange={handleChange} centered width="90%">
-          <Tab
-            label="Marketplace"
-            disableFocusRipple
-            disableRipple
-            data-testid="marketplaceTab"
-          />
+      <Tabs value={selectedTab} onChange={handleChange} centered>
+        {isAuthenticated && (
           <Tab
             label="My Collection"
             disableFocusRipple
             disableRipple
-            data-testid="myCollectionTab"
-          />
-        </Tabs>
-      )}
-      {!isAuthenticated && (
-        <Tabs value={selectedTab} onChange={handleChange} centered width="50%">
-          <Tab
-            label="Marketplace"
-            disableFocusRipple
-            disableRipple
             data-testid="marketplaceTab"
           />
-        </Tabs>
-      )}
+        )}
+        <Tab
+          label="Latest Releases"
+          disableFocusRipple
+          disableRipple
+          data-testid="myCollectionTab"
+        />
+        <ViewAll to="/marketplace?status=upcoming&page=1&per_page=6&sortBy=startDate%3Aasc">
+          + View all
+        </ViewAll>
+      </Tabs>
 
-      {selectedTab === 0 && <MarketPlace />}
+      {selectedTab === 0 && <LatestReleases />}
       {/**
        * TODO: Replace MyCollection component
        * There is a very similar component (MyItems) in
@@ -53,7 +47,7 @@ const LatestProducts: React.FC<IProps> = ({ isAuthenticated }: IProps) => {
        * MyItems is almost doing the same thing but the CSS does not look good with this view
        * Those two components should be merged.
        */}
-      {selectedTab === 1 && <MyCollection />}
+      {/* {selectedTab === 1 && <MyCollection />} */}
     </Container>
   );
 };
@@ -67,4 +61,12 @@ const Container = styled.section`
   border-radius: 10px;
 `;
 
-export default LatestProducts;
+const ViewAll = styled(Link)`
+  position: absolute;
+  right: 0;
+  top: 21px;
+  text-decoration: none;
+  font-size: 18px;
+`;
+
+export default SkuTilesTab;
