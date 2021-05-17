@@ -131,8 +131,7 @@ const SkuPageModal = ({
                   <S.Title>Whoops, Insuficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your wallet balance is ${' '}
-                  {parseInt(userBalance, 10).toFixed(2)}
+                  Your wallet balance is $ {parseFloat(userBalance).toFixed(2)}
                 </S.SubTitle>
               </>
             )}

@@ -38,12 +38,12 @@ const CreateSale = ({
   useEffect(() => {
     if (price) {
       const serviceFee =
-        (product?.resaleSellersFeePercentage * parseInt(price, 10)) / 100;
+        (product?.resaleSellersFeePercentage * parseFloat(price)) / 100;
       const royaltyFee =
-        (product?.royaltyFeePercentage * parseInt(price, 10)) / 100;
+        (product?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
-      setTotal(parseInt(price, 10) - serviceFee - royaltyFee);
+      setTotal(parseFloat(price) - serviceFee - royaltyFee);
     }
   }, [price]);
 
@@ -52,7 +52,7 @@ const CreateSale = ({
     const userToken = await getAccessTokenSilently();
     try {
       const result = await postListings(userToken, {
-        price: parseInt(price, 10) || 0,
+        price: parseFloat(price) || 0,
         type: 'product',
         product: product?._id,
         saleType: 'fixed',
