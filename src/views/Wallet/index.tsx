@@ -189,10 +189,6 @@ const Wallet = (props) => {
                     return <Transaction tx={tx} key={index} />;
                   })
                 )}
-                {filteredTransactions &&
-                  filteredTransactions.map((tx, index) => {
-                    return <Transaction tx={tx} key={index} />;
-                  })}
               </>
             )}
             {/*  Temporary Hide feature will be enabled Post-MVP
@@ -205,10 +201,12 @@ const Wallet = (props) => {
           )} */}
           </S.LatestTransactionsContainer>
           <S.FlexRow>
-            {isElOverflown && (
+            {isElOverflown ? (
               <S.SeeMore onClick={handleShowChange}>
                 {(showMore && '- View Less') || '+ View All'}
               </S.SeeMore>
+            ) : (
+              'All Items'
             )}
           </S.FlexRow>
         </S.RightCol>

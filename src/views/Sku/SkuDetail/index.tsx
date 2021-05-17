@@ -66,6 +66,14 @@ const SkuDetail = (): JSX.Element => {
     history.push(`/collection/${sku?.issuer._id}`);
   };
 
+  const filteredFeaturedSku =
+    featuredProducts &&
+    featuredProducts.filter((featuredSku) => {
+      if (featuredSku._id !== sku._id) {
+        return featuredSku;
+      }
+    });
+
   return (
     <div>
       {sku && (
@@ -175,12 +183,11 @@ const SkuDetail = (): JSX.Element => {
         <S.SectionTitle>Related Releases</S.SectionTitle>
         <S.ProductContainer>
           {featuredProducts &&
-            featuredProducts.map((el, index) => {
+            filteredFeaturedSku.map((el, index) => {
               // TODO: Stopping after index 5
               if (index >= 5) return null;
               return (
                 <S.TileContainer key={index} index={index}>
-                  {/*TODO from Matt: find out what kind of tile is going to be rendererd here and handle redirect when clicked*/}
                   <SkuTile sku={el} key={index} themeStyle="light" />
                 </S.TileContainer>
               );
