@@ -140,7 +140,8 @@ const BuyNowModal = ({
                   <Emoji symbol="🙂" />
                 </S.Title>
                 <S.SubTitle style={{ color: '#7d7d7d' }}>
-                  We will notify you when complete
+                  We will send you an email when your purchase has been
+                  completed. Refresh the page to view the updated status.
                 </S.SubTitle>
               </>
             )}

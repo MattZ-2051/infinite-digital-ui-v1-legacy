@@ -55,6 +55,7 @@ S.SubTitle = styled.p`
   color: #12c95f;
   margin: 0;
   padding-top: 8px;
+  text-align: center;
 `;
 
 S.IssuerName = styled.p`
