@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { config } from '../../../config';
 
-export const CHAIN_ID = Number(process.env.CHAIN_ID) || 3;
+export const CHAIN_ID = config.blockchain.chainId;
 
 export const Networks = {
   MainNet: 1,
@@ -22,7 +23,7 @@ const apiUrl: {
 };
 
 class EtherscanService {
-  private apiKey = '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83';
+  private apiKey = config.blockchain.apiKey;
 
   public async getCurrentBlock(): Promise<{ result: string }> {
     const res = await axios.get<{ result: string }>(
