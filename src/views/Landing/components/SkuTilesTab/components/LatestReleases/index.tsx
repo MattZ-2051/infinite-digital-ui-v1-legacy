@@ -47,17 +47,22 @@ const LatestReleases = (): JSX.Element => {
 const TileContainer = styled.div<{ index: number }>`
   padding: 0 20px;
   padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+
+  @media screen and (max-width: 600px) {
+    padding: 0;
+  }
 `;
 
 const ProductContainer = styled.div`
   && {
     display: grid;
     grid-gap: 48px;
-    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-columns: repeat(auto-fit, 320px);
     justify-content: flex-start;
 
     @media screen and (max-width: 1200px) {
       justify-content: center;
+      grid-template-columns: none;
     }
 
     @media screen and (max-width: 600px) {
