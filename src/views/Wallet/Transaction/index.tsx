@@ -77,7 +77,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
-            <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
+            <S.Bold style={{ color: '#DA1010' }}>(Transactioin Failed)</S.Bold>
           </>
         )}
         {tx.type === 'sale' && (
@@ -126,7 +126,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
+          tx.transactionData?.deposit?.type === 'usdc' &&
           tx.status === 'success' && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {/* <S.Icon src={usdcIcon} /> */}
@@ -151,7 +151,22 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
+          tx.transactionData?.deposit?.type === 'coinbase' &&
+          tx.status === 'success' && (
+            <>
+              <S.Icon src={coinbaseIcon} />
+              <span>You added funds by depositing </span>
+              <S.Bold>
+                $
+                {tx.transactionData.deposit &&
+                  parseFloat(tx.transactionData.deposit.amount).toFixed(2)}
+              </S.Bold>
+              <span>using</span>
+              <S.Bold>Coinbase</S.Bold>
+            </>
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'usdc' &&
           tx.status === 'pending' && (
             <>
               <S.Icon src={usdcIcon} />
@@ -177,7 +192,7 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
+          tx.transactionData?.deposit?.type === 'usdc' &&
           tx.status === 'error' && (
             <>
               <S.Icon src={usdcIcon} />
@@ -191,7 +206,7 @@ const Transaction = ({ tx }: IProps) => {
           tx.status === 'error' && (
             <>
               <S.Icon src={coinbaseIcon} />
-              <span>You tried to add funds by depositing </span>
+              <span>You added funds by depositing </span>
               <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
 import {
@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
 // Components
 import Hero from './components/Hero';
-import FeatureProducts from './components/Featured/FeatureProducts';
+import FeaturedSlider from './components/FeaturedSlider';
 // import FeatureBoxes from './Featured/FeatureBoxes';
-import LatestProducts from './components/LatestProducts';
+import SkuTilesTab from './components/SkuTilesTab';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
@@ -49,11 +49,8 @@ const Landing = () => {
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-      {/* Temporary comment to hide DropBoxes see issue #86
-      <FeatureBoxes />
-      */}
-      <FeatureProducts />
-      <LatestProducts isAuthenticated={isAuthenticated} />
+      <FeaturedSlider />
+      <SkuTilesTab isAuthenticated={isAuthenticated} />
     </main>
   );
 };

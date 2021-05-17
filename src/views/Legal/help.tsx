@@ -27,19 +27,20 @@ const Help = () => {
       <S.HelpColumn>
         <S.Header>How can we help you?</S.Header>
         <S.SubTitle>
-          Before submitting this support form, please search the{' '}
+          Before submitting this support form, please search the INFINITE
+          Powered by SUKU{' '}
           <a
             target="_blank"
-            href="https://support.suku.world/"
+            href="https://support.suku.world/infinite-powered-by-suku"
             rel="noreferrer"
           >
-            SUKU Knowledge Base
+            Knowledge Base
           </a>
           for information on common support questions.
         </S.SubTitle>
         <S.SubTitle>
-          Want to learn more, make suggestions, or just need help? Leave us a
-          message and we&apos;ll get back to you!
+          If you still have a question or suggestion, please submit the support
+          form.
         </S.SubTitle>
       </S.HelpColumn>
       <S.HelpColumn>

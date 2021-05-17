@@ -8,7 +8,7 @@ import NavBar from 'components/Layout/NavBar';
 import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
-import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
+import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 export interface IProps {
@@ -26,11 +26,8 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         <HeaderContent>
           <HeaderLeft>
             <Link to="/">
-              <InfiniteLogo fill="white" width="170px" />
+              <InfiniteLogo fill="white" />
             </Link>
-            <div style={{ paddingLeft: '15px', paddingBottom: '10px' }}>
-              <Beta />
-            </div>
           </HeaderLeft>
           <NavBar isSmall={isSmall} />
         </HeaderContent>

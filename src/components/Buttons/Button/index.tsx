@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
-// import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 export interface IProps {
   children?: string | null | false | any; //TODO: remove any
@@ -49,6 +48,8 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     padding: 10px 24px 10px 24px;
     font-size: 1rem;
     width: max-content;
+    border-radius: 20px;
+    text-transform: none;
 
     &:hover {
       box-shadow: none;
