@@ -31,4 +31,6 @@ export interface ProductWithFunctions {
   resaleSellersFeePercentage: number;
   royaltyFeePercentage: number;
   totalSupplyLeft: number;
+  resale: boolean;
+  initialBuyersFeePercetnage: number;
 }

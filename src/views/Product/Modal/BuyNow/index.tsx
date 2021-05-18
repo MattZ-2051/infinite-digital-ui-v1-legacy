@@ -42,6 +42,10 @@ const BuyNowModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
   );
+
+  const marketplaceFee = product.resale
+    ? product.resaleBuyersFeePercentage
+    : product.initialBuyersFeePercetnage;
   const history = useHistory();
 
   const royaltyFee = Math.round(
@@ -118,7 +122,7 @@ const BuyNowModal = ({
                 <S.Title>Confirm your order:</S.Title>
                 <S.SubTitle>
                   {' '}
-                  Your current balance ${parseInt(userBalance, 10).toFixed(2)}
+                  Your current balance ${parseFloat(userBalance).toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -178,7 +182,7 @@ const BuyNowModal = ({
               </S.PriceInfo>
             </S.FlexRow>
             <S.FlexRow>
-              <S.PriceInfo>{`Marketplace Fee (${product?.sku.resaleSellersFeePercentage}%):`}</S.PriceInfo>
+              <S.PriceInfo>{`Marketplace Fee (${marketplaceFee}%):`}</S.PriceInfo>
               <S.PriceInfo>
                 $
                 {(
@@ -194,8 +198,7 @@ const BuyNowModal = ({
               $
               {(
                 product.activeProductListings[0]?.price +
-                product.activeProductListings[0]?.price *
-                  (product.sku.sellerTransactionFeePercentage / 100)
+                product.activeProductListings[0]?.price * (marketplaceFee / 100)
               ).toFixed(2)}
             </S.Total>
           </S.FlexRow>
