@@ -23,7 +23,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <Upcoming isLight={light}>Upcoming</Upcoming>
         </Pill>
@@ -31,11 +31,9 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status.includes('time') && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <PillText isGray={true} isLight={light}>
-            Upcoming in:
-          </PillText>
+          <PillText isLight={light}>Upcoming in:</PillText>
           <PillInfo isLight={light} style={{ fontSize: '18px' }}>
             {pillInfo.replaceAll('-', '')}
           </PillInfo>
@@ -44,7 +42,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'active-listing' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}>Current Price:</PillText>
           <PillInfo isLight={light}>${pillInfo}</PillInfo>
@@ -53,7 +51,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'active' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}> Lowest Price:</PillText>
           <PillInfo isLight={light}>${pillInfo}</PillInfo>
@@ -94,12 +92,11 @@ const Pill = styled.div<{ isLight?: boolean }>`
   bottom: 25px;
 `;
 
-const PillText = styled.span<{ isLight?: boolean; isGray?: boolean }>`
+const PillText = styled.span<{ isLight?: boolean }>`
   font-weight: 700;
   font-size: 16px;
   line-height: 20.24px;
-  color: ${(props) =>
-    props.isLight ? 'black' : props.isGray ? '#252525' : '#c4c4c4'};
+  color: ${(props) => (props.isLight ? 'black' : '#c4c4c4')};
   height: 20px;
 `;
 

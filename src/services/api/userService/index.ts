@@ -28,15 +28,26 @@ export const getMe = async (token: string): Promise<User> => {
 };
 
 export const getMyTransactions = async (
-  token: string
-): Promise<ITransaction[]> => {
+  token: string,
+  page: number,
+  per_page: number,
+  filter
+): Promise<{ data: ITransaction[]; total: number }> => {
   const response = await axiosInstance.request<ITransaction[]>({
     method: 'GET',
     url: `/users/me/transactions`,
     headers: { Authorization: `Bearer ${token}` },
+    params: {
+      filter: JSON.stringify(filter),
+      page,
+      per_page,
+    },
   });
-
-  return response.data;
+  const { data, headers } = response;
+  const contentRange: string = headers['content-range'];
+  const rangeArray = contentRange.split('/');
+  const total = Number(rangeArray[1]);
+  return { data, total };
 };
 
 export const getMyCards = async (token: string): Promise<Wallet> => {

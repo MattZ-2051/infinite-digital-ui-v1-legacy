@@ -1,9 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import usdcIcon from 'assets/img/icons/usdc-icon.png';
+import { useState } from 'react';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
 import depositIcon from 'assets/img/icons/Added-funds.png';
-import withdrawIcon from 'assets/img/icons/withdraw-icon.png';
 import dollarSign from 'assets/img/icons/dollarSign-icon.png';
 import purchaseIcon from 'assets/img/icons/purchase-icon.png';
 import { ITransaction } from 'entities/transaction';
@@ -19,6 +16,7 @@ interface DateTimeOptions {
 }
 const Transaction = ({ tx }: IProps) => {
   const txCreatedAtDate = new Date(tx.createdAt);
+  const [showTxId, setShowTxId] = useState<boolean>(false);
   const options: DateTimeOptions = {
     year: 'numeric',
     month: 'long',
@@ -30,12 +28,10 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && tx.status === 'success' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>
-              You bought
-              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-                {tx.transactionData.sku[0]?.name}
-              </S.Link>
-            </span>
+            <span>You bought</span>
+            <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
+              {tx.transactionData.sku[0]?.name}
+            </S.Link>
             <S.Link to={`/product/${tx.transactionData?.product[0]?._id}`}>
               #{tx.transactionData.product[0]?.serialNumber}
             </S.Link>
@@ -259,6 +255,18 @@ const Transaction = ({ tx }: IProps) => {
           </S.Color>
         )}
       </S.TransactionDetail>
+      <S.TransactionDetail>
+        {showTxId ? (
+          <S.UpArrow onClick={() => setShowTxId(!showTxId)} />
+        ) : (
+          <S.DownArrow onClick={() => setShowTxId(!showTxId)} />
+        )}
+      </S.TransactionDetail>
+      {showTxId && (
+        <S.TxIdContainer>
+          Transaction ID: <S.TxId>{tx._id}</S.TxId>
+        </S.TxIdContainer>
+      )}
     </S.Container>
   );
 };

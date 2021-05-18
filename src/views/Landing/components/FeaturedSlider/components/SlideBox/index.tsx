@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { Sku } from 'entities/sku';
-import { formatCountdown } from 'utils/dates';
+import { formatSkuCountdown } from 'utils/dates';
 import { Link } from 'react-router-dom';
 import TilePill from 'components/ProductTiles/Tile/components/TilePill';
 
@@ -28,7 +28,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
     }
     if (totalSupplyLeft === 0 && totalSupplyUpcoming === 0) {
       status = 'upcoming-sku-time';
-      skuUpcomingTime = formatCountdown(new Date(minStartDate));
+      skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
     } else if (totalSupplyLeft > 0) {

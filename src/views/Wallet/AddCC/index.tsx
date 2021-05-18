@@ -144,6 +144,7 @@ const AddCC = () => {
                 fieldError?.cardNumber && 'Enter a valid credit card number'
               }
               onChange={(e) => handleChange(e, setCardInfo)}
+              inputProps={{ maxlength: 16 }}
               value={cardInfo?.cardNumber}
             />
           </S.Row>
@@ -153,6 +154,7 @@ const AddCC = () => {
               label="Exp Date MM"
               size="medium"
               required
+              inputProps={{ maxlength: 2 }}
               name="num-expMonth"
               error={fieldError?.expMonth}
               helperText={
@@ -169,6 +171,7 @@ const AddCC = () => {
               size="medium"
               required
               name="num-expYear"
+              inputProps={{ maxlength: 4 }}
               error={fieldError?.expYear || fieldError?.expYearPassed}
               helperText={
                 (fieldError?.expYear && 'Enter a valid year format YYYY') ||
@@ -190,6 +193,7 @@ const AddCC = () => {
               helperText={
                 fieldError?.cvv && 'Enter a valid 3 digit card cvv number'
               }
+              inputProps={{ maxlength: 3 }}
               value={cardInfo?.cvv}
             />
           </S.Row>
