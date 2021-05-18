@@ -1,13 +1,35 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { ReactComponent as UsdcSvg } from 'assets/svg/icons/usdc-tx-icon.svg';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 75% 13% 12%;
+  grid-template-columns: 68% 15% 12% 5%;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;
+`;
+
+export const DownArrow = styled(ExpandMoreIcon)`
+  color: #9e9e9e;
+  font-size: 24px;
+  :hover {
+    color: black;
+    cursor: pointer;
+    transform: sacle(1.1);
+  }
+`;
+
+export const UpArrow = styled(ExpandLessIcon)`
+  color: #9e9e9e;
+  font-size: 24px;
+  :hover {
+    color: black;
+    cursor: pointer;
+    transform: sacle(1.1);
+  }
 `;
 
 export const TransactionDetail = styled.div`
@@ -23,6 +45,7 @@ export const TransactionDescription = styled.span`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  text-align: center;
 `;
 
 export const Bold = styled.span`
@@ -46,8 +69,23 @@ export const Date = styled.span`
 
 export const Link = styled(NavLink)`
   padding: 0 5px;
+  text-align: center;
+`;
+
+export const TxIdContainer = styled.div`
+  padding-left: 55px;
+  color: #9e9e9e;
+  font-size: 15px;
+  font-weight: 400;
+  padding-top: 10px;
 `;
 
 export const UsdcIcon = styled(UsdcSvg)`
   margin-right: 24px;
+`;
+
+export const TxId = styled.span`
+  font-weight: 400;
+  color: black;
+  font-size: 15px;
 `;
