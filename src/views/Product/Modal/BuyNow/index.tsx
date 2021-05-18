@@ -45,7 +45,7 @@ const BuyNowModal = ({
 
   const marketplaceFee = product.resale
     ? product.resaleBuyersFeePercentage
-    : product.initialBuyersFeePercetnage;
+    : product.initialBuyersFeePercentage;
   const history = useHistory();
 
   const royaltyFee = Math.round(
@@ -103,6 +103,9 @@ const BuyNowModal = ({
   const handleTCRouteChange = () => {
     history.push('/tc');
   };
+
+  console.log('product', product);
+  console.log('marketpalce fee', product.resaleBuyersFeePercentage);
   const Body = () => {
     return (
       <>
@@ -187,7 +190,7 @@ const BuyNowModal = ({
                 $
                 {(
                   product.activeProductListings[0]?.price *
-                  (product.sku.sellerTransactionFeePercentage / 100)
+                  (marketplaceFee / 100)
                 ).toFixed(2)}
               </S.PriceInfo>
             </S.FlexRow>

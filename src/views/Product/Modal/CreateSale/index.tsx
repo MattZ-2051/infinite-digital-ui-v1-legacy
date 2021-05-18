@@ -147,7 +147,7 @@ const CreateSale = ({
             <S.DetailRowPrice>
               <div>
                 <span>
-                  Creator royalty fee ({product?.royaltyFeePercentage})% :
+                  Creator royalty fee ({product?.royaltyFeePercentage}%) :
                 </span>
               </div>
               <div>${royaltyFee?.toFixed(2)}</div>
