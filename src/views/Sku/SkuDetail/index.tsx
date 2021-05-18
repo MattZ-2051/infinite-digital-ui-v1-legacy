@@ -184,21 +184,23 @@ const SkuDetail = (): JSX.Element => {
         )}
       </S.Section>
 
-      <S.Section>
-        <S.SectionTitle>Related Releases</S.SectionTitle>
-        <S.ProductContainer>
-          {featuredProducts &&
-            filteredFeaturedSku.map((el, index) => {
-              // TODO: Stopping after index 5
-              if (index >= 5) return null;
-              return (
-                <S.TileContainer key={index} index={index}>
-                  <SkuTile sku={el} key={index} themeStyle="light" />
-                </S.TileContainer>
-              );
-            })}
-        </S.ProductContainer>
-      </S.Section>
+      {filteredFeaturedSku.length > 0 && (
+        <S.Section>
+          <S.SectionTitle>Related Releases</S.SectionTitle>
+          <S.ProductContainer>
+            {featuredProducts &&
+              filteredFeaturedSku.map((el, index) => {
+                // TODO: Stopping after index 5
+                if (index >= 5) return null;
+                return (
+                  <S.TileContainer key={index} index={index}>
+                    <SkuTile sku={el} key={index} themeStyle="light" />
+                  </S.TileContainer>
+                );
+              })}
+          </S.ProductContainer>
+        </S.Section>
+      )}
     </div>
   );
 };
