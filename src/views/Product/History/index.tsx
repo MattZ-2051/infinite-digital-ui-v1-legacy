@@ -190,7 +190,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                 {showLink && (
                   <div>
                     <S.ToolTip title="Testing">Testing</S.ToolTip>
-                    <S.ToolTipText>NFT Auction Coming Soon</S.ToolTipText>
+                    <S.ToolTipText>NFT Sale Upcoming</S.ToolTipText>
                   </div>
                 )}
                 <S.Button width="130px">Upcoming</S.Button>
@@ -385,7 +385,7 @@ S.ToolTip = styled(ToolTip)`
 
 S.ToolTipText = styled.span`
   position: absolute;
-  left: -2.25em;
+  left: -1em;
   bottom: 4em;
   color: black;
   overflow: hidden;
