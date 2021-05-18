@@ -1,6 +1,6 @@
 import Tile from 'components/ProductTiles/Tile';
 import { Sku } from 'entities/sku';
-import { formatCountdown } from 'utils/dates';
+import { formatCountdown, formatSkuCountdown } from 'utils/dates';
 import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
@@ -52,7 +52,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     ) {
       status = 'upcoming-sku-time';
       bottomRightText = totalSupplyUpcoming;
-      skuUpcomingTime = formatCountdown(new Date(minStartDate));
+      skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
     } else if (
