@@ -100,8 +100,8 @@ const Footer = () => {
 };
 
 const StyledFooter = styled.footer`
-  /* position: fixed;
-  bottom: 0; */
+  position: relative;
+  bottom: 0;
   width: 100%;
   background-color: black;
 `;

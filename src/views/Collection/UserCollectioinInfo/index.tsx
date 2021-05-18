@@ -79,7 +79,7 @@ const UserCollectioinInfo = ({
           )}
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {loggedInUser.username}
+              {loggedInUser.username}
             </span>
             <S.EditIconContainer>
               <S.EditIcon
@@ -105,7 +105,7 @@ const UserCollectioinInfo = ({
         <>
           <S.UsernameIconContainer>
             <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-              @ {loggedInUser.username}
+              {loggedInUser.username}
             </span>
             <S.EditIconContainer>
               <S.EditIcon
@@ -126,7 +126,7 @@ const UserCollectioinInfo = ({
       {userStatus === 'notCurrentUserProfile' && (
         <>
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {user?.username}
+            {user?.username}
           </span>
         </>
       )}
@@ -145,7 +145,7 @@ const UserCollectioinInfo = ({
             <S.AccountIcon />
           )}
           <span style={{ paddingRight: '10px', fontSize: '24px' }}>
-            @ {user?.username}
+            {user?.username}
           </span>
         </>
       )}
