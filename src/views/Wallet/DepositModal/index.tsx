@@ -235,7 +235,7 @@ const DepositModal = ({
             <img src={sukuIcon} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <S.RowText style={{ color: '#9e9e9e' }}>Suku</S.RowText>
+            <S.RowText style={{ color: '#9e9e9e' }}>SUKU</S.RowText>
             <S.RowSubText>Coming soon</S.RowSubText>
           </div>
         </S.Row>
