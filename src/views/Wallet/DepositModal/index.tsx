@@ -129,7 +129,7 @@ const DepositModal = ({
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             Coinbase
           </S.RowText>
-          <S.RowSubText>Deposit funds using cryptocurrency</S.RowSubText>
+          <S.RowSubText>Deposit funds using ETH, BTC and more</S.RowSubText>
         </div>
         <div
           style={{
@@ -213,6 +213,7 @@ const DepositModal = ({
       <div style={{ padding: '0 40px 40px 40px' }}>
         <S.Header>Select a payment to deposit</S.Header>
         <S.GrayLine style={{ width: '100%' }} />
+        <CircleBtn />
         <S.Row onClick={handleRedirect}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={circleIcon} />
@@ -232,7 +233,6 @@ const DepositModal = ({
           </div>
         </S.Row>
         <CoinBaseBtn />
-        <CircleBtn />
         <S.Row>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={sukuIcon} />
