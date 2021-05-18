@@ -23,8 +23,9 @@ interface IProps {
 }
 
 const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [selectedTab, setSelectedTab] = useState<'items' | 'releases' | ''>('');
   const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
+  const [userStatus, setUserStatus] = useState<string>('');
   const history = useHistory();
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [userItems, setUserItems] = useState<
@@ -62,35 +63,33 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     fetchData();
   }, [userId, page, user]);
 
-  let userStatus = '';
-
-  const checkStatus = () => {
-    if (isAuthenticated === true) {
-      if (userId === loggedInUser.id && user.role === 'issuer') {
-        userStatus = 'loggedInIssuer';
-        return userStatus;
-      } else if (userId === loggedInUser.id) {
-        userStatus = 'loggedIn';
-        return userStatus;
-      } else if (userId !== loggedInUser.id && user.role === 'issuer') {
-        userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
-      } else if (userId !== loggedInUser.id) {
-        userStatus = 'notCurrentUserProfile';
-        return userStatus;
-      }
-    } else {
-      if (user.role === 'issuer') {
-        userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
+  useEffect(() => {
+    (() => {
+      if (isAuthenticated === true) {
+        if (userId === loggedInUser.id && user.role === 'issuer') {
+          setUserStatus('loggedInIssuer');
+          setSelectedTab('releases');
+        } else if (userId === loggedInUser.id) {
+          setUserStatus('loggedIn');
+          setSelectedTab('items');
+        } else if (userId !== loggedInUser.id && user.role === 'issuer') {
+          setUserStatus('notCurrentUserProfileIssuer');
+          setSelectedTab('releases');
+        } else if (userId !== loggedInUser.id) {
+          setUserStatus('notCurrentUserProfile');
+          setSelectedTab('items');
+        }
       } else {
-        userStatus = 'notCurrentUserProfile';
-        return userStatus;
+        if (user.role === 'issuer') {
+          setUserStatus('notCurrentUserProfileIssuer');
+          setSelectedTab('releases');
+        } else {
+          setUserStatus('notCurrentUserProfile');
+          setSelectedTab('items');
+        }
       }
-    }
-  };
-
-  checkStatus();
+    })();
+  }, []);
 
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
@@ -99,8 +98,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     setPage(value);
   };
 
-  // TODO: REVIEW
-  const placeHolderFunc = () => null;
+  console.log(totalProducts);
+  console.log(selectedTab);
   return (
     <Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
@@ -116,8 +115,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <TabBar>
                 <Tab
                   themeStyle={themeStyle}
-                  selected={selectedTab === 0}
-                  onClick={() => setSelectedTab(0)}
+                  selected={selectedTab === 'items'}
+                  onClick={() => setSelectedTab('items')}
                 >
                   My Items
                 </Tab>
@@ -127,7 +126,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
 
-          {selectedTab === 0 && (
+          {selectedTab === 'items' && (
             <Items
               themeStyle={themeStyle}
               userItems={userItems}
@@ -148,17 +147,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             >
               <TabBar>
                 <Tab
-                  selected={selectedTab === 0}
+                  selected={selectedTab === 'releases'}
                   themeStyle={themeStyle}
-                  onClick={() => setSelectedTab(0)}
+                  onClick={() => setSelectedTab('releases')}
                 >
                   My Releases
                 </Tab>
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
-                  selected={selectedTab === 1}
+                  selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
-                  onClick={() => setSelectedTab(1)}
+                  onClick={() => setSelectedTab('items')}
                 >
                   My Items
                 </Tab>
@@ -166,14 +165,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             </div>
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && (
+          {selectedTab === 'releases' && (
             <Releases
               userReleases={userReleases}
               collection={true}
               themeStyle={themeStyle}
             />
           )}
-          {selectedTab === 1 && (
+          {selectedTab === 'items' && (
             <Items
               userItems={userItems}
               collection={true}
@@ -194,17 +193,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             >
               <TabBar>
                 <Tab
-                  selected={selectedTab === 0}
+                  selected={selectedTab === 'releases'}
                   themeStyle={themeStyle}
-                  onClick={() => setSelectedTab(0)}
+                  onClick={() => setSelectedTab('releases')}
                 >
                   Releases
                 </Tab>
                 <span style={{ padding: '0 20px' }}></span>
                 <Tab
-                  selected={selectedTab === 1}
+                  selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
-                  onClick={() => setSelectedTab(1)}
+                  onClick={() => setSelectedTab('items')}
                 >
                   Items
                 </Tab>
@@ -213,14 +212,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && (
+          {selectedTab === 'releases' && (
             <Releases
               userReleases={userReleases}
               collection={true}
               themeStyle={themeStyle}
             />
           )}
-          {selectedTab === 1 && (
+          {selectedTab === 'items' && (
             <Items
               userItems={userItems}
               collection={true}
@@ -241,9 +240,9 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             >
               <TabBar>
                 <Tab
-                  selected={selectedTab === 0}
+                  selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
-                  onClick={() => setSelectedTab(0)}
+                  onClick={() => setSelectedTab('items')}
                 >
                   Items
                 </Tab>
@@ -253,7 +252,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
             <GrayLine style={{ width: '100%' }}></GrayLine>
           </div>
-          {selectedTab === 0 && (
+          {selectedTab === 'items' && (
             <Items
               userItems={userItems}
               collection={true}
@@ -264,7 +263,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       )}
       {((selectedTab) => {
         let total = 0;
-        if (selectedTab === 0) {
+        if (selectedTab === 'releases') {
           total = totalReleases;
         } else {
           total = totalProducts;
