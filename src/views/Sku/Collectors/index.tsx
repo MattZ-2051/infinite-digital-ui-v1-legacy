@@ -6,7 +6,7 @@ const S: any = {};
 const Collectors = () => {
   return (
     <S.Container>
-      <S.Gallery>Galeria</S.Gallery>
+      <S.Gallery>Gallery</S.Gallery>
       <S.Content>Marketplace / XXX / XXX</S.Content>
     </S.Container>
   );

@@ -26,8 +26,8 @@ const ErrorPage = () => {
           </S.HeaderText>
         </Row>
         <Row style={{ flexDirection: 'column', padding: '25px 0' }}>
-          <S.Text>We couln’t process your payment and the</S.Text>
-          <S.Text>transaction was cancelled.</S.Text>
+          <S.Text>We could not process your payment and the</S.Text>
+          <S.Text>transaction was canceled.</S.Text>
         </Row>
         <div style={{ paddingBottom: '25px' }}>
           <S.MarketPlaceButton onClick={handleRedirectToAddFunds}>

@@ -126,7 +126,7 @@ const DepositModal = ({
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             Coinbase
           </S.RowText>
-          <S.RowSubText>Pay with cryptocurrency</S.RowSubText>
+          <S.RowSubText>Deposit funds using cryptocurrency</S.RowSubText>
         </div>
         <div
           style={{
@@ -186,7 +186,7 @@ const DepositModal = ({
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             USDC
           </S.RowText>
-          <S.RowSubText>Deposit USDC to your wallet (on Ethereum)</S.RowSubText>
+          <S.RowSubText>Deposit funds using USDC</S.RowSubText>
         </div>
         <div
           style={{
@@ -216,7 +216,7 @@ const DepositModal = ({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <S.RowText>Circle</S.RowText>
-            <S.RowSubText>Pay with credit card</S.RowSubText>
+            <S.RowSubText>Deposit funds using a credit card</S.RowSubText>
           </div>
           <div
             style={{
@@ -237,15 +237,6 @@ const DepositModal = ({
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <S.RowText style={{ color: '#9e9e9e' }}>Suku</S.RowText>
             <S.RowSubText>Coming soon</S.RowSubText>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <ArrowForwardIosIcon style={{ color: '#9e9e9e' }} />
           </div>
         </S.Row>
         <ModalComponent open={isUSDCModalOpen}>
