@@ -98,8 +98,6 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     setPage(value);
   };
 
-  console.log(totalProducts);
-  console.log(selectedTab);
   return (
     <Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
