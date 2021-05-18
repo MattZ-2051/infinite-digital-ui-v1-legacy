@@ -129,7 +129,7 @@ const DepositModal = ({
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             Coinbase
           </S.RowText>
-          <S.RowSubText>Deposit funds using ETH, BTC and more</S.RowSubText>
+          <S.RowSubText>Deposit funds using ETH, BTC</S.RowSubText>
         </div>
         <div
           style={{
