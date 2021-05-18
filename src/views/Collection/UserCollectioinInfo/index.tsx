@@ -92,13 +92,9 @@ const UserCollectioinInfo = ({
           </S.UsernameIconContainer>
           <S.ButtonContainer>
             <ProfileButton
-              label="My Account"
+              label="My Wallet"
               handleClick={handleWalletRedirect}
             />
-            <div style={{ padding: '0 10px' }}>
-              {/* <ButtonDivider></ButtonDivider> */}
-            </div>
-            <ProfileButton label="My Wallet" />
           </S.ButtonContainer>
         </>
       )}
