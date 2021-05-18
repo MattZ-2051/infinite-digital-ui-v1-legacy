@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 // Icons
@@ -9,7 +10,7 @@ export interface IProps {
   [rest: string]: any;
 }
 
-const CircularButton: React.FC<IProps> = ({ to = '/', label, ...rest }) => {
+const CircularButton = ({ to = '/', label, ...rest }: IProps) => {
   return (
     <StyledLink to={to} {...rest}>
       {label}

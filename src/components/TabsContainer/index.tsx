@@ -6,26 +6,33 @@ export interface IProps {
 }
 
 const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
-&& {
-  .MuiTabs-centered {
-    justify-content: space-between;
-    margin: auto;
-    width: ${(props) => props.width ? `${props.width}` : '100%'};
-    align-items: center;
-  }
-  .MuiTabs-indicator {
-    background-color: black !important;
-    height: 3px;
-  }
+  margin-bottom: 32px;
 
-    @media screen and (max-width: 600px) {
-      .MuiTab-wrapper {
-        font-size: 1rem;
-      }
-    }
+  && {
     .MuiTabs-centered {
-      justify-content: space-around;
+      width: ${(props) => (props.width ? `${props.width}` : '100%')};
+      border-bottom: 2px solid #ebebeb;
+    }
+    .MuiTabs-indicator {
+      background-color: black !important;
+      height: 3px;
+    }
+
+    .MuiTab-root {
+      padding: 14px 0;
+      margin-right: 20px;
+      max-width: fit-content;
+    }
+
+    .MuiTab-wrapper {
+      font-size: 28px;
+      text-transform: capitalize;
+    }
+
+    .MuiTabs-centered {
       margin: auto;
+      justify-content: flex-start;
+      width: 100%;
     }
   }
 `;

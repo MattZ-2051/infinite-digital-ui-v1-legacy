@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getSkusThunk } from './marketplaceThunks';
 
-type ReleaseStatus = 'all' | 'released' | 'upcoming' | 'noOneSelling';
+type ReleaseStatus = 'released' | 'upcoming' | ''; // 'noOneSelling'
 
 interface IFilters {
   status: ReleaseStatus;
@@ -11,30 +10,49 @@ interface IFilters {
   brand: string[];
   series: string[];
   search: string;
-  sort: string;
   rarity: string[];
 }
 
+interface IPagination {
+  page: string;
+  perPage: string;
+}
+
+interface IState {
+  loading: string;
+  error: string | null;
+  filters: IFilters;
+  sortBy: string; // 'startDate' | 'rarity' | 'price
+  pagination: IPagination;
+}
+
 const defaultFilters: IFilters = {
-  status: 'all',
+  status: '',
   date: [],
   price: [],
   category: [],
   brand: [],
   series: [],
   search: '',
-  sort: '',
-  rarity: []
+  rarity: [],
 };
 
 export const getDefaultParams = () => {
-  // console.log('%c getDefaultParams ', 'background: #222; color: #bada55');
-
   const queryString = window.location.search;
-  const urlParams: any = new URLSearchParams(queryString);
-  const filters: IFilters = JSON.parse(JSON.stringify(defaultFilters));
+  return new URLSearchParams(queryString);
+};
 
-  for (let param of urlParams) {
+// Get the filters, pagination and sortBy from url params
+export const processUrlParams = () => {
+  const urlParams: any = getDefaultParams(); //TODO: change type
+  const filters: IFilters = JSON.parse(JSON.stringify(defaultFilters));
+  const pagination: IPagination = {
+    page: '1',
+    perPage: '6',
+  };
+  let sortBy = 'startDate:asc';
+
+  for (const param of urlParams) {
     const paramName: string = param[0];
     const paramValue: string = param[1];
 
@@ -53,29 +71,33 @@ export const getDefaultParams = () => {
       case 'search':
         filters.search = paramValue;
         break;
-      case 'sort':
-        filters.sort = paramValue
+      case 'sortBy':
+        sortBy = paramValue;
+        break;
+      case 'page':
+        pagination.page = paramValue;
+        break;
+      case 'per_page':
+        pagination.perPage = paramValue;
         break;
       default:
-        if (filters[paramName]) filters[paramName] = paramValue.split('+');
+        if (filters[paramName]) filters[paramName] = paramValue.split(',');
         break;
     }
   }
-  return filters;
+  return {
+    filters,
+    pagination,
+    sortBy,
+  };
 };
-
-interface IState {
-  loading: string;
-  error: string | null;
-  filters: IFilters;
-  skus: any;
-}
 
 const initialState: IState = {
   loading: 'idle',
   error: null,
-  filters: getDefaultParams(),
-  skus: {},
+  filters: processUrlParams().filters,
+  sortBy: processUrlParams().sortBy,
+  pagination: processUrlParams().pagination,
 };
 
 export const marketplaceSlice = createSlice({
@@ -85,25 +107,48 @@ export const marketplaceSlice = createSlice({
     updateFilter: (state, action) => {
       const { filterName, filterValue } = action.payload;
       state.filters[filterName] = filterValue;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
     updateFilters: (state, action) => {
       state.filters = action.payload;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
     restoreFilters: (state) => {
-      console.log('ejecuta');
       state.filters = defaultFilters;
+      state.pagination = {
+        page: '1',
+        perPage: '6',
+      };
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(getSkusThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
-      state.skus = payload;
-    });
+    updatePagination: (state, action) => {
+      state.pagination = action.payload;
+    },
+    updateSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
+    setMarketplaceState: (state, action) => {
+      //Useful for the browser back button
+      const { filters, pagination, sortBy } = action.payload;
+      state.filters = filters;
+      state.pagination = pagination;
+      state.sortBy = sortBy;
+    },
   },
 });
 
 const { actions } = marketplaceSlice;
-export const { updateFilter, updateFilters, restoreFilters } = actions;
+export const {
+  updateFilter,
+  updateFilters,
+  restoreFilters,
+  updatePagination,
+  updateSortBy,
+  setMarketplaceState,
+} = actions;
 export default marketplaceSlice.reducer;

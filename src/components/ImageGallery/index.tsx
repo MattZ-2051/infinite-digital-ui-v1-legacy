@@ -1,21 +1,41 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-// Local
-// import productBig from 'assets/img/marketplace/sku-example.png';
-// import productSmall1 from 'assets/img/marketplace/sku-example-small-1.png';
-// import productSmall2 from 'assets/img/marketplace/sku-example-small-2.png';
-// import productSmall3 from 'assets/img/marketplace/sku-example-small-3.png';
-// import productSmall4 from 'assets/img/marketplace/sku-example-small-4.png';
+import AudioIcon from 'assets/img/icons/audio-icon.png';
+import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
+import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
+import Squircle from 'components/Squircle';
 
-export interface ImageGalleryProps {}
+export interface ImageGalleryProps {
+  images: string[];
+  height?: string;
+}
 
-const images = [
-  'https://stockx-360.imgix.net/Air-Jordan-11-Retro-Space-Jam-2016/Images/Air-Jordan-11-Retro-Space-Jam-2016/Lv2/img36.jpg?auto=format,compress&w=559&q=90&dpr=2&updated_at=1606319512',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYtaeIUQiLip8ROnlVfvLIpgT3jY6i6UMwDg&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHArgo7FDBh1wOujs9RNt5WKbmlJQt3TAL1g&usqp=CAU',
-];
+const VideoView = ({ src }: { src: string }) => {
+  return (
+    <video
+      style={{
+        width: '100%',
+        height: '100%',
+      }}
+      autoPlay={true}
+      controls={true}
+      loop={true}
+      muted={true}
+      src={src}
+    ></video>
+  );
+};
 
-const ImageGallery: React.FC<ImageGalleryProps> = () => {
+const AudioView = ({ src }: { src: string }) => {
+  return (
+    <audio controls autoPlay muted>
+      <source src={src} type="audio/mpeg" />
+      Your browser does not support audio elements.
+    </audio>
+  );
+};
+
+const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -23,55 +43,99 @@ const ImageGallery: React.FC<ImageGalleryProps> = () => {
   };
 
   return (
-    <Container>
+    <Container height={height}>
       <ImageContainer>
-        <img src={images[selectedImage]} alt="" />
+        {images[selectedImage]?.endsWith('mov') ||
+        images[selectedImage]?.endsWith('mp4') ? (
+          <VideoView src={images[selectedImage]} />
+        ) : images[selectedImage]?.endsWith('mp3') ? (
+          <AudioView src={images[selectedImage]} />
+        ) : (
+          <img src={images[selectedImage]} alt="" />
+        )}
+        {/* <Squircle
+          size={40}
+          bgColor="white"
+          style={{
+            position: 'absolute',
+            right: '24px',
+            top: '24px',
+            cursor: 'pointer',
+          }} //TODO: create StyledComponent
+        >
+          <TDRotationIcon />
+        </Squircle> */}
       </ImageContainer>
 
       <ThumbnailMenu>
-        <ThumbnailItem
-          active={selectedImage === 0}
-          onClick={() => {
-            handleImageChange(0);
-          }}
-        >
-          <img src={images[0]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 1}
-          onClick={() => {
-            handleImageChange(1);
-          }}
-        >
-          <img src={images[1]} alt="" />
-        </ThumbnailItem>
-        <ThumbnailItem
-          active={selectedImage === 2}
-          onClick={() => {
-            handleImageChange(2);
-          }}
-        >
-          <img src={images[2]} alt="" />
-        </ThumbnailItem>
+        {images &&
+          images.map((el, index) => {
+            return (
+              <Thumbnail
+                key={index}
+                active={selectedImage === index}
+                onClick={() => handleImageChange(index)}
+              >
+                {/* <STDGraphicIcon /> */}
+                {el?.endsWith('mov') || el?.endsWith('mp4') ? (
+                  <video
+                    style={{
+                      width: '100%',
+                    }}
+                    autoPlay={true}
+                    controls={false}
+                    loop={true}
+                    muted={true}
+                    src={el}
+                  ></video>
+                ) : el?.endsWith('mp3') ? (
+                  <img src={AudioIcon} alt="" />
+                ) : (
+                  <img src={el} alt="" />
+                )}
+              </Thumbnail>
+            );
+          })}
       </ThumbnailMenu>
     </Container>
   );
 };
 
-const Container = styled.div`
+// const STDGraphicIcon = styled(TDGraphicIcon)`
+//   position: absolute;
+//   top: 10px;
+//   right: 10px;
+//   z-index: 222;
+//   padding: 3px;
+//   width: 23px;
+//   height: 23px;
+//   background-color: #ffffff;
+// `;
+
+const Container = styled.div<{ height?: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f4f4f4;
-  height: 100%;
+  background-color: #fffff;
+  height: ${(props) => (props.height ? `${props.height};` : `100%`)};
   width: 100%;
   max-width: 700px;
   max-height: 700px;
+  overflow: hidden;
 
   img {
     width: 100%;
     user-select: none;
+  }
+
+  @media screen and (max-width: 1160px) {
+    max-width: 100%;
+  }
+
+  @media screen and (max-width: 640px) {
+    overflow: auto;
+    height: auto !important;
   }
 `;
 
@@ -80,6 +144,7 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const ThumbnailMenu = styled.div`
@@ -88,16 +153,17 @@ const ThumbnailMenu = styled.div`
   grid-auto-flow: column;
   grid-auto-columns: max-content;
   grid-gap: 8px;
-  left: 20px;
-  bottom: 20px;
+  left: 30px;
+  bottom: 30px;
 `;
 
 interface ThumbnailItemProps {
   active?: boolean;
 }
 
-const ThumbnailItem = styled.div<ThumbnailItemProps>`
+const Thumbnail = styled.div<ThumbnailItemProps>`
   transition: 0.4s;
+  opacity: 0.6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,6 +173,7 @@ const ThumbnailItem = styled.div<ThumbnailItemProps>`
   border-color: ${(props) => (props.active ? 'black' : '#d2d2d2')};
   background-color: #f4f4f4;
   cursor: pointer;
+  overflow: hidden;
 
   &:hover {
     border-color: black;

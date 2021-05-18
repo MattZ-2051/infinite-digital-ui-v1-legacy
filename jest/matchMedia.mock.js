@@ -21,4 +21,4 @@ window.matchMedia = (query) => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
   dispatchEvent: jest.fn(),
-})
+});

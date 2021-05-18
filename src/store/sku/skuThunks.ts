@@ -1,29 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getSkus } from 'services/api/sku';
+import { getSkuTiles } from 'services/api/sku';
+import { SkuWithTotal } from 'entities/sku';
 
- // Return type of the payload creator
-interface IResponse {}
-
-// First argument to the payload creator
 interface IPayloadParams {
-  token: string;
+  queryParams?: string;
+  token?: string;
 }
 
-// Custom errors
 interface IError {
   errorMessage: string;
 }
 
-export const getSkusThunk = createAsyncThunk<
-  IResponse,
+export const getSkuTilesThunk = createAsyncThunk<
+  SkuWithTotal,
   IPayloadParams,
   {
     rejectValue: IError;
   }
->('skus/get', async (data, thunkApi) => {
+>('skus/get', async (payloadParams, thunkApi) => {
+  const { queryParams } = payloadParams || '';
+
   try {
-    const response = await getSkus(data.token);
-    return response.data;
+    const data = await getSkuTiles({ queryParams });
+    if (!data) {
+      throw new Error(`No data returned from API`);
+    }
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,

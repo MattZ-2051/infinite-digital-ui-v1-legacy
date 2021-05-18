@@ -1,94 +1,99 @@
 import Tile from 'components/ProductTiles/Tile';
+import { Sku } from 'entities/sku';
+import { formatCountdown, formatSkuCountdown } from 'utils/dates';
+import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
-  skuImg: string;
-  skuName: string;
-  skuSeries: string;
-  skuRarity: 'uncommon' | 'common' | 'rare' | 'epic' | 'legendary';
-  skuTotalSupplyLeft: number;
-  skuStartDate: string;
-  skuMinPrice: number;
-  skuCirculatingSupply?: number;
-  skuTotalSupplyUpcoming?: number;
-  redeemable: boolean
-  skuIssuer: string;
+  sku: Sku;
+  themeStyle: 'light' | 'dark';
 }
 
-const SkuTile = (
-  { skuRarity,
-    skuImg,
-    skuName,
-    skuSeries,
-    skuTotalSupplyLeft,
-    skuStartDate,
-    skuMinPrice,
-    skuCirculatingSupply,
-    skuTotalSupplyUpcoming,
-    skuIssuer }
-    : SkuProps
-) => {
+const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
+  const {
+    _id,
+    minPrice,
+    issuer,
+    name,
+    graphicUrl,
+    rarity,
+    circulatingSupply,
+    totalSupplyLeft,
+    totalSupplyUpcoming,
+    series,
+    minStartDate,
+    redeemable,
+    maxSupply,
+    supplyType,
+    productListings,
+    skuListings,
+    issuerName,
+  } = sku;
 
+  const history = useHistory();
+  const skuStartDateTime = new Date(minStartDate).getTime();
   const currentTime = new Date().getTime();
-  const skuStartDateTime = new Date(skuStartDate || "2021-04-12T19:03:02.439Z").getTime();
-  let status: string = '';
-  let skuUpcomingTime: string = '';
-  let bottomRightText: any = '';
-  let pillInfo: any = '';
 
-  function calcDiff(currentDate, skuStartDate) {
-
-    var diff = (skuStartDate - currentDate) / 1000;
-    diff = Math.abs(Math.floor(diff));
-
-    var days = Math.floor(diff / (24 * 60 * 60));
-    var leftSec = diff - days * 24 * 60 * 60;
-
-    var hrs = Math.floor(leftSec / (60 * 60));
-    var leftSec = leftSec - hrs * 60 * 60;
-
-    var min = Math.floor(leftSec / (60));
-    var leftSec = leftSec - min * 60;
-
-    return days + "d" + ' ' + hrs + "hr" + ' ' + min + 'm';
-
-  }
+  let status: /*SKU Tile Types*/
+  'upcoming-sku' | 'active' | 'no-sale' | 'upcoming-sku-time' | '' = '';
+  let skuUpcomingTime = '';
+  let bottomRightText: string | number = '';
+  let pillInfo: string | number = '';
 
   const checkStatus = () => {
-    if (skuStartDateTime > currentTime) {
-      status = "upcoming";
-      bottomRightText = skuTotalSupplyUpcoming;
-      skuUpcomingTime = calcDiff(currentTime, skuStartDateTime);
-      pillInfo = skuUpcomingTime;
-      return
-    } else if (skuTotalSupplyLeft > 0) {
-      status = "active";
-      bottomRightText = skuTotalSupplyLeft;
-      pillInfo = skuMinPrice;
-      return
-    } else if (skuMinPrice === 0 || !skuMinPrice) {
-      status = "no-sale";
-      bottomRightText = skuCirculatingSupply;
-      return
-    } else {
-      return
+    if (productListings?.length === 0 && skuListings.length === 0) {
+      status = 'upcoming-sku';
+      return;
     }
-  }
+
+    if (
+      skuStartDateTime > currentTime &&
+      (sku.upcomingProductListings?.length !== 0 ||
+        sku.upcomingSkuListings?.length !== 0)
+    ) {
+      status = 'upcoming-sku-time';
+      bottomRightText = totalSupplyUpcoming;
+      skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
+      pillInfo = skuUpcomingTime;
+      return;
+    } else if (
+      sku.totalSupplyLeft === 0 ||
+      sku.activeProductListings?.length !== 0 ||
+      sku.activeSkuListings?.length !== 0
+    ) {
+      status = 'active';
+      bottomRightText = totalSupplyLeft;
+      pillInfo = minPrice;
+      return;
+    } else if (totalSupplyLeft === 0) {
+      status = 'no-sale';
+      bottomRightText = circulatingSupply;
+      return;
+    }
+  };
 
   checkStatus();
+  const handleRedirect = () => {
+    history.push(`/marketplace/${_id}`);
+  };
 
   return (
     <Tile
-      topLeft={skuIssuer}
-      skuRarity={skuRarity}
-      middle={skuName}
-      bottomLeft={skuSeries}
+      sku={sku}
+      topLeft={issuerName}
+      skuRarity={rarity}
+      middle={name}
+      bottomLeft={series?.name}
       bottomRight={bottomRightText}
       status={status}
-      redeemable={false}
+      redeemable={redeemable}
       pillInfo={pillInfo}
-      skuImg={skuImg}
+      skuImg={graphicUrl}
+      unique={maxSupply === 1}
+      handleRedirect={handleRedirect}
+      supplyType={supplyType}
+      themeStyle={themeStyle}
     />
-  )
-}
+  );
+};
 
 export default SkuTile;

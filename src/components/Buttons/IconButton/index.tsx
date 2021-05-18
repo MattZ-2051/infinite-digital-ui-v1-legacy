@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import MuiIconButton from '@material-ui/core/IconButton';
 
@@ -44,6 +45,15 @@ const ButtonBlack = css`
   }
 `;
 
+const ButtonGrey = css`
+  background-color: #2e2e2e;
+  color: #fff;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+`;
+
 const IconButton = styled(({ radius, color, size, ...rest }) => (
   <MuiIconButton {...rest} />
 ))`
@@ -62,6 +72,8 @@ const IconButton = styled(({ radius, color, size, ...rest }) => (
           return ButtonBlack;
         case 'white':
           return ButtonWhite;
+        case 'grey':
+          return ButtonGrey;
         default:
           return ButtonBlack;
       }

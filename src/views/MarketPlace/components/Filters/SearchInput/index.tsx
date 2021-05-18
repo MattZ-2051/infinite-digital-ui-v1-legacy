@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
 export interface IProps {
-  activeFilters: any,
+  activeFilters: any;
   handleFilter: (name: string, data: string) => void;
 }
 
-const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
-  const [searchValue, setSearchValue] = useState(activeFilters.search || '');
+const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
+  const activeFilterSearch = activeFilters.search || '';
+  const [searchValue, setSearchValue] = useState(activeFilterSearch);
+  useEffect(() => {
+    setSearchValue(activeFilterSearch);
+  }, [activeFilterSearch]);
   const [debouncedValue, setDebouncedValue] = useState('');
 
   const handleInput = (e: any) => {
@@ -29,7 +33,6 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 
   useUpdateEffect(() => {
     handleFilter('search', debouncedValue);
-
   }, [debouncedValue]);
 
   return (
@@ -41,7 +44,7 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
           name="search"
           value={searchValue}
           type="text"
-          placeholder="Search by brand, series, name, SKU or type"
+          placeholder="Search"
         />
       </InputDiv>
     </>
@@ -49,8 +52,8 @@ const SearchInput: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
 };
 
 const InputDiv = styled.div`
+  margin-left: 28px;
   height: 40px;
-  min-width: 380px;
   border-radius: 30px;
   background-color: #f8f8f8;
   display: flex;
@@ -62,10 +65,8 @@ const Input = styled.input`
   outline: none;
   text-indent: 20px;
   height: 40px;
-  min-width: 380px;
   background-color: #f8f8f8;
   border-radius: 30px;
-
 `;
 
 export default SearchInput;

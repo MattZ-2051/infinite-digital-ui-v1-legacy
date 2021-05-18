@@ -6,10 +6,7 @@ import { Provider } from 'react-redux';
 import Hero from './index';
 
 describe('<Hero />', () => {
-  const renderComponent = (
-    isAuthenticated: boolean,
-    login = () => {},
-  ) => {
+  const renderComponent = (isAuthenticated: boolean, login = () => {}) => {
     return render(
       <Provider store={store}>
         <BrowserRouter>
@@ -21,7 +18,7 @@ describe('<Hero />', () => {
 
   test('show start collection Button if the user is not logged in', async () => {
     renderComponent(false);
-    expect(screen.getByText('START YOUR COLLECTOY TODAY')).toBeVisible();
+    expect(screen.getByText('START YOUR COLLECTION TODAY')).toBeVisible();
   });
 
   test('calls the login function on start-collection button click', async () => {

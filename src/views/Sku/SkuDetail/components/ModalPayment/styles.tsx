@@ -13,10 +13,13 @@ export const ImageContainer = styled.div`
   background-color: #f4f4f4;
   border-radius: 12px 12px 0 0;
   margin-bottom: 34px;
+  overflow: hidden;
 
   img {
-    width: 100%;
-    border-radius: 12px 12px 0 0;
+    display: block;
+    width: 410px;
+    height: 260px;
+    object-fit: cover;
   }
 `;
 
@@ -37,31 +40,61 @@ export const DetailRow = styled.div`
   color: black;
 `;
 
+export const DetailRowPrice = styled(DetailRow)`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #9e9e9e;
+  strong {
+    font-size: 20px;
+    line-height: 25px;
+    text-align: right;
+    color: #000000;
+  }
+`;
+
 export const Footer = styled.div`
   text-align: center;
+  margin-top: 55px;
+  p {
+    line-height: 22px;
+    strong {
+      display: block;
+      color: #000000;
+    }
+  }
 `;
 
 export const Title = styled.h3`
+  font-style: normal;
+  font-weight: normal;
   font-size: 22px;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: -1px;
+  line-height: 28px;
 `;
 
 export const SubTitle = styled.h5`
-  font-size: 14px;
-  color: #E74C3C;
+  color: #e74c3c;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
 `;
 
 export const Rarity = styled.div`
- color: #00EB7C;
- font-size: 15px;
- display: flex;
-    align-items: center;
+  color: #00eb7c;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
 
- span {
-  background: linear-gradient(41.72deg, #00EB7C -14.01%, #11D6EC 90.62%);
-   width: 12px;
-   height: 12px;
-   display: block;
-   margin-right: 5px;
-   border-radius: 50%;
- }
+  span {
+    background: linear-gradient(41.72deg, #00eb7c -14.01%, #11d6ec 90.62%);
+    width: 12px;
+    height: 12px;
+    display: block;
+    margin-right: 5px;
+    border-radius: 50%;
+  }
 `;

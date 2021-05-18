@@ -1,13 +1,10 @@
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from 'store/hooks';
+import { restoreFilters } from 'store/marketplace/marketplaceSlice';
 // Local
-import { useAppDispatch } from 'hooks/store';
-import {
-  updateFilter,
-  restoreFilters,
-} from 'store/marketplace/marketplaceSlice';
-
+import { getCategories } from 'services/api/categoryService';
+import { getSeries } from 'services/api/seriesService';
 // Components
 import Menu from './Menu';
 import Date from './Date';
@@ -17,29 +14,76 @@ import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
 
 export interface IProps {
-  activeFilters: any;
+  activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
 }
 
-const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
+const Filters = ({ handleFilter, activeFilters }: IProps) => {
   const dispatch = useAppDispatch();
-  let history = useHistory();
-  const [isHidden, setIsHidden] = useState<boolean | undefined>(false);
+  const [categories, setCategories] = useState([]);
+  const [series, setSeries] = useState([]);
+
+  const dropDownOptions = {
+    category: categories,
+    rarity: [
+      { id: 'legendary', name: 'Legendary' },
+      { id: 'epic', name: 'Epic' },
+      { id: 'rare', name: 'Rare' },
+      { id: 'uncommon', name: 'Uncommon' },
+    ],
+    series,
+  };
+
+  //TODO: refactor later
+  // Get checkboxes options
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    getSeries()
+      .then((data) => {
+        setSeries(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearFilters();
+    };
+  }, []);
 
   const clearFilters = () => {
-    history.push('/marketplace');
     dispatch(restoreFilters());
-    setIsHidden(true)
   };
 
   return (
     <Container>
-      <Menu handleFilter={handleFilter} activeFilterStatus={activeFilters.status} />
+      <Menu
+        handleFilter={handleFilter}
+        activeFilterStatus={activeFilters.status}
+      />
       <div style={{ paddingBottom: '30px' }}>
-        <div style={{ width: '40px', height: '2px', backgroundColor: '#d6d6d6', borderRadius: '5px' }}></div>
+        <div
+          style={{
+            width: '40px',
+            height: '2px',
+            backgroundColor: '#d6d6d6',
+            borderRadius: '5px',
+          }}
+        />
       </div>
       <ClearAllFilterContainer>
-        <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>Filter by</span>
+        <span style={{ fontWeight: 500, color: '#9e9e9e', fontSize: '24px' }}>
+          Filter by
+        </span>
         <div hidden={false}>
           <FilterChip type="clear" onClick={clearFilters} />
         </div>
@@ -48,13 +92,37 @@ const Filters: React.FC<IProps> = ({ handleFilter, activeFilters }) => {
       <SelectedFilters
         handleFilter={handleFilter}
         activeFilters={activeFilters}
+        options={dropDownOptions}
       />
-      <Date handleFilter={handleFilter} />
-      <PriceRange handleFilter={handleFilter} defaultFilter={activeFilters.price} />
-      <DropDownCheckFilter label="Category" options={['category1', 'category 2', 'category 3']} handleFilter={handleFilter} filterCategory='category' activeFilters={activeFilters.category} />
-      <DropDownCheckFilter label="Brand" options={['brand1', 'brand 2', 'brand 3']} handleFilter={handleFilter} filterCategory='brand' activeFilters={activeFilters.brand} />
-      <DropDownCheckFilter label="Series" options={['series1', 'series 2', 'series 3']} handleFilter={handleFilter} filterCategory='series' activeFilters={activeFilters.series} />
-      <DropDownCheckFilter label="Rarity" options={['Legendary', 'Epic', 'Rare', 'Uncommon']} handleFilter={handleFilter} filterCategory='rarity' activeFilters={activeFilters.rarity} />
+
+      {/* <Date handleFilter={handleFilter} /> */}
+
+      <PriceRange
+        handleFilter={handleFilter}
+        defaultFilter={activeFilters.price}
+      />
+
+      <DropDownCheckFilter
+        label="Category"
+        options={dropDownOptions.category}
+        handleFilter={handleFilter}
+        filterCategory="category"
+        activeFilters={activeFilters.category}
+      />
+      {/* <DropDownCheckFilter
+        label="Series"
+        options={dropDownOptions.series}
+        handleFilter={handleFilter}
+        filterCategory="series"
+        activeFilters={activeFilters.series}
+      /> */}
+      <DropDownCheckFilter
+        label="Rarity"
+        options={dropDownOptions.rarity}
+        handleFilter={handleFilter}
+        filterCategory="rarity"
+        activeFilters={activeFilters.rarity}
+      />
     </Container>
   );
 };

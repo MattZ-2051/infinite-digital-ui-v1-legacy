@@ -7,24 +7,35 @@ export interface IProps {
   onClick?: () => void;
 }
 const FilterChip = ({ label, type, onClick }: IProps) => {
-
   return (
     <>
       {type !== 'clear' && (
         <StyledDiv>
           <span style={{ fontSize: '16px', fontWeight: 400 }}>{label}</span>
-          <ClearIcon onClick={onClick} style={{ width: '20px', marginLeft: '5px', marginBottom: '2px' }} />
+          <ClearIcon
+            onClick={onClick}
+            style={{ width: '20px', marginLeft: '5px', marginBottom: '2px' }}
+          />
         </StyledDiv>
       )}
       {type === 'clear' && (
-        <StyledDiv onClick={onClick} style={{ backgroundColor: 'transparent', color: 'black', display: 'flex', alignItems: 'flex-end', paddingBottom: '2px' }}>
+        <StyledDiv
+          onClick={onClick}
+          style={{
+            backgroundColor: 'transparent',
+            color: 'black',
+            display: 'flex',
+            alignItems: 'flex-end',
+            paddingBottom: '2px',
+          }}
+        >
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
           <Clear onClick={onClick} />
         </StyledDiv>
       )}
     </>
-  )
-}
+  );
+};
 
 const StyledDiv = styled.div`
   background-color: black;
@@ -35,8 +46,8 @@ const StyledDiv = styled.div`
   font-size: 12px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
+  align-items: center !important;
+  padding: 5px 15px;
 `;
 
 const Clear = styled(ClearIcon)`

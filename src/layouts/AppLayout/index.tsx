@@ -8,14 +8,14 @@ import NavBar from 'components/Layout/NavBar';
 import Footer from 'components/Layout/Footer';
 import Beta from 'components/Beta';
 import Toast from 'components/Toast';
-
-import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo.svg';
+import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 export interface IProps {
   children: JSX.Element;
 }
 
-const AppLayout: React.FC<IProps> = ({ children }) => {
+const AppLayout = ({ children }: IProps): JSX.Element => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -26,22 +26,18 @@ const AppLayout: React.FC<IProps> = ({ children }) => {
         <HeaderContent>
           <HeaderLeft>
             <Link to="/">
-              <InfiniteLogo fill="white" width="170px" />
+              <InfiniteLogo fill="white" />
             </Link>
-            <div style={{ paddingLeft: '15px', paddingBottom: '10px' }}>
-              <Beta />
-            </div>
           </HeaderLeft>
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
 
-      <Toast isVisible={false} status={'success'}>
+      <Toast isVisible={false} status={'success'} setIsVisible={() => false}>
         This is a simple error message. Can we help you to{' '}
         <a style={{ color: 'black' }}>fix the problem?</a>
       </Toast>
-
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
       <Footer />
     </>
   );
@@ -56,10 +52,11 @@ const Header = styled.header`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 10px;
 `;
 
 const HeaderContent = styled.div`
-  max-width: 1440px;
+  // max-width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -8,7 +8,7 @@ export interface IProps {
   handleFilter: (name: string, data: any) => void;
 }
 
-const CategoryFilter: React.FC<IProps> = ({ handleFilter }) => {
+const CategoryFilter = ({ handleFilter }) => {
   const selectedItems = useRef<any>([]);
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {

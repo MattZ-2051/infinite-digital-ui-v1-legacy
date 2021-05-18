@@ -1,51 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeaturedSkuTiles } from 'services/api/sku';
-import {getDropBoxes} from 'services/api/dropBoxService';
+import { SkuWithTotal } from 'entities/sku';
 
- // Return type of the payload creator
-interface IResponse {}
-
-// First argument to the payload creator
 interface IPayloadParams {
-  // token: string;
+  token?: string;
 }
 
-// Custom errors
 interface IError {
   errorMessage: string;
 }
 
 export const getFeaturesThunk = createAsyncThunk<
-  IResponse,
-  IPayloadParams,
+  SkuWithTotal, // Return type of the payload creator
+  IPayloadParams, // First argument to the payload creator
   {
+    // Types for ThunkAPI
     rejectValue: IError;
   }
->('features/get', async (data, thunkApi) => {
+>('features/get', async (payloadParams, thunkApi) => {
+  const { token } = payloadParams || {};
   try {
-    const response = await getFeaturedSkuTiles();
-    return response.data;
+    const data = await getFeaturedSkuTiles({ token });
+    if (!data) {
+      throw new Error(`No data returned from API`);
+    }
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,
     } as IError);
   }
 });
-
-export const getDropBoxesThunk = createAsyncThunk<
-  IResponse,
-  IPayloadParams,
-  {
-    rejectValue: IError;
-  }
->('dropboxes/get', async (data, thunkApi) => {
-  try {
-    const response = await getDropBoxes();
-    return response.data;
-  } catch(err) {
-    return thunkApi.rejectWithValue({
-      errorMessage: err.response.data.error_description
-    } as IError);
-  }
-})
-

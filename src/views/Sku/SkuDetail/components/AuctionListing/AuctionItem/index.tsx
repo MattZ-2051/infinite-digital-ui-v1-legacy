@@ -1,14 +1,36 @@
+import React from 'react';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import styled from 'styled-components/macro';
+import { Listing } from 'entities/listing';
+import { formatCountdown } from 'utils/dates';
 
 export interface AuctionItemProps {
-  serialNumber: number,
-  ownerName: string,
-  highestBid: number,
-  endDate: string,
+  serialNumber: string;
+  ownerName: string;
+  highestBid?: number;
+  endDate?: Date;
+  activeProductListing?: Listing;
+  listings: Listing[];
+  upcomingProductListing?: Listing;
 }
 
-const AuctionItem: React.FC<AuctionItemProps> = ({ serialNumber, ownerName, highestBid, endDate}) => {
+const AuctionItem = ({
+  serialNumber,
+  ownerName,
+  highestBid,
+  endDate,
+  activeProductListing,
+  upcomingProductListing,
+}: AuctionItemProps): JSX.Element => {
+  const auctionDetailMsg =
+    !activeProductListing && !upcomingProductListing
+      ? 'Not for sale'
+      : upcomingProductListing
+      ? 'Upcoming'
+      : activeProductListing?.saleType === 'auction'
+      ? 'Bid for'
+      : 'On sale for';
+
   return (
     <Container>
       {/* <Avatar /> */}
@@ -17,20 +39,41 @@ const AuctionItem: React.FC<AuctionItemProps> = ({ serialNumber, ownerName, high
         <span>
           <strong style={{ color: 'black' }}>{`#${serialNumber}`}</strong>
         </span>
-        <span>{ownerName}</span>
+        <span style={{ color: '#9E9E9E' }}>{ownerName}</span>
       </UserDetail>
 
       <AuctionDetail>
-        <div>
-          Bid for
-          <RightArrow
-            style={{ marginLeft: '10px', marginRight: '10px', height: '10px' }}
-          />
-          <span style={{ fontWeight: 'bold', color: 'black' }}>{`$${highestBid}`}</span>{' '}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <span style={{ color: '#9E9E9E', marginRight: '10px' }}>
+            {auctionDetailMsg}
+          </span>
+          {activeProductListing && (
+            <>
+              <span
+                style={{ fontWeight: 'bold', color: 'black' }}
+              >{`$${activeProductListing.price}`}</span>{' '}
+            </>
+          )}
           <br />
+          {upcomingProductListing && (
+            <>
+              <span style={{ fontWeight: 'bold', color: 'black' }}>
+                {formatCountdown(new Date(upcomingProductListing.startDate))}
+              </span>
+            </>
+          )}
         </div>
 
-        <strong style={{ color: 'black' }}>Expires in {'2d 1h 43m'}</strong>
+        {/*  */}
+        {/* <strong style={{ color: 'black' }}>
+          Expires in {formatCountdown(new Date(endDate))}
+        </strong> */}
       </AuctionDetail>
 
       <RightArrow style={{ marginLeft: '20px' }} />

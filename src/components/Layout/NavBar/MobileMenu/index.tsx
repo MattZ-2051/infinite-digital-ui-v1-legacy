@@ -1,26 +1,36 @@
+import { useAppSelector } from 'store/hooks';
 import styled from 'styled-components/macro';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-// Local
 import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
-  logout: (redirect?: {}) => void;
+  logout: (redirect?: any) => void;
   isAuthenticated: boolean;
-  user: { name: string };
+  user?: { name: string };
 }
 
-const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
+const MobileMenu = ({
+  login,
+  logout,
+  isAuthenticated,
+  user,
+}: IProps): JSX.Element => {
+  const userData = useAppSelector((state) => state.session.user);
   return (
     <>
       {isAuthenticated && (
-        <Title data-testid="user-name">Hello {user?.name}!</Title>
+        <Title data-testid="user-name">Hello {user?.name || ''}!</Title>
       )}
 
       {!isAuthenticated && (
         <AuthButtonsWrapper>
-          <TextButton color="white" size="big" onClick={() => login({ screen_hint: 'signup' })}> 
+          <TextButton
+            color="white"
+            size="big"
+            onClick={() => login({ screen_hint: 'signup' })}
+          >
             Sign Up
           </TextButton>{' '}
           |{' '}
@@ -32,19 +42,22 @@ const MobileMenu = ({ login, logout, isAuthenticated, user }: IProps) => {
 
       <ListMenu>
         <Item>
-          <TextButton type="link" color="white" to="drop-boxes">
-            Drop Boxes
-          </TextButton>
-        </Item>
-        <Item>
-          <TextButton type="link" color="white" to="marketplace">
+          <TextButton
+            type="link"
+            color="white"
+            to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+          >
             Marketplace
           </TextButton>
         </Item>
 
         {isAuthenticated && (
           <Item>
-            <TextButton type="link" color="white" to="my-collection">
+            <TextButton
+              type="link"
+              to={`/collection/${userData.id}`}
+              color="white"
+            >
               My Collection
             </TextButton>
           </Item>

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
-// import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 export interface IProps {
   children?: string | null | false | any; //TODO: remove any
@@ -8,11 +7,7 @@ export interface IProps {
   [rest: string]: any;
 }
 
-const Button = ({
-  children,
-  color,
-  ...rest
-}: IProps) => {
+const Button = ({ children, color, ...rest }: IProps) => {
   return (
     <StyledButton
       {...rest}
@@ -30,6 +25,7 @@ const ButtonWhite = css`
   &:hover {
     background-color: var(--grey-40);
     color: #ffffff;
+    cursor: pointer;
   }
 `;
 
@@ -38,6 +34,7 @@ const ButtonBlack = css`
   color: #ffffff;
   &:hover {
     background-color: var(--grey-40);
+    cursor: pointer;
   }
 `;
 
@@ -48,13 +45,16 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     box-shadow: none;
     color: white;
     font-weight: 600;
-    padding: 10px 24px 10px 24px;
+    padding: 10px 40px 10px 40px;
     font-size: 1rem;
     width: max-content;
+    border-radius: 20px;
+    text-transform: none;
 
     &:hover {
       box-shadow: none;
       background-color: var(--grey-40);
+      cursor: pointer;
     }
     .MuiSvgIcon-root {
       font-size: 15px;

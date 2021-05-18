@@ -1,50 +1,74 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as WalletSvg } from 'assets/svg/icons/wallet.svg';
-import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg'
-import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-settings.svg'
+import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';
+import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-settings.svg';
+import { ReactComponent as EditProfileSvg } from 'assets/svg/icons/edit-profile-icon.svg';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useHistory } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { deleteUser } from 'store/session/sessionThunks';
+import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
 
-const UserProfileMenu = () => {
+interface IProps {
+  visible?: any;
+  setVisible?: any;
+  setIsModalOpen: (a: boolean) => void;
+}
 
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+const UserProfileMenu = ({ visible, setVisible, setIsModalOpen }: IProps) => {
+  const dispatch = useAppDispatch();
+  const { logout } = useAuth0();
+  const username = useAppSelector((state) => state.session.user.username);
+  const history = useHistory();
+
+  const handleWalletRedirect = () => {
+    history.push(`/wallet`);
+    setVisible(false);
+  };
 
   const handleLogout = () => {
-    console.log('here')
-  }
+    dispatch(deleteUser());
+    logout({ returnTo: window.location.origin });
+    setVisible(false);
+  };
 
-
-
+  const handleUsernameEdit = () => {
+    setIsModalOpen(true);
+  };
   return (
-    <Container>
-      <ButtonContainer>
-        <Button>
-          <IconContainer  >
-            <AcountSettingsIcon className="icon_settings" />
-          </IconContainer>
-          <Label >Account Settings</Label>
-        </Button>
-        <Button>
-          <IconContainer >
-            <WalletIcon className="icon_wallet" />
-          </IconContainer>
-          <Label>My Wallet</Label>
-        </Button>
-        <Button onClick={() => logout({ returnTo: window.location.origin })}>
-          <IconContainer  >
-            <SignOutIcon className="icon_signout" />
-          </IconContainer>
-          <Label>Sign Out</Label>
-        </Button>
-      </ButtonContainer>
-    </Container >
-  )
-}
+    <div style={{ position: 'relative' }}>
+      <Container>
+        <ButtonContainer>
+          <Button onClick={handleUsernameEdit}>
+            <IconContainer>
+              <EditProfileIcon className="icon_wallet" />
+            </IconContainer>
+            <Label>Edit Username</Label>
+          </Button>
+          <Button onClick={handleWalletRedirect}>
+            <IconContainer>
+              <WalletIcon className="icon_wallet" />
+            </IconContainer>
+            <Label>My Wallet</Label>
+          </Button>
+          <Button onClick={handleLogout}>
+            <IconContainer>
+              <SignOutIcon className="icon_signout" />
+            </IconContainer>
+            <Label>Sign Out</Label>
+          </Button>
+        </ButtonContainer>
+      </Container>
+    </div>
+  );
+};
 
 const Container = styled.div`
   position: absolute;
   background-color: #252525;
-  top: 30px;
-  right: 32px;
+  top: 20px;
+  right: -60px;
   border-radius: 20px;
   display: flex;
   flex-direction: column:
@@ -66,9 +90,9 @@ const Button = styled.div`
   width: 200px;
   display: flex;
   align-items: center;
-  color: #7C7C7C;
+  color: #7c7c7c;
   :hover {
-    background-color: #3A3A3A;
+    background-color: #3a3a3a;
     cursor: pointer;
     color: white;
   }
@@ -85,9 +109,7 @@ const Button = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  padding: 5px;
-`;
+const ButtonContainer = styled.div``;
 
 const Label = styled.span`
   padding-left: 10px;
@@ -96,17 +118,22 @@ const Label = styled.span`
 `;
 
 const AcountSettingsIcon = styled(AccountSettingsSvg)`
-  fill: #7C7C7C;
+  fill: #7c7c7c;
 `;
 
 const WalletIcon = styled(WalletSvg)`
   fill: none;
-  stroke: #7C7C7C;
+  stroke: #7c7c7c;
+`;
+
+const EditProfileIcon = styled(EditProfileSvg)`
+  fill: none;
+  stroke: #7c7c7c;
 `;
 
 const SignOutIcon = styled(SignOutSvg)`
   fill: none;
-  stroke: #7C7C7C;
+  stroke: #7c7c7c;
 `;
 
 export default UserProfileMenu;

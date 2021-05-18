@@ -1,18 +1,24 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close-modal.svg';
 
 export interface IProps {
+  children: any;
   isVisible: boolean;
   status: 'error' | 'success';
+  setIsVisible: (boolean: boolean) => void;
 }
 
-const Toast: React.FC<IProps> = ({ children, isVisible, status }) => {
+const Toast = ({ children, isVisible, status, setIsVisible }: IProps) => {
   if (!isVisible) return null;
 
+  const handleClose = () => {
+    setIsVisible(false);
+  };
   return (
     <Container status={status}>
       <div>{children}</div>
-      <CloseButton>
+      <CloseButton onClick={handleClose}>
         <CloseIcon style={{ width: '32px', height: '32px' }} />
       </CloseButton>
     </Container>

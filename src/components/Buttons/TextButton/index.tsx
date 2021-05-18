@@ -10,15 +10,9 @@ export interface IProps {
   [rest: string]: any;
 }
 
-const ButtonComponent = ({
-  children,
-  color,
-  to,
-  ...rest
-}: IProps) => {
+const ButtonComponent = ({ children, color, to, ...rest }: IProps) => {
+  const location: any = useLocation();
 
-  let location: any = useLocation();
-  
   return (
     <TextButton
       component={Link}
@@ -46,13 +40,15 @@ const TextButtonBlack = css`
 `;
 
 const TextButtonGrey = css`
-  color: var(--grey-40);
+  color: #7c7c7c;
   &:hover {
     color: white;
   }
 `;
 
-const TextButton = styled(({ color, size, ...rest }) => <MuiButton {...rest} />)`
+const TextButton = styled(({ color, size, ...rest }) => (
+  <MuiButton {...rest} />
+))`
   && {
     min-width: 0;
     transition: 0.3s;
@@ -61,30 +57,30 @@ const TextButton = styled(({ color, size, ...rest }) => <MuiButton {...rest} />)
     background: none;
     text-transform: none;
     font-size: ${(props) => {
-    switch (props.size) {
-      case 'small':
-        return '12px';
-      case 'medium':
-        return '1rem';
-      case 'big':
-        return '18px';
-      default:
-        return '1rem';
-    }
-  }};
+      switch (props.size) {
+        case 'small':
+          return '14px';
+        case 'medium':
+          return '1rem';
+        case 'big':
+          return '18px';
+        default:
+          return '1rem';
+      }
+    }};
 
     ${(props) => {
-    switch (props.color) {
-      case 'black':
-        return TextButtonBlack;
-      case 'white':
-        return TextButtonWhite;
-      case 'grey':
-        return TextButtonGrey;
-      default:
-        return TextButtonBlack;
-    }
-  }};
+      switch (props.color) {
+        case 'black':
+          return TextButtonBlack;
+        case 'white':
+          return TextButtonWhite;
+        case 'grey':
+          return TextButtonGrey;
+        default:
+          return TextButtonBlack;
+      }
+    }};
   }
 `;
 
