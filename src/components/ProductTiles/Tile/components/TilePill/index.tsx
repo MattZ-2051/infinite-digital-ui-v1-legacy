@@ -33,7 +33,9 @@ const TilePill = ({ status, pillInfo, light = false }) => {
           isLight={light}
           style={{ backgroundColor: light ? 'white' : 'black' }}
         >
-          <PillText isLight={light}>Upcoming in:</PillText>
+          <PillText isGray={true} isLight={light}>
+            Upcoming in:
+          </PillText>
           <PillInfo isLight={light} style={{ fontSize: '18px' }}>
             {pillInfo.replaceAll('-', '')}
           </PillInfo>
@@ -92,11 +94,12 @@ const Pill = styled.div<{ isLight?: boolean }>`
   bottom: 25px;
 `;
 
-const PillText = styled.span<{ isLight?: boolean }>`
+const PillText = styled.span<{ isLight?: boolean; isGray?: boolean }>`
   font-weight: 700;
   font-size: 16px;
   line-height: 20.24px;
-  color: ${(props) => (props.isLight ? 'black' : '#c4c4c4')};
+  color: ${(props) =>
+    props.isLight ? 'black' : props.isGray ? '#252525' : '#c4c4c4'};
   height: 20px;
 `;
 
