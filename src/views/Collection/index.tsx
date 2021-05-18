@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
@@ -81,6 +81,7 @@ const Collection = (): JSX.Element => {
             styles={{
               height: '500px',
               width: '100%',
+              boxShadow: 'inset 0px -10px 80px 100px black',
             }}
           >
             <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
@@ -99,13 +100,18 @@ const Collection = (): JSX.Element => {
               descriptionBody
                 ? 'flex'
                 : 'none',
+            alignItems: 'center',
           }}
         >
           {midPhotoUrl && (
-            <Container style={{ marginRight: '2.5rem' }}>
+            <Container style={{ marginRight: '2.5rem', height: 'fit-content' }}>
               <Media
                 src={midPhotoUrl}
-                styles={{ maxHeight: '648px', maxWidth: '518px' }}
+                styles={{
+                  height: '549px',
+                  width: '549px',
+                  borderRadius: '50%',
+                }}
               />
             </Container>
           )}
@@ -117,13 +123,28 @@ const Collection = (): JSX.Element => {
                   styles={{ maxHeight: '98px', maxWidth: '98px' }}
                 />
               )}
-              <TextContainer textAlign="left" fontSize="28">
-                {descriptionHeaderMain && descriptionHeaderMain}
-                <GradientText textAlign="left" fontSize="28">
+              <TextContainer textAlign="left" fontSize="28" fontWeight={'700'}>
+                {descriptionHeaderMain &&
+                  `${descriptionHeaderMain
+                    .slice(0, 1)
+                    .toLocaleUpperCase()}${descriptionHeaderMain
+                    .slice(1, descriptionHeaderMain.length)
+                    .toLocaleLowerCase()}`}
+                <GradientText textAlign="left" fontSize="28" fontWeight="700">
                   {descriptionHeaderGradient && descriptionHeaderGradient}
                 </GradientText>
               </TextContainer>
-              <TextContainer fontSize="18">{descriptionBody}</TextContainer>
+              <TextContainer
+                fontSize="18"
+                style={{
+                  color: '#9a9a9a',
+                  fontSize: '16px',
+                  lineHeight: '29px',
+                  fontWeight: 500,
+                }}
+              >
+                {descriptionBody}
+              </TextContainer>
             </FlexColumn>
           </Container>
         </FlexRow>
@@ -136,17 +157,21 @@ const Collection = (): JSX.Element => {
         >
           <FlexColumn
             childMargin="1rem"
-            style={{ margin: '1rem', alignItems: 'center', width: '80%' }}
+            style={{
+              margin: '1rem',
+              alignItems: 'center',
+              width: '80%',
+              marginTop: '2rem',
+            }}
           >
-            {footerPhotoUrl && (
-              <Media
-                src={footerPhotoUrl}
-                styles={{ maxHeight: '600px', maxWidth: '500px' }}
-              />
-            )}
-            <TextContainer textAlign="center" fontSize="48" fontWeight="400">
+            <TextContainer
+              textAlign="center"
+              fontSize="48"
+              fontWeight="700"
+              style={{ marginBottom: '160px' }}
+            >
               {taglineMain}
-              <GradientText textAlign="center" fontSize="48" fontWeight="400">
+              <GradientText textAlign="center" fontSize="48" fontWeight="700">
                 {taglineGradient}
               </GradientText>
             </TextContainer>
