@@ -77,14 +77,27 @@ export const getProductTransactionHistory = async (productId: string) => {
   }
 };
 
-export const getReleasesOwnedByUser = async (issuerId: string) => {
+export const getReleasesOwnedByUser = async (
+  issuerId: string,
+  page?: number,
+  perPage?: number
+) => {
+  const params = { issuerId };
+  if (page) {
+    params['page'] = page;
+    params['per_page'] = perPage;
+  }
   try {
     const res = await axiosInstance.request({
       method: 'GET',
       url: `/skus/tiles`,
-      params: { issuerId: issuerId },
+      params,
     });
-    return res.data;
+    const { data, headers } = res;
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+    return { data, total };
   } catch (err) {
     return err;
   }
