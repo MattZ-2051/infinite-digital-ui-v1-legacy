@@ -35,3 +35,32 @@ export const Description = styled.div`
     font-weight: 400;
   }
 `;
+
+export const Hedera = styled.div`
+  width: 100%;
+  padding: 15px 24px;
+  margin-top: 24px;
+  background: #f4f4f4;
+  border-radius: 20px;
+  font-size: 14px;
+  div {
+    margin-right: 8px;
+  }
+  span {
+    vertical-align: super;
+  }
+  a {
+    float: right;
+    font-weight: normal;
+    text-decoration: none;
+    color: #9e9e9e;
+  }
+`;
+
+export const IconContainer = styled.div`
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: #2e2e2e;
+  border-radius: 50%;
+`;
