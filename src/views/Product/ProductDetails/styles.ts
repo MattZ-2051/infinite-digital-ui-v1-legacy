@@ -13,7 +13,7 @@ export const Body = styled.div`
 
 export const Container = styled.div`
   background-color: white;
-  overflow: auto;
+  overflow: hidden;
   height: 100vh;
   :hover {
     cursor: pointer;
@@ -42,10 +42,11 @@ export const RedeemIcon = styled(RedeemSvg)`
 `;
 
 export const SkuName = styled.p`
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 600;
   margin: 0;
   padding: 16px 0;
+  max-height: 130px;
 `;
 
 export const SkuInfo = styled.span<{ color?: string; hover?: boolean }>`

@@ -43,7 +43,7 @@ const ProductDetails = ({ product }: Props) => {
       {product && (
         <ImageGallery
           images={[product?.sku.graphicUrl, ...product?.sku.imageUrls]}
-          height="480px"
+          height="50%"
         />
       )}
       <S.Body>
@@ -76,7 +76,7 @@ const ProductDetails = ({ product }: Props) => {
         </S.Flex>
         <S.Flex>
           <S.SkuInfo color="#7c7c7c">
-            Created by:{' '}
+            Created by{' '}
             <S.Link to={`/collection/${product?.sku?.issuer._id}`}>
               @{product?.sku?.issuer?.username}
             </S.Link>
