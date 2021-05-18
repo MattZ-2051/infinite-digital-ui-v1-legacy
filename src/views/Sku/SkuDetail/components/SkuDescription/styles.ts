@@ -8,9 +8,30 @@ export const Container = styled.div`
   }
 `;
 
-export const Description = styled.p`
+export const Description = styled.div`
   padding-top: 24px;
   color: #9e9e9e;
-  font-size: 16px;
+  font-size: 15px;
   margin: 0;
+
+  h3 {
+    font-size: 16px;
+    color: black;
+  }
+
+  .sale-opens {
+    color: #06bc4c;
+  }
+
+  .sale-closes {
+    color: #da1111;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  a {
+    font-weight: 400;
+  }
 `;

@@ -9,7 +9,6 @@ const SkuDescription = ({ description }: IProps): JSX.Element => {
   const createMarkup = (markup) => ({
     __html: markup,
   });
-
   const body = (
     <S.Description
       dangerouslySetInnerHTML={createMarkup(description) || ''}
