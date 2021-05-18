@@ -69,7 +69,7 @@ const ProductDetails = ({ product }: Props) => {
           {product?.sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
               {product?.sku?.supplyType === 'variable' &&
-                `${product?.sku?.circulatingSupply || 0} Released `}
+                `${product?.circulatingSupply} Released `}
               (See All)
             </S.SkuInfo>
           )}
