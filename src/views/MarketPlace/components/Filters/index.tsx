@@ -8,7 +8,7 @@ import { getSeries } from 'services/api/seriesService';
 // Components
 import Menu from './Menu';
 import Date from './Date';
-// import PriceRange from './PriceRange';
+import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
@@ -97,18 +97,18 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
 
       {/* <Date handleFilter={handleFilter} /> */}
 
-      {/* <PriceRange
+      <PriceRange
         handleFilter={handleFilter}
         defaultFilter={activeFilters.price}
-      /> */}
+      />
 
-      {/* <DropDownCheckFilter
+      <DropDownCheckFilter
         label="Category"
         options={dropDownOptions.category}
         handleFilter={handleFilter}
         filterCategory="category"
         activeFilters={activeFilters.category}
-      /> */}
+      />
       {/* <DropDownCheckFilter
         label="Series"
         options={dropDownOptions.series}

@@ -11,14 +11,14 @@ export interface IProps {
 }
 
 const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
-  const [value, setValue] = React.useState<number[]>([0, 2000]);
+  const [value, setValue] = React.useState<number[]>([0, 20000]);
   const [isHidden, setIsHidden] = React.useState<boolean | undefined>(true);
 
   useEffect(() => {
     if (defaultFilter.length) {
       return setValue([...defaultFilter]);
     } else {
-      return setValue([0, 2000]);
+      return setValue([0, 20000]);
     }
   }, [defaultFilter]);
 
@@ -52,7 +52,7 @@ const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
           onChange={handleChange}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
-          max={1000}
+          max={20000}
           min={0}
           onChangeCommitted={handleCommit}
         />
