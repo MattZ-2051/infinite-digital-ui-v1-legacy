@@ -41,7 +41,7 @@ const TextButtonBlack = css`
 `;
 
 const TextButtonGrey = css`
-  color: var(--grey-40);
+  color: #7c7c7c;
   &:hover {
     color: white;
   }
@@ -60,7 +60,7 @@ const TextButton = styled(({ color, size, ...rest }) => (
     font-size: ${(props) => {
       switch (props.size) {
         case 'small':
-          return '12px';
+          return '14px';
         case 'medium':
           return '1rem';
         case 'big':

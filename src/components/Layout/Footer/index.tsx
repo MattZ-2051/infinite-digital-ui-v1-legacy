@@ -69,7 +69,7 @@ const Footer = () => {
                 <IconButton
                   icon={HederaIcon}
                   color="grey"
-                  radius={8}
+                  radius={20}
                   onClick={() =>
                     window.open(
                       'https://support.suku.world/infinite/hedera-hashgraph-hts',
@@ -82,7 +82,7 @@ const Footer = () => {
           </Divider>
 
           <Hidden smDown>
-            <div style={{ color: 'var(--grey-40)' }}>
+            <div style={{ color: '#7c7c7c', fontSize: '14px' }}>
               © 2021 Infinite Assets, Inc.
             </div>
           </Hidden>
@@ -91,7 +91,7 @@ const Footer = () => {
             <IconButton
               icon={FacebookIcon}
               color="grey"
-              radius={8}
+              radius={20}
               onClick={() =>
                 window.open('https://www.facebook.com/infinitebysuku', '_blank')
               }
@@ -99,15 +99,15 @@ const Footer = () => {
             <IconButton
               icon={TwitterIcon}
               color="grey"
-              radius={8}
+              radius={20}
               onClick={() =>
                 window.open('https://twitter.com/infinitebysuku', '_blank')
               }
             />
             <IconButton
               icon={InstagramIcon}
-              color="white"
-              radius={8}
+              color="grey"
+              radius={20}
               onClick={() =>
                 window.open(
                   'https://www.instagram.com/infinitebysuku/',
@@ -118,7 +118,7 @@ const Footer = () => {
             <IconButton
               icon={TicTocIcon}
               color="grey"
-              radius={8}
+              radius={20}
               onClick={() =>
                 window.open('https://www.tiktok.com/@_goinfinite', '_blank')
               }

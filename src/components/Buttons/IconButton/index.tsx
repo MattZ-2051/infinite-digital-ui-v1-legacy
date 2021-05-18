@@ -49,7 +49,8 @@ const ButtonGrey = css`
   background-color: #2e2e2e;
   color: #fff;
   &:hover {
-    background-color: var(--grey-40);
+    background-color: white;
+    color: black;
   }
 `;
 
