@@ -110,7 +110,10 @@ const DepositModal = ({
       ) : (
         <>
           <a onClick={() => kycClient?.open()}>click here</a> complete the
-          required account validation steps. <a>Learn more.</a>
+          required account validation steps.{' '}
+          <a href="https://support.suku.world/infinite/how-does-kyc-work">
+            Learn more.
+          </a>
         </>
       )}
     </>

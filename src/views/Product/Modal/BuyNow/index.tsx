@@ -133,10 +133,11 @@ const BuyNowModal = ({
               <>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <img src={alertIcon} alt="" />{' '}
-                  <S.Title>Whoops, Insuficient funds!</S.Title>
+                  <S.Title>Whoops, Insufficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your wallet balance is $ {parseFloat(userBalance).toFixed(2)}
+                  Your available balance is ${' '}
+                  {parseFloat(userBalance).toFixed(2)}
                 </S.SubTitle>
               </>
             )}
