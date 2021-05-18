@@ -15,6 +15,7 @@ const VideoView = ({ src }: { src: string }) => {
     <video
       style={{
         width: '100%',
+        height: '100%',
       }}
       autoPlay={true}
       controls={true}
