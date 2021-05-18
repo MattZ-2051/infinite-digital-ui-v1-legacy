@@ -154,7 +154,7 @@ const SkuDetail = (): JSX.Element => {
                 <div style={{ display: 'flex', alignItems: 'baseline' }}>
                   <S.CreatedBy>Created by</S.CreatedBy>
                   <S.CreatorName to={`/collection/${sku.issuer._id}`}>
-                    @{sku.issuerName}
+                    @{sku.issuer.username}
                   </S.CreatorName>
                 </div>
               </S.ProductDetail>
