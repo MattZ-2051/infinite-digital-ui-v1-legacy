@@ -6,6 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import ReactTooltip from 'react-tooltip';
 import * as S from './styles';
+import { config } from '../../../config';
 
 const KycButton = ({
   kycPending,
@@ -27,8 +28,8 @@ const KycButton = ({
   }, []);
 
   const client: Client = new Persona.Client({
-    templateId: 'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
-    environment: 'sandbox',
+    templateId: config.kyc.templateLvl1,
+    environment: config.kyc.environmentType,
     referenceId: userToken,
     onLoad: (error) => {
       if (error) {
@@ -62,30 +63,33 @@ const KycButton = ({
     client.open();
   }
 
+  let content;
   if (kycMaxLevel === 1) {
-    return (
-      <S.Container>
+    content = (
+      <>
         <S.VerifiedUserOutlinedIcon />
         <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
-      </S.Container>
+      </>
+    );
+  } else if (kycPending) {
+    content = (
+      <>
+        <AccessTimeIcon />
+        <S.StatusText>Pending...</S.StatusText>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <ReactTooltip className="extraClass" delayHide={500} effect="solid">
+          <S.LearnMore href="#">Learn more</S.LearnMore>
+        </ReactTooltip>
+        <S.BlockIcon onClick={openClient} data-tip />
+        <S.StatusText>Unverified</S.StatusText>
+      </>
     );
   }
-  if (kycPending) {
-    return (
-      <S.Container>
-        <AccessTimeIcon /> <S.StatusText>Pending...</S.StatusText>
-      </S.Container>
-    );
-  }
-  return (
-    <S.Container>
-      <ReactTooltip className="extraClass" delayHide={500} effect="solid">
-        <S.LearnMore href="#">Learn more</S.LearnMore>
-      </ReactTooltip>
-      <S.BlockIcon onClick={openClient} data-tip />
-      <S.StatusText>Unverified</S.StatusText>
-    </S.Container>
-  );
+  return <S.Container>{content}</S.Container>;
 };
 
 export default KycButton;
