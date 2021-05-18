@@ -255,7 +255,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           )}
         </>
       )}
-      {total > 1 && (
+      {total > 8 && (
         <StyledPagination
           themeStyle={themeStyle}
           count={Math.ceil(total / perPage)}

@@ -23,7 +23,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <Upcoming isLight={light}>Upcoming</Upcoming>
         </Pill>
@@ -31,7 +31,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status.includes('time') && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}>Upcoming in:</PillText>
           <PillInfo isLight={light} style={{ fontSize: '18px' }}>
@@ -42,7 +42,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'active-listing' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}>Current Price:</PillText>
           <PillInfo isLight={light}>${pillInfo}</PillInfo>
@@ -51,7 +51,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'active' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'white' : 'black' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}> Lowest Price:</PillText>
           <PillInfo isLight={light}>${pillInfo}</PillInfo>
