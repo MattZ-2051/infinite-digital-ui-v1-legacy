@@ -24,7 +24,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
       <S.Img src={HeroImg} />
 
       <S.Title>
-        Start your Infinite <br /> <span>Collection today!</span>
+        Start your INFINITE <br /> <span>Collection today!</span>
       </S.Title>
 
       <S.Subtitle>

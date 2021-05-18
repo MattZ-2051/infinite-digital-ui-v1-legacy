@@ -6,9 +6,10 @@
 }
 
 .Toastify__toast {
+  font-family: 'PlusJakartaSans', sans-serif !important;
   color: #000;
   border-radius: 0px;
-  padding: 0;
+  padding: 0 0 0 40px;
   margin: 0;
 }
 

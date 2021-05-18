@@ -52,6 +52,7 @@ const Header = styled.header`
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 10px;
 `;
 
 const HeaderContent = styled.div`
