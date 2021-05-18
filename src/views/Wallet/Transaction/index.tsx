@@ -94,12 +94,13 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'royalty_fee' && (
           <>
             <S.Icon src={dollarSign} />
-            <span>
-              You received a royalty payment for the sale of
-              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-                {tx.transactionData.sku[0]?.name}
-              </S.Link>
-            </span>
+            <span>You received a royalty payment for the sale of</span>
+            <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
+              {tx.transactionData.sku[0]?.name}
+            </S.Link>
+            <S.Link to={`/product/${tx.transactionData?.product[0]?._id}`}>
+              #{tx.transactionData.product[0]?.serialNumber}
+            </S.Link>
           </>
         )}
         {tx.type === 'deposit' &&
