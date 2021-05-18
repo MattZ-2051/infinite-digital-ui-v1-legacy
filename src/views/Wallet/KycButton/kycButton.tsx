@@ -64,18 +64,18 @@ const KycButton = ({
   }
 
   let content;
-  if (kycMaxLevel === 1) {
-    content = (
-      <>
-        <S.VerifiedUserOutlinedIcon />
-        <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
-      </>
-    );
-  } else if (kycPending) {
+  if (kycPending) {
     content = (
       <>
         <AccessTimeIcon />
         <S.StatusText>Pending...</S.StatusText>
+      </>
+    );
+  } else if (kycMaxLevel >= 1) {
+    content = (
+      <>
+        <S.VerifiedUserOutlinedIcon />
+        <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
       </>
     );
   } else {
