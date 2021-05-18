@@ -85,8 +85,8 @@ const Transaction = ({ tx }: IProps) => {
                 #{tx.transactionData.product[0]?.serialNumber}
               </S.Link>
               to
-              <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
-                @{tx.transactionData?.seller?.username}
+              <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
+                @{tx.transactionData?.buyer?.username}
               </S.Link>
             </span>
           </>
