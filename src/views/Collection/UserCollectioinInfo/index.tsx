@@ -71,6 +71,7 @@ const UserCollectioinInfo = ({
               style={{
                 width: '140px',
                 height: '140px',
+                borderRadius: '50px',
               }}
               src={user.profilePhotoUrl}
             />
