@@ -69,10 +69,20 @@ const SkuPageModal = ({
         setLoading(false);
       } catch (e) {
         setLoading(false);
-        Toast.error(purchase.patchListingsPurchaseError);
+        Toast.error(
+          <>
+            There was an error processing your purchase. Please try again, see
+            the <a href="/help">Help page</a> to learn more.
+          </>
+        );
       }
     } else {
-      Toast.error(purchase.patchListingsPurchaseError);
+      Toast.error(
+        <>
+          There was an error processing your purchase. Please try again, see the{' '}
+          <a href="/help">Help page</a> to learn more.
+        </>
+      );
     }
   };
 

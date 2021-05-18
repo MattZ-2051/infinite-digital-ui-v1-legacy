@@ -104,13 +104,13 @@ const FromCreatorBox = ({
     if (isAuthenticated) {
       setIsModalOpen(true);
     } else {
-      Toast.error(
+      Toast.warning(
         <>
-          You need to{' '}
+          You need to be{' '}
           <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-            Log in
+            logged in
           </a>{' '}
-          in order to complete the purchase
+          in order to complete a purchase
         </>
       );
     }

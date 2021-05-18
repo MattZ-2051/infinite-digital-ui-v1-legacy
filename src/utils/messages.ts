@@ -1,6 +1,6 @@
 const purchase = {
   patchListingsPurchaseError:
-    'Oops, something went wrong! Would you like to try again?.',
+    'There was an error processing your purchase. Please try again, see the Help Page to learn more',
   patchListingsPurchaseSuccess: 'Purchase successfully!.',
   patchListingsPurchaseProcessing: 'Processing your Purchase.',
   termsError: 'Please agree to the terms and conditions.',
