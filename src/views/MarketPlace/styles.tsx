@@ -18,7 +18,6 @@ export const Container = styled.div`
 export const Header = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
 
   @media screen and (max-width: 1140px) {

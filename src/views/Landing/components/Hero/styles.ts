@@ -45,6 +45,7 @@ export const Subtitle = styled.h2`
   font-size: 18px;
   color: #8e8e8e;
   margin-bottom: 32px;
+  line-height: 32px;
 
   @media screen and (max-width: 600px) {
     margin-bottom: 12%;

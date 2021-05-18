@@ -180,7 +180,7 @@ const MarketPlace = (): JSX.Element => {
   return (
     <S.Container>
       <S.Header>
-        <h2>MarketPlace</h2>
+        <h2>Marketplace</h2>
 
         <SearchInput
           handleFilter={handleFilter}

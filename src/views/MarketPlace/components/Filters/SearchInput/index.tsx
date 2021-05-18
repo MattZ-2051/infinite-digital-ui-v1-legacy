@@ -52,6 +52,7 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
 };
 
 const InputDiv = styled.div`
+  margin-left: 28px;
   height: 40px;
   border-radius: 30px;
   background-color: #f8f8f8;

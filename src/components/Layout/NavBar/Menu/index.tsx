@@ -28,13 +28,13 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
         <Divider gap={32}>
           <TextButton
             to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
-            color="white"
+            color="grey"
           >
             Marketplace
           </TextButton>
 
           {isAuthenticated && (
-            <TextButton to={`/collection/${user.id}`} color="white">
+            <TextButton to={`/collection/${user.id}`} color="grey">
               My Collection
             </TextButton>
           )}
@@ -53,22 +53,22 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
                     setIsModalOpen={setIsModalOpen}
                   />
                 ) : null}
-                <Username>@{user.username}</Username>
+                <Username>{user.username}</Username>
               </div>
             </AcountInfoContainer>
           )}
 
           {!isAuthenticated && (
             <>
-              <TextButton
+              {/* <TextButton
                 onClick={() => login({ screen_hint: 'signup' })}
-                color="white"
+                color="grey"
                 size="medium"
               >
                 Sign Up
-              </TextButton>
+              </TextButton> */}
 
-              <TextButton onClick={() => login()} color="white" size="medium">
+              <TextButton onClick={() => login()} color="grey" size="medium">
                 Log In
               </TextButton>
             </>
@@ -95,6 +95,7 @@ const Username = styled.span`
   font-size: 18px;
   font-weight: 600;
   margin-right: 32px;
+  cursor: pointer;
 `;
 
 const AccountIcon = styled.img`

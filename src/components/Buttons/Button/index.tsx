@@ -45,7 +45,7 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
     box-shadow: none;
     color: white;
     font-weight: 600;
-    padding: 10px 24px 10px 24px;
+    padding: 10px 40px 10px 40px;
     font-size: 1rem;
     width: max-content;
     border-radius: 20px;

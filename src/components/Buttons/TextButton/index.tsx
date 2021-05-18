@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import MuiButton from '@material-ui/core/Button';
 import { useLocation } from 'react-router-dom';
@@ -41,7 +40,7 @@ const TextButtonBlack = css`
 `;
 
 const TextButtonGrey = css`
-  color: var(--grey-40);
+  color: #8e8e8e;
   &:hover {
     color: white;
   }
