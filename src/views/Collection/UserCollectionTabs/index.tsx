@@ -15,6 +15,7 @@ import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
 import { Theme } from 'theme/theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { CollectionsBookmarkOutlined } from '@material-ui/icons';
 
 interface IProps {
   user: User;
@@ -32,7 +33,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
   const userId = history.location.pathname.split('/')[2];
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(1);
+  const [totalReleases, setTotalReleases] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(1);
   const perPage = 8;
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
@@ -40,20 +42,25 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
-      setTotal(itemsRes.total);
+      setTotalProducts(itemsRes.total);
     }
 
     if (user.role === 'issuer') {
-      const releasesRes = await getReleasesOwnedByUser(userId);
-      if (releasesRes) {
-        setUserReleases(releasesRes);
+      const releasesRes = await getReleasesOwnedByUser(userId, page, perPage);
+      if (releasesRes.data) {
+        setUserReleases(releasesRes.data);
+        setTotalReleases(releasesRes.total);
       }
     }
   }
 
   useEffect(() => {
+    setPage(1);
+  }, [selectedTab]);
+
+  useEffect(() => {
     fetchData();
-  }, [selectedTab, userId, page, user]);
+  }, [userId, page, user]);
 
   let userStatus = '';
 
@@ -255,15 +262,24 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           )}
         </>
       )}
-      {total > 8 && (
-        <StyledPagination
-          themeStyle={themeStyle}
-          count={Math.ceil(total / perPage)}
-          page={page}
-          onChange={handlePagination}
-          siblingCount={matchesMobile ? 0 : 1}
-        />
-      )}
+      {((selectedTab) => {
+        let total = 0;
+        if (selectedTab === 0) {
+          total = totalReleases;
+        } else {
+          total = totalProducts;
+        }
+        if (total > 8)
+          return (
+            <StyledPagination
+              themeStyle={themeStyle}
+              count={Math.ceil(total / perPage)}
+              page={page}
+              onChange={handlePagination}
+              siblingCount={matchesMobile ? 0 : 1}
+            />
+          );
+      })(selectedTab)}
     </Container>
   );
 };

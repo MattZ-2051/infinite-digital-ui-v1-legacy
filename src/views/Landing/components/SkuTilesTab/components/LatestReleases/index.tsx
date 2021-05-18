@@ -20,7 +20,7 @@ const LatestReleases = (): JSX.Element => {
   };
 
   async function fetchProducts() {
-    const skuTiles = await getSkuTiles();
+    const skuTiles = await getSkuTiles({ queryParams: '?page=1&per_page=50' });
     if (skuTiles.data) {
       setTiles(filterFeatured(skuTiles.data));
     }
@@ -56,7 +56,7 @@ const TileContainer = styled.div<{ index: number }>`
 const ProductContainer = styled.div`
   && {
     display: grid;
-    grid-gap: 48px;
+    grid-gap: 26px;
     grid-template-columns: repeat(auto-fit, 320px);
     justify-content: flex-start;
 
