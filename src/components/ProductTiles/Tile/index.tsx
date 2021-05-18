@@ -107,7 +107,7 @@ const Tile = ({
                 style={{ color: '#9e9e9e' }}
               >
                 {supplyType === 'variable'
-                  ? `${sku.totalSupply} Released`
+                  ? `${sku.circulatingSupply} Released`
                   : supplyType === 'fixed'
                   ? `${sku.totalSupplyLeft} of ${sku.totalSupply} For Sale`
                   : null}
