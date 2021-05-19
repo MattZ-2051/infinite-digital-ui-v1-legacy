@@ -38,7 +38,7 @@ const AudioView = ({ src }: { src: string }) => {
 const ImageView = ({ src }: { src: string }) => {
   return (
     <img
-      src="https://wallpaperaccess.com/full/25682.jpg"
+      src={src}
       alt=""
       style={{
         width: 'auto',
