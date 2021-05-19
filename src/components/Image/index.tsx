@@ -37,6 +37,20 @@ export const ImageContainer = styled.div<{ src?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 500px;
+  height: auto;
+  width: 100%;
+  box-shadow: inset 0px -30px 90px 40px black;
+
+  @media screen and (max-width: 960px) {
+    height: 300px;
+    min-height: 0;
+  }
+
+  @media screen and (max-width: 640px) {
+    height: auto;
+    min-height: 0;
+  }
 `;
 
 interface BackgroundImageContainerProps {
