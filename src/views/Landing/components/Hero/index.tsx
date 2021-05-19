@@ -25,6 +25,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
       <video
         src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
         autoPlay
+        playsInline
         muted
         loop
         controls={false}

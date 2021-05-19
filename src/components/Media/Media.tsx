@@ -25,6 +25,7 @@ export const Media = (props: ImageProps): JSX.Element => {
       style={{
         ...styles,
       }}
+      playsInline
       autoPlay={true}
       controls={false}
       loop={true}

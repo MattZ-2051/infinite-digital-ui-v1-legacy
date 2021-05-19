@@ -56,8 +56,7 @@ export const handleChange = (e, setCardInfo) => {
         ...prevState,
         billingDetails: {
           ...prevState?.billingDetails,
-          [keyName]: value.replace(/[^0-9]/g, ''), //value.replace(/[^a-zA-Z]/gi, ''),
-          //numbers /[^0-9]/g, ''
+          [keyName]: value,
         },
       }));
       return;
