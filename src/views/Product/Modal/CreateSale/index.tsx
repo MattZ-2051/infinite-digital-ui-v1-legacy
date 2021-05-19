@@ -37,8 +37,7 @@ const CreateSale = ({
 
   useEffect(() => {
     if (price) {
-      const serviceFee =
-        (product?.resaleSellersFeePercentage * parseFloat(price)) / 100;
+      const serviceFee = (5 * parseFloat(price)) / 100;
       const royaltyFee =
         (product?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
@@ -134,10 +133,7 @@ const CreateSale = ({
         <S.Detail>
           <S.DetailRowPrice>
             <div>
-              <span>
-                Marketplace fee ({product?.resaleSellersFeePercentage}
-                %):
-              </span>
+              <span>Marketplace fee (5 %):</span>
             </div>
             <div>
               <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
