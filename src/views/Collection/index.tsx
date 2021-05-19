@@ -136,6 +136,7 @@ const Collection = (): JSX.Element => {
                     0,
                     1
                   )}${descriptionHeaderMain.slice(
+
                     1,
                     descriptionHeaderMain.length
                   )}`}
