@@ -1,0 +1,36 @@
+.Toastify__toast-container {
+  left: 0;
+  width: 100%;
+  top: 0;
+  padding: 0;
+}
+
+.Toastify__toast {
+  font-family: 'PlusJakartaSans', sans-serif !important;
+  color: #000;
+  border-radius: 0px;
+  padding: 0 0 0 40px;
+  margin: 0;
+}
+
+.Toastify__close-button {
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.32);
+  border-radius: 20px;
+  margin-top: 16px;
+  margin-bottom: 12px;
+  margin-right: 80px;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(89.89deg, #fb5543 0%, #f24c66 100%), #fc5746;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(89.89deg, #00eb7c 0%, #11d6ec 100%);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(45deg, #ffae12 0%, #f0da16 98.96%);
+}

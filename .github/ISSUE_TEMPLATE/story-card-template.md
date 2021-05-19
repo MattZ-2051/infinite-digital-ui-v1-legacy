@@ -1,22 +1,27 @@
 ---
 name: Story Card Template
 about: Use this template when creating a story card
-title: x.x - <Description of card or Figma Screen>
-labels: ".FE"
+title: ''
+labels: '.FE'
 assignees: ''
-
 ---
 
-## User Story 
+## User Story
+
 AS A:  
 I WANT TO:  
-SO THAT:  
+SO THAT:
 
 ## Acceptance Criteria
-- [ ] 
-- [ ] 
-- [ ] 
+
+- [ ] TBD
+- [ ] TBD
+- [ ] TBD
 
 ## Screenshots (If applicable)
 
+- N/A
+
 ## Additional Information
+
+- N/A
