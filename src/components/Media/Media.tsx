@@ -1,6 +1,7 @@
 import React from 'react';
 import * as CSS from 'csstype';
 import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
+import styled from 'styled-components/macro';
 
 interface ImageProps {
   src: string;
@@ -33,8 +34,22 @@ export const Media = (props: ImageProps): JSX.Element => {
       {children && children}
     </video>
   ) : (
-    <img style={{ ...styles }} src={src} onError={onError}>
-      {children && children}
-    </img>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <Img style={{ ...styles }} src={src} onError={onError}>
+        {children && children}
+      </Img>
+    </div>
   );
 };
+
+const Img = styled.img`
+  height: 469px;
+  width: 469px;
+  border-radius: 50%;
+  @media screen and (max-width: 720px) {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    margin-top: 2.5rem;
+  }
+`;

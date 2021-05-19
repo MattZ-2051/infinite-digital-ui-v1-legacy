@@ -66,7 +66,7 @@ const UserCollectioinInfo = ({
     <S.Container>
       {userStatus === 'loggedInIssuer' && (
         <>
-          {user?.profilePhotoUrl ? (
+          {/* {user?.profilePhotoUrl ? (
             <img
               style={{
                 width: '140px',
@@ -95,7 +95,7 @@ const UserCollectioinInfo = ({
               label="My Wallet"
               handleClick={handleWalletRedirect}
             />
-          </S.ButtonContainer>
+          </S.ButtonContainer> */}
         </>
       )}
       {userStatus === 'loggedIn' && (
@@ -129,7 +129,7 @@ const UserCollectioinInfo = ({
       )}
       {userStatus === 'notCurrentUserProfileIssuer' && (
         <>
-          {user?.profilePhotoUrl ? (
+          {/* {user?.profilePhotoUrl ? (
             <img
               style={{
                 width: '140px',
@@ -140,10 +140,10 @@ const UserCollectioinInfo = ({
             />
           ) : (
             <S.AccountIcon />
-          )}
-          <span style={{ paddingRight: '10px', fontSize: '24px' }}>
+          )} */}
+          {/* <span style={{ paddingRight: '10px', fontSize: '24px' }}>
             {user?.username}
-          </span>
+          </span> */}
         </>
       )}
       <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
