@@ -33,4 +33,5 @@ export interface ProductWithFunctions {
   totalSupplyLeft: number;
   resale: boolean;
   initialBuyersFeePercentage: number;
+  initialSellersFeePercentage: number;
 }
