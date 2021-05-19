@@ -75,15 +75,7 @@ const Collection = (): JSX.Element => {
     <Container>
       <ViewContainer>
         {bannerPhotoUrl ? (
-          <BackgroundImageContainer
-            src={bannerPhotoUrl}
-            styles={{
-              minHeight: '500px',
-              height: 'auto',
-              width: '100%',
-              boxShadow: 'inset 0px -30px 90px 40px black',
-            }}
-          >
+          <BackgroundImageContainer src={bannerPhotoUrl}>
             <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
           </BackgroundImageContainer>
         ) : (
