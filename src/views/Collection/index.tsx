@@ -79,7 +79,8 @@ const Collection = (): JSX.Element => {
           <BackgroundImageContainer
             src={bannerPhotoUrl}
             styles={{
-              height: '500px',
+              minHeight: '500px',
+              height: 'auto',
               width: '100%',
               boxShadow: 'inset 0px -30px 90px 40px black',
             }}
@@ -136,7 +137,6 @@ const Collection = (): JSX.Element => {
                     0,
                     1
                   )}${descriptionHeaderMain.slice(
-
                     1,
                     descriptionHeaderMain.length
                   )}`}
