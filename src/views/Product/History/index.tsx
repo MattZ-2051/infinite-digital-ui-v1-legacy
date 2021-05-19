@@ -39,7 +39,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
-  const price = product?.listing.price;
+  const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
   const [status, setStatus] = useState<Status>('');
