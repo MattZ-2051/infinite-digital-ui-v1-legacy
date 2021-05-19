@@ -6,7 +6,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
 import { Link } from 'react-router-dom';
-import ModalPayment from '../Modal';
 import CreateSale from '../Modal/CreateSale';
 import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';

@@ -43,9 +43,7 @@ const BuyNowModal = ({
     (state) => state.session.userCards?.balance?.amount
   );
 
-  const marketplaceFee = product.resale
-    ? product.resaleBuyersFeePercentage
-    : product.initialBuyersFeePercentage;
+  const marketplaceFee = 5;
   const history = useHistory();
 
   const royaltyFee = Math.round(
@@ -104,8 +102,6 @@ const BuyNowModal = ({
     history.push('/tc');
   };
 
-  console.log('product', product);
-  console.log('marketpalce fee', product.resaleBuyersFeePercentage);
   const Body = () => {
     return (
       <>
