@@ -229,7 +229,7 @@ const BuyNowModal = ({
               </S.Text>
             )}
             {statusMode === 'noFunds' && (
-              <S.Text>You need more founds to make this purchase.</S.Text>
+              <S.Text>You need more funds to make this purchase.</S.Text>
             )}
             {statusMode === 'processing' && <></>}
           </S.Center>
