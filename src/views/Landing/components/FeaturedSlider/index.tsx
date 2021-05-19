@@ -11,7 +11,11 @@ const FeaturedSlider = (): JSX.Element => {
   const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
 
   async function fetchProducts() {
-    const skuTiles = await getFeaturedSkuTiles();
+    const skuTiles = await getFeaturedSkuTiles({
+      queryParams: `&filter=${encodeURI(
+        JSON.stringify({ sortBy: { startDate: 1 } })
+      )}`,
+    });
     if (skuTiles) {
       setTiles(skuTiles);
     }

@@ -56,7 +56,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
             loop={true}
             muted={true}
             src={product.graphicUrl}
-          ></video>
+          />
         ) : (
           <img src={product.graphicUrl} alt="" />
         )}
