@@ -5,11 +5,10 @@ export interface User {
   balance: number;
   availableBalance: number;
   createdAt: Date;
-  email: string;
   externalId: string;
   hederaAccount: string;
   role: string;
-  updatedAt: string;
+  updatedAt: Date;
   username: string;
   profilePhotoUrl: string;
   bannerPhotoUrl: string;
