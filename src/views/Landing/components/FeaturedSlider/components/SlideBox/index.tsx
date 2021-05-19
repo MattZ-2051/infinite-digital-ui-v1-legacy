@@ -51,6 +51,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
             style={{
               width: '100%',
             }}
+            playsInline
             autoPlay={true}
             controls={false}
             loop={true}
