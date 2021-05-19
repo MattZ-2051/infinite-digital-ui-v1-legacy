@@ -69,11 +69,11 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
         </Issuer>
         <ProductName>{product.name}</ProductName>
         <Series>{product.series?.name}</Series>
-        {product.supplyType === 'fixed' && (
+        {/* {product.supplyType === 'fixed' && (
           <TotalSupply>
-            {product.totalSupply} of {product.totalSupply} <span>LE</span>
+            {product.totalSupply} of {product.totalSupply}
           </TotalSupply>
-        )}
+        )} */}
         <CreatedBy>
           <span>Created by</span>
           <IssuerName>{product.issuer.username}</IssuerName>
