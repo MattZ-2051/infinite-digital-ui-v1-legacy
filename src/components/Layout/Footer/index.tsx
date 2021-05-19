@@ -46,7 +46,7 @@ const Footer = () => {
               Privacy Policy
             </TextButton>
 
-            <TextButton to="/tc" color="grey" size="small">
+            <TextButton to="/terms" color="grey" size="small">
               Terms & Conditions
             </TextButton>
             <>
