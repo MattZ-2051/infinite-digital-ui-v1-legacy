@@ -199,7 +199,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           {status === 'buy-now' && (
             <ButtonContainer>
               <S.Button onClick={handleSaleAction} hover={true}>
-                Buy Now for ${product?.listing?.price}
+                Buy Now for ${product?.activeProductListings[0]?.price}
               </S.Button>
             </ButtonContainer>
           )}
