@@ -23,12 +23,19 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
     <S.Container>
       {/* <S.Img src={HeroImg} /> */}
       <video
+<<<<<<< HEAD
         src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
+=======
+        src="https://infinite-digital-prod.s3.amazonaws.com/featured/infinite_mache_header.mp4"
+>>>>>>> main
         autoPlay
         muted
         loop
         controls={false}
+<<<<<<< HEAD
         style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
+=======
+>>>>>>> main
       ></video>
 
       <S.Title>
