@@ -132,11 +132,11 @@ const Collection = (): JSX.Element => {
                 style={{ marginTop: '0px' }}
               >
                 {descriptionHeaderMain &&
-                  `${descriptionHeaderMain
-                    .slice(0, 1)
-                    .toLocaleUpperCase()}${descriptionHeaderMain
-                    .slice(1, descriptionHeaderMain.length)
-                    .toLocaleLowerCase()}`}
+                  `${descriptionHeaderMain.slice(0, 1)} \
+                  ${descriptionHeaderMain.slice(
+                    1,
+                    descriptionHeaderMain.length
+                  )}`}
                 <GradientText textAlign="left" fontSize="28" fontWeight="700">
                   {descriptionHeaderGradient && descriptionHeaderGradient}
                 </GradientText>
