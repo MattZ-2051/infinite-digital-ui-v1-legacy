@@ -192,7 +192,7 @@ const ModalPayment = ({
             </>
           )}
           {statusMode === 'noFunds' && (
-            <> You need more founds to make this purchase.</>
+            <> You need more funds to make this purchase.</>
           )}
           {statusMode === 'completed' && (
             <>
