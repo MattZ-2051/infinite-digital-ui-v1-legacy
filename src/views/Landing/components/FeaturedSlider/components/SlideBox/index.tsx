@@ -57,7 +57,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
             loop={true}
             muted={true}
             src={product.graphicUrl}
-          ></video>
+          />
         ) : (
           <img src={product.graphicUrl} alt="" />
         )}
@@ -77,8 +77,8 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
         )} */}
         <CreatedBy>
           <span>Created by</span>
-          <IssuerName>{product.issuer.username}</IssuerName>
-          <ViewMore to={`/collection/${product.issuer._id}`}>
+          <IssuerName>{product?.issuer?.username}</IssuerName>
+          <ViewMore to={`/collection/${product?.issuer?._id}`}>
             (View more)
           </ViewMore>
         </CreatedBy>
