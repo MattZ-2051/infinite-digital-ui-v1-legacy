@@ -91,11 +91,7 @@ const Tile = ({
             {status === 'upcoming-sku-time' && !unique && (
               <BottomCardText themeStyle={themeStyle}>
                 {' '}
-                {supplyType === 'variable' ? null : (
-                  <>
-                    {sku.totalSupply} of {sku.totalSupply}
-                  </>
-                )}
+                {supplyType === 'variable' ? null : <></>}
               </BottomCardText>
             )}
             {unique && (
