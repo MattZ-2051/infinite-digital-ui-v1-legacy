@@ -24,7 +24,6 @@ const splitLastSentence = (text: string): [string, string] => {
   if (splitText.length === 1) {
     return [splitText[0], ''];
   }
-
   let lastSentence = splitText?.pop();
   if (lastSentence === '') {
     lastSentence = splitText.pop();
@@ -136,7 +135,6 @@ const Collection = (): JSX.Element => {
                     0,
                     1
                   )}${descriptionHeaderMain.slice(
-
                     1,
                     descriptionHeaderMain.length
                   )}`}
