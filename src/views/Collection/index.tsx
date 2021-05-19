@@ -24,7 +24,6 @@ const splitLastSentence = (text: string): [string, string] => {
   if (splitText.length === 1) {
     return [splitText[0], ''];
   }
-
   let lastSentence = splitText?.pop();
   if (lastSentence === '') {
     lastSentence = splitText.pop();
@@ -79,7 +78,8 @@ const Collection = (): JSX.Element => {
           <BackgroundImageContainer
             src={bannerPhotoUrl}
             styles={{
-              height: '500px',
+              minHeight: '500px',
+              height: 'auto',
               width: '100%',
               boxShadow: 'inset 0px -30px 90px 40px black',
             }}
@@ -132,8 +132,10 @@ const Collection = (): JSX.Element => {
                 style={{ marginTop: '0px' }}
               >
                 {descriptionHeaderMain &&
-                  `${descriptionHeaderMain.slice(0, 1)} \
-                  ${descriptionHeaderMain.slice(
+                  `${descriptionHeaderMain.slice(
+                    0,
+                    1
+                  )}${descriptionHeaderMain.slice(
                     1,
                     descriptionHeaderMain.length
                   )}`}
