@@ -23,7 +23,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
     <S.Container>
       {/* <S.Img src={HeroImg} /> */}
       <video
-        src="https://infinite-digital-prod.s3.amazonaws.com/featured/infinite_mache_header.mp4"
+        src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
         autoPlay
         muted
         loop
