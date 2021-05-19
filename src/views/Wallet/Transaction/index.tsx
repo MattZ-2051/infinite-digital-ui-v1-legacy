@@ -76,19 +76,17 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'sale' && (
           <>
             <S.Icon src={dollarSign} />
-            <span>
-              You sold
-              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-                {tx.transactionData.sku[0]?.name}
-              </S.Link>
-              <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
-                #{tx.transactionData.product[0]?.serialNumber}
-              </S.Link>
-              to
-              <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
-                @{tx.transactionData?.buyer?.username}
-              </S.Link>
-            </span>
+            <span>You sold</span>
+            <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
+              {tx.transactionData.sku[0]?.name}
+            </S.Link>
+            <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
+              #{tx.transactionData.product[0]?.serialNumber}
+            </S.Link>
+            to
+            <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
+              @{tx.transactionData?.buyer?.username}
+            </S.Link>
           </>
         )}
         {tx.type === 'royalty_fee' && (

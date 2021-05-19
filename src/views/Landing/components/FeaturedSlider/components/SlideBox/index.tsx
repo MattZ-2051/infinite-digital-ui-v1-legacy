@@ -3,6 +3,7 @@ import { Sku } from 'entities/sku';
 import { formatSkuCountdown } from 'utils/dates';
 import { Link } from 'react-router-dom';
 import TilePill from 'components/ProductTiles/Tile/components/TilePill';
+import Rarity from 'components/Rarity';
 
 export interface IProps {
   product: Sku;
@@ -63,16 +64,16 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
 
       <ProductDetails>
         <Issuer>
-          <span>{product.issuerName}</span>
-          <Epic>{product.rarity}</Epic>
+          <span style={{ paddingRight: '60px' }}>{product.issuerName}</span>
+          <Rarity type={product.rarity} />
         </Issuer>
         <ProductName>{product.name}</ProductName>
         <Series>{product.series?.name}</Series>
-        {product.supplyType === 'fixed' && (
+        {/* {product.supplyType === 'fixed' && (
           <TotalSupply>
-            {product.totalSupply} of {product.totalSupply} <span>LE</span>
+            {product.totalSupply} of {product.totalSupply}
           </TotalSupply>
-        )}
+        )} */}
         <CreatedBy>
           <span>Created by</span>
           <IssuerName>{product.issuer.username}</IssuerName>
@@ -146,6 +147,8 @@ const ProductDetails = styled.div`
 const Issuer = styled.div`
   font-size: 22px;
   color: #8e8e8e;
+  display: flex;
+  align-items: baseline;
 `;
 
 const ProductName = styled.h3`

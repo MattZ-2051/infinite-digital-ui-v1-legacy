@@ -5,6 +5,7 @@ import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const S: any = {};
 
@@ -15,6 +16,7 @@ interface Props {
 const Transaction = ({ transaction }: Props) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
 
   const handleRedirectToCollections = () => {
     history.push(`/collection/${transaction.owner.id}`);
@@ -60,7 +62,7 @@ const Transaction = ({ transaction }: Props) => {
         onMouseEnter={() => setShowLink(true)}
         onMouseLeave={() => setShowLink(false)}
       >
-        {showLink && (
+        {showLink && !matchesMobile && (
           <div>
             <S.ToolTip></S.ToolTip>
             <S.ToolTipText>
@@ -74,7 +76,27 @@ const Transaction = ({ transaction }: Props) => {
             </S.ToolTipText>
           </div>
         )}
-        <S.LinkIcon className="icon_link" />
+        {showLink && matchesMobile && (
+          <div>
+            {/* <S.ToolTip></S.ToolTip>
+            <S.ToolTipText>
+              <a
+                href={transaction.transactionData?.explorerLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                See transaction
+              </a>
+            </S.ToolTipText> */}
+          </div>
+        )}
+        <a
+          href={transaction.transactionData?.explorerLink}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <S.LinkIcon className="icon_link" />
+        </a>
       </div>
     </S.Container>
   );
@@ -106,11 +128,19 @@ S.ToolTip = styled(ToolTip)`
   position: absolute;
   bottom: 30px;
   color: black;
-  right: -4em;
-  width: 190px;
-  height: 38px;
+  right: -3.7em;
+  width: 160px;
   :hover {
     cursor: pointer;
+  }
+  @media screen and (max-width: 1160px) {
+    position: absolute;
+    bottom: 30px;
+    color: black;
+    right: 0;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -121,7 +151,25 @@ S.ToolTipText = styled.span`
   width: 175px;
   overflow: hidden;
   font-size: 14px;
-  left: -5.5em;
+  left: -4.5em;
+  text-align: center;
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  a {
+    font-weight: 400;
+  }
+
+  @media screen and (max-width: 960px) {
+    position: absolute;
+  bottom: 3.5em;
+  color: black;
+  width: 95px;
+  overflow: hidden;
+  font-size: 12px;
+  left: -6em;
+
   text-align: center;
   :hover {
     text-decoration: underline;
@@ -199,8 +247,10 @@ S.Date = styled.span`
   color: #9e9e9e;
 `;
 
-S.Username = styled.span`
+S.Username = styled.p`
   font-size: 16px;
+  margin: 0;
+  width: 80px;
   color: #9e9e9e;
   :hover {
     cursor: pointer;

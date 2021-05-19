@@ -48,12 +48,13 @@ const StyledDiv = styled.div`
   justify-content: space-between;
   align-items: center !important;
   padding: 5px 15px;
+  padding-right: 0;
 `;
 
 const Clear = styled(ClearIcon)`
   width: 20px;
-  margin-bottom: 3px;
   margin-left: 5px;
+  margin-right: 2px;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);

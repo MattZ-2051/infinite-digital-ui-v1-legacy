@@ -154,70 +154,73 @@ const Wallet = (props) => {
       // showMore={showMore}
     >
       <S.Header>
-        <S.Link to={`/collection/${userId}`}>
-          {' '}
-          <S.BackArrow />
-          Back To My Collection
-        </S.Link>
-        <S.HeaderText>My Wallet</S.HeaderText>
+        <S.HeaderContent>
+          <S.Link to={`/collection/${userId}`}>
+            {' '}
+            <S.BackArrow />
+            Back To My Collection
+          </S.Link>
+          <S.HeaderText>My Wallet</S.HeaderText>
+        </S.HeaderContent>
       </S.Header>
 
       <S.Main>
-        <S.LeftCol>
-          <div>
-            <S.Tab style={{ borderBottom: '2px solid black' }}>
-              Total Balance
-            </S.Tab>
-            <S.GrayLine />
-          </div>
+        <S.Body>
+          <S.LeftCol>
+            <div>
+              <S.Tab style={{ borderBottom: '2px solid black' }}>
+                Total Balance
+              </S.Tab>
+              <S.GrayLine />
+            </div>
 
-          <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
+            <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
 
-          <S.Available>
-            <S.AvailableText>Available:</S.AvailableText>
-            <S.AvailableAmount>
-              {/* ToDo: Move availableBalance to wallet endpoint */}$
-              {user?.availableBalance?.toFixed(2)}
-              <S.AvailableSubText>
-                (Excludes pending transactions)
-              </S.AvailableSubText>
-            </S.AvailableAmount>
-          </S.Available>
+            <S.Available>
+              <S.AvailableText>Available:</S.AvailableText>
+              <S.AvailableAmount>
+                {/* ToDo: Move availableBalance to wallet endpoint */}$
+                {user?.availableBalance?.toFixed(2)}
+                <S.AvailableSubText>
+                  (Excludes pending transactions)
+                </S.AvailableSubText>
+              </S.AvailableAmount>
+            </S.Available>
 
-          <div style={{ paddingTop: '36px' }}>
-            <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
-          </div>
+            <div style={{ paddingTop: '36px' }}>
+              <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
+            </div>
 
-          {/*  Temporary Hide feature will be enabled Post-MVP
+            {/*  Temporary Hide feature will be enabled Post-MVP
 
           <div style={{ paddingTop: '12px' }}>
             <S.ActionButton>Withdrawal</S.ActionButton>
           </div> */}
 
-          <MuiDivider style={{ margin: '20px 0 20px 0' }} />
+            <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
-          <div>
-            Account Verification Status: <br />
-            <KycButton kycPending={kycPending} kycMaxLevel={kycMaxLevel} />
-          </div>
-        </S.LeftCol>
+            <div>
+              Account Verification Status: <br />
+              <KycButton kycPending={kycPending} kycMaxLevel={kycMaxLevel} />
+            </div>
+          </S.LeftCol>
 
-        <S.RightCol>
-          <S.TabContainer>
-            <div style={{ position: 'relative' }}>
-              <S.Tab
-                style={{
-                  borderBottom: `${
-                    selectedTab === 0 ? '2px solid black' : 'none'
-                  }`,
-                  color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
-                }}
-                onClick={() => setSelectedTab(0)}
-              >
-                Latest Transactions
-              </S.Tab>
-              <span style={{ padding: '0 20px' }} />
-              {/* Temporary Hide feature will be enabled Post-MVP
+          <S.RightCol>
+            <S.TabContainer>
+              <div style={{ position: 'relative' }}>
+                <S.Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 0 ? '2px solid black' : 'none'
+                    }`,
+                    color: `${selectedTab === 0 ? 'black' : '#9e9e9e'}`,
+                  }}
+                  onClick={() => setSelectedTab(0)}
+                >
+                  Latest Transactions
+                </S.Tab>
+                <span style={{ padding: '0 20px' }} />
+                {/* Temporary Hide feature will be enabled Post-MVP
 
             <S.Tab
               style={{
@@ -230,43 +233,43 @@ const Wallet = (props) => {
             >
               Active Bids
             </S.Tab> */}
-              <S.GrayLine style={{ width: '100%' }} />
-            </div>
-          </S.TabContainer>
-          <S.LatestTransactionsContainer
-            // overflow={showMore}
-            overflow={true}
-            id="tx"
-          >
-            {selectedTab === 0 && (
-              <Content>
-                {transactionsLoading || !transactions ? (
-                  <PageLoader size={15} />
-                ) : !transactions.data.length ? (
-                  <NoResults>
-                    {/*<h4>No transactions yet</h4>*/}
-                    <p>No transactions yet</p>
-                  </NoResults>
-                ) : (
-                  <>
-                    <ProductsGrid>
-                      {transactions.data.map((tx, index) => {
-                        return <Transaction tx={tx} key={index} />;
-                      })}
-                    </ProductsGrid>
-                    <PaginationContainer>
-                      <Pagination
-                        count={Math.ceil(transactions.total / PER_PAGE)}
-                        page={valueCurrentPage}
-                        onChange={(ev, page) => setCurrentPage(page)}
-                        siblingCount={matchesMobile ? 0 : 1}
-                      />
-                    </PaginationContainer>
-                  </>
-                )}
-              </Content>
-            )}
-            {/*  Temporary Hide feature will be enabled Post-MVP
+                <S.GrayLine style={{ width: '100%' }} />
+              </div>
+            </S.TabContainer>
+            <S.LatestTransactionsContainer
+              // overflow={showMore}
+              overflow={true}
+              id="tx"
+            >
+              {selectedTab === 0 && (
+                <Content>
+                  {transactionsLoading || !transactions ? (
+                    <PageLoader size={15} />
+                  ) : !transactions.data.length ? (
+                    <NoResults>
+                      {/*<h4>No transactions yet</h4>*/}
+                      <p>No transactions yet</p>
+                    </NoResults>
+                  ) : (
+                    <>
+                      <ProductsGrid>
+                        {transactions.data.map((tx, index) => {
+                          return <Transaction tx={tx} key={index} />;
+                        })}
+                      </ProductsGrid>
+                      <PaginationContainer>
+                        <Pagination
+                          count={Math.ceil(transactions.total / PER_PAGE)}
+                          page={valueCurrentPage}
+                          onChange={(ev, page) => setCurrentPage(page)}
+                          siblingCount={matchesMobile ? 0 : 1}
+                        />
+                      </PaginationContainer>
+                    </>
+                  )}
+                </Content>
+              )}
+              {/*  Temporary Hide feature will be enabled Post-MVP
 
           {selectedTab === 1 && (
             <>
@@ -274,15 +277,16 @@ const Wallet = (props) => {
               <ActiveBids bidType="exceeded" />
             </>
           )} */}
-          </S.LatestTransactionsContainer>
-          {/*<S.FlexRow>*/}
-          {/*  {isElOverflown && (*/}
-          {/*    <S.SeeMore onClick={handleShowChange}>*/}
-          {/*      {(showMore && '- View Less') || '+ View All'}*/}
-          {/*    </S.SeeMore>*/}
-          {/*  )}*/}
-          {/*</S.FlexRow>*/}
-        </S.RightCol>
+            </S.LatestTransactionsContainer>
+            {/*<S.FlexRow>*/}
+            {/*  {isElOverflown && (*/}
+            {/*    <S.SeeMore onClick={handleShowChange}>*/}
+            {/*      {(showMore && '- View Less') || '+ View All'}*/}
+            {/*    </S.SeeMore>*/}
+            {/*  )}*/}
+            {/*</S.FlexRow>*/}
+          </S.RightCol>
+        </S.Body>
       </S.Main>
 
       <DepositModal

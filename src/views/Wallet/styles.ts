@@ -9,12 +9,21 @@ export const Container = styled.div<{ showMore: boolean }>`
 export const Header = styled.div`
   background-color: black;
   height: 25%;
+  @media screen and (max-width: 960px) {
+    padding: 24px;
+  }
+`;
+
+export const HeaderContent = styled.div`
+  background-color: black;
+  height: 25%;
   color: white;
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
   padding: 48px;
   justify-content: flex-end;
-
+  margin: 0 auto;
   @media screen and (max-width: 960px) {
     padding: 24px;
   }
@@ -22,9 +31,17 @@ export const Header = styled.div`
 
 export const Main = styled.div`
   height: 100vh;
+  max-width: 1440px;
+  margin: 0 auto;
+  @media screen and (max-width: 960px) {
+    grid-template-columns: 100%;
+  }
+`;
+
+export const Body = styled.div`
+  height: 100vh;
   display: grid;
   grid-template-columns: 30% 70%;
-
   @media screen and (max-width: 960px) {
     grid-template-columns: 100%;
   }

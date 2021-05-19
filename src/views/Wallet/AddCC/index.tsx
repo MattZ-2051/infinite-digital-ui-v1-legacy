@@ -88,6 +88,7 @@ const AddCC = () => {
   const clearState = () => {
     setCardInfo(state);
     setIsOpen(false);
+    history.push('/wallet');
   };
 
   const handleCountry = (event) => {

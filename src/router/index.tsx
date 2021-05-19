@@ -52,7 +52,7 @@ const RouterComponent = (): JSX.Element => {
       <Route path="/collection/:userId" component={Collection} />
 
       {/* Legal */}
-      <Route path="/tc" component={TC} />
+      <Route path="/terms" component={TC} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/help" component={Help} />
       {/* All */}
