@@ -90,7 +90,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       ) {
         setStatus('create-sale');
       } else if (
-        loggedInUser.id === product?.owner._id &&
+        loggedInUser.id === product?.owner?._id &&
         product?.activeProductListings?.length !== 0 &&
         product?.upcomingProductListings?.length === 0
       ) {

@@ -106,7 +106,7 @@ const Tile = ({
                 themeStyle={themeStyle}
                 style={{ color: '#9e9e9e' }}
               >
-                {supplyType === 'variable'
+                {supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.circulatingSupply} Released`
                   : supplyType === 'fixed'
                   ? `${sku.totalSupplyLeft} of ${sku.totalSupply} For Sale`
@@ -115,7 +115,7 @@ const Tile = ({
             )}
             {status === 'no-sale' && !unique && (
               <BottomCardText themeStyle={themeStyle}>
-                {sku.supplyType === 'variable'
+                {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.totalSupply} Released`
                   : `${sku.totalSupply} of ${sku.totalSupply} for sale`}
               </BottomCardText>
