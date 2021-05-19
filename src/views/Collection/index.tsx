@@ -132,8 +132,10 @@ const Collection = (): JSX.Element => {
                 style={{ marginTop: '0px' }}
               >
                 {descriptionHeaderMain &&
-                  `${descriptionHeaderMain.slice(0, 1)} \
-                  ${descriptionHeaderMain.slice(
+                  `${descriptionHeaderMain.slice(
+                    0,
+                    1
+                  )}${descriptionHeaderMain.slice(
                     1,
                     descriptionHeaderMain.length
                   )}`}
