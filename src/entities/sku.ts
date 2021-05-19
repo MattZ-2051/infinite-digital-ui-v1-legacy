@@ -1,4 +1,5 @@
 import { Listing } from './listing';
+import { User } from './user';
 
 export interface Sku {
   _id: string;
@@ -51,17 +52,7 @@ export interface Sku {
     createdAt?: Date;
     updatedAt?: Date;
   };
-  issuer: {
-    _id: string;
-    balance: number;
-    role: string;
-    hederaAccount: string;
-    externalId: string;
-    username: string;
-    email: string;
-    updatedAt?: Date;
-    createdAt?: Date;
-  };
+  issuer: User;
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;

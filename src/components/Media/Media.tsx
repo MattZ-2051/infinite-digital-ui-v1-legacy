@@ -47,7 +47,7 @@ const Img = styled.img`
   height: 469px;
   width: 469px;
   border-radius: 50%;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 940px) {
     width: 250px;
     height: 250px;
     border-radius: 50%;
