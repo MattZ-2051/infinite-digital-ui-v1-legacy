@@ -28,6 +28,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
         muted
         loop
         controls={false}
+        style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
       ></video>
 
       <S.Title>
