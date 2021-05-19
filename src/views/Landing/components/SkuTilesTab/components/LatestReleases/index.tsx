@@ -20,9 +20,11 @@ const LatestReleases = (): JSX.Element => {
   };
 
   async function fetchProducts() {
-    const skuTiles = await getSkuTiles({ queryParams: '?page=1&per_page=50' });
+    const skuTiles = await getSkuTiles({
+      queryParams: '?page=1&per_page=50&sortBy=startDate:1',
+    });
     if (skuTiles.data) {
-      setTiles(filterFeatured(skuTiles.data));
+      setTiles(skuTiles.data);
     }
   }
 
@@ -34,6 +36,7 @@ const LatestReleases = (): JSX.Element => {
     <ProductContainer>
       {tiles &&
         tiles.map((el, index) => {
+          if (index > 3) return null;
           return (
             <TileContainer key={index} index={index}>
               <SkuTile sku={el} key={index} themeStyle={themeStyle} />

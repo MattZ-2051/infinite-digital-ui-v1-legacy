@@ -80,7 +80,8 @@ export const getProductTransactionHistory = async (productId: string) => {
 export const getReleasesOwnedByUser = async (
   issuerId: string,
   page?: number,
-  perPage?: number
+  perPage?: number,
+  queryParams?: string
 ) => {
   const params = { issuerId };
   if (page) {
@@ -90,7 +91,7 @@ export const getReleasesOwnedByUser = async (
   try {
     const res = await axiosInstance.request({
       method: 'GET',
-      url: `/skus/tiles`,
+      url: `/skus/tiles/${queryParams || ''}`,
       params,
     });
     const { data, headers } = res;
