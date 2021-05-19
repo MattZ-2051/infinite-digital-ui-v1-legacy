@@ -5,6 +5,9 @@ import IconButton from 'components/Buttons/IconButton';
 import TextButton from 'components/Buttons/TextButton';
 import Divider from 'components/Divider';
 import Hidden from '@material-ui/core/Hidden';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
 // Icons
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { ReactComponent as tictocIcon } from 'assets/svg/logos/tiktok.svg';
@@ -32,6 +35,9 @@ const HederaIcon = () => <SvgIcon viewBox="0 0 15 16" component={hederaIcon} />;
 
 const Footer = () => {
   const [showLink, setShowLink] = useState<boolean>(false);
+  const theme = useTheme();
+
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <StyledFooter>
@@ -46,38 +52,36 @@ const Footer = () => {
               Privacy Policy
             </TextButton>
 
-            <TextButton to="/tc" color="grey" size="small">
+            <TextButton to="/terms" color="grey" size="small">
               Terms & Conditions
             </TextButton>
             <>
-              <div
-                style={{
-                  position: 'relative',
-                  width: '363px',
-                }}
-                onMouseEnter={() => setShowLink(true)}
-                onMouseLeave={() => setShowLink(false)}
-              >
-                {showLink && (
-                  <div>
-                    <S.ToolTip></S.ToolTip>
-                    <S.ToolTipText>
-                      INFINITE NFTs are minted on the Hedera Hashgraph
-                    </S.ToolTipText>
-                  </div>
-                )}
-                <IconButton
-                  icon={HederaIcon}
-                  color="grey"
-                  radius={20}
-                  onClick={() =>
-                    window.open(
-                      'https://support.suku.world/infinite/hedera-hashgraph-hts',
-                      '_blank'
-                    )
-                  }
-                />
-              </div>
+              {!isSmall && (
+                <S.ShowLinkDiv
+                  onMouseEnter={() => setShowLink(true)}
+                  onMouseLeave={() => setShowLink(false)}
+                >
+                  {showLink && (
+                    <div>
+                      <S.ToolTip></S.ToolTip>
+                      <S.ToolTipText>
+                        INFINITE NFTs are minted on the Hedera Hashgraph
+                      </S.ToolTipText>
+                    </div>
+                  )}
+                  <IconButton
+                    icon={HederaIcon}
+                    color="grey"
+                    radius={20}
+                    onClick={() =>
+                      window.open(
+                        'https://support.suku.world/infinite/hedera-hashgraph-hts',
+                        '_blank'
+                      )
+                    }
+                  />
+                </S.ShowLinkDiv>
+              )}
             </>
           </Divider>
 
@@ -87,7 +91,7 @@ const Footer = () => {
             </div>
           </Hidden>
 
-          <Divider gap={16} tag="nav">
+          <Divider gap={16} tag="nav" styles={{ order: '-1' }}>
             <IconButton
               icon={FacebookIcon}
               color="grey"
@@ -123,6 +127,34 @@ const Footer = () => {
                 window.open('https://www.tiktok.com/@_goinfinite', '_blank')
               }
             />
+            {isSmall && (
+              <S.ShowLinkDiv
+                onMouseEnter={() => setShowLink(true)}
+                onMouseLeave={() => setShowLink(false)}
+              >
+                {showLink && (
+                  <div>
+                    <div style={{ width: '100px' }}>
+                      <S.ToolTip></S.ToolTip>
+                    </div>
+                    <S.ToolTipText>
+                      INFINITE NFTs are minted on the Hedera Hashgraph
+                    </S.ToolTipText>
+                  </div>
+                )}
+                <IconButton
+                  icon={HederaIcon}
+                  color="grey"
+                  radius={20}
+                  onClick={() =>
+                    window.open(
+                      'https://support.suku.world/infinite/hedera-hashgraph-hts',
+                      '_blank'
+                    )
+                  }
+                />
+              </S.ShowLinkDiv>
+            )}
           </Divider>
 
           <Hidden mdUp>
@@ -149,6 +181,13 @@ const FooterContent = styled.div`
   padding: 17px 80px;
   font-size: 12px;
   color: white;
+  @media screen and (max-width: 960px) {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 30px;
+    font-size: 12px;
+    color: white;
+  }
 `;
 
 const FooterBottom = styled.div`
@@ -161,6 +200,7 @@ const FooterBottom = styled.div`
     display: grid;
     justify-content: center;
     grid-gap: 20px;
+    margin: auto;
   }
 `;
 
@@ -185,6 +225,14 @@ S.ToolTipText = styled.span`
   transform: translate(-50%, -50%);
   a {
     font-weight: normal;
+  }
+`;
+
+S.ShowLinkDiv = styled.div`
+  position: relative;
+  width: 363px;
+  @media screen and (max-width: 600px) {
+    width: 0;
   }
 `;
 

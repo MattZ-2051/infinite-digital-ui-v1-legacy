@@ -33,8 +33,8 @@ const TilePill = ({ status, pillInfo, light = false }) => {
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <PillText isLight={light}>Upcoming in:</PillText>
-          <PillInfo isLight={light} style={{ fontSize: '18px' }}>
+          <PillText isLight={light}>Upcoming</PillText>
+          <PillInfo isLight={light} style={{ fontSize: '15px' }}>
             {pillInfo.replaceAll('-', '')}
           </PillInfo>
         </Pill>

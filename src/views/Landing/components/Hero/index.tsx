@@ -21,7 +21,14 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   };
   return (
     <S.Container>
-      <S.Img src={HeroImg} />
+      {/* <S.Img src={HeroImg} /> */}
+      <video
+        src="https://infinite-digital-prod.s3.amazonaws.com/featured/infinite_mache_header.mp4"
+        autoPlay
+        muted
+        loop
+        controls={false}
+      ></video>
 
       <S.Title>
         Start your INFINITE <br /> <span>Collection today!</span>

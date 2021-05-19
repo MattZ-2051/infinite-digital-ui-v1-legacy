@@ -81,7 +81,7 @@ const Collection = (): JSX.Element => {
             styles={{
               height: '500px',
               width: '100%',
-              boxShadow: 'inset 0px -10px 80px 100px black',
+              boxShadow: 'inset 0px -30px 90px 40px black',
             }}
           >
             <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
@@ -91,7 +91,6 @@ const Collection = (): JSX.Element => {
         )}
         <FlexRow
           style={{
-            margin: '5rem',
             display:
               midPhotoUrl ||
               descriptionIcon ||
@@ -104,18 +103,11 @@ const Collection = (): JSX.Element => {
           }}
         >
           {midPhotoUrl && (
-            <Container style={{ marginRight: '2.5rem', height: 'fit-content' }}>
-              <Media
-                src={midPhotoUrl}
-                styles={{
-                  height: '549px',
-                  width: '549px',
-                  borderRadius: '50%',
-                }}
-              />
-            </Container>
+            <ContainerMarginRight style={{ height: 'fit-content' }}>
+              <Media src={midPhotoUrl} styles={{}} />
+            </ContainerMarginRight>
           )}
-          <Container style={{ marginLeft: '2.5rem' }}>
+          <ContainerMarginLeft>
             <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
               {descriptionIcon && (
                 <Media
@@ -123,13 +115,28 @@ const Collection = (): JSX.Element => {
                   styles={{ maxHeight: '98px', maxWidth: '98px' }}
                 />
               )}
-              <TextContainer textAlign="left" fontSize="28" fontWeight={'700'}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: '#8e8e8e',
+                  fontSize: '24px',
+                  marginBottom: '28px',
+                }}
+              >
+                {user.username}
+              </span>
+              <TextContainer
+                textAlign="left"
+                fontSize="28"
+                fontWeight={'700'}
+                style={{ marginTop: '0px' }}
+              >
                 {descriptionHeaderMain &&
-                  `${descriptionHeaderMain
-                    .slice(0, 1)
-                    .toLocaleUpperCase()}${descriptionHeaderMain
-                    .slice(1, descriptionHeaderMain.length)
-                    .toLocaleLowerCase()}`}
+                  `${descriptionHeaderMain.slice(0, 1)} \
+                  ${descriptionHeaderMain.slice(
+                    1,
+                    descriptionHeaderMain.length
+                  )}`}
                 <GradientText textAlign="left" fontSize="28" fontWeight="700">
                   {descriptionHeaderGradient && descriptionHeaderGradient}
                 </GradientText>
@@ -146,7 +153,7 @@ const Collection = (): JSX.Element => {
                 {descriptionBody}
               </TextContainer>
             </FlexColumn>
-          </Container>
+          </ContainerMarginLeft>
         </FlexRow>
         <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
         <Container
@@ -189,6 +196,16 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-right: 2.5rem;
+  @media screen and (max-width: 960px) {
+    margin-right: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 
   /* NOTE: This is setting children to black. Might need a more elegant way */
   > * {
@@ -196,4 +213,55 @@ const Container = styled.div`
     color: white;
   }
 `;
+
+const ContainerMarginRight = styled.div`
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-right: 2.5rem;
+  @media screen and (max-width: 960px) {
+    margin-right: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* NOTE: This is setting children to black. Might need a more elegant way */
+  > * {
+    background-color: black;
+    color: white;
+  }
+`;
+
+const ContainerMarginLeft = styled.div`
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-left: 2.5rem;
+  @media screen and (max-width: 960px) {
+    margin-left: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* NOTE: This is setting children to black. Might need a more elegant way */
+  > * {
+    background-color: black;
+    color: white;
+  }
+`;
+
 export default Collection;

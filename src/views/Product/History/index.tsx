@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { ProductWithFunctions } from 'entities/product';
 import Transaction from './Transaction';
@@ -12,8 +12,7 @@ import Toast from 'utils/Toast';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 import { useHistory } from 'react-router-dom';
 import BuyNowModal from '../Modal/BuyNow';
-
-const S: any = {};
+import { mediaQueries } from 'theme/media';
 
 export type Status =
   | 'not-for-sale'
@@ -40,7 +39,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
-  const price = product?.listing.price;
+  const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
   const [status, setStatus] = useState<Status>('');
@@ -91,7 +90,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       ) {
         setStatus('create-sale');
       } else if (
-        loggedInUser.id === product?.owner._id &&
+        loggedInUser.id === product?.owner?._id &&
         product?.activeProductListings?.length !== 0 &&
         product?.upcomingProductListings?.length === 0
       ) {
@@ -171,19 +170,20 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           </div>
         </S.Title>
         <S.Header>
-          <S.FlexDiv>
-            <S.ProductId>#{product?.serialNumber}</S.ProductId>/
+          <S.Row>
+            <S.ProductId>
+              #{product?.serialNumber} <S.Slash>/</S.Slash>
+            </S.ProductId>
             <S.ProductOwner>
               Owner
               <S.Owner onClick={handleRedirectToOwnerPage}>
-                @ {product?.owner.username}
+                @{product?.owner.username}
               </S.Owner>
             </S.ProductOwner>
-          </S.FlexDiv>
+          </S.Row>
           {status === 'upcoming' && (
             <>
-              <div
-                style={{ position: 'relative', paddingRight: '80px' }}
+              <ButtonContainer
                 onMouseEnter={() => setShowLink(true)}
                 onMouseLeave={() => setShowLink(false)}
               >
@@ -194,25 +194,25 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   </div>
                 )}
                 <S.Button width="130px">Upcoming</S.Button>
-              </div>
+              </ButtonContainer>
             </>
           )}
           {status === 'buy-now' && (
-            <div style={{ paddingRight: '80px' }}>
+            <ButtonContainer>
               <S.Button onClick={handleSaleAction} hover={true}>
                 Buy Now for ${product?.listing?.price}
               </S.Button>
-            </div>
+            </ButtonContainer>
           )}
           {status === 'create-sale' && (
-            <div style={{ paddingRight: '80px' }}>
+            <ButtonContainer>
               <S.Button onClick={handleSaleAction} width="130px" hover={true}>
                 List for sale
               </S.Button>
-            </div>
+            </ButtonContainer>
           )}
           {status === 'not-for-sale' && (
-            <div style={{ paddingRight: '80px' }}>
+            <ButtonContainer>
               <S.Button
                 onClick={handleSaleAction}
                 className="button_noSale"
@@ -221,10 +221,10 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               >
                 Not for sale
               </S.Button>
-            </div>
+            </ButtonContainer>
           )}
           {status === 'active-sale' && (
-            <div style={{ paddingRight: '80px' }}>
+            <ButtonContainer>
               <S.FlexColumn>
                 <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                 <div style={{ display: 'flex' }}>
@@ -232,7 +232,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   <S.ActiveText>active</S.ActiveText>
                 </div>
               </S.FlexColumn>
-            </div>
+            </ButtonContainer>
           )}
         </S.Header>
         <S.FlexDiv>
@@ -319,6 +319,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   );
 };
 
+const S: any = {};
+
 S.Container = styled.div`
   padding: 48px 0 48px 48px;
   height: 100%;
@@ -359,6 +361,18 @@ S.FlexDiv = styled.div`
   display: flex;
   align-items: center;
   padding-right: 80px;
+`;
+
+S.Row = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: 0;
+  flex-direction: column;
+
+  ${mediaQueries.sm} {
+    flex-direction: row;
+    padding-right: 80px;
+  }
 `;
 
 S.TitleLink = styled(Link)`
@@ -434,13 +448,23 @@ S.ProductOwner = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 16px;
-  padding-left: 16px;
+  padding-left: 0;
+
+  ${mediaQueries.sm} {
+    flex-direction: row;
+    padding-left: 16px;
+  }
 `;
 
 S.Owner = styled.span`
   color: white;
+  margin-left: 0;
   :hover {
     cursor: pointer;
+  }
+
+  ${mediaQueries.sm} {
+    margin-left: 10px;
   }
 `;
 
@@ -468,14 +492,38 @@ S.Header = styled.div`
   font-weight: 600;
   color: #7c7c7c;
   display: flex;
-  align-items: center;
   padding-top: 40px;
   justify-content: space-between;
+  margin-bottom: 32px;
+  align-items: baseline;
+
+  ${mediaQueries.sm} {
+    margin-bottom: none;
+    align-items: center;
+  }
 `;
 
 S.Title = styled.div`
   color: #7c7c7c;
   font-size: 16px;
+`;
+
+S.Slash = styled.span`
+  color: #7c7c7c;
+  margin-left: 10px;
+  display: none;
+
+  ${mediaQueries.sm} {
+    display: inline-block;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  padding-right: 0;
+
+  ${mediaQueries.sm} {
+    padding-right: 80px;
+  }
 `;
 
 export default History;

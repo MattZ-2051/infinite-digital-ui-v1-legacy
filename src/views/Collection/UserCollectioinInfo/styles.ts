@@ -35,6 +35,9 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const AccountIcon = styled.div`
