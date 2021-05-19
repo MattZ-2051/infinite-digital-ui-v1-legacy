@@ -35,6 +35,21 @@ const AudioView = ({ src }: { src: string }) => {
   );
 };
 
+const ImageView = ({ src }: { src: string }) => {
+  return (
+    <img
+      src="https://wallpaperaccess.com/full/25682.jpg"
+      alt=""
+      style={{
+        width: 'auto',
+        height: 'auto',
+        maxHeight: '700px',
+        maxWidth: '700px',
+      }}
+    />
+  );
+};
+
 const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -51,7 +66,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
         ) : images[selectedImage]?.endsWith('mp3') ? (
           <AudioView src={images[selectedImage]} />
         ) : (
-          <img src={images[selectedImage]} alt="" />
+          <ImageView src={images[selectedImage]} />
         )}
         {/* <Squircle
           size={40}
