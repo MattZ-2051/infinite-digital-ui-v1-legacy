@@ -6,6 +6,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import SlideBox from './components/SlideBox';
 import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
+// import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
+import RightArrow from 'assets/svg/icons/arrow-right-white.svg';
 
 const FeaturedSlider = (): JSX.Element => {
   const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
@@ -67,6 +69,16 @@ const Container = styled.section`
       opacity: 0.4;
       color: #ffffff;
     }
+  }
+
+  .slick-next:before {
+    content: url(${RightArrow});
+  }
+
+  .slick-prev:before {
+    content: url(${RightArrow});
+    transform: rotate(180deg);
+    display: block;
   }
 `;
 

@@ -48,12 +48,14 @@ export const Body = styled.div`
 `;
 
 export const LeftCol = styled.div`
+  max-width: 320px;
   display: flex;
   flex-direction: column;
-  padding: 48px;
+  padding: 48px 0 48px 48px;
 
   @media screen and (max-width: 960px) {
     padding: 24px;
+    max-width: 100%;
   }
 `;
 
@@ -190,7 +192,6 @@ export const ActionButton = styled.button`
 export const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
   padding-top: 12px;
-  width: 80%;
 `;
 
 export const AvailableText = styled.span`
