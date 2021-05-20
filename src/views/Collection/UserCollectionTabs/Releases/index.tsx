@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { Sku } from 'entities/sku';
 
@@ -28,26 +28,30 @@ const Releases = ({
   );
 };
 
-const TileContainer = styled.div<{ index: number; theme }>`
-  padding: 0 20px;
-  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+const TileContainer = styled.div<{ index: number }>`
+  padding: 0 10px;
 `;
 
-const Container = styled.div<{ collection?: boolean }>`
-  ${({ collection }) =>
-    collection
-      ? `margin: auto;
-  overflow: hidden;
+const hasCollection = css`
+  margin: auto;
   :hover {
     overflow: auto;
   }
   display: flex;
   flex-wrap: wrap;
-  max-height: 80%;
-  width: 100%;`
-      : `display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+
+const noCollection = css`
+  display: flex;
   overflow: auto;
-   width: 100%;`}
+  width: 100%;
+`;
+
+const Container = styled.div<{ collection?: boolean }>`
+  ${({ collection }) => (collection ? hasCollection : noCollection)}
+  border: 2px solid red;
 `;
 
 export default Releases;

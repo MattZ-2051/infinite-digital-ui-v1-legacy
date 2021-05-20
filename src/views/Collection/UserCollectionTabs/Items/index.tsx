@@ -34,8 +34,7 @@ const Items = ({
 };
 
 const TileContainer = styled.div<{ index: number }>`
-  padding: 0 20px;
-  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+  padding: 0 10px;
 `;
 
 const hasCollection = css`
@@ -46,6 +45,7 @@ const hasCollection = css`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  justify-content: center;
 `;
 
 const noCollection = css`
@@ -56,6 +56,7 @@ const noCollection = css`
 
 const Container = styled.div<{ collection?: boolean }>`
   ${({ collection }) => (collection ? hasCollection : noCollection)}
+  border: 2px solid red;
 `;
 
 export default Items;
