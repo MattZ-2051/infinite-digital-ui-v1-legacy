@@ -44,24 +44,26 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
 
   return (
     <Container>
-      <MediaContainer>
-        {product.graphicUrl?.endsWith('mov') ||
-        product.graphicUrl?.endsWith('mp4') ? (
-          <video
-            style={{
-              width: '100%',
-            }}
-            playsInline
-            autoPlay={true}
-            controls={false}
-            loop={true}
-            muted={true}
-            src={product.graphicUrl}
-          />
-        ) : (
-          <img src={product.graphicUrl} alt="" />
-        )}
-      </MediaContainer>
+      <Link to={`/marketplace/${product._id}`}>
+        <MediaContainer>
+          {product.graphicUrl?.endsWith('mov') ||
+          product.graphicUrl?.endsWith('mp4') ? (
+            <video
+              style={{
+                width: '100%',
+              }}
+              playsInline
+              autoPlay={true}
+              controls={false}
+              loop={true}
+              muted={true}
+              src={product.graphicUrl}
+            />
+          ) : (
+            <img src={product.graphicUrl} alt="" />
+          )}
+        </MediaContainer>
+      </Link>
 
       <ProductDetails>
         <Issuer>

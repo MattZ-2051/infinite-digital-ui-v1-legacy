@@ -29,6 +29,7 @@ const FeaturedSlider = (): JSX.Element => {
     dots: true,
     infinite: true,
     arrows: true,
+    autoplay: true,
   };
 
   return (
