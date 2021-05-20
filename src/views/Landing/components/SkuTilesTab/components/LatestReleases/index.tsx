@@ -8,11 +8,25 @@ const LatestReleases = (): JSX.Element => {
   const [tiles, setTiles] = useState<Sku[] | []>([]);
   const [themeStyle, setTheme] = useState<'light' | 'dark'>('light');
 
-  const filterFeatured = (tiles: Sku[]) => {
+  // const filterFeatured = (tiles: Sku[]) => {
+  //   const filteredTiles: Sku[] = [];
+  //   for (const tile of tiles) {
+  //     if (filteredTiles.length === 4) break;
+  //     if (!tile.featured) {
+  //       filteredTiles.push(tile);
+  //     }
+  //   }
+  //   return filteredTiles;
+  // };
+
+  // List only different users
+  const filteredByUser = (tiles: Sku[]) => {
     const filteredTiles: Sku[] = [];
+    const selectedIssuers: string[] = [];
     for (const tile of tiles) {
       if (filteredTiles.length === 4) break;
-      if (!tile.featured) {
+      if (!selectedIssuers.includes(tile.issuerName)) {
+        selectedIssuers.push(tile.issuerName);
         filteredTiles.push(tile);
       }
     }
@@ -24,7 +38,7 @@ const LatestReleases = (): JSX.Element => {
       queryParams: '?page=1&per_page=50&sortBy=startDate:1',
     });
     if (skuTiles.data) {
-      setTiles(skuTiles.data);
+      setTiles(filteredByUser(skuTiles.data));
     }
   }
 
