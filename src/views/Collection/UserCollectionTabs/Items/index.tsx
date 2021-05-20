@@ -56,7 +56,6 @@ const noCollection = css`
 
 const Container = styled.div<{ collection?: boolean }>`
   ${({ collection }) => (collection ? hasCollection : noCollection)}
-  border: 2px solid red;
 `;
 
 export default Items;
