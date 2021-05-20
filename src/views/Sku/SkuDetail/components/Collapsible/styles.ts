@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export const Title = styled.div`
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   color: black;
   padding-bottom: 20px;
