@@ -241,31 +241,43 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         <S.TransactionHistory>
           {filteredTransactions instanceof Array &&
             filteredTransactions.map((transaction, index) => {
-              if (filteredTransactions.length >= 2) {
-                if (index === filteredTransactions.length - 1) {
-                  return (
-                    <Transaction
-                      key={
-                        filteredTransactions[filteredTransactions.length - 2]
-                          ._id
-                      }
-                      transaction={
-                        filteredTransactions[filteredTransactions.length - 2]
-                      }
-                    />
-                  );
-                } else if (index === filteredTransactions.length - 2) {
-                  return (
-                    <Transaction
-                      key={
-                        filteredTransactions[filteredTransactions.length - 1]
-                          ._id
-                      }
-                      transaction={
-                        filteredTransactions[filteredTransactions.length - 1]
-                      }
-                    />
-                  );
+              if (
+                filteredTransactions[filteredTransactions.length - 2].type ===
+                'nft_mint'
+              ) {
+                if (filteredTransactions.length >= 2) {
+                  if (index === filteredTransactions.length - 1) {
+                    return (
+                      <Transaction
+                        key={
+                          filteredTransactions[filteredTransactions.length - 2]
+                            ._id
+                        }
+                        transaction={
+                          filteredTransactions[filteredTransactions.length - 2]
+                        }
+                      />
+                    );
+                  } else if (index === filteredTransactions.length - 2) {
+                    return (
+                      <Transaction
+                        key={
+                          filteredTransactions[filteredTransactions.length - 1]
+                            ._id
+                        }
+                        transaction={
+                          filteredTransactions[filteredTransactions.length - 1]
+                        }
+                      />
+                    );
+                  } else {
+                    return (
+                      <Transaction
+                        key={transaction._id}
+                        transaction={transaction}
+                      />
+                    );
+                  }
                 } else {
                   return (
                     <Transaction
