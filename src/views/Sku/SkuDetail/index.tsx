@@ -89,7 +89,10 @@ const SkuDetail = (): JSX.Element => {
             <S.HeaderRight>
               <S.ProductDetail>
                 <S.Breadcrumbs>
-                  <a href="/marketplace" style={{ color: 'white' }}>
+                  <a
+                    href="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                    style={{ color: 'white' }}
+                  >
                     Marketplace
                   </a>
                   <span style={{ color: '#7C7C7C' }}>{sku && sku.name}</span>
