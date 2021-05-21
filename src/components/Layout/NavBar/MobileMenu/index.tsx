@@ -66,6 +66,18 @@ const MobileMenu = ({
             </TextButton>
           </Item>
         )}
+        {isAuthenticated && (
+          <Item>
+            <TextButton
+              type="link"
+              to={`/wallet`}
+              color="white"
+              onClick={onSelect}
+            >
+              My Wallet
+            </TextButton>
+          </Item>
+        )}
       </ListMenu>
 
       {isAuthenticated && (
