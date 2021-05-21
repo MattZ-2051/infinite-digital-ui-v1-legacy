@@ -1,3 +1,4 @@
+import usePriceFormatter from 'hooks/usePriceFormatter';
 import styled from 'styled-components/macro';
 
 export interface IProps {
@@ -18,6 +19,10 @@ export interface IProps {
 }
 
 const TilePill = ({ status, pillInfo, light = false }) => {
+  const formattedPrice = usePriceFormatter(
+    status === 'active' || status === 'active-listing' ? pillInfo : 0
+  );
+
   return (
     <Container>
       {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
@@ -45,7 +50,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}>Current Price:</PillText>
-          <PillInfo isLight={light}>${pillInfo}</PillInfo>
+          <PillInfo isLight={light}>${formattedPrice}</PillInfo>
         </Pill>
       )}
       {status === 'active' && (
@@ -54,7 +59,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <PillText isLight={light}> Lowest Price:</PillText>
-          <PillInfo isLight={light}>${pillInfo}</PillInfo>
+          <PillInfo isLight={light}>${formattedPrice}</PillInfo>
         </Pill>
       )}
       {status === 'no-sale' && (
