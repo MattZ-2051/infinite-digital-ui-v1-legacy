@@ -53,4 +53,10 @@ const Img = styled.img`
     border-radius: 50%;
     margin-top: 2.5rem;
   }
+  @media screen and (max-width: 640px) {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-top: 2.5rem;
+  }
 `;

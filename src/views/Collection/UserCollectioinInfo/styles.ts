@@ -15,9 +15,18 @@ export const Container = styled.div`
   align-items: center;
   color: white;
   width: 100%;
-  height: 30vh;
   flex-direction: column;
   position: relative;
+
+  @media screen and (max-width: 960px) {
+    height: 250px;
+    min-height: 0;
+  }
+
+  @media screen and (max-width: 640px) {
+    height: 130px;
+    min-height: 0;
+  }
 `;
 
 export const EditIcon = styled.img`

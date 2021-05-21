@@ -42,12 +42,12 @@ export const ImageContainer = styled.div<{ src?: string }>`
   width: 100%;
   box-shadow: inset 0px -30px 90px 40px black;
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1200px) {
     height: 300px;
     min-height: 0;
   }
 
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 840px) {
     height: auto;
     min-height: 0;
   }
