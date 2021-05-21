@@ -161,7 +161,10 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       <S.Container>
         <S.Title>
           <div>
-            <S.TitleLink to="/marketplace">Marketplace</S.TitleLink> /{' '}
+            <S.TitleLink to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
+              Marketplace
+            </S.TitleLink>{' '}
+            /{' '}
             <S.TitleLink to={`/marketplace/${product?.sku._id}`}>
               {product?.sku.name}
             </S.TitleLink>{' '}
@@ -242,30 +245,42 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           {filteredTransactions instanceof Array &&
             filteredTransactions.map((transaction, index) => {
               if (filteredTransactions.length >= 2) {
-                if (index === filteredTransactions.length - 1) {
-                  return (
-                    <Transaction
-                      key={
-                        filteredTransactions[filteredTransactions.length - 2]
-                          ._id
-                      }
-                      transaction={
-                        filteredTransactions[filteredTransactions.length - 2]
-                      }
-                    />
-                  );
-                } else if (index === filteredTransactions.length - 2) {
-                  return (
-                    <Transaction
-                      key={
-                        filteredTransactions[filteredTransactions.length - 1]
-                          ._id
-                      }
-                      transaction={
-                        filteredTransactions[filteredTransactions.length - 1]
-                      }
-                    />
-                  );
+                if (
+                  filteredTransactions[filteredTransactions.length - 2]
+                    ?.type === 'nft_mint'
+                ) {
+                  if (index === filteredTransactions.length - 1) {
+                    return (
+                      <Transaction
+                        key={
+                          filteredTransactions[filteredTransactions.length - 2]
+                            ._id
+                        }
+                        transaction={
+                          filteredTransactions[filteredTransactions.length - 2]
+                        }
+                      />
+                    );
+                  } else if (index === filteredTransactions.length - 2) {
+                    return (
+                      <Transaction
+                        key={
+                          filteredTransactions[filteredTransactions.length - 1]
+                            ._id
+                        }
+                        transaction={
+                          filteredTransactions[filteredTransactions.length - 1]
+                        }
+                      />
+                    );
+                  } else {
+                    return (
+                      <Transaction
+                        key={transaction._id}
+                        transaction={transaction}
+                      />
+                    );
+                  }
                 } else {
                   return (
                     <Transaction

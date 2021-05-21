@@ -371,6 +371,12 @@ const BoxColumn = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  small {
+    font-weight: 400;
+  }
+  span {
+    letter-spacing: -2px;
+  }
 
   /* @media screen and (max-width: 600px) {
 

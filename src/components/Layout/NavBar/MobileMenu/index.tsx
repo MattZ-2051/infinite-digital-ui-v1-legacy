@@ -9,6 +9,7 @@ interface IProps {
   logout: (redirect?: any) => void;
   isAuthenticated: boolean;
   user?: { name: string };
+  onSelect?: () => void;
 }
 
 const MobileMenu = ({
@@ -16,6 +17,7 @@ const MobileMenu = ({
   logout,
   isAuthenticated,
   user,
+  onSelect,
 }: IProps): JSX.Element => {
   const userData = useAppSelector((state) => state.session.user);
   return (
@@ -46,6 +48,7 @@ const MobileMenu = ({
             type="link"
             color="white"
             to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+            onClick={onSelect}
           >
             Marketplace
           </TextButton>
@@ -57,6 +60,7 @@ const MobileMenu = ({
               type="link"
               to={`/collection/${userData.id}`}
               color="white"
+              onClick={onSelect}
             >
               My Collection
             </TextButton>

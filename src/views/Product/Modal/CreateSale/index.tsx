@@ -46,7 +46,11 @@ const CreateSale = ({
         (product?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
-      setTotal(parseFloat(price) - serviceFee - royaltyFee);
+      if (product?.resale) {
+        setTotal(parseFloat(price) - serviceFee - royaltyFee);
+      } else {
+        setTotal(parseFloat(price) - serviceFee);
+      }
     }
   }, [price]);
 
@@ -143,7 +147,7 @@ const CreateSale = ({
               <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
             </div>
           </S.DetailRowPrice>
-          {product?.royaltyFeePercentage > 0 && (
+          {product?.royaltyFeePercentage > 0 && product?.resale && (
             <S.DetailRowPrice>
               <div>
                 <span>

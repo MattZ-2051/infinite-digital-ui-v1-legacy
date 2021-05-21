@@ -129,7 +129,7 @@ const SkuPageModal = ({
                 <S.Title>Confirm your order:</S.Title>
                 <S.SubTitle>
                   {' '}
-                  Your current balance ${parseInt(userBalance, 10).toFixed(2)}
+                  Your current balance ${parseFloat(userBalance).toFixed(2)}
                 </S.SubTitle>
               </>
             )}

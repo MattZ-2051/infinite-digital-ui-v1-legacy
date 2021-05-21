@@ -52,6 +52,7 @@ export const Listing = styled.div`
 
 export const SkuTitle = styled.div`
   font-size: 48px;
+  letter-spacing: -2px;
 `;
 
 export const Brand = styled.h3`
@@ -128,6 +129,11 @@ export const Breadcrumbs = styled.div`
   a {
     text-decoration: none;
     color: grey;
+    font-weight: normal;
+  }
+  span:before {
+    content: '/';
+    margin: auto 8px;
   }
 `;
 

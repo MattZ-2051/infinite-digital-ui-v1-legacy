@@ -35,7 +35,7 @@ export const getFeaturedSkuTiles = async (options?: {
 }): Promise<SkuWithTotal> => {
   return await getSkuTiles({
     token: options?.token,
-    queryParams: `?featured=true${
+    queryParams: `?${
       options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
     }${options?.queryParams || ''}`,
   });

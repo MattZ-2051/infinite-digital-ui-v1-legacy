@@ -31,6 +31,7 @@ const NavBar = ({ isSmall }: IProps) => {
           logout={logout}
           isAuthenticated={isAuthenticated}
           user={{ name: user?.name || '' }}
+          onSelect={toggleDrawer}
         />
       </Drawer>
 

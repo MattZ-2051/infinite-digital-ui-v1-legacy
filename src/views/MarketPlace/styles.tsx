@@ -1,14 +1,10 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-  width: 1440px;
+  max-width: 1440px;
   margin: auto;
   padding: 48px 80px 48px 80px;
-  min-height: 83.5vh;
-
-  @media screen and (max-width: 1440px) {
-    width: 100%;
-  }
+  min-height: calc(100vh - 162px);
 
   @media screen and (max-width: 600px) {
     padding: 48px 24px 48px 24px;
@@ -31,6 +27,12 @@ export const Main = styled.main`
 
 export const Content = styled.section`
   width: 100%;
+  @media screen and (max-width: 1440px) {
+    width: 638px;
+  }
+  @media screen and (max-width: 1140px) {
+    width: 100%;
+  }
 `;
 
 export const Sidebar = styled.aside`
