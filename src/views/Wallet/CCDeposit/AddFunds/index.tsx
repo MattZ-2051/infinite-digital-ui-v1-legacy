@@ -234,6 +234,9 @@ S.Row = styled.div`
 S.ContentContainer = styled.div`
   width: 410px;
   // background-color: white;
+  @media screen and (max-width: 430px) {
+    width: 80%;
+  }
 `;
 
 S.AddFundsButton = styled(LoadingButton)`
@@ -250,6 +253,9 @@ S.AddFundsButton = styled(LoadingButton)`
   }
   :focus {
     outline: none;
+  }
+  @media screen and (max-width: 430px) {
+    width: 100%;
   }
 `;
 

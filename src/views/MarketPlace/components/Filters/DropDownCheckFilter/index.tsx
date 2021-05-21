@@ -7,6 +7,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 // Icons
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { ReactComponent as CheckboxIcon } from 'assets/svg/icons/checkbox.svg';
+import { ReactComponent as CheckboxUnselectedIcon } from 'assets/svg/icons/checkbox-unselected.svg';
 
 interface IProps {
   label?: string;
@@ -61,7 +63,7 @@ const DropDownCheckFilter = ({
           options.map((option, index) => {
             return (
               <div
-                style={{ padding: '4px 10px', marginLeft: '-10px' }}
+                style={{ padding: '0 10px', marginLeft: '-10px' }}
                 key={index}
               >
                 <FormControl component="fieldset">
@@ -80,6 +82,8 @@ const DropDownCheckFilter = ({
                           onChange={handleCheck}
                           color="default"
                           disableRipple
+                          icon={<CheckboxUnselectedIcon />}
+                          checkedIcon={<CheckboxIcon />}
                         />
                       }
                       label={option.name}
@@ -124,9 +128,19 @@ export const FilterContainer = styled.div`
 `;
 
 export const Check = styled(Checkbox)`
+  padding: 5px 9px;
   .Mui-checked {
     color: black;
   }
+  .MuiIconButton-label {
+    min-width: 22px;
+  }
+  /* .Mui-checked {
+    svg {
+      position: relative;
+      top: 20px;
+    }
+  } */
 `;
 
 export const FilterDiv = styled.div`

@@ -34,7 +34,7 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
           disableRipple
           data-testid="myCollectionTab"
         />
-        <ViewAll to="/marketplace?status=upcoming&page=1&per_page=6&sortBy=startDate%3Aasc">
+        <ViewAll to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
           + View all
         </ViewAll>
       </Tabs>

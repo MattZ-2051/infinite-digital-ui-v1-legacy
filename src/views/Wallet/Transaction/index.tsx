@@ -44,13 +44,10 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && tx.status === 'pending' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>
-              You bought
-              <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-                {tx.transactionData.sku[0]?.name}
-              </S.Link>
-              from
-            </span>
+            <span>You bought from</span>
+            <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
+              {tx.transactionData.sku[0]?.name}
+            </S.Link>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
@@ -60,13 +57,10 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && tx.status === 'error' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>
-              You tried buying
-              <S.Link to={`/marketplace/${tx.transactionData.sku[0]?._id}`}>
-                {tx.transactionData.sku[0]?.name}
-              </S.Link>
-              from
-            </span>
+            <span>You tried buying from</span>
+            <S.Link to={`/marketplace/${tx.transactionData.sku[0]?._id}`}>
+              {tx.transactionData.sku[0]?.name}
+            </S.Link>
             <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
