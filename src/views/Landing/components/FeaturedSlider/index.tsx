@@ -32,6 +32,8 @@ const FeaturedSlider = (): JSX.Element => {
     infinite: true,
     arrows: true,
     autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 850,
   };
 
   return (
