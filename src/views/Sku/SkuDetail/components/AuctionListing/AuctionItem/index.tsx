@@ -3,6 +3,7 @@ import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import styled from 'styled-components/macro';
 import { Listing } from 'entities/listing';
 import { formatCountdown } from 'utils/dates';
+import usePriceFormatter from 'hooks/usePriceFormatter';
 
 export interface AuctionItemProps {
   serialNumber: string;
@@ -31,6 +32,8 @@ const AuctionItem = ({
       ? 'Bid for'
       : 'On sale for';
 
+  const formattedPrice = usePriceFormatter(activeProductListing?.price);
+
   return (
     <Container>
       {/* <Avatar /> */}
@@ -57,7 +60,7 @@ const AuctionItem = ({
             <>
               <span
                 style={{ fontWeight: 'bold', color: 'black' }}
-              >{`$${activeProductListing.price}`}</span>{' '}
+              >{`$${formattedPrice}`}</span>{' '}
             </>
           )}
           <br />

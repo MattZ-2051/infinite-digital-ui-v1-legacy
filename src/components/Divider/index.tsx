@@ -29,6 +29,7 @@ const Container = styled.div`
     grid-auto-flow: column;
     grid-auto-columns: max-content;
     grid-gap: var(--gap);
+    justify-content: center;
   }
 `;
 

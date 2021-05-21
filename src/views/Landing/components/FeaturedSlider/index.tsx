@@ -16,7 +16,7 @@ const FeaturedSlider = (): JSX.Element => {
     const skuTiles = await getFeaturedSkuTiles({
       queryParams: `&filter=${encodeURI(
         JSON.stringify({ sortBy: { startDate: 1 } })
-      )}`,
+      )}&featured=true`,
     });
     if (skuTiles) {
       setTiles(skuTiles);

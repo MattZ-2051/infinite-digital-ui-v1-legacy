@@ -26,6 +26,7 @@ const SkuDetail = (): JSX.Element => {
   const [collectors, setCollectors] = useState<Collector[]>([]);
   const [sku, setSku] = useState<Sku>();
   const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
+  const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
@@ -37,6 +38,13 @@ const SkuDetail = (): JSX.Element => {
     });
     fetchCollectors();
   }, [skuid]);
+
+  useEffect(() => {
+    const filtered = featuredProducts?.filter(
+      (featuredSku) => featuredSku?._id !== sku?._id
+    );
+    setFilteredFeaturedSku(filtered || []);
+  }, [featuredProducts, sku]);
 
   async function fetchProducts(issuerId: string) {
     const skuTiles = await getFeaturedSkuTiles({ issuerId: issuerId });
@@ -64,19 +72,11 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  if (!collectors || !sku || !featuredProducts) return <PageLoader />;
+  if (!collectors || !featuredProducts) return <PageLoader />;
 
   const handleRedirectToIssuer = () => {
     history.push(`/collection/${sku?.issuer._id}`);
   };
-
-  const filteredFeaturedSku =
-    featuredProducts &&
-    featuredProducts.filter((featuredSku) => {
-      if (featuredSku._id !== sku._id) {
-        return featuredSku;
-      }
-    });
 
   return (
     <div>
@@ -177,7 +177,7 @@ const SkuDetail = (): JSX.Element => {
       )}
 
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
-        <SkuDescription description={sku?.description} />
+        <SkuDescription description={sku?.description || ''} />
 
         {collectors && (
           <AuctionListing

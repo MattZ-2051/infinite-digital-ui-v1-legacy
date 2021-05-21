@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       position: 'absolute',
-      width: '550px',
+      maxWidth: '550px',
+      minWidth: '360px',
       height: '650px',
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
@@ -205,12 +206,12 @@ const DepositModal = ({
   };
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <S.BodyContainer style={modalStyle} className={`${classes.paper}`}>
       <S.ExitIcon>
         <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </S.ExitIcon>
 
-      <div style={{ padding: '0 40px 40px 40px' }}>
+      <S.BodyContent>
         <S.Header>Select a payment to deposit</S.Header>
         <S.GrayLine style={{ width: '100%' }} />
         <CircleBtn />
@@ -252,11 +253,24 @@ const DepositModal = ({
           </S.ExitIcon>
           <USDCDeposit />
         </ModalComponent>
-      </div>
-    </div>
+      </S.BodyContent>
+    </S.BodyContainer>
   );
   return <ModalComponent open={isModalOpen}>{body}</ModalComponent>;
 };
+
+S.BodyContainer = styled.div`
+  @media screen and (min-width: 550px) {
+    width: 550px;
+  }
+`;
+
+S.BodyContent = styled.div`
+  padding: 0 40px 40px 40px;
+  @media screen and (max-width: 550px) {
+    padding: 0 10px;
+  }
+`;
 
 S.GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
