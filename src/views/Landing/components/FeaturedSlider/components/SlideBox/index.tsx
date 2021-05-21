@@ -48,10 +48,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
         <MediaContainer>
           {product.graphicUrl?.endsWith('mov') ||
           product.graphicUrl?.endsWith('mp4') ? (
-            <video
-              style={{
-                width: '100%',
-              }}
+            <Video
               playsInline
               autoPlay={true}
               controls={false}
@@ -124,6 +121,17 @@ const MediaContainer = styled.div`
 
   @media screen and (max-width: 960px) {
     height: 80vw;
+  }
+
+  @media screen and (max-width: 660px) {
+    margin: auto;
+  }
+`;
+
+const Video = styled.video`
+  width: 100%;
+  @media screen and (max-width: 960px) {
+    width: 70%;
   }
 `;
 
