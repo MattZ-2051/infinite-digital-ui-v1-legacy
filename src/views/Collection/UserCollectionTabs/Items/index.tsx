@@ -45,7 +45,6 @@ const hasCollection = css`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: center;
 `;
 
 const noCollection = css`
