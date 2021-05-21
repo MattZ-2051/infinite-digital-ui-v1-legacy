@@ -40,7 +40,7 @@ const ModalBody = styled.div<{ height?: string; align?: string }>`
   margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
-  min-width: 400px;
+  min-width: 360px;
   min-height: ${(props) => (props.height ? `${props.height}` : `400px`)};
   padding: 20px;
   border-radius: 12px;
