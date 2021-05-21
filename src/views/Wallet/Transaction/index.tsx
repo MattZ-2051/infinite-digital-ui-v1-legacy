@@ -195,59 +195,64 @@ const Transaction = ({ tx }: IProps) => {
             </>
           )}
       </S.TransactionDescription>
-      <S.TransactionDetail>
-        <S.Date>{txCreatedAtDate.toLocaleDateString('en-US', options)}</S.Date>
-      </S.TransactionDetail>
-      <S.TransactionDetail>
-        {tx.type === 'purchase' && tx.status === 'success' && (
-          <S.Color color="#DA1010">
-            - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'purchase' && tx.status === 'pending' && (
-          <S.Color color="#9e9e9e">
-            - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'purchase' && tx.status === 'error' && (
-          <S.Color color="black" style={{ textDecoration: 'line-through' }}>
-            ${tx.transactionData?.cost?.totalCost.toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'deposit' && tx.status === 'success' && (
-          <S.Color color="#00C44F">
-            + $
-            {tx.transactionData.deposit &&
-              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'deposit' && tx.status === 'pending' && (
-          <S.Color color="#9e9e9e">
-            + $
-            {tx.transactionData.deposit &&
-              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'deposit' && tx.status === 'error' && (
-          <S.Color color="black" style={{ textDecoration: 'line-through' }}>
-            $
-            {tx.transactionData.deposit &&
-              parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'sale' && (
-          <S.Color color="#00C44F">
-            + ${tx.transactionData.cost?.finalPayout.toFixed(2)}
-          </S.Color>
-        )}
-        {tx.type === 'royalty_fee' && (
-          <S.Color color="#00C44F">
-            + $
-            {tx.transactionData.cost.royaltyFee &&
-              tx.transactionData.cost.royaltyFee.toFixed(2)}
-          </S.Color>
-        )}
-      </S.TransactionDetail>
+      <S.DateContainer>
+        <S.TransactionDetail>
+          <S.Date>
+            {txCreatedAtDate.toLocaleDateString('en-US', options)}
+          </S.Date>
+        </S.TransactionDetail>
+        <S.TransactionDetail>
+          {tx.type === 'purchase' && tx.status === 'success' && (
+            <S.Color color="#DA1010">
+              - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'purchase' && tx.status === 'pending' && (
+            <S.Color color="#9e9e9e">
+              - ${tx.transactionData?.cost?.totalCost.toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'purchase' && tx.status === 'error' && (
+            <S.Color color="black" style={{ textDecoration: 'line-through' }}>
+              ${tx.transactionData?.cost?.totalCost.toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'deposit' && tx.status === 'success' && (
+            <S.Color color="#00C44F">
+              + $
+              {tx.transactionData.deposit &&
+                parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'deposit' && tx.status === 'pending' && (
+            <S.Color color="#9e9e9e">
+              + $
+              {tx.transactionData.deposit &&
+                parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'deposit' && tx.status === 'error' && (
+            <S.Color color="black" style={{ textDecoration: 'line-through' }}>
+              $
+              {tx.transactionData.deposit &&
+                parseFloat(tx.transactionData?.deposit?.amount).toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'sale' && (
+            <S.Color color="#00C44F">
+              + ${tx.transactionData.cost?.finalPayout.toFixed(2)}
+            </S.Color>
+          )}
+          {tx.type === 'royalty_fee' && (
+            <S.Color color="#00C44F">
+              + $
+              {tx.transactionData.cost.royaltyFee &&
+                tx.transactionData.cost.royaltyFee.toFixed(2)}
+            </S.Color>
+          )}
+        </S.TransactionDetail>
+      </S.DateContainer>
+
       <S.TransactionDetail>
         {showTxId ? (
           <S.UpArrow onClick={() => setShowTxId(!showTxId)} />

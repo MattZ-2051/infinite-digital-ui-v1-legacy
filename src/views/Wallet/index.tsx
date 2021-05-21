@@ -27,7 +27,9 @@ const NoResults = styled.div``;
 //   justify-content: space-evenly;
 //   margin-top: 20px;
 // `;
-const ProductsGrid = styled.div``;
+const ProductsGrid = styled.div`
+  margin-bottom: 30px;
+`;
 
 // const PaginationContainer = styled.div`
 //   display: flex;
