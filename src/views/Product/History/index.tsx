@@ -244,11 +244,11 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         <S.TransactionHistory>
           {filteredTransactions instanceof Array &&
             filteredTransactions.map((transaction, index) => {
-              if (
-                filteredTransactions[filteredTransactions.length - 2].type ===
-                'nft_mint'
-              ) {
-                if (filteredTransactions.length >= 2) {
+              if (filteredTransactions.length >= 2) {
+                if (
+                  filteredTransactions[filteredTransactions.length - 2]
+                    ?.type === 'nft_mint'
+                ) {
                   if (index === filteredTransactions.length - 1) {
                     return (
                       <Transaction
