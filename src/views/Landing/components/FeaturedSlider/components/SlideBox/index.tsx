@@ -114,6 +114,7 @@ const MediaContainer = styled.div`
   background-position: center;
   width: 80%;
   background-size: contain;
+  margin: auto;
 
   img {
     width: 100%;
@@ -141,13 +142,13 @@ const ProductDetails = styled.div`
   height: auto;
   font-weight: 600;
   width: 50%;
-  padding-left: 10%;
 
   @media screen and (max-width: 960px) {
     min-width: 100%;
     font-size: 0.85rem;
     grid-gap: 10px;
     min-height: 320px;
+    padding-left: 5%;
   }
 
   p {
