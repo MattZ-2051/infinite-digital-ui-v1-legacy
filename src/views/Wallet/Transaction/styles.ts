@@ -6,7 +6,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 68% 15% 12% 5%;
+  grid-template-columns: 68% 27% 5%;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;

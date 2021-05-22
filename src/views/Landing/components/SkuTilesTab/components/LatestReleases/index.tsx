@@ -74,7 +74,7 @@ const ProductContainer = styled.div`
   && {
     display: grid;
     grid-gap: 26px;
-    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-columns: repeat(auto-fit, 320px);
     justify-content: flex-start;
 
     @media screen and (max-width: 1200px) {
