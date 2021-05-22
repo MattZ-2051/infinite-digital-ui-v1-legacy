@@ -6,10 +6,14 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 68% 15% 12% 5%;
+  grid-template-columns: 68% 27% 5%;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;
+  grid-template-columns: 68% 15% 12% 5%;
+  @media screen and (max-width: 960px) {
+    grid-template-columns: 48% 41% 11%;
+  }
 `;
 
 export const DownArrow = styled(ExpandMoreIcon)`
@@ -46,6 +50,12 @@ export const TransactionDescription = styled.span`
   align-items: center;
   justify-content: flex-start;
   text-align: center;
+
+  @media screen and (max-width: 960px) {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
 `;
 
 export const Bold = styled.span`
@@ -78,6 +88,10 @@ export const TxIdContainer = styled.div`
   font-size: 15px;
   font-weight: 400;
   padding-top: 10px;
+
+  @media screen and (max-width: 960px) {
+    padding-left: 0;
+  }
 `;
 
 export const UsdcIcon = styled(UsdcSvg)`
@@ -88,4 +102,12 @@ export const TxId = styled.span`
   font-weight: 400;
   color: black;
   font-size: 15px;
+`;
+
+export const DateContainer = styled.div`
+  text-align: end;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
 `;
