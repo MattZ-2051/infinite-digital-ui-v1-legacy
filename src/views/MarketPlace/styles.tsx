@@ -27,9 +27,9 @@ export const Main = styled.main`
 
 export const Content = styled.section`
   width: 100%;
-  @media screen and (max-width: 1440px) {
-    width: 638px;
-  }
+  // @media screen and (max-width: 1440px) {
+  //   width: 638px;
+  // }
   @media screen and (max-width: 1140px) {
     width: 100%;
   }
@@ -71,7 +71,7 @@ export const ProductsGrid = styled.div`
   margin: auto;
   display: grid;
   grid-gap: 24px;
-  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 280px);
   justify-content: space-evenly;
   margin-top: 20px;
 `;
