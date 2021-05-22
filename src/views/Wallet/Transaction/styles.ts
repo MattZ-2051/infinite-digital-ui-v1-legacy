@@ -10,6 +10,7 @@ export const Container = styled.div`
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;
+  grid-template-columns: 68% 15% 12% 5%;
   @media screen and (max-width: 960px) {
     grid-template-columns: 48% 41% 11%;
   }
