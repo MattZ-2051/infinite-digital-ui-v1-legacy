@@ -107,7 +107,7 @@ const SkuPageModal = ({
   };
 
   const handleTCRouteChange = () => {
-    history.push('/tc');
+    history.push('/terms');
   };
 
   const Body = () => {
