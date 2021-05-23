@@ -99,7 +99,7 @@ const BuyNowModal = ({
   };
 
   const handleTCRouteChange = () => {
-    history.push('/tc');
+    history.push('/terms');
   };
 
   const Body = () => {
