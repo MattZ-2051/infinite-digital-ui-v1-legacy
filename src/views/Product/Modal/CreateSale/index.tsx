@@ -81,6 +81,14 @@ const CreateSale = ({
     }
   };
 
+  const onPriceChanged = (value) => {
+    if (/\d*(\.|,){0,1}\d{3}$/g.test(value)) {
+      setPrice(parseFloat(parseFloat(value).toFixed(2)).toString());
+    } else {
+      setPrice(value);
+    }
+  };
+
   return (
     <Modal
       open={visible}
@@ -134,7 +142,8 @@ const CreateSale = ({
           <TextField
             type="money"
             placeholder="Enter price"
-            onChange={(value) => setPrice(value)}
+            onChange={(value) => onPriceChanged(value)}
+            defaultValue={price}
             name={price}
           />
         </S.InputContainer>

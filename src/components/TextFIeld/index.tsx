@@ -16,25 +16,15 @@ const TextField = ({
   type = 'text',
   name,
 }) => {
-  const [inputValue, setInputValue] = useState(defaultValue);
-
-  useEffect(() => {
-    onChange && onChange(inputValue);
-  }, [inputValue]);
-
-  useEffect(() => {
-    setInputValue(defaultValue);
-  }, [defaultValue]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setInputValue(newValue);
+    onChange && onChange(newValue);
   };
 
   const inputProps = {
     name,
     placeholder,
-    value: inputValue,
+    value: defaultValue,
     onChange: handleChange,
   };
 
