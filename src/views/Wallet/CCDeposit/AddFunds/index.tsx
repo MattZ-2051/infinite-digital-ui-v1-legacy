@@ -44,7 +44,7 @@ const AddFunds = () => {
 
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    fundsBody.amount = fundsBody.amount?.replace(',', '');
+    fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
     if (isNaN(Number(fundsBody?.amount))) {
       Toast.error('An Error Occurred: Please enter a valid amount.');
       return;
