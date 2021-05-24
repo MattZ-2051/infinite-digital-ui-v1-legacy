@@ -12,3 +12,7 @@ export const Container = styled.main`
   align-items: center;
   height: 100vh;
 `;
+
+export const Padding = styled.div`
+  padding: 25px 0;
+`;

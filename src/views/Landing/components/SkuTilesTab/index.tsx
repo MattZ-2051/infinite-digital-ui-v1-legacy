@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components/macro';
 import Tab from 'components/Tab';
 import Tabs from 'components/TabsContainer';
 import LatestReleases from './components/LatestReleases';
 // import { MyCollection } from './components/MyCollection';
 // import Items from 'views/Collection/UserCollectionTabs/Items';
+import * as S from './styles';
 
 export interface IProps {
   isAuthenticated: boolean;
@@ -18,7 +17,7 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
     setSelectedTab(newValue);
   };
   return (
-    <Container>
+    <S.Container>
       <Tabs value={selectedTab} onChange={handleChange} centered>
         {/* {isAuthenticated && (
           <Tab
@@ -34,9 +33,9 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
           disableRipple
           data-testid="myCollectionTab"
         />
-        <ViewAll to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
+        <S.ViewAll to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
           + View all
-        </ViewAll>
+        </S.ViewAll>
       </Tabs>
 
       {selectedTab === 0 && <LatestReleases />}
@@ -48,29 +47,8 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
        * Those two components should be merged.
        */}
       {/* {selectedTab === 1 && <MyCollection />} */}
-    </Container>
+    </S.Container>
   );
 };
-
-const Container = styled.section`
-  padding: 40px;
-  height: 100%;
-  bottom: 40px;
-  max-width: 1440px;
-  margin: auto;
-  border-radius: 10px;
-
-  @media screen and (max-width: 960px) {
-    padding: 24px;
-  }
-`;
-
-const ViewAll = styled(Link)`
-  position: absolute;
-  right: 0;
-  top: 21px;
-  text-decoration: none;
-  font-size: 18px;
-`;
 
 export default SkuTilesTab;
