@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
@@ -189,12 +189,17 @@ const SkuDetail = (): JSX.Element => {
 
       {filteredFeaturedSku.length > 0 && (
         <S.Section>
-          <S.SectionTitle>Related Releases</S.SectionTitle>
+          <S.SectionTitle>
+            Related Releases
+            <S.ViewAll to={`/collection/${sku?.issuer?._id}`}>
+              + View all
+            </S.ViewAll>
+          </S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&
               filteredFeaturedSku.map((el, index) => {
                 // TODO: Stopping after index 5
-                if (index >= 5) return null;
+                if (index >= 4) return null;
                 return (
                   <S.TileContainer key={index} index={index}>
                     <SkuTile sku={el} key={index} themeStyle="light" />
