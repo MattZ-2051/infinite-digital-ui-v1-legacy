@@ -44,7 +44,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
     if (user.role === 'issuer') {
       const releasesRes = await getReleasesOwnedByUser(
-        userId,
+        user._id,
         page,
         perPage,
         queryParams
