@@ -151,9 +151,19 @@ export const removeUserCC = async (token: string, cardId: string) => {
   }
 };
 
-export const getUser = async (userId: string): Promise<User> => {
+export const getUser = async (
+  username: string,
+  page: number,
+  per_page: number
+): Promise<User> => {
   try {
-    const response = await axiosInstance.get<User>(`/users/${userId}`);
+    const response = await axiosInstance.get<User>(`/users`, {
+      params: {
+        username,
+        page,
+        per_page,
+      },
+    });
     return response.data;
   } catch (err) {
     if (err.response) {

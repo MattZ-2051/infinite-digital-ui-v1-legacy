@@ -50,6 +50,52 @@ const ImageView = ({ src }: { src: string }) => {
   );
 };
 
+const VectaryView = ({ src }: { src: string }) => {
+  return (
+    <iframe
+      id={'3d-ar'}
+      src={src}
+      frameBorder="0"
+      width="100%"
+      height="480"
+    ></iframe>
+  );
+};
+
+const VectaryThumbnail = ({ src }: { src: string }) => {
+  // extract id from url
+  const id = src.match(/\w+-\w+-\w+-\w+-\w+/g);
+  return (
+    <img
+      src={
+        'https://www.vectary.com/viewer/data/' +
+        id +
+        '/gltf/' +
+        id +
+        '.viewerthumb.png'
+      }
+    />
+  );
+};
+
+const MediaView = ({ src }: { src: string }) => {
+  if (src.endsWith('mov') || src.endsWith('mp4')) {
+    return <VideoView src={src} />;
+  } else if (
+    src.endsWith('jpg') ||
+    src.endsWith('jpeg') ||
+    src.endsWith('png')
+  ) {
+    return <ImageView src={src} />;
+  } else if (src.endsWith('mp3')) {
+    return <AudioView src={src} />;
+  } else if (src.includes('vectary')) {
+    return <VectaryView src={src} />;
+  } else {
+    return <></>;
+  }
+};
+
 const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -60,26 +106,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   return (
     <Container height={height}>
       <ImageContainer>
-        {images[selectedImage]?.endsWith('mov') ||
-        images[selectedImage]?.endsWith('mp4') ? (
-          <VideoView src={images[selectedImage]} />
-        ) : images[selectedImage]?.endsWith('mp3') ? (
-          <AudioView src={images[selectedImage]} />
-        ) : (
-          <ImageView src={images[selectedImage]} />
-        )}
-        {/* <Squircle
-          size={40}
-          bgColor="white"
-          style={{
-            position: 'absolute',
-            right: '24px',
-            top: '24px',
-            cursor: 'pointer',
-          }} //TODO: create StyledComponent
-        >
-          <TDRotationIcon />
-        </Squircle> */}
+        {images[selectedImage] && <MediaView src={images[selectedImage]} />}
       </ImageContainer>
 
       <ThumbnailMenu>
@@ -105,6 +132,8 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                   ></video>
                 ) : el?.endsWith('mp3') ? (
                   <img src={AudioIcon} alt="" />
+                ) : el?.includes('vectary') ? (
+                  <VectaryThumbnail src={el} />
                 ) : (
                   <img src={el} alt="" />
                 )}
@@ -186,7 +215,6 @@ const Thumbnail = styled.div<ThumbnailItemProps>`
   height: 85px;
   border: 1px solid;
   border-color: ${(props) => (props.active ? 'black' : '#d2d2d2')};
-  background-color: #f4f4f4;
   cursor: pointer;
   overflow: hidden;
 

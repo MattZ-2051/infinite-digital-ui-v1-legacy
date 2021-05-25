@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/macro';
+import { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
-import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
-import { Container } from '../index';
+import { Container, Padding } from '../styles';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import CurrencyInput from 'react-currency-input-field';
 import {
   getUserCardsThunk,
   removeUserCCThunk,
   addFundsThunk,
 } from 'store/session/sessionThunks';
 import Toast from 'utils/Toast';
-import LoadingButton from 'components/Buttons/LoadingButton';
+import * as S from './styles';
 
-const S: any = {};
+const zeros = ['0', '0.00', '.00', '', '00.00'];
 
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
@@ -25,6 +22,7 @@ const AddFunds = () => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
+  const [activeButton, setActiveButton] = useState<boolean>(false);
   const fundsBody = {
     email: userCard.metadata.email,
     amount: amount,
@@ -42,13 +40,34 @@ const AddFunds = () => {
     }
   };
 
+  useEffect(() => {
+    if (zeros.includes(amount || '')) {
+      setActiveButton(false);
+    } else {
+      setActiveButton(true);
+    }
+  }, [amount]);
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    fundsBody.amount = fundsBody.amount?.replace(',', '');
+    if (zeros.includes(amount || '')) {
+      Toast.error(
+        'Amount entered must be greater than 0 and cannot exceed 10 digits'
+      );
+      return;
+    }
+
+    if (amount && amount.length > 10) {
+      Toast.error(
+        'Amount entered must be greater than 0 and cannot exceed 10 digits'
+      );
+      return;
+    }
+    fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
     if (isNaN(Number(fundsBody?.amount))) {
       Toast.error('An Error Occurred: Please enter a valid amount.');
       return;
     }
+
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
@@ -96,9 +115,9 @@ const AddFunds = () => {
               <S.HeaderText>Circle Payments</S.HeaderText>
             </S.HeaderDiv>
           </S.Row>
-          <div style={{ paddingTop: '25px' }}>
+          <Padding>
             <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
-          </div>
+          </Padding>
           <S.CardContainer>
             <S.CreditCard
               name=" "
@@ -112,9 +131,7 @@ const AddFunds = () => {
           <S.Row>
             <div>
               <span>Credit Card</span>
-              <span style={{ color: '#00c44f', paddingLeft: '5px' }}>
-                (Active)
-              </span>
+              <S.ActiveText>(Active)</S.ActiveText>
             </div>
             <S.RemoveCCButton onClick={removeCard}>
               Remove Card
@@ -126,13 +143,7 @@ const AddFunds = () => {
               deposit.
             </S.FeeReminderText>
           </S.FeeReminderContainer>
-          <div
-            style={{
-              paddingTop: '25px',
-              borderBottom: '2px solid #ebebeb',
-              paddingBottom: '10px',
-            }}
-          >
+          <S.AmountContainer>
             <S.DollarSign>$</S.DollarSign>
             <S.AmountInput
               id="amount"
@@ -145,118 +156,22 @@ const AddFunds = () => {
               defaultValue={0.0}
               allowNegativeValue={false}
             />
-          </div>
-          <div style={{ padding: '25px 0' }}>
+          </S.AmountContainer>
+          <Padding>
             <S.AddFundsButton
               onClick={addFunds}
               loadingComponentRender={() => (
                 <PulseLoader color="#FFF" size={9} loading={true} />
               )}
+              active={activeButton}
             >
               Add Funds
             </S.AddFundsButton>
-          </div>
+          </Padding>
         </S.ContentContainer>
       </Container>
     </>
   );
 };
-
-S.CreditCard = styled(Cards)`
-  .rccs__card__background {
-    background: black !important;
-  }
-`;
-
-S.RemoveCCButton = styled.span`
-  font-size: 16px;
-  color: #7d7d7d;
-  :hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`;
-
-S.DollarSign = styled.span`
-  color: #7d7d7d;
-  font-size: 16px;
-  padding-right: 10px;
-`;
-
-S.AmountInput = styled(CurrencyInput)`
-  border: none;
-  font-size: 16px;
-  :focus {
-    outline: none;
-  }
-`;
-
-S.CardContainer = styled.div`
-  padding: 25px 0;
-`;
-
-S.AddFundsText = styled.span`
-  font-size: 16px;
-  color: #7d7d7d;
-`;
-
-S.FeeReminderContainer = styled.div`
-  margin: 24px auto 20px;
-  text-align: center;
-`;
-
-S.FeeReminderText = styled.div`
-  color: #9e9e9e;
-`;
-
-S.FeeReminderIconContainer = styled.div`
-  margin: 10px auto;
-`;
-
-S.HeaderText = styled.span`
-  font-size: 22px;
-  padding-left: 18px;
-  font-weigth: 600;
-`;
-
-S.HeaderDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-S.Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-S.ContentContainer = styled.div`
-  width: 410px;
-  // background-color: white;
-  @media screen and (max-width: 430px) {
-    width: 80%;
-  }
-`;
-
-S.AddFundsButton = styled(LoadingButton)`
-  width: 410px;
-  height: 56px;
-  border: none;
-  background-color: black;
-  color: white;
-  border-radius: 35px;
-  font-size: 20px;
-  font-weigth: 600;
-  :hover {
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-  @media screen and (max-width: 430px) {
-    width: 100%;
-  }
-`;
 
 export default AddFunds;

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components/macro';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +12,7 @@ import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
 import PageLoader from 'components/PageLoader';
 import { Media } from 'components/Media/Media';
+import * as S from './styles';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text?.split('. ');
@@ -51,14 +51,14 @@ const Collection = (): JSX.Element => {
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();
-  const userId = history.location.pathname.split('/')[2];
+  const username = history.location.pathname.split('/')[2];
   const { isAuthenticated } = useAuth0();
 
   async function fetchUser() {
     try {
-      const data = await getUser(userId);
+      const data = await getUser(username, 1, 1);
       if (data) {
-        setUser(data);
+        setUser(data[0]);
       }
     } catch (e) {
       console.log(e);
@@ -67,12 +67,12 @@ const Collection = (): JSX.Element => {
 
   useEffect(() => {
     fetchUser();
-  }, [userId]);
+  }, [username]);
 
-  if (user._id === '0') return <PageLoader />;
+  if (user._id === '0' || !user) return <PageLoader />;
 
   return (
-    <Container>
+    <S.Container>
       <ViewContainer>
         {bannerPhotoUrl ? (
           <BackgroundImageContainer src={bannerPhotoUrl}>
@@ -95,11 +95,11 @@ const Collection = (): JSX.Element => {
           }}
         >
           {midPhotoUrl && (
-            <ContainerMarginRight style={{ height: 'fit-content' }}>
+            <S.ContainerMarginRight style={{ height: 'fit-content' }}>
               <Media src={midPhotoUrl} styles={{}} />
-            </ContainerMarginRight>
+            </S.ContainerMarginRight>
           )}
-          <ContainerMarginLeft>
+          <S.ContainerMarginLeft>
             <FlexColumn childMargin="1rem" style={{ margin: '1rem' }}>
               {descriptionIcon && (
                 <Media
@@ -147,10 +147,10 @@ const Collection = (): JSX.Element => {
                 {descriptionBody}
               </TextContainer>
             </FlexColumn>
-          </ContainerMarginLeft>
+          </S.ContainerMarginLeft>
         </FlexRow>
         <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
-        <Container
+        <S.Container
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -177,85 +177,10 @@ const Collection = (): JSX.Element => {
               </GradientText>
             </TextContainer>
           </FlexColumn>
-        </Container>
+        </S.Container>
       </ViewContainer>
-    </Container>
+    </S.Container>
   );
 };
-
-const Container = styled.div`
-  background-color: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-right: 2.5rem;
-  @media screen and (max-width: 960px) {
-    margin-right: 0;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* NOTE: This is setting children to black. Might need a more elegant way */
-  > * {
-    background-color: black;
-    color: white;
-  }
-`;
-
-const ContainerMarginLeft = styled.div`
-  background-color: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-left: 2.5rem;
-  @media screen and (max-width: 960px) {
-    margin-left: 0;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* NOTE: This is setting children to black. Might need a more elegant way */
-  > * {
-    background-color: black;
-    color: white;
-  }
-`;
-
-const ContainerMarginRight = styled.div`
-  background-color: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-right: 2.5rem;
-  @media screen and (max-width: 960px) {
-    margin-right: 0;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* NOTE: This is setting children to black. Might need a more elegant way */
-  > * {
-    background-color: black;
-    color: white;
-  }
-`;
 
 export default Collection;

@@ -49,7 +49,7 @@ const RouterComponent = (): JSX.Element => {
       <PrivateRoute exact path="/wallet/addcreditcard" component={AddCC} />
       <PrivateRoute exact path="/wallet/deposit/error" component={ErrorPage} />
 
-      <Route path="/collection/:userId" component={Collection} />
+      <Route path="/collection/:username" component={Collection} />
 
       {/* Legal */}
       <Route path="/terms" component={TC} />

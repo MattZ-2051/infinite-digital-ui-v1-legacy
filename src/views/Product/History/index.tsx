@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components/macro';
 import { ProductWithFunctions } from 'entities/product';
 import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
-import { Link } from 'react-router-dom';
 import CreateSale from '../Modal/CreateSale';
 import Toast from 'utils/Toast';
-import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip.svg';
 import { useHistory } from 'react-router-dom';
 import BuyNowModal from '../Modal/BuyNow';
-import { mediaQueries } from 'theme/media';
+import { Link } from 'react-router-dom';
+import * as S from './styles';
 
 export type Status =
   | 'not-for-sale'
@@ -46,7 +44,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
-    history.push(`/collection/${product?.owner._id}`);
+    history.push(`/collection/${product?.owner.username}`);
   };
 
   const productListingExists = () => {
@@ -185,7 +183,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           </S.Row>
           {status === 'upcoming' && (
             <>
-              <ButtonContainer
+              <S.ButtonContainer
                 onMouseEnter={() => setShowLink(true)}
                 onMouseLeave={() => setShowLink(false)}
               >
@@ -196,25 +194,25 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   </div>
                 )}
                 <S.Button width="130px">Upcoming</S.Button>
-              </ButtonContainer>
+              </S.ButtonContainer>
             </>
           )}
           {status === 'buy-now' && (
-            <ButtonContainer>
+            <S.ButtonContainer>
               <S.Button onClick={handleSaleAction} hover={true}>
                 Buy Now for ${product?.activeProductListings[0]?.price}
               </S.Button>
-            </ButtonContainer>
+            </S.ButtonContainer>
           )}
           {status === 'create-sale' && (
-            <ButtonContainer>
+            <S.ButtonContainer>
               <S.Button onClick={handleSaleAction} width="130px" hover={true}>
                 List for sale
               </S.Button>
-            </ButtonContainer>
+            </S.ButtonContainer>
           )}
           {status === 'not-for-sale' && (
-            <ButtonContainer>
+            <S.ButtonContainer>
               <S.Button
                 onClick={handleSaleAction}
                 className="button_noSale"
@@ -223,10 +221,10 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               >
                 Not for sale
               </S.Button>
-            </ButtonContainer>
+            </S.ButtonContainer>
           )}
           {status === 'active-sale' && (
-            <ButtonContainer>
+            <S.ButtonContainer>
               <S.FlexColumn>
                 <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                 <div style={{ display: 'flex' }}>
@@ -234,7 +232,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   <S.ActiveText>active</S.ActiveText>
                 </div>
               </S.FlexColumn>
-            </ButtonContainer>
+            </S.ButtonContainer>
           )}
         </S.Header>
         <S.FlexDiv>
@@ -332,212 +330,5 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     </>
   );
 };
-
-const S: any = {};
-
-S.Container = styled.div`
-  padding: 48px 0 48px 48px;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-  @media screen and (max-width: 1160px) {
-    padding: 48px 24px 48px 24px;
-  }
-`;
-
-S.ActiveAmount = styled.span`
-  font-size: 24px;
-  color: white;
-  font-weight: 600;
-`;
-
-S.FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-`;
-
-S.ActiveText = styled.span`
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-S.StatusText = styled.span`
-  color: #7c7c7c;
-  font-size: 16px;
-  font-weight: 600;
-  padding-right: 5px;
-`;
-
-S.FlexDiv = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 80px;
-`;
-
-S.Row = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 0;
-  flex-direction: column;
-
-  ${mediaQueries.sm} {
-    flex-direction: row;
-    padding-right: 80px;
-  }
-`;
-
-S.TitleLink = styled(Link)`
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  :focus {
-    color: white;
-  }
-`;
-
-S.ToolTip = styled(ToolTip)`
-  position: absolute;
-  left: -1em;
-  bottom: 45px;
-  color: black;
-  width: 206px;
-  height: 38px;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-S.ToolTipText = styled.span`
-  position: absolute;
-  left: -1em;
-  bottom: 4em;
-  color: black;
-  overflow: hidden;
-  font-size: 14px;
-`;
-
-S.ProductId = styled.span`
-  font-size: 48px;
-  color: white;
-  font-weight: 600;
-  padding-right: 16px;
-`;
-
-S.TransactionHistory = styled.div`
-  overflow: hidden;
-  height: 80%;
-  overflow-x: hidden;
-  padding-right: 80px;
-
-  :hover {
-    overflow-y: auto;
-    cursor: pointer;
-  }
-
-  @media screen and (max-width: 1160px) {
-    padding-right: 0;
-  }
-`;
-
-S.History = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-  border-bottom: 2px solid white;
-  padding-bottom: 16px;
-`;
-
-S.GrayLine = styled.div`
-  border-bottom: 2px solid #2e2e2e;
-  width: 100%;
-  color: #1a1a1a;
-  padding-bottom: 16px;
-  padding-right: 80px;
-`;
-
-S.ProductOwner = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
-  padding-left: 0;
-
-  ${mediaQueries.sm} {
-    flex-direction: row;
-    padding-left: 16px;
-  }
-`;
-
-S.Owner = styled.span`
-  color: white;
-  margin-left: 0;
-  :hover {
-    cursor: pointer;
-  }
-
-  ${mediaQueries.sm} {
-    margin-left: 10px;
-  }
-`;
-
-S.Button = styled.button<{ width: string; hover: boolean }>`
-  border: none;
-  width: ${(props) => (props.width ? props.width : '190px')};
-  height: 40px;
-  border-radius: 35px;
-  background-color: #2e2e2e;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  ${(props) =>
-    props.hover
-      ? `:hover {
-    cursor: pointer;
-    background-color: white;
-    color: black;
-  }`
-      : 'color: #9e9e9e'}
-`;
-
-S.Header = styled.div`
-  font-size: 48px;
-  font-weight: 600;
-  color: #7c7c7c;
-  display: flex;
-  padding-top: 40px;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  align-items: baseline;
-
-  ${mediaQueries.sm} {
-    margin-bottom: none;
-    align-items: center;
-  }
-`;
-
-S.Title = styled.div`
-  color: #7c7c7c;
-  font-size: 16px;
-`;
-
-S.Slash = styled.span`
-  color: #7c7c7c;
-  margin-left: 10px;
-  display: none;
-
-  ${mediaQueries.sm} {
-    display: inline-block;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  padding-right: 0;
-
-  ${mediaQueries.sm} {
-    padding-right: 80px;
-  }
-`;
 
 export default History;

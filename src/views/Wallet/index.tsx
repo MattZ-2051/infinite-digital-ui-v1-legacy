@@ -61,7 +61,7 @@ const Wallet = (props) => {
   const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
   // const documentElement = document.getElementById('tx');
 
-  const { id: userId } = useAppSelector((state) => state.session.user);
+  const { username: username } = useAppSelector((state) => state.session.user);
   const { kycPending, kycMaxLevel } = useAppSelector(
     (state) => state.session.userCards
   );
@@ -157,7 +157,7 @@ const Wallet = (props) => {
     >
       <S.Header>
         <S.HeaderContent>
-          <S.Link to={`/collection/${userId}`}>
+          <S.Link to={`/collection/${username}`}>
             {' '}
             <S.BackArrow />
             Back To My Collection

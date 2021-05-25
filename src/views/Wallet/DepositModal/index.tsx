@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components/macro';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
@@ -13,6 +12,7 @@ import { USDCDeposit } from '../USDCDeposit/USDCDeposit';
 import { getPersonalToken } from 'services/api/userService';
 import Toast from 'utils/Toast';
 import { useKycClient } from 'hooks/useKycClient';
+import * as S from './styles';
 //assets
 import coinbaseIcon from 'assets/img/icons/coinbase-icon-large.png';
 import sukuIcon from 'assets/img/icons/suku-icon.png';
@@ -56,8 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const S: any = {};
 
 const DepositModal = ({
   kycMaxLevel,
@@ -123,24 +121,18 @@ const DepositModal = ({
   const CoinBaseBtn = () => {
     const bodyBtn = (
       <S.Row>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <S.FlexAlignCenter>
           <img src={coinbaseIcon} />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        </S.FlexAlignCenter>
+        <S.FlexColumn>
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             Coinbase
           </S.RowText>
           <S.RowSubText>Deposit funds using ETH, BTC</S.RowSubText>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}
-        >
+        </S.FlexColumn>
+        <S.FlexEnd>
           <ArrowForwardIosIcon className="icon__arrow" />
-        </div>
+        </S.FlexEnd>
       </S.Row>
     );
 
@@ -158,19 +150,12 @@ const DepositModal = ({
     }
 
     return coinbaseMetadata ? (
-      <CoinbaseCommerceButton
-        style={{
-          width: '100%',
-          background: 'none',
-          border: 'none',
-          textAlign: 'left',
-          padding: 0,
-        }}
+      <S.CoinbaseButton
         checkoutId={coinbaseCheckoutId}
         customMetadata={coinbaseMetadata}
       >
         {bodyBtn}
-      </CoinbaseCommerceButton>
+      </S.CoinbaseButton>
     ) : null;
   };
 
@@ -183,24 +168,18 @@ const DepositModal = ({
             : setIsUSDCModelOpen(true)
         }
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <S.FlexAlignCenter>
           <img width="50px" src={usdcIcon} />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        </S.FlexAlignCenter>
+        <S.FlexColumn>
           <S.RowText style={{ color: `${kycDisabled ? '#9e9e9e' : 'black'}` }}>
             USDC
           </S.RowText>
           <S.RowSubText>Deposit funds using USDC</S.RowSubText>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}
-        >
+        </S.FlexColumn>
+        <S.FlexEnd>
           <ArrowForwardIosIcon className="icon__arrow" />
-        </div>
+        </S.FlexEnd>
       </S.Row>
     );
   };
@@ -216,32 +195,26 @@ const DepositModal = ({
         <S.GrayLine style={{ width: '100%' }} />
         <CircleBtn />
         <S.Row onClick={handleRedirect}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <S.FlexAlignCenter>
             <img src={circleIcon} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          </S.FlexAlignCenter>
+          <S.FlexColumn>
             <S.RowText>Circle</S.RowText>
             <S.RowSubText>Deposit funds using a credit card</S.RowSubText>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}
-          >
+          </S.FlexColumn>
+          <S.FlexEnd>
             <ArrowForwardIosIcon className="icon__arrow" />
-          </div>
+          </S.FlexEnd>
         </S.Row>
         <CoinBaseBtn />
         <S.Row>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <S.FlexAlignCenter>
             <img src={sukuIcon} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          </S.FlexAlignCenter>
+          <S.FlexColumn>
             <S.RowText style={{ color: '#9e9e9e' }}>SUKU</S.RowText>
             <S.RowSubText>Coming soon</S.RowSubText>
-          </div>
+          </S.FlexColumn>
         </S.Row>
         <ModalComponent open={isUSDCModalOpen}>
           <S.ExitIcon>
@@ -258,76 +231,5 @@ const DepositModal = ({
   );
   return <ModalComponent open={isModalOpen}>{body}</ModalComponent>;
 };
-
-S.BodyContainer = styled.div`
-  @media screen and (min-width: 550px) {
-    width: 550px;
-  }
-`;
-
-S.BodyContent = styled.div`
-  padding: 0 40px 40px 40px;
-  @media screen and (max-width: 550px) {
-    padding: 0 10px;
-  }
-`;
-
-S.GrayLine = styled.div`
-  border-bottom: 2px solid #d8d8d8;
-  padding-top: 12px;
-  width: 80%;
-`;
-
-S.RowText = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-S.RowSubText = styled.span`
-  font-size: 16px;
-  color: #9e9e9e;
-`;
-
-S.Header = styled.span`
-  font-size: 22px;
-  font-weight: 600;
-  border-bottom: 2px solid black;
-  padding-bottom: 14px;
-`;
-
-S.SubHeader = styled.div`
-  font-size: 16px;
-  color: #7d7d7d;
-  padding-top: 25px;
-`;
-
-S.Row = styled.div`
-  display: grid;
-  grid-template-columns: 15% 55% 30%;
-  padding-top: 40px;
-  border-bottom: 1px solid #ebebeb;
-  padding-bottom: 21px;
-  :hover {
-    border-bottom: 1px solid black;
-    cursor: pointer;
-  }
-  .icon__arrow {
-    color: #9e9e9e;
-  }
-  :hover .icon__arrow {
-    color: black;
-  }
-`;
-
-S.ExitIcon = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 16px;
-  :hover .icon__exit {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-`;
 
 export default DepositModal;
