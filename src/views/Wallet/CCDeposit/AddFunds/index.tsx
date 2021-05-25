@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -14,12 +14,15 @@ import {
 import Toast from 'utils/Toast';
 import * as S from './styles';
 
+const zeros = ['0', '0.00', '.00', '', '00.00'];
+
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
+  const [activeButton, setActiveButton] = useState<boolean>(false);
   const fundsBody = {
     email: userCard.metadata.email,
     amount: amount,
@@ -37,13 +40,34 @@ const AddFunds = () => {
     }
   };
 
+  useEffect(() => {
+    if (zeros.includes(amount || '')) {
+      setActiveButton(false);
+    } else {
+      setActiveButton(true);
+    }
+  }, [amount]);
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
+    if (zeros.includes(amount || '')) {
+      Toast.error(
+        'Amount entered must be greater than 0 and cannot exceed 10 digits'
+      );
+      return;
+    }
+
+    if (amount && amount.length > 10) {
+      Toast.error(
+        'Amount entered must be greater than 0 and cannot exceed 10 digits'
+      );
+      return;
+    }
     fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
     if (isNaN(Number(fundsBody?.amount))) {
       Toast.error('An Error Occurred: Please enter a valid amount.');
       return;
     }
+
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
@@ -139,6 +163,7 @@ const AddFunds = () => {
               loadingComponentRender={() => (
                 <PulseLoader color="#FFF" size={9} loading={true} />
               )}
+              active={activeButton}
             >
               Add Funds
             </S.AddFundsButton>

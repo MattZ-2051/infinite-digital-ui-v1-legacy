@@ -91,18 +91,16 @@ export const ContentContainer = styled.div`
   }
 `;
 
-export const AddFundsButton = styled(LoadingButton)`
+export const AddFundsButton = styled(LoadingButton)<{ active: boolean }>`
   width: 410px;
   height: 56px;
   border: none;
-  background-color: black;
+  background-color: ${(props) => (props.active ? 'black' : '#9e9e9e')};
   color: white;
   border-radius: 35px;
   font-size: 20px;
   font-weigth: 600;
-  :hover {
-    cursor: pointer;
-  }
+  ${(props) => props.active && `:hover {cursor: pointer}`};
   :focus {
     outline: none;
   }
