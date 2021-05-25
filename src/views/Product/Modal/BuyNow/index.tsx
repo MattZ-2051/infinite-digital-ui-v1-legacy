@@ -269,7 +269,7 @@ const BuyNowModal = ({
               <div style={{ marginTop: '20px' }}>
                 <Link
                   style={{ textDecoration: 'none' }}
-                  to={`/collection/${loggedInUser.id}`}
+                  to={`/collection/${loggedInUser.username}`}
                 >
                   Back to Marketplace
                 </Link>

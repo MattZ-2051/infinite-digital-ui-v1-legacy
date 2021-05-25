@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Pagination from '@material-ui/lab/Pagination';
-import styled from 'styled-components/macro';
 // Local
 import Items from './Items';
 import Releases from './Releases';
@@ -13,10 +11,8 @@ import {
 } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
-import { Theme } from 'theme/theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { CollectionsBookmarkOutlined } from '@material-ui/icons';
-
+import * as S from './styles';
 interface IProps {
   user: User;
   isAuthenticated: boolean;
@@ -104,7 +100,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   };
 
   return (
-    <Container themeStyle={themeStyle}>
+    <S.Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
         <>
           <div style={{ position: 'relative', paddingBottom: '30px' }}>
@@ -115,18 +111,18 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <TabBar>
-                <Tab
+              <S.TabBar>
+                <S.Tab
                   themeStyle={themeStyle}
                   selected={selectedTab === 'items'}
                   onClick={() => setSelectedTab('items')}
                 >
                   My Items
-                </Tab>
-              </TabBar>
+                </S.Tab>
+              </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
-            <GrayLine style={{ width: '100%' }}></GrayLine>
+            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
 
           {selectedTab === 'items' && (
@@ -148,25 +144,25 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <TabBar>
-                <Tab
+              <S.TabBar>
+                <S.Tab
                   selected={selectedTab === 'releases'}
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('releases')}
                 >
                   My Releases
-                </Tab>
+                </S.Tab>
                 <span style={{ padding: '0 20px' }}></span>
-                <Tab
+                <S.Tab
                   selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
                   My Items
-                </Tab>
-              </TabBar>
+                </S.Tab>
+              </S.TabBar>
             </div>
-            <GrayLine style={{ width: '100%' }}></GrayLine>
+            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
           {selectedTab === 'releases' && (
             <Releases
@@ -194,26 +190,26 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <TabBar>
-                <Tab
+              <S.TabBar>
+                <S.Tab
                   selected={selectedTab === 'releases'}
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('releases')}
                 >
                   Releases
-                </Tab>
+                </S.Tab>
                 <span style={{ padding: '0 20px' }}></span>
-                <Tab
+                <S.Tab
                   selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
                   Items
-                </Tab>
-              </TabBar>
+                </S.Tab>
+              </S.TabBar>
             </div>
 
-            <GrayLine style={{ width: '100%' }}></GrayLine>
+            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
           {selectedTab === 'releases' && (
             <Releases
@@ -241,19 +237,19 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 alignItems: 'center',
               }}
             >
-              <TabBar>
-                <Tab
+              <S.TabBar>
+                <S.Tab
                   selected={selectedTab === 'items'}
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
                   Items
-                </Tab>
-              </TabBar>
+                </S.Tab>
+              </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
             </div>
 
-            <GrayLine style={{ width: '100%' }}></GrayLine>
+            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
           </div>
           {selectedTab === 'items' && (
             <Items
@@ -273,7 +269,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
         }
         if (total > 8)
           return (
-            <StyledPagination
+            <S.StyledPagination
               themeStyle={themeStyle}
               count={Math.ceil(total / perPage)}
               page={page}
@@ -282,95 +278,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             />
           );
       })(selectedTab)}
-    </Container>
+    </S.Container>
   );
 };
-
-const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
-  .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
-    background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.light.baseMain
-        : theme.palette.dark.baseMain};
-
-    color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.dark.baseMain
-        : theme.palette.light.baseMain};
-    &:hover {
-    }
-  }
-  .MuiButtonBase-root.MuiPaginationItem-root {
-    background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
-    color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
-  }
-  .MuiPaginationItem-ellipsis {
-    color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
-  }
-`;
-
-const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
-  background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
-      : theme.palette.light.baseMain};
-  color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseComplement
-      : theme.palette.light.baseComplement};
-  width: 100%;
-  padding: 40px;
-`;
-
-const GrayLine = styled.div`
-  border-bottom: 2px solid #d8d8d8;
-  width: 80%;
-  padding-bottom: 14px;
-`;
-
-const TabBar = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Tab = styled.div<{
-  selected: boolean;
-  theme: Theme;
-  themeStyle?: 'light' | 'dark';
-}>`
-  background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
-      : theme.palette.light.baseMain};
-  color: ${({ themeStyle, theme, selected }) =>
-    themeStyle === 'dark'
-      ? selected
-        ? theme.palette.dark.baseComplement
-        : theme.palette.dark.greyText
-      : selected
-      ? theme.palette.light.baseComplement
-      : theme.palette.light.greyText};
-  border-bottom: ${({ themeStyle, theme, selected }) =>
-    selected
-      ? themeStyle === 'dark'
-        ? '2px solid ' + theme.palette.dark.baseComplement
-        : '2px solid ' + theme.palette.light.baseComplement
-      : 'none'};
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 27.83px;
-  padding-bottom: 14px;
-  border: none;
-  position: relative;
-  :hover {
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-`;
 
 export default UserCollectionTabs;

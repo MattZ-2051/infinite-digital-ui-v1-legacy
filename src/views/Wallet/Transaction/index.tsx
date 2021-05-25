@@ -40,7 +40,7 @@ const Transaction = ({ tx }: IProps) => {
               #{tx.transactionData.product[0]?.serialNumber}
             </S.Link>
             <span>from</span>
-            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
           </>
@@ -52,7 +52,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
               {tx.transactionData.sku[0]?.name}
             </S.Link>
-            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
             <S.Bold>(Pending)</S.Bold>
@@ -65,7 +65,7 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/marketplace/${tx.transactionData.sku[0]?._id}`}>
               {tx.transactionData.sku[0]?.name}
             </S.Link>
-            <S.Link to={`/collection/${tx.transactionData?.seller?._id}`}>
+            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
             <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
@@ -82,7 +82,7 @@ const Transaction = ({ tx }: IProps) => {
               #{tx.transactionData.product[0]?.serialNumber}
             </S.Link>
             to
-            <S.Link to={`/collection/${tx.transactionData?.buyer?._id}`}>
+            <S.Link to={`/collection/${tx.transactionData?.buyer?.username}`}>
               @{tx.transactionData?.buyer?.username}
             </S.Link>
           </>

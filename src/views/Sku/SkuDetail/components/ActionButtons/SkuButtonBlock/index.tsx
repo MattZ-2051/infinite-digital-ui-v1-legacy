@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styled from 'styled-components/macro';
 import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
@@ -10,19 +9,20 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
 import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 import { useAppSelector } from 'store/hooks';
+import * as S from './styles';
 
 const NotAvailable = (): JSX.Element => {
   return (
-    <Container>
+    <S.Container>
       <h4>Not available</h4>
-    </Container>
+    </S.Container>
   );
 };
 const ComingSoon = (): JSX.Element => {
   return (
-    <Container>
+    <S.Container>
       <h4>Coming soon...</h4>
-    </Container>
+    </S.Container>
   );
 };
 interface IUpcomingData {
@@ -45,26 +45,26 @@ const UpcomingData = ({
   return (
     <>
       {' '}
-      <Container>
-        <BoxColumn>
+      <S.Container>
+        <S.BoxColumn>
           <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming</h4>
           <small style={{ fontSize: '15px', color: '#8E8E8E' }}>{''}</small>
-        </BoxColumn>
-        <BoxColumn style={{ textAlign: 'center' }}>
+        </S.BoxColumn>
+        <S.BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>${price}</span>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
               {items && `(${items} items)`}
             </small>
           )}
-        </BoxColumn>
-        <BoxColumn style={{ textAlign: 'right' }}>
+        </S.BoxColumn>
+        <S.BoxColumn style={{ textAlign: 'right' }}>
           <span style={{ fontSize: '28px' }}>{countdown}</span>
           <small style={{ fontSize: '14px', color: '#8E8E8E' }}>
             {formatDate(startDate)}
           </small>
-        </BoxColumn>
-      </Container>
+        </S.BoxColumn>
+      </S.Container>
     </>
   );
 };
@@ -117,15 +117,15 @@ const FromCreatorBox = ({
   };
 
   return (
-    <Container>
-      <Detail>
-        <BoxColumn>
+    <S.Container>
+      <S.Detail>
+        <S.BoxColumn>
           <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
           <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
             Initial Release
           </small>
-        </BoxColumn>
-        <BoxColumn style={{ textAlign: 'center' }}>
+        </S.BoxColumn>
+        <S.BoxColumn style={{ textAlign: 'center' }}>
           <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
@@ -133,11 +133,11 @@ const FromCreatorBox = ({
                 `(${sku?.totalSkuListingSupplyLeft} left)`}
             </small>
           )}
-        </BoxColumn>
-      </Detail>
-      <Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
+        </S.BoxColumn>
+      </S.Detail>
+      <S.Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
         {buttonLabel}
-      </Button>
+      </S.Button>
       <SkuPageModal
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
@@ -147,7 +147,7 @@ const FromCreatorBox = ({
         listing={listing}
         onProcessing={onProcessing}
       />
-    </Container>
+    </S.Container>
   );
 };
 
@@ -162,14 +162,14 @@ const FromCollectorsBox = ({
   countProductListings,
 }: IFromCollectorsBox): JSX.Element => {
   return (
-    <Container>
-      <BoxColumn>
+    <S.Container>
+      <S.BoxColumn>
         <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Collectors</h4>
         <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
           Lowest Listing Price
         </small>
-      </BoxColumn>
-      <BoxColumn>
+      </S.BoxColumn>
+      <S.BoxColumn>
         <span style={{ fontSize: '28px' }}>
           {!!countProductListings ? minimunPrice : '--'}
         </span>
@@ -178,11 +178,11 @@ const FromCollectorsBox = ({
             ? `(${countProductListings} for sale)`
             : `${countProductListings} minted`}
         </small>
-      </BoxColumn>
+      </S.BoxColumn>
       <div>
-        <Button>See All</Button>
+        <S.Button>See All</S.Button>
       </div>
-    </Container>
+    </S.Container>
   );
 };
 
@@ -351,65 +351,5 @@ const SkuButtonBlock = ({
 
   return <></>;
 };
-
-const Container = styled.div`
-  padding: 0 80px 0 48px;
-  height: 146px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: black;
-
-  @media screen and (max-width: 600px) {
-    height: auto;
-    padding: 24px;
-    flex-direction: column;
-  }
-`;
-
-const BoxColumn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  small {
-    font-weight: 400;
-  }
-  span {
-    letter-spacing: -2px;
-  }
-
-  /* @media screen and (max-width: 600px) {
-
-  } */
-`;
-
-const Button = styled.button`
-  background-color: ${(props) => (props.disabled ? '#2D2D2D' : '#FFFFFF')};
-  color: ${(props) => (props.disabled ? '#5F5F5F' : '#000000')};
-  border: 0;
-  height: 56px;
-  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
-  border-radius: 22px;
-  width: 186px;
-  outline: none;
-  font-size: 20px;
-  font-weight: 600;
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-top: 24px;
-  }
-`;
-
-const Detail = styled.div`
-  display: flex;
-  width: 52%;
-  justify-content: space-between;
-  align-items: center;
-  @media screen and (max-width: 600px) {
-    justify-content: space-between;
-    width: 100%;
-  }
-`;
 
 export default SkuButtonBlock;

@@ -28,13 +28,13 @@ const Help = () => {
         <S.Header>How can we help you?</S.Header>
         <S.SubTitle>
           Before submitting this support form, please search the INFINITE
-          Powered by SUKU{' '}
+          Powered by{' '}
           <a
             target="_blank"
             href="https://support.suku.world/infinite-powered-by-suku"
             rel="noreferrer"
           >
-            Knowledge Base
+            SUKU Knowledge Base
           </a>
           for information on common support questions.
         </S.SubTitle>

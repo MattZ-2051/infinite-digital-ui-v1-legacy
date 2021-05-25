@@ -1,11 +1,7 @@
-import React from 'react';
-import styled from 'styled-components/macro';
 import { useHistory } from 'react-router-dom';
 import Emoji from 'components/Emoji';
-import { Row, Container } from '../index';
-import { useAppSelector } from 'store/hooks';
-
-const S: any = {};
+import { Row, Container, Padding } from '../styles';
+import * as S from './styles';
 
 const ErrorPage = () => {
   const history = useHistory();
@@ -29,11 +25,11 @@ const ErrorPage = () => {
           <S.Text>We could not process your payment and the</S.Text>
           <S.Text>transaction was canceled.</S.Text>
         </Row>
-        <div style={{ paddingBottom: '25px' }}>
+        <Padding>
           <S.MarketPlaceButton onClick={handleRedirectToAddFunds}>
             Try Again
           </S.MarketPlaceButton>
-        </div>
+        </Padding>
         <Row>
           <S.OtherPaymenButton onClick={handleRedirectToWallet}>
             Select Another Payment Method
@@ -43,45 +39,5 @@ const ErrorPage = () => {
     </Container>
   );
 };
-
-S.ContentContainer = styled.div`
-  width: 410px;
-  // background-color: white;
-`;
-
-S.Text = styled.span`
-  color: #7d7d7d;
-  font-size: 16px;
-`;
-
-S.OtherPaymenButton = styled.span`
-  font-size: 20px;
-  font-weight: 600;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-S.MarketPlaceButton = styled.button`
-  width: 410px;
-  height: 56px;
-  border: none;
-  background-color: black;
-  color: white;
-  border-radius: 35px;
-  font-size: 20px;
-  font-weigth: 600;
-  :hover {
-    cursor: pointer;
-  }
-  :focus {
-    outline: none;
-  }
-`;
-
-S.HeaderText = styled.span`
-  font-size: 22px;
-  font-weight: 600;
-`;
 
 export default ErrorPage;

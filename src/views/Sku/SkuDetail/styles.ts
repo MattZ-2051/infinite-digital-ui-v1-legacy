@@ -162,7 +162,7 @@ export const LineDivider = styled.div`
 
 export const ProductContainer = styled.div`
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
   height: 36em;
   margin-bottom: 30px;
@@ -210,4 +210,10 @@ export const CreatorName = styled(Link)`
   font-weight: 500;
   margin: 0;
   padding-left: 5px;
+`;
+
+export const ViewAll = styled(Link)`
+  float: right;
+  text-decoration: none;
+  font-size: 18px;
 `;

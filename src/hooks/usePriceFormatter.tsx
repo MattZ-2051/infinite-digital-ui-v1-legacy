@@ -13,7 +13,9 @@ const usePriceFormatter = (price?: number | string): string => {
       return `${price}`;
     }
 
-    const numericPart = Math.trunc(price / Math.pow(1000, log <= 4 ? log : 4));
+    const numericPart = parseFloat(
+      (price / Math.pow(1000, log <= 4 ? log : 4)).toFixed(1)
+    );
     const literalPart =
       log >= valueSymbols.length - 1
         ? valueSymbols[valueSymbols.length - 1]
