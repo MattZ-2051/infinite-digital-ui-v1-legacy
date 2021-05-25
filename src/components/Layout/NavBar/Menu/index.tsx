@@ -34,7 +34,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
           </TextButton>
 
           {isAuthenticated && (
-            <TextButton to={`/collection/${user.id}`} color="grey">
+            <TextButton to={`/collection/${user.username}`} color="grey">
               My Collection
             </TextButton>
           )}

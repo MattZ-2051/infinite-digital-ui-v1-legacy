@@ -51,14 +51,14 @@ const Collection = (): JSX.Element => {
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();
-  const userId = history.location.pathname.split('/')[2];
+  const username = history.location.pathname.split('/')[2];
   const { isAuthenticated } = useAuth0();
 
   async function fetchUser() {
     try {
-      const data = await getUser(userId);
+      const data = await getUser(username, 1, 1);
       if (data) {
-        setUser(data);
+        setUser(data[0]);
       }
     } catch (e) {
       console.log(e);
@@ -67,9 +67,9 @@ const Collection = (): JSX.Element => {
 
   useEffect(() => {
     fetchUser();
-  }, [userId]);
+  }, [username]);
 
-  if (user._id === '0') return <PageLoader />;
+  if (user._id === '0' || !user) return <PageLoader />;
 
   return (
     <S.Container>

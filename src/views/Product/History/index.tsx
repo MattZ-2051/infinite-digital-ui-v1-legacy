@@ -44,7 +44,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
-    history.push(`/collection/${product?.owner._id}`);
+    history.push(`/collection/${product?.owner.username}`);
   };
 
   const productListingExists = () => {

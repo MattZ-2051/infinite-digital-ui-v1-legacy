@@ -75,7 +75,7 @@ const SkuDetail = (): JSX.Element => {
   if (!collectors || !featuredProducts) return <PageLoader />;
 
   const handleRedirectToIssuer = () => {
-    history.push(`/collection/${sku?.issuer._id}`);
+    history.push(`/collection/${sku?.issuer.username}`);
   };
 
   return (
@@ -156,7 +156,7 @@ const SkuDetail = (): JSX.Element => {
 
                 <div style={{ display: 'flex', alignItems: 'baseline' }}>
                   <S.CreatedBy>Created by</S.CreatedBy>
-                  <S.CreatorName to={`/collection/${sku.issuer._id}`}>
+                  <S.CreatorName to={`/collection/${sku.issuer.username}`}>
                     @{sku.issuer.username}
                   </S.CreatorName>
                 </div>
@@ -191,7 +191,7 @@ const SkuDetail = (): JSX.Element => {
         <S.Section>
           <S.SectionTitle>
             Related Releases
-            <S.ViewAll to={`/collection/${sku?.issuer?._id}`}>
+            <S.ViewAll to={`/collection/${sku?.issuer?.username}`}>
               + View all
             </S.ViewAll>
           </S.SectionTitle>

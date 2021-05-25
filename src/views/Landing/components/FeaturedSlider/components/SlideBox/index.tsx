@@ -77,7 +77,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
         <S.CreatedBy>
           <span>Created by</span>
           <S.IssuerName>{product?.issuer?.username}</S.IssuerName>
-          <S.ViewMore to={`/collection/${product?.issuer?._id}`}>
+          <S.ViewMore to={`/collection/${product?.issuer?.username}`}>
             (View more)
           </S.ViewMore>
         </S.CreatedBy>

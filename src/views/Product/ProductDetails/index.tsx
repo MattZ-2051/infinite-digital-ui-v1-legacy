@@ -77,7 +77,7 @@ const ProductDetails = ({ product }: Props) => {
         <S.Flex>
           <S.SkuInfo color="#7c7c7c">
             Created by{' '}
-            <S.Link to={`/collection/${product?.sku?.issuer._id}`}>
+            <S.Link to={`/collection/${product?.sku?.issuer.username}`}>
               @{product?.sku?.issuer?.username}
             </S.Link>
           </S.SkuInfo>

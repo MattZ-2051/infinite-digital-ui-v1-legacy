@@ -58,7 +58,7 @@ const MobileMenu = ({
           <Item>
             <TextButton
               type="link"
-              to={`/collection/${userData.id}`}
+              to={`/collection/${userData.username}`}
               color="white"
               onClick={onSelect}
             >

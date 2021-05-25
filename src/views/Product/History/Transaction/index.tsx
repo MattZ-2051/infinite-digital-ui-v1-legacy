@@ -15,7 +15,7 @@ const Transaction = ({ transaction }: Props) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
   const handleRedirectToCollections = () => {
-    history.push(`/collection/${transaction.owner.id}`);
+    history.push(`/collection/${transaction.owner.username}`);
   };
 
   return (
