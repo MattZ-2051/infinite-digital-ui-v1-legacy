@@ -103,7 +103,8 @@ S.Box = styled.div`
   padding-top: 5%;
   margin: auto;
   @media screen and (max-width: 960px) {
-    width: 320px;
+    width: 90%;
+    margin: auto;
   }
 `;
 
@@ -143,6 +144,6 @@ S.Button = styled.button`
   }
 
   @media screen and (max-width: 960px) {
-    width: 320px;
+    width: 100%;
   }
 `;
