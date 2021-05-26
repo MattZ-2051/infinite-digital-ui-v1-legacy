@@ -91,16 +91,35 @@ export const ContentContainer = styled.div`
   }
 `;
 
-export const AddFundsButton = styled(LoadingButton)<{ active: boolean }>`
+export const AddFundsButton = styled(LoadingButton)`
   width: 410px;
   height: 56px;
   border: none;
-  background-color: ${(props) => (props.active ? 'black' : '#9e9e9e')};
+  background-color: black;
   color: white;
   border-radius: 35px;
   font-size: 20px;
   font-weigth: 600;
-  ${(props) => props.active && `:hover {cursor: pointer}`};
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+  @media screen and (max-width: 430px) {
+    width: 100%;
+  }
+`;
+
+export const InactiveButton = styled.button`
+  width: 410px;
+  height: 56px;
+  border: none;
+  background-color: #9e9e9e;
+  color: white;
+  border-radius: 35px;
+  font-size: 20px;
+  font-weigth: 600;
   :focus {
     outline: none;
   }

@@ -14,7 +14,7 @@ import {
 import Toast from 'utils/Toast';
 import * as S from './styles';
 
-const zeros = ['0', '0.00', '.00', '', '00.00'];
+const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
 
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
@@ -49,20 +49,8 @@ const AddFunds = () => {
   }, [amount]);
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    if (zeros.includes(amount || '')) {
-      Toast.error(
-        'Amount entered must be greater than 0 and cannot exceed 10 digits'
-      );
-      return;
-    }
-
-    if (amount && amount.length > 10) {
-      Toast.error(
-        'Amount entered must be greater than 0 and cannot exceed 10 digits'
-      );
-      return;
-    }
     fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
+    if (amount && zeros.includes(amount)) return;
     if (isNaN(Number(fundsBody?.amount))) {
       Toast.error('An Error Occurred: Please enter a valid amount.');
       return;
@@ -102,6 +90,8 @@ const AddFunds = () => {
   const month = userCard.expMonth.toString();
 
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
+
+  console.log('amount', amount);
 
   return (
     <>
@@ -158,15 +148,18 @@ const AddFunds = () => {
             />
           </S.AmountContainer>
           <Padding>
-            <S.AddFundsButton
-              onClick={addFunds}
-              loadingComponentRender={() => (
-                <PulseLoader color="#FFF" size={9} loading={true} />
-              )}
-              active={activeButton}
-            >
-              Add Funds
-            </S.AddFundsButton>
+            {activeButton ? (
+              <S.AddFundsButton
+                onClick={addFunds}
+                loadingComponentRender={() => (
+                  <PulseLoader color="#FFF" size={9} loading={true} />
+                )}
+              >
+                Add Funds
+              </S.AddFundsButton>
+            ) : (
+              <S.InactiveButton>Add Funds</S.InactiveButton>
+            )}
           </Padding>
         </S.ContentContainer>
       </Container>
