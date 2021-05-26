@@ -38,6 +38,7 @@ const TextField = ({
           <S.InputMoney {...inputProps} type="number" />
         </S.InputMoneyContainer>
       ),
+      email: <S.Input {...inputProps} type="email" />,
     }[type] || <S.Input {...inputProps} type="text" />
   );
 };
