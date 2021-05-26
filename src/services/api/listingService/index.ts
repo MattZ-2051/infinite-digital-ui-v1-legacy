@@ -37,3 +37,20 @@ export const postListings = async (
   });
   return response;
 };
+
+export const cancelListing = async (
+  token: string,
+  listingId: string
+): Promise<AxiosResponse<any>> => {
+  try {
+    const res = await axiosInstance.patch(
+      `/listings/${listingId}/cancel`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return res;
+  } catch (e) {
+    console.log('err', e);
+    throw new Error(e);
+  }
+};

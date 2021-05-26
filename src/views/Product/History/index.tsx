@@ -8,6 +8,7 @@ import CreateSale from '../Modal/CreateSale';
 import Toast from 'utils/Toast';
 import { useHistory } from 'react-router-dom';
 import BuyNowModal from '../Modal/BuyNow';
+import CancelSale from '../Modal/CancelSale';
 import { Link } from 'react-router-dom';
 import * as S from './styles';
 
@@ -225,13 +226,18 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           )}
           {status === 'active-sale' && (
             <S.ButtonContainer>
-              <S.FlexColumn>
-                <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
-                <div style={{ display: 'flex' }}>
-                  <S.StatusText>Status:</S.StatusText>
-                  <S.ActiveText>active</S.ActiveText>
-                </div>
-              </S.FlexColumn>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <S.FlexColumn>
+                  <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
+                  <div style={{ display: 'flex' }}>
+                    <S.StatusText>Status:</S.StatusText>
+                    <S.ActiveText>active</S.ActiveText>
+                  </div>
+                </S.FlexColumn>
+                <S.CancelButton onClick={() => setIsModalOpen(true)}>
+                  Cancel Sale
+                </S.CancelButton>
+              </div>
             </S.ButtonContainer>
           )}
         </S.Header>
@@ -324,6 +330,14 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           serialNum={product.serialNumber}
           visible={isModalOpen}
           mode={modalMode}
+          setStatus={setStatus}
+        />
+      )}
+      {product && status === 'active-sale' && (
+        <CancelSale
+          setModalPaymentVisible={setIsModalOpen}
+          visible={isModalOpen}
+          listingId={product?.activeProductListings[0]?._id}
           setStatus={setStatus}
         />
       )}

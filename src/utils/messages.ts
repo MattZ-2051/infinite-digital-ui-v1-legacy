@@ -8,7 +8,7 @@ const purchase = {
 
 const createSale = {
   error: 'Whoops, something went wrong - please try again.',
-  success: 'Congrats! Your sale has started.',
+  success: 'Congrats! Your sale has started. Please refresh the page',
 };
 
 export { purchase, createSale };

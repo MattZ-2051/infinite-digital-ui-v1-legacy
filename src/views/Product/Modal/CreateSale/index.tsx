@@ -71,7 +71,6 @@ const CreateSale = ({
       if (result) {
         Toast.success(createSale.success);
         setLoading(false);
-        setStatus('active-sale');
         setModalPaymentVisible(false);
         setActiveSalePrice(result.data?.price);
       }

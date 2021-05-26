@@ -13,6 +13,35 @@ export const Container = styled.div`
   }
 `;
 
+export const ActionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: 0;
+
+  ${mediaQueries.sm} {
+    padding-right: 80px;
+  }
+`;
+
+export const CancelButton = styled.button`
+  height: 40px;
+  width: 130px;
+  color: white;
+  background: #2e2e2e;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 35px;
+  margin-left: 24px;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
 export const ActiveAmount = styled.span`
   font-size: 24px;
   color: white;
