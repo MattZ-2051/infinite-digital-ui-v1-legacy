@@ -151,6 +151,7 @@ const AddFunds = () => {
               loadingComponentRender={() => (
                 <PulseLoader color="#FFF" size={9} loading={true} />
               )}
+              active={activeButton}
             >
               Add Funds
             </S.AddFundsButton>
