@@ -94,76 +94,72 @@ const AddFunds = () => {
   console.log('amount', amount);
 
   return (
-    <>
-      <Container>
-        <S.ContentContainer>
-          <S.Row
-            style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
-          >
-            <S.HeaderDiv>
-              <img src={circleIcon} alt="" />
-              <S.HeaderText>Circle Payments</S.HeaderText>
-            </S.HeaderDiv>
-          </S.Row>
-          <Padding>
-            <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
-          </Padding>
-          <S.CardContainer>
-            <S.CreditCard
-              name=" "
-              expiry={expDate}
-              focus=""
-              number={`************${userCard.last4}`}
-              preview={true}
-              issuer={`${userCard.network}`}
-            />
-          </S.CardContainer>
-          <S.Row>
-            <div>
-              <span>Credit Card</span>
-              <S.ActiveText>(Active)</S.ActiveText>
-            </div>
-            <S.RemoveCCButton onClick={removeCard}>
-              Remove Card
-            </S.RemoveCCButton>
-          </S.Row>
-          <S.FeeReminderContainer>
-            <S.FeeReminderText>
-              Withdrawal of credit card deposits can be initiated 30 days after
-              deposit.
-            </S.FeeReminderText>
-          </S.FeeReminderContainer>
-          <S.AmountContainer>
-            <S.DollarSign>$</S.DollarSign>
-            <S.AmountInput
-              id="amount"
-              name="amount-input"
-              placeholder="Enter Amount"
-              decimalsLimit={2}
-              onChange={handleChange}
-              maxLength={10}
-              step={10}
-              defaultValue={0.0}
-              allowNegativeValue={false}
-            />
-          </S.AmountContainer>
-          <Padding>
-            {activeButton ? (
-              <S.AddFundsButton
-                onClick={addFunds}
-                loadingComponentRender={() => (
-                  <PulseLoader color="#FFF" size={9} loading={true} />
-                )}
-              >
-                Add Funds
-              </S.AddFundsButton>
-            ) : (
-              <S.InactiveButton>Add Funds</S.InactiveButton>
-            )}
-          </Padding>
-        </S.ContentContainer>
-      </Container>
-    </>
+    <S.Container>
+      <S.ContentContainer>
+        <S.Row
+          style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
+        >
+          <S.HeaderDiv>
+            <img src={circleIcon} alt="" />
+            <S.HeaderText>Circle Payments</S.HeaderText>
+          </S.HeaderDiv>
+        </S.Row>
+        <Padding>
+          <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
+        </Padding>
+        <S.CardContainer>
+          <S.CreditCard
+            name=" "
+            expiry={expDate}
+            focus=""
+            number={`************${userCard.last4}`}
+            preview={true}
+            issuer={`${userCard.network}`}
+          />
+        </S.CardContainer>
+        <S.Row>
+          <div>
+            <span>Credit Card</span>
+            <S.ActiveText>(Active)</S.ActiveText>
+          </div>
+          <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
+        </S.Row>
+        <S.FeeReminderContainer>
+          <S.FeeReminderText>
+            Withdrawal of credit card deposits can be initiated 30 days after
+            deposit.
+          </S.FeeReminderText>
+        </S.FeeReminderContainer>
+        <S.AmountContainer>
+          <S.DollarSign>$</S.DollarSign>
+          <S.AmountInput
+            id="amount"
+            name="amount-input"
+            placeholder="Enter Amount"
+            decimalsLimit={2}
+            onChange={handleChange}
+            maxLength={10}
+            step={10}
+            defaultValue={0.0}
+            allowNegativeValue={false}
+          />
+        </S.AmountContainer>
+        <Padding>
+          {activeButton ? (
+            <S.AddFundsButton
+              onClick={addFunds}
+              loadingComponentRender={() => (
+                <PulseLoader color="#FFF" size={9} loading={true} />
+              )}
+            >
+              Add Funds
+            </S.AddFundsButton>
+          ) : (
+            <S.InactiveButton>Add Funds</S.InactiveButton>
+          )}
+        </Padding>
+      </S.ContentContainer>
+    </S.Container>
   );
 };
 

@@ -83,11 +83,21 @@ export const Row = styled.div`
   align-items: center;
 `;
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 export const ContentContainer = styled.div`
   width: 410px;
-  // background-color: white;
+  margin: auto;
   @media screen and (max-width: 430px) {
-    width: 80%;
+    width: 300px;
+    height: 100vh;
+    padding-top: 30px;
+    overflow: auto;
   }
 `;
 

@@ -40,7 +40,7 @@ const ModalBody = styled.div<{ height?: string; align?: string }>`
   margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
-  min-width: 360px;
+  min-width: 280px;
   min-height: ${(props) => (props.height ? `${props.height}` : `400px`)};
   padding: 20px;
   border-radius: 12px;
@@ -48,6 +48,9 @@ const ModalBody = styled.div<{ height?: string; align?: string }>`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.align ? `${props.align}` : `center`)};
+  @media screen and (max-width: 550px) {
+    width: 90%;
+  }
 `;
 
 export default ModalComponent;
