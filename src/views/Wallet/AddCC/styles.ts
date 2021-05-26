@@ -14,6 +14,8 @@ height: 80vh;
 margin: auto
 z-index: 1;
 overflow: auto;
+width: 100%;
+
 `;
 
 S.HeaderContainer = styled.div`
@@ -100,6 +102,9 @@ S.Box = styled.div`
   height: 100%;
   padding-top: 5%;
   margin: auto;
+  @media screen and (max-width: 960px) {
+    width: 320px;
+  }
 `;
 
 S.Row = styled.div`
@@ -135,5 +140,9 @@ S.Button = styled.button`
   }
   :focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    width: 320px;
   }
 `;
