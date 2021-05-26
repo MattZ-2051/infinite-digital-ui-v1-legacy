@@ -5,6 +5,8 @@ import { restoreFilters } from 'store/marketplace/marketplaceSlice';
 // Local
 import { getCategories } from 'services/api/categoryService';
 import { getSeries } from 'services/api/seriesService';
+import { getCreators } from 'services/api/userService';
+import { User } from 'entities/user';
 // Components
 import Menu from './Menu';
 import Date from './Date';
@@ -22,6 +24,7 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [series, setSeries] = useState([]);
+  const [creators, setCreators] = useState([]);
 
   const dropDownOptions = {
     category: categories,
@@ -32,6 +35,9 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       { id: 'uncommon', name: 'Uncommon' },
     ],
     series,
+    creator: creators.map((el: User) => {
+      return { id: el.username, name: el.username };
+    }),
   };
 
   //TODO: refactor later
@@ -52,6 +58,14 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       .catch((e) => {
         console.log(e);
       });
+
+    getCreators().then((data) => {
+      setCreators(
+        data.filter((el) => {
+          return el.id !== '60a4921addc7af020455d315';
+        })
+      );
+    });
   }, []);
 
   useEffect(() => {
@@ -122,6 +136,13 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         handleFilter={handleFilter}
         filterCategory="rarity"
         activeFilters={activeFilters.rarity}
+      />
+      <DropDownCheckFilter
+        label="Creators"
+        options={dropDownOptions.creator}
+        handleFilter={handleFilter}
+        filterCategory="issuerName"
+        activeFilters={activeFilters.issuerName}
       />
     </Container>
   );

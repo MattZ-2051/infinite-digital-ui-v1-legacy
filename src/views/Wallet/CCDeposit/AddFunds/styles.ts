@@ -83,24 +83,53 @@ export const Row = styled.div`
   align-items: center;
 `;
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
 export const ContentContainer = styled.div`
   width: 410px;
-  // background-color: white;
+  margin: auto;
   @media screen and (max-width: 430px) {
-    width: 80%;
+    width: 300px;
+    height: 100vh;
+    padding-top: 30px;
+    overflow: auto;
   }
 `;
 
-export const AddFundsButton = styled(LoadingButton)<{ active: boolean }>`
+export const AddFundsButton = styled(LoadingButton)`
   width: 410px;
   height: 56px;
   border: none;
-  background-color: ${(props) => (props.active ? 'black' : '#9e9e9e')};
+  background-color: black;
   color: white;
   border-radius: 35px;
   font-size: 20px;
   font-weigth: 600;
-  ${(props) => props.active && `:hover {cursor: pointer}`};
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+  @media screen and (max-width: 430px) {
+    width: 100%;
+  }
+`;
+
+export const InactiveButton = styled.button`
+  width: 410px;
+  height: 56px;
+  border: none;
+  background-color: #9e9e9e;
+  color: white;
+  border-radius: 35px;
+  font-size: 20px;
+  font-weigth: 600;
   :focus {
     outline: none;
   }

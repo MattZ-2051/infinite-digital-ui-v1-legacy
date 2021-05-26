@@ -14,7 +14,7 @@ import {
 import Toast from 'utils/Toast';
 import * as S from './styles';
 
-const zeros = ['0', '0.00', '.00', '', '00.00'];
+const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
 
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
@@ -49,20 +49,8 @@ const AddFunds = () => {
   }, [amount]);
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    if (zeros.includes(amount || '')) {
-      Toast.error(
-        'Amount entered must be greater than 0 and cannot exceed 10 digits'
-      );
-      return;
-    }
-
-    if (amount && amount.length > 10) {
-      Toast.error(
-        'Amount entered must be greater than 0 and cannot exceed 10 digits'
-      );
-      return;
-    }
     fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
+    if (amount && zeros.includes(amount)) return;
     if (isNaN(Number(fundsBody?.amount))) {
       Toast.error('An Error Occurred: Please enter a valid amount.');
       return;
@@ -103,74 +91,75 @@ const AddFunds = () => {
 
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
 
+  console.log('amount', amount);
+
   return (
-    <>
-      <Container>
-        <S.ContentContainer>
-          <S.Row
-            style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
-          >
-            <S.HeaderDiv>
-              <img src={circleIcon} alt="" />
-              <S.HeaderText>Circle Payments</S.HeaderText>
-            </S.HeaderDiv>
-          </S.Row>
-          <Padding>
-            <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
-          </Padding>
-          <S.CardContainer>
-            <S.CreditCard
-              name=" "
-              expiry={expDate}
-              focus=""
-              number={`************${userCard.last4}`}
-              preview={true}
-              issuer={`${userCard.network}`}
-            />
-          </S.CardContainer>
-          <S.Row>
-            <div>
-              <span>Credit Card</span>
-              <S.ActiveText>(Active)</S.ActiveText>
-            </div>
-            <S.RemoveCCButton onClick={removeCard}>
-              Remove Card
-            </S.RemoveCCButton>
-          </S.Row>
-          <S.FeeReminderContainer>
-            <S.FeeReminderText>
-              Withdrawal of credit card deposits can be initiated 30 days after
-              deposit.
-            </S.FeeReminderText>
-          </S.FeeReminderContainer>
-          <S.AmountContainer>
-            <S.DollarSign>$</S.DollarSign>
-            <S.AmountInput
-              id="amount"
-              name="amount-input"
-              placeholder="Enter Amount"
-              decimalsLimit={2}
-              onChange={handleChange}
-              maxLength={10}
-              step={10}
-              defaultValue={0.0}
-              allowNegativeValue={false}
-            />
-          </S.AmountContainer>
-          <Padding>
+    <S.Container>
+      <S.ContentContainer>
+        <S.Row
+          style={{ borderBottom: '2px solid black', paddingBottom: '16px' }}
+        >
+          <S.HeaderDiv>
+            <img src={circleIcon} alt="" />
+            <S.HeaderText>Circle Payments</S.HeaderText>
+          </S.HeaderDiv>
+        </S.Row>
+        <Padding>
+          <S.AddFundsText>Add funds into your wallet</S.AddFundsText>
+        </Padding>
+        <S.CardContainer>
+          <S.CreditCard
+            name=" "
+            expiry={expDate}
+            focus=""
+            number={`************${userCard.last4}`}
+            preview={true}
+            issuer={`${userCard.network}`}
+          />
+        </S.CardContainer>
+        <S.Row>
+          <div>
+            <span>Credit Card</span>
+            <S.ActiveText>(Active)</S.ActiveText>
+          </div>
+          <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
+        </S.Row>
+        <S.FeeReminderContainer>
+          <S.FeeReminderText>
+            Withdrawal of credit card deposits can be initiated 30 days after
+            deposit.
+          </S.FeeReminderText>
+        </S.FeeReminderContainer>
+        <S.AmountContainer>
+          <S.DollarSign>$</S.DollarSign>
+          <S.AmountInput
+            id="amount"
+            name="amount-input"
+            placeholder="Enter Amount"
+            decimalsLimit={2}
+            onChange={handleChange}
+            maxLength={10}
+            step={10}
+            defaultValue={0.0}
+            allowNegativeValue={false}
+          />
+        </S.AmountContainer>
+        <Padding>
+          {activeButton ? (
             <S.AddFundsButton
               onClick={addFunds}
               loadingComponentRender={() => (
                 <PulseLoader color="#FFF" size={9} loading={true} />
               )}
-              active={activeButton}
             >
               Add Funds
             </S.AddFundsButton>
-          </Padding>
-        </S.ContentContainer>
-      </Container>
-    </>
+          ) : (
+            <S.InactiveButton>Add Funds</S.InactiveButton>
+          )}
+        </Padding>
+      </S.ContentContainer>
+    </S.Container>
   );
 };
 

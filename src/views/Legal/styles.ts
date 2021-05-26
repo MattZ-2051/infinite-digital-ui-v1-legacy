@@ -19,6 +19,9 @@ export const HelpColumn = styled.div`
   flex-basis: 100%;
   flex: 1;
   padding-left: 50px;
+  h3 {
+    padding-left: 80px;
+  }
 `;
 
 export const Header = styled.div`
