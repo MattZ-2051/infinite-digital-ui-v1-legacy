@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import CoinbaseCommerceButton from 'react-coinbase-commerce';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 import { useAuth0 } from '@auth0/auth0-react';
 // local
@@ -30,42 +28,12 @@ interface IDepositModal {
   handleClose: () => void;
 }
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      position: 'absolute',
-      maxWidth: '550px',
-      minWidth: '360px',
-      height: '650px',
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      paddingTop: '16px',
-      outline: 'none',
-      borderRadius: '10px',
-    },
-  })
-);
-
 const DepositModal = ({
   kycMaxLevel,
   kycPending,
   isModalOpen,
   handleClose,
 }: IDepositModal): JSX.Element => {
-  const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = useState(getModalStyle);
   const history = useHistory();
   const userCards = useAppSelector((state) => state.session.userCards);
   const [isUSDCModalOpen, setIsUSDCModelOpen] = useState<boolean>(false);
@@ -185,7 +153,7 @@ const DepositModal = ({
   };
 
   const body = (
-    <S.BodyContainer style={modalStyle} className={`${classes.paper}`}>
+    <S.BodyContainer>
       <S.ExitIcon>
         <img src={exitIcon} onClick={handleClose} className="icon__exit" />
       </S.ExitIcon>

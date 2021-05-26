@@ -229,3 +229,19 @@ export const updateUsername = async (
     }
   }
 };
+
+export const getCreators = async (options?: { queryParams?: string }) => {
+  try {
+    const response = await axiosInstance.request({
+      method: 'GET',
+      url: `/users`,
+      params: { role: 'issuer', page: 1, per_page: 50 },
+    });
+    return response.data;
+  } catch (e) {
+    console.error(
+      `getCategories: Error requesting sku categories tile details. ${e}`
+    );
+    return undefined;
+  }
+};

@@ -15,7 +15,7 @@ interface IProps {
   width?: string;
   options: { id: string; name: string }[];
   handleFilter: (name: string, data: any) => void;
-  filterCategory: 'category' | 'brand' | 'series' | 'rarity';
+  filterCategory: 'category' | 'brand' | 'series' | 'rarity' | 'issuerName';
   activeFilters: any;
 }
 

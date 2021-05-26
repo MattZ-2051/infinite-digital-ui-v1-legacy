@@ -2,8 +2,19 @@ import styled from 'styled-components/macro';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 
 export const BodyContainer = styled.div`
-  @media screen and (min-width: 550px) {
-    width: 550px;
+  position: absolute;
+  max-width: 550px;
+  width: 500px;
+  max-height: 650px;
+  background-color: white;
+  padding-top: 16px;
+  outline: none;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @media screen and (max-width: 550px) {
+    width: 100%;
   }
 `;
 
