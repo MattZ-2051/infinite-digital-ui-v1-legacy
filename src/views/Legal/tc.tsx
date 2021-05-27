@@ -8,7 +8,7 @@ const TC = () => {
       <S.P1>
         <strong>Terms of Service</strong>
       </S.P1>
-      <S.P1>Last Modified: May 19, 2021</S.P1>
+      <S.P1>Last Modified: May 26, 2021</S.P1>
       <S.P2>
         <S.S1>
           <strong>Acceptance of the Terms of&nbsp;</strong>
@@ -48,25 +48,24 @@ const TC = () => {
       </S.P3>
       <S.P3>
         The Marketplace is an Online Service Provider for facilitating
-        communication between two sets of users: sellers and buyers. Sellers may
-        market their sale of items and buyers may peruse and at their option,
-        bid or buy the items. The actual contract for sale is between the seller
-        and buyer. Company is not a party to the transaction, a seller, or a
-        traditional auctioneer. Any guidance we provide as part of Marketplace,
-        such as pricing, listing, and sourcing is for informational purposes
-        only it is up to you to follow it or not. Also, Company has no control
-        over and provides no guarantee related to: the existence, accuracy,
-        quality, safety or legality of items advertised or user content; the
-        ability or legal standing of sellers to sell items; the ability of
-        buyers to pay for items; or that any user will complete a transaction or
-        return an item. Items for sale can include physical goods and services,
-        as well as digital items such as non-fungible tokens (&ldquo;
-        <strong>NFTs</strong>&rdquo;), smart contracts, cryptocurrencies, and
-        other digital-based goods (collectively, &ldquo;
-        <strong>Digital Assets</strong>&rdquo;). Some Digital Assets may relate
-        or interface with distributed applications (&ldquo;
-        <strong>Dapps</strong>&rdquo;) and blockchains, including Bitcoin,
-        Ethereum, and USDC.<S.AppleTab>&nbsp;</S.AppleTab>
+        communication between two sets of users: sellers (“Sellers”) and buyers
+        (“Buyers”). Sellers may market their sale of items (further clarified
+        below to include, amongst other things, NFTs, services, and physical
+        goods) and Buyers may peruse and at their option, bid or buy the items.
+        The actual contract for sale is between the Seller and Buyer. Company is
+        not a party to the transaction, a Seller, or a traditional auctioneer
+        but does usually receive a fee as an Online Service Provider. The
+        Company has no control over and provides no guarantee related to: the
+        existence, accuracy, quality, safety or legality of the NFTs and items
+        advertised or user content; the ability or legal standing of Sellers to
+        sell NFTS and items; the ability of Buyers to pay for NFTs and items; or
+        that any user will complete a transaction or return an NFT or item.
+        Items for sale can include physical goods with our without NFC ships,
+        and services, as well as digital items such as non-fungible tokens
+        (“NFTs”), smart contracts, cryptocurrencies, and other digital-based
+        goods (collectively, “Digital Assets”). Some Digital Assets may relate
+        or interface with distributed applications (“Dapps”) and blockchains,
+        including Bitcoin, Ethereum, and USDC. 
       </S.P3>
       <S.P3>
         The Marketplace is offered and available to authorized users who are 18
@@ -160,16 +159,18 @@ const TC = () => {
         using similar technology to digital currencies. But while digital
         currencies are usually fungible, NFTs usually are not. Each NFT is coded
         into a blockchain, contains built-in methods for evidence of
-        authentication and<S.AppleTab>&nbsp;&nbsp;</S.AppleTab>proof of
-        ownership. When you buy an NFT, the terms of your purchase, and the
-        rights you actually purchase and own, may be limited by the terms or
-        technology of the underlying NFT. It is up to you to confirm your
-        understanding of what you are selling or buying and the license you are
-        receiving which is determined by the seller in its sole discretion. The
-        license to any purchased NFT is a matter between the seller and buyer,
-        and Company is not a party to the licensing transaction. All licenses
-        and all ownership interests in any Digital Asset, such as NFTs, shall
-        pass directly from seller to buyer.<S.AppleTab>&nbsp;</S.AppleTab>
+        authentication and proof of ownership. When you buy an NFT, the terms of
+        your purchase, and the rights you actually purchase and own, may be
+        limited by the terms or technology of the underlying NFT. It is up to
+        you to confirm your understanding of what you are selling or buying and
+        the license you are receiving which is determined by the Seller in its
+        sole discretion and if no custom license is provided by Seller to Buyer
+        at the point of sale for an item, such as an NFT and its related Art,
+        then the NFT Owner Content License (“NOCL”) provided below shall apply
+        as between Seller and Buyer. The license to any purchased NFT is a
+        matter between the Seller and Buyer, and Company is not a party to the
+        licensing transaction. All licenses and all ownership interests in any
+        Digital Asset, such as NFTs, shall pass directly from Seller to Buyer.
       </S.P5>
       <S.P6>
         <S.S4>
@@ -181,16 +182,11 @@ const TC = () => {
           guarantees or promises with respect to such smart contracts or the
           functioning of such blockchain or the persistence, or lack thereof, of
           the NFT or related content. In cases where a transaction involving a
-          Digital Asset is revealed to be fraudulent or illegal or an in
-        </S.S4>
-        <S.S5>
-          &nbsp;<S.AppleTab>&nbsp; &nbsp;&nbsp;</S.AppleTab>
-        </S.S5>
-        <S.S4>
-          fringement, or a buyer or seller acts fraudulently or illegally or in
-          an infringing manner, then the defrauded or injured buyer/seller shall
-          have no recourse against Company, but solely against the respective
-          seller/buyer.<S.AppleTab>&nbsp;</S.AppleTab>
+          Digital Asset is revealed to be fraudulent or illegal or an
+          infringement, or a Buyer or Seller acts fraudulently or illegally or
+          in an infringing manner, then the defrauded or injured Buyer/Seller
+          shall have no recourse against Company, but solely against the
+          respective Seller/Buyer. 
         </S.S4>
       </S.P6>
       <S.P7>
@@ -198,6 +194,122 @@ const TC = () => {
         information in compliance with all applicable law and regulations
         regarding such Digital Assets in applicable listings on the Marketplace.
       </S.P7>
+      <S.P4>
+        <S.S1>
+          <strong>NFT Owner Content License (“NOCL”)</strong>
+        </S.S1>
+      </S.P4>
+      <S.P5>
+        <S.P4>
+          <S.S1>Definitions</S.S1>
+        </S.P4>
+        <S.P5>
+          “Art” means any art, design, audio, video, media of any kind,
+          AR/VR/XR, and drawings that may be associated with, through hash,
+          link, or otherwise, with an NFT that you Own. ”NFT” means any
+          distributed ledger-tracked, non-fungible token, such as those
+          conforming to the ERC-721 standard or similar to it. “Own” means, with
+          respect to an NFT, an NFT that you have purchased or otherwise
+          rightfully acquired from a legitimate source, where proof of such
+          purchase is recorded on the relevant blockchain or its equivalent.
+          “Purchased NFT” means an NFT that you Own. “Third Party IP” means any
+          third-party patent rights (including, without limitation, patent
+          applications and disclosures), copyrights, trade secrets, trademarks,
+          use of likeness, know-how or any other intellectual property rights
+          recognized in any country or jurisdiction in the world.
+        </S.P5>
+
+        <S.P4>
+          <S.S1>Ownership</S.S1>
+        </S.P4>
+        <S.P5>
+          The Buyer (also referred herein as “You” or “you”) acknowledge and
+          agree that Seller (or, as applicable, its licensors) owns all legal
+          right, title and interest in and to the Art, and all intellectual
+          property rights therein. The rights that you have in and to the Art
+          are limited to those described in this License. Seller reserves all
+          rights in and to the Art not expressly granted to you in this License.
+        </S.P5>
+
+        <S.P4>
+          <S.S1>License</S.S1>
+        </S.P4>
+        <S.P5>
+          a. General Use. Subject to Buyer’s continued compliance with the terms
+          of this License, Seller (“Seller” herein shall refer to the original
+          Seller) grants you a worldwide, non-exclusive, non-transferable,
+          royalty-free license to use, copy, and display the Art for your
+          Purchased NFTs solely for the following purposes: (i) for your own
+          personal, non-commercial use; (ii) as part of a marketplace that
+          permits the purchase and sale of your NFTs, provided that the
+          marketplace cryptographically verifies each NFT owner’s rights to
+          display the Art for their Purchased NFTs to ensure that only the
+          actual owner can display the Art; or (iii) as part of a third party
+          website or application that permits the inclusion, involvement, or
+          participation of your NFTs, provided that the website/application
+          cryptographically verifies each NFT owner’s rights to display the Art
+          for their Purchased NFTs to ensure that only the actual owner can
+          display the Art, and provided that the Art is no longer visible once
+          the owner of the Purchased NFT leaves the website/application. b.
+          Commercial Use. You have no license or rights to make commercial use
+          of the Art.
+        </S.P5>
+
+        <S.P4>
+          <S.S1>Restrictions</S.S1>
+        </S.P4>
+        <S.P5>
+          You agree that you may not, nor permit any third party to do or
+          attempt to do any of the foregoing: (i) modify the Art for your
+          Purchased NFT in any way, including, without limitation, the shapes,
+          designs, drawings, attributes, or color schemes; (ii) use the Art for
+          your Purchased NFTs to advertise, market, or sell any third party
+          product or service; (iii) use the Art for your Purchased NFTs in
+          connection with images, videos, or other forms of media that depict
+          hatred, intolerance, violence, cruelty, or anything else that could
+          reasonably be found to constitute hate speech or otherwise infringe
+          upon the rights of others; (iv) use the Art for your Purchased NFTs in
+          movies, videos, or any other forms of media, except to the limited
+          extent that such use is expressly permitted in Section 3(b) above or
+          solely for your own personal, non-commercial use; (v) sell, distribute
+          for commercial gain (including, without limitation, giving away in the
+          hopes of eventual commercial gain), or otherwise commercialize
+          merchandise that includes, contains, or consists of the Art for your
+          Purchased NFTs; (vi) attempt to trademark, copyright, create
+          derivative works, or otherwise acquire additional intellectual
+          property rights in or to the Art for your Purchased NFTs; or (vii)
+          otherwise utilize the Art for your Purchased NFTs for your or any
+          third party’s commercial benefit. To the extent that Art associated
+          with your Purchased NFTs contains Third Party IP (e.g., licensed
+          intellectual property from a celebrity, athlete, or other public
+          figure), you understand and agree as follows: (w) that you will not
+          have the right to use such Third-Party IP in any way except as
+          incorporated in the Art, and subject to the license and restrictions
+          contained herein; The restriction in Section 4 will survive the
+          expiration or termination of this License.
+        </S.P5>
+
+        <S.P4>
+          <S.S1>Terms of License</S.S1>
+        </S.P4>
+        <S.P5>
+          The license granted in Section 3 above applies only to the extent that
+          you continue to Own the applicable Purchased NFT. If at any time you
+          sell, trade, donate, give away, transfer, or otherwise dispose of your
+          Purchased NFT for any reason, the license granted in Section 3 will
+          immediately expire with respect to those NFTs without the requirement
+          of notice, and you will have no further rights in or to the Art for
+          those NFTs. Any secondary transfer of the Purchased NFT and its
+          related Art is prohibited and null and void unless the acquirer or
+          Buyer as the case may be agrees to and takes subject to
+          this License Agreement and evidence of the same is provided in writing
+          to the Seller immediately upon transfer. This license agreement is
+          governed by California law.  Exclusive jurisdiction for any and all
+          disputes related to or arising out of this license agreement, or
+          breaches of the same, shall be in San Francisco County state and
+          federal courts as applicable.
+        </S.P5>
+      </S.P5>
       <S.P2>
         <S.S1>
           <strong>Electronic Communications</strong>
@@ -311,9 +423,9 @@ const TC = () => {
         availability): credit cards, debit cards, certain cryptocurrencies, and
         USDC. Company may modify the type of payment methods available to you at
         its own discretion. The contract for the purchase of goods/services
-        between buyer and seller is directly concluded by that buyer and seller,
+        between Buyer and Seller is directly concluded by that Buyer and Seller,
         even if Company provides payment-related services to assist in
-        concluding the purchase.<S.AppleTab>&nbsp;</S.AppleTab>
+        concluding the purchase. 
       </S.P13>
       <S.P12>&nbsp; &nbsp;&nbsp;</S.P12>
       <S.P13>
@@ -401,7 +513,7 @@ const TC = () => {
         We may display third-party advertisements (including links and
         references thereto) or other content in any part of our Marketplace, in
         our sole discretion and without consent from, or payment, fee reduction,
-        or other credit to, sellers.
+        or other credit to, Sellers.
       </S.P13>
       <S.P16>
         <br />
@@ -750,10 +862,10 @@ const TC = () => {
         activities described in this section.<S.AppleTab>&nbsp;</S.AppleTab>
       </S.P3>
       <S.P8>
-        If a buyer or seller issue arises, we may consider a variety of factors,
-        including specific circumstances regarding the issue, or a user&rsquo;s
+        If a Buyer or Seller issue arises, we may consider a variety of factors,
+        including specific circumstances regarding the issue, or a user’s
         performance history, in applying our policies. In our effort to do the
-        best thing for both buyers and sellers, we may decide to be more lenient
+        best thing for both Buyers and Sellers, we may decide to be more lenient
         with policy enforcement. The foregoing does not limit our right to
         refuse, modify, or terminate all or part of our services to anyone, or
         to terminate this agreement with any user, for any reason in our sole
@@ -864,14 +976,14 @@ const TC = () => {
           <S.AppleTab>&nbsp;</S.AppleTab>
         </S.Li19>
         <S.Li19>
-          We strive to create a marketplace where buyers find what they are
+          We strive to create a marketplace where Buyers find what they are
           looking for. Therefore, the appearance or placement of listings in
           search and browse results will depend on a variety of factors,
           including, but not limited to:
           <S.Ul1>
             <S.Ul1>
               <S.Li19>
-                buyer&rsquo;s location, search query, browsing site, and
+                Buyer&rsquo;s location, search query, browsing site, and
                 history;
               </S.Li19>
               <S.Li19>
@@ -880,12 +992,12 @@ const TC = () => {
                 query;
               </S.Li19>
               <S.Li19>
-                seller&rsquo;s history, including listing practices, seller
+                Seller&rsquo;s history, including listing practices, Seller
                 ratings, Company policy compliance, feedback, and defect rate;
                 and
               </S.Li19>
               <S.Li19>
-                number of listings matching the buyer&rsquo;s query.
+                number of listings matching the Buyer&rsquo;s query.
               </S.Li19>
             </S.Ul1>
           </S.Ul1>
@@ -893,7 +1005,7 @@ const TC = () => {
         <S.Li19>
           To drive a positive user experience, a listing may not appear in some
           search and browse results regardless of the sort order chosen by the
-          buyer.
+          Buyer.
         </S.Li19>
         <S.Li19>
           Some advanced listing upgrades will only be visible on some portions
@@ -913,13 +1025,13 @@ const TC = () => {
           aggregated sales and performance history of similar sold and current
           listings; results may vary for individual listings. To drive the
           recommendations experience, you agree that we may display the sales
-          and performance history of your individual listings to other sellers.
+          and performance history of your individual listings to other Sellers.
         </S.Li19>
         <S.Li19>
           For items listed in certain categories, subject to certain programs,
           and/or offered or sold at certain price points, Company may require
           the use of certain payment methods. For example, for inventory covered
-          by authentication services, buyer and sellers may be subject to escrow
+          by authentication services, Buyer and Sellers may be subject to escrow
           and/or payment handling requirements.
         </S.Li19>
       </S.Ul1>
@@ -938,7 +1050,7 @@ const TC = () => {
       </S.P2>
       <S.P8>
         When purchasing an item for sale on our Marketplace, you agree to comply
-        with Company&rsquo;s purchase standards for buyers, set forth below:
+        with Company&rsquo;s purchase standards for Buyers, set forth below:
       </S.P8>
       <S.Ul1>
         <S.Li21>
@@ -952,14 +1064,14 @@ const TC = () => {
           bid (or your bid is otherwise accepted) for auction listings.
         </S.Li21>
         <S.Li21>
-          We do not transfer legal ownership or license of items from the seller
-          to you. Legal transfer or license is affected by the seller.
+          We do not transfer legal ownership or license of items from the Seller
+          to you. Legal transfer or license is affected by the Seller.
           <S.AppleTab>&nbsp;</S.AppleTab>
         </S.Li21>
         <S.Li19>
           California Commercial Code &sect; 2401(2) and Uniform Commercial Code
           &sect; 2-401(2) as applicable apply to the transfer of ownership
-          between the buyer and the seller, unless the buyer and the seller
+          between the Buyer and the Seller, unless the Buyer and the Seller
           agree otherwise.
         </S.Li19>
       </S.Ul1>
@@ -1161,7 +1273,10 @@ const TC = () => {
         DAMAGES, LOSS OR INJURY RESULTING FROM HACKING, TAMPERING OR OTHER
         UNAUTHORIZED ACCESS OR USE OF THE MARKETPLACE OR ITS CONTENTS. THE
         FOREGOING DOES NOT AFFECT ANY LIABILITY WHICH CANNOT BE EXCLUDED OR
-        LIMITED UNDER APPLICABLE LAW.
+        LIMITED UNDER APPLICABLE LAW. FURTHERMORE, INFINITE SHALL NOT BE LIABLE
+        FOR ANY DAMAGES DONE TO THE ART BY THE PLACEMENT OF THE NFC OR ANY CHIP
+        ON TO THE ART OR THE PRESENCE OR USE OF THE CHIP ON THE ART OR REMOVAL,
+        MAINTENANCE, OR MALFUNCTION OF THE CHIP.
       </S.P8>
       <S.P2>
         <S.S1>
@@ -1265,7 +1380,7 @@ const TC = () => {
       </S.Ol1>
       <S.P8>
         If a Buyer or the owner of a payment instrument initiates a return,
-        cancellation, direct debit reversal, buyer protection claim, or
+        cancellation, direct debit reversal, Buyer protection claim, or
         otherwise asks their financial institution to open a payment dispute
         (all referred to solely within this paragraph as &ldquo;
         <strong>Dispute</strong>&rdquo;) in connection with a transaction, you
@@ -1431,7 +1546,8 @@ const TC = () => {
         </S.S8>{' '}
         Avenue, Miami, FL 33137 Attn.
         <S.AppleTab>&nbsp; &nbsp; &nbsp;&nbsp;</S.AppleTab>DMCA Agent Email:
-        DMCA@suku.world.
+        DMCA@suku.world. Any DMCA counternotice(s) shall be submitted consistent
+        with the DMCA statute to the contact information above.
       </S.P3>
       <S.P8>
         Pursuant to Section 512(f) of the DMCA, any person who knowingly
