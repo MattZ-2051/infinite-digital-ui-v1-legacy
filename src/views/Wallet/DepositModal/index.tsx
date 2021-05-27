@@ -40,7 +40,7 @@ const DepositModal = ({
   const [coinbaseMetadata, setCoinbaseMetadata] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
   const kycClient = useKycClient();
-  const kycDisabled = kycMaxLevel !== 1;
+  const kycDisabled = kycMaxLevel < 1;
 
   useEffect(() => {
     getCoinbaseMetadata();
