@@ -12,6 +12,17 @@ import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 
+if (config.logging.sentryDns) {
+  Sentry.init({
+    dsn: config.logging.sentryDns,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: config.logging.sentrySampleRate,
+    ...(config.metadata.environmentName ? {
+      environment: config.metadata.environmentName,
+    } : {}),
+  });
+}
+
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
   history.push(
