@@ -56,6 +56,14 @@ const AddFunds = () => {
       return;
     }
 
+    console.log(amount && parseInt(amount.replaceAll(',', '')));
+    if (amount && parseFloat(amount.replaceAll(',', '')) > 1000) {
+      Toast.error(
+        'You can only deposit up to $1000 USD per credit card transaction'
+      );
+      return;
+    }
+
     const res = await dispatch(
       addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
     );
