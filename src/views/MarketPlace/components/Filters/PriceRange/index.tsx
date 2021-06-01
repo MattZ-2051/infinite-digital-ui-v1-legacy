@@ -8,19 +8,23 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 export interface IProps {
   handleFilter: (name: string, data: any) => void;
   defaultFilter: number[];
+  maxValue?: number;
 }
 
-const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
-  const [value, setValue] = React.useState<number[]>([0, 20000]);
+const RangeFilter = ({
+  handleFilter,
+  defaultFilter,
+  maxValue = 20000,
+}: IProps) => {
+  const [value, setValue] = React.useState<number[]>([0, maxValue || 20000]);
   const [isHidden, setIsHidden] = React.useState<boolean | undefined>(true);
 
   useEffect(() => {
     if (defaultFilter.length) {
       return setValue([...defaultFilter]);
-    } else {
-      return setValue([0, 20000]);
     }
-  }, [defaultFilter]);
+    setValue([0, maxValue]);
+  }, [defaultFilter, maxValue]);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -41,7 +45,7 @@ const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
             Price Range
           </span>
           <span style={{ color: 'black', fontSize: '14px' }}>
-            From ${value[0]} to ${value[1]}
+            From ${value[0] || 0} to ${value[1] || maxValue}
           </span>
           {isHidden ? <DownArrow /> : <UpArrow />}
         </SliderContainer>
@@ -52,7 +56,7 @@ const RangeFilter = ({ handleFilter, defaultFilter }: IProps) => {
           onChange={handleChange}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
-          max={20000}
+          max={maxValue > value[1] ? maxValue : value[1]}
           min={0}
           onChangeCommitted={handleCommit}
         />
