@@ -3,6 +3,11 @@ import styled from 'styled-components/macro';
 export const Container = styled.div`
   padding: 20px;
   width: 410px;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+    height: 100vh;
+    padding: 40px 0;
+  }
 `;
 
 export const Header = styled.p`

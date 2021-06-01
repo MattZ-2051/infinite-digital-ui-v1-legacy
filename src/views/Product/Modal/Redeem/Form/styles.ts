@@ -16,6 +16,11 @@ export const InputContainer = styled.div`
   width: 100%;
   z-index: 1;
   right: 0;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+    max-height: 40vh;
+    overflow: auto;
+  }
 `;
 
 export const DropDown = styled(Select)`

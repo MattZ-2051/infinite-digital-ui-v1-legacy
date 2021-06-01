@@ -1,5 +1,8 @@
 // Global
 import { useState } from 'react';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
 // Local
 import * as S from './styles';
 import Modal from 'components/Modal';
@@ -29,6 +32,9 @@ const RedeemModal = ({
   redeemable,
 }: Props) => {
   const Body = (): JSX.Element => {
+    const theme = useTheme();
+    const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
       <S.Container>
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
@@ -39,7 +45,16 @@ const RedeemModal = ({
         </S.HeaderContainer>
         <S.SubHeaderContainer>
           <S.RowFlex padding="10px 0">
-            <S.IssuerName>{sku?.issuer?.username}</S.IssuerName>
+            {isSmall ? (
+              <S.IssuerName>
+                {sku?.issuer && sku?.issuer?.username.length > 22
+                  ? `${sku?.issuer.username.slice(0, 22)}...`
+                  : sku?.issuer?.username}
+              </S.IssuerName>
+            ) : (
+              <S.IssuerName>{sku?.issuer?.username}</S.IssuerName>
+            )}
+
             <Rarity type={sku?.rarity} margin="0" />
           </S.RowFlex>
           <S.SkuName>{sku?.name}</S.SkuName>
@@ -54,12 +69,20 @@ const RedeemModal = ({
                 </>
               )}
             </S.RowFlex>
-            <S.RowFlex padding="0">
-              <S.Serial>Serial:</S.Serial>
-              <S.SerialNum>#{serialNum}</S.SerialNum>
-            </S.RowFlex>
+            {!isSmall && (
+              <S.RowFlex padding="0">
+                <S.Serial>Serial:</S.Serial>
+                <S.SerialNum>#{serialNum}</S.SerialNum>
+              </S.RowFlex>
+            )}
           </S.RowFlex>
         </S.SubHeaderContainer>
+        {isSmall && (
+          <div style={{ display: 'flex' }}>
+            <S.Serial>Serial:</S.Serial>
+            <S.SerialNum>#{serialNum}</S.SerialNum>
+          </div>
+        )}
         <Form />
       </S.Container>
     );
@@ -70,6 +93,7 @@ const RedeemModal = ({
       onClose={() => setModalPaymentVisible(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      width="100%"
     >
       <Body />
     </Modal>
