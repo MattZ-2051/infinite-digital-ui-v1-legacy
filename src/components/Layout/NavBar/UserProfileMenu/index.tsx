@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { ReactComponent as WalletSvg } from 'assets/svg/icons/wallet.svg';
 import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';
@@ -6,20 +5,18 @@ import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-s
 import { ReactComponent as EditProfileSvg } from 'assets/svg/icons/edit-profile-icon.svg';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { useAppDispatch } from 'store/hooks';
 import { deleteUser } from 'store/session/sessionThunks';
-import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
 
 interface IProps {
   visible?: any;
-  setVisible?: any;
+  setVisible: (a: boolean) => void;
   setIsModalOpen: (a: boolean) => void;
 }
 
 const UserProfileMenu = ({ visible, setVisible, setIsModalOpen }: IProps) => {
   const dispatch = useAppDispatch();
   const { logout } = useAuth0();
-  const username = useAppSelector((state) => state.session.user.username);
   const history = useHistory();
 
   const handleWalletRedirect = () => {
@@ -109,7 +106,9 @@ const Button = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  padding: 10px 5px;
+`;
 
 const Label = styled.span`
   padding-left: 10px;

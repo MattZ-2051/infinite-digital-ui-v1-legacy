@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
 import { mediaQueries } from 'theme/media';
 import { Link } from 'react-router-dom';
+import { ReactComponent as ActionButtonSvg } from 'assets/svg/icons/action-button.svg';
 
 export const Container = styled.div`
   padding: 48px 0 48px 48px;
@@ -53,6 +54,31 @@ export const FlexColumn = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+`;
+
+export const ActionButton = styled(ActionButtonSvg)`
+  .svg_background {
+    fill: #2e2e2e;
+  }
+  .svg_dots {
+    fill: white;
+  }
+  :hover {
+    cursor: pointer;
+    .svg_background {
+      fill: white;
+    }
+    .svg_dots {
+      fill: #2e2e2e;
+    }
+  }
+`;
+
+export const ActionText = styled.p`
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  padding-right: 10px;
 `;
 
 export const ActiveText = styled.span`

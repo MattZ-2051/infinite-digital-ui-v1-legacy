@@ -5,11 +5,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
 import CreateSale from '../Modal/CreateSale';
+import RedeemModal from '../Modal/Redeem';
 import Toast from 'utils/Toast';
 import { useHistory } from 'react-router-dom';
 import BuyNowModal from '../Modal/BuyNow';
 import CancelSale from '../Modal/CancelSale';
 import { Link } from 'react-router-dom';
+import DropDown from './DropDown';
+import { useOutsideAlert } from 'hooks/oustideAlerter';
 import * as S from './styles';
 
 export type Status =
@@ -18,6 +21,7 @@ export type Status =
   | 'create-sale'
   | 'active-sale'
   | 'upcoming'
+  | 'owner'
   | '';
 
 interface Props {
@@ -30,7 +34,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = useAppSelector((state) => state.session.user);
+  const { visible, setVisible, ref } = useOutsideAlert(false);
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
   );
@@ -86,7 +90,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         product?.activeProductListings?.length === 0 &&
         product?.upcomingProductListings?.length === 0
       ) {
-        setStatus('create-sale');
+        setStatus('owner');
       } else if (
         loggedInUser.id === product?.owner?._id &&
         product?.activeProductListings?.length !== 0 &&
@@ -196,6 +200,26 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                 )}
                 <S.Button width="130px">Upcoming</S.Button>
               </S.ButtonContainer>
+            </>
+          )}
+          {status === 'owner' && (
+            <>
+              <S.ActionContainer>
+                <S.ActionText>Actions</S.ActionText>
+                <div
+                  ref={ref}
+                  onClick={() => setVisible(!visible)}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                >
+                  <S.ActionButton />
+                  {visible && (
+                    <DropDown
+                      redeemed={product?.sku?.redeemable}
+                      setModalVisible={setIsModalOpen}
+                    />
+                  )}
+                </div>
+              </S.ActionContainer>
             </>
           )}
           {status === 'buy-now' && (
@@ -339,6 +363,12 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           visible={isModalOpen}
           listingId={product?.activeProductListings[0]?._id}
           setStatus={setStatus}
+        />
+      )}
+      {product && status === 'owner' && (
+        <RedeemModal
+          setModalPaymentVisible={setIsModalOpen}
+          visible={isModalOpen}
         />
       )}
     </>
