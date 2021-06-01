@@ -28,7 +28,7 @@ const ModalComponent = ({
 
 const ModalContainer: any = styled(Modal)`
   overflow-y: scroll;
-  z-index: 1400 !important;
+  // z-index: 1400 !important;
   display: flex;
   align-items: center;
   justify-content: center;

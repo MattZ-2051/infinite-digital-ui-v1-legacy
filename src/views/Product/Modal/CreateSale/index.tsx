@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, VoidFunctionComponent } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Modal from 'components/Modal';
 import Button from 'components/Buttons/Button';
@@ -14,19 +14,19 @@ import Rarity from 'components/Rarity';
 import { Status } from '../../History/index';
 
 export interface IModalProps {
-  visible: boolean;
-  setModalPaymentVisible: (a: boolean) => void;
   product: ProductWithFunctions;
   setStatus: (a: Status) => void;
   setActiveSalePrice: (a: number) => void;
+  setSaleModal: (a: boolean) => void;
+  isModalOpen: boolean;
 }
 
 const CreateSale = ({
-  visible,
-  setModalPaymentVisible,
   product,
   setStatus,
   setActiveSalePrice,
+  setSaleModal,
+  isModalOpen,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
@@ -71,7 +71,7 @@ const CreateSale = ({
       if (result) {
         Toast.success(createSale.success);
         setLoading(false);
-        setModalPaymentVisible(false);
+        setSaleModal(false);
         setActiveSalePrice(result.data?.price);
       }
     } catch (e) {
@@ -88,10 +88,14 @@ const CreateSale = ({
     }
   };
 
+  const handleClose = () => {
+    setSaleModal(false);
+  };
+
   return (
     <Modal
-      open={visible}
-      onClose={() => setModalPaymentVisible(false)}
+      open={isModalOpen}
+      onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
@@ -101,7 +105,7 @@ const CreateSale = ({
           <CloseModal />
         </S.CloseButton>
       </S.ImageContainer> */}
-      <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+      <S.CloseButton onClick={handleClose}>
         <CloseModal />
       </S.CloseButton>
       <S.Header>

@@ -35,6 +35,9 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { visible, setVisible, ref } = useOutsideAlert(false);
+  const [status, setStatus] = useState<Status>('');
+  const [isSaleModalOpen, setIsSaleModalOpen] = useState<boolean>(false);
+  const [isRedeemModalOpen, setIsRedeemModalOpen] = useState<boolean>(false);
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
   );
@@ -44,7 +47,6 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
-  const [status, setStatus] = useState<Status>('');
 
   const loggedInUser = useAppSelector((state) => state.session.user);
 
@@ -71,6 +73,31 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     }
     if (isAuthenticated) {
       setIsModalOpen(true);
+    } else {
+      Toast.warning(
+        <>
+          You need to{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            Log in
+          </a>{' '}
+          in order to complete the purchase
+        </>
+      );
+    }
+  };
+
+  const handleCreateSale = () => {
+    if (productListingExists()) {
+      return Toast.error(
+        <>
+          Another active or upcoming sale listing for this product already
+          exists. Please <Link to="/help">contact support</Link> if you believe
+          this is an error
+        </>
+      );
+    }
+    if (isAuthenticated) {
+      setIsSaleModalOpen(true);
     } else {
       Toast.warning(
         <>
@@ -214,8 +241,9 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   <S.ActionButton />
                   {visible && (
                     <DropDown
-                      redeemed={product?.sku?.redeemable}
-                      setModalVisible={setIsModalOpen}
+                      redeemed={product?.redeemedStatus}
+                      setModalVisible={setIsRedeemModalOpen}
+                      openSaleModal={handleCreateSale}
                     />
                   )}
                 </div>
@@ -338,15 +366,6 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           activeAmount={1400}
         />
       )} */}
-      {product && status === 'create-sale' && (
-        <CreateSale
-          visible={isModalOpen}
-          setModalPaymentVisible={setIsModalOpen}
-          product={product}
-          setStatus={setStatus}
-          setActiveSalePrice={setActiveSalePrice}
-        />
-      )}
       {product && status === 'buy-now' && (
         <BuyNowModal
           setModalPaymentVisible={setIsModalOpen}
@@ -366,10 +385,22 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         />
       )}
       {product && status === 'owner' && (
-        <RedeemModal
-          setModalPaymentVisible={setIsModalOpen}
-          visible={isModalOpen}
-        />
+        <>
+          <RedeemModal
+            setModalPaymentVisible={setIsRedeemModalOpen}
+            visible={isRedeemModalOpen}
+            sku={product?.sku}
+            serialNum={product?.serialNumber}
+            redeemable={product?.redeemedStatus}
+          />
+          <CreateSale
+            product={product}
+            setStatus={setStatus}
+            setActiveSalePrice={setActiveSalePrice}
+            setSaleModal={setIsSaleModalOpen}
+            isModalOpen={isSaleModalOpen}
+          />
+        </>
       )}
     </>
   );

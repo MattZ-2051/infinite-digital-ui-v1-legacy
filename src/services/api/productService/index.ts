@@ -103,3 +103,23 @@ export const getReleasesOwnedByUser = async (
     return err;
   }
 };
+
+export const redeemProduct = async (
+  token: string,
+  data: any,
+  productId: string
+): Promise<any> => {
+  try {
+    const response = await axiosInstance.patch<any>(
+      `/products/${productId}/redeem`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response;
+  } catch (e) {
+    console.error('err', e.response);
+    return e.response;
+  }
+};

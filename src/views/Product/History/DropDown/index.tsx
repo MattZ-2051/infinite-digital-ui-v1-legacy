@@ -2,11 +2,12 @@ import * as S from './styles';
 import Toast from 'utils/Toast';
 
 interface IProps {
-  redeemed?: boolean;
+  redeemed?: 'NA' | 'pending' | 'redeemed';
   setModalVisible: (a: boolean) => void;
+  openSaleModal: any;
 }
 
-const DropDown = ({ redeemed, setModalVisible }: IProps) => {
+const DropDown = ({ redeemed, setModalVisible, openSaleModal }: IProps) => {
   const handleToastError = () => {
     Toast.error('This product has already been redeemed.');
   };
@@ -21,7 +22,7 @@ const DropDown = ({ redeemed, setModalVisible }: IProps) => {
               <S.TransferIcon className="icon_transfer" />
             </S.IconContainer>
           </S.Button> */}
-          {redeemed ? (
+          {redeemed === 'redeemed' ? (
             <>
               <S.Button hover={false} onClick={handleToastError}>
                 <S.Label style={{ color: '#3a3a3a' }}>Redeemed</S.Label>
@@ -46,7 +47,7 @@ const DropDown = ({ redeemed, setModalVisible }: IProps) => {
               <S.AuctionIcon className="icon_auction" />
             </S.IconContainer>
           </S.Button>
-          <S.Button hover={true}>
+          <S.Button hover={true} onClick={openSaleModal}>
             <S.Label>Sell Your NFT</S.Label>
             <S.IconContainer>
               <S.SellIcon className="icon_sell" />
