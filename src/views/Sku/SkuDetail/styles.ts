@@ -210,10 +210,30 @@ export const CreatorName = styled(Link)`
   font-weight: 500;
   margin: 0;
   padding-left: 5px;
+  &&::after {
+    content: '/';
+    margin-right: 8px;
+    margin-left: 8px;
+    cursor-pointer: default;
+    font-weight: normal;
+    color: #7c7c7c;
+  }
 `;
 
 export const ViewAll = styled(Link)`
   float: right;
   text-decoration: none;
   font-size: 18px;
+`;
+
+export const NotifyIconImg = styled.img`
+  margin-right: 8px;
+  vertical-align: middle;
+`;
+
+export const NotifyMe = styled(Link)`
+  ont-size: 15px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
 `;
