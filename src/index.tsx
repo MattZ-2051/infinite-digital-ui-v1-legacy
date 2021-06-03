@@ -11,6 +11,21 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+
+if (config.logging.sentryDsn) {
+  Sentry.init({
+    dsn: config.logging.sentryDsn,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: config.logging.sentrySampleRate,
+    ...(config.metadata.environmentName
+      ? {
+          environment: config.metadata.environmentName,
+        }
+      : {}),
+  });
+}
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
@@ -28,6 +43,17 @@ const providerConfig = {
   redirectUri: window.location.origin,
   onRedirectCallback,
 };
+
+Sentry.init({
+  dsn:
+    'https://d62e365d86514f3f81a5d9864667adda@o734225.ingest.sentry.io/5784745',
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0.1,
+});
 
 ReactDOM.render(
   <React.StrictMode>

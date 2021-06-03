@@ -20,9 +20,19 @@ interface AppConfig {
     templateLvl1: string;
     environmentType: string;
   };
+  logging: {
+    sentryDsn: string;
+    sentrySampleRate: number;
+  };
+  metadata: {
+    environmentName: string;
+  };
 }
 
 export const config: AppConfig = {
+  metadata: {
+    environmentName: getEnvVar('REACT_APP_ENVIRONMENT_NAME', false),
+  },
   auth: {
     auth0Domain: getEnvVar('REACT_APP_AUTH0_DOMAIN', true),
     auth0ClientId: getEnvVar('REACT_APP_AUTH0_CLIENT_ID', true),
@@ -49,5 +59,10 @@ export const config: AppConfig = {
       'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
     environmentType:
       getEnvVar('REACT_APP_PERSONA_ENVIRONMENT_TYPE', false) || 'sandbox',
+  },
+  logging: {
+    sentryDsn: getEnvVar('REACT_APP_SENTRY_DSN', false),
+    sentrySampleRate:
+      parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
   },
 };
