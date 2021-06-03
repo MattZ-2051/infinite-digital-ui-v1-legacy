@@ -56,7 +56,6 @@ const AddFunds = () => {
       return;
     }
 
-    console.log(amount && parseInt(amount.replaceAll(',', '')));
     if (amount && parseFloat(amount.replaceAll(',', '')) > 1000) {
       Toast.error(
         'You can only deposit up to $1000 USD per credit card transaction'
@@ -98,8 +97,6 @@ const AddFunds = () => {
   const month = userCard.expMonth.toString();
 
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
-
-  console.log('amount', amount);
 
   return (
     <S.Container>

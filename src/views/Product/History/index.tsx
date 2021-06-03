@@ -244,6 +244,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       redeemed={product?.redeemedStatus}
                       setModalVisible={setIsRedeemModalOpen}
                       openSaleModal={handleCreateSale}
+                      redeemable={product?.sku?.redeemable}
                     />
                   )}
                 </div>

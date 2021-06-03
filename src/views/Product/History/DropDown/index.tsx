@@ -2,12 +2,18 @@ import * as S from './styles';
 import Toast from 'utils/Toast';
 
 interface IProps {
-  redeemed?: 'NA' | 'pending' | 'redeemed';
+  redeemed: 'NA' | 'pending' | 'redeemed' | undefined;
   setModalVisible: (a: boolean) => void;
   openSaleModal: any;
+  redeemable: boolean | undefined;
 }
 
-const DropDown = ({ redeemed, setModalVisible, openSaleModal }: IProps) => {
+const DropDown = ({
+  redeemed,
+  setModalVisible,
+  openSaleModal,
+  redeemable,
+}: IProps) => {
   const handleToastError = () => {
     Toast.error('This product has already been redeemed.');
   };
@@ -22,25 +28,28 @@ const DropDown = ({ redeemed, setModalVisible, openSaleModal }: IProps) => {
               <S.TransferIcon className="icon_transfer" />
             </S.IconContainer>
           </S.Button> */}
-          {redeemed === 'redeemed' ? (
-            <>
-              <S.Button hover={false} onClick={handleToastError}>
-                <S.Label style={{ color: '#3a3a3a' }}>Redeemed</S.Label>
-                <S.IconContainer>
-                  <S.IsRedeemedIcon className="icon_isRedeemed" />
-                </S.IconContainer>
-              </S.Button>
-            </>
-          ) : (
-            <>
-              <S.Button hover={true} onClick={() => setModalVisible(true)}>
-                <S.Label>Redeem</S.Label>
-                <S.IconContainer>
-                  <S.RedeemIcon className="icon_redeem" />
-                </S.IconContainer>
-              </S.Button>
-            </>
-          )}
+
+          {redeemable &&
+            (redeemed === 'redeemed' ? (
+              <>
+                <S.Button hover={false} onClick={handleToastError}>
+                  <S.Label style={{ color: '#3a3a3a' }}>Redeemed</S.Label>
+                  <S.IconContainer>
+                    <S.IsRedeemedIcon className="icon_isRedeemed" />
+                  </S.IconContainer>
+                </S.Button>
+              </>
+            ) : (
+              <>
+                <S.Button hover={true} onClick={() => setModalVisible(true)}>
+                  <S.Label>Redeem</S.Label>
+                  <S.IconContainer>
+                    <S.RedeemIcon className="icon_redeem" />
+                  </S.IconContainer>
+                </S.Button>
+              </>
+            ))}
+
           <S.Button hover={true}>
             <S.Label>Start Auction</S.Label>
             <S.IconContainer>

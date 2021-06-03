@@ -41,7 +41,6 @@ const UpcomingData = ({
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
 
-  console.log('supply type', supplyType);
   return (
     <>
       {' '}

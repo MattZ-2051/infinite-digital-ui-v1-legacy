@@ -1,7 +1,6 @@
 // Global
 import { useState, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import countries from 'assets/location/country-states-OFAC-flag.json';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { redeemProduct } from 'services/api/productService';
@@ -11,52 +10,31 @@ import Toast from 'utils/Toast';
 
 // Local
 import * as S from './styles';
+import {
+  validate,
+  errors,
+  payload,
+  countriesList,
+  RedeemInfo,
+  Errors,
+} from './helper';
 
 // Types
 import { Country, District } from 'entities/country';
 
-interface RedeemInfo {
-  addressLine1: string;
-  addressLine2: string;
-  district: District;
-  postalCode: string;
-  city: string;
-  country: Country;
-  shippingNotes: string;
-}
-
-const payload: RedeemInfo = {
-  addressLine1: '',
-  addressLine2: '',
-  district: {
-    name: '',
-    stateCode: '',
-  },
-  postalCode: '',
-  city: '',
-  country: {
-    name: '',
-    iso2: '',
-  },
-  shippingNotes: '',
-};
-
-const countriesList: Array<Country> = countries
-  .filter((item) => item.ofac === 'false')
-  .map((item) => ({
-    name: item.name,
-    iso2: item.iso2,
-    states: item.states.map((state) => ({
-      name: state.name,
-      stateCode: state.state_code,
-    })),
-  }));
+const link = (
+  <>
+    Item successfully redeemed, Learn more about redemption process{' '}
+    <a href="https://support.suku.world/infinite/can-i-redeem-an-item">here</a>.
+  </>
+);
 
 const Form = () => {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
   const productId = history.location.pathname.split('/')[2];
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [fieldError, setFieldError] = useState<Errors>(errors);
   const [info, setInfo] = useState<RedeemInfo>(payload);
   const [selectedCount, setSelectedCountry] = useState<Country | undefined>(
     countriesList[0]
@@ -95,6 +73,8 @@ const Form = () => {
   const handleSubmit = async () => {
     info.country = selectedCount || { name: '', iso2: '' };
     info.district = district || { name: '', stateCode: '' };
+    const checkErrors = validate(info, setFieldError);
+    if (checkErrors) return;
     const res = await redeemProduct(
       await getAccessTokenSilently(),
       info,
@@ -103,7 +83,7 @@ const Form = () => {
     if (res.status !== 200) {
       Toast.error(res.data.message);
     } else {
-      Toast.success(res.data.message);
+      Toast.success(link);
     }
   };
 
@@ -130,10 +110,9 @@ const Form = () => {
               required
               name="addressLine1"
               onChange={handleChange}
-              //  onChange
-              //  value
-              //  error
-              // helperText="Enter a valid address"
+              error={fieldError?.addressline1}
+              value={info?.addressLine1}
+              helperText={fieldError?.addressline1 && 'Enter a valid Address'}
             />
           </S.FormRow>
           <S.FormRow>
@@ -142,13 +121,9 @@ const Form = () => {
               label="Address Line 2"
               size="medium"
               fullWidth
-              required
               name="addressLine2"
               onChange={handleChange}
-              //  onChange
-              //  value
-              //  error
-              // helperText="Enter a valid address"
+              value={info?.addressLine2}
             />
           </S.FormRow>
           <S.FormRow>
@@ -160,10 +135,9 @@ const Form = () => {
               required
               name="postalCode"
               onChange={handleChange}
-              //  onChange
-              //  value
-              //  error
-              // helperText="Enter a valid address"
+              error={fieldError?.postalCode}
+              value={info?.postalCode}
+              helperText={fieldError?.postalCode && 'Enter a valid Postal Code'}
             />
           </S.FormRow>
           <S.FormRow>
@@ -175,10 +149,9 @@ const Form = () => {
               required
               name="city"
               onChange={handleChange}
-              //  onChange
-              //  value
-              //  error
-              // helperText="Enter a valid address"
+              error={fieldError?.city}
+              value={info?.city}
+              helperText={fieldError?.city && 'Enter a valid City'}
             />
           </S.FormRow>
           <S.FormRow>
@@ -227,10 +200,7 @@ const Form = () => {
               fullWidth
               name="shippingNotes"
               onChange={handleChange}
-              //  onChange
-              //  value
-              //  error
-              // helperText="Enter a valid address"
+              value={info?.shippingNotes}
             />
           </S.FormRow>
         </S.InputContainer>
