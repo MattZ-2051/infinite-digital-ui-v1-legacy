@@ -14,9 +14,9 @@ import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 
-if (config.logging.sentryDns) {
+if (config.logging.sentryDsn) {
   Sentry.init({
-    dsn: config.logging.sentryDns,
+    dsn: config.logging.sentryDsn,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: config.logging.sentrySampleRate,
     ...(config.metadata.environmentName

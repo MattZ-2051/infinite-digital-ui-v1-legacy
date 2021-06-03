@@ -21,7 +21,7 @@ interface AppConfig {
     environmentType: string;
   };
   logging: {
-    sentryDns: string;
+    sentryDsn: string;
     sentrySampleRate: number;
   };
   metadata: {
@@ -61,7 +61,7 @@ export const config: AppConfig = {
       getEnvVar('REACT_APP_PERSONA_ENVIRONMENT_TYPE', false) || 'sandbox',
   },
   logging: {
-    sentryDns: getEnvVar('REACT_APP_SENTRY_DNS', false),
+    sentryDsn: getEnvVar('REACT_APP_SENTRY_DSN', false),
     sentrySampleRate:
       parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
   },
