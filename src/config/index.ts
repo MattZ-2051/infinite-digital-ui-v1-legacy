@@ -62,6 +62,7 @@ export const config: AppConfig = {
   },
   logging: {
     sentryDns: getEnvVar('REACT_APP_SENTRY_DNS', false),
-    sentrySampleRate: parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
+    sentrySampleRate:
+      parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
   },
 };

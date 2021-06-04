@@ -19,9 +19,11 @@ if (config.logging.sentryDns) {
     dsn: config.logging.sentryDns,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: config.logging.sentrySampleRate,
-    ...(config.metadata.environmentName ? {
-      environment: config.metadata.environmentName,
-    } : {}),
+    ...(config.metadata.environmentName
+      ? {
+          environment: config.metadata.environmentName,
+        }
+      : {}),
   });
 }
 

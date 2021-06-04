@@ -16,11 +16,15 @@ export const getSkuTiles = async (options?: {
     const { data, headers } = response;
     const contentRange: string = headers['content-range'];
     const rangeArray = contentRange.split('/');
+    const maxSkusMinPrice = headers['max-skus-min-price']
+      ? Number(headers['max-skus-min-price'])
+      : 0;
     const total = Number(rangeArray[1]);
 
     return {
       data,
       total,
+      maxSkusMinPrice,
     };
   } catch (e) {
     console.error(`getSkuTiles: Error requesting sku tile details. ${e}`);

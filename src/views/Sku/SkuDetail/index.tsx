@@ -19,6 +19,8 @@ import Rarity from 'components/Rarity';
 import PageLoader from 'components/PageLoader';
 import SkuDescription from './components/SkuDescription';
 import LineDivider from './components/LineDivider';
+import NotifyModal from 'components/NotifyModal';
+import notifyIcon from 'assets/svg/icons/notify-white.svg';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -31,6 +33,7 @@ const SkuDetail = (): JSX.Element => {
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
   const history = useHistory();
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchSku().then((sku) => {
@@ -159,6 +162,10 @@ const SkuDetail = (): JSX.Element => {
                   <S.CreatorName to={`/collection/${sku.issuer.username}`}>
                     @{sku.issuer.username}
                   </S.CreatorName>
+                  <S.NotifyMe to="#" onClick={() => setIsNotifyModalOpen(true)}>
+                    <S.NotifyIconImg src={notifyIcon} />
+                    <span>Notify Me</span>
+                  </S.NotifyMe>
                 </div>
               </S.ProductDetail>
 
@@ -209,6 +216,11 @@ const SkuDetail = (): JSX.Element => {
           </S.ProductContainer>
         </S.Section>
       )}
+      <NotifyModal
+        isModalOpen={isNotifyModalOpen}
+        handleClose={() => setIsNotifyModalOpen(false)}
+        username={sku?.issuer?.username}
+      />
     </div>
   );
 };

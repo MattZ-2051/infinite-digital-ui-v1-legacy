@@ -29,6 +29,7 @@ import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [page, setPage] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(2000);
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const activePagination = useAppSelector(
     (store) => store.marketplace.pagination
@@ -112,17 +113,23 @@ const MarketPlace = (): JSX.Element => {
     setFiltersVisible((filtersVisible) => !filtersVisible);
   };
 
+  const fetchData = (fn, queryParams?) => {
+    return fn(
+      getSkuTilesThunk({
+        queryParams: queryParams || `${urlQueryString.toString()}`,
+      })
+    ).then((response) => {
+      if (response.type === 'skus/get/fulfilled') {
+        setMaxPrice(response.payload.maxSkusMinPrice);
+      }
+    });
+  };
+
   // Load initial data on mount
   useEffect(() => {
-    (() => {
-      dispatch(
-        getSkuTilesThunk({
-          queryParams: `${urlQueryString.toString()}`,
-        })
-      );
-      const page = new URLSearchParams(urlQueryString).get('page');
-      setPage(Number(page));
-    })();
+    fetchData(dispatch, `${urlQueryString.toString()}`);
+    const page = new URLSearchParams(urlQueryString).get('page');
+    setPage(Number(page));
   }, [dispatch]);
 
   // Request new data on filters change
@@ -138,18 +145,10 @@ const MarketPlace = (): JSX.Element => {
       );
       if (regenerateUrl.current) {
         history.push(`/marketplace?${queryString.toString()}`);
-        dispatch(
-          getSkuTilesThunk({
-            queryParams: `?${queryString.toString()}`,
-          })
-        );
+        fetchData(dispatch, `?${queryString.toString()}`);
       } else {
         regenerateUrl.current = true;
-        dispatch(
-          getSkuTilesThunk({
-            queryParams: `?${queryString.toString()}`,
-          })
-        );
+        fetchData(dispatch, `?${queryString.toString()}`);
       }
     }
   }, [activeFilters, activePagination, activeSort]);
@@ -199,12 +198,20 @@ const MarketPlace = (): JSX.Element => {
       </S.Header>
 
       {filtersVisible && matchesMobile && (
-        <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
+        <Filters
+          handleFilter={handleFilter}
+          activeFilters={activeFilters}
+          maxPrice={maxPrice}
+        />
       )}
 
       <S.Main>
         <S.Sidebar>
-          <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
+          <Filters
+            handleFilter={handleFilter}
+            activeFilters={activeFilters}
+            maxPrice={maxPrice}
+          />
         </S.Sidebar>
         <S.Content>
           {/* Sku Tile data from store being rendered with Sku Tiles */}

@@ -9,17 +9,19 @@ interface IProps {
   onClose?: any;
   height?: string;
   align?: string;
+  width?: string;
 }
 
 const ModalComponent = ({
   children,
   height,
   align,
+  width,
   ...props
 }: IProps): JSX.Element => {
   return (
     <ModalContainer {...(props as any)}>
-      <ModalBody align={align} height={height}>
+      <ModalBody align={align} height={height} width={width}>
         {children}
       </ModalBody>
     </ModalContainer>
@@ -28,7 +30,7 @@ const ModalComponent = ({
 
 const ModalContainer: any = styled(Modal)`
   overflow-y: scroll;
-  z-index: 1400 !important;
+  // z-index: 1400 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +38,11 @@ const ModalContainer: any = styled(Modal)`
   backdrop-filter: blur(2px);
 ` as React.ComponentType<ModalProps>;
 
-const ModalBody = styled.div<{ height?: string; align?: string }>`
+const ModalBody = styled.div<{
+  height?: string;
+  align?: string;
+  width?: string;
+}>`
   margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
@@ -48,8 +54,11 @@ const ModalBody = styled.div<{ height?: string; align?: string }>`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.align ? `${props.align}` : `center`)};
+  @media screen and (max-width: 950px) {
+    margin-top: 50px;
+  }
   @media screen and (max-width: 550px) {
-    width: 90%;
+    width: ${(props) => (props.width ? `${props.width}` : '90%')};
   }
 `;
 

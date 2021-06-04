@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,9 @@ import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
 import PageLoader from 'components/PageLoader';
 import { Media } from 'components/Media/Media';
+import NotifyModal from 'components/NotifyModal';
+import Button from 'components/Buttons';
+import notifyIcon from 'assets/svg/icons/notify-black.svg';
 import * as S from './styles';
 
 const splitLastSentence = (text: string): [string, string] => {
@@ -53,6 +56,7 @@ const Collection = (): JSX.Element => {
   const history = useHistory();
   const username = history.location.pathname.split('/')[2];
   const { isAuthenticated } = useAuth0();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   async function fetchUser() {
     try {
@@ -70,6 +74,10 @@ const Collection = (): JSX.Element => {
   }, [username]);
 
   if (user._id === '0' || !user) return <PageLoader />;
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <S.Container>
@@ -107,16 +115,26 @@ const Collection = (): JSX.Element => {
                   styles={{ maxHeight: '98px', maxWidth: '98px' }}
                 />
               )}
-              <span
-                style={{
-                  fontWeight: 600,
-                  color: '#8e8e8e',
-                  fontSize: '24px',
-                  marginBottom: '28px',
-                }}
-              >
-                {user.username}
-              </span>
+              <S.BasicInfoContainer>
+                <span
+                  style={{
+                    fontWeight: 600,
+                    color: '#8e8e8e',
+                    fontSize: '24px',
+                    marginBottom: '28px',
+                  }}
+                >
+                  {user.username}
+                </span>
+                <Button
+                  onClick={() => setIsModalOpen(true)}
+                  color="white"
+                  style={{ padding: '10px 25px' }}
+                >
+                  <S.NotifyIconImg src={notifyIcon} />
+                  <span>Notify Me</span>
+                </Button>
+              </S.BasicInfoContainer>
               <TextContainer
                 textAlign="left"
                 fontSize="28"
@@ -179,6 +197,11 @@ const Collection = (): JSX.Element => {
           </FlexColumn>
         </S.Container>
       </ViewContainer>
+      <NotifyModal
+        isModalOpen={isModalOpen}
+        handleClose={handleModalClose}
+        username={user.username}
+      />
     </S.Container>
   );
 };

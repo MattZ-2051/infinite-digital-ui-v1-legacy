@@ -7,6 +7,7 @@ interface InitialListingState {
   skus: {
     data: Sku[];
     total: number;
+    maxSkusMinPrice?: number;
   };
   loading: 'idle' | 'pending';
   currentRequestId: string | undefined;
@@ -19,6 +20,7 @@ export const skuSlice = createSlice({
     skus: {
       data: [skuFactory.build()],
       total: 0,
+      maxSkusMinPrice: 20000,
     },
     loading: 'idle',
     currentRequestId: undefined,
@@ -39,6 +41,7 @@ export const skuSlice = createSlice({
       state.skus = {
         data: payload.data,
         total: payload.total,
+        maxSkusMinPrice: payload.maxSkusMinPrice,
       };
       state.currentRequestId = undefined;
     });

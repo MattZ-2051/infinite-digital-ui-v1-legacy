@@ -27,6 +27,17 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
       setErrorMessage('Please enter a new username');
       return;
     }
+    if (
+      /[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername) ||
+      newUsername.length < 3 ||
+      newUsername.length > 12
+    ) {
+      setErrorMessage(
+        `${'Your username must be between 3 and 12 characters long and cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
+      );
+      return;
+    }
+
     const res = await dispatch(updateUsernameThunk(data));
     if (res.type.split('/')[3] === 'rejected') {
       setConfirmed(false);
@@ -45,6 +56,7 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
   };
 
   const handleChange = (e) => {
+    setErrorMessage('');
     setConfirmed(false);
     setNewUsername(e.target.value);
   };

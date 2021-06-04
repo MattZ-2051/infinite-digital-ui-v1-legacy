@@ -14,7 +14,7 @@ export interface Product {
 
 export interface ProductWithFunctions {
   _id: string;
-  redeemedStatus: string;
+  redeemedStatus: 'NA' | 'pending' | 'redeemed';
   tokenId: string;
   owner: User;
   listing: Listing;

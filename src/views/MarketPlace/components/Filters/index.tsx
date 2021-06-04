@@ -18,9 +18,10 @@ import FilterChip from 'components/FilterChip';
 export interface IProps {
   activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
+  maxPrice?: number;
 }
 
-const Filters = ({ handleFilter, activeFilters }: IProps) => {
+const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [series, setSeries] = useState([]);
@@ -114,6 +115,7 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       <PriceRange
         handleFilter={handleFilter}
         defaultFilter={activeFilters.price}
+        maxValue={maxPrice}
       />
 
       <DropDownCheckFilter
