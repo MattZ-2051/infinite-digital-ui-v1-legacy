@@ -576,7 +576,13 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                     })}
                 </S.BidsHistory>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  paddingTop: '30px',
+                }}
+              >
                 <S.StyledPagination
                   themeStyle={themeStyle}
                   page={page}
