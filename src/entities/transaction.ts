@@ -16,7 +16,8 @@ export interface ITransaction {
     | 'withdrawal'
     | 'nft_transfer_manual'
     | 'royalty_fee'
-    | 'nft_mint';
+    | 'nft_mint'
+    | 'bid';
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;

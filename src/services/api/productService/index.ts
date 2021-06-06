@@ -123,3 +123,26 @@ export const redeemProduct = async (
     return e.response;
   }
 };
+
+export const getBids = async (
+  token: string,
+  listingId?: string,
+  page?: number,
+  perPage?: number,
+  includeFunctions = true
+): Promise<any> => {
+  const params = { listing: listingId, includeFunctions };
+  if (page) {
+    params['page'] = page;
+    params['per_page'] = perPage;
+  }
+  try {
+    const response = await axiosInstance.get<any>('/bids', {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    return response;
+  } catch (e) {
+    return e.response;
+  }
+};

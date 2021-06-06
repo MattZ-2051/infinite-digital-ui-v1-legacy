@@ -4,6 +4,7 @@ import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { ITransaction } from 'entities/transaction';
+import { Bid } from 'entities/bid';
 import CreateSale from '../Modal/CreateSale';
 import RedeemModal from '../Modal/Redeem';
 import Toast from 'utils/Toast';
@@ -13,9 +14,12 @@ import CancelSale from '../Modal/CancelSale';
 import { Link } from 'react-router-dom';
 import DropDown from './DropDown';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
+import { formatCountdown, formatDate } from 'utils/dates';
+import { getBids } from 'services/api/productService';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as S from './styles';
 
-export type Status =
+export type HistoryStatus =
   | 'not-for-sale'
   | 'buy-now'
   | 'create-sale'
@@ -24,26 +28,47 @@ export type Status =
   | 'owner'
   | '';
 
+export type AuctionStatus =
+  | 'active-auction-no-bid'
+  | 'upcoming-auction'
+  | 'active-auction-bid'
+  | '';
+
 interface Props {
   product: ProductWithFunctions | null;
   transactionHistory: ITransaction[];
 }
 
 const History = ({ product, transactionHistory }: Props): JSX.Element => {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+  } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<'history' | 'auction'>(
+    'history'
+  );
   const history = useHistory();
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { visible, setVisible, ref } = useOutsideAlert(false);
-  const [status, setStatus] = useState<Status>('');
+  const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
+  const [historyStatus, setHistoryStatus] = useState<HistoryStatus>('');
+  const [auctionStatus, setAuctionStatus] = useState<AuctionStatus>('');
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
   const [isSaleModalOpen, setIsSaleModalOpen] = useState<boolean>(false);
   const [isRedeemModalOpen, setIsRedeemModalOpen] = useState<boolean>(false);
+  const [bids, setBids] = useState<Bid[]>([]);
+  const [totalBids, setTotalBids] = useState(1);
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
   );
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
+  const [page, setPage] = useState(1);
+  const perPage = 5;
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
@@ -86,6 +111,10 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    setPage(1);
+  }, [selectedTab]);
+
   const handleCreateSale = () => {
     if (productListingExists()) {
       return Toast.error(
@@ -110,66 +139,113 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       );
     }
   };
+
+  const handlePagination = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
+
+  const fetchBids = async () => {
+    const userToken = await getAccessTokenSilently();
+    const res = await getBids(
+      userToken,
+      product?.activeProductListings[0]?._id,
+      page,
+      perPage
+    );
+    setBids(res.data);
+    setTotalBids(res.data[0].listing.bids.length);
+  };
   useEffect(() => {
-    if (isAuthenticated) {
-      if (
-        loggedInUser.id === product?.owner._id &&
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length === 0
-      ) {
-        setStatus('owner');
-      } else if (
-        loggedInUser.id === product?.owner?._id &&
-        product?.activeProductListings?.length !== 0 &&
-        product?.upcomingProductListings?.length === 0
-      ) {
-        setStatus('active-sale');
-      } else if (
-        loggedInUser.id === product?.owner._id &&
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length !== 0
-      ) {
-        setStatus('upcoming');
-      } else if (
-        loggedInUser.id !== product?.owner._id &&
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length === 0
-      ) {
-        setStatus('not-for-sale');
-      } else if (
-        loggedInUser.id !== product?.owner._id &&
-        product?.activeProductListings?.length !== 0 &&
-        product?.upcomingProductListings.length === 0
-      ) {
-        setStatus('buy-now');
-      } else if (
-        loggedInUser.id !== product?.owner._id &&
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length !== 0
-      ) {
-        setStatus('upcoming');
-      }
-    } else {
-      if (
-        product?.activeProductListings?.length !== 0 &&
-        product?.upcomingProductListings?.length === 0
-      ) {
-        setStatus('buy-now');
-      } else if (
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length === 0
-      ) {
-        setStatus('not-for-sale');
-      } else if (
-        product?.activeProductListings?.length === 0 &&
-        product?.upcomingProductListings?.length !== 0
-      ) {
-        setStatus('upcoming');
+    if (selectedTab === 'history') {
+      if (isAuthenticated) {
+        if (
+          loggedInUser.id === product?.owner._id &&
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length === 0
+        ) {
+          setHistoryStatus('owner');
+        } else if (
+          loggedInUser.id === product?.owner?._id &&
+          product?.activeProductListings?.length !== 0 &&
+          product?.upcomingProductListings?.length === 0
+        ) {
+          setHistoryStatus('active-sale');
+        } else if (
+          loggedInUser.id === product?.owner._id &&
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length !== 0
+        ) {
+          setHistoryStatus('upcoming');
+        } else if (
+          loggedInUser.id !== product?.owner._id &&
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length === 0
+        ) {
+          setHistoryStatus('not-for-sale');
+        } else if (
+          loggedInUser.id !== product?.owner._id &&
+          product?.activeProductListings?.length !== 0 &&
+          product?.upcomingProductListings.length === 0
+        ) {
+          setHistoryStatus('buy-now');
+        } else if (
+          loggedInUser.id !== product?.owner._id &&
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length !== 0
+        ) {
+          setHistoryStatus('upcoming');
+        }
+      } else {
+        if (
+          product?.activeProductListings?.length !== 0 &&
+          product?.upcomingProductListings?.length === 0
+        ) {
+          setHistoryStatus('buy-now');
+        } else if (
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length === 0
+        ) {
+          setHistoryStatus('not-for-sale');
+        } else if (
+          product?.activeProductListings?.length === 0 &&
+          product?.upcomingProductListings?.length !== 0
+        ) {
+          setHistoryStatus('upcoming');
+        }
       }
     }
-  }, []);
 
-  if (status === '') return <></>;
+    if (selectedTab === 'auction' && product?.owner?._id === loggedInUser.id) {
+      if (
+        product?.upcomingProductListings?.length !== 0 &&
+        product?.activeProductListings?.length === 0 &&
+        product?.activeProductListings[0]?.saleType === 'auction'
+      ) {
+        setAuctionStatus('upcoming-auction');
+      } else if (
+        product?.upcomingProductListings?.length === 0 &&
+        product?.activeProductListings?.length !== 0 &&
+        bids.length === 0
+      ) {
+        setAuctionStatus('active-auction-no-bid');
+      } else if (
+        product?.upcomingProductListings?.length === 0 &&
+        product?.activeProductListings?.length !== 0 &&
+        bids.length !== 0
+      ) {
+        setAuctionStatus('active-auction-bid');
+      }
+    }
+  }, [selectedTab]);
+
+  useEffect(() => {
+    fetchBids();
+  }, [page]);
+
+  if (historyStatus === '') return <></>;
   const filteredTransactions =
     transactionHistory &&
     transactionHistory.filter((tx, index) => {
@@ -213,7 +289,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.Owner>
             </S.ProductOwner>
           </S.Row>
-          {status === 'upcoming' && (
+          {historyStatus === 'upcoming' && selectedTab === 'history' && (
             <>
               <S.ButtonContainer
                 onMouseEnter={() => setShowLink(true)}
@@ -229,7 +305,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.ButtonContainer>
             </>
           )}
-          {status === 'owner' && (
+          {historyStatus === 'owner' && selectedTab === 'history' && (
             <>
               <S.ActionContainer>
                 <S.ActionText>Actions</S.ActionText>
@@ -251,21 +327,22 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.ActionContainer>
             </>
           )}
-          {status === 'buy-now' && (
+
+          {historyStatus === 'buy-now' && selectedTab === 'history' && (
             <S.ButtonContainer>
               <S.Button onClick={handleSaleAction} hover={true}>
                 Buy Now for ${product?.activeProductListings[0]?.price}
               </S.Button>
             </S.ButtonContainer>
           )}
-          {status === 'create-sale' && (
+          {historyStatus === 'create-sale' && selectedTab === 'history' && (
             <S.ButtonContainer>
               <S.Button onClick={handleSaleAction} width="130px" hover={true}>
                 List for sale
               </S.Button>
             </S.ButtonContainer>
           )}
-          {status === 'not-for-sale' && (
+          {historyStatus === 'not-for-sale' && selectedTab === 'history' && (
             <S.ButtonContainer>
               <S.Button
                 onClick={handleSaleAction}
@@ -277,59 +354,165 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.Button>
             </S.ButtonContainer>
           )}
-          {status === 'active-sale' && (
+          {historyStatus === 'active-sale' && selectedTab === 'history' && (
             <S.ButtonContainer>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <S.FlexColumn>
+                <S.FlexColumn style={{ paddingRight: '16px' }}>
                   <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                   <div style={{ display: 'flex' }}>
                     <S.StatusText>Status:</S.StatusText>
                     <S.ActiveText>active</S.ActiveText>
                   </div>
                 </S.FlexColumn>
-                <S.CancelButton onClick={() => setIsModalOpen(true)}>
+                <S.Button
+                  width="130px"
+                  onClick={() => setIsCancelModalOpen(true)}
+                  hover={true}
+                >
                   Cancel Sale
-                </S.CancelButton>
+                </S.Button>
               </div>
             </S.ButtonContainer>
           )}
+          {(auctionStatus === 'upcoming-auction' ||
+            auctionStatus === 'active-auction-no-bid') &&
+            selectedTab === 'auction' && (
+              <S.ButtonContainer>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <S.Button
+                    width="160px"
+                    hover={true}
+                    onClick={() => setIsCancelModalOpen(true)}
+                  >
+                    Cancel Auction
+                  </S.Button>
+                </div>
+              </S.ButtonContainer>
+            )}
+          {(auctionStatus === 'upcoming-auction' ||
+            auctionStatus === 'active-auction-bid') &&
+            selectedTab === 'auction' && (
+              <S.ButtonContainer>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <S.BidAmount>${bids[0].bidAmt}</S.BidAmount>
+                  <S.Text
+                    color="#7c7c7c"
+                    size="16px"
+                    fontWeight={500}
+                    style={{ padding: '0' }}
+                  >
+                    Current Bid
+                  </S.Text>
+                </div>
+              </S.ButtonContainer>
+            )}
         </S.Header>
-        <S.FlexDiv>
-          <S.History>History</S.History>
-          <S.GrayLine>Line</S.GrayLine>
-        </S.FlexDiv>
-        <S.TransactionHistory>
-          {filteredTransactions instanceof Array &&
-            filteredTransactions.map((transaction, index) => {
-              if (filteredTransactions.length >= 2) {
-                if (
-                  filteredTransactions[filteredTransactions.length - 2]
-                    ?.type === 'nft_mint'
-                ) {
-                  if (index === filteredTransactions.length - 1) {
-                    return (
-                      <Transaction
-                        key={
-                          filteredTransactions[filteredTransactions.length - 2]
-                            ._id
-                        }
-                        transaction={
-                          filteredTransactions[filteredTransactions.length - 2]
-                        }
-                      />
-                    );
-                  } else if (index === filteredTransactions.length - 2) {
-                    return (
-                      <Transaction
-                        key={
-                          filteredTransactions[filteredTransactions.length - 1]
-                            ._id
-                        }
-                        transaction={
-                          filteredTransactions[filteredTransactions.length - 1]
-                        }
-                      />
-                    );
+
+        <S.TabBar>
+          {((product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction') ||
+            (product?.upcomingProductListings.length !== 0 &&
+              product?.upcomingProductListings[0]?.saleType === 'auction')) && (
+            <>
+              <S.Tab
+                themeStyle={'light'}
+                selected={selectedTab === 'auction'}
+                onClick={() => setSelectedTab('auction')}
+              >
+                Auction
+              </S.Tab>
+              <S.Padding />
+            </>
+          )}
+          <S.Tab
+            themeStyle={themeStyle}
+            selected={selectedTab === 'history'}
+            onClick={() => setSelectedTab('history')}
+          >
+            History
+          </S.Tab>
+
+          <S.GrayLine
+            marginRight={selectedTab === 'history'}
+            width={selectedTab === 'history'}
+          />
+          {((product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction') ||
+            (product?.upcomingProductListings.length !== 0 &&
+              product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+            selectedTab === 'auction' && (
+              <S.TextContainer borderBottom={true}>
+                <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
+                  Expires in
+                </S.Text>
+                <S.Text color="white" size="18px" fontWeight={600}>
+                  {product?.activeProductListings[0] &&
+                    formatCountdown(
+                      new Date(product?.activeProductListings[0]?.endDate)
+                    )}
+                </S.Text>{' '}
+                <S.Text color="#2e2e2e" size="14px" fontWeight={400}>
+                  {product?.activeProductListings[0] &&
+                    `(${formatDate(
+                      new Date(product?.activeProductListings[0].endDate)
+                    )})`}
+                </S.Text>
+              </S.TextContainer>
+            )}
+        </S.TabBar>
+        {selectedTab === 'history' && (
+          <S.TransactionHistory>
+            {filteredTransactions instanceof Array &&
+              filteredTransactions.map((transaction, index) => {
+                if (filteredTransactions.length >= 2) {
+                  if (
+                    filteredTransactions[filteredTransactions.length - 2]
+                      ?.type === 'nft_mint'
+                  ) {
+                    if (index === filteredTransactions.length - 1) {
+                      return (
+                        <Transaction
+                          key={
+                            filteredTransactions[
+                              filteredTransactions.length - 2
+                            ]._id
+                          }
+                          transaction={
+                            filteredTransactions[
+                              filteredTransactions.length - 2
+                            ]
+                          }
+                        />
+                      );
+                    } else if (index === filteredTransactions.length - 2) {
+                      return (
+                        <Transaction
+                          key={
+                            filteredTransactions[
+                              filteredTransactions.length - 1
+                            ]._id
+                          }
+                          transaction={
+                            filteredTransactions[
+                              filteredTransactions.length - 1
+                            ]
+                          }
+                        />
+                      );
+                    } else {
+                      return (
+                        <Transaction
+                          key={transaction._id}
+                          transaction={transaction}
+                        />
+                      );
+                    }
                   } else {
                     return (
                       <Transaction
@@ -346,46 +529,110 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                     />
                   );
                 }
-              } else {
-                return (
-                  <Transaction
-                    key={transaction._id}
-                    transaction={transaction}
-                  />
-                );
-              }
-            })}
-        </S.TransactionHistory>
+              })}
+          </S.TransactionHistory>
+        )}
+        {selectedTab === 'auction' && (
+          <>
+            <S.TransactionHistory>
+              {product?.upcomingProductListings.length !== 0 ? (
+                <S.BidsContainer>
+                  Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
+                  {product?.upcomingProductListings[0].startDate &&
+                    formatCountdown(
+                      new Date(product.upcomingProductListings[0].startDate)
+                    )}{' '}
+                  {product?.upcomingProductListings[0].startDate &&
+                    formatDate(
+                      new Date(product.upcomingProductListings[0].startDate)
+                    )}
+                </S.BidsContainer>
+              ) : bids.length === 0 ? (
+                <>
+                  <S.BidsContainer>No bids placed yet</S.BidsContainer>
+                  <S.TextContainer paddingTop="32px">
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
+                      Started at
+                    </S.Text>
+                    <S.Text color="white" size="16px" fontWeight={600}>
+                      ${product?.activeProductListings[0].minBid}
+                    </S.Text>{' '}
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      on
+                    </S.Text>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      {product?.activeProductListings[0] &&
+                        `${formatDate(
+                          new Date(product?.activeProductListings[0].startDate)
+                        )}`}
+                    </S.Text>
+                  </S.TextContainer>
+                </>
+              ) : (
+                <S.BidsHistory>
+                  {bids instanceof Array &&
+                    bids.map((bid) => {
+                      return <Transaction key={bid._id} bid={bid} />;
+                    })}
+                </S.BidsHistory>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <S.StyledPagination
+                  themeStyle={themeStyle}
+                  page={page}
+                  count={Math.ceil(totalBids / perPage)}
+                  onChange={handlePagination}
+                  siblingCount={matchesMobile ? 0 : 1}
+                />
+                <S.FlexDiv>
+                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    Started at
+                  </S.Text>
+                  <S.Text color="white" size="16px" fontWeight={600}>
+                    ${product?.activeProductListings[0]?.minBid}
+                  </S.Text>
+                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    on{' '}
+                    {product &&
+                      formatDate(
+                        new Date(product?.activeProductListings[0]?.startDate)
+                      )}
+                  </S.Text>
+                </S.FlexDiv>
+              </div>
+            </S.TransactionHistory>
+          </>
+        )}
       </S.Container>
-      {/* {product && status !== ('create-sale' || 'buy-now') && (
+      {/* {product && historyStatus !== ('create-sale' || 'buy-now') && (
         <ModalPayment
           visible={isModalOpen}
           setModalPaymentVisible={setIsModalOpen}
           product={product}
           mode={modalMode}
-          status={status}
+          historyStatus={historyStatus}
           activeAmount={1400}
         />
       )} */}
-      {product && status === 'buy-now' && (
+      {product && historyStatus === 'buy-now' && (
         <BuyNowModal
           setModalPaymentVisible={setIsModalOpen}
           product={product}
           serialNum={product.serialNumber}
           visible={isModalOpen}
           mode={modalMode}
-          setStatus={setStatus}
+          setStatus={setHistoryStatus}
         />
       )}
-      {product && status === 'active-sale' && (
+      {product && historyStatus === 'active-sale' && (
         <CancelSale
-          setModalPaymentVisible={setIsModalOpen}
-          visible={isModalOpen}
+          setModalPaymentVisible={setIsCancelModalOpen}
+          visible={isCancelModalOpen}
           listingId={product?.activeProductListings[0]?._id}
-          setStatus={setStatus}
+          setStatus={setHistoryStatus}
         />
       )}
-      {product && status === 'owner' && (
+      {product && historyStatus === 'owner' && (
         <>
           <RedeemModal
             setModalPaymentVisible={setIsRedeemModalOpen}
@@ -396,12 +643,20 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           />
           <CreateSale
             product={product}
-            setStatus={setStatus}
+            setStatus={setHistoryStatus}
             setActiveSalePrice={setActiveSalePrice}
             setSaleModal={setIsSaleModalOpen}
             isModalOpen={isSaleModalOpen}
           />
         </>
+      )}
+      {product && auctionStatus === 'upcoming-auction' && (
+        <CancelSale
+          setModalPaymentVisible={setIsCancelModalOpen}
+          visible={isCancelModalOpen}
+          listingId={product?.activeProductListings[0]?._id}
+          setStatus={setHistoryStatus}
+        />
       )}
     </>
   );

@@ -12,7 +12,7 @@ import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/index';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -22,7 +22,7 @@ interface IModalProps {
   mode: Modes;
   product: ProductWithFunctions;
   serialNum?: string;
-  setStatus: (a: Status) => void;
+  setStatus: (a: HistoryStatus) => void;
 }
 
 const BuyNowModal = ({

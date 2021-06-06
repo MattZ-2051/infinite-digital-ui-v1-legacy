@@ -4,13 +4,13 @@ import Emoji from 'components/Emoji';
 import { useAuth0 } from '@auth0/auth0-react';
 import { cancelListing } from 'services/api/listingService';
 import Toast from 'utils/Toast';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/index';
 
 interface Props {
   visible: boolean;
   setModalPaymentVisible: (a: boolean) => void;
   listingId: string;
-  setStatus: (status: Status) => void;
+  setStatus: (status: HistoryStatus) => void;
 }
 
 const CancelSale = ({

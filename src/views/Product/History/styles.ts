@@ -3,6 +3,8 @@ import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
 import { mediaQueries } from 'theme/media';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ActionButtonSvg } from 'assets/svg/icons/action-button.svg';
+import { Theme } from 'theme/theme';
+import Pagination from '@material-ui/lab/Pagination';
 
 export const Container = styled.div`
   padding: 48px 0 48px 48px;
@@ -97,7 +99,6 @@ export const StatusText = styled.span`
 export const FlexDiv = styled.div`
   display: flex;
   align-items: center;
-  padding-right: 80px;
 `;
 
 export const Row = styled.div`
@@ -150,11 +151,33 @@ export const ProductId = styled.span`
   padding-right: 16px;
 `;
 
+export const BidAmount = styled.p`
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+`;
+
 export const TransactionHistory = styled.div`
   overflow: hidden;
   height: 80%;
   overflow-x: hidden;
   padding-right: 80px;
+
+  :hover {
+    overflow-y: auto;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 1160px) {
+    padding-right: 0;
+  }
+`;
+
+export const BidsHistory = styled.div`
+  overflow: hidden;
+  height: 80%;
+  overflow-x: hidden;
 
   :hover {
     overflow-y: auto;
@@ -173,12 +196,17 @@ export const History = styled.span`
   padding-bottom: 16px;
 `;
 
-export const GrayLine = styled.div`
+export const GrayLine = styled.div<{ width?: boolean; marginRight?: boolean }>`
   border-bottom: 2px solid #2e2e2e;
-  width: 100%;
   color: #1a1a1a;
-  padding-bottom: 16px;
-  padding-right: 80px;
+  padding-bottom: 38px;
+  ${(props) => props.marginRight && `margin-right: 80px`};
+  ${(props) => props.width && `width: -webkit-fill-available`};
+`;
+
+export const Padding = styled.div`
+  padding-left: 32px;
+  border-bottom: 2px solid #2e2e2e;
 `;
 
 export const ProductOwner = styled.div`
@@ -205,6 +233,31 @@ export const Owner = styled.span`
   }
 `;
 
+export const TextContainer = styled.div<{
+  borderBottom?: boolean;
+  paddingTop?: string;
+}>`
+  margin-right: 80px;
+  ${(props) => props.borderBottom && `border-bottom: 2px solid #2e2e2e`};
+  ${(props) => props.paddingTop && `padding-top: ${props.paddingTop}`};
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: flex-end;
+`;
+
+export const Text = styled.p<{
+  color: string;
+  size: string;
+  fontWeight: number;
+}>`
+  margin: 0;
+  color: ${(props) => `${props.color}`};
+  font-size: ${(props) => `${props.size}`};
+  font-weight: ${(props) => `${props.fontWeight}`};
+  padding: 0 5px;
+`;
+
 export const Button = styled.button<{ width?: string; hover?: boolean }>`
   border: none;
   width: ${(props) => (props.width ? props.width : '190px')};
@@ -221,7 +274,7 @@ export const Button = styled.button<{ width?: string; hover?: boolean }>`
     background-color: white;
     color: black;
   }`
-      : 'color: #9e9e9e'}
+      : 'color: #9e9e9e;'}
 `;
 
 export const Header = styled.div`
@@ -260,5 +313,74 @@ export const ButtonContainer = styled.div`
 
   ${mediaQueries.sm} {
     padding-right: 80px;
+  }
+`;
+
+export const TabBar = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const Tab = styled.div<{
+  selected: boolean;
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+}>`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27.83px;
+  color: ${(props) => (props.selected ? 'white' : '#7c7c7c')};
+  padding-bottom: 14px;
+  border: none;
+  border-bottom: ${(props) =>
+    props.selected ? '2px solid white' : '2px solid #2e2e2e'};
+  position: relative;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
+export const BidsContainer = styled.div`
+  width: 100%;
+  height: 88px;
+  padding: 32px 0;
+  text-align: center;
+  margin-top: 21px;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+  background: #2e2e2e;
+  overflow: hidden;
+  @media screen and (max-width: 1160px) {
+    padding: 48px 24px 48px 24px;
+  }
+`;
+
+export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
+  .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
+    background-color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark'
+        ? theme.palette.light.baseMain
+        : theme.palette.dark.baseMain};
+
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark'
+        ? theme.palette.dark.baseMain
+        : theme.palette.light.baseMain};
+    &:hover {
+    }
+  }
+  .MuiButtonBase-root.MuiPaginationItem-root {
+    background-color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+  }
+  .MuiPaginationItem-ellipsis {
+    color: ${({ themeStyle, theme }) =>
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
 `;

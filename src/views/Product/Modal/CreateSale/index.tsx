@@ -11,11 +11,11 @@ import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/index';
 
 export interface IModalProps {
   product: ProductWithFunctions;
-  setStatus: (a: Status) => void;
+  setStatus: (a: HistoryStatus) => void;
   setActiveSalePrice: (a: number) => void;
   setSaleModal: (a: boolean) => void;
   isModalOpen: boolean;
