@@ -43,6 +43,9 @@ export const Hedera = styled.div`
   background: #f4f4f4;
   border-radius: 20px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   div {
     margin-right: 8px;
   }
@@ -64,3 +67,5 @@ export const IconContainer = styled.div`
   background: #2e2e2e;
   border-radius: 50%;
 `;
+
+export const DivContainer = styled.div``;
