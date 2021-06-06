@@ -194,3 +194,7 @@ S.SubButton = styled.button`
     outline: none;
   }
 `;
+
+S.ContentIconTitle = styled.div`
+  display: flex;
+`;
