@@ -39,8 +39,7 @@ const Help = () => {
         </S.SubTitle>
         <S.SubTitle>
           If you still have a question or suggestion, please submit the
-          contact/support form or email us at{' '}
-          <a href="upport@goinfinite.io">support@goinfinite.io.</a>
+          contact/support form or email us at support@goinfinite.io
         </S.SubTitle>
       </S.HelpColumn>
       <S.HelpColumn>
