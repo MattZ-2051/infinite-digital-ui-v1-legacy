@@ -154,7 +154,7 @@ const BidModal = ({
               <span>Your Bid:</span>
             </div>
             <div style={{ color: '#000000' }}>
-              <span>$240</span>
+              <span>{bidAmount.toFixed(2)}</span>
             </div>
           </S.DetailRowPrice>
 
