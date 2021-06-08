@@ -17,6 +17,7 @@ import { useOutsideAlert } from 'hooks/oustideAlerter';
 import { formatCountdown, formatDate } from 'utils/dates';
 import { getBids } from 'services/api/productService';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
 import * as S from './styles';
 
 export type HistoryStatus =
@@ -29,9 +30,11 @@ export type HistoryStatus =
   | '';
 
 export type AuctionStatus =
-  | 'active-auction-no-bid'
+  | 'active-auction-no-bid-owner'
+  | 'active-auction-no-bid-user'
   | 'upcoming-auction'
-  | 'active-auction-bid'
+  | 'active-auction-bid-owner'
+  | 'active-auction-bid-user'
   | '';
 
 interface Props {
@@ -60,6 +63,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [isSaleModalOpen, setIsSaleModalOpen] = useState<boolean>(false);
   const [isRedeemModalOpen, setIsRedeemModalOpen] = useState<boolean>(false);
   const [bids, setBids] = useState<Bid[]>([]);
+  const [bidAmount, setBidAmount] = useState<string>('');
   const [totalBids, setTotalBids] = useState(1);
   const userBalance = useAppSelector(
     (state) => state.session.userCards?.balance?.amount
@@ -98,6 +102,28 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     }
     if (isAuthenticated) {
       setIsModalOpen(true);
+    } else {
+      Toast.warning(
+        <>
+          You need to{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            Log in
+          </a>{' '}
+          in order to complete the purchase
+        </>
+      );
+    }
+  };
+
+  const handleBid = () => {
+    if (isAuthenticated) {
+      if (parseFloat(bidAmount) < bids[0].bidAmt) {
+        Toast.error(
+          `Whoops, new bids must be at least ${'X'} greater than the current highest bid.`
+        );
+      } else {
+        Toast.success('Successful');
+      }
     } else {
       Toast.warning(
         <>
@@ -155,8 +181,10 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       page,
       perPage
     );
-    setBids(res.data);
-    setTotalBids(res.data[0].listing.bids.length);
+    if (res) {
+      setBids(res.data);
+      setTotalBids(res.data[0]?.listing?.bids?.length);
+    }
   };
   useEffect(() => {
     if (selectedTab === 'history') {
@@ -230,13 +258,34 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         product?.activeProductListings?.length !== 0 &&
         bids.length === 0
       ) {
-        setAuctionStatus('active-auction-no-bid');
+        setAuctionStatus('active-auction-no-bid-owner');
       } else if (
         product?.upcomingProductListings?.length === 0 &&
         product?.activeProductListings?.length !== 0 &&
         bids.length !== 0
       ) {
-        setAuctionStatus('active-auction-bid');
+        setAuctionStatus('active-auction-bid-owner');
+      }
+    }
+    if (selectedTab === 'auction' && product?.owner?._id !== loggedInUser.id) {
+      if (
+        product?.upcomingProductListings?.length === 0 &&
+        product?.activeProductListings?.length !== 0 &&
+        bids.length !== 0
+      ) {
+        setAuctionStatus('active-auction-bid-user');
+      } else if (
+        product?.upcomingProductListings?.length !== 0 &&
+        product?.activeProductListings?.length === 0 &&
+        product?.activeProductListings[0]?.saleType === 'auction'
+      ) {
+        setAuctionStatus('upcoming-auction');
+      } else if (
+        product?.upcomingProductListings?.length === 0 &&
+        product?.activeProductListings?.length !== 0 &&
+        bids.length === 0
+      ) {
+        setAuctionStatus('active-auction-no-bid-user');
       }
     }
   }, [selectedTab]);
@@ -274,7 +323,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             <S.TitleLink to={`/marketplace/${product?.sku._id}`}>
               {product?.sku.name}
             </S.TitleLink>{' '}
-            / #{product?.serialNumber}
+            / #{product?.serialNumber}/{' '}
           </div>
         </S.Title>
         <S.Header>
@@ -288,6 +337,26 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                 @{product?.owner.username}
               </S.Owner>
             </S.ProductOwner>
+            {product?.sku.redeemable &&
+              (product?.redeemedStatus === 'NA' ? (
+                <>
+                  <S.Slash>/</S.Slash>
+
+                  <S.FlexDiv padding="0 0 0 16px">
+                    <S.RedeemIcon />
+                    <S.Redeemed color="white">Redeemable</S.Redeemed>
+                  </S.FlexDiv>
+                </>
+              ) : (
+                <>
+                  <S.Slash>/</S.Slash>
+
+                  <S.FlexDiv padding="0 0 0 16px">
+                    <S.IsRedeemedIcon />
+                    <S.Redeemed color="#636363">Redeemed</S.Redeemed>
+                  </S.FlexDiv>
+                </>
+              ))}
           </S.Row>
           {historyStatus === 'upcoming' && selectedTab === 'history' && (
             <>
@@ -375,7 +444,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             </S.ButtonContainer>
           )}
           {(auctionStatus === 'upcoming-auction' ||
-            auctionStatus === 'active-auction-no-bid') &&
+            auctionStatus === 'active-auction-no-bid-owner') &&
             selectedTab === 'auction' && (
               <S.ButtonContainer>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -390,7 +459,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.ButtonContainer>
             )}
           {(auctionStatus === 'upcoming-auction' ||
-            auctionStatus === 'active-auction-bid') &&
+            auctionStatus === 'active-auction-bid-owner') &&
             selectedTab === 'auction' && (
               <S.ButtonContainer>
                 <div
@@ -547,7 +616,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       new Date(product.upcomingProductListings[0].startDate)
                     )}
                 </S.BidsContainer>
-              ) : bids.length === 0 ? (
+              ) : bids.length === 0 &&
+                auctionStatus === 'active-auction-no-bid-owner' ? (
                 <>
                   <S.BidsContainer>No bids placed yet</S.BidsContainer>
                   <S.TextContainer paddingTop="32px">
@@ -568,13 +638,46 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                     </S.Text>
                   </S.TextContainer>
                 </>
-              ) : (
+              ) : auctionStatus === 'active-auction-bid-owner' ? (
                 <S.BidsHistory>
                   {bids instanceof Array &&
                     bids.map((bid) => {
                       return <Transaction key={bid._id} bid={bid} />;
                     })}
                 </S.BidsHistory>
+              ) : (
+                auctionStatus === 'active-auction-bid-user' && (
+                  <>
+                    <S.BidsHistory>
+                      <S.PlaceBidsContainer>
+                        <S.FlexDiv width="60%">
+                          <img src={BidIcon} alt="" />
+                          <S.AmountInput
+                            name="amount-input"
+                            placeholder={`Place a bid higher than $${bids[0]?.bidAmt}`}
+                            decimalsLimit={2}
+                            onChange={(e) => setBidAmount(e.target.value)}
+                            maxLength={10}
+                            step={10}
+                            defaultValue={0.0}
+                            allowNegativeValue={false}
+                          />
+                        </S.FlexDiv>
+                        <S.PlaceBidButton
+                          active={bidAmount !== ''}
+                          disabled={bidAmount !== ''}
+                          onClick={handleBid}
+                        >
+                          Place Bid
+                        </S.PlaceBidButton>
+                      </S.PlaceBidsContainer>
+                      {bids instanceof Array &&
+                        bids.map((bid) => {
+                          return <Transaction key={bid._id} bid={bid} />;
+                        })}
+                    </S.BidsHistory>
+                  </>
+                )
               )}
               <div
                 style={{

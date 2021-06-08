@@ -1,8 +1,11 @@
 import styled from 'styled-components/macro';
+import CurrencyInput from 'react-currency-input-field';
 import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
 import { mediaQueries } from 'theme/media';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ActionButtonSvg } from 'assets/svg/icons/action-button.svg';
+import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
+import { ReactComponent as IsRedeemedSvg } from 'assets/svg/icons/is-redeemed-icon.svg';
 import { Theme } from 'theme/theme';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -96,9 +99,11 @@ export const StatusText = styled.span`
   padding-right: 5px;
 `;
 
-export const FlexDiv = styled.div`
+export const FlexDiv = styled.div<{ padding?: string; width?: string }>`
   display: flex;
   align-items: center;
+  padding: ${(props) => props.padding};
+  width: ${(props) => props.width};
 `;
 
 export const Row = styled.div`
@@ -383,4 +388,65 @@ export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
     color: ${({ themeStyle, theme }) =>
       themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
+`;
+
+export const Redeemed = styled.p<{ color: string }>`
+  margin: 0;
+  color: ${(props) => props.color};
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+export const RedeemIcon = styled(RedeemSvg)`
+  fill: #7c7c7c;
+  stroke: #7c7c7c;
+  margin-right: 13px;
+`;
+
+export const IsRedeemedIcon = styled(IsRedeemedSvg)`
+  fill: #3a3a3a;
+  stroke: #3a3a3a;
+  margin-right: 10px;
+`;
+
+export const PlaceBidsContainer = styled.div`
+  width: 100%;
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2e2e2e;
+  padding: 24px;
+  margin-top: 20px;
+  border-radius: 5px;
+`;
+
+export const PlaceBidButton = styled.button<{ active: boolean }>`
+  background-color: ${(props) => (props.active ? 'white' : '#3B3B3B')};
+  color: ${(props) => (props.active ? 'black' : 'white')};
+  border-radius: 30px;
+  border: none;
+  width: 177px;
+  height: 56px;
+  font-size: 20px;
+  font-weight: 500;
+  :hover {
+    ${(props) => props.active && `cursor: pointer`};
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
+export const AmountInput = styled(CurrencyInput)`
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border: none;
+  background: none;
+  width: inherit;
+  :focus {
+    outline: none;
+  }
+  margin-left: 16px;
 `;
