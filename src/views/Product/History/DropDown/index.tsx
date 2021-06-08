@@ -5,6 +5,7 @@ interface IProps {
   redeemed: 'NA' | 'pending' | 'redeemed' | undefined;
   setModalVisible: (a: boolean) => void;
   openSaleModal: any;
+  setAuctionModalVisible: (value: boolean) => void;
   redeemable: boolean | undefined;
 }
 
@@ -12,6 +13,7 @@ const DropDown = ({
   redeemed,
   setModalVisible,
   openSaleModal,
+  setAuctionModalVisible,
   redeemable,
 }: IProps) => {
   const handleToastError = () => {
@@ -28,7 +30,6 @@ const DropDown = ({
               <S.TransferIcon className="icon_transfer" />
             </S.IconContainer>
           </S.Button> */}
-
           {redeemable &&
             (redeemed === 'redeemed' ? (
               <>
@@ -49,8 +50,7 @@ const DropDown = ({
                 </S.Button>
               </>
             ))}
-
-          <S.Button hover={true}>
+          <S.Button hover={true} onClick={() => setAuctionModalVisible(true)}>
             <S.Label>Start Auction</S.Label>
             <S.IconContainer>
               <S.AuctionIcon className="icon_auction" />

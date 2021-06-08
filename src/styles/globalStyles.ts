@@ -172,5 +172,10 @@ const GlobalStyle = createGlobalStyle`
       color: black;
     }
 }
+
+  .rc-time-picker-panel {
+    z-index: 5000;
+  }
+
 `;
 export default GlobalStyle;

@@ -120,4 +120,5 @@ export const StyledMuiDivider = styled(MuiDivider)`
 
 export const InputContainer = styled.div`
   margin: 31px auto 22px;
+  width: 100%;
 `;

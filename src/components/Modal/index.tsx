@@ -10,6 +10,7 @@ interface IProps {
   height?: string;
   align?: string;
   width?: string;
+  padding?: string;
 }
 
 const ModalComponent = ({
@@ -17,11 +18,12 @@ const ModalComponent = ({
   height,
   align,
   width,
+  padding,
   ...props
 }: IProps): JSX.Element => {
   return (
     <ModalContainer {...(props as any)}>
-      <ModalBody align={align} height={height} width={width}>
+      <ModalBody align={align} height={height} width={width} padding={padding}>
         {children}
       </ModalBody>
     </ModalContainer>
@@ -32,23 +34,25 @@ const ModalContainer: any = styled(Modal)`
   overflow-y: scroll;
   // z-index: 1400 !important;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   border: none;
-  backdrop-filter: blur(2px);
+  margin: auto;
+  /* backdrop-filter: blur(2px); */
 ` as React.ComponentType<ModalProps>;
 
 const ModalBody = styled.div<{
   height?: string;
   align?: string;
   width?: string;
+  padding?: string;
 }>`
   margin: 30px 0;
   background-color: #ffffff;
   position: absolute;
   min-width: 280px;
   min-height: ${(props) => (props.height ? `${props.height}` : `400px`)};
-  padding: 20px;
+  padding: ${(props) => (props.padding ? `${props.padding}` : `20px`)};
   border-radius: 12px;
   outline: none;
   display: flex;

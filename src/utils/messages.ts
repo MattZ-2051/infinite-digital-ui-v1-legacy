@@ -11,4 +11,9 @@ const createSale = {
   success: 'Congrats! Your sale has started. Please refresh the page',
 };
 
-export { purchase, createSale };
+const createAuction = {
+  error: 'Whoops, something went wrong - please try again.',
+  success: 'Congrats! Your auction has started.',
+};
+
+export { purchase, createSale, createAuction };

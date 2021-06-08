@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductWithFunctions } from 'entities/product';
 import Transaction from './Transaction';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -7,6 +7,8 @@ import { ITransaction } from 'entities/transaction';
 import { Bid } from 'entities/bid';
 import CreateSale from '../Modal/CreateSale';
 import RedeemModal from '../Modal/Redeem';
+import AuctionModal from '../Modal/Auction';
+import BidModal from '../Modal/Bid';
 import Toast from 'utils/Toast';
 import { useHistory } from 'react-router-dom';
 import BuyNowModal from '../Modal/BuyNow';
@@ -43,11 +45,8 @@ interface Props {
 }
 
 const History = ({ product, transactionHistory }: Props): JSX.Element => {
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<'history' | 'auction'>(
     'history'
@@ -62,6 +61,9 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
   const [isSaleModalOpen, setIsSaleModalOpen] = useState<boolean>(false);
   const [isRedeemModalOpen, setIsRedeemModalOpen] = useState<boolean>(false);
+  const [isAuctionModalOpen, setIsAuctionModalOpen] = useState<boolean>(false);
+  const [isBidModal, setIsBidModal] = useState<boolean>(false);
+
   const [bids, setBids] = useState<Bid[]>([]);
   const [bidAmount, setBidAmount] = useState<string>('');
   const [totalBids, setTotalBids] = useState(1);
@@ -389,6 +391,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       redeemed={product?.redeemedStatus}
                       setModalVisible={setIsRedeemModalOpen}
                       openSaleModal={handleCreateSale}
+                      setAuctionModalVisible={setIsAuctionModalOpen}
                       redeemable={product?.sku?.redeemable}
                     />
                   )}
@@ -756,6 +759,18 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             setActiveSalePrice={setActiveSalePrice}
             setSaleModal={setIsSaleModalOpen}
             isModalOpen={isSaleModalOpen}
+          />
+          {/* <AuctionModal
+            setModalAuctionVisible={setIsAuctionModalOpen}
+            product={product}
+            serialNum={product.serialNumber}
+            visible={isAuctionModalOpen}
+          /> */}
+          <BidModal
+            setModalBidVisible={setIsAuctionModalOpen}
+            product={product}
+            visible={isAuctionModalOpen}
+            bidAmount={240}
           />
         </>
       )}
