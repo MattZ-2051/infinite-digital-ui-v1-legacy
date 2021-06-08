@@ -45,8 +45,11 @@ interface Props {
 }
 
 const History = ({ product, transactionHistory }: Props): JSX.Element => {
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+  } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<'history' | 'auction'>(
     'history'
@@ -62,7 +65,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [isSaleModalOpen, setIsSaleModalOpen] = useState<boolean>(false);
   const [isRedeemModalOpen, setIsRedeemModalOpen] = useState<boolean>(false);
   const [isAuctionModalOpen, setIsAuctionModalOpen] = useState<boolean>(false);
-  const [isBidModal, setIsBidModal] = useState<boolean>(false);
+  const [isBidModalOpen, setIsBidModalOpen] = useState<boolean>(false);
 
   const [bids, setBids] = useState<Bid[]>([]);
   const [bidAmount, setBidAmount] = useState<string>('');
@@ -78,6 +81,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const bidIncrement = 1;
 
   const loggedInUser = useAppSelector((state) => state.session.user);
 
@@ -118,24 +122,49 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   const handleBid = () => {
-    if (isAuthenticated) {
-      if (parseFloat(bidAmount) < bids[0].bidAmt) {
-        Toast.error(
-          `Whoops, new bids must be at least ${'X'} greater than the current highest bid.`
-        );
+    if (product) {
+      if (isAuthenticated) {
+        if (parseFloat(bidAmount) < bids[0].bidAmt) {
+          Toast.error(
+            `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
+          );
+        } else if (
+          parseFloat(bidAmount) <
+          bids[0]?.bidAmt +
+            bids[0]?.bidAmt * (product?.resaleBuyersFeePercentage / 100) +
+            bidIncrement
+        ) {
+          Toast.error(
+            <>
+              Whoops, insufficient funds! Your available balance is $
+              {userBalance}{' '}
+              <a onClick={() => history.push('/wallet')}>click here</a> to
+              deposit enough funds to cover your desired bid amount including
+              fees
+              <a onClick={() => history.push('/helpage')}>learn more</a>
+            </>
+          );
+        } else if (
+          parseFloat(bidAmount) >
+          bids[0]?.bidAmt +
+            bids[0]?.bidAmt * (product?.resaleBuyersFeePercentage / 100) +
+            bidIncrement
+        ) {
+          setIsBidModalOpen(true);
+        }
       } else {
-        Toast.success('Successful');
+        Toast.warning(
+          <>
+            You need to{' '}
+            <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+              Log in
+            </a>{' '}
+            in order to complete the purchase
+          </>
+        );
       }
     } else {
-      Toast.warning(
-        <>
-          You need to{' '}
-          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-            Log in
-          </a>{' '}
-          in order to complete the purchase
-        </>
-      );
+      return;
     }
   };
 
@@ -667,8 +696,12 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                           />
                         </S.FlexDiv>
                         <S.PlaceBidButton
-                          active={bidAmount !== ''}
-                          disabled={bidAmount !== ''}
+                          active={
+                            bidAmount !== '' && parseFloat(bidAmount) !== 0
+                          }
+                          disabled={
+                            bidAmount === '' || parseFloat(bidAmount) === 0
+                          }
                           onClick={handleBid}
                         >
                           Place Bid
@@ -766,12 +799,6 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             serialNum={product.serialNumber}
             visible={isAuctionModalOpen}
           /> */}
-          <BidModal
-            setModalBidVisible={setIsAuctionModalOpen}
-            product={product}
-            visible={isAuctionModalOpen}
-            bidAmount={240}
-          />
         </>
       )}
       {product && auctionStatus === 'upcoming-auction' && (
@@ -780,6 +807,14 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           visible={isCancelModalOpen}
           listingId={product?.activeProductListings[0]?._id}
           setStatus={setHistoryStatus}
+        />
+      )}
+      {selectedTab === 'auction' && product && (
+        <BidModal
+          setModalBidVisible={setIsBidModalOpen}
+          product={product}
+          visible={isBidModalOpen}
+          bidAmount={240}
         />
       )}
     </>

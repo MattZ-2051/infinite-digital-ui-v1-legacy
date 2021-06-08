@@ -89,8 +89,7 @@ export const Size = styled.p`
 export const Redeemable = styled.p<{ disabled?: boolean }>`
   margin: 0;
   font-size: 16px;
-  color: ${props => props.disabled ? '#9e9e9e' : '#000000'};
- 
+  color: ${(props) => (props.disabled ? '#9e9e9e' : '#000000')};
 `;
 
 export const SerialNum = styled.p`
