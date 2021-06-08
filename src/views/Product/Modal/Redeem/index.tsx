@@ -83,7 +83,7 @@ const RedeemModal = ({
             <S.SerialNum>#{serialNum}</S.SerialNum>
           </div>
         )}
-        <Form />
+        <Form setIsModalOpen={setModalPaymentVisible} />
       </S.Container>
     );
   };

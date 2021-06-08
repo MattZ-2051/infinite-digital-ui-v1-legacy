@@ -29,8 +29,13 @@ const link = (
   </>
 );
 
-const Form = () => {
+interface Props {
+  setIsModalOpen: (a: boolean) => void;
+}
+
+const Form = ({ setIsModalOpen }: Props): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
+
   const history = useHistory();
   const productId = history.location.pathname.split('/')[2];
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -50,6 +55,13 @@ const Form = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'postalCode') {
+      setInfo((prevState) => ({
+        ...prevState,
+        [name]: value.replace(/[^0-9]/g, ''),
+      }));
+      return;
+    }
     setInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -80,10 +92,12 @@ const Form = () => {
       info,
       productId
     );
-    if (res.status !== 200) {
-      Toast.error(res.data.message);
-    } else {
+    if (res.status === 200) {
       Toast.success(link);
+      setIsModalOpen(false);
+    } else {
+      Toast.error(res.data.message);
+      setIsModalOpen(false);
     }
   };
 
@@ -177,7 +191,7 @@ const Form = () => {
             </S.DropDown>
           </S.FormRow>
           <S.FormRow>
-            <InputLabel id="district">State/Province</InputLabel>
+            <InputLabel id="district">District</InputLabel>
             <S.DropDown
               labelId="district"
               name="district"

@@ -70,6 +70,9 @@ const CreateSale = ({
       });
       if (result) {
         Toast.success(createSale.success);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         setLoading(false);
         setSaleModal(false);
         setActiveSalePrice(result.data?.price);
