@@ -814,7 +814,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           setModalBidVisible={setIsBidModalOpen}
           product={product}
           visible={isBidModalOpen}
-          bidAmount={240}
+          bidAmount={parseFloat(bidAmount)}
         />
       )}
     </>
