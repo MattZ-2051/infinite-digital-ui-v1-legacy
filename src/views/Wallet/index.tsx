@@ -5,9 +5,12 @@ import DepositModal from './DepositModal';
 import ActiveBids from './ActiveBids';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { User } from 'entities/user';
-import { getMe, getMyTransactions } from 'services/api/userService';
+import { getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { getUserCardsThunk } from 'store/session/sessionThunks';
+import {
+  getUserCardsThunk,
+  getUserInfoThunk,
+} from 'store/session/sessionThunks';
 import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
 import KycButton from './KycButton/kycButton';
@@ -48,7 +51,7 @@ const Wallet = (props) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
+  const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
     total: number;
@@ -67,9 +70,8 @@ const Wallet = (props) => {
   );
 
   async function fetchUser() {
-    const res = await getMe(await getAccessTokenSilently());
+    dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
     dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
-    setUser(res);
   }
 
   async function fetchTransactions(page: number) {
@@ -176,7 +178,9 @@ const Wallet = (props) => {
               <S.GrayLine />
             </div>
 
-            <S.BalanceAmount>${user?.balance.toFixed(2)}</S.BalanceAmount>
+            <S.BalanceAmount>
+              ${parseFloat(user?.balance).toFixed(2)}
+            </S.BalanceAmount>
 
             <S.Available>
               <S.AvailableText>Available:</S.AvailableText>

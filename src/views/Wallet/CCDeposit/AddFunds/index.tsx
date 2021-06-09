@@ -10,6 +10,7 @@ import {
   getUserCardsThunk,
   removeUserCCThunk,
   addFundsThunk,
+  getUserInfoThunk,
 } from 'store/session/sessionThunks';
 import Toast from 'utils/Toast';
 import * as S from './styles';
@@ -68,6 +69,7 @@ const AddFunds = () => {
     );
     if (res.type.split('/')[5] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
       history.push(`/wallet/deposit/success`);
     } else {
       // FIXME: make async thunk typesafe to avoid any type

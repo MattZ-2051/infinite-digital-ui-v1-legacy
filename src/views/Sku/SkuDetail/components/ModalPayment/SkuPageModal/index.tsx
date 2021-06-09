@@ -6,7 +6,7 @@ import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useHistory, Link } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
 import Modal from 'components/Modal';
@@ -14,6 +14,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -41,10 +42,10 @@ const SkuPageModal = ({
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
 
   const royaltyFee = Math.round(
@@ -65,6 +66,7 @@ const SkuPageModal = ({
         if (result) {
           setStatusMode('processing');
           Toast.success(purchase.patchListingsPurchaseProcessing);
+          dispatch(getUserInfoThunk({ token: userToken }));
         }
         setLoading(false);
       } catch (e) {
@@ -128,7 +130,7 @@ const SkuPageModal = ({
               <S.Title>Confirm your order:</S.Title>
               <S.SubTitle>
                 {' '}
-                Your current balance ${parseFloat(userBalance).toFixed(2)}
+                Your current balance ${userBalance.toFixed(2)}
               </S.SubTitle>
             </>
           )}
@@ -139,7 +141,7 @@ const SkuPageModal = ({
                 <S.Title> Whoops, Insufficient funds!</S.Title>
               </S.ContentIconTitle>
               <S.SubTitle style={{ color: '#E74C3C' }}>
-                Your wallet balance is $ {parseFloat(userBalance).toFixed(2)}
+                Your wallet balance is $ {userBalance.toFixed(2)}
               </S.SubTitle>
             </>
           )}

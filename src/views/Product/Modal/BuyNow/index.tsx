@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useHistory, Link } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
 import Modal from 'components/Modal';
@@ -13,6 +13,7 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
 import { HistoryStatus } from '../../History/index';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -37,10 +38,11 @@ const BuyNowModal = ({
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
 
   const marketplaceFee = 5;
@@ -68,6 +70,7 @@ const BuyNowModal = ({
         if (result) {
           setStatusMode('processing');
           Toast.success('Purchase Pending.');
+          dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
         }
         setLoading(false);
       } catch (e) {
@@ -121,7 +124,7 @@ const BuyNowModal = ({
                 <S.Title>Confirm your order:</S.Title>
                 <S.SubTitle>
                   {' '}
-                  Your current balance ${parseFloat(userBalance).toFixed(2)}
+                  Your current balance ${userBalance.toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -132,8 +135,7 @@ const BuyNowModal = ({
                   <S.Title>Whoops, Insufficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your available balance is ${' '}
-                  {parseFloat(userBalance).toFixed(2)}
+                  Your available balance is $ {userBalance.toFixed(2)}
                 </S.SubTitle>
               </>
             )}

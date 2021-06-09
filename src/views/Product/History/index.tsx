@@ -71,7 +71,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [bidAmount, setBidAmount] = useState<string>('');
   const [totalBids, setTotalBids] = useState(1);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price

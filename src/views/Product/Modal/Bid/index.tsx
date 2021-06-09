@@ -31,7 +31,7 @@ const BidModal = ({
 }: Props) => {
   const history = useHistory();
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
 
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
@@ -98,7 +98,7 @@ const BidModal = ({
         <S.Header>
           <S.Title>Confirm your bid:</S.Title>
           <S.SubTitle>
-            Your current balance is ${parseFloat(userBalance).toFixed(2)}
+            Your current balance is ${userBalance.toFixed(2)}
           </S.SubTitle>
         </S.Header>
 
