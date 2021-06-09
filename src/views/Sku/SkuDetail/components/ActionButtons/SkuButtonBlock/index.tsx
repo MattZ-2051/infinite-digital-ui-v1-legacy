@@ -211,7 +211,7 @@ const SkuButtonBlock = ({
     (skuListing) => skuListing.canceled
   );
 
-  if (!numSkuListings) {
+  if (!numSkuListings || sku.totalSkuSupplyLeft === 0) {
     return <></>; // Returning empty for now
     // need to remove this return after MVP
     // This scenario is for the direct product listing (post-MVP)
