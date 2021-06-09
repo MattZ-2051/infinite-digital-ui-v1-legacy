@@ -8,7 +8,7 @@ export interface IProps {
 }
 
 const HederaIcon = () => (
-  <SvgIcon viewBox="-7 -7 30 30" component={hederaIcon} />
+  <SvgIcon viewBox="-7 -7 29 30" component={hederaIcon} />
 );
 
 const SkuDescription = ({ description }: IProps): JSX.Element => {

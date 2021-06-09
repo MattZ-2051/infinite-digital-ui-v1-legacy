@@ -38,16 +38,21 @@ export const Description = styled.div`
 
 export const Hedera = styled.div`
   width: 100%;
-  padding: 15px 24px;
+  padding: 12px 24px;
   margin-top: 24px;
   background: #f4f4f4;
-  border-radius: 20px;
+  border-radius: 26px;
   font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   div {
     margin-right: 8px;
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    fill: white;
   }
   span {
     vertical-align: super;
