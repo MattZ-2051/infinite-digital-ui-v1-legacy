@@ -30,7 +30,7 @@ const Subscribe = (): JSX.Element => {
         value={email}
         placeholder="Enter your email"
         error={error}
-        helperText="Invalid Email address"
+        helperText={error ? 'Invalid Email address' : ''}
       ></S.EmailInput>
       <S.SubscribeButton
         disabled={error || !email}
