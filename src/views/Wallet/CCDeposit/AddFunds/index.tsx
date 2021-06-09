@@ -52,10 +52,10 @@ const AddFunds = () => {
     const userToken = await getAccessTokenSilently();
     fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
     if (amount && zeros.includes(amount)) return;
-    if (isNaN(Number(fundsBody?.amount))) {
-      Toast.error('An Error Occurred: Please enter a valid amount.');
-      return;
-    }
+    // if (isNaN(Number(fundsBody?.amount))) {
+    //   Toast.error('An Error Occurred: Please enter a valid amount.');
+    //   return;
+    // }
 
     if (amount && parseFloat(amount.replaceAll(',', '')) > 1000) {
       Toast.error(
