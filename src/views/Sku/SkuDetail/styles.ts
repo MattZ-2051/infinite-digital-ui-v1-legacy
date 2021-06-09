@@ -41,7 +41,12 @@ export const HeaderRight = styled.div`
 `;
 
 export const ProductDetail = styled.div`
-  padding: 48px 80px 20px 48px;
+  @media (min-width: 960px) {
+    padding: 48px 80px 20px 48px;
+  }
+  @media (max-width: 959px) {
+    padding: 48px 24px 20px 24px;
+  }
 `;
 
 export const Listing = styled.div`

@@ -56,7 +56,7 @@ export const SubHeader = styled.div`
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: 15% 55% 30%;
+  grid-template-columns: 18% 52% 30%;
   padding-top: 40px;
   border-bottom: 1px solid #ebebeb;
   padding-bottom: 21px;

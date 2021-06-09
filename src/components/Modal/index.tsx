@@ -11,6 +11,7 @@ interface IProps {
   align?: string;
   width?: string;
   padding?: string;
+  margin?: string;
 }
 
 const ModalComponent = ({
@@ -19,11 +20,18 @@ const ModalComponent = ({
   align,
   width,
   padding,
+  margin,
   ...props
 }: IProps): JSX.Element => {
   return (
     <ModalContainer {...(props as any)}>
-      <ModalBody align={align} height={height} width={width} padding={padding}>
+      <ModalBody
+        align={align}
+        height={height}
+        width={width}
+        padding={padding}
+        margin={margin}
+      >
         {children}
       </ModalBody>
     </ModalContainer>
@@ -46,8 +54,9 @@ const ModalBody = styled.div<{
   align?: string;
   width?: string;
   padding?: string;
+  margin?: string;
 }>`
-  margin: 30px 0;
+  margin: ${(props) => (props.margin ? `${props.margin}` : `30px 0`)};
   background-color: #ffffff;
   position: absolute;
   min-width: 280px;
@@ -59,7 +68,7 @@ const ModalBody = styled.div<{
   flex-direction: column;
   align-items: ${(props) => (props.align ? `${props.align}` : `center`)};
   @media screen and (max-width: 950px) {
-    margin-top: 50px;
+    margin-top: ${(props) => (props.margin ? `${props.margin}` : `50px`)};
   }
   @media screen and (max-width: 550px) {
     width: ${(props) => (props.width ? `${props.width}` : '90%')};

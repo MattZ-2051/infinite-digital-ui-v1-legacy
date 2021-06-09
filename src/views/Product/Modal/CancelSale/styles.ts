@@ -2,8 +2,9 @@ import styled from 'styled-components/macro';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 
 export const Container = styled.div`
+  max-width: 410px;
   height: 420px;
-  width: 410px;
+  width: 100%;
 `;
 
 export const FlexEnd = styled.div`
@@ -55,9 +56,10 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button`
+  max-width: 330px;
   border: none;
   height: 56px;
-  width: 330px;
+  width: 100%;
   background: black;
   font-weight: 600;
   font-size: 20px;

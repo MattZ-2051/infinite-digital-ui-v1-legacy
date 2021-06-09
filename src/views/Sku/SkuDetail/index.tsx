@@ -157,7 +157,13 @@ const SkuDetail = (): JSX.Element => {
 
                 <LineDivider />
 
-                <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    flexWrap: 'wrap',
+                  }}
+                >
                   <S.CreatedBy>Created by</S.CreatedBy>
                   <S.CreatorName to={`/collection/${sku.issuer.username}`}>
                     @{sku.issuer.username}

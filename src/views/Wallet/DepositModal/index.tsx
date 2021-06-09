@@ -197,7 +197,11 @@ const DepositModal = ({
       </S.BodyContent>
     </S.BodyContainer>
   );
-  return <ModalComponent open={isModalOpen}>{body}</ModalComponent>;
+  return (
+    <ModalComponent open={isModalOpen} margin="130px 0">
+      {body}
+    </ModalComponent>
+  );
 };
 
 export default DepositModal;
