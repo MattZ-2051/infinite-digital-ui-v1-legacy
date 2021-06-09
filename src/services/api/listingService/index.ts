@@ -2,6 +2,7 @@ import { Listing } from 'entities/listing';
 import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../coreService';
 import { ProductWithFunctions } from 'entities/product';
+import * as Sentry from '@sentry/react';
 
 export const getListings = async (
   token: string
@@ -19,13 +20,17 @@ export const patchListingsPurchase = async (
   token: string,
   id: string
 ): Promise<AxiosResponse<any>> => {
-  const response = await axiosInstance.request({
-    method: 'PATCH',
-    url: `/listings/${id}/purchase`,
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  return response;
+  try {
+    const response = await axiosInstance.request({
+      method: 'PATCH',
+      url: `/listings/${id}/purchase`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (err) {
+    Sentry.captureException(err);
+    return err.response;
+  }
 };
 
 export const postListings = async (

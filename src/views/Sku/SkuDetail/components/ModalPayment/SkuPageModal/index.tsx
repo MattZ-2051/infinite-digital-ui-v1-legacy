@@ -60,21 +60,19 @@ const SkuPageModal = ({
     if (listing) {
       setLoading(true);
       const userToken = await getAccessTokenSilently();
-      try {
-        const result = await patchListingsPurchase(userToken, listing._id);
-        // TODO: Check payment
-        if (result) {
-          setStatusMode('processing');
-          Toast.success(purchase.patchListingsPurchaseProcessing);
-          dispatch(getUserInfoThunk({ token: userToken }));
-        }
+      const response = await patchListingsPurchase(userToken, listing._id);
+      // TODO: Check payment
+      if (response.status === 200) {
+        setStatusMode('processing');
+        Toast.success(purchase.patchListingsPurchaseProcessing);
+        dispatch(getUserInfoThunk({ token: userToken }));
         setLoading(false);
-      } catch (e) {
+      } else {
         setLoading(false);
         Toast.error(
           <>
-            There was an error processing your purchase. Please try again, see
-            the <a href="/help">Help page</a> to learn more.
+            {response.data.message}. Please try again, see the{' '}
+            <a href="/help">Help page</a> to learn more.
           </>
         );
       }
