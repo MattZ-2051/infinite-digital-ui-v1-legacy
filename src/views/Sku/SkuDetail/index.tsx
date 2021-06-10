@@ -168,10 +168,15 @@ const SkuDetail = (): JSX.Element => {
                   <S.CreatorName to={`/collection/${sku.issuer.username}`}>
                     @{sku.issuer.username}
                   </S.CreatorName>
-                  <S.NotifyMe to="#" onClick={() => setIsNotifyModalOpen(true)}>
-                    <S.NotifyIconImg src={notifyIcon} />
-                    <span>Notify Me</span>
-                  </S.NotifyMe>
+                  {sku?.issuer?.showNotifyMe && (
+                    <S.NotifyMe
+                      to="#"
+                      onClick={() => setIsNotifyModalOpen(true)}
+                    >
+                      <S.NotifyIconImg src={notifyIcon} />
+                      <span>Notify Me</span>
+                    </S.NotifyMe>
+                  )}
                 </div>
               </S.ProductDetail>
 

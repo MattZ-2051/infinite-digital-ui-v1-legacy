@@ -125,14 +125,16 @@ const Collection = (): JSX.Element => {
                 >
                   {user.username}
                 </span>
-                <Button
-                  onClick={() => setIsModalOpen(true)}
-                  color="white"
-                  style={{ padding: '10px 25px' }}
-                >
-                  <S.NotifyIconImg src={notifyIcon} />
-                  <span>Notify Me</span>
-                </Button>
+                {user?.showNotifyMe && (
+                  <Button
+                    onClick={() => setIsModalOpen(true)}
+                    color="white"
+                    style={{ padding: '10px 25px' }}
+                  >
+                    <S.NotifyIconImg src={notifyIcon} />
+                    <span>Notify Me</span>
+                  </Button>
+                )}
               </S.BasicInfoContainer>
               <TextContainer
                 textAlign="left"
