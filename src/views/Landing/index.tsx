@@ -17,7 +17,6 @@ import Subscribe from './components/Subscribe';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
-
   const { isAuthenticated, loginWithRedirect, user, getAccessTokenSilently } =
     useAuth0();
   const loggedInUser = useAppSelector((state) => state.session.user);

@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import MuiDivider from '@material-ui/core/Divider';
 import { KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers';
+import TimePicker from 'components/TimePicker/rc';
 import Modal from 'components/Modal';
 
 export const S: any = {};
@@ -184,4 +185,19 @@ export const ContainerTextDate = styled.div`
   p {
     font-size: 14px;
   }
+`;
+
+export const CustomTimePicker = styled(TimePicker)`
+  & {
+    .rc-time-picker-input {
+      border: none;
+      font-size: 18px;
+      line-height: 23px;
+      color: #000000;
+      :focus {
+        outline: none;
+      }
+    }
+  }
+  margin-top: 20px;
 `;

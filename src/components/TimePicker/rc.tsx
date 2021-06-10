@@ -9,6 +9,7 @@ const TimePicker = (props) => {
       showSecond={false}
       // format="HH:mm A"
       use12Hours
+      clearIcon={true}
     />
   );
 };

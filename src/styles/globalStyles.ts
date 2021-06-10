@@ -172,10 +172,70 @@ const GlobalStyle = createGlobalStyle`
       color: black;
     }
 }
-
+  // time picker
   .rc-time-picker-panel {
+    .rc-time-picker-panel-input {
+      font-size: 18px;
+    }
     z-index: 5000;
+    .rc-time-picker-panel-input-wrap {
+      background-color: white;
+    }
+    .rc-time-picker-panel-inner {
+      background: #191919;
+      border: 1px solid #EBEBEB;
+      box-sizing: border-box;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      border: none;
+      font-size: 18px;
+      line-height: 23px;
+      color: #000000;
+    }
+    .rc-time-picker-panel-select {
+      /* padding:5px; */
+      font-size: 18px;
+      line-height: 23px;
+      text-align: center;
+      li {
+        color: white;
+        margin-top:10px;
+        margin-bottom:10px;
+      }
+      li:hover {
+        color: black;
+        text-align: center;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    li.rc-time-picker-panel-select-option-selected {
+      color: white;
+      background-color: #333333;
+      text-align: center;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .rc-time-picker-panel-select {
+      scrollbar-width: 1px;
+      scrollbar-color: #90A4AE #CFD8DC;
+      ::-webkit-scrollbar {
+        width: 1px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: transparent;
+      }
+    }
   }
-
 `;
 export default GlobalStyle;

@@ -202,14 +202,14 @@ const AuctionModal = ({
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <Grid container justify="space-between">
           <S.PickerContainer>
-            <TimePicker
+            <S.CustomTimePicker
               placeholder="select time"
               onChange={setStartTime}
               value={startTime}
             />
           </S.PickerContainer>
           <S.PickerContainer>
-            <TimePicker
+            <S.CustomTimePicker
               placeholder="select time"
               onChange={setEndTime}
               value={endTime}
