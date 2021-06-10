@@ -700,7 +700,11 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                           <img src={BidIcon} alt="" />
                           <S.AmountInput
                             name="amount-input"
-                            placeholder={`Place a bid higher than $${bids[0]?.bidAmt}`}
+                            placeholder={`Place a bid higher than $${
+                              bids.length === 0
+                                ? product?.activeProductListings[0]?.minBid
+                                : bids[0].bidAmt
+                            }`}
                             decimalsLimit={2}
                             onChange={(e) => setBidAmount(e.target.value)}
                             maxLength={10}
