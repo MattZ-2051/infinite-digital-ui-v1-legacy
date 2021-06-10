@@ -56,15 +56,14 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       pillInfo = skuUpcomingTime;
       return;
     } else if (
-      sku.totalSupplyLeft === 0 ||
-      sku.activeProductListings?.length !== 0 ||
+      sku.totalSupplyLeft !== 0 &&
       sku.activeSkuListings?.length !== 0
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
       pillInfo = minPrice;
       return;
-    } else if (totalSupplyLeft === 0) {
+    } else if (totalSupplyLeft === 0 || sku.activeSkuListings?.length === 0) {
       status = 'no-sale';
       bottomRightText = circulatingSupply;
       return;
