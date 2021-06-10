@@ -119,8 +119,13 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   const handleBid = () => {
+    const minBid = product?.activeProductListings[0]?.minBid;
+
     if (product) {
       if (isAuthenticated) {
+        console.log('amount', bidAmount);
+        console.log('type', typeof bidAmount);
+
         if (parseFloat(bidAmount) < bids[0].bidAmt) {
           Toast.error(
             `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
@@ -301,8 +306,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       ) {
         setAuctionStatus('active-auction-bid-owner');
       }
-    }
-    if (selectedTab === 'auction' && product?.owner?._id !== loggedInUser.id) {
+    } else if (selectedTab === 'auction') {
       if (
         product?.upcomingProductListings?.length === 0 &&
         product?.activeProductListings?.length !== 0 &&
@@ -345,6 +349,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         return tx;
       }
     });
+
+  console.log('status', auctionStatus);
 
   return (
     <>
@@ -684,7 +690,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                     })}
                 </S.BidsHistory>
               ) : (
-                auctionStatus === 'active-auction-bid-user' && (
+                (auctionStatus === 'active-auction-bid-user' ||
+                  auctionStatus === 'active-auction-no-bid-user') && (
                   <>
                     <S.BidsHistory>
                       <S.PlaceBidsContainer>
