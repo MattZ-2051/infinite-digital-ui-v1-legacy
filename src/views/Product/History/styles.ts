@@ -315,6 +315,8 @@ export const Slash = styled.span`
 
 export const ButtonContainer = styled.div`
   padding-right: 0;
+  display: flex;
+  align-items: center;
 
   ${mediaQueries.sm} {
     padding-right: 80px;
