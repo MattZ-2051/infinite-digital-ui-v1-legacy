@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import MuiDivider from '@material-ui/core/Divider';
 import { KeyboardDatePicker, KeyboardTimePicker } from '@material-ui/pickers';
+import Modal from 'components/Modal';
 
 export const S: any = {};
 export const Container = styled.div``;

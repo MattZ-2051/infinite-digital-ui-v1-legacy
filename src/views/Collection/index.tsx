@@ -48,9 +48,8 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
-    descriptionHeader
-  );
+  const [descriptionHeaderMain, descriptionHeaderGradient] =
+    splitLastSentence(descriptionHeader);
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();

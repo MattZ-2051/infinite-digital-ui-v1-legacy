@@ -11,6 +11,7 @@ interface IProps {
   align?: string;
   width?: string;
   padding?: string;
+  bodyStyle?: any;
   margin?: string;
 }
 
@@ -20,6 +21,7 @@ const ModalComponent = ({
   align,
   width,
   padding,
+  bodyStyle,
   margin,
   ...props
 }: IProps): JSX.Element => {
@@ -30,6 +32,7 @@ const ModalComponent = ({
         height={height}
         width={width}
         padding={padding}
+        style={bodyStyle}
         margin={margin}
       >
         {children}
@@ -42,11 +45,11 @@ const ModalContainer: any = styled(Modal)`
   overflow-y: scroll;
   // z-index: 1400 !important;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   border: none;
   margin: auto;
-  /* backdrop-filter: blur(2px); */
+  backdrop-filter: blur(2px);
 ` as React.ComponentType<ModalProps>;
 
 const ModalBody = styled.div<{

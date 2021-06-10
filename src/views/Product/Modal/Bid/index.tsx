@@ -13,6 +13,8 @@ import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useAuth0 } from '@auth0/auth0-react';
+import { postBid } from 'services/api/productService';
 
 interface Props {
   visible: boolean;
@@ -33,7 +35,7 @@ const BidModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-
+  const { getAccessTokenSilently } = useAuth0();
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -60,8 +62,8 @@ const BidModal = ({
   function displayNoFundsError(userBalance) {
     Toast.error(
       <span>
-        Whoops, Insuficient funds! Your wallet balance ${userBalance}, would you
-        like to{' '}
+        Whoops, Insuficient funds! Your wallet balance ${userBalance.toFixed(2)}
+        , would you like to{' '}
         <strong
           onClick={() => {
             history.push('/wallet');
@@ -73,7 +75,32 @@ const BidModal = ({
         ?
       </span>
     );
-    return;
+  }
+
+  function displayErrorBidMessage() {
+    Toast.error(
+      <span>
+        Oops, something went wrong! We could not place your bid, please try
+        again
+      </span>
+    );
+  }
+
+  function displaySuccessBidMessage() {
+    Toast.success(
+      <span>
+        Your bid was successfully placed. Learn more about biding{' '}
+        <strong
+          onClick={() => {
+            history.push('/help');
+          }}
+          style={{ borderBottom: '1px solid black', cursor: 'pointer' }}
+        >
+          here
+        </strong>
+        ?
+      </span>
+    );
   }
 
   const handlePlaceBid = async () => {
@@ -81,11 +108,28 @@ const BidModal = ({
       Toast.error(purchase.termsError);
       return;
     }
-
     if (userBalance < totalCost) {
       displayNoFundsError(userBalance);
+      return;
     }
-    return;
+    setLoading(true);
+    const userToken = await getAccessTokenSilently();
+
+    try {
+      const listing_id = product?.activeProductListings[0]?._id;
+      const result = await postBid(listing_id, userToken, {
+        id: listing_id,
+        bidAmt: bidAmount,
+      });
+      if (result) {
+        displaySuccessBidMessage();
+        setLoading(false);
+        setModalBidVisible(false);
+      }
+    } catch (e) {
+      setLoading(false);
+      displayErrorBidMessage();
+    }
   };
 
   const content = (
@@ -154,7 +198,7 @@ const BidModal = ({
               <span>Your Bid:</span>
             </div>
             <div style={{ color: '#000000' }}>
-              <span>{bidAmount.toFixed(2)}</span>
+              <span>${bidAmount.toFixed(2)}</span>
             </div>
           </S.DetailRowPrice>
 

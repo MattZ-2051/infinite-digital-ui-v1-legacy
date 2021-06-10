@@ -24,9 +24,9 @@ module.exports = {
   ],
   rules: {
     'react/prop-types': 'off',
-    'prettier/prettier': 'warn',
+    // 'prettier/prettier': 'warn',
     '@typescript-eslint/interface-name-prefix': [0],
     'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/no-empty-function': 'warn',
+    // '@typescript-eslint/no-empty-function': 'warn',
   },
 };

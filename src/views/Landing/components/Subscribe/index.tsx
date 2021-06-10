@@ -11,13 +11,15 @@ const Subscribe = (): JSX.Element => {
   };
 
   const isValidEmail = (input) => {
-    const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const regex =
+      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return regex.test(input);
   };
 
   const subscribe = () => {
     console.log('subscribed!');
   };
+
   return (
     <S.Container>
       <S.Tagline>Want to know what is coming next?</S.Tagline>

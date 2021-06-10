@@ -1,6 +1,7 @@
 import { Collector } from 'entities/collector';
 import { ProductWithFunctions } from 'entities/product';
 import { axiosInstance } from '../coreService';
+import { AxiosResponse } from 'axios';
 
 export const getProducts = async (token: string) => {
   const response = await axiosInstance.request({
@@ -145,4 +146,15 @@ export const getBids = async (
   } catch (e) {
     return e.response;
   }
+};
+
+export const postBid = async (
+  id: string,
+  token: string,
+  body: any
+): Promise<AxiosResponse<any>> => {
+  const response = await axiosInstance.post(`/listings/${id}/bids`, body, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response;
 };

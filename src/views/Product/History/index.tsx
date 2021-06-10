@@ -45,11 +45,8 @@ interface Props {
 }
 
 const History = ({ product, transactionHistory }: Props): JSX.Element => {
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<'history' | 'auction'>(
     'history'
@@ -793,12 +790,12 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             setSaleModal={setIsSaleModalOpen}
             isModalOpen={isSaleModalOpen}
           />
-          {/* <AuctionModal
+          <AuctionModal
             setModalAuctionVisible={setIsAuctionModalOpen}
             product={product}
             serialNum={product.serialNumber}
             visible={isAuctionModalOpen}
-          /> */}
+          />
         </>
       )}
       {product && auctionStatus === 'upcoming-auction' && (

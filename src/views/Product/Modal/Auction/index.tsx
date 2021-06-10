@@ -173,7 +173,7 @@ const AuctionModal = ({
             <S.CustomDatePicker
               disableToolbar
               variant="inline"
-              format="MM/dd/yyyy"
+              format="MMM D, yyyy"
               margin="normal"
               onChange={setStartDate}
               value={startDate}
@@ -187,7 +187,7 @@ const AuctionModal = ({
             <S.CustomDatePicker
               disableToolbar
               variant="inline"
-              format="MM/dd/yyyy"
+              format="MMM D, yyyy"
               margin="normal"
               onChange={setEndDate}
               value={endDate}
@@ -293,6 +293,7 @@ const AuctionModal = ({
       onClose={() => setModalAuctionVisible(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      bodyStyle={{ 'overflow-y': 'scroll', 'max-height': '100vh' }}
     >
       {content}
     </Modal>
