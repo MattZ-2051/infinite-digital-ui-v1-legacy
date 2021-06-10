@@ -358,7 +358,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             <S.TitleLink to={`/marketplace/${product?.sku._id}`}>
               {product?.sku.name}
             </S.TitleLink>{' '}
-            / #{product?.serialNumber}/{' '}
+            / #{product?.serialNumber}
           </div>
         </S.Title>
         <S.Header>
