@@ -226,19 +226,17 @@ const Wallet = (props) => {
                   Latest Transactions
                 </S.Tab>
                 <span style={{ padding: '0 20px' }} />
-                {/* Temporary Hide feature will be enabled Post-MVP
-
-            <S.Tab
-              style={{
-                borderBottom: `${
-                  selectedTab === 1 ? '2px solid black' : 'none'
-                }`,
-                color: `${selectedTab === 1 ? 'black' : '#9e9e9e'}`,
-              }}
-              onClick={() => setSelectedTab(1)}
-            >
-              Active Bids
-            </S.Tab> */}
+                <S.Tab
+                  style={{
+                    borderBottom: `${
+                      selectedTab === 1 ? '2px solid black' : 'none'
+                    }`,
+                    color: `${selectedTab === 1 ? 'black' : '#9e9e9e'}`,
+                  }}
+                  onClick={() => setSelectedTab(1)}
+                >
+                  Active Bids
+                </S.Tab>
                 <S.GrayLine style={{ width: '100%' }} />
               </div>
             </S.TabContainer>
