@@ -388,7 +388,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
 
                   <S.FlexDiv padding="0 0 0 16px">
                     <S.IsRedeemedIcon />
-                    <S.Redeemed color="#636363">Redeemed</S.Redeemed>
+                    <S.Redeemed color="#7c7c7c">Redeemed</S.Redeemed>
                   </S.FlexDiv>
                 </>
               ))}
@@ -564,7 +564,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       new Date(product?.activeProductListings[0]?.endDate)
                     )}
                 </S.Text>{' '}
-                <S.Text color="#2e2e2e" size="14px" fontWeight={400}>
+                <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
                   {product?.activeProductListings[0] &&
                     `(${formatDate(
                       new Date(product?.activeProductListings[0].endDate)
