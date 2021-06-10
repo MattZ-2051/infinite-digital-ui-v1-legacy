@@ -20,7 +20,7 @@ interface Props {
   visible: boolean;
   setModalBidVisible: (a: boolean) => void;
   product: ProductWithFunctions;
-  bidAmount: number;
+  bidAmount: string;
 }
 
 const marketplaceFee = 5;
@@ -39,8 +39,9 @@ const BidModal = ({
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const calculatedMarketplaceFee = bidAmount * (marketplaceFee / 100);
-  const totalCost = bidAmount + calculatedMarketplaceFee;
+  const calculatedMarketplaceFee =
+    parseFloat(bidAmount) * (marketplaceFee / 100);
+  const totalCost = parseFloat(bidAmount) + calculatedMarketplaceFee;
 
   const useStylesBootstrap = makeStyles((theme) => ({
     arrow: {
@@ -77,13 +78,8 @@ const BidModal = ({
     );
   }
 
-  function displayErrorBidMessage() {
-    Toast.error(
-      <span>
-        Oops, something went wrong! We could not place your bid, please try
-        again
-      </span>
-    );
+  function displayErrorBidMessage(message: string[]) {
+    Toast.error(<span>{message}</span>);
   }
 
   function displaySuccessBidMessage() {
@@ -119,16 +115,19 @@ const BidModal = ({
       const listing_id = product?.activeProductListings[0]?._id;
       const result = await postBid(listing_id, userToken, {
         id: listing_id,
-        bidAmt: bidAmount,
+        bidAmt: parseFloat(bidAmount),
       });
       if (result) {
         displaySuccessBidMessage();
         setLoading(false);
         setModalBidVisible(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
       }
     } catch (e) {
       setLoading(false);
-      displayErrorBidMessage();
+      displayErrorBidMessage(e.response.data.message);
     }
   };
 
@@ -198,7 +197,7 @@ const BidModal = ({
               <span>Your Bid:</span>
             </div>
             <div style={{ color: '#000000' }}>
-              <span>${bidAmount.toFixed(2)}</span>
+              <span>${parseFloat(bidAmount).toFixed(2)}</span>
             </div>
           </S.DetailRowPrice>
 
