@@ -91,7 +91,7 @@ const AddFunds = () => {
       Toast.success('Card Successfully Removed');
       setTimeout(() => {
         history.push(`/wallet/addcreditcard`);
-      }, 2500);
+      }, 2000);
     }
   };
 

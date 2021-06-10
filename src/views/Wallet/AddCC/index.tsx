@@ -81,7 +81,7 @@ const AddCC = () => {
       setToastMessage('Card Added');
       setTimeout(() => {
         history.push(`/wallet/deposit/addfunds`);
-      }, 2500);
+      }, 2000);
     }
   };
 

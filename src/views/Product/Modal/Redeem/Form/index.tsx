@@ -95,6 +95,9 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
     if (res.status === 200) {
       Toast.success(link);
       setIsModalOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1200);
     } else {
       Toast.error(res.data.message);
       setIsModalOpen(false);

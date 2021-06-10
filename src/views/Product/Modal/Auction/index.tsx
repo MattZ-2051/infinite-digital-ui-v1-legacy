@@ -118,7 +118,7 @@ const AuctionModal = ({
         setModalAuctionVisible(false);
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1200);
       }
     } catch (e) {
       setLoading(false);
