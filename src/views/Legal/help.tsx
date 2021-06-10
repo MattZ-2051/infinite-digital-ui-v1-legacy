@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import useScript from 'hooks/useScript';
 import * as S from './styles';
+import { config } from 'config';
 
 interface WindowWithHubspotForm extends Window {
   readonly hbspt?: any;
@@ -14,10 +15,10 @@ const Help = () => {
       const windowWithHubspotForm: WindowWithHubspotForm = window;
       if (loaded && !error && windowWithHubspotForm.hbspt) {
         windowWithHubspotForm.hbspt.forms.create({
-          region: 'na1',
-          portalId: '8953348',
-          formId: 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-          target: '#embed-hubspot',
+          region: config.hubspot.region,
+          portalId: config.hubspot.portalId,
+          formId: config.hubspot.formId,
+          target: config.hubspot.target,
         });
       }
     }
