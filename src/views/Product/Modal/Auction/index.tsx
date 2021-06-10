@@ -116,6 +116,9 @@ const AuctionModal = ({
         Toast.success(createAuction.success);
         setLoading(false);
         setModalAuctionVisible(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
     } catch (e) {
       setLoading(false);

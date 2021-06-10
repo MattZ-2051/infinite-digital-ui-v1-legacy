@@ -216,60 +216,67 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
   useEffect(() => {
     if (selectedTab === 'history') {
-      if (isAuthenticated) {
-        if (
-          loggedInUser.id === product?.owner._id &&
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length === 0
-        ) {
-          setHistoryStatus('owner');
-        } else if (
-          loggedInUser.id === product?.owner?._id &&
-          product?.activeProductListings?.length !== 0 &&
-          product?.upcomingProductListings?.length === 0
-        ) {
-          setHistoryStatus('active-sale');
-        } else if (
-          loggedInUser.id === product?.owner._id &&
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length !== 0
-        ) {
-          setHistoryStatus('upcoming');
-        } else if (
-          loggedInUser.id !== product?.owner._id &&
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length === 0
-        ) {
-          setHistoryStatus('not-for-sale');
-        } else if (
-          loggedInUser.id !== product?.owner._id &&
-          product?.activeProductListings?.length !== 0 &&
-          product?.upcomingProductListings.length === 0
-        ) {
-          setHistoryStatus('buy-now');
-        } else if (
-          loggedInUser.id !== product?.owner._id &&
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length !== 0
-        ) {
-          setHistoryStatus('upcoming');
-        }
+      if (
+        product?.activeProductListings[0]?.saleType === 'auction' ||
+        product?.upcomingProductListings[0]?.saleType === 'auction'
+      ) {
+        setHistoryStatus('not-for-sale');
       } else {
-        if (
-          product?.activeProductListings?.length !== 0 &&
-          product?.upcomingProductListings?.length === 0
-        ) {
-          setHistoryStatus('buy-now');
-        } else if (
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length === 0
-        ) {
-          setHistoryStatus('not-for-sale');
-        } else if (
-          product?.activeProductListings?.length === 0 &&
-          product?.upcomingProductListings?.length !== 0
-        ) {
-          setHistoryStatus('upcoming');
+        if (isAuthenticated) {
+          if (
+            loggedInUser.id === product?.owner._id &&
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length === 0
+          ) {
+            setHistoryStatus('owner');
+          } else if (
+            loggedInUser.id === product?.owner?._id &&
+            product?.activeProductListings?.length !== 0 &&
+            product?.upcomingProductListings?.length === 0
+          ) {
+            setHistoryStatus('active-sale');
+          } else if (
+            loggedInUser.id === product?.owner._id &&
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length !== 0
+          ) {
+            setHistoryStatus('upcoming');
+          } else if (
+            loggedInUser.id !== product?.owner._id &&
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length === 0
+          ) {
+            setHistoryStatus('not-for-sale');
+          } else if (
+            loggedInUser.id !== product?.owner._id &&
+            product?.activeProductListings?.length !== 0 &&
+            product?.upcomingProductListings.length === 0
+          ) {
+            setHistoryStatus('buy-now');
+          } else if (
+            loggedInUser.id !== product?.owner._id &&
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length !== 0
+          ) {
+            setHistoryStatus('upcoming');
+          }
+        } else {
+          if (
+            product?.activeProductListings?.length !== 0 &&
+            product?.upcomingProductListings?.length === 0
+          ) {
+            setHistoryStatus('buy-now');
+          } else if (
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length === 0
+          ) {
+            setHistoryStatus('not-for-sale');
+          } else if (
+            product?.activeProductListings?.length === 0 &&
+            product?.upcomingProductListings?.length !== 0
+          ) {
+            setHistoryStatus('upcoming');
+          }
         }
       }
     }
@@ -452,26 +459,28 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               </S.Button>
             </S.ButtonContainer>
           )}
-          {historyStatus === 'active-sale' && selectedTab === 'history' && (
-            <S.ButtonContainer>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <S.FlexColumn style={{ paddingRight: '16px' }}>
-                  <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
-                  <div style={{ display: 'flex' }}>
-                    <S.StatusText>Status:</S.StatusText>
-                    <S.ActiveText>active</S.ActiveText>
-                  </div>
-                </S.FlexColumn>
-                <S.Button
-                  width="130px"
-                  onClick={() => setIsCancelModalOpen(true)}
-                  hover={true}
-                >
-                  Cancel Sale
-                </S.Button>
-              </div>
-            </S.ButtonContainer>
-          )}
+          {historyStatus === 'active-sale' &&
+            selectedTab === 'history' &&
+            product?.activeProductListings[0].saleType !== 'auction' && (
+              <S.ButtonContainer>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <S.FlexColumn style={{ paddingRight: '16px' }}>
+                    <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
+                    <div style={{ display: 'flex' }}>
+                      <S.StatusText>Status:</S.StatusText>
+                      <S.ActiveText>active</S.ActiveText>
+                    </div>
+                  </S.FlexColumn>
+                  <S.Button
+                    width="130px"
+                    onClick={() => setIsCancelModalOpen(true)}
+                    hover={true}
+                  >
+                    Cancel Sale
+                  </S.Button>
+                </div>
+              </S.ButtonContainer>
+            )}
           {(auctionStatus === 'upcoming-auction' ||
             auctionStatus === 'active-auction-no-bid-owner') &&
             selectedTab === 'auction' && (
@@ -712,36 +721,42 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   </>
                 )
               )}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  paddingTop: '30px',
-                }}
-              >
-                <S.StyledPagination
-                  themeStyle={themeStyle}
-                  page={page}
-                  count={Math.ceil(totalBids / perPage)}
-                  onChange={handlePagination}
-                  siblingCount={matchesMobile ? 0 : 1}
-                />
-                <S.FlexDiv>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    Started at
-                  </S.Text>
-                  <S.Text color="white" size="16px" fontWeight={600}>
-                    ${product?.activeProductListings[0]?.minBid}
-                  </S.Text>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    on{' '}
-                    {product &&
-                      formatDate(
-                        new Date(product?.activeProductListings[0]?.startDate)
-                      )}
-                  </S.Text>
-                </S.FlexDiv>
-              </div>
+              {auctionStatus !== 'upcoming-auction' &&
+                auctionStatus !== 'active-auction-no-bid-owner' &&
+                auctionStatus !== 'active-auction-no-bid-user' && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      paddingTop: '30px',
+                    }}
+                  >
+                    <S.StyledPagination
+                      themeStyle={themeStyle}
+                      page={page}
+                      count={Math.ceil(totalBids / perPage)}
+                      onChange={handlePagination}
+                      siblingCount={matchesMobile ? 0 : 1}
+                    />
+                    <S.FlexDiv>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        Started at
+                      </S.Text>
+                      <S.Text color="white" size="16px" fontWeight={600}>
+                        ${product?.activeProductListings[0]?.minBid}
+                      </S.Text>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        on{' '}
+                        {product &&
+                          formatDate(
+                            new Date(
+                              product?.activeProductListings[0]?.startDate
+                            )
+                          )}
+                      </S.Text>
+                    </S.FlexDiv>
+                  </div>
+                )}
             </S.TransactionHistory>
           </>
         )}
@@ -772,6 +787,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           visible={isCancelModalOpen}
           listingId={product?.activeProductListings[0]?._id}
           setStatus={setHistoryStatus}
+          modalType="sale"
         />
       )}
       {product && historyStatus === 'owner' && (
@@ -798,22 +814,17 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           />
         </>
       )}
-      {product && auctionStatus === 'upcoming-auction' && (
-        <CancelSale
-          setModalPaymentVisible={setIsCancelModalOpen}
-          visible={isCancelModalOpen}
-          listingId={product?.activeProductListings[0]?._id}
-          setStatus={setHistoryStatus}
-        />
-      )}
-      {selectedTab === 'auction' && product && (
-        <BidModal
-          setModalBidVisible={setIsBidModalOpen}
-          product={product}
-          visible={isBidModalOpen}
-          bidAmount={parseFloat(bidAmount)}
-        />
-      )}
+      {product &&
+        (auctionStatus === 'upcoming-auction' ||
+          auctionStatus === 'active-auction-no-bid-owner') && (
+          <CancelSale
+            setModalPaymentVisible={setIsCancelModalOpen}
+            visible={isCancelModalOpen}
+            listingId={product?.activeProductListings[0]?._id}
+            setStatus={setHistoryStatus}
+            modalType="auction"
+          />
+        )}
     </>
   );
 };

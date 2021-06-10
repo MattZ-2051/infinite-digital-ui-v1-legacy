@@ -11,6 +11,7 @@ interface Props {
   setModalPaymentVisible: (a: boolean) => void;
   listingId: string;
   setStatus: (status: HistoryStatus) => void;
+  modalType: 'auction' | 'sale';
 }
 
 const CancelSale = ({
@@ -18,17 +19,21 @@ const CancelSale = ({
   setModalPaymentVisible,
   listingId,
   setStatus,
+  modalType,
 }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const handleCancelListing = async () => {
     const userToken = await getAccessTokenSilently();
-    try {
-      await cancelListing(userToken, listingId);
-      Toast.success('Listing successfully cancelled, please refresh the page');
+    const res = await cancelListing(userToken, listingId);
+    if (res.status === 200) {
+      Toast.success('Listing successfully cancelled');
       setModalPaymentVisible(false);
-    } catch (e) {
-      Toast.error(e.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      Toast.error(res.data.message);
     }
   };
   const Body = (): JSX.Element => {
@@ -42,10 +47,18 @@ const CancelSale = ({
             <Emoji symbol="❌" />
             <S.Header>Cancel Sale!</S.Header>
           </S.HeaderContainer>
-          <S.SubHeader>
-            By confirming this action you will remove this item from the
-            marketplace and will not be available for other users to buy.
-          </S.SubHeader>
+          {modalType === 'sale' && (
+            <S.SubHeader>
+              By confirming this action you will remove this item from the
+              marketplace and will not be available for other users to buy.
+            </S.SubHeader>
+          )}
+
+          {modalType === 'auction' && (
+            <S.SubHeader>
+              This action will cancel your for sale listing for this NFT.
+            </S.SubHeader>
+          )}
           <S.ButtonContainer>
             <S.Button onClick={handleCancelListing}>Yes, Sure</S.Button>
             <S.Button

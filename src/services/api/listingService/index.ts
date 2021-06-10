@@ -55,7 +55,6 @@ export const cancelListing = async (
     );
     return res;
   } catch (e) {
-    console.log('err', e);
-    throw new Error(e);
+    return e.response;
   }
 };
