@@ -182,7 +182,7 @@ const GlobalStyle = createGlobalStyle`
       background-color: white;
     }
     .rc-time-picker-panel-inner {
-      background: #191919;
+      background: #ffffff;
       border: 1px solid #EBEBEB;
       box-sizing: border-box;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -190,7 +190,6 @@ const GlobalStyle = createGlobalStyle`
       border: none;
       font-size: 18px;
       line-height: 23px;
-      color: #000000;
     }
     .rc-time-picker-panel-select {
       /* padding:5px; */
@@ -198,7 +197,7 @@ const GlobalStyle = createGlobalStyle`
       line-height: 23px;
       text-align: center;
       li {
-        color: white;
+        color: #000000;
         margin-top:10px;
         margin-bottom:10px;
       }
@@ -212,9 +211,10 @@ const GlobalStyle = createGlobalStyle`
       }
     }
     li.rc-time-picker-panel-select-option-selected {
-      color: white;
-      background-color: #333333;
+      color: #000000;
+      background-color: #f6f6f6;
       text-align: center;
+      font-weight:600;
       padding: 20px;
       display: flex;
       justify-content: center;
