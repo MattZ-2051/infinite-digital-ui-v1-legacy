@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Transaction from './Transaction';
 import DepositModal from './DepositModal';
-import ActiveBids from './ActiveBids';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { User } from 'entities/user';
 import { getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
@@ -19,6 +17,7 @@ import PageLoader from 'components/PageLoader';
 import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ListBids from './ActiveBids';
 
 const NoResults = styled.div``;
 
@@ -51,6 +50,7 @@ const Wallet = (props) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -65,6 +65,7 @@ const Wallet = (props) => {
   // const documentElement = document.getElementById('tx');
 
   const { username: username } = useAppSelector((state) => state.session.user);
+
   const { kycPending, kycMaxLevel } = useAppSelector(
     (state) => state.session.userCards
   );
@@ -273,14 +274,8 @@ const Wallet = (props) => {
                   )}
                 </Content>
               )}
-              {/*  Temporary Hide feature will be enabled Post-MVP
 
-          {selectedTab === 1 && (
-            <>
-              <ActiveBids bidType="not-exceeded" />
-              <ActiveBids bidType="exceeded" />
-            </>
-          )} */}
+              {selectedTab === 1 && <ListBids />}
             </S.LatestTransactionsContainer>
             {/*<S.FlexRow>*/}
             {/*  {isElOverflown && (*/}

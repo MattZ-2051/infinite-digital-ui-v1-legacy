@@ -38,6 +38,7 @@
     "jwt-decode": "^3.1.2",
     "luxon": "^1.26.0",
     "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
     "persona": "^3.9.0",
     "rc-time-picker": "^3.7.3",
     "react": "^17.0.1",

@@ -158,3 +158,30 @@ export const postBid = async (
   });
   return response;
 };
+
+export const getMeBids = async (
+  token: string,
+  page?: number,
+  perPage?: number,
+  includeFunctions = true
+): Promise<any> => {
+  const params = { includeFunctions };
+  if (page) {
+    params['page'] = page;
+    params['per_page'] = perPage;
+  }
+  try {
+    const response = await axiosInstance.get<any>('/bids/active', {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    const { data, headers } = response;
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+
+    return { data, total };
+  } catch (e) {
+    return e.response;
+  }
+};
