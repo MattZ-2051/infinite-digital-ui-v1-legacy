@@ -208,9 +208,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   const fetchBids = async () => {
-    const userToken = await getAccessTokenSilently();
     const res = await getBids(
-      userToken,
+      '',
       product?.activeProductListings[0]?._id,
       page,
       perPage
