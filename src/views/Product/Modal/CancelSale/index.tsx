@@ -27,7 +27,7 @@ const CancelSale = ({
     const userToken = await getAccessTokenSilently();
     const res = await cancelListing(userToken, listingId);
     if (res.status === 200) {
-      Toast.success('Listing successfully cancelled');
+      Toast.success('Listing successfully cancelled.');
       setModalPaymentVisible(false);
       setTimeout(() => {
         window.location.reload();
