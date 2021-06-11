@@ -44,8 +44,18 @@ const CancelSale = ({
         </S.FlexEnd>
         <S.BodyContainer>
           <S.HeaderContainer>
-            <Emoji symbol="❌" />
-            <S.Header>Cancel Sale!</S.Header>
+            {modalType === 'sale' && (
+              <>
+                <Emoji symbol="❌" />
+                <S.Header>Cancel Sale?</S.Header>
+              </>
+            )}
+            {modalType === 'auction' && (
+              <>
+                <Emoji symbol="❌" />
+                <S.Header>Cancel Sale?</S.Header>
+              </>
+            )}
           </S.HeaderContainer>
           {modalType === 'sale' && (
             <S.SubHeader>

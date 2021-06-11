@@ -351,8 +351,6 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
       }
     });
 
-  console.log('status', auctionStatus);
-
   return (
     <>
       <S.Container>
