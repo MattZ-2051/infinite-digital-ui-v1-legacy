@@ -143,8 +143,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               {userBalance}{' '}
               <a onClick={() => history.push('/wallet')}>click here</a> to
               deposit enough funds to cover your desired bid amount including
-              fees
-              <a onClick={() => history.push('/helpage')}>learn more</a>
+              fees <a onClick={() => history.push('/helpage')}>learn more</a>
             </>
           );
         } else if (
