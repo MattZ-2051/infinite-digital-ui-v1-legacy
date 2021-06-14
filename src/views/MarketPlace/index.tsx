@@ -50,7 +50,6 @@ const MarketPlace = (): JSX.Element => {
     sort: string
   ) => {
     const params = new URLSearchParams();
-
     // Filters
     Object.keys(filters).forEach((categoryName) => {
       const categoryValue = filters[categoryName];
@@ -64,6 +63,9 @@ const MarketPlace = (): JSX.Element => {
             case 'price':
               params.append('minPrice', categoryValue[0]);
               params.append('maxPrice', categoryValue[1]);
+              break;
+            case 'creator':
+              params.append('issuerId', categoryValue.join(','));
               break;
             default:
               params.append(categoryName, categoryValue.join(','));

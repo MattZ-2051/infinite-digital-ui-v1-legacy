@@ -14,6 +14,7 @@ import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
+import { IUser } from 'services/api/userService/Interfaces/IUser';
 
 export interface IProps {
   activeFilters: any; //TODO: change type
@@ -25,7 +26,7 @@ const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [series, setSeries] = useState([]);
-  const [creators, setCreators] = useState([]);
+  const [creators, setCreators] = useState<IUser[] | undefined>([]);
 
   const dropDownOptions = {
     category: categories,
@@ -36,8 +37,8 @@ const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
       { id: 'uncommon', name: 'Uncommon' },
     ],
     series,
-    creator: creators.map((el: User) => {
-      return { id: el.username, name: el.username };
+    creator: creators?.map((el: IUser) => {
+      return { id: el.id, name: el.username };
     }),
   };
 
@@ -62,7 +63,7 @@ const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
 
     getCreators().then((data) => {
       setCreators(
-        data.filter((el) => {
+        data?.filter((el: IUser) => {
           return el.id !== '60a4921addc7af020455d315';
         })
       );
@@ -143,8 +144,8 @@ const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
         label="Creators"
         options={dropDownOptions.creator}
         handleFilter={handleFilter}
-        filterCategory="issuerName"
-        activeFilters={activeFilters.issuerName}
+        filterCategory="creator"
+        activeFilters={activeFilters.creator}
       />
     </Container>
   );
