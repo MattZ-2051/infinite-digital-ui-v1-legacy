@@ -53,7 +53,7 @@ const CancelSale = ({
             {modalType === 'auction' && (
               <>
                 <Emoji symbol="❌" />
-                <S.Header>Cancel Sale?</S.Header>
+                <S.Header>Cancel Auction?</S.Header>
               </>
             )}
           </S.HeaderContainer>
