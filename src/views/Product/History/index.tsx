@@ -552,10 +552,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             marginRight={selectedTab === 'history'}
             width={selectedTab === 'history'}
           />
-          {((product?.activeProductListings.length !== 0 &&
-            product?.activeProductListings[0]?.saleType === 'auction') ||
-            (product?.upcomingProductListings.length !== 0 &&
-              product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+          {product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction' &&
             selectedTab === 'auction' && (
               <S.TextContainer borderBottom={true}>
                 <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
@@ -571,6 +569,27 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   {product?.activeProductListings[0] &&
                     `(${formatDate(
                       new Date(product?.activeProductListings[0].endDate)
+                    )})`}
+                </S.Text>
+              </S.TextContainer>
+            )}
+          {product?.upcomingProductListings.length !== 0 &&
+            product?.upcomingProductListings[0]?.saleType === 'auction' &&
+            selectedTab === 'auction' && (
+              <S.TextContainer borderBottom={true}>
+                <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
+                  Expires in
+                </S.Text>
+                <S.Text color="white" size="18px" fontWeight={600}>
+                  {product?.upcomingProductListings[0] &&
+                    formatCountdown(
+                      new Date(product?.upcomingProductListings[0]?.endDate)
+                    )}
+                </S.Text>{' '}
+                <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+                  {product?.upcomingProductListings[0] &&
+                    `(${formatDate(
+                      new Date(product?.upcomingProductListings[0].endDate)
                     )})`}
                 </S.Text>
               </S.TextContainer>
@@ -646,21 +665,29 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           <>
             <S.TransactionHistory>
               {product?.upcomingProductListings.length !== 0 ? (
-                <S.BidsContainer>
-                  Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
-                  {product?.upcomingProductListings[0].startDate &&
-                    formatCountdown(
-                      new Date(product.upcomingProductListings[0].startDate)
-                    )}{' '}
-                  {product?.upcomingProductListings[0].startDate &&
-                    formatDate(
-                      new Date(product.upcomingProductListings[0].startDate)
-                    )}
+                <S.BidsContainer padding="22px 0px">
+                  <S.Text color="white" size="18px" fontWeight={600}>
+                    Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
+                    {product?.upcomingProductListings[0].startDate &&
+                      formatCountdown(
+                        new Date(product.upcomingProductListings[0].startDate)
+                      )}{' '}
+                  </S.Text>
+                  <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+                    (
+                    {product?.upcomingProductListings[0].startDate &&
+                      formatDate(
+                        new Date(product.upcomingProductListings[0].startDate)
+                      )}
+                    )
+                  </S.Text>
                 </S.BidsContainer>
               ) : bids.length === 0 &&
                 auctionStatus === 'active-auction-no-bid-owner' ? (
                 <>
-                  <S.BidsContainer>No bids placed yet</S.BidsContainer>
+                  <S.BidsContainer padding="32px 0px">
+                    No bids placed yet
+                  </S.BidsContainer>
                   <S.TextContainer paddingTop="32px">
                     <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
                       Started at
@@ -744,23 +771,44 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       onChange={handlePagination}
                       siblingCount={matchesMobile ? 0 : 1}
                     />
-                    <S.FlexDiv>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                        Started at
-                      </S.Text>
-                      <S.Text color="white" size="16px" fontWeight={600}>
-                        ${product?.activeProductListings[0]?.minBid}
-                      </S.Text>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                        on{' '}
-                        {product &&
-                          formatDate(
-                            new Date(
-                              product?.activeProductListings[0]?.startDate
-                            )
-                          )}
-                      </S.Text>
-                    </S.FlexDiv>
+                    {product?.activeProductListings.length !== 0 && (
+                      <S.FlexDiv>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          Started at
+                        </S.Text>
+                        <S.Text color="white" size="16px" fontWeight={600}>
+                          ${product?.activeProductListings[0]?.minBid}
+                        </S.Text>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          on{' '}
+                          {product &&
+                            formatDate(
+                              new Date(
+                                product?.activeProductListings[0]?.startDate
+                              )
+                            )}
+                        </S.Text>
+                      </S.FlexDiv>
+                    )}
+                    {product?.upcomingProductListings.length !== 0 && (
+                      <S.FlexDiv>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          Started at
+                        </S.Text>
+                        <S.Text color="white" size="16px" fontWeight={600}>
+                          ${product?.upcomingProductListings[0]?.minBid}
+                        </S.Text>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          on{' '}
+                          {product &&
+                            formatDate(
+                              new Date(
+                                product?.upcomingProductListings[0]?.startDate
+                              )
+                            )}
+                        </S.Text>
+                      </S.FlexDiv>
+                    )}
                   </div>
                 )}
             </S.TransactionHistory>
