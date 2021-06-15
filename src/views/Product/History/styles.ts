@@ -350,6 +350,10 @@ export const Tab = styled.div<{
   }
 `;
 
+export const TransactionContainer = styled.div`
+  height: 80%;
+`;
+
 export const BidsContainer = styled.div<{ padding: string }>`
   width: 100%;
   height: 88px;

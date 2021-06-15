@@ -66,11 +66,16 @@ export const getSingleProduct = async (
   }
 };
 
-export const getProductTransactionHistory = async (productId: string) => {
+export const getProductTransactionHistory = async (
+  productId: string,
+  page?: number,
+  perPage?: number
+) => {
   try {
     const res = await axiosInstance.request({
       method: 'GET',
       url: `/products/${productId}/transactions`,
+      params: { page: page, per_page: perPage },
     });
     return res;
   } catch (err) {

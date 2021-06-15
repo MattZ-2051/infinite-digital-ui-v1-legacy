@@ -42,9 +42,18 @@ export type AuctionStatus =
 interface Props {
   product: ProductWithFunctions | null;
   transactionHistory: ITransaction[];
+  totalTransactions: number;
+  historyPage: number;
+  setHistoryPage: (a: number) => void;
 }
 
-const History = ({ product, transactionHistory }: Props): JSX.Element => {
+const History = ({
+  product,
+  transactionHistory,
+  totalTransactions,
+  historyPage,
+  setHistoryPage,
+}: Props): JSX.Element => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
@@ -67,14 +76,14 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   const [bids, setBids] = useState<Bid[]>([]);
 
   const [bidAmount, setBidAmount] = useState<string>('');
-  const [totalBids, setTotalBids] = useState(1);
+  const [totalBids, setTotalBids] = useState<number>(1);
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
-  const [page, setPage] = useState(1);
+  const [auctionPage, setAuctionPage] = useState<number>(1);
   const perPage = 5;
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
@@ -171,7 +180,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    setPage(1);
+    setAuctionPage(1);
   }, [selectedTab]);
 
   const handleCreateSale = () => {
@@ -203,14 +212,18 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setPage(value);
+    if (selectedTab === 'auction') {
+      setAuctionPage(value);
+    } else if (selectedTab === 'history') {
+      setHistoryPage(value);
+    }
   };
 
   const fetchBids = async () => {
     const res = await getBids(
       '',
       product?.activeProductListings[0]?._id,
-      page,
+      auctionPage,
       perPage
     );
     if (res) {
@@ -330,7 +343,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
 
   useEffect(() => {
     fetchBids();
-  }, [page]);
+  }, [auctionPage]);
 
   if (historyStatus === '') return <></>;
   const filteredTransactions =
@@ -597,43 +610,52 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
         </S.TabBar>
         {selectedTab === 'history' && (
           <S.TransactionHistory>
-            {filteredTransactions instanceof Array &&
-              filteredTransactions.map((transaction, index) => {
-                if (filteredTransactions.length >= 2) {
-                  if (
-                    filteredTransactions[filteredTransactions.length - 2]
-                      ?.type === 'nft_mint'
-                  ) {
-                    if (index === filteredTransactions.length - 1) {
-                      return (
-                        <Transaction
-                          key={
-                            filteredTransactions[
-                              filteredTransactions.length - 2
-                            ]._id
-                          }
-                          transaction={
-                            filteredTransactions[
-                              filteredTransactions.length - 2
-                            ]
-                          }
-                        />
-                      );
-                    } else if (index === filteredTransactions.length - 2) {
-                      return (
-                        <Transaction
-                          key={
-                            filteredTransactions[
-                              filteredTransactions.length - 1
-                            ]._id
-                          }
-                          transaction={
-                            filteredTransactions[
-                              filteredTransactions.length - 1
-                            ]
-                          }
-                        />
-                      );
+            <S.TransactionContainer>
+              {filteredTransactions instanceof Array &&
+                filteredTransactions.map((transaction, index) => {
+                  if (filteredTransactions.length >= 2) {
+                    if (
+                      filteredTransactions[filteredTransactions.length - 2]
+                        ?.type === 'nft_mint'
+                    ) {
+                      if (index === filteredTransactions.length - 1) {
+                        return (
+                          <Transaction
+                            key={
+                              filteredTransactions[
+                                filteredTransactions.length - 2
+                              ]._id
+                            }
+                            transaction={
+                              filteredTransactions[
+                                filteredTransactions.length - 2
+                              ]
+                            }
+                          />
+                        );
+                      } else if (index === filteredTransactions.length - 2) {
+                        return (
+                          <Transaction
+                            key={
+                              filteredTransactions[
+                                filteredTransactions.length - 1
+                              ]._id
+                            }
+                            transaction={
+                              filteredTransactions[
+                                filteredTransactions.length - 1
+                              ]
+                            }
+                          />
+                        );
+                      } else {
+                        return (
+                          <Transaction
+                            key={transaction._id}
+                            transaction={transaction}
+                          />
+                        );
+                      }
                     } else {
                       return (
                         <Transaction
@@ -650,15 +672,17 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       />
                     );
                   }
-                } else {
-                  return (
-                    <Transaction
-                      key={transaction._id}
-                      transaction={transaction}
-                    />
-                  );
-                }
-              })}
+                })}
+            </S.TransactionContainer>
+            <div style={{ paddingTop: '30px' }}>
+              <S.StyledPagination
+                themeStyle={themeStyle}
+                page={historyPage}
+                count={Math.ceil(totalTransactions / perPage)}
+                onChange={handlePagination}
+                siblingCount={matchesMobile ? 0 : 1}
+              />
+            </div>
           </S.TransactionHistory>
         )}
         {selectedTab === 'auction' && (
@@ -716,42 +740,38 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               ) : (
                 (auctionStatus === 'active-auction-bid-user' ||
                   auctionStatus === 'active-auction-no-bid-user') && (
-                  <>
-                    <S.BidsHistory>
-                      <S.PlaceBidsContainer>
-                        <S.FlexDiv width="60%">
-                          <img src={BidIcon} alt="" />
-                          <S.AmountInput
-                            name="amount-input"
-                            placeholder={`Place a bid higher than $${
-                              bids.length === 0
-                                ? product?.activeProductListings[0]?.minBid
-                                : bids[0].bidAmt
-                            }`}
-                            decimalsLimit={2}
-                            onChange={(e) => setBidAmount(e.target.value)}
-                            maxLength={10}
-                            step={10}
-                            defaultValue={0.0}
-                            allowNegativeValue={false}
-                            value={bidAmount}
-                          />
-                        </S.FlexDiv>
-                        <S.PlaceBidButton
-                          active={
-                            bidAmount !== '' && parseFloat(bidAmount) !== 0
-                          }
-                          onClick={handleBid}
-                        >
-                          Place Bid
-                        </S.PlaceBidButton>
-                      </S.PlaceBidsContainer>
-                      {bids instanceof Array &&
-                        bids.map((bid) => {
-                          return <Transaction key={bid._id} bid={bid} />;
-                        })}
-                    </S.BidsHistory>
-                  </>
+                  <S.BidsHistory>
+                    <S.PlaceBidsContainer>
+                      <S.FlexDiv width="60%">
+                        <img src={BidIcon} alt="" />
+                        <S.AmountInput
+                          name="amount-input"
+                          placeholder={`Place a bid higher than $${
+                            bids.length === 0
+                              ? product?.activeProductListings[0]?.minBid
+                              : bids[0].bidAmt
+                          }`}
+                          decimalsLimit={2}
+                          onChange={(e) => setBidAmount(e.target.value)}
+                          maxLength={10}
+                          step={10}
+                          defaultValue={0.0}
+                          allowNegativeValue={false}
+                          value={bidAmount}
+                        />
+                      </S.FlexDiv>
+                      <S.PlaceBidButton
+                        active={bidAmount !== '' && parseFloat(bidAmount) !== 0}
+                        onClick={handleBid}
+                      >
+                        Place Bid
+                      </S.PlaceBidButton>
+                    </S.PlaceBidsContainer>
+                    {bids instanceof Array &&
+                      bids.map((bid) => {
+                        return <Transaction key={bid._id} bid={bid} />;
+                      })}
+                  </S.BidsHistory>
                 )
               )}
               {auctionStatus !== 'upcoming-auction' &&
@@ -766,11 +786,12 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   >
                     <S.StyledPagination
                       themeStyle={themeStyle}
-                      page={page}
+                      page={auctionPage}
                       count={Math.ceil(totalBids / perPage)}
                       onChange={handlePagination}
                       siblingCount={matchesMobile ? 0 : 1}
                     />
+
                     {product?.activeProductListings.length !== 0 && (
                       <S.FlexDiv>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>

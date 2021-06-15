@@ -18,13 +18,21 @@ const Product = ({}) => {
   const [transactionHistory, setTransactionHistory] = useState<
     ITransaction[] | null
   >(null);
+  const [totalTransactions, setTotalTransactions] = useState<number>(1);
+  const [historyPage, setHistoryPage] = useState<number>(1);
+  const perPage = 5;
 
   async function fetchData() {
     const productRes = await getSingleProduct(productId);
-    const historyRes = await getProductTransactionHistory(productId);
+    const transactionRes = await getProductTransactionHistory(
+      productId,
+      historyPage,
+      perPage
+    );
 
     setProduct(productRes.data);
-    setTransactionHistory(historyRes.data);
+    setTransactionHistory(transactionRes.data);
+    setTotalTransactions(transactionRes.data.length);
   }
 
   useEffect(() => {
@@ -35,10 +43,17 @@ const Product = ({}) => {
     return <PageLoader />;
   }
 
+  console.log('history', transactionHistory);
   return (
     <S.Content>
       <ProductDetails product={product} />
-      <History product={product} transactionHistory={transactionHistory} />
+      <History
+        product={product}
+        transactionHistory={transactionHistory}
+        totalTransactions={totalTransactions}
+        historyPage={historyPage}
+        setHistoryPage={setHistoryPage}
+      />
     </S.Content>
   );
 };
