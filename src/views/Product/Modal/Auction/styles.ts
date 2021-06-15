@@ -67,6 +67,12 @@ export const SkuInfo = styled.div`
   padding-bottom: 24px;
 `;
 
+export const FlexDiv = styled.div<{ padding?: string }>`
+  display: flex;
+  align-items: center;
+  padding: ${(props) => props.padding};
+`;
+
 export const IssuerName = styled.p`
   font-size: 15px;
   color: #9e9e9e;
@@ -124,6 +130,7 @@ export const Bar = styled.p`
   margin: 0;
   font-size: 16px;
   color: #9e9e9e;
+  padding: 0 10px;
 `;
 
 export const InputContainer = styled.div`

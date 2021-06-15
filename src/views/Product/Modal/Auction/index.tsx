@@ -149,15 +149,17 @@ const AuctionModal = ({
       <S.SkuName>{product?.sku?.name}</S.SkuName>
 
       <S.DetailRow>
-        {!product?.sku?.redeemable && (
-          <S.ContainerSizeReedemable>
-            {/* <S.Size>Size 11</S.Size> */}
-            {/* <S.Bar>/</S.Bar> */}
-            <img src={redeemIcon2} alt="" width="15" />
-            <S.Redeemable>&nbsp;Reedemable</S.Redeemable>
-          </S.ContainerSizeReedemable>
-        )}
-        <S.SeriesName>{product?.sku?.series?.name}</S.SeriesName>
+        <S.FlexDiv padding="0px 10px 0px 0px">
+          <S.SeriesName>{product?.sku?.series?.name}</S.SeriesName>
+          {product?.sku?.redeemable && (
+            <S.ContainerSizeReedemable>
+              {/* <S.Size>Size 11</S.Size> */}
+              <S.Bar>/</S.Bar>
+              <img src={redeemIcon2} alt="" width="15" />
+              <S.Redeemable>&nbsp;Reedemable</S.Redeemable>
+            </S.ContainerSizeReedemable>
+          )}
+        </S.FlexDiv>
         {serialNum && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <S.SeriesName>Serial:</S.SeriesName>
