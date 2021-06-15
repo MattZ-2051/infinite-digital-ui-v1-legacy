@@ -2,21 +2,13 @@ import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export const S: any = {};
-
-S.CloseButton = styled.div`
+export const CloseButton = styled.div`
   position: absolute;
   top: 15px;
   right: 15px;
 `;
 
-S.CloseButton = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-`;
-
-S.ImageContainer = styled.div`
+export const ImageContainer = styled.div`
   margin: -20px -20px 0 -20px;
   position: relative;
   min-height: 154px;
@@ -32,7 +24,7 @@ S.ImageContainer = styled.div`
   }
 `;
 
-S.Header = styled.div`
+export const Header = styled.div`
   border-bottom: 1px solid #ebebeb;
   width: 100%;
   display: flex;
@@ -43,13 +35,13 @@ S.Header = styled.div`
   font-weight: 600;
 `;
 
-S.Title = styled.p`
+export const Title = styled.p`
   margin: 0;
   font-weight: 600;
   font-size: 20px;
 `;
 
-S.SubTitle = styled.p`
+export const SubTitle = styled.p`
   font-weight: 600;
   font-size: 14px;
   color: #12c95f;
@@ -58,32 +50,45 @@ S.SubTitle = styled.p`
   text-align: center;
 `;
 
-S.IssuerName = styled.p`
+export const IssuerName = styled.p`
   font-size: 15px;
   color: #9e9e9e;
   font-weight: 600;
 `;
 
-S.SerialNum = styled.p`
+export const SerialNum = styled.p`
   font-size: 15px;
   color: #9e9e9e;
   font-weight: 600;
   padding-top: 16px;
 `;
 
-S.Body = styled.div`
+export const Body = styled.div`
   padding: 20px;
   width: min-content;
 `;
 
-S.FlexRow = styled.div`
+export const Flex = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const SerialName = styled.p`
+  margin 0;
+  font-size: 16px;
+  color: #9e9e9e;
+  font-weight: 500;
+  padding-top: 16px;
+`;
+
+export const FlexRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
 
-S.Check = styled(Checkbox)`
+export const Check = styled(Checkbox)`
   .Mui-checked {
     color: black;
   }
@@ -95,21 +100,21 @@ S.Check = styled(Checkbox)`
   background: transparent;
 `;
 
-S.Center = styled.div`
+export const Center = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-S.SkuName = styled.p`
+export const SkuName = styled.p`
   margin: 0;
   font-size: 20px;
   font-weight: 600;
   width: 100%;
 `;
 
-S.SeriesName = styled.p`
+export const SeriesName = styled.p`
   margin: 0;
   font-size: 16px;
   font-weight: 600;
@@ -117,13 +122,13 @@ S.SeriesName = styled.p`
   padding-top: 16px;
 `;
 
-S.SkuInfo = styled.div`
+export const SkuInfo = styled.div`
   border-bottom: 1px solid #ebebeb;
   width: 100%;
   padding-bottom: 24px;
 `;
 
-S.PriceInfo = styled.p`
+export const PriceInfo = styled.p`
   font-size: 16px;
   color: #9e9e9e;
   margin: 0;
@@ -131,14 +136,14 @@ S.PriceInfo = styled.p`
   padding-top: 12px;
 `;
 
-S.Total = styled.p`
+export const Total = styled.p`
   margin: 0;
   font-size: 16px;
   font-weight: 600;
   padding-top: 18px;
 `;
 
-S.Text = styled.p`
+export const Text = styled.p`
   font-size: 16px;
   color: #7d7d7d;
   width: 304px;
@@ -146,7 +151,7 @@ S.Text = styled.p`
   padding-top: 12px;
 `;
 
-S.TermLink = styled.p`
+export const TermLink = styled.p`
   padding-top: 18px;
   margin: 0;
   font-size: 16px;
@@ -155,13 +160,13 @@ S.TermLink = styled.p`
   border-bottom: 1px solid black;
 `;
 
-S.Terms = styled.p`
+export const Terms = styled.p`
   padding-top: 18px;
   margin: 0;
   font-size: 16px;
 `;
 
-S.Button = styled.button`
+export const Button = styled.button`
   min-height: 56px;
   width: 330px;
   border: none;
@@ -178,7 +183,7 @@ S.Button = styled.button`
   }
 `;
 
-S.SubButton = styled.button`
+export const SubButton = styled.button`
   min-height: 56px;
   width: 330px;
   border: none;
@@ -195,6 +200,6 @@ S.SubButton = styled.button`
   }
 `;
 
-S.ContentIconTitle = styled.div`
+export const ContentIconTitle = styled.div`
   display: flex;
 `;

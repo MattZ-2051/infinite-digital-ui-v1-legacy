@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { S } from './styles';
+import * as S from './styles';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
@@ -15,8 +15,16 @@ import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { getUserInfoThunk } from 'store/session/sessionThunks';
+import { getMyTransactions } from 'services/api/userService';
+import { ITransaction } from 'entities/transaction';
 
-type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
+type Modes =
+  | 'completed'
+  | 'hasFunds'
+  | 'noFunds'
+  | 'processing'
+  | 'error'
+  | 'success';
 
 interface IModalProps {
   visible: boolean;
@@ -42,6 +50,10 @@ const SkuPageModal = ({
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
+  const [newProduct, setNewProduct] = useState<{
+    _id: string;
+    serialNumber: string;
+  }>({ _id: '', serialNumber: '' });
   const dispatch = useAppDispatch();
   const history = useHistory();
   const userBalance = useAppSelector(
@@ -51,6 +63,63 @@ const SkuPageModal = ({
   const royaltyFee = Math.round(
     (product?.activeSkuListings[0].price * product.royaltyFeePercentage) / 100
   );
+
+  const fetchTransactions = async () => {
+    const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
+      $or: [
+        {
+          type: {
+            $in: ['purchase', 'deposit'],
+          },
+          status: { $exists: true },
+        },
+        {
+          type: 'sale',
+        },
+        {
+          type: 'royalty_fee',
+        },
+      ],
+    });
+
+    const tx: ITransaction[] | false =
+      res.data instanceof Array &&
+      res.data.filter((tx) => {
+        if (tx?.transactionData?.sku[0]?._id === product?._id) {
+          return tx;
+        }
+      });
+
+    checkPendingStatus(tx, res);
+  };
+
+  const checkPendingStatus = (tx, res) => {
+    if (tx[0].status === 'pending' && tx[0].type === 'purchase') {
+      setTimeout(() => {
+        fetchTransactions();
+      }, 5000);
+    } else if (tx[0].status === 'success' && tx[0].type === 'purchase') {
+      setModalPaymentVisible(true);
+      setStatusMode('success');
+      const product = res.data[0]?.transactionData?.product[0];
+      setNewProduct(product);
+      Toast.success(
+        <>
+          Payment Successful, click
+          <a href={`/product/${product._id}`}> here </a> to view your product.
+        </>
+      );
+    } else if (tx[0].status === 'error' && tx[0].type === 'purchase') {
+      setModalPaymentVisible(true);
+      setStatusMode('error');
+      Toast.error(
+        <>
+          There was an error processing your purchase. Please try again, see the{' '}
+          <a href="/help">Help page</a> to learn more.
+        </>
+      );
+    }
+  };
 
   const buyAction = async () => {
     if (!checkTerms) {
@@ -67,6 +136,7 @@ const SkuPageModal = ({
         Toast.success(purchase.patchListingsPurchaseProcessing);
         dispatch(getUserInfoThunk({ token: userToken }));
         setLoading(false);
+        fetchTransactions();
       } else {
         setLoading(false);
         Toast.error(
@@ -155,47 +225,83 @@ const SkuPageModal = ({
               </S.SubTitle>
             </>
           )}
+          {statusMode === 'success' && (
+            <>
+              <S.Title>
+                <Emoji symbol="🤘" />
+                Yeah! Payment Successful.
+              </S.Title>
+            </>
+          )}
+          {statusMode === 'error' && (
+            <>
+              <S.Title>
+                <Emoji symbol="😬" />
+                Oops, something went wrong!
+              </S.Title>
+            </>
+          )}
         </S.Header>
-        <S.SkuInfo>
-          <S.FlexRow>
-            <S.IssuerName>{product.issuerName}</S.IssuerName>
-            <Rarity type={product.rarity} />
-          </S.FlexRow>
-          <S.SkuName>{product.name}</S.SkuName>
-          <S.FlexRow>
-            <S.SeriesName>{product?.series?.name}</S.SeriesName>
-            {serialNum && (
-              <div>
-                <S.SerialName>Serial</S.SerialName>
-                <S.SeriesName>{serialNum}</S.SeriesName>
-              </div>
-            )}
-          </S.FlexRow>
-        </S.SkuInfo>
-        <S.SkuInfo>
-          <S.FlexRow>
-            <S.PriceInfo>Seller Price:</S.PriceInfo>
-            <S.PriceInfo>
-              ${product?.activeSkuListings[0]?.price.toFixed(2)}
-            </S.PriceInfo>
-          </S.FlexRow>
-          <S.FlexRow>
-            <S.PriceInfo>{`Marketplace Fee (5%):`}</S.PriceInfo>
-            <S.PriceInfo>
-              ${(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(2)}
-            </S.PriceInfo>
-          </S.FlexRow>
-        </S.SkuInfo>
-        <S.FlexRow>
-          <S.Total>Total:</S.Total>
-          <S.Total>
-            $
-            {(
-              product?.activeSkuListings[0]?.price +
-              product?.activeSkuListings[0]?.price * (5 / 100)
-            ).toFixed(2)}
-          </S.Total>
-        </S.FlexRow>
+        {statusMode !== 'error' ? (
+          <S.SkuInfo>
+            <S.FlexRow>
+              <S.IssuerName>{product.issuerName}</S.IssuerName>
+              <Rarity type={product.rarity} />
+            </S.FlexRow>
+            <S.SkuName>{product.name}</S.SkuName>
+            <S.FlexRow>
+              <S.SeriesName>{product?.series?.name}</S.SeriesName>
+              {statusMode === 'success' && (
+                <S.Flex>
+                  <S.SerialName>Serial:</S.SerialName>
+                  <div style={{ paddingLeft: '5px' }}>
+                    <S.SeriesName>#{newProduct.serialNumber}</S.SeriesName>
+                  </div>
+                </S.Flex>
+              )}
+            </S.FlexRow>
+          </S.SkuInfo>
+        ) : (
+          <S.Center>
+            <S.Text>
+              There was an error processing your transaction. please try again
+              or contact support if the issues persists.
+            </S.Text>
+          </S.Center>
+        )}
+
+        {statusMode !== 'success' && statusMode !== 'error' && (
+          <>
+            <S.SkuInfo>
+              <S.FlexRow>
+                <S.PriceInfo>Seller Price:</S.PriceInfo>
+                <S.PriceInfo>
+                  ${product?.activeSkuListings[0]?.price.toFixed(2)}
+                </S.PriceInfo>
+              </S.FlexRow>
+              <S.FlexRow>
+                <S.PriceInfo>{`Marketplace Fee (5%):`}</S.PriceInfo>
+                <S.PriceInfo>
+                  $
+                  {(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(
+                    2
+                  )}
+                </S.PriceInfo>
+              </S.FlexRow>
+            </S.SkuInfo>
+            <S.FlexRow>
+              <S.Total>Total:</S.Total>
+              <S.Total>
+                $
+                {(
+                  product?.activeSkuListings[0]?.price +
+                  product?.activeSkuListings[0]?.price * (5 / 100)
+                ).toFixed(2)}
+              </S.Total>
+            </S.FlexRow>
+          </>
+        )}
+
         {statusMode === 'hasFunds' && (
           <S.Center
             style={{ justifyContent: 'flex-start', paddingTop: '20px' }}
@@ -224,6 +330,12 @@ const SkuPageModal = ({
           {statusMode === 'noFunds' && (
             <S.Text>You need more funds to make this purchase.</S.Text>
           )}
+          {statusMode === 'success' && (
+            <S.Text>
+              Your purchase was successful, and this item has been added to your
+              collection.
+            </S.Text>
+          )}
           {statusMode === 'processing' && <></>}
         </S.Center>
         {statusMode === 'hasFunds' && (
@@ -231,6 +343,21 @@ const SkuPageModal = ({
             <S.Button disabled={loading} onClick={handleActionButton}>
               Buy Now
             </S.Button>
+          </div>
+        )}
+        {statusMode === 'success' && (
+          <div style={{ paddingTop: '20px' }}>
+            <S.Button
+              disabled={loading}
+              onClick={() => history.push(`/product/${newProduct?._id}`)}
+            >
+              View Your Product
+            </S.Button>
+            <div style={{ paddingTop: '10px' }}>
+              <S.SubButton onClick={() => history.push('/marketplace')}>
+                Back to Marketplace
+              </S.SubButton>
+            </div>
           </div>
         )}
         {statusMode === 'noFunds' && (
@@ -242,6 +369,18 @@ const SkuPageModal = ({
             <div style={{ paddingTop: '10px' }}>
               <S.SubButton onClick={handleWalletRouteChange}>
                 View Pending Transactions
+              </S.SubButton>
+            </div>
+          </div>
+        )}
+        {statusMode === 'error' && (
+          <div style={{ paddingTop: '40px' }}>
+            <S.Button onClick={() => setModalPaymentVisible(false)}>
+              Try Again
+            </S.Button>
+            <div style={{ paddingTop: '10px' }}>
+              <S.SubButton onClick={() => history.push('/help')}>
+                Help / Contact Support
               </S.SubButton>
             </div>
           </div>
