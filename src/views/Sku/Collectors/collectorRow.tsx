@@ -56,9 +56,7 @@ const CollectorRow = ({
             />
           )}
         </S.Name>
-        <S.TransactionDescription>
-          {ownerName}
-        </S.TransactionDescription>
+        <S.TransactionDescription>{ownerName}</S.TransactionDescription>
       </S.TransactionDetail>
       <S.TransactionRow>
         <S.ContainerRow>

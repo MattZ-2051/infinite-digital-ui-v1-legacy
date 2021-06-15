@@ -2,6 +2,7 @@ import { Collector } from 'entities/collector';
 import { ProductWithFunctions } from 'entities/product';
 import { axiosInstance } from '../coreService';
 import { AxiosResponse } from 'axios';
+import { Bid } from 'entities/bid';
 
 export const getProducts = async (token: string) => {
   const response = await axiosInstance.request({
@@ -180,7 +181,7 @@ export const getMeBids = async (
     const rangeArray = contentRange.split('/');
     const total = Number(rangeArray[1]);
 
-    return { data, total };
+    return { data: data as Bid[], total: total as number };
   } catch (e) {
     return e.response;
   }

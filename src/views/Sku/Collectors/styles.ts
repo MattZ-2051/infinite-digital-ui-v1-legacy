@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import Pagination from '@material-ui/lab/Pagination';
 
 export const Container = styled.div`
   padding: 48px 48px 48px 48px;
@@ -133,7 +134,7 @@ export const Items = styled.div`
   padding-top: 24px;
   width: 100%;
   overflow: hidden;
-  height: 400px;
+  height: 700px;
   :hover {
     overflow: auto;
   }
@@ -151,4 +152,18 @@ export const NoOwners = styled.div`
   border-bottom: 1px solid #ebebeb;
   padding-bottom: 20px;
   width: 100%;
+`;
+
+export const CustomPagination = styled(Pagination)`
+  .MuiPaginationItem-root {
+    color: white;
+  }
+  .MuiPaginationItem-page.Mui-selected {
+    color: black !important;
+    background-color: white;
+  }
+`;
+
+export const PaginationContainer = styled.div`
+  margin-top: 40px;
 `;
