@@ -33,7 +33,7 @@ const RouterComponent = (): JSX.Element => {
       <Route exact path="/product/:productId" component={Product} />
       {/* Sku */}
       <Route exact path="/marketplace/:skuid" component={SkuDetail} />
-      <Route path="/marketplace/:skuid/collectors" component={Collectors} />
+      <Route path="/:skuid/collectors" component={Collectors} />
 
       {/* User */}
       <PrivateRoute exact path="/wallet" component={Wallet} />

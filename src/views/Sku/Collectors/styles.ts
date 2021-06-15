@@ -13,6 +13,10 @@ export const Container = styled.div`
   }
 `;
 
+export const BorderTop = styled.div`
+  border-top: 1px solid #2e2e2e;
+`;
+
 export const MainContent = styled.div`
   margin: auto;
   // max-width: 1440px;
@@ -60,7 +64,7 @@ export const MainContainerRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-content: center;
-  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #2e2e2e;
   padding: 10px 20px;
   margin-top: 30px;
   :hover {

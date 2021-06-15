@@ -209,9 +209,7 @@ const SkuDetail = (): JSX.Element => {
         <S.Section>
           <S.SectionTitle>
             Related Releases
-            <S.ViewAll to={`/collection/${sku?.issuer?.username}`}>
-              + View all
-            </S.ViewAll>
+            <S.ViewAll to={`/${sku?._id}/collectors`}>+ View all</S.ViewAll>
           </S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&

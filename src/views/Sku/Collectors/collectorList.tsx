@@ -21,19 +21,18 @@ const CollectorList = ({ collectors, hasProducts, redeemable }: IProps) => {
             to={'/product/' + collector._id}
             style={{ textDecoration: 'none' }}
           >
-            {
-              <CollectorRow
-                activeProductListing={collector.activeProductListing}
-                key={collector.serialNumber}
-                serialNumber={collector.serialNumber}
-                ownerName={collector.owner.username}
-                highestBid={collector.activeProductListing?.price}
-                endDate={collector.activeProductListing?.endDate}
-                upcomingProductListing={collector.upcomingProductListing}
-                redeemable={redeemable}
-                redeemedStatus={collector.redeemedStatus}
-              />
-            }
+            <S.BorderTop />
+            <CollectorRow
+              activeProductListing={collector.activeProductListing}
+              key={collector.serialNumber}
+              serialNumber={collector.serialNumber}
+              ownerName={collector.owner.username}
+              highestBid={collector.activeProductListing?.price}
+              endDate={collector.activeProductListing?.endDate}
+              upcomingProductListing={collector.upcomingProductListing}
+              redeemable={redeemable}
+              redeemedStatus={collector.redeemedStatus}
+            />
           </Link>
         ))}
     </S.Items>

@@ -37,11 +37,12 @@ const Collectors = () => {
   );
 
   useEffect(() => {
-    fetchSku().then((sku) => {
-      if (sku?.productListings?.[0]) {
-        fetchProduct(sku.productListings[0]._id);
-      }
-    });
+    fetchSku();
+    //.then((sku) => {
+    // if (sku?.productListings?.[0]) {
+    //   fetchProduct(sku.productListings[0]._id);
+    // }
+    //});
     fetchCollectors(valueCurrentPage);
   }, [skuid]);
 
@@ -66,18 +67,18 @@ const Collectors = () => {
       includeFunctions: true,
     });
     setSku(sku);
-    return sku;
+    // return sku;
   }
 
-  let redeemable = false;
-  if (isAuthenticated) {
-    if (
-      loggedInUser.id === product?.owner.id &&
-      product?.sku.redeemable === true
-    ) {
-      redeemable = true;
-    }
-  }
+  // let redeemable = false;
+  // if (isAuthenticated) {
+  //   if (
+  //     loggedInUser.id === product?.owner.id &&
+  //     product?.sku.redeemable === true
+  //   ) {
+  //     redeemable = true;
+  //   }
+  // }
 
   if (loading || !sku) return <PageLoader />;
 
@@ -87,7 +88,7 @@ const Collectors = () => {
         sku={sku}
         totalSupply={sku.totalSupply || 0}
         circulatingSupply={sku?.circulatingSupply || 0}
-        redeemable={redeemable}
+        redeemable={sku?.redeemable}
       />
       <S.Container>
         <S.Title>
@@ -107,8 +108,9 @@ const Collectors = () => {
         <CollectorList
           hasProducts={collectors.length !== 0}
           collectors={collectors}
-          redeemable={redeemable as boolean}
+          redeemable={sku?.redeemable}
         />
+        {/* <SearchBar/> */}
         <S.PaginationContainer>
           <S.CustomPagination
             count={Math.ceil(5 / PER_PAGE)}
