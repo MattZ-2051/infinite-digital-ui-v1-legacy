@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getProductCollectors } from 'services/api/productService';
 import { Collector } from 'entities/collector';
 import { useParams, useHistory } from 'react-router-dom';
@@ -12,23 +12,37 @@ import { ProductWithFunctions as ProductType } from 'entities/product';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import CollectorList from './collectorList';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+const PER_PAGE = 5;
+const CURRENT_PAGE = 1;
 
 const Collectors = () => {
   const { isAuthenticated } = useAuth0();
   const [product, setProduct] = useState<ProductType | null>(null);
   const [collectors, setCollectors] = useState<Collector[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const { skuid } = useParams<{ skuid: string }>();
   const [sku, setSku] = useState<Sku>();
   const loggedInUser = useAppSelector((state) => state.session.user);
 
-  console.log('sku', sku);
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
+
+  const changePageCallback = useCallback(
+    (ev, page) => {
+      setCurrentPage(page);
+    },
+    [setCurrentPage]
+  );
+
   useEffect(() => {
     fetchSku().then((sku) => {
       if (sku?.productListings?.[0]) {
         fetchProduct(sku.productListings[0]._id);
       }
     });
-    fetchCollectors();
+    fetchCollectors(valueCurrentPage);
   }, [skuid]);
 
   async function fetchProduct(prodId: string) {
@@ -36,9 +50,15 @@ const Collectors = () => {
     setProduct(productRes.data);
   }
 
-  async function fetchCollectors() {
-    const collectors = await getProductCollectors(skuid);
-    setCollectors(collectors);
+  async function fetchCollectors(page: number) {
+    try {
+      setLoading(true);
+      const collectors = await getProductCollectors(skuid, page, PER_PAGE);
+      setCollectors(collectors);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   }
 
   async function fetchSku() {
@@ -59,7 +79,7 @@ const Collectors = () => {
     }
   }
 
-  if (!sku) return <PageLoader />;
+  if (loading || !sku) return <PageLoader />;
 
   return (
     <S.MainContent>
@@ -79,7 +99,7 @@ const Collectors = () => {
             <S.TitleLink to={`/marketplace/${sku?._id}`}>
               {sku?.name}
             </S.TitleLink>{' '}
-            / #{product?.serialNumber}
+            / Collectors
           </div>
         </S.Title>
         <S.SectionTitle style={{ marginTop: 20 }}>Collectors</S.SectionTitle>
@@ -89,6 +109,15 @@ const Collectors = () => {
           collectors={collectors}
           redeemable={redeemable as boolean}
         />
+        <S.PaginationContainer>
+          <S.CustomPagination
+            count={Math.ceil(5 / PER_PAGE)}
+            page={valueCurrentPage}
+            onChange={changePageCallback}
+            siblingCount={matchesMobile ? 0 : 1}
+            style={{ color: 'white' }}
+          />
+        </S.PaginationContainer>
       </S.Container>
     </S.MainContent>
   );

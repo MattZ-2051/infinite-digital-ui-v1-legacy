@@ -68,7 +68,9 @@ const CollectorRow = ({
             >
               {auctionDetailMsg}
             </S.TransactionDescription>
-            <S.ArrowIcon style={{ fontSize: '12px', margin: '0 5px' }} />
+            {auctionDetailMsg !== 'Not for sale' ? (
+              <S.ArrowIcon style={{ fontSize: '12px', margin: '0 5px' }} />
+            ) : null}
             {activeProductListing &&
               activeProductListing?.saleType !== 'auction' && (
                 <>
@@ -83,7 +85,11 @@ const CollectorRow = ({
               )}
           </S.TranscriptionContainer>
           <S.TransactionDescription style={{ justifyContent: 'flex-end' }}>
-            Expires in {endDate && formatCountdown(new Date(endDate))}
+            {endDate ? (
+              <span>
+                Expires in {endDate && formatCountdown(new Date(endDate))}
+              </span>
+            ) : null}
           </S.TransactionDescription>
         </S.ContainerRow>
         <S.ArrowIcon style={{ marginLeft: '10px' }} className="redirect" />

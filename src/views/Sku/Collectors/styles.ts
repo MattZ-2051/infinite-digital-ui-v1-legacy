@@ -56,29 +56,13 @@ export const SectionTitle = styled.div`
   color: #ffffff;
 `;
 
-export const CollectorRowContainer = styled.div`
-  border-top: 1px solid #2e2e2e;
-  border-bottom: 1px solid #2e2e2e;
-  padding: 32px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  :hover {
-    border-bottom: 1px solid white;
-  }
-  :hover .username {
-    color: white;
-  }
-`;
-
 export const MainContainerRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-content: center;
   border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 20px 20px;
-  margin-top: 50px;
+  padding: 10px 20px;
+  margin-top: 30px;
   :hover {
     cursor: pointer;
   }
