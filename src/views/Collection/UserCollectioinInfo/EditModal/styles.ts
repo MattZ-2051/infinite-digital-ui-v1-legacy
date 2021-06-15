@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   positioin: absolute;
-  width: 410px;
+  width:100%;
   background-color: white;
   outline: none;
   border-radius: 10px
@@ -48,7 +48,7 @@ export const Input = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 330px;
+  width: 220px;
   height: 56px;
   font-size: 18px;
   font-weight: 600;
