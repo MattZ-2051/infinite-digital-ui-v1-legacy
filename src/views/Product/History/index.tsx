@@ -75,7 +75,7 @@ const History = ({
 
   const [bids, setBids] = useState<Bid[]>([]);
 
-  const [bidAmount, setBidAmount] = useState<string>('');
+  const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
@@ -135,7 +135,7 @@ const History = ({
           ? product.activeProductListings[0].minBid
           : bids[0].bidAmt;
 
-      if (isAuthenticated) {
+      if (isAuthenticated && bidAmount) {
         if (parseFloat(bidAmount) < minBid) {
           Toast.error(
             `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
@@ -753,16 +753,16 @@ const History = ({
                               : bids[0].bidAmt
                           }`}
                           decimalsLimit={2}
-                          onValueChange={(val) => val && setBidAmount(val)}
+                          onValueChange={(val) => setBidAmount(val)}
                           defaultValue={0.0}
                           maxLength={10}
                           allowNegativeValue={false}
-                          value={bidAmount}
+                          value={bidAmount ? bidAmount : ''}
                           step={10}
                         />
                       </S.FlexDiv>
                       <S.PlaceBidButton
-                        active={bidAmount !== '' && parseFloat(bidAmount) !== 0}
+                        active={!!bidAmount}
                         onClick={handleBid}
                       >
                         Place Bid
@@ -901,7 +901,7 @@ const History = ({
             modalType="auction"
           />
         )}
-      {product && selectedTab === 'auction' && isAuthenticated && (
+      {product && selectedTab === 'auction' && isAuthenticated && bidAmount && (
         <BidModal
           product={product}
           visible={isBidModalOpen}
