@@ -345,6 +345,7 @@ const History = ({
     fetchBids();
   }, [auctionPage]);
 
+  console.log('amount', bidAmount);
   if (historyStatus === '') return <></>;
   const filteredTransactions =
     transactionHistory &&
@@ -752,12 +753,12 @@ const History = ({
                               : bids[0].bidAmt
                           }`}
                           decimalsLimit={2}
-                          onChange={(e) => setBidAmount(e.target.value)}
-                          maxLength={10}
-                          step={10}
+                          onValueChange={(val) => val && setBidAmount(val)}
                           defaultValue={0.0}
+                          maxLength={10}
                           allowNegativeValue={false}
                           value={bidAmount}
+                          step={10}
                         />
                       </S.FlexDiv>
                       <S.PlaceBidButton

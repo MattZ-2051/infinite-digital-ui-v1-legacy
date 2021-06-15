@@ -10,6 +10,9 @@ import { ProductWithFunctions as ProductType } from 'entities/product';
 import ProductDetails from './ProductDetails';
 import PageLoader from 'components/PageLoader';
 import { ITransaction } from 'entities/transaction';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
+import { useAppDispatch } from 'store/hooks';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Product = ({}) => {
   const history = useHistory();
@@ -21,6 +24,8 @@ const Product = ({}) => {
   const [totalTransactions, setTotalTransactions] = useState<number>(1);
   const [historyPage, setHistoryPage] = useState<number>(1);
   const perPage = 5;
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const dispatch = useAppDispatch();
 
   async function fetchData() {
     const productRes = await getSingleProduct(productId);
@@ -36,6 +41,16 @@ const Product = ({}) => {
   }
 
   useEffect(() => {
+    async function updateUserBalance() {
+      if (isAuthenticated) {
+        dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
+      }
+    }
+
+    updateUserBalance();
+  }, [fetchData]);
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -43,7 +58,6 @@ const Product = ({}) => {
     return <PageLoader />;
   }
 
-  console.log('history', transactionHistory);
   return (
     <S.Content>
       <ProductDetails product={product} />
