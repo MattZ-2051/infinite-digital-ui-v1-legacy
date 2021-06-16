@@ -5,6 +5,8 @@ import { formatCountdown } from 'utils/dates';
 import usePriceFormatter from 'hooks/usePriceFormatter';
 import redeemableIcon from 'assets/svg/icons/redeemable-white-background.svg';
 import redeemableIcon_disabled from 'assets/svg/icons/redeemable-gray-background.svg';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export interface ItemProps {
   serialNumber: string;
@@ -38,23 +40,33 @@ const CollectorRow = ({
 
   const formattedPrice = usePriceFormatter(activeProductListing?.price);
   const formattedBid = usePriceFormatter(activeProductListing?.minBid);
+
+  const LightTooltip = withStyles((theme) => ({
+    arrow: {
+      color: theme.palette.common.white,
+    },
+    tooltip: {
+      backgroundColor: theme.palette.common.white,
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: theme.shadows[1],
+      fontSize: 11,
+    },
+  }))(Tooltip);
+
   return (
     <S.MainContainerRow>
       <S.TransactionDetail>
         <S.Name>
           #{serialNumber}
           &nbsp;
-          {redeemable && (
-            <img
-              src={
-                redeemedStatus === 'redeemed'
-                  ? redeemableIcon_disabled
-                  : redeemableIcon
-              }
-              alt="redeemable"
-              width="25"
-            />
-          )}
+          {redeemable &&
+            (redeemedStatus === 'redeemed' ? (
+              <img src={redeemableIcon_disabled} alt="redeemable" width="25" />
+            ) : (
+              <LightTooltip arrow title="Redeemeable" placement="top-start">
+                <img src={redeemableIcon} alt="redeemable" width="25" />
+              </LightTooltip>
+            ))}
         </S.Name>
         <S.TransactionDescription>{ownerName}</S.TransactionDescription>
       </S.TransactionDetail>
