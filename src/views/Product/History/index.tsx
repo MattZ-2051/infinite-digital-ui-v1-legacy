@@ -132,20 +132,18 @@ const History = ({
     if (product) {
       const minBid =
         bids.length === 0
-          ? product.activeProductListings[0].minBid
-          : bids[0].bidAmt;
+          ? product?.activeProductListings[0]?.minBid +
+            product?.activeProductListings[0]?.minBid *
+              (product?.resaleBuyersFeePercentage / 100)
+          : bids[0]?.bidAmt +
+            bids[0]?.bidAmt * (product?.resaleBuyersFeePercentage / 100);
 
       if (isAuthenticated && bidAmount) {
-        if (parseFloat(bidAmount) < minBid) {
+        if (parseFloat(bidAmount) <= minBid + bidIncrement - 0.01) {
           Toast.error(
             `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
           );
-        } else if (
-          parseFloat(bidAmount) <
-          minBid +
-            minBid * (product?.resaleBuyersFeePercentage / 100) +
-            bidIncrement
-        ) {
+        } else if (parseFloat(userBalance) <= parseFloat(bidAmount)) {
           Toast.error(
             <>
               Whoops, insufficient funds! Your available balance is $
@@ -155,12 +153,7 @@ const History = ({
               fees <a onClick={() => history.push('/helpage')}>learn more</a>
             </>
           );
-        } else if (
-          parseFloat(bidAmount) >
-          minBid +
-            minBid * (product?.resaleBuyersFeePercentage / 100) +
-            bidIncrement
-        ) {
+        } else if (parseFloat(bidAmount) >= minBid + bidIncrement) {
           setIsBidModalOpen(true);
         }
       } else {
@@ -345,7 +338,6 @@ const History = ({
     fetchBids();
   }, [auctionPage]);
 
-  console.log('amount', bidAmount);
   if (historyStatus === '') return <></>;
   const filteredTransactions =
     transactionHistory &&
@@ -749,8 +741,12 @@ const History = ({
                           name="amount-input"
                           placeholder={`Place a bid higher than $${
                             bids.length === 0
-                              ? product?.activeProductListings[0]?.minBid
-                              : bids[0].bidAmt
+                              ? product?.activeProductListings[0]?.minBid +
+                                product?.activeProductListings[0]?.minBid *
+                                  (product?.resaleBuyersFeePercentage / 100)
+                              : bids[0].bidAmt +
+                                bids[0].bidAmt *
+                                  (product?.resaleBuyersFeePercentage / 100)
                           }`}
                           decimalsLimit={2}
                           onValueChange={(val) => setBidAmount(val)}
