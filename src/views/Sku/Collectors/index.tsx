@@ -105,21 +105,23 @@ const Collectors = () => {
         </S.Title>
         <S.SectionTitle style={{ marginTop: 20 }}>Collectors</S.SectionTitle>
 
-        <CollectorList
-          hasProducts={collectors.length !== 0}
-          collectors={collectors}
-          redeemable={sku?.redeemable}
-        />
-        {/* <SearchBar/> */}
-        <S.PaginationContainer>
-          <S.CustomPagination
-            count={Math.ceil(5 / PER_PAGE)}
-            page={valueCurrentPage}
-            onChange={changePageCallback}
-            siblingCount={matchesMobile ? 0 : 1}
-            style={{ color: 'white' }}
+        <S.ContentListPagination>
+          <CollectorList
+            hasProducts={collectors.length !== 0}
+            collectors={collectors}
+            redeemable={sku?.redeemable}
           />
-        </S.PaginationContainer>
+          {/* <SearchBar/> */}
+          <S.PaginationContainer>
+            <S.CustomPagination
+              count={Math.ceil(5 / PER_PAGE)}
+              page={valueCurrentPage}
+              onChange={changePageCallback}
+              siblingCount={matchesMobile ? 0 : 1}
+              style={{ color: 'white' }}
+            />
+          </S.PaginationContainer>
+        </S.ContentListPagination>
       </S.Container>
     </S.MainContent>
   );

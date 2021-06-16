@@ -122,7 +122,7 @@ export const Items = styled.div`
   padding-top: 24px;
   width: 100%;
   overflow: hidden;
-  height: 700px;
+  height: 60%;
   :hover {
     overflow: auto;
   }
@@ -152,6 +152,13 @@ export const CustomPagination = styled(Pagination)`
   }
 `;
 
+export const ContentListPagination = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 export const PaginationContainer = styled.div`
-  margin-top: 40px;
+  /* margin-top: 40px; */
+  margin-bottom: 130px;
 `;
