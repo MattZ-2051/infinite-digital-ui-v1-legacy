@@ -44,28 +44,31 @@ export const getProductCollectors = async (
   skuId: string,
   page?: number,
   perPage?: number,
-  searchTerm?: string,
-  forSale?: boolean
-): Promise<Collector[]> => {
-  const params = [];
+  includeFunctions = true,
+  searchTerm?,
+  forSaleCheck?
+): Promise<any> => {
+  const params = { includeFunctions };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
-  // if (searchTerm) {
-  //   params['search'] = searchTerm
-  // }
-  // if (forSale) {
-  //   params['forSale'] = forSale
-  // }
-
-  const response = await axiosInstance.request<Collector[]>({
+  if (searchTerm) {
+    params['search'] = searchTerm;
+  }
+  if (forSaleCheck) {
+    params['forSale'] = forSaleCheck;
+  }
+  const response = await axiosInstance.request<any>({
     method: 'GET',
     url: `/products/collectors/${skuId}`,
     params,
   });
-
-  return response.data;
+  const { data, headers } = response;
+  const contentRange: string = headers['content-range'];
+  const rangeArray = contentRange.split('/');
+  const total = Number(rangeArray[1]);
+  return { data: data as Collector[], total: total as number };
 };
 
 export const getSingleProduct = async (
