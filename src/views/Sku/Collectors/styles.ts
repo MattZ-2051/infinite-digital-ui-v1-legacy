@@ -161,4 +161,12 @@ export const ContentListPagination = styled.div`
 export const PaginationContainer = styled.div`
   /* margin-top: 40px; */
   margin-bottom: 130px;
+
+  @media screen and (max-width: 960px) {
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+    margin-bottom: 0px;
+    margin-top: 30px;
+  }
 `;
