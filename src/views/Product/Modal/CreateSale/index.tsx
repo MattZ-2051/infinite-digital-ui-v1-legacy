@@ -150,7 +150,7 @@ const CreateSale = ({
         <S.Detail>
           <S.DetailRowPrice>
             <div>
-              <span>Marketplace fee (5%):</span>
+              <span>Marketplace fee ({fee}%):</span>
             </div>
             <div>
               <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>

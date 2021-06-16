@@ -10,6 +10,7 @@ import { useCountdown } from 'hooks/useCountdown';
 import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
+import * as Sentry from '@sentry/react';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -102,7 +103,12 @@ const FromCreatorBox = ({
     // TODO: Check this call with pablo
     onBuyNow();
     if (isAuthenticated) {
-      setIsModalOpen(true);
+      try {
+        setIsModalOpen(true);
+      } catch (err) {
+        Sentry.captureException(err);
+        return err.response;
+      }
     } else {
       Toast.warning(
         <>
