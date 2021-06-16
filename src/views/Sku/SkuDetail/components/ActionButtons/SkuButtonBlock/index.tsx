@@ -42,7 +42,6 @@ const UpcomingData = ({
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
 
-  console.log('supply type', supplyType);
   return (
     <>
       {' '}
@@ -94,7 +93,7 @@ const FromCreatorBox = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
