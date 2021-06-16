@@ -19,7 +19,6 @@ const CURRENT_PAGE = 1;
 
 const Collectors = () => {
   const { isAuthenticated } = useAuth0();
-  const [product, setProduct] = useState<ProductType | null>(null);
   const [collectors, setCollectors] = useState<{
     data: Collector[];
     total: number;
@@ -41,18 +40,8 @@ const Collectors = () => {
 
   useEffect(() => {
     fetchSku();
-    //.then((sku) => {
-    // if (sku?.productListings?.[0]) {
-    //   fetchProduct(sku.productListings[0]._id);
-    // }
-    //});
     fetchCollectors(valueCurrentPage);
   }, [skuid, valueCurrentPage]);
-
-  async function fetchProduct(prodId: string) {
-    const productRes = await getSingleProduct(prodId);
-    setProduct(productRes.data);
-  }
 
   async function fetchCollectors(page: number) {
     try {
@@ -66,18 +55,7 @@ const Collectors = () => {
       includeFunctions: true,
     });
     setSku(sku);
-    // return sku;
   }
-
-  // let redeemable = false;
-  // if (isAuthenticated) {
-  //   if (
-  //     loggedInUser.id === product?.owner.id &&
-  //     product?.sku.redeemable === true
-  //   ) {
-  //     redeemable = true;
-  //   }
-  // }
 
   if (loading || !sku) return <PageLoader />;
 
