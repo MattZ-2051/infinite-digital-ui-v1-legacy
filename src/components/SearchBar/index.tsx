@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import searchIcon from 'assets/svg/icons/search-icon.svg';
 import * as S from './styles';
 
 export interface IProps {
   placeholder?: string;
+  onSearch: (text: string) => any;
+  onChecked: (check: boolean) => any;
 }
 
-// const placeHolder = 'Search by brand, sneaker, model or handles...';
+const SearchBar = ({ placeholder, onSearch, onChecked }: IProps) => {
+  const [value, setValue] = useState<string>('');
+  useEffect(() => {
+    const timerId = setTimeout(() => onSearch(value));
+    return () => clearTimeout(timerId);
+  }, [value]);
 
-const SearchBar = ({ placeholder }: IProps) => {
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
   return (
     <SearchBarContainer>
       <img src={searchIcon} />
-      <SearchBarInput placeholder={placeholder} />
+      <SearchBarInput
+        placeholder={placeholder}
+        onChange={(ev) => setValue(ev.target.value)}
+        value={value}
+      />
       <S.ContainerCheckBox>
         <S.CustomCheckBox
           name="forSale"
           onChange={(e) => {
-            setForSaleCheck(e.target.checked);
+            onChecked(e.target.checked);
           }}
         />
         <S.Label>For sale</S.Label>

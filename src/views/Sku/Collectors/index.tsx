@@ -14,6 +14,7 @@ import { useAppSelector } from 'store/hooks';
 import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchBar from 'components/SearchBar';
+import { cancelablePromise } from 'utils/cancelablePromise';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
@@ -25,6 +26,8 @@ const Collectors = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { skuid } = useParams<{ skuid: string }>();
   const [sku, setSku] = useState<Sku>();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const matchesMobile = useMediaQuery('(max-width:1140px)');
@@ -39,12 +42,7 @@ const Collectors = () => {
 
   useEffect(() => {
     fetchSku();
-    //.then((sku) => {
-    // if (sku?.productListings?.[0]) {
-    //   fetchProduct(sku.productListings[0]._id);
-    // }
-    //});
-    fetchCollectors(valueCurrentPage);
+    fetchCollectors();
   }, [skuid]);
 
   async function fetchProduct(prodId: string) {
@@ -52,10 +50,14 @@ const Collectors = () => {
     setProduct(productRes.data);
   }
 
-  async function fetchCollectors(page: number) {
+  async function fetchCollectors() {
     try {
       setLoading(true);
-      const collectors = await getProductCollectors(skuid, page, PER_PAGE);
+      const collectors = await getProductCollectors(
+        skuid,
+        valueCurrentPage,
+        PER_PAGE
+      );
       setCollectors(collectors);
       setLoading(false);
     } catch (err) {
@@ -81,6 +83,30 @@ const Collectors = () => {
   //   }
   // }
 
+  useEffect(() => {
+    setLoading(true);
+    const cPr = cancelablePromise(
+      getProductCollectors(
+        skuid,
+        valueCurrentPage,
+        PER_PAGE,
+        searchTerm,
+        forSaleCheck
+      )
+    );
+    cPr.promise
+      .then((collectors) => {
+        setCollectors(collectors as Collector[]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+
+    return () => cPr.cancel();
+  }, [searchTerm]);
+
   if (loading || !sku) return <PageLoader />;
 
   return (
@@ -105,14 +131,18 @@ const Collectors = () => {
           </div>
         </S.Title>
         <S.SectionTitle>Collectors</S.SectionTitle>
-        <SearchBar placeholder={'*Select an owner to place a bid'} />
+        <SearchBar
+          onSearch={setSearchTerm}
+          onChecked={setForSaleCheck}
+          placeholder={'*Select an owner to place a bid'}
+        />
+
         <S.ContentListPagination>
           <CollectorList
             hasProducts={collectors.length !== 0}
             collectors={collectors}
             redeemable={sku?.redeemable}
           />
-          {/* <SearchBar/> */}
           <S.PaginationContainer>
             <S.CustomPagination
               count={Math.ceil(5 / PER_PAGE)}

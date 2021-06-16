@@ -43,13 +43,22 @@ export const getProductsOwnedByUser = async (
 export const getProductCollectors = async (
   skuId: string,
   page?: number,
-  perPage?: number
+  perPage?: number,
+  searchTerm?: string,
+  forSale?: boolean
 ): Promise<Collector[]> => {
   const params = [];
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
+  // if (searchTerm) {
+  //   params['search'] = searchTerm
+  // }
+  // if (forSale) {
+  //   params['forSale'] = forSale
+  // }
+
   const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
     url: `/products/collectors/${skuId}`,
