@@ -1,27 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getProductCollectors } from 'services/api/productService';
 import { Collector } from 'entities/collector';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Sku } from 'entities/sku';
 import { getSku } from 'services/api/sku';
 import PageLoader from 'components/PageLoader';
 import * as S from './styles';
 import ProductDetails from '../../Product/ProductDetails';
-import { getSingleProduct } from 'services/api/productService';
-import { ProductWithFunctions as ProductType } from 'entities/product';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useAppSelector } from 'store/hooks';
 import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchBar from 'components/SearchBar';
-import { cancelablePromise } from 'utils/cancelablePromise';
 import { useDebounce, useUpdateEffect } from 'react-use';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
 
 const Collectors = () => {
-  const { isAuthenticated } = useAuth0();
   const [collectors, setCollectors] = useState<{
     data: Collector[];
     total: number;
@@ -30,7 +25,6 @@ const Collectors = () => {
   const [sku, setSku] = useState<Sku>();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
-  const loggedInUser = useAppSelector((state) => state.session.user);
   const [debouncedValue, setDebouncedValue] = useState<string>('');
 
   const matchesMobile = useMediaQuery('(max-width:1140px)');
@@ -68,17 +62,7 @@ const Collectors = () => {
     setSku(sku);
   }
 
-  // let redeemable = false;
-  // if (isAuthenticated) {
-  //   if (
-  //     loggedInUser.id === product?.owner.id &&
-  //     product?.sku.redeemable === true
-  //   ) {
-  //     redeemable = true;
-  //   }
-  // }
-
-  const [, cancel] = useDebounce(
+  useDebounce(
     () => {
       setDebouncedValue(searchTerm);
     },
@@ -94,32 +78,8 @@ const Collectors = () => {
       true,
       debouncedValue,
       forSaleCheck
-    );
+    ).then((resp) => setCollectors(resp));
   }, [debouncedValue]);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const cPr = cancelablePromise(
-  //     getProductCollectors(
-  //       skuid,
-  //       valueCurrentPage,
-  //       PER_PAGE,
-  //       searchTerm,
-  //       forSaleCheck
-  //     )
-  //   );
-  //   cPr.promise
-  //     .then((collectors) => {
-  //       setCollectors(collectors as Collector[]);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       console.log(err);
-  //     });
-
-  //   return () => cPr.cancel();
-  // }, [searchTerm]);
 
   if (!sku) return <PageLoader />;
 
