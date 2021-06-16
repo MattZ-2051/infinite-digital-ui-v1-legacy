@@ -72,4 +72,4 @@ export const getSku = async <T extends boolean = false>(
 // We're using this SkuCallReturnType because the /skus endpoint returns
 // a "Sku" if includeFunctions is false
 // but a "SkuWithFunctions" if includeFunctions is true
-type SkuCallReturnType<T> = T extends true ? Sku : Sku;
+type SkuCallReturnType<T> = Sku;

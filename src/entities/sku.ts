@@ -26,7 +26,7 @@ export interface Sku {
   totalSupply: number;
   totalSupplyLeft: number;
   totalSkuSupplyLeft: number;
-  totalSupplyUpcoming: number;
+  totalUpcomingSupply: number;
   totalSkuListingSupplyLeft: number;
   totalSkuListingSupply?: number;
   countSkuListings: number;
