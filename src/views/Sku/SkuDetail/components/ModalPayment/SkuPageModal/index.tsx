@@ -158,8 +158,8 @@ const SkuPageModal = ({
         </S.Header>
         <S.SkuInfo>
           <S.FlexRow>
-            <S.IssuerName>{product.issuerName}</S.IssuerName>
-            <Rarity type={product.rarity} />
+            <S.IssuerName>{product?.issuerName}</S.IssuerName>
+            <Rarity type={product?.rarity} />
           </S.FlexRow>
           <S.SkuName>{product.name}</S.SkuName>
           <S.FlexRow>
