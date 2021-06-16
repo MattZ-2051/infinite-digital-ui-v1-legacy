@@ -16,7 +16,6 @@ const SearchBar = ({ placeholder, onSearch, onChecked }: IProps) => {
     return () => clearTimeout(timerId);
   }, [value]);
 
-  const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
   return (
     <SearchBarContainer>
       <img src={searchIcon} />

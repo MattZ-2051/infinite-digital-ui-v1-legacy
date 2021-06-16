@@ -15,6 +15,7 @@ import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchBar from 'components/SearchBar';
 import { cancelablePromise } from 'utils/cancelablePromise';
+import { useDebounce, useUpdateEffect } from 'react-use';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
@@ -29,6 +30,7 @@ const Collectors = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
+  const [debouncedValue, setDebouncedValue] = useState<string>('');
 
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
@@ -83,29 +85,47 @@ const Collectors = () => {
   //   }
   // }
 
-  useEffect(() => {
-    setLoading(true);
-    const cPr = cancelablePromise(
-      getProductCollectors(
-        skuid,
-        valueCurrentPage,
-        PER_PAGE,
-        searchTerm,
-        forSaleCheck
-      )
-    );
-    cPr.promise
-      .then((collectors) => {
-        setCollectors(collectors as Collector[]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+  const [, cancel] = useDebounce(
+    () => {
+      setDebouncedValue(searchTerm);
+    },
+    400,
+    [searchTerm]
+  );
 
-    return () => cPr.cancel();
-  }, [searchTerm]);
+  useUpdateEffect(() => {
+    getProductCollectors(
+      skuid,
+      valueCurrentPage,
+      PER_PAGE,
+      debouncedValue,
+      forSaleCheck
+    );
+  }, [debouncedValue]);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const cPr = cancelablePromise(
+  //     getProductCollectors(
+  //       skuid,
+  //       valueCurrentPage,
+  //       PER_PAGE,
+  //       searchTerm,
+  //       forSaleCheck
+  //     )
+  //   );
+  //   cPr.promise
+  //     .then((collectors) => {
+  //       setCollectors(collectors as Collector[]);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setLoading(false);
+  //       console.log(err);
+  //     });
+
+  //   return () => cPr.cancel();
+  // }, [searchTerm]);
 
   if (loading || !sku) return <PageLoader />;
 
