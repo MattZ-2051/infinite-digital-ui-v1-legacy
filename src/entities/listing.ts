@@ -1,10 +1,11 @@
+import { User } from './user';
 export interface Listing {
   _id: string;
   canceled: boolean;
   type: 'sku' | 'product';
   sku?: string;
   product?: string;
-  issuer: string;
+  issuer: User;
   price: number;
   saleType: 'auction' | 'fixed';
   supply: number;

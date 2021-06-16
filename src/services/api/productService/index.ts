@@ -2,6 +2,7 @@ import { Collector } from 'entities/collector';
 import { ProductWithFunctions } from 'entities/product';
 import { axiosInstance } from '../coreService';
 import { AxiosResponse } from 'axios';
+import { Bid } from 'entities/bid';
 
 export const getProducts = async (token: string) => {
   const response = await axiosInstance.request({
@@ -40,14 +41,26 @@ export const getProductsOwnedByUser = async (
 };
 
 export const getProductCollectors = async (
-  skuId: string
-): Promise<Collector[]> => {
-  const response = await axiosInstance.request<Collector[]>({
+  skuId: string,
+  page?: number,
+  perPage?: number,
+  includeFunctions = true
+): Promise<any> => {
+  const params = { includeFunctions };
+  if (page) {
+    params['page'] = page;
+    params['per_page'] = perPage;
+  }
+  const response = await axiosInstance.request<any>({
     method: 'GET',
     url: `/products/collectors/${skuId}`,
+    params,
   });
-
-  return response.data;
+  const { data, headers } = response;
+  const contentRange: string = headers['content-range'];
+  const rangeArray = contentRange.split('/');
+  const total = Number(rangeArray[1]);
+  return { data: data as Collector[], total: total as number };
 };
 
 export const getSingleProduct = async (
@@ -185,7 +198,7 @@ export const getMeBids = async (
     const rangeArray = contentRange.split('/');
     const total = Number(rangeArray[1]);
 
-    return { data, total };
+    return { data: data as Bid[], total: total as number };
   } catch (e) {
     return e.response;
   }

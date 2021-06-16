@@ -25,7 +25,10 @@ import notifyIcon from 'assets/svg/icons/notify-white.svg';
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const { skuid } = useParams<{ skuid: string }>();
-  const [collectors, setCollectors] = useState<Collector[]>([]);
+  const [collectors, setCollectors] = useState<{
+    data: Collector[];
+    total: number;
+  } | null>(null);
   const [sku, setSku] = useState<Sku>();
   const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
@@ -182,7 +185,7 @@ const SkuDetail = (): JSX.Element => {
 
               <S.ButtonsContainer>
                 <SkuButtonBlock
-                  collectors={collectors}
+                  collectors={collectors.data}
                   sku={sku}
                   user={loggedInUser}
                   onBuyNow={showModal}
@@ -199,8 +202,8 @@ const SkuDetail = (): JSX.Element => {
 
         {collectors && (
           <AuctionListing
-            collectors={collectors}
-            hasProducts={collectors.length !== 0}
+            collectors={collectors.data}
+            hasProducts={collectors.data.length !== 0}
           />
         )}
       </S.Section>
@@ -209,9 +212,7 @@ const SkuDetail = (): JSX.Element => {
         <S.Section>
           <S.SectionTitle>
             Related Releases
-            <S.ViewAll to={`/collection/${sku?.issuer?.username}`}>
-              + View all
-            </S.ViewAll>
+            <S.ViewAll to={`/${sku?._id}/collectors`}>+ View all</S.ViewAll>
           </S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&

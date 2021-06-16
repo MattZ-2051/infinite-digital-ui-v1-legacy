@@ -10,9 +10,9 @@ import { ProductWithFunctions as ProductType } from 'entities/product';
 import ProductDetails from './ProductDetails';
 import PageLoader from 'components/PageLoader';
 import { ITransaction } from 'entities/transaction';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
-import { useAppDispatch } from 'store/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 const Product = ({}) => {
   const history = useHistory();
@@ -26,6 +26,8 @@ const Product = ({}) => {
   const perPage = 5;
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useAppDispatch();
+
+  const loggedInUser = useAppSelector((state) => state.session.user);
 
   async function fetchData() {
     const productRes = await getSingleProduct(productId);
@@ -57,10 +59,23 @@ const Product = ({}) => {
   if (!product || !transactionHistory) {
     return <PageLoader />;
   }
-
+  let redeemable = false;
+  if (isAuthenticated) {
+    if (
+      loggedInUser.id === product.owner.id &&
+      product.sku.redeemable === true
+    ) {
+      redeemable = true;
+    }
+  }
   return (
     <S.Content>
-      <ProductDetails product={product} />
+      <ProductDetails
+        sku={product.sku}
+        totalSupply={product.totalSupply}
+        circulatingSupply={product.circulatingSupply || 0}
+        redeemable={redeemable}
+      />
       <History
         product={product}
         transactionHistory={transactionHistory}
