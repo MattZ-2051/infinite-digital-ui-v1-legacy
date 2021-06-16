@@ -49,7 +49,7 @@ const SkuPageModal = ({
   );
 
   const royaltyFee = Math.round(
-    (product?.activeSkuListings[0].price * product.royaltyFeePercentage) / 100
+    (product?.activeSkuListings[0].price * product?.royaltyFeePercentage) / 100
   );
 
   const buyAction = async () => {
@@ -98,7 +98,7 @@ const SkuPageModal = ({
     } else if (statusMode === 'hasFunds') {
       buyAction();
     } else if (statusMode === 'completed') {
-      history.push(`/product/${product._id}`);
+      history.push(`/product/${product?._id}`);
     }
   };
 
@@ -128,7 +128,7 @@ const SkuPageModal = ({
               <S.Title>Confirm your order:</S.Title>
               <S.SubTitle>
                 {' '}
-                Your current balance ${userBalance.toFixed(2)}
+                Your current balance ${userBalance?.toFixed(2)}
               </S.SubTitle>
             </>
           )}
@@ -139,7 +139,7 @@ const SkuPageModal = ({
                 <S.Title> Whoops, Insufficient funds!</S.Title>
               </S.ContentIconTitle>
               <S.SubTitle style={{ color: '#E74C3C' }}>
-                Your wallet balance is $ {userBalance.toFixed(2)}
+                Your wallet balance is $ {userBalance?.toFixed(2)}
               </S.SubTitle>
             </>
           )}
@@ -158,10 +158,10 @@ const SkuPageModal = ({
         </S.Header>
         <S.SkuInfo>
           <S.FlexRow>
-            <S.IssuerName>{product.issuerName}</S.IssuerName>
-            <Rarity type={product.rarity} />
+            <S.IssuerName>{product?.issuerName}</S.IssuerName>
+            <Rarity type={product?.rarity} />
           </S.FlexRow>
-          <S.SkuName>{product.name}</S.SkuName>
+          <S.SkuName>{product?.name}</S.SkuName>
           <S.FlexRow>
             <S.SeriesName>{product?.series?.name}</S.SeriesName>
             {serialNum && (
