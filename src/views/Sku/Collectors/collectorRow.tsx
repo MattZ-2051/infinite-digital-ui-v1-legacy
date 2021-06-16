@@ -47,9 +47,13 @@ const CollectorRow = ({
     },
     tooltip: {
       backgroundColor: theme.palette.common.white,
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: '#000000',
       boxShadow: theme.shadows[1],
-      fontSize: 11,
+      lineHeight: '18px',
+      fontSize: 14,
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 999,
     },
   }))(Tooltip);
 
@@ -63,7 +67,7 @@ const CollectorRow = ({
             (redeemedStatus === 'redeemed' ? (
               <img src={redeemableIcon_disabled} alt="redeemable" width="25" />
             ) : (
-              <LightTooltip arrow title="Redeemeable" placement="top-start">
+              <LightTooltip arrow title="Redeemeable" placement="top">
                 <img src={redeemableIcon} alt="redeemable" width="25" />
               </LightTooltip>
             ))}
