@@ -58,6 +58,8 @@ export const SectionTitle = styled.div`
   align-items: center;
   letter-spacing: -2px;
   color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 export const MainContainerRow = styled.div`

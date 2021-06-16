@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import SearchIcon from '@material-ui/icons/Search';
+import searchIcon from 'assets/svg/icons/search-icon.svg';
+import * as S from './styles';
 
-export interface IProps {}
+export interface IProps {
+  placeholder?: string;
+}
 
-const placeHolder = 'Search by brand, sneaker, model or handles...';
+// const placeHolder = 'Search by brand, sneaker, model or handles...';
 
-const SearchBar = () => {
+const SearchBar = ({ placeholder }: IProps) => {
+  const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
   return (
     <SearchBarContainer>
-      <SearchBarInput placeholder={placeHolder} />
-      <SearchIcon />
+      <img src={searchIcon} />
+      <SearchBarInput placeholder={placeholder} />
+      <S.ContainerCheckBox>
+        <S.CustomCheckBox
+          name="forSale"
+          onChange={(e) => {
+            setForSaleCheck(e.target.checked);
+          }}
+        />
+        <S.Label>For sale</S.Label>
+      </S.ContainerCheckBox>
     </SearchBarContainer>
   );
 };
 
 const SearchBarContainer = styled.div`
-  width: 410px;
+  width: 610px;
   height: 40px;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
   display: flex;
   align-items: center;
   padding: 9px 12px;
@@ -26,9 +39,12 @@ const SearchBarContainer = styled.div`
 
 const SearchBarInput = styled.input`
   width: 100%;
+  color: white;
   border: none;
-  background-color: #f4f4f4;
-  font-size: 14px;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 20px;
+  margin-left: 20px;
   &:focus {
     outline: none;
   }

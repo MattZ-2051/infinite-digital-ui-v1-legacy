@@ -13,6 +13,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import SearchBar from 'components/SearchBar';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
@@ -103,21 +104,20 @@ const Collectors = () => {
             / Collectors
           </div>
         </S.Title>
-        <S.SectionTitle style={{ marginTop: 20 }}>Collectors</S.SectionTitle>
+        <S.SectionTitle>Collectors</S.SectionTitle>
 
+        <SearchBar placeholder={'*Select an owner to place a bid'} />
         <CollectorList
           hasProducts={collectors.length !== 0}
           collectors={collectors}
           redeemable={sku?.redeemable}
         />
-        {/* <SearchBar/> */}
         <S.PaginationContainer>
           <S.CustomPagination
             count={Math.ceil(5 / PER_PAGE)}
             page={valueCurrentPage}
             onChange={changePageCallback}
             siblingCount={matchesMobile ? 0 : 1}
-            style={{ color: 'white' }}
           />
         </S.PaginationContainer>
       </S.Container>
