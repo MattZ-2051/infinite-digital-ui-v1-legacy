@@ -20,7 +20,10 @@ const CURRENT_PAGE = 1;
 const Collectors = () => {
   const { isAuthenticated } = useAuth0();
   const [product, setProduct] = useState<ProductType | null>(null);
-  const [collectors, setCollectors] = useState<Collector[]>([]);
+  const [collectors, setCollectors] = useState<{
+    data: Collector[];
+    total: number;
+  } | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { skuid } = useParams<{ skuid: string }>();
   const [sku, setSku] = useState<Sku>();
@@ -44,7 +47,7 @@ const Collectors = () => {
     // }
     //});
     fetchCollectors(valueCurrentPage);
-  }, [skuid]);
+  }, [skuid, valueCurrentPage]);
 
   async function fetchProduct(prodId: string) {
     const productRes = await getSingleProduct(prodId);
@@ -53,13 +56,9 @@ const Collectors = () => {
 
   async function fetchCollectors(page: number) {
     try {
-      setLoading(true);
       const collectors = await getProductCollectors(skuid, page, PER_PAGE);
       setCollectors(collectors);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-    }
+    } catch (err) {}
   }
 
   async function fetchSku() {
@@ -105,23 +104,24 @@ const Collectors = () => {
         </S.Title>
         <S.SectionTitle style={{ marginTop: 20 }}>Collectors</S.SectionTitle>
 
-        <S.ContentListPagination>
-          <CollectorList
-            hasProducts={collectors.length !== 0}
-            collectors={collectors}
-            redeemable={sku?.redeemable}
-          />
-          {/* <SearchBar/> */}
-          <S.PaginationContainer>
-            <S.CustomPagination
-              count={Math.ceil(5 / PER_PAGE)}
-              page={valueCurrentPage}
-              onChange={changePageCallback}
-              siblingCount={matchesMobile ? 0 : 1}
-              style={{ color: 'white' }}
+        {collectors && (
+          <S.ContentListPagination>
+            <CollectorList
+              hasProducts={collectors.data.length !== 0}
+              collectors={collectors.data}
+              redeemable={sku?.redeemable}
             />
-          </S.PaginationContainer>
-        </S.ContentListPagination>
+            <S.PaginationContainer>
+              <S.CustomPagination
+                count={Math.ceil(collectors?.total / PER_PAGE)}
+                page={valueCurrentPage}
+                onChange={changePageCallback}
+                siblingCount={matchesMobile ? 0 : 1}
+                style={{ color: 'white' }}
+              />
+            </S.PaginationContainer>
+          </S.ContentListPagination>
+        )}
       </S.Container>
     </S.MainContent>
   );
