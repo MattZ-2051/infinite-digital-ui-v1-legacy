@@ -12,7 +12,7 @@ export interface IProps {
 const SearchBar = ({ placeholder, onSearch, onChecked }: IProps) => {
   const [value, setValue] = useState<string>('');
   useEffect(() => {
-    const timerId = setTimeout(() => onSearch(value));
+    const timerId = setTimeout(() => onSearch(value), 400);
     return () => clearTimeout(timerId);
   }, [value]);
 

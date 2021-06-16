@@ -1,4 +1,4 @@
-export function cancelablePromise(prom) {
+export function cancelablePromise(prom: any): any {
   const obj = {
     promise: new Promise((resolve, reject) => {
       prom.then(

@@ -47,7 +47,7 @@ export const getProductCollectors = async (
   includeFunctions = true,
   searchTerm?,
   forSaleCheck?
-): Promise<any> => {
+): Promise<{ data: Collector[]; total: number }> => {
   const params = { includeFunctions };
   if (page) {
     params['page'] = page;
@@ -59,7 +59,7 @@ export const getProductCollectors = async (
   if (forSaleCheck) {
     params['forSale'] = forSaleCheck;
   }
-  const response = await axiosInstance.request<any>({
+  const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
     url: `/products/collectors/${skuId}`,
     params,
@@ -68,7 +68,7 @@ export const getProductCollectors = async (
   const contentRange: string = headers['content-range'];
   const rangeArray = contentRange.split('/');
   const total = Number(rangeArray[1]);
-  return { data: data as Collector[], total: total as number };
+  return { data, total };
 };
 
 export const getSingleProduct = async (

@@ -7,11 +7,10 @@ import { getSku } from 'services/api/sku';
 import PageLoader from 'components/PageLoader';
 import * as S from './styles';
 import ProductDetails from '../../Product/ProductDetails';
-import { useAuth0 } from '@auth0/auth0-react';
 import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchBar from 'components/SearchBar';
-import { useDebounce, useUpdateEffect } from 'react-use';
+import { cancelablePromise } from 'utils/cancelablePromise';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
@@ -25,8 +24,6 @@ const Collectors = () => {
   const [sku, setSku] = useState<Sku>();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
-  const [debouncedValue, setDebouncedValue] = useState<string>('');
-
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
 
@@ -39,17 +36,18 @@ const Collectors = () => {
 
   useEffect(() => {
     fetchSku();
-    fetchCollectors();
-  }, [skuid, valueCurrentPage]);
+  }, [skuid]);
 
   async function fetchCollectors() {
     try {
-      const collectors = await getProductCollectors(
+      return await getProductCollectors(
         skuid,
         valueCurrentPage,
-        PER_PAGE
+        PER_PAGE,
+        true,
+        searchTerm,
+        forSaleCheck
       );
-      setCollectors(collectors);
     } catch (err) {
       console.log(err);
     }
@@ -62,24 +60,15 @@ const Collectors = () => {
     setSku(sku);
   }
 
-  useDebounce(
-    () => {
-      setDebouncedValue(searchTerm);
-    },
-    400,
-    [searchTerm]
-  );
-
-  useUpdateEffect(() => {
-    getProductCollectors(
-      skuid,
-      valueCurrentPage,
-      PER_PAGE,
-      true,
-      debouncedValue,
-      forSaleCheck
-    ).then((resp) => setCollectors(resp));
-  }, [debouncedValue]);
+  useEffect(() => {
+    const cPr = cancelablePromise(fetchCollectors());
+    cPr.promise.then((resp) => {
+      setCollectors(resp as { data: Collector[]; total: number });
+    });
+    return () => {
+      cPr && cPr.cancel();
+    };
+  }, [skuid, searchTerm, forSaleCheck, valueCurrentPage]);
 
   if (!sku) return <PageLoader />;
 
