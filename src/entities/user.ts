@@ -20,4 +20,6 @@ export interface User {
   tagline: string;
   transactions?: ITransaction[];
   errorMessage?: string;
+  auctionBidIncrement?: string;
+  initialBuyersFeePercentage?: string;
 }

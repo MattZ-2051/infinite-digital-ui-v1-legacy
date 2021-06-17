@@ -59,6 +59,9 @@ const SkuPageModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  const initialBuyersFeePercentage = parseFloat(
+    useAppSelector((state) => state.session?.user?.initialBuyersFeePercentage)
+  );
 
   const royaltyFee = Math.round(
     (product?.activeSkuListings[0].price * product.royaltyFeePercentage) / 100
