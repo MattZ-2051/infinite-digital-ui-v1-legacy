@@ -61,7 +61,7 @@ const SkuPageModal = ({
   );
 
   const royaltyFee = Math.round(
-    (product?.activeSkuListings[0].price * product.royaltyFeePercentage) / 100
+    (product?.activeSkuListings[0]?.price * product?.royaltyFeePercentage) / 100
   );
 
   const fetchTransactions = async () => {

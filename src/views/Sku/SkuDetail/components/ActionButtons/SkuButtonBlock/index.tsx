@@ -211,53 +211,53 @@ const SkuButtonBlock = ({
     (skuListing) => skuListing.canceled
   );
 
-  if (!numSkuListings || sku.totalSkuSupplyLeft === 0) {
-    return <></>; // Returning empty for now
-    // need to remove this return after MVP
-    // This scenario is for the direct product listing (post-MVP)
+  // if (!numSkuListings || sku.totalSkuSupplyLeft === 0) {
+  //   return <></>; // Returning empty for now
+  //   // need to remove this return after MVP
+  //   // This scenario is for the direct product listing (post-MVP)
 
-    // this is STATE 0 = 1 product listing only = no sku listings
-    const upcomingProductListings = collectors.filter(
-      (collector) => collector.upcomingProductListing
-    );
-    if (upcomingProductListings.length > 0) {
-      const upcomingProductListing =
-        upcomingProductListings[0].upcomingProductListing;
-      if (upcomingProductListing?.saleType === 'fixed') {
-        // Price attribute: upcomingProductListing.price
-        return <> return countdown timer for upcoming </>;
-      } else if (upcomingProductListing?.saleType === 'auction') {
-        // Price attribute: upcomingProductListing.minBid
-        return <> auction scenario - return countdown timer</>;
-      }
-    }
-    const activeProductListings = collectors.filter(
-      (collector) => collector.activeProductListing
-    );
-    if (activeProductListings.length > 0) {
-      const activeProductListing =
-        activeProductListings[0].activeProductListing;
-      return <> {activeProductListing?.price} </>;
-    }
-    if (
-      upcomingProductListings.length === 0 &&
-      activeProductListings.length === 0
-    ) {
-      // This is a product listing
-      return (
-        <>
-          <FromCreatorBox
-            sku={sku}
-            listing={undefined}
-            user={user}
-            onBuyNow={onBuyNow}
-            buttonDisabled={true}
-            buttonLabel="Not for sale"
-          />
-        </>
-      );
-    }
-  }
+  //   // this is STATE 0 = 1 product listing only = no sku listings
+  //   const upcomingProductListings = collectors.filter(
+  //     (collector) => collector.upcomingProductListing
+  //   );
+  //   if (upcomingProductListings.length > 0) {
+  //     const upcomingProductListing =
+  //       upcomingProductListings[0].upcomingProductListing;
+  //     if (upcomingProductListing?.saleType === 'fixed') {
+  //       // Price attribute: upcomingProductListing.price
+  //       return <> return countdown timer for upcoming </>;
+  //     } else if (upcomingProductListing?.saleType === 'auction') {
+  //       // Price attribute: upcomingProductListing.minBid
+  //       return <> auction scenario - return countdown timer</>;
+  //     }
+  //   }
+  //   const activeProductListings = collectors.filter(
+  //     (collector) => collector.activeProductListing
+  //   );
+  //   if (activeProductListings.length > 0) {
+  //     const activeProductListing =
+  //       activeProductListings[0].activeProductListing;
+  //     return <> {activeProductListing?.price} </>;
+  //   }
+  //   if (
+  //     upcomingProductListings.length === 0 &&
+  //     activeProductListings.length === 0
+  //   ) {
+  //     // This is a product listing
+  //     return (
+  //       <>
+  //         <FromCreatorBox
+  //           sku={sku}
+  //           listing={undefined}
+  //           user={user}
+  //           onBuyNow={onBuyNow}
+  //           buttonDisabled={true}
+  //           buttonLabel="Not for sale"
+  //         />
+  //       </>
+  //     );
+  //   }
+  // }
 
   /**
    * Upcoming sku listings
@@ -327,9 +327,9 @@ const SkuButtonBlock = ({
   /**
    * Not for sale
    */
-  if (sku.totalSkuSupplyLeft < 1 && numSkuListings) {
+  if (sku.totalSkuListingSupplyLeft === 0 && !!numSkuListings) {
     const expiredListings = sku.skuListings.filter(
-      (skuListing) => skuListing.status === 'expired'
+      (skuListing) => skuListing.status === 'sold'
     );
     const expiredListing = expiredListings[0];
     const skuPrice = expiredListing?.price;
