@@ -286,9 +286,10 @@ const SkuPageModal = ({
                 <S.PriceInfo>{`Marketplace Fee (${initialBuyersFeePercentage}):`}</S.PriceInfo>
                 <S.PriceInfo>
                   $
-                  {(product?.activeSkuListings[0]?.price * (initialBuyersFeePercentage / 100)).toFixed(
-                    2
-                  )}
+                  {(
+                    product?.activeSkuListings[0]?.price *
+                    (initialBuyersFeePercentage / 100)
+                  ).toFixed(2)}
                 </S.PriceInfo>
               </S.FlexRow>
             </S.SkuInfo>
@@ -298,7 +299,8 @@ const SkuPageModal = ({
                 $
                 {(
                   product?.activeSkuListings[0]?.price +
-                  product?.activeSkuListings[0]?.price * (initialBuyersFeePercentage / 100)
+                  product?.activeSkuListings[0]?.price *
+                    (initialBuyersFeePercentage / 100)
                 ).toFixed(2)}
               </S.Total>
             </S.FlexRow>
