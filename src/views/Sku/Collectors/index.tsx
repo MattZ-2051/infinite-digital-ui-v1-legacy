@@ -24,6 +24,7 @@ const Collectors = () => {
   const [sku, setSku] = useState<Sku>();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
+  const [sortBySerialAsc, setSortBySerialAsc] = useState<boolean>(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
 
@@ -46,7 +47,8 @@ const Collectors = () => {
         PER_PAGE,
         true,
         searchTerm,
-        forSaleCheck
+        forSaleCheck,
+        sortBySerialAsc
       );
     } catch (err) {
       console.log(err);
@@ -68,7 +70,7 @@ const Collectors = () => {
     return () => {
       cPr && cPr.cancel();
     };
-  }, [skuid, searchTerm, forSaleCheck, valueCurrentPage]);
+  }, [skuid, searchTerm, forSaleCheck, valueCurrentPage, sortBySerialAsc]);
 
   if (!sku) return <PageLoader />;
 
@@ -97,6 +99,8 @@ const Collectors = () => {
         <SearchBar
           onSearch={setSearchTerm}
           onChecked={setForSaleCheck}
+          onSort={setSortBySerialAsc}
+          sortAsc={sortBySerialAsc}
           placeholder={'*Select an owner to place a bid'}
         />
 

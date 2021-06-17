@@ -46,7 +46,8 @@ export const getProductCollectors = async (
   perPage?: number,
   includeFunctions = true,
   searchTerm?,
-  forSaleCheck?
+  forSaleCheck?,
+  sortBySerialAsc = true
 ): Promise<{ data: Collector[]; total: number }> => {
   const params = { includeFunctions };
   if (page) {
@@ -59,9 +60,11 @@ export const getProductCollectors = async (
   if (forSaleCheck) {
     params['forSale'] = forSaleCheck;
   }
+  const sortBy = `sortBy=serialNumber:${sortBySerialAsc ? 'asc' : 'desc'}`;
+
   const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
-    url: `/products/collectors/${skuId}`,
+    url: `/products/collectors/${skuId}?${sortBy}`,
     params,
   });
   const { data, headers } = response;

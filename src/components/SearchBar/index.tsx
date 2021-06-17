@@ -6,24 +6,35 @@ import * as S from './styles';
 export interface IProps {
   placeholder?: string;
   onSearch: (text: string) => any;
-  onChecked: (check: boolean) => any;
+  onChecked: (check: boolean) => void;
+  onSort: (value) => any;
+  sortAsc: boolean;
 }
 
-const SearchBar = ({ placeholder, onSearch, onChecked }: IProps) => {
+const SearchBar = ({
+  placeholder,
+  onSearch,
+  onChecked,
+  onSort,
+  sortAsc,
+}: IProps) => {
   const [value, setValue] = useState<string>('');
+
   useEffect(() => {
     const timerId = setTimeout(() => onSearch(value), 400);
     return () => clearTimeout(timerId);
   }, [value]);
 
   return (
-    <SearchBarContainer>
-      <img src={searchIcon} />
-      <SearchBarInput
-        placeholder={placeholder}
-        onChange={(ev) => setValue(ev.target.value)}
-        value={value}
-      />
+    <S.SearchBarContainer>
+      <S.ContainerInputImg>
+        <img src={searchIcon} />
+        <S.SearchBarInput
+          placeholder={placeholder}
+          onChange={(ev) => setValue(ev.target.value)}
+          value={value}
+        />
+      </S.ContainerInputImg>
       <S.ContainerCheckBox>
         <S.CustomCheckBox
           name="forSale"
@@ -33,30 +44,15 @@ const SearchBar = ({ placeholder, onSearch, onChecked }: IProps) => {
         />
         <S.Label>For sale</S.Label>
       </S.ContainerCheckBox>
-    </SearchBarContainer>
+      <S.ContainerSort>Sort by: &nbsp;</S.ContainerSort>{' '}
+      <S.SerialLabel>Serial</S.SerialLabel>
+      {sortAsc ? (
+        <S.ArrowUp onClick={() => onSort(!sortAsc)} className="arrow" />
+      ) : (
+        <S.ArrowDown onClick={() => onSort(!sortAsc)} className="arrow" />
+      )}
+    </S.SearchBarContainer>
   );
 };
-
-const SearchBarContainer = styled.div`
-  width: 610px;
-  height: 40px;
-  /* background-color: #f4f4f4; */
-  display: flex;
-  align-items: center;
-  padding: 9px 12px;
-`;
-
-const SearchBarInput = styled.input`
-  width: 100%;
-  color: white;
-  border: none;
-  background-color: transparent;
-  font-size: 16px;
-  line-height: 20px;
-  margin-left: 20px;
-  &:focus {
-    outline: none;
-  }
-`;
 
 export default SearchBar;
