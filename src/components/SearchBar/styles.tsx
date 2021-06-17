@@ -5,10 +5,10 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export const SearchBarContainer = styled.div`
-  height: 40px;
-  display: flex;
+  /* height: 40px; */
+  /* display: flex;
   align-items: center;
-  padding: 9px 12px;
+  padding: 9px 12px; */
 `;
 
 export const SearchBarInput = styled.input`
@@ -26,7 +26,8 @@ export const SearchBarInput = styled.input`
 
 export const ContainerInputImg = styled.div`
   display: flex;
-  flex: 2;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ContainerSort = styled.span`
@@ -68,7 +69,7 @@ export const ContainerCheckBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  /* flex: 1; */
 `;
 
 export const Label = styled.div`
