@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
@@ -153,13 +154,15 @@ const FromCreatorBox = ({
 interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
-  totalSupply?: number;
+  skuId: string;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
+  skuId,
 }: IFromCollectorsBox): JSX.Element => {
+  const history = useHistory();
   return (
     <S.Container>
       <S.BoxColumn>
@@ -168,9 +171,9 @@ const FromCollectorsBox = ({
           Lowest Listing Price
         </small>
       </S.BoxColumn>
-      <S.BoxColumn>
+      <S.BoxColumn style={{ textAlign: 'center' }}>
         <span style={{ fontSize: '28px' }}>
-          {!!countProductListings ? minimunPrice : '--'}
+          {!!countProductListings ? `$${minimunPrice}` : '--'}
         </span>
         <small style={{ fontSize: '15px' }}>
           {!!countProductListings
@@ -179,7 +182,9 @@ const FromCollectorsBox = ({
         </small>
       </S.BoxColumn>
       <div>
-        <S.Button>See All</S.Button>
+        <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
+          See All
+        </S.Button>
       </div>
     </S.Container>
   );
@@ -315,11 +320,11 @@ const SkuButtonBlock = ({
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
         />
-        {/* <FromCollectorsBox
-          minimunPrice={2}
-          totalSupply={20}
-          countProductListings={10}
-        /> */}
+        <FromCollectorsBox
+          minimunPrice={sku?.minPrice}
+          countProductListings={sku.countProductListings}
+          skuId={sku._id}
+        />
       </>
     );
   }
@@ -343,6 +348,11 @@ const SkuButtonBlock = ({
           onBuyNow={onBuyNow}
           buttonDisabled={true}
           buttonLabel="Sold Out"
+        />
+        <FromCollectorsBox
+          minimunPrice={sku?.minPrice}
+          countProductListings={sku.countProductListings}
+          skuId={sku._id}
         />
       </>
     );

@@ -88,8 +88,9 @@ const History = ({
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
-  const bidIncrement = 1;
-
+  const bidIncrement = useAppSelector(
+    (state) => state.session?.user?.auctionBidIncrement
+  );
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {

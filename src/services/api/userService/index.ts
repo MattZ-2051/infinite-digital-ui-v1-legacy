@@ -25,7 +25,10 @@ export const getMe = async (token: string): Promise<User> => {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return response.data;
+  return {
+    ...response.data,
+    auctionBidIncrement: response.headers['auction-bid-increment'],
+  };
 };
 
 export const getMyTransactions = async (
