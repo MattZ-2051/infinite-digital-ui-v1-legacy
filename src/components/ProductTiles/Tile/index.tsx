@@ -111,11 +111,11 @@ const Tile = ({
             )}
             {status === 'no-sale' && !unique && (
               <BottomCardText themeStyle={themeStyle}>
-                {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
+                 {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.totalSupply} Released`
                   : `${sku.totalSupply} of ${sku.totalSupply} ${
-                    sku.activeSkuListings?.length == 0 ? '' : 'for sale'
-                  }`}
+                      sku.activeSkuListings?.length == 0 ? '' : 'for sale'
+                    }`}
               </BottomCardText>
             )}
             {/* TODO DRY */}
