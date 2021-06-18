@@ -42,18 +42,15 @@ const Product = ({}) => {
     setTotalTransactions(transactionRes.data.length);
   }
 
-  useEffect(() => {
-    async function updateUserBalance() {
-      if (isAuthenticated) {
-        dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
-      }
+  async function updateUserBalance() {
+    if (isAuthenticated) {
+      dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
     }
-
-    updateUserBalance();
-  }, [fetchData]);
+  }
 
   useEffect(() => {
     fetchData();
+    updateUserBalance();
   }, []);
 
   if (!product || !transactionHistory) {
