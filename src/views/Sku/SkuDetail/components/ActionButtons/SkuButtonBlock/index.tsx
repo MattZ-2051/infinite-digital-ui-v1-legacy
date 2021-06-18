@@ -59,7 +59,7 @@ const UpcomingData = ({
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'right' }}>
           <span style={{ fontSize: '28px' }}>{countdown}</span>
-          <small style={{ fontSize: '14px', color: '#8E8E8E' }}>
+          <small style={{ fontSize: '18px', color: '#8E8E8E' }}>
             {formatDate(startDate)}
           </small>
         </S.BoxColumn>
