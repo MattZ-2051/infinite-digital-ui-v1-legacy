@@ -129,47 +129,66 @@ const History = ({
   };
 
   const handleBid = () => {
-    if (product) {
-      const minBid =
-        bids.length === 0
-          ? product?.activeProductListings[0]?.minBid +
-            product?.activeProductListings[0]?.minBid *
-              (product?.resaleBuyersFeePercentage / 100)
-          : bids[0]?.bidAmt +
-            bids[0]?.bidAmt * (product?.resaleBuyersFeePercentage / 100);
+    if (!product) return;
+    if (!isAuthenticated) return loginWarning();
+    if (!bidAmount) return bidIsEmpty();
 
-      if (isAuthenticated && bidAmount) {
-        if (parseFloat(bidAmount) <= minBid + bidIncrement - 0.01) {
-          Toast.error(
-            `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
-          );
-        } else if (parseFloat(userBalance) <= parseFloat(bidAmount)) {
-          Toast.error(
-            <>
-              Whoops, insufficient funds! Your available balance is $
-              {userBalance}{' '}
-              <a onClick={() => history.push('/wallet')}>click here</a> to
-              deposit enough funds to cover your desired bid amount including
-              fees <a onClick={() => history.push('/helpage')}>learn more</a>
-            </>
-          );
-        } else if (parseFloat(bidAmount) >= minBid + bidIncrement) {
-          setIsBidModalOpen(true);
-        }
-      } else {
-        Toast.warning(
-          <>
-            You need to{' '}
-            <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-              Log in
-            </a>{' '}
-            in order to complete the purchase
-          </>
-        );
-      }
-    } else {
-      return;
-    }
+    const minBid = getMinBid();
+    const minPriceWithFee = getPriceWithFee(minBid);
+    let parsedBidAmount = 0;
+    if (bidAmount) parsedBidAmount = parseFloat(bidAmount);
+
+    if (parsedBidAmount <= minBid) return higherBidNeeded();
+    if (userBalance < bidAmount) return insuficientFounds();
+    if (parsedBidAmount >= minPriceWithFee) return setIsBidModalOpen(true);
+  };
+
+  const getPriceWithFee = (minBid) => {
+    let bidComparer = 0;
+    if (product)
+      bidComparer =
+        minBid * 1 + product?.resaleBuyersFeePercentage / 100 + bidIncrement;
+    return bidComparer;
+  };
+
+  const getMinBid = () => {
+    if (!product) return 0;
+    return bids.length === 0
+      ? product.activeProductListings[0].minBid
+      : bids[0].bidAmt;
+  };
+
+  const insuficientFounds = () => {
+    Toast.error(
+      <>
+        Whoops, insufficient funds! Your available balance is ${userBalance}{' '}
+        <a onClick={() => history.push('/wallet')}>click here</a> to deposit
+        enough funds to cover your desired bid amount including fees{' '}
+        <a onClick={() => history.push('/helpage')}>learn more</a>
+      </>
+    );
+  };
+
+  const bidIsEmpty = () => {
+    Toast.error(`Whoops, you forgot to write your bid!`);
+  };
+
+  const higherBidNeeded = () => {
+    Toast.error(
+      `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
+    );
+  };
+
+  const loginWarning = () => {
+    return Toast.warning(
+      <>
+        You need to{' '}
+        <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+          Log in
+        </a>{' '}
+        in order to complete the purchase
+      </>
+    );
   };
 
   useEffect(() => {
