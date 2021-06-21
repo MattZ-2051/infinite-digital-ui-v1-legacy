@@ -113,7 +113,9 @@ const Tile = ({
               <BottomCardText themeStyle={themeStyle}>
                 {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.totalSupply} Released`
-                  : `${sku.totalSupply} of ${sku.totalSupply} for sale`}
+                  : `${sku.totalSupply} of ${sku.totalSupply} ${
+                      sku.activeSkuListings?.length == 0 ? '' : 'for sale'
+                    }`}
               </BottomCardText>
             )}
             {/* TODO DRY */}

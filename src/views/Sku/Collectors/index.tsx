@@ -7,10 +7,10 @@ import { getSku } from 'services/api/sku';
 import PageLoader from 'components/PageLoader';
 import * as S from './styles';
 import ProductDetails from '../../Product/ProductDetails';
-import CollectorList from './collectorList';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import SearchBar from 'components/SearchBar';
 import { cancelablePromise } from 'utils/cancelablePromise';
+import CollectorList from './collectorList';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;

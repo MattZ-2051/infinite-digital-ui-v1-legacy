@@ -18,7 +18,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     rarity,
     circulatingSupply,
     totalSupplyLeft,
-    totalSupplyUpcoming,
+    totalUpcomingSupply,
     series,
     minStartDate,
     redeemable,
@@ -51,7 +51,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
         sku.upcomingSkuListings?.length !== 0)
     ) {
       status = 'upcoming-sku-time';
-      bottomRightText = totalSupplyUpcoming;
+      bottomRightText = totalUpcomingSupply;
       skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;

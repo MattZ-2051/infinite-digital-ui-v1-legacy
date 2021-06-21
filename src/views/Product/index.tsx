@@ -11,29 +11,46 @@ import ProductDetails from './ProductDetails';
 import PageLoader from 'components/PageLoader';
 import { ITransaction } from 'entities/transaction';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 const Product = ({}) => {
-  const { isAuthenticated } = useAuth0();
   const history = useHistory();
   const productId = history.location.pathname.split('/')[2];
   const [product, setProduct] = useState<ProductType | null>(null);
   const [transactionHistory, setTransactionHistory] = useState<
     ITransaction[] | null
   >(null);
+  const [totalTransactions, setTotalTransactions] = useState<number>(1);
+  const [historyPage, setHistoryPage] = useState<number>(1);
+  const perPage = 5;
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const dispatch = useAppDispatch();
 
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   async function fetchData() {
     const productRes = await getSingleProduct(productId);
-    const historyRes = await getProductTransactionHistory(productId);
+    const transactionRes = await getProductTransactionHistory(
+      productId,
+      historyPage,
+      perPage
+    );
 
     setProduct(productRes.data);
-    setTransactionHistory(historyRes.data);
+    setTransactionHistory(transactionRes.data);
+    setTotalTransactions(transactionRes.data.length);
+  }
+
+  async function updateUserBalance() {
+    if (isAuthenticated) {
+      dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
+    }
   }
 
   useEffect(() => {
     fetchData();
+    updateUserBalance();
   }, []);
 
   if (!product || !transactionHistory) {
@@ -56,7 +73,13 @@ const Product = ({}) => {
         circulatingSupply={product.circulatingSupply || 0}
         redeemable={redeemable}
       />
-      <History product={product} transactionHistory={transactionHistory} />
+      <History
+        product={product}
+        transactionHistory={transactionHistory}
+        totalTransactions={totalTransactions}
+        historyPage={historyPage}
+        setHistoryPage={setHistoryPage}
+      />
     </S.Content>
   );
 };

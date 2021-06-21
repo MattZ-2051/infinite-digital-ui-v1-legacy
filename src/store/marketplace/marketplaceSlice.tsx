@@ -11,7 +11,7 @@ interface IFilters {
   series: string[];
   search: string;
   rarity: string[];
-  issuerName: string[];
+  creator: string[];
 }
 
 interface IPagination {
@@ -36,7 +36,7 @@ const defaultFilters: IFilters = {
   series: [],
   search: '',
   rarity: [],
-  issuerName: [],
+  creator: [],
 };
 
 export const getDefaultParams = () => {

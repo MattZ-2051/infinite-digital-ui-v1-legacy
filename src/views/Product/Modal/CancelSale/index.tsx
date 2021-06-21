@@ -53,7 +53,7 @@ const CancelSale = ({
             {modalType === 'auction' && (
               <>
                 <Emoji symbol="❌" />
-                <S.Header>Cancel Sale?</S.Header>
+                <S.Header>Cancel Auction?</S.Header>
               </>
             )}
           </S.HeaderContainer>
@@ -70,12 +70,12 @@ const CancelSale = ({
             </S.SubHeader>
           )}
           <S.ButtonContainer>
-            <S.Button onClick={handleCancelListing}>Yes, Sure</S.Button>
+            <S.Button onClick={handleCancelListing}>Yes</S.Button>
             <S.Button
               style={{ marginTop: '16px' }}
               onClick={() => setModalPaymentVisible(false)}
             >
-              No, Thanks
+              Go Back
             </S.Button>
           </S.ButtonContainer>
         </S.BodyContainer>

@@ -115,8 +115,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
         )}
       </S.Dropdown>
 
-      {/* {isOpen && ( */}
-      <CSSTransition in={isOpen} timeout={250} unmountOnExit classNames="fade">
+      {isOpen && (
         <S.InputContainer className="menu">
           <S.FormRow>
             <S.FormInput
@@ -221,8 +220,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
             />
           </S.FormRow>
         </S.InputContainer>
-      </CSSTransition>
-      {/* )} */}
+      )}
       <S.DisclaimerText>
         Redeem this item and receive a copy on the following adress.Keep in mind
         that, by confirming this action, the digital and physical versions may

@@ -9,8 +9,8 @@ export const HeaderContent = styled.div`
   max-width: 1440px;
   margin: auto;
   display: flex;
+  min-height: 700px;
   flex-direction: row;
-  height: 700px;
   color: white;
   justify-content: space-between;
   @media screen and (max-width: 960px) {

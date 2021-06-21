@@ -4,6 +4,7 @@ import { USDCAddress } from 'entities/usdcAddress';
 import { User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
+import { IUser } from './Interfaces/IUser';
 
 // TODO: Commented code
 // the following endpoint is deprecated:
@@ -24,7 +25,10 @@ export const getMe = async (token: string): Promise<User> => {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  return response.data;
+  return {
+    ...response.data,
+    auctionBidIncrement: response.headers['auction-bid-increment'],
+  };
 };
 
 export const getMyTransactions = async (
@@ -230,14 +234,16 @@ export const updateUsername = async (
   }
 };
 
-export const getCreators = async (options?: { queryParams?: string }) => {
+export const getCreators = async (options?: {
+  queryParams?: string;
+}): Promise<IUser[] | undefined> => {
   try {
-    const response = await axiosInstance.request({
+    const { data }: { data: IUser[] } = await axiosInstance.request({
       method: 'GET',
       url: `/users`,
       params: { role: 'issuer', page: 1, per_page: 50 },
     });
-    return response.data;
+    return data;
   } catch (e) {
     console.error(
       `getCategories: Error requesting sku categories tile details. ${e}`

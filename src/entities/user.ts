@@ -21,4 +21,5 @@ export interface User {
   transactions?: ITransaction[];
   errorMessage?: string;
   showNotifyMe?: boolean;
+  auctionBidIncrement?: string;
 }

@@ -13,9 +13,9 @@ import { ReactComponent as CheckboxUnselectedIcon } from 'assets/svg/icons/check
 interface IProps {
   label?: string;
   width?: string;
-  options: { id: string; name: string }[];
+  options: { id: string; name: string }[] | undefined;
   handleFilter: (name: string, data: any) => void;
-  filterCategory: 'category' | 'brand' | 'series' | 'rarity' | 'issuerName';
+  filterCategory: 'category' | 'brand' | 'series' | 'rarity' | 'creator';
   activeFilters: any;
 }
 

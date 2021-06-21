@@ -70,7 +70,6 @@ const BuyNowModal = ({
         if (result) {
           setStatusMode('processing');
           Toast.success('Purchase Pending.');
-          dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
         }
         setLoading(false);
       } catch (e) {

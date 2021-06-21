@@ -42,9 +42,18 @@ export type AuctionStatus =
 interface Props {
   product: ProductWithFunctions | null;
   transactionHistory: ITransaction[];
+  totalTransactions: number;
+  historyPage: number;
+  setHistoryPage: (a: number) => void;
 }
 
-const History = ({ product, transactionHistory }: Props): JSX.Element => {
+const History = ({
+  product,
+  transactionHistory,
+  totalTransactions,
+  historyPage,
+  setHistoryPage,
+}: Props): JSX.Element => {
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
@@ -66,21 +75,22 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
 
   const [bids, setBids] = useState<Bid[]>([]);
 
-  const [bidAmount, setBidAmount] = useState<string>('');
-  const [totalBids, setTotalBids] = useState(1);
+  const [bidAmount, setBidAmount] = useState<string | undefined>('');
+  const [totalBids, setTotalBids] = useState<number>(1);
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
-  const [page, setPage] = useState(1);
+  const [auctionPage, setAuctionPage] = useState<number>(1);
   const perPage = 5;
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
-  const bidIncrement = 1;
-
+  const bidIncrement = useAppSelector(
+    (state) => state.session?.user?.auctionBidIncrement
+  );
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
@@ -120,59 +130,70 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
   };
 
   const handleBid = () => {
-    if (product) {
-      const minBid =
-        bids.length === 0
-          ? product.activeProductListings[0].minBid
-          : bids[0].bidAmt;
+    if (!product) return;
+    if (!isAuthenticated) return loginWarning();
+    if (!bidAmount) return bidIsEmpty();
 
-      if (isAuthenticated) {
-        if (parseFloat(bidAmount) < minBid) {
-          Toast.error(
-            `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
-          );
-        } else if (
-          parseFloat(bidAmount) <
-          minBid +
-            minBid * (product?.resaleBuyersFeePercentage / 100) +
-            bidIncrement
-        ) {
-          Toast.error(
-            <>
-              Whoops, insufficient funds! Your available balance is $
-              {userBalance}{' '}
-              <a onClick={() => history.push('/wallet')}>click here</a> to
-              deposit enough funds to cover your desired bid amount including
-              fees
-              <a onClick={() => history.push('/helpage')}>learn more</a>
-            </>
-          );
-        } else if (
-          parseFloat(bidAmount) >
-          minBid +
-            minBid * (product?.resaleBuyersFeePercentage / 100) +
-            bidIncrement
-        ) {
-          setIsBidModalOpen(true);
-        }
-      } else {
-        Toast.warning(
-          <>
-            You need to{' '}
-            <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-              Log in
-            </a>{' '}
-            in order to complete the purchase
-          </>
-        );
-      }
-    } else {
-      return;
-    }
+    const minBid = getMinBid();
+    const minPriceWithFee = getPriceWithFee(minBid);
+    let parsedBidAmount = 0;
+    if (bidAmount) parsedBidAmount = parseFloat(bidAmount);
+
+    if (parsedBidAmount <= minBid) return higherBidNeeded();
+    if (userBalance < bidAmount) return insuficientFounds();
+    if (parsedBidAmount >= minPriceWithFee) return setIsBidModalOpen(true);
+  };
+
+  const getPriceWithFee = (minBid) => {
+    let bidComparer = 0;
+    if (product)
+      bidComparer =
+        minBid * 1 + product?.resaleBuyersFeePercentage / 100 + bidIncrement;
+    return bidComparer;
+  };
+
+  const getMinBid = () => {
+    if (!product) return 0;
+    return bids.length === 0
+      ? product.activeProductListings[0].minBid
+      : bids[0].bidAmt;
+  };
+
+  const insuficientFounds = () => {
+    Toast.error(
+      <>
+        Whoops, insufficient funds! Your available balance is ${userBalance}{' '}
+        <a onClick={() => history.push('/wallet')}>click here</a> to deposit
+        enough funds to cover your desired bid amount including fees{' '}
+        <a onClick={() => history.push('/helpage')}>learn more</a>
+      </>
+    );
+  };
+
+  const bidIsEmpty = () => {
+    Toast.error(`Whoops, you forgot to write your bid!`);
+  };
+
+  const higherBidNeeded = () => {
+    Toast.error(
+      `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
+    );
+  };
+
+  const loginWarning = () => {
+    return Toast.warning(
+      <>
+        You need to{' '}
+        <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+          Log in
+        </a>{' '}
+        in order to complete the purchase
+      </>
+    );
   };
 
   useEffect(() => {
-    setPage(1);
+    setAuctionPage(1);
   }, [selectedTab]);
 
   const handleCreateSale = () => {
@@ -204,14 +225,18 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setPage(value);
+    if (selectedTab === 'auction') {
+      setAuctionPage(value);
+    } else if (selectedTab === 'history') {
+      setHistoryPage(value);
+    }
   };
 
   const fetchBids = async () => {
     const res = await getBids(
       '',
       product?.activeProductListings[0]?._id,
-      page,
+      auctionPage,
       perPage
     );
     if (res) {
@@ -331,7 +356,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
 
   useEffect(() => {
     fetchBids();
-  }, [page]);
+  }, [auctionPage]);
 
   if (historyStatus === '') return <></>;
   const filteredTransactions =
@@ -553,10 +578,8 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             marginRight={selectedTab === 'history'}
             width={selectedTab === 'history'}
           />
-          {((product?.activeProductListings.length !== 0 &&
-            product?.activeProductListings[0]?.saleType === 'auction') ||
-            (product?.upcomingProductListings.length !== 0 &&
-              product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+          {product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction' &&
             selectedTab === 'auction' && (
               <S.TextContainer borderBottom={true}>
                 <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
@@ -576,46 +599,76 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                 </S.Text>
               </S.TextContainer>
             )}
+          {product?.upcomingProductListings.length !== 0 &&
+            product?.upcomingProductListings[0]?.saleType === 'auction' &&
+            selectedTab === 'auction' && (
+              <S.TextContainer borderBottom={true}>
+                <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
+                  Expires in
+                </S.Text>
+                <S.Text color="white" size="18px" fontWeight={600}>
+                  {product?.upcomingProductListings[0] &&
+                    formatCountdown(
+                      new Date(product?.upcomingProductListings[0]?.endDate)
+                    )}
+                </S.Text>{' '}
+                <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+                  {product?.upcomingProductListings[0] &&
+                    `(${formatDate(
+                      new Date(product?.upcomingProductListings[0].endDate)
+                    )})`}
+                </S.Text>
+              </S.TextContainer>
+            )}
         </S.TabBar>
         {selectedTab === 'history' && (
           <S.TransactionHistory>
-            {filteredTransactions instanceof Array &&
-              filteredTransactions.map((transaction, index) => {
-                if (filteredTransactions.length >= 2) {
-                  if (
-                    filteredTransactions[filteredTransactions.length - 2]
-                      ?.type === 'nft_mint'
-                  ) {
-                    if (index === filteredTransactions.length - 1) {
-                      return (
-                        <Transaction
-                          key={
-                            filteredTransactions[
-                              filteredTransactions.length - 2
-                            ]._id
-                          }
-                          transaction={
-                            filteredTransactions[
-                              filteredTransactions.length - 2
-                            ]
-                          }
-                        />
-                      );
-                    } else if (index === filteredTransactions.length - 2) {
-                      return (
-                        <Transaction
-                          key={
-                            filteredTransactions[
-                              filteredTransactions.length - 1
-                            ]._id
-                          }
-                          transaction={
-                            filteredTransactions[
-                              filteredTransactions.length - 1
-                            ]
-                          }
-                        />
-                      );
+            <S.TransactionContainer>
+              {filteredTransactions instanceof Array &&
+                filteredTransactions.map((transaction, index) => {
+                  if (filteredTransactions.length >= 2) {
+                    if (
+                      filteredTransactions[filteredTransactions.length - 2]
+                        ?.type === 'nft_mint'
+                    ) {
+                      if (index === filteredTransactions.length - 1) {
+                        return (
+                          <Transaction
+                            key={
+                              filteredTransactions[
+                                filteredTransactions.length - 2
+                              ]._id
+                            }
+                            transaction={
+                              filteredTransactions[
+                                filteredTransactions.length - 2
+                              ]
+                            }
+                          />
+                        );
+                      } else if (index === filteredTransactions.length - 2) {
+                        return (
+                          <Transaction
+                            key={
+                              filteredTransactions[
+                                filteredTransactions.length - 1
+                              ]._id
+                            }
+                            transaction={
+                              filteredTransactions[
+                                filteredTransactions.length - 1
+                              ]
+                            }
+                          />
+                        );
+                      } else {
+                        return (
+                          <Transaction
+                            key={transaction._id}
+                            transaction={transaction}
+                          />
+                        );
+                      }
                     } else {
                       return (
                         <Transaction
@@ -632,36 +685,46 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                       />
                     );
                   }
-                } else {
-                  return (
-                    <Transaction
-                      key={transaction._id}
-                      transaction={transaction}
-                    />
-                  );
-                }
-              })}
+                })}
+            </S.TransactionContainer>
+            <div style={{ paddingTop: '30px' }}>
+              <S.StyledPagination
+                themeStyle={themeStyle}
+                page={historyPage}
+                count={Math.ceil(totalTransactions / perPage)}
+                onChange={handlePagination}
+                siblingCount={matchesMobile ? 0 : 1}
+              />
+            </div>
           </S.TransactionHistory>
         )}
         {selectedTab === 'auction' && (
           <>
             <S.TransactionHistory>
               {product?.upcomingProductListings.length !== 0 ? (
-                <S.BidsContainer>
-                  Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
-                  {product?.upcomingProductListings[0].startDate &&
-                    formatCountdown(
-                      new Date(product.upcomingProductListings[0].startDate)
-                    )}{' '}
-                  {product?.upcomingProductListings[0].startDate &&
-                    formatDate(
-                      new Date(product.upcomingProductListings[0].startDate)
-                    )}
+                <S.BidsContainer padding="22px 0px">
+                  <S.Text color="white" size="18px" fontWeight={600}>
+                    Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
+                    {product?.upcomingProductListings[0].startDate &&
+                      formatCountdown(
+                        new Date(product.upcomingProductListings[0].startDate)
+                      )}{' '}
+                  </S.Text>
+                  <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+                    (
+                    {product?.upcomingProductListings[0].startDate &&
+                      formatDate(
+                        new Date(product.upcomingProductListings[0].startDate)
+                      )}
+                    )
+                  </S.Text>
                 </S.BidsContainer>
               ) : bids.length === 0 &&
                 auctionStatus === 'active-auction-no-bid-owner' ? (
                 <>
-                  <S.BidsContainer>No bids placed yet</S.BidsContainer>
+                  <S.BidsContainer padding="32px 0px">
+                    No bids placed yet
+                  </S.BidsContainer>
                   <S.TextContainer paddingTop="32px">
                     <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
                       Started at
@@ -690,42 +753,42 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
               ) : (
                 (auctionStatus === 'active-auction-bid-user' ||
                   auctionStatus === 'active-auction-no-bid-user') && (
-                  <>
-                    <S.BidsHistory>
-                      <S.PlaceBidsContainer>
-                        <S.FlexDiv width="60%">
-                          <img src={BidIcon} alt="" />
-                          <S.AmountInput
-                            name="amount-input"
-                            placeholder={`Place a bid higher than $${
-                              bids.length === 0
-                                ? product?.activeProductListings[0]?.minBid
-                                : bids[0].bidAmt
-                            }`}
-                            decimalsLimit={2}
-                            onChange={(e) => setBidAmount(e.target.value)}
-                            maxLength={10}
-                            step={10}
-                            defaultValue={0.0}
-                            allowNegativeValue={false}
-                            value={bidAmount}
-                          />
-                        </S.FlexDiv>
-                        <S.PlaceBidButton
-                          active={
-                            bidAmount !== '' && parseFloat(bidAmount) !== 0
-                          }
-                          onClick={handleBid}
-                        >
-                          Place Bid
-                        </S.PlaceBidButton>
-                      </S.PlaceBidsContainer>
-                      {bids instanceof Array &&
-                        bids.map((bid) => {
-                          return <Transaction key={bid._id} bid={bid} />;
-                        })}
-                    </S.BidsHistory>
-                  </>
+                  <S.BidsHistory>
+                    <S.PlaceBidsContainer>
+                      <S.FlexDiv width="60%">
+                        <img src={BidIcon} alt="" />
+                        <S.AmountInput
+                          name="amount-input"
+                          placeholder={`Place a bid higher than $${
+                            bids.length === 0
+                              ? product?.activeProductListings[0]?.minBid +
+                                product?.activeProductListings[0]?.minBid *
+                                  (product?.resaleBuyersFeePercentage / 100)
+                              : bids[0].bidAmt +
+                                bids[0].bidAmt *
+                                  (product?.resaleBuyersFeePercentage / 100)
+                          }`}
+                          decimalsLimit={2}
+                          onValueChange={(val) => setBidAmount(val)}
+                          defaultValue={0.0}
+                          maxLength={10}
+                          allowNegativeValue={false}
+                          value={bidAmount ? bidAmount : ''}
+                          step={10}
+                        />
+                      </S.FlexDiv>
+                      <S.PlaceBidButton
+                        active={!!bidAmount}
+                        onClick={handleBid}
+                      >
+                        Place Bid
+                      </S.PlaceBidButton>
+                    </S.PlaceBidsContainer>
+                    {bids instanceof Array &&
+                      bids.map((bid) => {
+                        return <Transaction key={bid._id} bid={bid} />;
+                      })}
+                  </S.BidsHistory>
                 )
               )}
               {auctionStatus !== 'upcoming-auction' &&
@@ -740,28 +803,50 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
                   >
                     <S.StyledPagination
                       themeStyle={themeStyle}
-                      page={page}
+                      page={auctionPage}
                       count={Math.ceil(totalBids / perPage)}
                       onChange={handlePagination}
                       siblingCount={matchesMobile ? 0 : 1}
                     />
-                    <S.FlexDiv>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                        Started at
-                      </S.Text>
-                      <S.Text color="white" size="16px" fontWeight={600}>
-                        ${product?.activeProductListings[0]?.minBid}
-                      </S.Text>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                        on{' '}
-                        {product &&
-                          formatDate(
-                            new Date(
-                              product?.activeProductListings[0]?.startDate
-                            )
-                          )}
-                      </S.Text>
-                    </S.FlexDiv>
+
+                    {product?.activeProductListings.length !== 0 && (
+                      <S.FlexDiv>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          Started at
+                        </S.Text>
+                        <S.Text color="white" size="16px" fontWeight={600}>
+                          ${product?.activeProductListings[0]?.minBid}
+                        </S.Text>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          on{' '}
+                          {product &&
+                            formatDate(
+                              new Date(
+                                product?.activeProductListings[0]?.startDate
+                              )
+                            )}
+                        </S.Text>
+                      </S.FlexDiv>
+                    )}
+                    {product?.upcomingProductListings.length !== 0 && (
+                      <S.FlexDiv>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          Started at
+                        </S.Text>
+                        <S.Text color="white" size="16px" fontWeight={600}>
+                          ${product?.upcomingProductListings[0]?.minBid}
+                        </S.Text>
+                        <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                          on{' '}
+                          {product &&
+                            formatDate(
+                              new Date(
+                                product?.upcomingProductListings[0]?.startDate
+                              )
+                            )}
+                        </S.Text>
+                      </S.FlexDiv>
+                    )}
                   </div>
                 )}
             </S.TransactionHistory>
@@ -832,7 +917,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
             modalType="auction"
           />
         )}
-      {product && selectedTab === 'auction' && isAuthenticated && (
+      {product && selectedTab === 'auction' && isAuthenticated && bidAmount && (
         <BidModal
           product={product}
           visible={isBidModalOpen}

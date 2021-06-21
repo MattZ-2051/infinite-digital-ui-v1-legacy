@@ -350,10 +350,14 @@ export const Tab = styled.div<{
   }
 `;
 
-export const BidsContainer = styled.div`
+export const TransactionContainer = styled.div`
+  height: 80%;
+`;
+
+export const BidsContainer = styled.div<{ padding: string }>`
   width: 100%;
   height: 88px;
-  padding: 32px 0;
+  padding: ${(props) => props.padding};
   text-align: center;
   margin-top: 21px;
   font-size: 18px;

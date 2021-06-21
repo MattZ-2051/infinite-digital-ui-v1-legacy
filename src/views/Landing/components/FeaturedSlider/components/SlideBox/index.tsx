@@ -13,7 +13,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
   const {
     minPrice,
     totalSupplyLeft,
-    totalSupplyUpcoming,
+    totalUpcomingSupply,
     minStartDate,
     productListings,
     skuListings,
@@ -27,7 +27,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
       status = 'upcoming-sku';
       return;
     }
-    if (totalSupplyLeft === 0 && totalSupplyUpcoming === 0) {
+    if (totalSupplyLeft === 0 && totalUpcomingSupply === 0) {
       status = 'upcoming-sku-time';
       skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
