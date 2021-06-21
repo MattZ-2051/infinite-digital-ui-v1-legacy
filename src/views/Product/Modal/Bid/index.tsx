@@ -15,6 +15,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import { postBid } from 'services/api/productService';
+import Loader from 'components/Loader';
 
 interface Props {
   visible: boolean;
@@ -86,15 +87,13 @@ const BidModal = ({
     Toast.success(
       <span>
         Your bid was successfully placed. Learn more about biding{' '}
-        <strong
-          onClick={() => {
-            history.push('/help');
-          }}
-          style={{ borderBottom: '1px solid black', cursor: 'pointer' }}
+        <a
+          target="_blank"
+          href="https://support.suku.world/infinite-powered-by-suku"
+          rel="noreferrer"
         >
-          here
-        </strong>
-        ?
+          here{' '}
+        </a>
       </span>
     );
   }
@@ -123,7 +122,7 @@ const BidModal = ({
         setModalBidVisible(false);
         setTimeout(() => {
           window.location.reload();
-        }, 1200);
+        }, 5000);
       }
     } catch (e) {
       setLoading(false);
@@ -267,7 +266,7 @@ const BidModal = ({
           onClick={handlePlaceBid}
           disabled={loading}
         >
-          Place Bid
+          {loading ? <Loader color="white" size={10} /> : 'Place Bid'}
         </Button>
       </S.Body>
     </>
@@ -276,7 +275,10 @@ const BidModal = ({
   return (
     <Modal
       open={visible}
-      onClose={() => setModalBidVisible(false)}
+      onClose={() => {
+        if (loading) return;
+        setModalBidVisible(false);
+      }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       padding={'0px'}

@@ -88,9 +88,10 @@ const History = ({
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
-  const bidIncrement = useAppSelector(
-    (state) => state.session?.user?.auctionBidIncrement
-  );
+
+  const bidIncrement =
+    product?.activeProductListings[0]?.auctionBidIncrement || 1;
+
   const loggedInUser = useAppSelector((state) => state.session.user);
 
   const handleRedirectToOwnerPage = () => {
@@ -134,21 +135,23 @@ const History = ({
     if (!isAuthenticated) return loginWarning();
     if (!bidAmount) return bidIsEmpty();
 
-    const minBid = getMinBid();
-    const minPriceWithFee = getPriceWithFee(minBid);
+    const minPrice = getMinBid();
     let parsedBidAmount = 0;
     if (bidAmount) parsedBidAmount = parseFloat(bidAmount);
 
-    if (parsedBidAmount <= minBid) return higherBidNeeded();
-    if (userBalance < bidAmount) return insuficientFounds();
-    if (parsedBidAmount >= minPriceWithFee) return setIsBidModalOpen(true);
+    if (parsedBidAmount < minPrice) return higherBidNeeded();
+    if (
+      userBalance < parsedBidAmount ||
+      userBalance < getPriceWithFee(bidAmount)
+    )
+      return insuficientFounds(bidAmount);
+    if (parsedBidAmount >= minPrice) return setIsBidModalOpen(true);
   };
 
-  const getPriceWithFee = (minBid) => {
+  const getPriceWithFee = (bidAmount) => {
     let bidComparer = 0;
     if (product)
-      bidComparer =
-        minBid * 1 + product?.resaleBuyersFeePercentage / 100 + bidIncrement;
+      bidComparer = bidAmount * (1 + product?.resaleBuyersFeePercentage / 100);
     return bidComparer;
   };
 
@@ -156,16 +159,17 @@ const History = ({
     if (!product) return 0;
     return bids.length === 0
       ? product.activeProductListings[0].minBid
-      : bids[0].bidAmt;
+      : bids[0].bidAmt + bidIncrement;
   };
 
-  const insuficientFounds = () => {
+  const insuficientFounds = (bidAmount) => {
     Toast.error(
       <>
-        Whoops, insufficient funds! Your available balance is ${userBalance}{' '}
+        Whoops, insufficient funds! Your available balance is ${userBalance} and
+        you need ${getPriceWithFee(bidAmount).toFixed(2)} to cover the bid and
+        marketplace fee. Click{' '}
         <a onClick={() => history.push('/wallet')}>click here</a> to deposit
-        enough funds to cover your desired bid amount including fees{' '}
-        <a onClick={() => history.push('/helpage')}>learn more</a>
+        more funds.
       </>
     );
   };
@@ -759,15 +763,7 @@ const History = ({
                         <img src={BidIcon} alt="" />
                         <S.AmountInput
                           name="amount-input"
-                          placeholder={`Place a bid higher than $${
-                            bids.length === 0
-                              ? product?.activeProductListings[0]?.minBid +
-                                product?.activeProductListings[0]?.minBid *
-                                  (product?.resaleBuyersFeePercentage / 100)
-                              : bids[0].bidAmt +
-                                bids[0].bidAmt *
-                                  (product?.resaleBuyersFeePercentage / 100)
-                          }`}
+                          placeholder={`Place a bid higher or equal to $${getMinBid()}`}
                           decimalsLimit={2}
                           onValueChange={(val) => setBidAmount(val)}
                           defaultValue={0.0}
