@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getProductCollectors } from 'services/api/productService';
 import { Collector } from 'entities/collector';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Sku } from 'entities/sku';
 import { getSku } from 'services/api/sku';
 import PageLoader from 'components/PageLoader';
 import * as S from './styles';
 import ProductDetails from '../../Product/ProductDetails';
-import { getSingleProduct } from 'services/api/productService';
-import { ProductWithFunctions as ProductType } from 'entities/product';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useAppSelector } from 'store/hooks';
+import SearchBar from 'components/SearchBar';
+import { cancelablePromise } from 'utils/cancelablePromise';
 import CollectorList from './collectorList';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
@@ -18,16 +16,15 @@ const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
 
 const Collectors = () => {
-  const { isAuthenticated } = useAuth0();
   const [collectors, setCollectors] = useState<{
     data: Collector[];
     total: number;
   } | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const { skuid } = useParams<{ skuid: string }>();
   const [sku, setSku] = useState<Sku>();
-  const loggedInUser = useAppSelector((state) => state.session.user);
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
+  const [sortBySerialAsc, setSortBySerialAsc] = useState<boolean>(false);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
 
@@ -40,14 +37,22 @@ const Collectors = () => {
 
   useEffect(() => {
     fetchSku();
-    fetchCollectors(valueCurrentPage);
-  }, [skuid, valueCurrentPage]);
+  }, [skuid]);
 
-  async function fetchCollectors(page: number) {
+  async function fetchCollectors() {
     try {
-      const collectors = await getProductCollectors(skuid, page, PER_PAGE);
-      setCollectors(collectors);
-    } catch (err) {}
+      return await getProductCollectors(
+        skuid,
+        valueCurrentPage,
+        PER_PAGE,
+        true,
+        searchTerm,
+        forSaleCheck,
+        sortBySerialAsc
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function fetchSku() {
@@ -57,7 +62,17 @@ const Collectors = () => {
     setSku(sku);
   }
 
-  if (loading || !sku) return <PageLoader />;
+  useEffect(() => {
+    const cPr = cancelablePromise(fetchCollectors());
+    cPr.promise.then((resp) => {
+      setCollectors(resp as { data: Collector[]; total: number });
+    });
+    return () => {
+      cPr && cPr.cancel();
+    };
+  }, [skuid, searchTerm, forSaleCheck, valueCurrentPage, sortBySerialAsc]);
+
+  if (!sku) return <PageLoader />;
 
   return (
     <S.MainContent>
@@ -80,7 +95,14 @@ const Collectors = () => {
             / Collectors
           </div>
         </S.Title>
-        <S.SectionTitle style={{ marginTop: 20 }}>Collectors</S.SectionTitle>
+        <S.SectionTitle>Collectors</S.SectionTitle>
+        <SearchBar
+          onSearch={setSearchTerm}
+          onChecked={setForSaleCheck}
+          onSort={setSortBySerialAsc}
+          sortAsc={sortBySerialAsc}
+          placeholder={'*Select an owner to place a bid'}
+        />
 
         {collectors && (
           <S.ContentListPagination>

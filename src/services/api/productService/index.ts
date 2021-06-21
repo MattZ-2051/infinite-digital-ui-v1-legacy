@@ -44,23 +44,34 @@ export const getProductCollectors = async (
   skuId: string,
   page?: number,
   perPage?: number,
-  includeFunctions = true
-): Promise<any> => {
+  includeFunctions = true,
+  searchTerm?,
+  forSaleCheck?,
+  sortBySerialAsc = true
+): Promise<{ data: Collector[]; total: number }> => {
   const params = { includeFunctions };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
-  const response = await axiosInstance.request<any>({
+  if (searchTerm) {
+    params['search'] = searchTerm;
+  }
+  if (forSaleCheck) {
+    params['forSale'] = forSaleCheck;
+  }
+  const sortBy = `sortBy=serialNumber:${sortBySerialAsc ? 'asc' : 'desc'}`;
+
+  const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
-    url: `/products/collectors/${skuId}`,
+    url: `/products/collectors/${skuId}?${sortBy}`,
     params,
   });
   const { data, headers } = response;
   const contentRange: string = headers['content-range'];
   const rangeArray = contentRange.split('/');
   const total = Number(rangeArray[1]);
-  return { data: data as Collector[], total: total as number };
+  return { data, total };
 };
 
 export const getSingleProduct = async (

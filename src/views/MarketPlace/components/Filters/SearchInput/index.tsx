@@ -44,7 +44,7 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
           name="search"
           value={searchValue}
           type="text"
-          placeholder="Search"
+          placeholder="Search1"
         />
       </InputDiv>
     </>

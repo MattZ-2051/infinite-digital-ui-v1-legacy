@@ -320,11 +320,11 @@ const SkuButtonBlock = ({
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
         />
-        <FromCollectorsBox
-          minimunPrice={sku?.minPrice}
-          countProductListings={sku.countProductListings}
-          skuId={sku._id}
-        />
+        {/* <FromCollectorsBox
+          minimunPrice={2}
+          totalSupply={20}
+          countProductListings={10}
+        /> */}
       </>
     );
   }
