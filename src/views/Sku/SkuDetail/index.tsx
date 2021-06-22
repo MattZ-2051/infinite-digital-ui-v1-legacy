@@ -200,20 +200,17 @@ const SkuDetail = (): JSX.Element => {
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
         <SkuDescription description={sku?.description || ''} />
 
-        {collectors && (
+        {collectors && sku && (
           <AuctionListing
             collectors={collectors.data}
             hasProducts={collectors.data.length !== 0}
+            skuId={sku._id}
           />
         )}
       </S.Section>
-
       {filteredFeaturedSku.length > 0 && (
         <S.Section>
-          <S.SectionTitle>
-            Related Releases
-            <S.ViewAll to={`/${sku?._id}/collectors`}>+ View all</S.ViewAll>
-          </S.SectionTitle>
+          <S.SectionTitle>Related Releases</S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&
               filteredFeaturedSku.map((el, index) => {

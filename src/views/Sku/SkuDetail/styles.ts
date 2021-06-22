@@ -225,12 +225,6 @@ export const CreatorName = styled(Link)`
   }
 `;
 
-export const ViewAll = styled(Link)`
-  float: right;
-  text-decoration: none;
-  font-size: 18px;
-`;
-
 export const NotifyIconImg = styled.img`
   margin-right: 8px;
   vertical-align: middle;

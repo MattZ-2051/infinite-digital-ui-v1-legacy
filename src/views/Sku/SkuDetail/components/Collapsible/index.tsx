@@ -6,9 +6,14 @@ import * as S from './styles';
 export interface IProps {
   title: string;
   body: JSX.Element;
+  collectorsTotalNum?: number;
 }
 
-const Collapsible = ({ title, body }: IProps): JSX.Element => {
+const Collapsible = ({
+  title,
+  body,
+  collectorsTotalNum,
+}: IProps): JSX.Element => {
   const [descriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const theme = useTheme();
   const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
@@ -29,8 +34,8 @@ const Collapsible = ({ title, body }: IProps): JSX.Element => {
             )}
           </S.ToggleArrow>
         )}
+        {collectorsTotalNum && <S.Total>{collectorsTotalNum} Total</S.Total>}
       </S.Title>
-
       {(descriptionVisible || !isSmall) && body}
     </>
   );

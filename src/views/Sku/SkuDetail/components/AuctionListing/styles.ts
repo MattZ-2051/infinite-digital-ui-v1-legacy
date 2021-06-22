@@ -14,16 +14,19 @@ export const Container = styled.div`
   }
 `;
 
+export const ViewAll = styled(Link)`
+  float: right;
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 24px;
+`;
+
 export const Items = styled.div`
   padding-top: 24px;
   width: 100%;
   max-width: 713px;
   overflow: hidden;
-  height: 400px;
-  :hover {
-    overflow: auto;
-  }
-
+  height: 450px;
   @media screen and (max-width: 960px) {
     margin-left: 0;
   }
