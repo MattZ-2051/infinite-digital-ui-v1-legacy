@@ -1,25 +1,19 @@
 import { Sku } from 'entities/sku';
 
 export const createMessage = (sku: Sku): string => {
-  if (sku.maxSupply == 1) return '1 of 1 limited edition';
+  if (sku.maxSupply == 1) return oneLimitedEdition;
 
-  if (fixed(sku) && (sku.totalSupply > 0 || sku.totalUpcomingSupply > 0))
-    return limitedEditions(
-      sku.totalSupply > 0 ? sku.totalSupply : sku.totalUpcomingSupply
-    );
+  if (fixed(sku) && sku.totalSupply > 0) {
+    if (hasListings(sku)) return limitedEditionMessageSelector(sku.totalSupply);
+    return limitedEditions(sku.totalSupply);
+  }
+  if (fixed(sku) && sku.totalUpcomingSupply > 0)
+    return limitedEditions(sku.totalUpcomingSupply);
 
-  if (fixed(sku) && hasListings(sku) && sku?.expiredSkuListings?.length !== 0)
-    switch (sku.circulatingSupply) {
-      case 0:
-        return '';
-        break;
-      case 1:
-        return limitedEditions(sku.circulatingSupply);
-        break;
-      default:
-        return limitedEditions(sku.circulatingSupply);
-        break;
-    }
+  if (fixed(sku) && hasListings(sku) && sku?.expiredSkuListings?.length !== 0) {
+    if (sku.circulatingSupply == 0) return '';
+    return limitedEditionMessageSelector(sku.circulatingSupply);
+  }
 
   if (variable(sku)) {
     if (sku.circulatingSupply > 0) return `${sku.circulatingSupply} released`;
@@ -29,6 +23,13 @@ export const createMessage = (sku: Sku): string => {
   }
 
   return '';
+};
+
+const oneLimitedEdition = '1 of 1 limited edition';
+
+const limitedEditionMessageSelector = (quantity: number): string => {
+  if (quantity == 1) return oneLimitedEdition;
+  return limitedEditions(quantity);
 };
 
 const limitedEditions = (quantity: number): string => {
