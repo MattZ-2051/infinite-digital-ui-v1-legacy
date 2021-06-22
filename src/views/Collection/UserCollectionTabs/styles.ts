@@ -28,6 +28,17 @@ export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
   }
 `;
 
+export const PaginationContainer = styled.div`
+  display: flex;
+  @media screen and (min-width: 1369px) {
+    justify-content: flex-end;
+    margin-right: 9vh;
+  }
+  @media screen and (max-width: 1369px) {
+    justify-content: center;
+  }
+`;
+
 export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'

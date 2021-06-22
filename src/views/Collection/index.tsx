@@ -82,12 +82,16 @@ const Collection = (): JSX.Element => {
     <S.Container>
       <ViewContainer>
         {bannerPhotoUrl ? (
-          <BackgroundImageContainer src={bannerPhotoUrl}>
+          <BackgroundImageContainer
+            src={bannerPhotoUrl}
+            styles={{ marginBottom: '4vh' }}
+          >
             <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
           </BackgroundImageContainer>
         ) : (
           <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
         )}
+        <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
         <FlexRow
           style={{
             display:
@@ -168,7 +172,6 @@ const Collection = (): JSX.Element => {
             </FlexColumn>
           </S.ContainerMarginLeft>
         </FlexRow>
-        <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
         <S.Container
           style={{
             display: 'flex',
