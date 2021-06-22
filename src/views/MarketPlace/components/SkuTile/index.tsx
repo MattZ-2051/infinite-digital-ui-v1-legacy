@@ -57,7 +57,8 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       return;
     } else if (
       sku.totalSupplyLeft !== 0 &&
-      sku.activeSkuListings?.length !== 0
+      (sku.activeSkuListings?.length !== 0 ||
+        sku.activeProductListings?.length !== 0)
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
