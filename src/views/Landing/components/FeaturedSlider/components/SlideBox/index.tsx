@@ -17,17 +17,20 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
     minStartDate,
     productListings,
     skuListings,
+    upcomingSkuListings,
   } = product;
 
   let pillInfo: string | number = '';
   let skuUpcomingTime = '';
+  const skuStartDateTime = new Date(minStartDate).getTime();
+  const currentTime = new Date().getTime();
 
   (() => {
     if (productListings?.length === 0 && skuListings.length === 0) {
       status = 'upcoming-sku';
       return;
     }
-    if (totalSupplyLeft === 0 && totalUpcomingSupply === 0) {
+    if (skuStartDateTime > currentTime && upcomingSkuListings?.length !== 0) {
       status = 'upcoming-sku-time';
       skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
@@ -36,7 +39,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
       status = 'active';
       pillInfo = minPrice;
       return;
-    } else if (totalSupplyLeft === 0) {
+    } else if (totalSupplyLeft === 0 || skuListings[0].status === 'expired') {
       status = 'no-sale';
       return;
     }

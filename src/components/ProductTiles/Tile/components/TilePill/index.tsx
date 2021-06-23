@@ -65,7 +65,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'no-sale' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'black' : '#e5e5e5' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <NotForSale isLight={light}>None for sale</NotForSale>
         </Pill>
@@ -73,7 +73,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
       {status === 'no-active-listing' && (
         <Pill
           isLight={light}
-          style={{ backgroundColor: light ? 'black' : '#e5e5e5' }}
+          style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
           <NotForSale isLight={light}>Not for sale</NotForSale>
         </Pill>

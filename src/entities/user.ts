@@ -22,4 +22,5 @@ export interface User {
   errorMessage?: string;
   showNotifyMe?: boolean;
   auctionBidIncrement?: string;
+  initialBuyersFeePercentage?: string;
 }

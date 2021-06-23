@@ -43,9 +43,9 @@ export const MediaContainer = styled.div`
 
 export const Video = styled.video`
   width: 100%;
-  @media screen and (max-width: 960px) {
-    width: 70%;
-  }
+  // @media screen and (max-width: 960px) {
+  //   width: 70%;
+  // }
 `;
 
 export const ProductDetails = styled.div`

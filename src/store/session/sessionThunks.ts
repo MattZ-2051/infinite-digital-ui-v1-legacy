@@ -87,7 +87,6 @@ export const getUserCollectionThunk = createAsyncThunk<
     } as IError);
   }
 });
-
 export const getUserCardsThunk = createAsyncThunk<
   Wallet,
   TokenPayload,

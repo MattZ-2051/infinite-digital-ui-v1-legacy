@@ -28,6 +28,8 @@ export const getMe = async (token: string): Promise<User> => {
   return {
     ...response.data,
     auctionBidIncrement: response.headers['auction-bid-increment'],
+    initialBuyersFeePercentage:
+      response.headers['initial-buyers-fee-percentage'],
   };
 };
 
