@@ -216,10 +216,10 @@ export const CreatorName = styled(Link)`
   margin: 0;
   padding-left: 5px;
   &&::after {
-    content: '/';
+    /* content: '/'; */
     margin-right: 8px;
     margin-left: 8px;
-    cursor-pointer: default;
+    cursor: pointer;
     font-weight: normal;
     color: #7c7c7c;
   }

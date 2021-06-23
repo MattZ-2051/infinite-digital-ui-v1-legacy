@@ -36,7 +36,9 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
             </Link>
           );
         })}
-      <S.ViewAll to={`/${skuId}/collectors`}>View all collectors</S.ViewAll>
+      {collectors?.length > 1 ? (
+        <S.ViewAll to={`/${skuId}/collectors`}>View all collectors</S.ViewAll>
+      ) : null}
     </S.Items>
   ) : (
     <S.NoOwners>No one owns this item yet</S.NoOwners>

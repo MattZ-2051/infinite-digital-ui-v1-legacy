@@ -13,7 +13,7 @@ import AuctionListing from './components/AuctionListing';
 import { Sku } from 'entities/sku';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { getProductCollectors } from 'services/api/productService';
-import { SkuCounter } from './components/SkuCounter/skuCounter';
+import { createMessage } from './components/SkuCounter/SkuTextCalculator';
 import { useAuth0 } from '@auth0/auth0-react';
 import Rarity from 'components/Rarity';
 import PageLoader from 'components/PageLoader';
@@ -78,129 +78,123 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  if (!collectors || !featuredProducts) return <PageLoader />;
+  if (!collectors || !featuredProducts || !sku) return <PageLoader />;
 
   const handleRedirectToIssuer = () => {
-    history.push(`/collection/${sku?.issuer.username}`);
+    history.push(`/collection/${sku.issuer.username}`);
   };
 
+  const skuMessage = createMessage(sku);
   return (
     <div>
-      {sku && (
-        <S.HeaderContainer>
-          <S.HeaderContent>
-            <S.HeaderLeft>
-              <ImageGallery images={[sku.graphicUrl, ...sku.imageUrls]} />
-            </S.HeaderLeft>
-            <S.HeaderRight>
-              <S.ProductDetail>
-                <S.Breadcrumbs>
-                  <a
-                    href="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
-                    style={{ color: 'white' }}
+      <S.HeaderContainer>
+        <S.HeaderContent>
+          <S.HeaderLeft>
+            <ImageGallery images={[sku.graphicUrl, ...sku.imageUrls]} />
+          </S.HeaderLeft>
+          <S.HeaderRight>
+            <S.ProductDetail>
+              <S.Breadcrumbs>
+                <a
+                  href="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                  style={{ color: 'white' }}
+                >
+                  Marketplace
+                </a>
+                <span style={{ color: '#7C7C7C' }}>{sku.name}</span>
+              </S.Breadcrumbs>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  justifyContent: 'space-between',
+                  fontSize: '24px',
+                }}
+              >
+                <S.Brand onClick={handleRedirectToIssuer}>
+                  {sku.issuerName || ''}
+                </S.Brand>
+                <Rarity type={sku.rarity} fontSize="24" fontWeight="400" />
+              </div>
+
+              <S.SkuTitle>{sku.name}</S.SkuTitle>
+
+              <p
+                style={{
+                  fontSize: '18px',
+                }}
+              >
+                {sku.series?.name}
+              </p>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {sku.redeemable && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
                   >
-                    Marketplace
-                  </a>
-                  <span style={{ color: '#7C7C7C' }}>{sku && sku.name}</span>
-                </S.Breadcrumbs>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    justifyContent: 'space-between',
-                    fontSize: '24px',
-                  }}
-                >
-                  <S.Brand onClick={handleRedirectToIssuer}>
-                    {sku?.issuerName || ''}
-                  </S.Brand>
-                  <Rarity type={sku?.rarity} fontSize="24" fontWeight="400" />
-                </div>
-
-                <S.SkuTitle>{sku?.name}</S.SkuTitle>
-
-                <p
-                  style={{
-                    fontSize: '18px',
-                  }}
-                >
-                  {sku?.series?.name}
-                </p>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {sku?.redeemable && (
-                    <div
+                    <RedeemIcon />
+                    &nbsp; Redeemable{' '}
+                    <span
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
+                        color: '#7c7c7c',
+                        fontWeight: 600,
+                        padding: '0 5px',
                       }}
                     >
-                      <RedeemIcon />
-                      &nbsp; Redeemable{' '}
-                      <span
-                        style={{
-                          color: '#7c7c7c',
-                          fontWeight: 600,
-                          padding: '0 5px',
-                        }}
-                      >
-                        /
-                      </span>
-                    </div>
-                  )}
-                  <span>
-                    <SkuCounter sku={sku} />
-                  </span>
-                </div>
+                      {skuMessage !== '' ? ' / ' : null}
+                    </span>
+                  </div>
+                )}
+                <span>{skuMessage}</span>
+              </div>
 
-                <LineDivider />
+              <LineDivider />
 
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  <S.CreatedBy>Created by</S.CreatedBy>
-                  <S.CreatorName to={`/collection/${sku.issuer.username}`}>
-                    @{sku.issuer.username}
-                  </S.CreatorName>
-                  {sku?.issuer?.showNotifyMe && (
-                    <S.NotifyMe
-                      to="#"
-                      onClick={() => setIsNotifyModalOpen(true)}
-                    >
-                      <S.NotifyIconImg src={notifyIcon} />
-                      <span>Notify Me</span>
-                    </S.NotifyMe>
-                  )}
-                </div>
-              </S.ProductDetail>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <S.CreatedBy>Created by</S.CreatedBy>
+                <S.CreatorName to={`/collection/${sku.issuer.username}`}>
+                  @{sku.issuer.username}
+                </S.CreatorName>
+                {sku.issuer?.showNotifyMe && (
+                  <S.NotifyMe to="#" onClick={() => setIsNotifyModalOpen(true)}>
+                    <S.NotifyIconImg src={notifyIcon} />
+                    <span>Notify Me</span>
+                  </S.NotifyMe>
+                )}
+              </div>
+            </S.ProductDetail>
 
-              <S.ButtonsContainer>
-                <SkuButtonBlock
-                  collectors={collectors.data}
-                  sku={sku}
-                  user={loggedInUser}
-                  onBuyNow={showModal}
-                  onProcessing={onProcessing}
-                />
-              </S.ButtonsContainer>
-            </S.HeaderRight>
-          </S.HeaderContent>
-        </S.HeaderContainer>
-      )}
-
+            <S.ButtonsContainer>
+              <SkuButtonBlock
+                collectors={collectors.data}
+                sku={sku}
+                user={loggedInUser}
+                onBuyNow={showModal}
+                onProcessing={onProcessing}
+              />
+            </S.ButtonsContainer>
+          </S.HeaderRight>
+        </S.HeaderContent>
+      </S.HeaderContainer>
+      )
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
-        <SkuDescription description={sku?.description || ''} />
+        <SkuDescription description={sku.description || ''} />
 
-        {collectors && sku && (
+        {collectors && (
           <AuctionListing
             collectors={collectors.data}
             hasProducts={collectors.data.length !== 0}
@@ -228,7 +222,7 @@ const SkuDetail = (): JSX.Element => {
       <NotifyModal
         isModalOpen={isNotifyModalOpen}
         handleClose={() => setIsNotifyModalOpen(false)}
-        username={sku?.issuer?.username}
+        username={sku.issuer?.username}
       />
     </div>
   );
