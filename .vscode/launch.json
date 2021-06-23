@@ -23,6 +23,6 @@
       "port": 9222,
       "webRoot": "${workspaceFolder}/src",
       "userDataDir": false
-    }  
+    }
   ]
 }
