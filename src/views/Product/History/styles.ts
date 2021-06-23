@@ -456,3 +456,12 @@ export const AmountInput = styled(CurrencyInput)`
   }
   margin-left: 16px;
 `;
+
+export const LabelOwnerAccess = styled.div`
+  margin-left: 5px;
+`;
+
+export const ContainerImgLabel = styled.div`
+  display: flex;
+  min-width: 150px;
+`;

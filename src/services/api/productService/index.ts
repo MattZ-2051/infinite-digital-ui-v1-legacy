@@ -214,3 +214,24 @@ export const getMeBids = async (
     return e.response;
   }
 };
+
+export const downloadAssetFile = async (
+  token: string,
+  productId: string,
+  key: string
+): Promise<any> => {
+  try {
+    console.log(token);
+
+    const response = await axiosInstance.post<any>(
+      `/products/${productId}/private-link`,
+      { key },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    return e.response;
+  }
+};

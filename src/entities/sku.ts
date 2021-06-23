@@ -40,6 +40,8 @@ export interface Sku {
   activeProductListings?: Listing[];
   soldSkuListings?: Listing[];
   activeSkuListings?: any;
+  nftPrivateAssets?: FileAsset[];
+  nftPublicAssets?: FileAsset[];
   series: {
     _id: string;
     name: string;
@@ -66,4 +68,16 @@ export interface SkuWithTotal {
   data: Sku[];
   total: number;
   maxSkusMinPrice?: number;
+}
+
+export interface FileAsset {
+  url: string;
+  key: string;
+  type: string;
+  size: number;
+  hash?: string;
+  name?: string;
+  previewUrl?: string;
+  width?: number;
+  height?: number;
 }

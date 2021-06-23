@@ -21,6 +21,8 @@ import { getBids } from 'services/api/productService';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
 import * as S from './styles';
+import OwnerAccessList from 'views/Product/OwnerAccess';
+import padlock from 'assets/svg/icons/padlock-icon.svg';
 
 export type HistoryStatus =
   | 'not-for-sale'
@@ -57,9 +59,9 @@ const History = ({
   const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<'history' | 'auction'>(
-    'history'
-  );
+  const [selectedTab, setSelectedTab] = useState<
+    'history' | 'auction' | 'owner_access'
+  >('history');
   const history = useHistory();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -570,12 +572,27 @@ const History = ({
               <S.Padding />
             </>
           )}
+
           <S.Tab
             themeStyle={themeStyle}
             selected={selectedTab === 'history'}
             onClick={() => setSelectedTab('history')}
           >
             History
+          </S.Tab>
+          <S.Padding />
+
+          <S.Tab
+            themeStyle={themeStyle}
+            selected={selectedTab === 'owner_access'}
+            onClick={() => setSelectedTab('owner_access')}
+          >
+            <S.ContainerImgLabel>
+              {loggedInUser.id !== product?.owner?._id && (
+                <img src={padlock} alt="padlock-icon"></img>
+              )}{' '}
+              <S.LabelOwnerAccess>Owner Access</S.LabelOwnerAccess>
+            </S.ContainerImgLabel>
           </S.Tab>
 
           <S.GrayLine
@@ -847,6 +864,14 @@ const History = ({
                 )}
             </S.TransactionHistory>
           </>
+        )}
+
+        {product && selectedTab === 'owner_access' && (
+          <OwnerAccessList
+            assets={product.sku?.nftPrivateAssets || []}
+            owner={loggedInUser.id === product.owner?._id}
+            productId={product._id}
+          />
         )}
       </S.Container>
       {/* {product && historyStatus !== ('create-sale' || 'buy-now') && (
