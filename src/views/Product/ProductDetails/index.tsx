@@ -9,6 +9,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import { SkuCounter } from 'views/Sku/SkuDetail/components/SkuCounter/skuCounter';
 
 interface Props {
   sku: Sku;
@@ -52,17 +53,18 @@ const ProductDetails = ({
           <Rarity type={sku?.rarity} />
         </S.Flex>
         <S.SkuName>{sku?.name}</S.SkuName>
-        <S.Flex>
+        <S.Flex alignItems="flex-end">
           {redeemable && (
             <S.Flex alignItems="baseline">
               <S.RedeemIcon />
-              <S.SkuInfo>Redeemable</S.SkuInfo>
-              <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>
+              <S.SkuInfo>Redeemable&nbsp;</S.SkuInfo>
+              <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>&nbsp;
             </S.Flex>
           )}
-          {sku?.supplyType === 'fixed' && (
+          {/* {sku?.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">{`1 of ${totalSupply}`}</S.SkuInfo>
-          )}
+          )} */}
+          <SkuCounter sku={sku} />
 
           {sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>

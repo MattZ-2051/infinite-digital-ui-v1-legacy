@@ -24,7 +24,7 @@ const Collectors = () => {
   const [sku, setSku] = useState<Sku>();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [forSaleCheck, setForSaleCheck] = useState<boolean>(false);
-  const [sortBySerialAsc, setSortBySerialAsc] = useState<boolean>(false);
+  const [sortBySerialAsc, setSortBySerialAsc] = useState<boolean>(true);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
 
@@ -101,7 +101,7 @@ const Collectors = () => {
           onChecked={setForSaleCheck}
           onSort={setSortBySerialAsc}
           sortAsc={sortBySerialAsc}
-          placeholder={'*Select an owner to place a bid'}
+          placeholder={'Select a product to view more details'}
         />
 
         {collectors && (

@@ -37,7 +37,7 @@ const CollectorList = ({ collectors, hasProducts, redeemable }: IProps) => {
         ))}
     </S.Items>
   ) : (
-    <S.NoOwners>No one owns this item yet</S.NoOwners>
+    <S.NoOwners>No collector editions for sale</S.NoOwners>
   );
   return <>{body}</>;
 };
