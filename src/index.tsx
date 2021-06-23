@@ -45,8 +45,7 @@ const providerConfig = {
 };
 
 Sentry.init({
-  dsn:
-    'https://d62e365d86514f3f81a5d9864667adda@o734225.ingest.sentry.io/5784745',
+  dsn: 'https://d62e365d86514f3f81a5d9864667adda@o734225.ingest.sentry.io/5784745',
   integrations: [new Integrations.BrowserTracing()],
 
   // Set tracesSampleRate to 1.0 to capture 100%
@@ -54,7 +53,6 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 0.1,
 });
-
 
 ReactDOM.render(
   <React.StrictMode>
