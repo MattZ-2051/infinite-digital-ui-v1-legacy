@@ -15,6 +15,6 @@ export interface Listing {
   createdAt: Date;
   updatedAt: Date;
   supplyLeft: number;
-  auctionBidIncrement:number;
+  auctionBidIncrement: number;
   status: 'upcoming' | 'expired' | 'active' | 'sold';
 }

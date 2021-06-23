@@ -178,7 +178,7 @@ const FromCollectorsBox = ({
         <small style={{ fontSize: '15px' }}>
           {!!countProductListings
             ? `(${countProductListings} for sale)`
-            : `${countProductListings} minted`}
+            : `${countProductListings} on sale`}
         </small>
       </S.BoxColumn>
       <div>
@@ -320,11 +320,11 @@ const SkuButtonBlock = ({
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
         />
-        {/* <FromCollectorsBox
-          minimunPrice={2}
-          totalSupply={20}
-          countProductListings={10}
-        /> */}
+        <FromCollectorsBox
+          minimunPrice={sku?.minPrice}
+          countProductListings={sku.countProductListings}
+          skuId={sku._id}
+        />
       </>
     );
   }

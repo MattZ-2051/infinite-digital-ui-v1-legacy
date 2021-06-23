@@ -32,7 +32,7 @@ const Transaction = ({ transaction, bid }: Props) => {
           @{transaction?.owner.username}
         </S.Username>
 
-        <S.TransactionInfo>
+        <S.TransactionInfo padding="0 0 0 10px">
           <S.TransactionDetails>
             {transaction?.type === 'purchase' &&
               transaction?.status === 'success' && (
@@ -115,7 +115,7 @@ const Transaction = ({ transaction, bid }: Props) => {
         <S.Username className="username" onClick={handleRedirectToCollections}>
           @{bid?.owner.username}
         </S.Username>
-        <S.TransactionInfo>
+        <S.TransactionInfo padding="0 0 0 10px">
           <S.TransactionDetails>
             <S.FlexDiv>
               <S.Description>Bid for</S.Description>

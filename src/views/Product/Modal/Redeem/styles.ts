@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 
 export const Container = styled.div`
   padding: 20px;
@@ -10,6 +11,9 @@ export const Container = styled.div`
   }
 `;
 
+export const RedeemIcon = styled(Redeemable)`
+  margin-right: 5px;
+`;
 export const Header = styled.p`
   font-size: 22px;
   font-weight: 600;
@@ -44,8 +48,8 @@ export const RowFlex = styled.div<{ padding: string }>`
   padding: ${(props) => `${props.padding}`};
 `;
 
-export const Slash = styled.span`
-  padding: 0 5px;
+export const Slash = styled.span<{ padding: string }>`
+  padding: ${(props) => `${props.padding}`};
 `;
 
 export const IssuerName = styled.p`

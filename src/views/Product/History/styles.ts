@@ -4,7 +4,7 @@ import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
 import { mediaQueries } from 'theme/media';
 import { Link } from 'react-router-dom';
 import { ReactComponent as ActionButtonSvg } from 'assets/svg/icons/action-button.svg';
-import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
+import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable-white-background.svg';
 import { ReactComponent as IsRedeemedSvg } from 'assets/svg/icons/is-redeemed-icon.svg';
 import { Theme } from 'theme/theme';
 import Pagination from '@material-ui/lab/Pagination';
@@ -54,11 +54,14 @@ export const ActiveAmount = styled.span`
   font-weight: 600;
 `;
 
-export const FlexColumn = styled.div`
+export const FlexColumn = styled.div<{ alignItems?: string; padding?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: ${(props) =>
+    props.alignItems ? `${props.alignItems}` : `flex-end`};
+
+  padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
 export const ActionButton = styled(ActionButtonSvg)`
@@ -99,23 +102,24 @@ export const StatusText = styled.span`
   padding-right: 5px;
 `;
 
-export const FlexDiv = styled.div<{ padding?: string; width?: string }>`
+export const FlexDiv = styled.div<{
+  padding?: string;
+  width?: string;
+  justifyContent?: string;
+}>`
   display: flex;
   align-items: center;
+  justify-content: ${(props) =>
+    props.justifyContent && `${props.justifyContent}`};
   padding: ${(props) => props.padding};
   width: ${(props) => props.width};
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<{ alignItems: string; flexDirection: string }>`
   display: flex;
-  align-items: center;
+  align-items: ${(props) => props.alignItems && `${props.alignItems}`};
   padding-right: 0;
-  flex-direction: column;
-
-  ${mediaQueries.sm} {
-    flex-direction: row;
-    padding-right: 80px;
-  }
+  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
 `;
 
 export const TitleLink = styled(Link)`
@@ -214,16 +218,15 @@ export const Padding = styled.div`
   border-bottom: 2px solid #2e2e2e;
 `;
 
-export const ProductOwner = styled.div`
+export const ProductOwner = styled.div<{
+  flexDirection: string;
+  padding?: string;
+}>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
   font-size: 16px;
   padding-left: 0;
-
-  ${mediaQueries.sm} {
-    flex-direction: row;
-    padding-left: 16px;
-  }
+  padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
 export const Owner = styled.span`
@@ -232,23 +235,24 @@ export const Owner = styled.span`
   :hover {
     cursor: pointer;
   }
-
-  ${mediaQueries.sm} {
-    margin-left: 10px;
-  }
 `;
 
 export const TextContainer = styled.div<{
   borderBottom?: boolean;
   paddingTop?: string;
+  marginRight?: string;
+  padding?: string;
 }>`
-  margin-right: 80px;
+  margin-right: ${(props) =>
+    props.marginRight ? `${props.marginRight}` : `80px`};
   ${(props) => props.borderBottom && `border-bottom: 2px solid #2e2e2e`};
   ${(props) => props.paddingTop && `padding-top: ${props.paddingTop}`};
   display: flex;
   width: 100%;
   align-items: baseline;
+  padding-left: 10px;
   justify-content: flex-end;
+  padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
 export const Text = styled.p<{
@@ -306,18 +310,18 @@ export const Title = styled.div`
 export const Slash = styled.span`
   color: #7c7c7c;
   margin-left: 10px;
-  display: none;
+  display: inline-block;
 
   ${mediaQueries.sm} {
     display: inline-block;
   }
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div<{ flexDirection?: string }>`
   padding-right: 0;
   display: flex;
+  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
   align-items: center;
-
   ${mediaQueries.sm} {
     padding-right: 80px;
   }
@@ -370,7 +374,11 @@ export const BidsContainer = styled.div<{ padding: string }>`
   }
 `;
 
-export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
+export const StyledPagination = styled(Pagination)<{
+  theme;
+  themeStyle;
+  padding?: string;
+}>`
   .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
     background-color: ${({ themeStyle, theme }) =>
       themeStyle === 'dark'
@@ -394,6 +402,7 @@ export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
     color: ${({ themeStyle, theme }) =>
       themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
+  padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
 export const Redeemed = styled.p<{ color: string }>`
@@ -406,13 +415,27 @@ export const Redeemed = styled.p<{ color: string }>`
 export const RedeemIcon = styled(RedeemSvg)`
   fill: #7c7c7c;
   stroke: #7c7c7c;
-  margin-right: 13px;
+  margin-top: 5px;
+  margin-left: -5px;
 `;
 
 export const IsRedeemedIcon = styled(IsRedeemedSvg)`
   fill: #3a3a3a;
   stroke: #3a3a3a;
   margin-right: 10px;
+`;
+
+export const MobileContainer = styled.div`
+  width: 100%;
+  height: 160px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2e2e2e;
+  padding: 24px;
+  margin-top: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const PlaceBidsContainer = styled.div`
@@ -427,12 +450,15 @@ export const PlaceBidsContainer = styled.div`
   border-radius: 5px;
 `;
 
-export const PlaceBidButton = styled.button<{ active: boolean }>`
+export const PlaceBidButton = styled.button<{
+  active: boolean;
+  width?: string;
+}>`
   background-color: ${(props) => (props.active ? 'white' : '#3B3B3B')};
   color: ${(props) => (props.active ? 'black' : 'white')};
   border-radius: 30px;
   border: none;
-  width: 177px;
+  width: ${(props) => (props.width ? `${props.width}` : `177px`)};
   height: 56px;
   font-size: 20px;
   font-weight: 500;

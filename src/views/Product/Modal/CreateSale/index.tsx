@@ -35,9 +35,7 @@ const CreateSale = ({
   const [total, setTotal] = useState<number>();
   const [loading, setLoading] = useState(false);
 
-  const fee = product?.resale
-    ? product?.resaleSellersFeePercentage
-    : product?.initialSellersFeePercentage;
+  const fee = product?.resaleSellersFeePercentage;
 
   useEffect(() => {
     if (price) {

@@ -15,11 +15,12 @@ import BuyNowModal from '../Modal/BuyNow';
 import CancelSale from '../Modal/CancelSale';
 import { Link } from 'react-router-dom';
 import DropDown from './DropDown';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
 import { formatCountdown, formatDate } from 'utils/dates';
 import { getBids } from 'services/api/productService';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
+import { useCountdown } from 'hooks/useCountdown';
 import * as S from './styles';
 import OwnerAccessList from 'views/Product/OwnerAccess';
 import padlock from 'assets/svg/icons/padlock-icon.svg';
@@ -95,6 +96,9 @@ const History = ({
     product?.activeProductListings[0]?.auctionBidIncrement || 1;
 
   const loggedInUser = useAppSelector((state) => state.session.user);
+  const parsedStartDate =
+    product && new Date(product?.activeProductListings[0]?.endDate);
+  const countdown = parsedStartDate && useCountdown(parsedStartDate);
 
   const handleRedirectToOwnerPage = () => {
     history.push(`/collection/${product?.owner.username}`);
@@ -250,6 +254,7 @@ const History = ({
       setTotalBids(res.data[0]?.listing?.bids?.length);
     }
   };
+
   useEffect(() => {
     if (selectedTab === 'history') {
       if (
@@ -397,11 +402,17 @@ const History = ({
           </div>
         </S.Title>
         <S.Header>
-          <S.Row>
+          <S.Row
+            alignItems={matchesMobile ? 'flex-start' : 'center'}
+            flexDirection={matchesMobile ? 'column' : 'row'}
+          >
             <S.ProductId>
-              #{product?.serialNumber} <S.Slash>/</S.Slash>
+              #{product?.serialNumber} {!matchesMobile && <S.Slash>/</S.Slash>}
             </S.ProductId>
-            <S.ProductOwner>
+            <S.ProductOwner
+              padding={matchesMobile ? '10px 0 10px 0' : '0'}
+              flexDirection="column"
+            >
               Owner
               <S.Owner onClick={handleRedirectToOwnerPage}>
                 @{product?.owner.username}
@@ -410,16 +421,15 @@ const History = ({
             {product?.sku.redeemable &&
               (product?.redeemedStatus === 'NA' ? (
                 <>
-                  <S.Slash>/</S.Slash>
-
-                  <S.FlexDiv padding="0 0 0 16px">
+                  {!matchesMobile && <S.Slash>/</S.Slash>}
+                  <S.FlexDiv padding={matchesMobile ? '0' : '0 0 0 16px'}>
                     <S.RedeemIcon />
                     <S.Redeemed color="white">Redeemable</S.Redeemed>
                   </S.FlexDiv>
                 </>
               ) : (
                 <>
-                  <S.Slash>/</S.Slash>
+                  {!matchesMobile && <S.Slash>/</S.Slash>}
 
                   <S.FlexDiv padding="0 0 0 16px">
                     <S.IsRedeemedIcon />
@@ -496,10 +506,33 @@ const History = ({
           )}
           {historyStatus === 'active-sale' &&
             selectedTab === 'history' &&
-            product?.activeProductListings[0].saleType !== 'auction' && (
-              <S.ButtonContainer>
+            product?.activeProductListings[0].saleType !== 'auction' &&
+            matchesMobile && (
+              <S.ButtonContainer flexDirection="column">
+                {' '}
+                <S.FlexColumn padding="0">
+                  <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
+                  <div style={{ display: 'flex' }}>
+                    <S.StatusText>Status:</S.StatusText>
+                    <S.ActiveText>active</S.ActiveText>
+                  </div>
+                </S.FlexColumn>{' '}
+                <S.Button
+                  width="130px"
+                  onClick={() => setIsCancelModalOpen(true)}
+                  hover={true}
+                >
+                  Cancel Sale
+                </S.Button>
+              </S.ButtonContainer>
+            )}
+          {historyStatus === 'active-sale' &&
+            selectedTab === 'history' &&
+            product?.activeProductListings[0].saleType !== 'auction' &&
+            !matchesMobile && (
+              <S.ButtonContainer flexDirection="row">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <S.FlexColumn style={{ paddingRight: '16px' }}>
+                  <S.FlexColumn padding={'0 16px 0 0'}>
                     <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                     <div style={{ display: 'flex' }}>
                       <S.StatusText>Status:</S.StatusText>
@@ -516,6 +549,7 @@ const History = ({
                 </div>
               </S.ButtonContainer>
             )}
+
           {(auctionStatus === 'upcoming-auction' ||
             auctionStatus === 'active-auction-no-bid-owner') &&
             selectedTab === 'auction' && (
@@ -555,6 +589,22 @@ const History = ({
               </S.ButtonContainer>
             )}
         </S.Header>
+        {((product?.activeProductListings.length !== 0 &&
+          product?.activeProductListings[0]?.saleType === 'auction') ||
+          (product?.upcomingProductListings.length !== 0 &&
+            product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+          selectedTab === 'auction' &&
+          matchesMobile && (
+            <S.FlexDiv justifyContent="flex-end" padding="0 0 10px 0">
+              {' '}
+              <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
+                Expires in
+              </S.Text>
+              <S.Text color="white" size="18px" fontWeight={600}>
+                {product?.activeProductListings[0] && countdown}
+              </S.Text>{' '}
+            </S.FlexDiv>
+          )}
 
         <S.TabBar>
           {((product?.activeProductListings.length !== 0 &&
@@ -599,18 +649,32 @@ const History = ({
             marginRight={selectedTab === 'history'}
             width={selectedTab === 'history'}
           />
-          {product?.activeProductListings.length !== 0 &&
-            product?.activeProductListings[0]?.saleType === 'auction' &&
-            selectedTab === 'auction' && (
+          {((product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction') ||
+            (product?.upcomingProductListings.length !== 0 &&
+              product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+            selectedTab === 'auction' &&
+            (matchesMobile ? (
+              <S.TextContainer
+                borderBottom={true}
+                marginRight="0"
+                padding="0 0 0 10px"
+              >
+                {' '}
+                <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+                  {product?.activeProductListings[0] &&
+                    `(${formatDate(
+                      new Date(product?.activeProductListings[0].endDate)
+                    )})`}
+                </S.Text>
+              </S.TextContainer>
+            ) : (
               <S.TextContainer borderBottom={true}>
                 <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
                   Expires in
                 </S.Text>
                 <S.Text color="white" size="18px" fontWeight={600}>
-                  {product?.activeProductListings[0] &&
-                    formatCountdown(
-                      new Date(product?.activeProductListings[0]?.endDate)
-                    )}
+                  {product?.activeProductListings[0] && countdown}
                 </S.Text>{' '}
                 <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
                   {product?.activeProductListings[0] &&
@@ -619,28 +683,7 @@ const History = ({
                     )})`}
                 </S.Text>
               </S.TextContainer>
-            )}
-          {product?.upcomingProductListings.length !== 0 &&
-            product?.upcomingProductListings[0]?.saleType === 'auction' &&
-            selectedTab === 'auction' && (
-              <S.TextContainer borderBottom={true}>
-                <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
-                  Expires in
-                </S.Text>
-                <S.Text color="white" size="18px" fontWeight={600}>
-                  {product?.upcomingProductListings[0] &&
-                    formatCountdown(
-                      new Date(product?.upcomingProductListings[0]?.endDate)
-                    )}
-                </S.Text>{' '}
-                <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
-                  {product?.upcomingProductListings[0] &&
-                    `(${formatDate(
-                      new Date(product?.upcomingProductListings[0].endDate)
-                    )})`}
-                </S.Text>
-              </S.TextContainer>
-            )}
+            ))}
         </S.TabBar>
         {selectedTab === 'history' && (
           <S.TransactionHistory>
@@ -708,7 +751,17 @@ const History = ({
                   }
                 })}
             </S.TransactionContainer>
-            <div style={{ paddingTop: '30px' }}>
+            {matchesMobile ? (
+              <S.FlexDiv justifyContent="center" padding="30px 0 0 0">
+                <S.StyledPagination
+                  themeStyle={themeStyle}
+                  page={historyPage}
+                  count={Math.ceil(totalTransactions / perPage)}
+                  onChange={handlePagination}
+                  siblingCount={matchesMobile ? 0 : 1}
+                />
+              </S.FlexDiv>
+            ) : (
               <S.StyledPagination
                 themeStyle={themeStyle}
                 page={historyPage}
@@ -716,7 +769,7 @@ const History = ({
                 onChange={handlePagination}
                 siblingCount={matchesMobile ? 0 : 1}
               />
-            </div>
+            )}
           </S.TransactionHistory>
         )}
         {selectedTab === 'auction' && (
@@ -775,28 +828,55 @@ const History = ({
                 (auctionStatus === 'active-auction-bid-user' ||
                   auctionStatus === 'active-auction-no-bid-user') && (
                   <S.BidsHistory>
-                    <S.PlaceBidsContainer>
-                      <S.FlexDiv width="60%">
-                        <img src={BidIcon} alt="" />
-                        <S.AmountInput
-                          name="amount-input"
-                          placeholder={`Place a bid higher or equal to $${getMinBid()}`}
-                          decimalsLimit={2}
-                          onValueChange={(val) => setBidAmount(val)}
-                          defaultValue={0.0}
-                          maxLength={10}
-                          allowNegativeValue={false}
-                          value={bidAmount ? bidAmount : ''}
-                          step={10}
-                        />
-                      </S.FlexDiv>
-                      <S.PlaceBidButton
-                        active={!!bidAmount}
-                        onClick={handleBid}
-                      >
-                        Place Bid
-                      </S.PlaceBidButton>
-                    </S.PlaceBidsContainer>
+                    {matchesMobile ? (
+                      <S.MobileContainer>
+                        <S.FlexDiv width="100%">
+                          <img src={BidIcon} alt="" />
+                          <S.AmountInput
+                            name="amount-input"
+                            placeholder={`Place a bid higher or equal to $${getMinBid()}`}
+                            decimalsLimit={2}
+                            onValueChange={(val) => setBidAmount(val)}
+                            defaultValue={0.0}
+                            maxLength={10}
+                            allowNegativeValue={false}
+                            value={bidAmount ? bidAmount : ''}
+                            step={10}
+                          />
+                        </S.FlexDiv>
+                        <S.PlaceBidButton
+                          active={!!bidAmount}
+                          onClick={handleBid}
+                          width="100%"
+                        >
+                          Place Bid
+                        </S.PlaceBidButton>
+                      </S.MobileContainer>
+                    ) : (
+                      <S.PlaceBidsContainer>
+                        <S.FlexDiv width="65%">
+                          <img src={BidIcon} alt="" />
+                          <S.AmountInput
+                            name="amount-input"
+                            placeholder={`Place a bid higher or equal to $${getMinBid()}`}
+                            decimalsLimit={2}
+                            onValueChange={(val) => setBidAmount(val)}
+                            defaultValue={0.0}
+                            maxLength={10}
+                            allowNegativeValue={false}
+                            value={bidAmount ? bidAmount : ''}
+                            step={10}
+                          />
+                        </S.FlexDiv>
+                        <S.PlaceBidButton
+                          active={!!bidAmount}
+                          onClick={handleBid}
+                        >
+                          Place Bid
+                        </S.PlaceBidButton>
+                      </S.PlaceBidsContainer>
+                    )}
+
                     {bids instanceof Array &&
                       bids.map((bid) => {
                         return <Transaction key={bid._id} bid={bid} />;
@@ -806,23 +886,11 @@ const History = ({
               )}
               {auctionStatus !== 'upcoming-auction' &&
                 auctionStatus !== 'active-auction-no-bid-owner' &&
-                auctionStatus !== 'active-auction-no-bid-user' && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      paddingTop: '30px',
-                    }}
-                  >
-                    <S.StyledPagination
-                      themeStyle={themeStyle}
-                      page={auctionPage}
-                      count={Math.ceil(totalBids / perPage)}
-                      onChange={handlePagination}
-                      siblingCount={matchesMobile ? 0 : 1}
-                    />
-
-                    {product?.activeProductListings.length !== 0 && (
+                auctionStatus !== 'active-auction-no-bid-user' &&
+                (matchesMobile ? (
+                  <S.FlexColumn alignItems="center" padding="32px 0 0 0">
+                    {(product?.activeProductListings.length !== 0 ||
+                      product?.upcomingProductListings.length !== 0) && (
                       <S.FlexDiv>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                           Started at
@@ -841,27 +909,53 @@ const History = ({
                         </S.Text>
                       </S.FlexDiv>
                     )}
-                    {product?.upcomingProductListings.length !== 0 && (
+                    <S.StyledPagination
+                      themeStyle={themeStyle}
+                      page={auctionPage}
+                      count={Math.ceil(totalBids / perPage)}
+                      onChange={handlePagination}
+                      siblingCount={matchesMobile ? 0 : 1}
+                      padding="32px 0 0 0"
+                    />
+                  </S.FlexColumn>
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      paddingTop: '30px',
+                    }}
+                  >
+                    <S.StyledPagination
+                      themeStyle={themeStyle}
+                      page={auctionPage}
+                      count={Math.ceil(totalBids / perPage)}
+                      onChange={handlePagination}
+                      siblingCount={matchesMobile ? 0 : 1}
+                    />
+
+                    {(product?.activeProductListings.length !== 0 ||
+                      product?.upcomingProductListings.length !== 0) && (
                       <S.FlexDiv>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                           Started at
                         </S.Text>
                         <S.Text color="white" size="16px" fontWeight={600}>
-                          ${product?.upcomingProductListings[0]?.minBid}
+                          ${product?.activeProductListings[0]?.minBid}
                         </S.Text>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                           on{' '}
                           {product &&
                             formatDate(
                               new Date(
-                                product?.upcomingProductListings[0]?.startDate
+                                product?.activeProductListings[0]?.startDate
                               )
                             )}
                         </S.Text>
                       </S.FlexDiv>
                     )}
                   </div>
-                )}
+                ))}
             </S.TransactionHistory>
           </>
         )}

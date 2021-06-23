@@ -98,10 +98,11 @@ export const Link = styled.div`
   }
 `;
 
-export const TransactionInfo = styled.div`
+export const TransactionInfo = styled.div<{ padding?: string }>`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
 export const TransactionDetails = styled.div`
@@ -150,7 +151,6 @@ export const Date = styled.span`
 export const Username = styled.p`
   font-size: 16px;
   margin: 0;
-  width: 80px;
   color: #9e9e9e;
   :hover {
     cursor: pointer;

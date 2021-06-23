@@ -13,7 +13,6 @@ import { Sku } from 'entities/sku';
 
 // Components
 import Rarity from 'components/Rarity';
-import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 
 interface Props {
@@ -63,8 +62,8 @@ const RedeemModal = ({
               <S.SeriesName>{sku?.series?.name}</S.SeriesName>
               {redeemable === 'NA' && (
                 <>
-                  <S.Slash>/</S.Slash>
-                  <Redeemable />
+                  <S.Slash padding="0 5px">/</S.Slash>
+                  <S.RedeemIcon />
                   Redeemable
                 </>
               )}
