@@ -100,8 +100,6 @@ const AddFunds = () => {
 
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
 
-  console.log('amount', amount);
-
   return (
     <S.Container>
       <S.ContentContainer>

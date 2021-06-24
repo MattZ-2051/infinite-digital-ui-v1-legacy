@@ -8,6 +8,7 @@ import { Sku } from 'entities/sku';
 import TilePill from './components/TilePill';
 import Emoji from 'components/Emoji';
 import { Media } from '../../Media/Media';
+
 interface Props {
   sku: Sku;
   topLeft: string;
@@ -35,6 +36,7 @@ interface Props {
   supplyType: string;
   themeStyle: 'light' | 'dark';
 }
+
 const Tile = ({
   sku,
   topLeft,
@@ -57,6 +59,7 @@ const Tile = ({
         {redeemable ? (
           <RedeemIcon src={redeemIcon} style={{ position: 'absolute' }} />
         ) : null}
+
         <Media
           src={skuImg}
           styles={{
@@ -66,6 +69,7 @@ const Tile = ({
             objectFit: 'cover',
           }}
         />
+
         <StyledCardContent themeStyle={themeStyle}>
           <Row>
             <IssuerName style={{ fontSize: '16px' }}>
@@ -73,6 +77,7 @@ const Tile = ({
             </IssuerName>
             <Rarity type={skuRarity} />
           </Row>
+
           <SkuName>
             {middle.length > 34 ? `${middle.slice(0, 34)}...` : middle}
           </SkuName>
@@ -154,6 +159,7 @@ const Tile = ({
     </CardContainer>
   );
 };
+
 const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
@@ -167,6 +173,7 @@ const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
   border-bottom-right-radius: 20px;
   padding-top: 0px;
 `;
+
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
@@ -176,12 +183,14 @@ const CardContainer = styled.div`
     cursor: pointer;
   }
 `;
+
 const ComplementText = styled.span<{ theme; themeStyle }>`
   color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
       ? theme.palette.dark.baseComplement
       : theme.palette.light.baseComplement};
 `;
+
 const NotForSale = styled.span`
   font-weight: 700;
   margin: auto;
@@ -189,6 +198,7 @@ const NotForSale = styled.span`
   line-height: 32px;
   height: 32px;
 `;
+
 const Upcoming = styled.span`
   font-weight: 700;
   margin: auto;
@@ -196,6 +206,7 @@ const Upcoming = styled.span`
   line-height: 32px;
   height: 32px;
 `;
+
 const SerialNum = styled.p`
   display: flex;
   font-weight: 400;
@@ -203,6 +214,7 @@ const SerialNum = styled.p`
   letter-spacing: 0em;
   color: #9e9e9e;
 `;
+
 const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
   background-color: ${({ themeStyle, theme, active }) =>
     themeStyle === 'dark'
@@ -231,6 +243,7 @@ const Pill = styled.div<{ theme; themeStyle; active: boolean }>`
   padding: 0 25px;
   bottom: 25px;
 `;
+
 const BottomCardText = styled.p<{ theme; themeStyle }>`
   color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
@@ -244,12 +257,14 @@ const BottomCardText = styled.p<{ theme; themeStyle }>`
   display: flex;
   align-items: center;
 `;
+
 const AccentCardText = styled(BottomCardText)<{ theme; themeStyle }>`
   color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
       ? theme.palette.dark.darkGreyText
       : theme.palette.light.baseComplement};
 `;
+
 const SkuName = styled.p`
   font-size: 26px;
   font-weight: 600;
@@ -258,10 +273,12 @@ const SkuName = styled.p`
   margin: 0;
   height: 52px;
 `;
+
 const IssuerName = styled.p`
   font-weight: 600;
   font-size: 16px;
   line-height: 20.24px;
   color: #9e9e9e;
 `;
+
 export default Tile;
