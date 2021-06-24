@@ -12,13 +12,11 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const {
     _id,
     minPrice,
-    issuer,
     name,
     graphicUrl,
     rarity,
     circulatingSupply,
     totalSupplyLeft,
-    totalUpcomingSupply,
     series,
     minStartDate,
     redeemable,
@@ -27,6 +25,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     productListings,
     skuListings,
     issuerName,
+    totalUpcomingSupply,
   } = sku;
 
   const history = useHistory();
@@ -57,7 +56,8 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       return;
     } else if (
       sku.totalSupplyLeft !== 0 &&
-      sku.activeSkuListings?.length !== 0
+      (sku.activeSkuListings?.length !== 0 ||
+        sku.activeProductListings?.length !== 0)
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
