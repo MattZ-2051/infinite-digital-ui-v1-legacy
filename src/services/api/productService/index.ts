@@ -101,7 +101,11 @@ export const getProductTransactionHistory = async (
       url: `/products/${productId}/transactions`,
       params: { page: page, per_page: perPage },
     });
-    return res;
+    const { data, headers } = res;
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+    return { data, total };
   } catch (err) {
     return err;
   }

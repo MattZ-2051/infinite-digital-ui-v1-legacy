@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
+import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 
 export const Container = styled.div`
   border-top: 1px solid #2e2e2e;
@@ -15,6 +16,13 @@ export const Container = styled.div`
   :hover .username {
     color: white;
   }
+`;
+
+export const RedeemIcon = styled(RedeemSvg)`
+  fill: #7c7c7c;
+  stroke: #7c7c7c;
+  margin-right: 8px;
+  padding: 2px;
 `;
 
 export const UsernameTypeMint = styled.span`
@@ -105,12 +113,12 @@ export const TransactionInfo = styled.div<{ padding?: string }>`
   padding: ${(props) => props.padding && `${props.padding}`};
 `;
 
-export const TransactionDetails = styled.div`
+export const TransactionDetails = styled.div<{ alignItems: string }>`
   display: flex;
   flex-direction: column;
   padding-right: 10px;
   justify-content: center;
-  align-items: flex-start;
+  align-items: ${(props) => props.alignItems && `${props.alignItems}`};
 `;
 
 export const LinkIcon = styled(linkSVG)`
@@ -123,11 +131,11 @@ export const LinkIcon = styled(linkSVG)`
   }
 `;
 
-export const Description = styled.span`
+export const Description = styled.span<{ paddingRight: string }>`
   color: #9e9e9e;
   font-weight: 600;
   font-size: 16px;
-  padding-right: 10px;
+  padding-right: ${(props) => props.paddingRight && `${props.paddingRight}`};
 `;
 
 export const FlexDiv = styled.div`
@@ -137,13 +145,14 @@ export const FlexDiv = styled.div`
   width: 100%;
 `;
 
-export const Amount = styled.span`
+export const Text = styled.span`
   color: white;
   font-weight: 600;
   font-size: 16px;
 `;
 
-export const Date = styled.span`
+export const Date = styled.p`
+  margin: 0;
   font-size: 13px;
   color: #9e9e9e;
 `;

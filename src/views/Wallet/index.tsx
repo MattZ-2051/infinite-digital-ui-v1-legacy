@@ -99,6 +99,7 @@ const Wallet = (props) => {
       }
     );
     setTransactions(res);
+    console.log('here', res);
     setTransactionsLoading(false);
   }
 

@@ -23,7 +23,7 @@ const Product = ({}) => {
   >(null);
   const [totalTransactions, setTotalTransactions] = useState<number>(1);
   const [historyPage, setHistoryPage] = useState<number>(1);
-  const perPage = 5;
+  const perPage = 4;
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useAppDispatch();
 
@@ -39,7 +39,7 @@ const Product = ({}) => {
 
     setProduct(productRes.data);
     setTransactionHistory(transactionRes.data);
-    setTotalTransactions(transactionRes.data.length);
+    setTotalTransactions(transactionRes.total);
   }
 
   async function updateUserBalance() {
@@ -49,9 +49,12 @@ const Product = ({}) => {
   }
 
   useEffect(() => {
-    fetchData();
     updateUserBalance();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [historyPage]);
 
   if (!product || !transactionHistory) {
     return <PageLoader />;

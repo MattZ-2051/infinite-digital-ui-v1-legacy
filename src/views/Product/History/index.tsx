@@ -57,8 +57,7 @@ const History = ({
   historyPage,
   setHistoryPage,
 }: Props): JSX.Element => {
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const [showLink, setShowLink] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<
     'history' | 'auction' | 'owner_access'
@@ -87,7 +86,7 @@ const History = ({
     product?.activeProductListings[0]?.price
   );
   const [auctionPage, setAuctionPage] = useState<number>(1);
-  const perPage = 5;
+  const perPage = 4;
   const price = product?.listing?.price;
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
@@ -370,21 +369,6 @@ const History = ({
   }, [auctionPage]);
 
   if (historyStatus === '') return <></>;
-  const filteredTransactions =
-    transactionHistory &&
-    transactionHistory.filter((tx, index) => {
-      if (
-        (tx.type === 'nft_transfer_manual' &&
-          tx.status !== 'error' &&
-          tx.status !== 'pending') ||
-        (tx.type === 'purchase' && tx.status === 'success') ||
-        (tx.type === 'nft_mint' &&
-          tx.status !== 'error' &&
-          tx.status !== 'pending')
-      ) {
-        return tx;
-      }
-    });
 
   return (
     <>
@@ -686,91 +670,24 @@ const History = ({
             ))}
         </S.TabBar>
         {selectedTab === 'history' && (
-          <S.TransactionHistory>
-            <S.TransactionContainer>
-              {filteredTransactions instanceof Array &&
-                filteredTransactions.map((transaction, index) => {
-                  if (filteredTransactions.length >= 2) {
-                    if (
-                      filteredTransactions[filteredTransactions.length - 2]
-                        ?.type === 'nft_mint'
-                    ) {
-                      if (index === filteredTransactions.length - 1) {
-                        return (
-                          <Transaction
-                            key={
-                              filteredTransactions[
-                                filteredTransactions.length - 2
-                              ]._id
-                            }
-                            transaction={
-                              filteredTransactions[
-                                filteredTransactions.length - 2
-                              ]
-                            }
-                          />
-                        );
-                      } else if (index === filteredTransactions.length - 2) {
-                        return (
-                          <Transaction
-                            key={
-                              filteredTransactions[
-                                filteredTransactions.length - 1
-                              ]._id
-                            }
-                            transaction={
-                              filteredTransactions[
-                                filteredTransactions.length - 1
-                              ]
-                            }
-                          />
-                        );
-                      } else {
-                        return (
-                          <Transaction
-                            key={transaction._id}
-                            transaction={transaction}
-                          />
-                        );
-                      }
-                    } else {
-                      return (
-                        <Transaction
-                          key={transaction._id}
-                          transaction={transaction}
-                        />
-                      );
-                    }
-                  } else {
-                    return (
-                      <Transaction
-                        key={transaction._id}
-                        transaction={transaction}
-                      />
-                    );
-                  }
-                })}
-            </S.TransactionContainer>
-            {matchesMobile ? (
-              <S.FlexDiv justifyContent="center" padding="30px 0 0 0">
-                <S.StyledPagination
-                  themeStyle={themeStyle}
-                  page={historyPage}
-                  count={Math.ceil(totalTransactions / perPage)}
-                  onChange={handlePagination}
-                  siblingCount={matchesMobile ? 0 : 1}
-                />
-              </S.FlexDiv>
-            ) : (
+          <>
+            <S.TransactionHistory>
+              <S.TransactionContainer>
+                {transactionHistory instanceof Array &&
+                  transactionHistory.map((tx, index) => {
+                    return <Transaction key={tx._id} transaction={tx} />;
+                  })}
+              </S.TransactionContainer>
               <S.StyledPagination
                 themeStyle={themeStyle}
                 page={historyPage}
                 count={Math.ceil(totalTransactions / perPage)}
                 onChange={handlePagination}
                 siblingCount={matchesMobile ? 0 : 1}
+                padding="32px 0 0 0"
               />
-            )}
-          </S.TransactionHistory>
+            </S.TransactionHistory>
+          </>
         )}
         {selectedTab === 'auction' && (
           <>
@@ -957,6 +874,65 @@ const History = ({
                   </div>
                 ))}
             </S.TransactionHistory>
+            {auctionStatus !== 'upcoming-auction' &&
+              auctionStatus !== 'active-auction-no-bid-owner' &&
+              auctionStatus !== 'active-auction-no-bid-user' && (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    paddingTop: '30px',
+                    paddingRight: '80px',
+                  }}
+                >
+                  <S.StyledPagination
+                    themeStyle={themeStyle}
+                    page={auctionPage}
+                    count={Math.ceil(totalBids / perPage)}
+                    onChange={handlePagination}
+                    siblingCount={matchesMobile ? 0 : 1}
+                  />
+
+                  {product?.activeProductListings.length !== 0 && (
+                    <S.FlexDiv>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        Started at
+                      </S.Text>
+                      <S.Text color="white" size="16px" fontWeight={600}>
+                        ${product?.activeProductListings[0]?.minBid}
+                      </S.Text>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        on{' '}
+                        {product &&
+                          formatDate(
+                            new Date(
+                              product?.activeProductListings[0]?.startDate
+                            )
+                          )}
+                      </S.Text>
+                    </S.FlexDiv>
+                  )}
+                  {product?.upcomingProductListings.length !== 0 && (
+                    <S.FlexDiv>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        Started at
+                      </S.Text>
+                      <S.Text color="white" size="16px" fontWeight={600}>
+                        ${product?.upcomingProductListings[0]?.minBid}
+                      </S.Text>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        on{' '}
+                        {product &&
+                          formatDate(
+                            new Date(
+                              product?.upcomingProductListings[0]?.startDate
+                            )
+                          )}
+                      </S.Text>
+                    </S.FlexDiv>
+                  )}
+                </div>
+              )}
           </>
         )}
 
@@ -968,16 +944,6 @@ const History = ({
           />
         )}
       </S.Container>
-      {/* {product && historyStatus !== ('create-sale' || 'buy-now') && (
-        <ModalPayment
-          visible={isModalOpen}
-          setModalPaymentVisible={setIsModalOpen}
-          product={product}
-          mode={modalMode}
-          historyStatus={historyStatus}
-          activeAmount={1400}
-        />
-      )} */}
       {product && historyStatus === 'buy-now' && (
         <BuyNowModal
           setModalPaymentVisible={setIsModalOpen}
