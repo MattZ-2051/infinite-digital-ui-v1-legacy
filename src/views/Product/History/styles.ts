@@ -267,10 +267,15 @@ export const Text = styled.p<{
   padding: 0 5px;
 `;
 
-export const Button = styled.button<{ width?: string; hover?: boolean }>`
+export const Button = styled.button<{
+  width: string;
+  hover: boolean;
+  height: string;
+  fontSize: string;
+}>`
   border: none;
   width: ${(props) => (props.width ? props.width : '190px')};
-  height: 40px;
+  height: ${(props) => (props.height ? props.height : '40px')};
   border-radius: 35px;
   background-color: #2e2e2e;
   color: white;
@@ -355,7 +360,7 @@ export const Tab = styled.div<{
 `;
 
 export const TransactionContainer = styled.div`
-  height: 80%;
+  height: 86%;
 `;
 
 export const BidsContainer = styled.div<{ padding: string }>`

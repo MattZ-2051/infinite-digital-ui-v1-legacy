@@ -31,13 +31,16 @@ export type HistoryStatus =
   | 'create-sale'
   | 'active-sale'
   | 'upcoming'
+  | 'upcoming-auction'
   | 'owner'
+  | 'active-auction'
   | '';
 
 export type AuctionStatus =
   | 'active-auction-no-bid-owner'
   | 'active-auction-no-bid-user'
-  | 'upcoming-auction'
+  | 'upcoming-auction-owner'
+  | 'upcoming-auction-user'
   | 'active-auction-bid-owner'
   | 'active-auction-bid-user'
   | '';
@@ -96,7 +99,11 @@ const History = ({
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const parsedStartDate =
-    product && new Date(product?.activeProductListings[0]?.endDate);
+    product &&
+    new Date(
+      product?.activeProductListings[0]?.endDate ||
+        product?.upcomingProductListings[0]?.startDate
+    );
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
 
   const handleRedirectToOwnerPage = () => {
@@ -257,10 +264,18 @@ const History = ({
   useEffect(() => {
     if (selectedTab === 'history') {
       if (
-        product?.activeProductListings[0]?.saleType === 'auction' ||
-        product?.upcomingProductListings[0]?.saleType === 'auction'
+        (product?.activeProductListings[0]?.saleType === 'auction' ||
+          product?.upcomingProductListings[0]?.saleType === 'auction') &&
+        product?.upcomingProductListings.length !== 0
       ) {
-        setHistoryStatus('not-for-sale');
+        setHistoryStatus('upcoming-auction');
+      } else if (
+        (product?.activeProductListings[0]?.saleType === 'auction' ||
+          product?.upcomingProductListings[0]?.saleType === 'auction') &&
+        product?.activeProductListings.length !== 0 &&
+        product?.owner?._id !== loggedInUser?.id
+      ) {
+        setHistoryStatus('active-auction');
       } else {
         if (isAuthenticated) {
           if (
@@ -325,9 +340,9 @@ const History = ({
       if (
         product?.upcomingProductListings?.length !== 0 &&
         product?.activeProductListings?.length === 0 &&
-        product?.activeProductListings[0]?.saleType === 'auction'
+        product?.upcomingProductListings[0]?.saleType === 'auction'
       ) {
-        setAuctionStatus('upcoming-auction');
+        setAuctionStatus('upcoming-auction-owner');
       } else if (
         product?.upcomingProductListings?.length === 0 &&
         product?.activeProductListings?.length !== 0 &&
@@ -353,7 +368,7 @@ const History = ({
         product?.activeProductListings?.length === 0 &&
         product?.activeProductListings[0]?.saleType === 'auction'
       ) {
-        setAuctionStatus('upcoming-auction');
+        setAuctionStatus('upcoming-auction-user');
       } else if (
         product?.upcomingProductListings?.length === 0 &&
         product?.activeProductListings?.length !== 0 &&
@@ -434,10 +449,30 @@ const History = ({
                     <S.ToolTipText>NFT Sale Upcoming</S.ToolTipText>
                   </div>
                 )}
-                <S.Button width="130px">Upcoming</S.Button>
+                <S.Button
+                  hover={false}
+                  width="130px"
+                  height="40px"
+                  fontSize="16px"
+                >
+                  Upcoming
+                </S.Button>
               </S.ButtonContainer>
             </>
           )}
+          {historyStatus === 'upcoming-auction' &&
+            selectedTab === 'history' &&
+            product && (
+              <S.FlexColumn padding="0 80px 0 0">
+                <S.Text color="white" size="24px" fontWeight={600}>
+                  Upcoming Auction
+                </S.Text>
+                <S.Text size="14px" color="#999999" fontWeight={500}>
+                  (Starts{' '}
+                  {formatDate(product?.upcomingProductListings[0]?.startDate)})
+                </S.Text>
+              </S.FlexColumn>
+            )}
           {historyStatus === 'owner' && selectedTab === 'history' && (
             <>
               <S.ActionContainer>
@@ -461,30 +496,42 @@ const History = ({
               </S.ActionContainer>
             </>
           )}
-
+          {historyStatus === 'active-auction' && selectedTab === 'history' && (
+            <S.ButtonContainer>
+              <S.Button
+                hover={true}
+                width="160px"
+                height="56px"
+                fontSize="20px"
+                onClick={() => setSelectedTab('auction')}
+              >
+                Bid Now
+              </S.Button>
+            </S.ButtonContainer>
+          )}
           {historyStatus === 'buy-now' && selectedTab === 'history' && (
             <S.ButtonContainer>
-              <S.Button onClick={handleSaleAction} hover={true}>
+              <S.Button
+                onClick={handleSaleAction}
+                hover={true}
+                width="190px"
+                height="40px"
+                fontSize="16px"
+              >
                 Buy Now for ${product?.activeProductListings[0]?.price}
               </S.Button>
             </S.ButtonContainer>
           )}
           {historyStatus === 'create-sale' && selectedTab === 'history' && (
             <S.ButtonContainer>
-              <S.Button onClick={handleSaleAction} width="130px" hover={true}>
-                List for sale
-              </S.Button>
-            </S.ButtonContainer>
-          )}
-          {historyStatus === 'not-for-sale' && selectedTab === 'history' && (
-            <S.ButtonContainer>
               <S.Button
                 onClick={handleSaleAction}
-                className="button_noSale"
                 width="130px"
-                hover={false}
+                hover={true}
+                height="40px"
+                fontSize="16px"
               >
-                Not for sale
+                List for sale
               </S.Button>
             </S.ButtonContainer>
           )}
@@ -505,6 +552,8 @@ const History = ({
                   width="130px"
                   onClick={() => setIsCancelModalOpen(true)}
                   hover={true}
+                  height="40px"
+                  fontSize="16px"
                 >
                   Cancel Sale
                 </S.Button>
@@ -527,6 +576,8 @@ const History = ({
                     width="130px"
                     onClick={() => setIsCancelModalOpen(true)}
                     hover={true}
+                    height="40px"
+                    fontSize="16px"
                   >
                     Cancel Sale
                   </S.Button>
@@ -534,7 +585,7 @@ const History = ({
               </S.ButtonContainer>
             )}
 
-          {(auctionStatus === 'upcoming-auction' ||
+          {(auctionStatus === 'upcoming-auction-owner' ||
             auctionStatus === 'active-auction-no-bid-owner') &&
             selectedTab === 'auction' && (
               <S.ButtonContainer>
@@ -543,14 +594,15 @@ const History = ({
                     width="160px"
                     hover={true}
                     onClick={() => setIsCancelModalOpen(true)}
+                    height="40px"
+                    fontSize="16px"
                   >
                     Cancel Auction
                   </S.Button>
                 </div>
               </S.ButtonContainer>
             )}
-          {(auctionStatus === 'upcoming-auction' ||
-            auctionStatus === 'active-auction-bid-owner') &&
+          {auctionStatus === 'active-auction-bid-owner' &&
             selectedTab === 'auction' && (
               <S.ButtonContainer>
                 <div
@@ -573,10 +625,9 @@ const History = ({
               </S.ButtonContainer>
             )}
         </S.Header>
-        {((product?.activeProductListings.length !== 0 &&
-          product?.activeProductListings[0]?.saleType === 'auction') ||
-          (product?.upcomingProductListings.length !== 0 &&
-            product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+        {product?.activeProductListings.length !== 0 &&
+          product?.activeProductListings[0]?.saleType === 'auction' &&
+          product?.upcomingProductListings.length === 0 &&
           selectedTab === 'auction' &&
           matchesMobile && (
             <S.FlexDiv justifyContent="flex-end" padding="0 0 10px 0">
@@ -630,13 +681,17 @@ const History = ({
           </S.Tab>
 
           <S.GrayLine
-            marginRight={selectedTab === 'history'}
-            width={selectedTab === 'history'}
+            marginRight={
+              selectedTab === 'history' ||
+              auctionStatus.split('-')[0] === 'upcoming'
+            }
+            width={
+              selectedTab === 'history' ||
+              auctionStatus.split('-')[0] === 'upcoming'
+            }
           />
-          {((product?.activeProductListings.length !== 0 &&
-            product?.activeProductListings[0]?.saleType === 'auction') ||
-            (product?.upcomingProductListings.length !== 0 &&
-              product?.upcomingProductListings[0]?.saleType === 'auction')) &&
+          {product?.activeProductListings.length !== 0 &&
+            product?.activeProductListings[0]?.saleType === 'auction' &&
             selectedTab === 'auction' &&
             (matchesMobile ? (
               <S.TextContainer
@@ -696,10 +751,7 @@ const History = ({
                 <S.BidsContainer padding="22px 0px">
                   <S.Text color="white" size="18px" fontWeight={600}>
                     Starts at ${product?.upcomingProductListings[0].minBid} in{' '}
-                    {product?.upcomingProductListings[0].startDate &&
-                      formatCountdown(
-                        new Date(product.upcomingProductListings[0].startDate)
-                      )}{' '}
+                    {countdown}{' '}
                   </S.Text>
                   <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
                     (
@@ -801,13 +853,13 @@ const History = ({
                   </S.BidsHistory>
                 )
               )}
-              {auctionStatus !== 'upcoming-auction' &&
+              {auctionStatus !== 'upcoming-auction-owner' &&
+                auctionStatus !== 'upcoming-auction-user' &&
                 auctionStatus !== 'active-auction-no-bid-owner' &&
                 auctionStatus !== 'active-auction-no-bid-user' &&
                 (matchesMobile ? (
                   <S.FlexColumn alignItems="center" padding="32px 0 0 0">
-                    {(product?.activeProductListings.length !== 0 ||
-                      product?.upcomingProductListings.length !== 0) && (
+                    {product?.activeProductListings.length !== 0 && (
                       <S.FlexDiv>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                           Started at
@@ -851,8 +903,7 @@ const History = ({
                       siblingCount={matchesMobile ? 0 : 1}
                     />
 
-                    {(product?.activeProductListings.length !== 0 ||
-                      product?.upcomingProductListings.length !== 0) && (
+                    {product?.activeProductListings.length !== 0 && (
                       <S.FlexDiv>
                         <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                           Started at
@@ -988,7 +1039,7 @@ const History = ({
         </>
       )}
       {product &&
-        (auctionStatus === 'upcoming-auction' ||
+        (auctionStatus === 'upcoming-auction-owner' ||
           auctionStatus === 'active-auction-no-bid-owner') && (
           <CancelSale
             setModalPaymentVisible={setIsCancelModalOpen}
