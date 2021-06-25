@@ -1,7 +1,7 @@
 import { Card } from 'entities/card';
 import { ITransaction, TransactionData } from 'entities/transaction';
 import { USDCAddress } from 'entities/usdcAddress';
-import { User } from 'entities/user';
+import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
 import { IUser } from './Interfaces/IUser';
@@ -29,6 +29,17 @@ export const getMe = async (token: string): Promise<User> => {
     ...response.data,
     auctionBidIncrement: response.headers['auction-bid-increment'],
   };
+};
+
+export const getBalances = async (
+  token: string
+): Promise<ExtendedBalanceInfo> => {
+  const response = await axiosInstance.request<ExtendedBalanceInfo>({
+    method: 'GET',
+    url: `/wallet/balance`,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };
 
 export const getMyTransactions = async (

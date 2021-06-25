@@ -141,7 +141,7 @@ export const SeeMore = styled.p`
   }
 `;
 
-export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
+export const LatestTransactionsContainer = styled.div<{ overflow?: boolean }>`
   padding: 0 48px;
   height: ${(props) => (props.overflow ? `70%` : `70%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};

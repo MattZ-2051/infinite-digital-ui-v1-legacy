@@ -16,4 +16,11 @@ const createAuction = {
   success: 'Congrats! Your auction has started.',
 };
 
-export { purchase, createSale, createAuction };
+const withdraw = {
+  error: 'Whoops, something went wrong - please try again.',
+  achAdded: 'Congrats! Account added.',
+  achRemoved: 'Account removed.',
+  withdrawDone: 'Congrats! withdraw done.',
+};
+
+export { purchase, createSale, createAuction, withdraw };

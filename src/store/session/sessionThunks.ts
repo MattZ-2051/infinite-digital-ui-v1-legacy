@@ -11,6 +11,7 @@ import {
   removeUserCC,
   createNewCC,
   addFundsToUserWallet,
+  getBalances,
 } from 'services/api/userService';
 
 interface Values {
@@ -58,8 +59,12 @@ export const getUserInfoThunk = createAsyncThunk<
 >('users/me', async (payloadParams, thunkApi) => {
   try {
     const data = await getMe(payloadParams.token);
+    const balances = await getBalances(payloadParams.token);
 
-    return data;
+    return {
+      ...data,
+      balances,
+    };
   } catch (err) {
     return thunkApi.rejectWithValue({
       errorMessage: err.response.data.error_description,

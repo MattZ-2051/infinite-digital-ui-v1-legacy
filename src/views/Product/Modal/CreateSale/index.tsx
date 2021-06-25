@@ -11,7 +11,7 @@ import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
-import { HistoryStatus } from '../../History/index';
+import { HistoryStatus } from '../../History';
 
 export interface IModalProps {
   product: ProductWithFunctions;

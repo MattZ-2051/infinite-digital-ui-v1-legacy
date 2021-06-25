@@ -5,10 +5,8 @@ import Modal, { ModalProps } from '@material-ui/core/Modal';
 import { StyledProps } from '@material-ui/core';
 import * as S from './style';
 
-interface IProps {
+interface IProps extends ModalProps {
   children: any;
-  open?: boolean;
-  onClose?: any;
   height?: string;
   align?: string;
   width?: string;

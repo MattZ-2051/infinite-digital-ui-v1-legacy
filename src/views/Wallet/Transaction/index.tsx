@@ -29,10 +29,16 @@ const Transaction = ({ tx }: IProps) => {
   return (
     <S.Container>
       <S.TransactionDescription>
-        {tx.type === 'purchase' && tx.status === 'success' && (
+        {tx.type === 'purchase' && (
           <>
             <S.Icon src={purchaseIcon} />
-            <span>You bought</span>
+            <span>
+              {tx.status === 'success'
+                ? 'You bought'
+                : tx.status === 'pending'
+                ? 'You bought from'
+                : 'You tried buying from'}
+            </span>
             <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
               {tx.transactionData.sku[0]?.name}
             </S.Link>
@@ -43,32 +49,11 @@ const Transaction = ({ tx }: IProps) => {
             <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
               @{tx.transactionData?.seller?.username}
             </S.Link>
-          </>
-        )}
-        {tx.type === 'purchase' && tx.status === 'pending' && (
-          <>
-            <S.Icon src={purchaseIcon} />
-            <span>You bought from</span>
-            <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-              {tx.transactionData.sku[0]?.name}
-            </S.Link>
-            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
-              @{tx.transactionData?.seller?.username}
-            </S.Link>
-            <S.Bold>(Pending)</S.Bold>
-          </>
-        )}
-        {tx.type === 'purchase' && tx.status === 'error' && (
-          <>
-            <S.Icon src={purchaseIcon} />
-            <span>You tried buying from</span>
-            <S.Link to={`/marketplace/${tx.transactionData.sku[0]?._id}`}>
-              {tx.transactionData.sku[0]?.name}
-            </S.Link>
-            <S.Link to={`/collection/${tx.transactionData?.seller?.username}`}>
-              @{tx.transactionData?.seller?.username}
-            </S.Link>
-            <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
+            {tx.status === 'pending' ? (
+              <S.Bold>(Pending)</S.Bold>
+            ) : tx.status === 'error' ? (
+              <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
+            ) : null}
           </>
         )}
         {tx.type === 'sale' && (
@@ -99,48 +84,57 @@ const Transaction = ({ tx }: IProps) => {
             </S.Link>
           </>
         )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'cc' &&
-          tx.status === 'success' && (
-            <>
-              <S.Icon src={depositIcon} />
+        {tx.type === 'deposit' && tx.transactionData?.deposit?.type === 'cc' && (
+          <>
+            <S.Icon src={depositIcon} />
+            {(tx.status === 'success' && (
               <span>You added funds from your credit card</span>
-            </>
-          )}
+            )) ||
+              (tx.status === 'pending' && (
+                <>
+                  <span>You added funds from your credit card</span>
+                  <S.Bold>(Pending)</S.Bold>
+                </>
+              )) || (
+                <>
+                  <span>You tried to add funds</span>
+                  <S.Bold style={{ color: '#DA1010' }}>
+                    (Transaction Failed)
+                  </S.Bold>
+                </>
+              )}
+          </>
+        )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'cc' &&
-          tx.status === 'pending' && (
-            <>
-              <S.Icon src={depositIcon} />
-              <span>You added funds from your credit card</span>
-              <S.Bold>(Pending)</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'cc' &&
-          tx.status === 'error' && (
-            <>
-              <S.Icon src={depositIcon} />
-              <span>You tried to add funds</span>
-              <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
-          tx.status === 'success' && (
+          tx.transactionData?.deposit?.type === 'circle' && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {/* <S.Icon src={usdcIcon} /> */}
               <S.UsdcIcon />
-              <span>You added funds by depositing </span>
+              <span>
+                {tx.status === 'success'
+                  ? 'You added funds by depositing'
+                  : tx.status === 'pending'
+                  ? 'You added funds by'
+                  : 'You tried to add funds by depositing'}
+              </span>
               <S.Bold>USDC</S.Bold>
+              {tx.status === 'pending' ? (
+                <S.Bold>(Pending)</S.Bold>
+              ) : tx.status === 'error' ? (
+                <S.Bold>(Transaction Failed)</S.Bold>
+              ) : null}
             </div>
           )}
         {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'coinbase' &&
-          tx.status === 'success' && (
+          tx.transactionData?.deposit?.type === 'coinbase' && (
             <>
               <S.Icon src={coinbaseIcon} />
-              <span>You added funds by depositing </span>
+              <span>
+                {tx.status === 'success'
+                  ? 'You added funds by depositing'
+                  : tx.status === 'pending'
+                  ? 'You added funds by depositing'
+                  : 'You tried to add funds by depositing'}
+              </span>
               <S.Bold>
                 $
                 {tx.transactionData.deposit &&
@@ -148,58 +142,15 @@ const Transaction = ({ tx }: IProps) => {
               </S.Bold>
               <span>using</span>
               <S.Bold>Coinbase</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
-          tx.status === 'pending' && (
-            <>
-              <S.UsdcIcon />
-              <span>You added funds by </span>
-              <S.Bold>USDC</S.Bold>
-              <S.Bold>(Pending)</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'coinbase' &&
-          tx.status === 'pending' && (
-            <>
-              <S.Icon src={coinbaseIcon} />
-              <span>You added funds by depositing </span>
-              <S.Bold>
-                $
-                {tx.transactionData.deposit &&
-                  parseFloat(tx.transactionData.deposit.amount).toFixed(2)}
-              </S.Bold>
-              <span>using</span>
-              <S.Bold>Coinbase</S.Bold>
-              <S.Bold>(Pending)</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'circle' &&
-          tx.status === 'error' && (
-            <>
-              <S.UsdcIcon />
-              <span>You tried to add funds by depositing </span>
-              <S.Bold>USDC</S.Bold>
-              <S.Bold>(Transaction Failed)</S.Bold>
-            </>
-          )}
-        {tx.type === 'deposit' &&
-          tx.transactionData?.deposit?.type === 'coinbase' &&
-          tx.status === 'error' && (
-            <>
-              <S.Icon src={coinbaseIcon} />
-              <span>You tried to add funds by depositing </span>
-              <S.Bold>${tx.transactionData.deposit.amount}</S.Bold>
-              <span>using</span>
-              <S.Bold>Coinbase</S.Bold>
-              <S.Bold style={{ color: '#DA1010' }}>(Transaction Failed)</S.Bold>
+              {tx.status === 'pending' ? (
+                <S.Bold>(Pending)</S.Bold>
+              ) : tx.status === 'error' ? (
+                <S.Bold>(Transaction Failed)</S.Bold>
+              ) : null}
             </>
           )}
       </S.TransactionDescription>
-      {!isSmall && (
+      {!isSmall ? (
         <>
           <S.DateContainer>
             <S.Date>
@@ -255,10 +206,12 @@ const Transaction = ({ tx }: IProps) => {
                   tx.transactionData.cost.royaltyFee.toFixed(2)}
               </S.Color>
             )}
+            {tx.type === 'withdrawal' && (
+              <S.Color color="#00C44F">withdraw</S.Color>
+            )}
           </S.TransactionDetail>
         </>
-      )}
-      {isSmall && (
+      ) : (
         <S.TransactionDetail>
           <S.DateContainer>
             <S.Date>
@@ -312,14 +265,20 @@ const Transaction = ({ tx }: IProps) => {
                   tx.transactionData.cost.royaltyFee.toFixed(2)}
               </S.Color>
             )}
+            {tx.type === 'withdrawal' && (
+              <S.Color color="#00C44F">
+                Withdraw
+                {/*- ${parseFloat(tx.transactionData?.amount || '0').toFixed(2)}*/}
+              </S.Color>
+            )}
           </S.DateContainer>
         </S.TransactionDetail>
       )}
       <S.TransactionDetail>
         {showTxId ? (
-          <S.UpArrow onClick={() => setShowTxId(!showTxId)} />
+          <S.UpArrow onClick={() => setShowTxId((prev) => !prev)} />
         ) : (
-          <S.DownArrow onClick={() => setShowTxId(!showTxId)} />
+          <S.DownArrow onClick={() => setShowTxId((prev) => !prev)} />
         )}
       </S.TransactionDetail>
       {showTxId && (

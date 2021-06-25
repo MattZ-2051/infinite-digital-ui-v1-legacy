@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Transaction from './Transaction';
 import DepositModal from './DepositModal';
+import WhitdrawModal from './WithdrawModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getMyTransactions } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -11,13 +12,13 @@ import {
 } from 'store/session/sessionThunks';
 import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
-import KycButton from './KycButton/kycButton';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
 import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListBids from './ActiveBids';
+import KycButton from './KycButton/kycButton';
 
 const NoResults = styled.div``;
 
@@ -50,7 +51,8 @@ const Wallet = (props) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
+    useState<boolean>(false);
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -95,6 +97,9 @@ const Wallet = (props) => {
           {
             type: 'royalty_fee',
           },
+          {
+            type: 'withdrawal',
+          },
         ],
       }
     );
@@ -126,6 +131,14 @@ const Wallet = (props) => {
 
   const handleOpen = () => {
     setIsModalOpen(true);
+  };
+
+  const handleCloseWithdraw = () => {
+    setIsWithdrawModalOpen(false);
+  };
+
+  const handleOpenWithdraw = () => {
+    setIsWithdrawModalOpen(true);
   };
 
   // const handleShowChange = () => {
@@ -195,15 +208,26 @@ const Wallet = (props) => {
               </S.AvailableAmount>
             </S.Available>
 
+            <S.Available>
+              <S.AvailableText>Withdrawable:</S.AvailableText>
+              <S.AvailableAmount>
+                {/* ToDo: Move availableBalance to wallet endpoint */}$
+                {user?.balances?.ccWithdrawablesLock}
+                <S.AvailableSubText>
+                  (Excludes pending transactions)
+                </S.AvailableSubText>
+              </S.AvailableAmount>
+            </S.Available>
+
             <div style={{ paddingTop: '36px' }}>
               <S.ActionButton onClick={handleOpen}>Deposit</S.ActionButton>
             </div>
 
-            {/*  Temporary Hide feature will be enabled Post-MVP
-
-          <div style={{ paddingTop: '12px' }}>
-            <S.ActionButton>Withdrawal</S.ActionButton>
-          </div> */}
+            <div style={{ paddingTop: '12px' }}>
+              <S.ActionButton onClick={handleOpenWithdraw}>
+                Withdrawal
+              </S.ActionButton>
+            </div>
 
             <MuiDivider style={{ margin: '20px 0 20px 0' }} />
 
@@ -244,7 +268,7 @@ const Wallet = (props) => {
             </S.TabContainer>
             <S.LatestTransactionsContainer
               // overflow={showMore}
-              overflow={true}
+              // overflow={true}
               id="tx"
             >
               {selectedTab === 0 && (
@@ -294,6 +318,10 @@ const Wallet = (props) => {
         kycPending={kycPending}
         isModalOpen={isModalOpen}
         handleClose={handleClose}
+      />
+      <WhitdrawModal
+        isModalOpen={isWithdrawModalOpen}
+        handleClose={handleCloseWithdraw}
       />
     </S.Container>
   );

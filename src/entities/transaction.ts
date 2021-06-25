@@ -1,27 +1,31 @@
 import { User } from './user';
 
+export type TransactionType =
+  | 'deposit'
+  | 'transfer'
+  | 'mint'
+  | 'topup'
+  | 'purchase'
+  | 'payment'
+  | 'redeem'
+  | 'sale'
+  | 'nft_transfer'
+  | 'withdrawal'
+  | 'nft_transfer_manual'
+  | 'royalty_fee'
+  | 'nft_mint'
+  | 'bid';
+
+export type TransactionStatus = 'success' | 'error' | 'pending';
+
 export interface ITransaction {
   _id: string;
   owner: User;
-  type:
-    | 'deposit'
-    | 'transfer'
-    | 'mint'
-    | 'topup'
-    | 'purchase'
-    | 'payment'
-    | 'redeem'
-    | 'sale'
-    | 'nft_transfer'
-    | 'withdrawal'
-    | 'nft_transfer_manual'
-    | 'royalty_fee'
-    | 'nft_mint'
-    | 'bid';
+  type: TransactionType;
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;
-  status: 'success' | 'error' | 'pending';
+  status: TransactionStatus;
 }
 
 interface Sku {
