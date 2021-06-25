@@ -925,7 +925,7 @@ const History = ({
                   </div>
                 ))}
             </S.TransactionHistory>
-            {auctionStatus !== 'upcoming-auction' &&
+            {auctionStatus.split('-')[0] !== 'upcoming' &&
               auctionStatus !== 'active-auction-no-bid-owner' &&
               auctionStatus !== 'active-auction-no-bid-user' && (
                 <div
