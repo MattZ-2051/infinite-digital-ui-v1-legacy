@@ -4,7 +4,7 @@ import Emoji from 'components/Emoji';
 import { useAuth0 } from '@auth0/auth0-react';
 import { cancelListing } from 'services/api/listingService';
 import Toast from 'utils/Toast';
-import { HistoryStatus } from '../../History/index';
+import { HistoryStatus } from '../../History/types';
 
 interface Props {
   visible: boolean;

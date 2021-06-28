@@ -8,7 +8,7 @@ import MuiDivider from '@material-ui/core/Divider';
 import Button from 'components/Buttons/Button';
 import TextFIeld from 'components/TextFIeld';
 import CheckBox from 'components/CheckBox';
-import { HistoryStatus } from '../History';
+import { HistoryStatus } from '../History/types';
 import Rarity from 'components/Rarity';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds';

@@ -12,7 +12,7 @@ import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
-import { HistoryStatus } from '../../History/index';
+import { HistoryStatus } from '../../History/types';
 import { getUserInfoThunk } from 'store/session/sessionThunks';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';

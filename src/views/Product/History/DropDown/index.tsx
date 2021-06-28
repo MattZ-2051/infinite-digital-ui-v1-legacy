@@ -19,6 +19,7 @@ const DropDown = ({
   const handleToastError = () => {
     Toast.error('This product has already been redeemed.');
   };
+
   return (
     <div style={{ position: 'relative' }}>
       <S.Container>
