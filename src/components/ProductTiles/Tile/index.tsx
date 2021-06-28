@@ -72,16 +72,16 @@ const Tile = ({
 
         <StyledCardContent themeStyle={themeStyle}>
           <Row>
-            <IssuerName style={{ fontSize: '16px' }}>
+            <IssuerName>
               {topLeft?.length > 15 ? `${topLeft?.slice(0, 15)}...` : topLeft}
             </IssuerName>
-            <Rarity type={skuRarity} />
+            <Rarity type={skuRarity} margin={'0'} />
           </Row>
 
           <SkuName>
             {middle.length > 34 ? `${middle.slice(0, 34)}...` : middle}
           </SkuName>
-          <Row style={{ paddingTop: '8px' }}>
+          <Row>
             <AccentCardText
               themeStyle={themeStyle}
               style={{ textAlign: 'start' }}
@@ -171,7 +171,11 @@ const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
       : theme.palette.light.secondaryComplement};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  padding-top: 0px;
+  padding-top: 21px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 23px;
+  height: 100%;
 `;
 
 const CardContainer = styled.div`
@@ -265,6 +269,9 @@ const AccentCardText = styled(BottomCardText)<{ theme; themeStyle }>`
     themeStyle === 'dark'
       ? theme.palette.dark.darkGreyText
       : theme.palette.light.baseComplement};
+  margin: 0;
+  margin-top: 21px;
+  margin-bottom: 21px;
 `;
 
 const SkuName = styled.p`
@@ -273,7 +280,8 @@ const SkuName = styled.p`
   line-height: 32px;
   letter-spacing: 0em;
   margin: 0;
-  height: 52px;
+  margin-top: 16px;
+  height: 64px;
 `;
 
 const IssuerName = styled.p`
@@ -281,6 +289,7 @@ const IssuerName = styled.p`
   font-size: 16px;
   line-height: 20.24px;
   color: #9e9e9e;
+  margin: 0;
 `;
 
 export default Tile;

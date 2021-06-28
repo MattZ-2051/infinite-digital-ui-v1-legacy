@@ -1,6 +1,5 @@
 import usePriceFormatter from 'hooks/usePriceFormatter';
-import styled from 'styled-components/macro';
-
+import * as S from './styles';
 export interface IProps {
   pillInfo: string;
   status:
@@ -24,113 +23,62 @@ const TilePill = ({ status, pillInfo, light = false }) => {
   );
 
   return (
-    <Container>
+    <S.Container>
       {status.split('-')[0] === 'upcoming' && !status.includes('time') && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <Upcoming isLight={light}>Upcoming</Upcoming>
-        </Pill>
+          <S.Upcoming isLight={light}>Upcoming</S.Upcoming>
+        </S.Pill>
       )}
       {status.includes('time') && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <PillText isLight={light}>Upcoming</PillText>
-          <PillInfo isLight={light} style={{ fontSize: '15px' }}>
+          <S.PillText isLight={light}>Upcoming</S.PillText>
+          <S.PillInfo isLight={light} style={{ fontSize: '15px' }}>
             {pillInfo.replaceAll('-', '')}
-          </PillInfo>
-        </Pill>
+          </S.PillInfo>
+        </S.Pill>
       )}
       {status === 'active-listing' && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <PillText isLight={light}>Current Price:</PillText>
-          <PillInfo isLight={light}>${formattedPrice}</PillInfo>
-        </Pill>
+          <S.PillText isLight={light}>Current Price:</S.PillText>
+          <S.PillInfo isLight={light}>${formattedPrice}</S.PillInfo>
+        </S.Pill>
       )}
       {status === 'active' && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <PillText isLight={light}> Lowest Price:</PillText>
-          <PillInfo isLight={light}>${formattedPrice}</PillInfo>
-        </Pill>
+          <S.PillText isLight={light}> Lowest Price:</S.PillText>
+          <S.PillInfo isLight={light}>${formattedPrice}</S.PillInfo>
+        </S.Pill>
       )}
       {status === 'no-sale' && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'black' : '#e5e5e5' }}
         >
-          <NotForSale isLight={light}>None for sale</NotForSale>
-        </Pill>
+          <S.NotForSale isLight={light}>None for sale</S.NotForSale>
+        </S.Pill>
       )}
       {status === 'no-active-listing' && (
-        <Pill
+        <S.Pill
           isLight={light}
           style={{ backgroundColor: light ? 'black' : '#e5e5e5' }}
         >
-          <NotForSale isLight={light}>Not for sale</NotForSale>
-        </Pill>
+          <S.NotForSale isLight={light}>Not for sale</S.NotForSale>
+        </S.Pill>
       )}
-    </Container>
+    </S.Container>
   );
 };
-
-const Container = styled.div``;
-
-const Pill = styled.div<{ isLight?: boolean }>`
-  position: relative;
-  width: 270px;
-  height: 56px;
-  border-radius: 35px;
-  display: flex;
-  align-items: center;
-  color: ${(props) => (props.isLight ? 'black' : '#c4c4c4')};
-  justify-content: space-between;
-  padding: 0 25px;
-  bottom: 25px;
-`;
-
-const PillText = styled.span<{ isLight?: boolean }>`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20.24px;
-  color: ${(props) => (props.isLight ? 'black' : '#c4c4c4')};
-  height: 20px;
-`;
-
-const PillInfo = styled.span<{ isLight?: boolean }>`
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 32px;
-  height: 32px;
-  color: ${(props) => (props.isLight ? 'black' : 'white')};
-`;
-
-const Upcoming = styled.span<{ isLight?: boolean }>`
-  font-weight: 700;
-  backgound-color: black;
-  margin: auto;
-  color: ${(props) => (props.isLight ? 'black' : 'white')};
-  font-size: 20px;
-  line-height: 32px;
-  height: 32px;
-`;
-
-const NotForSale = styled.span<{ isLight?: boolean }>`
-  font-weight: 700;
-  backgound-color: #e5e5e5;
-  margin: auto;
-  color: ${(props) => (props.isLight ? 'black' : '#9e9e9e')};
-  font-size: 20px;
-  line-height: 32px;
-  height: 32px;
-`;
 
 export default TilePill;

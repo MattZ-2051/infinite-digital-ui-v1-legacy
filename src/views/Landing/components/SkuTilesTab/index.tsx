@@ -34,7 +34,7 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
           data-testid="myCollectionTab"
         />
         <S.ViewAll to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
-          + View all
+          See more
         </S.ViewAll>
       </Tabs>
 

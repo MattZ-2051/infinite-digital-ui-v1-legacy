@@ -209,7 +209,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               </S.TabBar>
             </div>
 
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+            <S.GrayLine />
           </div>
           {selectedTab === 'releases' && (
             <Releases

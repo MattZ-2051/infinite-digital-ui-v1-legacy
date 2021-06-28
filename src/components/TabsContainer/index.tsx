@@ -6,7 +6,7 @@ export interface IProps {
 }
 
 const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 
   && {
     .MuiTabs-centered {

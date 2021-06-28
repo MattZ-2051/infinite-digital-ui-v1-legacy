@@ -1,7 +1,7 @@
 import React from 'react';
-import styled, { css } from 'styled-components/macro';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { Sku } from 'entities/sku';
+import * as S from './styles';
 
 interface Props {
   userReleases: Sku[] | undefined;
@@ -15,44 +15,17 @@ const Releases = ({
   themeStyle = 'light',
 }: Props): JSX.Element => {
   return (
-    <Container collection={collection || false}>
+    <S.Container collection={collection || false}>
       {userReleases &&
         userReleases.map((sku: Sku, index) => {
           return (
-            <TileContainer key={sku._id} index={index}>
+            <S.TileContainer key={sku._id} index={index}>
               <SkuTile sku={sku} themeStyle={themeStyle} />
-            </TileContainer>
+            </S.TileContainer>
           );
         })}
-    </Container>
+    </S.Container>
   );
 };
-
-const TileContainer = styled.div<{ index: number }>`
-  padding: 0 10px;
-`;
-
-const hasCollection = css`
-  margin: auto;
-  :hover {
-    overflow: auto;
-  }
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  @media screen and (max-width: 840px) {
-    justify-content: center;
-  }
-`;
-
-const noCollection = css`
-  display: flex;
-  overflow: auto;
-  width: 100%;
-`;
-
-const Container = styled.div<{ collection?: boolean }>`
-  ${({ collection }) => (collection ? hasCollection : noCollection)}
-`;
 
 export default Releases;
