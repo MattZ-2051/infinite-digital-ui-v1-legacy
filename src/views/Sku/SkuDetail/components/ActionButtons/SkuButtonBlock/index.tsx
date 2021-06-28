@@ -51,7 +51,8 @@ const UpcomingData = ({
           <small style={{ fontSize: '15px', color: '#8E8E8E' }}>{''}</small>
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '28px' }}>${price}</span>
+          {/* <span style={{ fontSize: '28px' }}>${price}</span> */}
+          <S.Price>${price}</S.Price>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
               {items && `(${items} items)`}
@@ -59,10 +60,9 @@ const UpcomingData = ({
           )}
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '28px' }}>{countdown}</span>
-          <small style={{ fontSize: '18px', color: '#8E8E8E' }}>
-            {formatDate(startDate)}
-          </small>
+          {/* <span style={{ fontSize: '28px' }}>{countdown}</span> */}
+          <S.CountDownTime>{countdown}</S.CountDownTime>
+          <S.StartDate>{formatDate(startDate)}</S.StartDate>
         </S.BoxColumn>
       </S.Container>
     </>
@@ -126,7 +126,8 @@ const FromCreatorBox = ({
           </small>
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
+          {/* <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span> */}
+          <S.Price>{price && `$${price}`}</S.Price>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
               {sku?.totalSkuListingSupplyLeft >= 0 &&
@@ -172,9 +173,10 @@ const FromCollectorsBox = ({
         </small>
       </S.BoxColumn>
       <S.BoxColumn style={{ textAlign: 'center' }}>
-        <span style={{ fontSize: '28px' }}>
+        {/* <span style={{ fontSize: '28px' }}>
           {!!countProductListings ? `$${minimunPrice}` : '--'}
-        </span>
+        </span> */}
+        <S.Price> {!!countProductListings ? `$${minimunPrice}` : '--'}</S.Price>
         <small style={{ fontSize: '15px' }}>
           {!!countProductListings
             ? `(${countProductListings} for sale)`

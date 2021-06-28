@@ -17,7 +17,7 @@ export const Container = styled.div`
 
 export const BoxColumn = styled.div`
 display: flex;
-justify -content: space-between;
+justify-content: space-between;
 flex-direction: column;
 small {
   font-weight: 400;
@@ -58,4 +58,26 @@ export const Detail = styled.div`
     justify-content: space-between;
     width: 100%;
   }
+`;
+
+export const Price = styled.span`
+  font-style: normal;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 35px;
+`;
+
+export const CountDownTime = styled.span`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+`;
+
+export const StartDate = styled.span`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  color: #8E8E8E;
 `;
