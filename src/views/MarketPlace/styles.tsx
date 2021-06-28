@@ -71,8 +71,8 @@ export const ProductsGrid = styled.div`
   margin: auto;
   display: grid;
   grid-gap: 24px;
-  grid-template-columns: repeat(auto-fit, 280px);
-  justify-content: space-evenly;
+  grid-template-columns: repeat(auto-fit, 300px);
+  /* justify-content: space-evenly; */
   margin-top: 20px;
 `;
 

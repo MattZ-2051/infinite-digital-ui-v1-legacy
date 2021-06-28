@@ -177,6 +177,8 @@ const StyledCardContent = styled(CardContent)<{ themeStyle; theme }>`
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
+  /* margin-right: 24px; */
+  /* float: left; */
   flex-direction: column;
   width: fit-content;
   :hover {
