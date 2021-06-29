@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IPlaidAccount } from 'entities/plaidAccount';
-import { PulseLoader } from 'react-spinners';
 import AchAccountInfoBox from './AchAccountInfoBox';
 import * as S2 from './styles';
 

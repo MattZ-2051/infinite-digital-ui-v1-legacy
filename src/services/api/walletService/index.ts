@@ -54,7 +54,6 @@ export const getAchAccounts = async (
         limit,
       },
     });
-    console.log(response.headers);
     const resources = response.data.resource;
     const total = response.data.totalDocs;
     // const resources = response.data as IPlaidAccount[];

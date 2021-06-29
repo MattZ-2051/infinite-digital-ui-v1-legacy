@@ -21,7 +21,7 @@ export const validate = (billingDetails) => {
       isDistrictRequired(billingDetails.country) &&
       !billingDetails.district,
     postalCode: billingDetails.postalCode.length <= 3,
-    email: false,
+    email: !billingDetails.email,
     phone: false,
   };
 };
@@ -151,7 +151,8 @@ const BillingFormForAch = ({
           label="Email"
           size="medium"
           fullWidth
-          name="phone"
+          required
+          name="email"
           onChange={handleAnyChange}
           value={valueIn.email}
           {...extraProps?.email}

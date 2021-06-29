@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Card } from './card';
 
 export type TransactionType =
   | 'deposit'
@@ -17,6 +18,7 @@ export type TransactionType =
   | 'bid';
 
 export type TransactionStatus = 'success' | 'error' | 'pending';
+export type DepositType = 'cc' | string;
 
 export interface ITransaction {
   _id: string;
@@ -61,10 +63,18 @@ export interface TransactionData {
   service: string;
   deposit?: {
     id: string;
-    type: string;
+    type: DepositType;
     amount: string;
+    card?: Card;
+    coinbasePayment?: { amount: string; currency: string };
   };
   transactionHash: string | undefined;
+  withdraw?: {
+    amount: string;
+    institution_id: string;
+    institution_name: string;
+    ach_number: string;
+  };
 }
 
 interface Cost {

@@ -7,9 +7,9 @@ import BillingFormForAch, {
 import PlaidRegister from './PlaidRegister';
 import { getPlaidLinkToken } from 'services/api/walletService';
 import { useAuth0 } from '@auth0/auth0-react';
-import { IPlaidAccount } from 'entities/plaidAccount';
 import { PulseLoader } from 'react-spinners';
 import * as S from '../styles';
+import * as S2 from '../styles';
 
 interface IAchAccountAddProps {
   onSuccess: (IPlaidAccount) => any;
@@ -103,18 +103,40 @@ const AchAccountAdd = ({
   }
   if (valueError) {
     return (
-      <>
-        <span>Error</span>
-        <button
-          type="button"
-          onClick={() => {
-            setError(null);
-            onError(valueError);
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <span
+          style={{
+            fontSize: 22,
+            textAlign: 'center',
+            lineHeight: '28px',
+            fontWeight: 600,
           }}
         >
-          Back
-        </button>
-      </>
+          {String.fromCodePoint(...[9888, 65039])} Whoops, something went wrong.
+        </span>
+        <p style={{ textAlign: 'center', color: '#7D7D7D' }}>
+          Lorem ipsum dolor sit amet, consectetur ipsum dolor sit amet,
+          adipiscing consectetur.
+        </p>
+        <S2.Button
+          type="button"
+          style={{ width: '100%' }}
+          onClick={() => {
+            setError(null);
+            onError(valueError?.message);
+          }}
+        >
+          Try Again
+        </S2.Button>
+      </div>
     );
   }
   return (

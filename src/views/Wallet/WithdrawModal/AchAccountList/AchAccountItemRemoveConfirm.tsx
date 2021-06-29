@@ -60,7 +60,7 @@ const AchAccountItemRemoveConfirm = ({
         <S.StyledLoadingButton
           type="button"
           onClick={onConfirm}
-          loadingComponentRender={() => <PulseLoader />}
+          loadingComponentRender={() => <PulseLoader color="white" />}
         >
           Yes
         </S.StyledLoadingButton>

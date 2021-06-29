@@ -104,7 +104,6 @@ const Wallet = (props) => {
       }
     );
     setTransactions(res);
-    console.log('here', res);
     setTransactionsLoading(false);
   }
 
@@ -277,7 +276,6 @@ const Wallet = (props) => {
                     <PageLoader size={15} />
                   ) : !transactions.data.length ? (
                     <NoResults>
-                      {/*<h4>No transactions yet</h4>*/}
                       <p>No transactions yet</p>
                     </NoResults>
                   ) : (
