@@ -32,6 +32,12 @@ export const HeaderLeft = styled.div`
   }
 `;
 
+export const SlashStyle = styled.span`
+  color: '#7c7c7c',
+  fontWeight: 600,
+  padding: '0 5px',
+`;
+
 export const HeaderRight = styled.div`
   width: 46%;
   display: flex;

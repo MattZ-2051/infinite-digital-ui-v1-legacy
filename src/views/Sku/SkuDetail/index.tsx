@@ -181,15 +181,9 @@ const SkuDetail = (): JSX.Element => {
                   >
                     <RedeemIcon />
                     &nbsp; Redeemable{' '}
-                    <span
-                      style={{
-                        color: '#7c7c7c',
-                        fontWeight: 600,
-                        padding: '0 5px',
-                      }}
-                    >
+                    <S.SlashStyle>
                       {skuMessage !== '' ? ' / ' : null}
-                    </span>
+                    </S.SlashStyle>
                   </div>
                 )}
                 <span>{skuMessage}</span>
@@ -209,10 +203,20 @@ const SkuDetail = (): JSX.Element => {
                   @{sku.issuer.username}
                 </S.CreatorName>
                 {sku.issuer?.showNotifyMe && (
-                  <S.NotifyMe to="#" onClick={() => setIsNotifyModalOpen(true)}>
-                    <S.NotifyIconImg src={notifyIcon} />
-                    <span>Notify Me</span>
-                  </S.NotifyMe>
+                  <>
+                    <S.SlashStyle
+                      style={{ marginLeft: '2px', marginRight: '2px' }}
+                    >
+                      {skuMessage !== '' ? ' / ' : null}
+                    </S.SlashStyle>
+                    <S.NotifyMe
+                      to="#"
+                      onClick={() => setIsNotifyModalOpen(true)}
+                    >
+                      <S.NotifyIconImg src={notifyIcon} />
+                      <span>Notify Me</span>
+                    </S.NotifyMe>
+                  </>
                 )}
               </div>
             </S.ProductDetail>
