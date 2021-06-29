@@ -49,6 +49,7 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
         title="Collectors"
         body={body}
         collectorsTotalNum={collectors.length}
+        borderTitle={true}
       />
     </S.Container>
   );

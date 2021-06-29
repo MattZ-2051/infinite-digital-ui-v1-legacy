@@ -1,5 +1,8 @@
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
+import { Theme } from 'theme/theme';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export const HeaderContainer = styled.div`
   background-color: #1a1a1a;
@@ -231,8 +234,84 @@ export const NotifyIconImg = styled.img`
 `;
 
 export const NotifyMe = styled(Link)`
-  ont-size: 15px;
+  font-size: 15px;
   text-decoration: none;
   color: white;
   font-weight: 500;
 `;
+
+export const Tab = styled.div<{
+  selected: boolean;
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+}>`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: ${(props) => (props.selected ? 'black' : '#888888')};
+  padding-bottom: 14px;
+  border: none;
+  border-bottom: ${(props) =>
+    props.selected ? '2px solid black' : '2px solid #ebebeb'};
+  position: relative;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
+export const Padding = styled.div`
+  padding-left: 32px;
+  border-bottom: 2px solid #2e2e2e;
+`;
+
+export const ContainerSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 62%;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+  }
+`;
+
+export const ContainerTabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* width: 100%; */
+  ::after {
+    content: '';
+    border-bottom: 2px solid #ebebeb;
+    width: 100%;
+  }
+`;
+
+export const ContainerDisplayTabs = styled.div`
+  display: flex;
+  flex: 1;
+  margin-top: 20;
+  width: 100%;
+  flex-direction: column;
+`;
+
+export const DownArrow = styled(KeyboardArrowDownIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const UpArrow = styled(KeyboardArrowUpIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const ToggleArrow = styled.button`
+  background-color: transparent;
+  border: none;
+  outline: none;
+`;
+

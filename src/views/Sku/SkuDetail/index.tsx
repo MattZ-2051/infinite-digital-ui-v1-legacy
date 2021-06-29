@@ -21,11 +21,19 @@ import SkuDescription from './components/SkuDescription';
 import LineDivider from './components/LineDivider';
 import NotifyModal from 'components/NotifyModal';
 import notifyIcon from 'assets/svg/icons/notify-white.svg';
+import OwnerAccessList from 'views/Product/OwnerAccess';
+import Collapsible from './components/Collapsible';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
   const { skuid } = useParams<{ skuid: string }>();
   const [collectors, setCollectors] = useState<{
+    data: Collector[];
+    total: number;
+  } | null>(null);
+  const [ownerCollectors, setOwnerCollectors] = useState<{
     data: Collector[];
     total: number;
   } | null>(null);
@@ -37,12 +45,26 @@ const SkuDetail = (): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<
+    'description' | 'owner_access'
+  >('description');
+  const [descriptionVisible, setDescriptionVisible] = useState<boolean>(false);
+  const [ownerAccessVisible, setOwnerAccessVisible] = useState<boolean>(false);
+  const theme = useTheme();
+  const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
+  const toggleDescription = () => {
+    setDescriptionVisible(!descriptionVisible);
+  };
+  const toggleOwnerAccess = () => {
+    setOwnerAccessVisible(!ownerAccessVisible);
+  };
 
   useEffect(() => {
     fetchSku().then((sku) => {
       fetchProducts(sku?.issuer?._id);
     });
     fetchCollectors();
+    fetchOwnerCollectors();
   }, [skuid]);
 
   useEffect(() => {
@@ -60,6 +82,21 @@ const SkuDetail = (): JSX.Element => {
   async function fetchCollectors() {
     const collectors = await getProductCollectors(skuid);
     setCollectors(collectors);
+  }
+
+  async function fetchOwnerCollectors() {
+    const ownerCollectors = await getProductCollectors(
+      skuid,
+      1,
+      1,
+      true,
+      undefined,
+      undefined,
+      true,
+      loggedInUser.id
+    );
+    setOwnerCollectors(ownerCollectors);
+    console.log('owner--->', ownerCollectors);
   }
 
   async function fetchSku() {
@@ -190,11 +227,78 @@ const SkuDetail = (): JSX.Element => {
           </S.HeaderRight>
         </S.HeaderContent>
       </S.HeaderContainer>
-      )
       <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
-        <SkuDescription description={sku.description || ''} />
+        <S.ContainerSection>
+          <S.ContainerTabs>
+            <S.Tab
+              style={{ paddingRight: '20px' }}
+              themeStyle={'light'}
+              selected={selectedTab === 'description'}
+              onClick={() => setSelectedTab('description')}
+            >
+              <div style={{ display: 'flex' }}>
+                Description{' '}
+                {isSmall && (
+                  <S.ToggleArrow onClick={toggleDescription}>
+                    {!descriptionVisible ? (
+                      <S.DownArrow style={{ color: 'black' }} />
+                    ) : (
+                      <S.UpArrow style={{ color: 'black' }} />
+                    )}
+                  </S.ToggleArrow>
+                )}
+              </div>
+            </S.Tab>
+            {/* <S.Padding /> */}
 
-        {collectors && (
+            {sku?.nftPrivateAssets && sku?.nftPrivateAssets?.length > 0 ? (
+              <S.Tab
+                style={{
+                  width: '50%',
+                }}
+                themeStyle={'dark'}
+                selected={selectedTab === 'owner_access'}
+                onClick={() => setSelectedTab('owner_access')}
+              >
+                <div style={{ display: 'flex' }}>
+                  Owner Access{' '}
+                  {isSmall && (
+                    <S.ToggleArrow onClick={toggleOwnerAccess}>
+                      {!ownerAccessVisible ? (
+                        <S.DownArrow style={{ color: 'black' }} />
+                      ) : (
+                        <S.UpArrow style={{ color: 'black' }} />
+                      )}
+                    </S.ToggleArrow>
+                  )}
+                </div>
+              </S.Tab>
+            ) : (
+              <></>
+            )}
+          </S.ContainerTabs>
+          <S.ContainerDisplayTabs>
+            {selectedTab === 'description' &&
+            (descriptionVisible || !isSmall) ? (
+              <SkuDescription description={sku?.description || ''} />
+            ) : selectedTab === 'owner_access' &&
+              (ownerAccessVisible || !isSmall) ? (
+              <OwnerAccessList
+                assets={sku?.nftPrivateAssets || []}
+                owner={
+                  (ownerCollectors?.data && ownerCollectors?.data.length > 0) ||
+                  false
+                }
+                themeStyle="light"
+                productId={ownerCollectors?.data[0]._id || ''}
+              />
+            ) : (
+              <></>
+            )}
+          </S.ContainerDisplayTabs>
+        </S.ContainerSection>
+
+        {collectors && sku && (
           <AuctionListing
             collectors={collectors.data}
             hasProducts={collectors.data.length !== 0}

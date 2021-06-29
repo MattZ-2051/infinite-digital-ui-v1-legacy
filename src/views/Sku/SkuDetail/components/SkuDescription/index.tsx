@@ -41,7 +41,7 @@ const SkuDescription = ({ description }: IProps): JSX.Element => {
 
   return (
     <S.Container>
-      <Collapsible title="Description" body={body} />
+      {body}
     </S.Container>
   );
 };

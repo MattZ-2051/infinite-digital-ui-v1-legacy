@@ -45,9 +45,10 @@ export const getProductCollectors = async (
   page?: number,
   perPage?: number,
   includeFunctions = true,
-  searchTerm?,
-  forSaleCheck?,
-  sortBySerialAsc = true
+  searchTerm?: string,
+  forSaleCheck?: boolean,
+  sortBySerialAsc = true,
+  ownerId?: string,
 ): Promise<{ data: Collector[]; total: number }> => {
   const params = { includeFunctions };
   if (page) {
@@ -60,11 +61,14 @@ export const getProductCollectors = async (
   if (forSaleCheck) {
     params['forSale'] = forSaleCheck;
   }
-  const sortBy = `sortBy=serialNumber:${sortBySerialAsc ? 'asc' : 'desc'}`;
+  let queryParams = `sortBy=serialNumber:${sortBySerialAsc ? 'asc' : 'desc'}`;
+  if (ownerId) {
+    queryParams = queryParams + `&owner=${ownerId}`;
+  }
 
   const response = await axiosInstance.request<Collector[]>({
     method: 'GET',
-    url: `/products/collectors/${skuId}?${sortBy}`,
+    url: `/products/collectors/${skuId}?${queryParams}`,
     params,
   });
   const { data, headers } = response;
@@ -225,8 +229,6 @@ export const downloadAssetFile = async (
   key: string
 ): Promise<any> => {
   try {
-    console.log(token);
-
     const response = await axiosInstance.post<any>(
       `/products/${productId}/private-link`,
       { key },

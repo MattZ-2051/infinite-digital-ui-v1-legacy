@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-  width: 62%;
+  width: 100%;
   margin-bottom: 50px;
   @media screen and (max-width: 960px) {
     width: 100%;

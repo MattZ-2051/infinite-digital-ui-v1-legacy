@@ -2,13 +2,14 @@ import styled from 'styled-components/macro';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-export const Title = styled.div`
-  font-size: 28px;
+export const Title = styled.div<{ borderTitle?: boolean }>`
+  font-size: 24px;
   font-weight: 600;
   color: black;
-  padding-bottom: 20px;
+  padding-bottom: 14px;
   display: flex;
-  border-bottom: 2px solid #ebebeb;
+  border-bottom: ${(props) => (props.borderTitle ? '2px solid #ebebeb' : '')};
+  line-height: 30px;
   @media screen and (max-width: 960px) {
     width: 100%;
     display: flex;

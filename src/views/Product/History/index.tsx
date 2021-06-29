@@ -178,6 +178,7 @@ const History = ({
             assets={product.sku?.nftPrivateAssets || []}
             owner={loggedInUser.id === product.owner?._id}
             productId={product._id}
+            themeStyle={'dark'}
           />
         )}
       </S.Container>

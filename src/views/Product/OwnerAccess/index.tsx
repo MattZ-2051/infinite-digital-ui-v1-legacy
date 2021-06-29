@@ -7,9 +7,10 @@ interface IProps {
   assets: FileAsset[];
   owner: boolean;
   productId: string;
+  themeStyle: 'light' | 'dark';
 }
 
-const OwnerAccessList = ({ assets, owner, productId }: IProps) => {
+const OwnerAccessList = ({ assets, owner, productId, themeStyle }: IProps) => {
   return assets && assets.length ? (
     <>
       {!owner && (
@@ -25,6 +26,7 @@ const OwnerAccessList = ({ assets, owner, productId }: IProps) => {
               asset={asset}
               owner={owner}
               productId={productId}
+              themeStyle={themeStyle}
             />
           );
         })}

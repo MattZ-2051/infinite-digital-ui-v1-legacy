@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { Theme } from 'theme/theme';
 
 export const TransactionOwnerAccess = styled.div`
   overflow: hidden;
@@ -6,15 +7,17 @@ export const TransactionOwnerAccess = styled.div`
   flex-direction: column;
   height: 80%;
   overflow-x: hidden;
-  padding-right: 80px;
+  /* padding-right: 80px; */
+  flex: 1;
+  /* padding-top: 24px; */
 
   :hover {
     overflow-y: auto;
     cursor: pointer;
   }
 
-  @media screen and (max-width: 1160px) {
-    padding-right: 0;
+  @media screen and (max-width: 960px) {
+    margin-left: 0;
   }
 `;
 
@@ -25,11 +28,21 @@ export const RowOwnerAccess = styled.div`
   align-items: center;
 `;
 
-export const RowContainerOwnerDescription = styled.div<{ owner }>`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  span {
+export const RowContainerOwnerDescription = styled.div<{
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+  owner: boolean;
+}>`
+  /* display: flex; */
+  /* flex: 1; */
+  /* flex-direction: column; */
+  min-width: 10px;
+  overflow-wrap: break-word;
+  p {
+    color: ${(props) =>
+      props.themeStyle === 'dark'
+        ? props.theme.palette.light.baseMain
+        : props.theme.palette.dark.baseMain};
     font-size: 16px;
     line-height: 20px;
     opacity: ${(props) => (props.owner ? 1 : 0.5)};

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   width: 46%;
   max-width: 713px;
+  /* flex: 2; */
   margin-left: 64px;
   padding-right: 10px;
 
@@ -22,7 +23,7 @@ export const ViewAll = styled(Link)`
 `;
 
 export const Items = styled.div`
-  padding-top: 24px;
+  /* padding-top: 24px; */
   width: 100%;
   max-width: 713px;
   overflow: hidden;

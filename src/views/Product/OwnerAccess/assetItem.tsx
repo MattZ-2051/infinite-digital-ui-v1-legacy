@@ -6,14 +6,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { bytesToSize } from 'utils/convert';
 import Tooltip from '@material-ui/core/Tooltip';
 import { downloadAssetFile } from 'services/api/productService';
-import alreadyDownload from 'assets/svg/icons/download-white.svg';
-import downloadIcon from 'assets/svg/icons/download-icon.svg';
-import loadingGif from 'assets/gif/loading.gif';
+import ImageByTheme from './imageByTheme';
 
 interface IProps {
   asset: FileAsset;
   owner: boolean;
   productId: string;
+  themeStyle: 'light' | 'dark';
 }
 const LightTooltip = withStyles((theme) => ({
   arrow: {
@@ -31,9 +30,8 @@ const LightTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
-const AssetItem = ({ asset, owner, productId }: IProps) => {
+const AssetItem = ({ asset, owner, productId, themeStyle }: IProps) => {
   const anchorRef = useRef<HTMLAnchorElement>(null);
-  console.log(asset);
   const { getAccessTokenSilently } = useAuth0();
   const [download, setDownload] = useState<boolean>(false);
   const [presignedUrl, setPresignedUrl] = useState<string | null>(null);
@@ -69,8 +67,8 @@ const AssetItem = ({ asset, owner, productId }: IProps) => {
   return (
     <S.RowOwnerAccess>
       {/* <div key={asset.key}>{asset.key}</div> */}
-      <S.RowContainerOwnerDescription owner={owner}>
-        <span>{assetName}</span>
+      <S.RowContainerOwnerDescription owner={owner} themeStyle={themeStyle}>
+        <p>{assetName}</p>
         <S.ContainerTypeFile>
           <span>Type: {assetType}&nbsp;</span>
           <span>{bytesToSize(asset.size)}</span>
@@ -80,15 +78,12 @@ const AssetItem = ({ asset, owner, productId }: IProps) => {
         <S.ContainerDownloadIcon>
           <LightTooltip arrow title="Click to download" placement="top">
             <a ref={anchorRef}>
-              {!download ? (
-                <img
-                  src={presignedUrl ? alreadyDownload : downloadIcon}
-                  alt="download-icon"
-                  onClick={handleDownload}
-                />
-              ) : (
-                <img src={loadingGif} alt="loading-download-icon" width="20" />
-              )}
+              <ImageByTheme
+                themeStyle={themeStyle}
+                download={download}
+                presignedUrl={presignedUrl || ''}
+                handleDownload={handleDownload}
+              />
             </a>
           </LightTooltip>
         </S.ContainerDownloadIcon>
