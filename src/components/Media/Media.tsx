@@ -13,7 +13,7 @@ interface ImageProps {
 
 export const Media = (props: ImageProps): JSX.Element => {
   const { src, styles, fallbackImage, children } = props;
-
+  const image = src ? src : InfiniteLogo;
   const onError = (ev) => {
     // Set fallback image
     ev.target.src = fallbackImage ? fallbackImage : InfiniteLogo;
@@ -36,7 +36,7 @@ export const Media = (props: ImageProps): JSX.Element => {
     </video>
   ) : (
     <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-      <Img style={{ ...styles }} src={src} onError={onError}>
+      <Img style={{ ...styles }} src={image} onError={onError}>
         {children && children}
       </Img>
     </div>

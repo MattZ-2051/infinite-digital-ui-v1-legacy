@@ -13,7 +13,6 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     _id,
     minPrice,
     name,
-    graphicUrl,
     rarity,
     circulatingSupply,
     totalSupplyLeft,
@@ -26,6 +25,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     skuListings,
     issuerName,
     totalUpcomingSupply,
+    nftPublicAssets,
   } = sku;
 
   const history = useHistory();
@@ -86,7 +86,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       status={status}
       redeemable={redeemable}
       pillInfo={pillInfo}
-      skuImg={graphicUrl}
+      skuImg={nftPublicAssets && nftPublicAssets[0]?.url}
       unique={maxSupply === 1}
       handleRedirect={handleRedirect}
       supplyType={supplyType}
