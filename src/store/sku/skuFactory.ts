@@ -71,4 +71,5 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   resaleSellersFeePercentage: 0,
   sellerTransactionFeePercentage: 0,
   totalUpcomingSupply: 0,
+  nftPublicAssets: [],
 });

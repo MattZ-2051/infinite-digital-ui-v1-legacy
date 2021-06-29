@@ -41,11 +41,8 @@ const ProductDetails = ({
 
   return (
     <S.Container>
-      {sku && (
-        <ImageGallery
-          images={[sku.graphicUrl, ...sku?.imageUrls]}
-          height="50%"
-        />
+      {sku?.nftPublicAssets && (
+        <ImageGallery nftPublicAsset={sku.nftPublicAssets} height="50%" />
       )}
       <S.Body>
         <S.Flex justifyContent="space-between" alignItems="center">

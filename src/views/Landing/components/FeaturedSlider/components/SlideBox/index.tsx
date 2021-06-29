@@ -3,6 +3,7 @@ import { formatSkuCountdown } from 'utils/dates';
 import { Link } from 'react-router-dom';
 import TilePill from 'components/ProductTiles/Tile/components/TilePill';
 import Rarity from 'components/Rarity';
+import ImageGallery from 'components/ImageGallery';
 import * as S from './styles';
 
 export interface IProps {
@@ -49,18 +50,8 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
     <S.Container>
       <Link to={`/marketplace/${product._id}`}>
         <S.MediaContainer>
-          {product.graphicUrl?.endsWith('mov') ||
-          product.graphicUrl?.endsWith('mp4') ? (
-            <S.Video
-              playsInline
-              autoPlay={true}
-              controls={false}
-              loop={true}
-              muted={true}
-              src={product.graphicUrl}
-            />
-          ) : (
-            <img src={product.graphicUrl} alt="" />
+          {product.nftPublicAssets && (
+            <ImageGallery nftPublicAsset={product?.nftPublicAssets} />
           )}
         </S.MediaContainer>
       </Link>

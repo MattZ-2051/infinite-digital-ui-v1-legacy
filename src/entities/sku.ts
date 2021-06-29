@@ -41,7 +41,7 @@ export interface Sku {
   soldSkuListings?: Listing[];
   activeSkuListings?: any;
   nftPrivateAssets?: FileAsset[];
-  nftPublicAssets?: FileAsset[];
+  nftPublicAssets: FileAsset[];
   series: {
     _id: string;
     name: string;
@@ -71,13 +71,12 @@ export interface SkuWithTotal {
 }
 
 export interface FileAsset {
-  url: string;
+  bucket: string;
+  hash: string;
+  height: number;
   key: string;
-  type: string;
   size: number;
-  hash?: string;
-  name?: string;
-  previewUrl?: string;
-  width?: number;
-  height?: number;
+  type: string;
+  url: string;
+  width: number;
 }

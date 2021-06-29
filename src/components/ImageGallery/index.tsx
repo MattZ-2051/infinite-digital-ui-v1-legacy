@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components/macro';
 import AudioIcon from 'assets/img/icons/audio-icon.png';
 import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
 import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
-import Squircle from 'components/Squircle';
+import { FileAsset } from 'entities/sku';
 
 export interface ImageGalleryProps {
-  images: string[];
+  nftPublicAsset: FileAsset[];
   height?: string;
 }
 
@@ -96,7 +96,7 @@ const MediaView = ({ src }: { src: string }) => {
   }
 };
 
-const ImageGallery = ({ images, height }: ImageGalleryProps) => {
+const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -106,12 +106,13 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
   return (
     <Container height={height}>
       <ImageContainer>
-        {images[selectedImage] && <MediaView src={images[selectedImage]} />}
+        {nftPublicAsset[selectedImage] && (
+          <MediaView src={nftPublicAsset[selectedImage].url} />
+        )}
       </ImageContainer>
-
       <ThumbnailMenu>
-        {images &&
-          images.map((el, index) => {
+        {nftPublicAsset &&
+          nftPublicAsset.map((el: FileAsset, index) => {
             return (
               <Thumbnail
                 key={index}
@@ -119,7 +120,7 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                 onClick={() => handleImageChange(index)}
               >
                 {/* <STDGraphicIcon /> */}
-                {el?.endsWith('mov') || el?.endsWith('mp4') ? (
+                {el?.url?.endsWith('mov') || el?.url?.endsWith('mp4') ? (
                   <video
                     style={{
                       width: '100%',
@@ -128,14 +129,14 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                     controls={false}
                     loop={true}
                     muted={true}
-                    src={el}
+                    src={el.url}
                   ></video>
-                ) : el?.endsWith('mp3') ? (
+                ) : el?.url.endsWith('mp3') ? (
                   <img src={AudioIcon} alt="" />
-                ) : el?.includes('vectary') ? (
-                  <VectaryThumbnail src={el} />
+                ) : el?.url.includes('vectary') ? (
+                  <VectaryThumbnail src={el.url} />
                 ) : (
-                  <img src={el} alt="" />
+                  <img src={el?.url} alt="" />
                 )}
               </Thumbnail>
             );
