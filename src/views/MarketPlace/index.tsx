@@ -42,7 +42,6 @@ const MarketPlace = (): JSX.Element => {
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
-
   // Create the url query-string using the redux stored data: filters, sort, pagination
   const createQueryString = (
     filters,
@@ -213,6 +212,7 @@ const MarketPlace = (): JSX.Element => {
             handleFilter={handleFilter}
             activeFilters={activeFilters}
             maxPrice={maxPrice}
+            skuTotal={skus?.total}
           />
         </S.Sidebar>
         <S.Content>

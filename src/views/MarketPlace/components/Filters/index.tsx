@@ -20,6 +20,7 @@ export interface IProps {
   activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
   maxPrice?: number;
+  skuTotal?: number;
 }
 
 const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {

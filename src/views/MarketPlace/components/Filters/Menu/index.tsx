@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-
+import { useAppSelector } from 'store/hooks';
 export interface IProps {
   handleFilter: (name: string, data: string) => void;
   activeFilterStatus: string;
 }
 
 const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
+  const skuTotal = useAppSelector((state) => state.sku.skus.total) as number;
   return (
     <ButtonFilters>
       <Li>
@@ -17,7 +18,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
               color: `${activeFilterStatus === '' ? 'black' : '#9e9e9e'}`,
             }}
           >
-            All
+            All {activeFilterStatus === '' ? `(${skuTotal})` : ''}
           </Button>
           {/* <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
             (12, 244)
@@ -31,7 +32,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
             color: `${activeFilterStatus === 'onSale' ? 'black' : '#9e9e9e'}`,
           }}
         >
-          On Sale
+          On Sale {activeFilterStatus === 'onSale' ? `(${skuTotal})` : ''}
         </Button>
       </Li>
       <Li>
@@ -41,7 +42,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
             color: `${activeFilterStatus === 'upcoming' ? 'black' : '#9e9e9e'}`,
           }}
         >
-          Upcoming
+          Upcoming {activeFilterStatus === 'upcoming' ? `(${skuTotal})` : ''}
         </Button>
       </Li>
     </ButtonFilters>
