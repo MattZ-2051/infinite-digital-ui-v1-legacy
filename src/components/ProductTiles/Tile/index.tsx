@@ -51,7 +51,7 @@ const Tile = ({
   supplyType,
 }: Props): JSX.Element => {
   const cropText = (text: string, limit: number) => {
-    return text.slice(0, limit) + (text.length > limit ? '...' : '');
+    return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
   };
 
   const maxIssuerNameLength = 15;
