@@ -6,6 +6,7 @@ import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import * as S from './styles';
+import Loader from 'components/Loader';
 
 interface Props {
   isModalOpen: boolean;
@@ -13,31 +14,33 @@ interface Props {
 }
 
 const EditModal = ({ isModalOpen, handleClose }: Props) => {
-  const [newUsername, setNewUsername] = useState<string>('');
+  let currentUserName = useAppSelector((state) => state.session.user.username);
+  const updateMessage = 'Update Username';
+  const [newUsername, setNewUsername] = useState<string>(currentUserName);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.session.user.id);
   const [confirmed, setConfirmed] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [buttonMessage, setButtonMessage] = useState<string>(updateMessage);
 
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
-    if (newUsername.length === 0) {
-      setErrorMessage('Please enter a new username');
-      return;
+    if (newUsername.length === 0 || newUsername === currentUserName) {
+      return setErrorMessage('Please enter a new username');
     }
     if (
       /[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername) ||
       newUsername.length < 3 ||
       newUsername.length > 12
     ) {
-      setErrorMessage(
+      return setErrorMessage(
         `${'Your username must be between 3 and 12 characters long and cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
       );
-      return;
     }
-
+    setLoading(true);
     const res = await dispatch(updateUsernameThunk(data));
     if (res.type.split('/')[3] === 'rejected') {
       setConfirmed(false);
@@ -46,18 +49,24 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
       setConfirmed(true);
       setErrorMessage('');
       setTimeout(() => {
-        setConfirmed(false);
-        handleClose();
+        resetAndHandleClose();
       }, 1500);
     }
-
-    setNewUsername('');
+    setLoading(false);
+    setButtonMessage('Done!');
+    currentUserName = newUsername;
     return;
   };
-
+  const resetAndHandleClose = () => {
+    setErrorMessage('');
+    setButtonMessage(updateMessage);
+    setConfirmed(false);
+    handleClose();
+  };
   const handleChange = (e) => {
     setErrorMessage('');
     setConfirmed(false);
+    setLoading(false);
     setNewUsername(e.target.value);
   };
 
@@ -68,7 +77,10 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
           {
             <S.Body>
               <S.Icon>
-                <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
+                <S.ExitIconImg
+                  src={exitIconImg}
+                  onClick={resetAndHandleClose}
+                />
               </S.Icon>
               <S.Content>
                 <S.Header>Edit Your Username</S.Header>
@@ -91,7 +103,10 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
                 </S.Input>
                 <S.Border></S.Border>
                 <div style={{ paddingTop: '40px' }}>
-                  <S.Button onClick={handleSubmit}>Update Username</S.Button>
+                  <S.Button onClick={handleSubmit}>
+                    {loading && <Loader color="white" size={10} />}
+                    {!loading && buttonMessage}
+                  </S.Button>
                 </div>
               </S.Content>
             </S.Body>
