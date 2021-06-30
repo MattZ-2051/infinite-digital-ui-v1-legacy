@@ -26,12 +26,12 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
       </Li>
       <Li>
         <Button
-          onClick={() => handleFilter('status', 'released')}
+          onClick={() => handleFilter('status', 'onSale')}
           style={{
-            color: `${activeFilterStatus === 'released' ? 'black' : '#9e9e9e'}`,
+            color: `${activeFilterStatus === 'onSale' ? 'black' : '#9e9e9e'}`,
           }}
         >
-          Released
+          On Sale
         </Button>
       </Li>
       <Li>

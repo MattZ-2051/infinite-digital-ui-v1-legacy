@@ -6,9 +6,15 @@ export const getSkuTiles = async (options?: {
   token?: string;
 }): Promise<SkuWithTotal> => {
   try {
+    const qss = new URLSearchParams(options?.queryParams);
+    const status = qss.get('status');
+    if (status === 'onSale') {
+      qss.delete('status');
+      qss.append('forSale', 'true');
+    }
     const response = await axiosInstance.request<Sku[]>({
       method: 'GET',
-      url: `/skus/tiles/${options?.queryParams || ''}`,
+      url: `/skus/tiles/${qss.toString() ? `?${qss.toString()}` : ''}`,
       headers: {
         ...(options?.token && { Authorization: `Bearer ${options?.token}` }),
       },
@@ -39,9 +45,8 @@ export const getFeaturedSkuTiles = async (options?: {
 }): Promise<SkuWithTotal> => {
   return await getSkuTiles({
     token: options?.token,
-    queryParams: `?${
-      options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
-    }${options?.queryParams || ''}`,
+    queryParams: `?${options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
+      }${options?.queryParams || ''}`,
   });
 };
 

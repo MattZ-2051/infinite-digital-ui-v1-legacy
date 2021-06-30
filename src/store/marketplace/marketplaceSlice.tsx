@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type ReleaseStatus = 'released' | 'upcoming' | ''; // 'noOneSelling'
+type ReleaseStatus = 'onSale' | 'upcoming' | ''; // 'noOneSelling'
 
 interface IFilters {
   status: ReleaseStatus;
