@@ -14,7 +14,7 @@ import * as S from './styles';
 const PER_PAGE = 5;
 const CURRENT_PAGE = 1;
 
-interface Bid {
+interface MyBid {
   _id: string;
   bidAmt: number;
   createdAt: Date;
@@ -24,7 +24,7 @@ interface Bid {
   owner: User;
 }
 
-type AuxHighestbid = Omit<Bid, 'listing' | 'owner'>;
+type AuxHighestbid = Omit<MyBid, 'listing' | 'owner'>;
 interface Highestbid extends AuxHighestbid {
   listing: string;
   owner: string;
@@ -40,7 +40,7 @@ interface MyListing extends AuxListing {
 const ListBids = () => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [bids, setBids] = useState<{
-    data: Bid[];
+    data: MyBid[];
     total: number;
   } | null>(null);
 
@@ -63,7 +63,7 @@ const ListBids = () => {
         PER_PAGE
       );
       if (res) {
-        setBids(res);
+        setBids({ data: res.data, total: res.totalBids });
       }
       setLoading(false);
     } catch (err) {

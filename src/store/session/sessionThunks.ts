@@ -5,6 +5,11 @@ import { Wallet } from 'entities/wallet';
 import { Card } from 'entities/card';
 import { getProductsOwnedByUser } from 'services/api/productService';
 import {
+  INewCCPayloadParams,
+  IAddFundsPayloadParams,
+  IUsernamePayloadParams,
+} from './Interface';
+import {
   getMe,
   getMyCards,
   updateUsername,
@@ -13,46 +18,15 @@ import {
   addFundsToUserWallet,
   getBalances,
 } from 'services/api/userService';
-
-interface Values {
-  [key: string]: any;
-}
-
-// First argument to the payload creator
-interface IPayloadParams {
-  token: string;
-  id: string;
-}
-
-interface NewCCPayloadParams {
-  token: string;
-  data: Values;
-}
-
-interface AddFundsPayloadParams {
-  token: string;
-  cardId: string;
-  data: Values;
-}
-
-interface UsernamePayloadParams {
-  token: string;
-  userId: string;
-  username: string;
-}
-
-interface TokenPayload {
-  token: string;
-}
-
-// Custom errors
-interface IError {
-  errorMessage: string;
-}
+import {
+  ITokenPayloadParams,
+  IError,
+  ITokenIdPayloadParams,
+} from '../storeInterface';
 
 export const getUserInfoThunk = createAsyncThunk<
   User,
-  TokenPayload,
+  ITokenPayloadParams,
   {
     rejectValue: IError;
   }
@@ -73,8 +47,8 @@ export const getUserInfoThunk = createAsyncThunk<
 });
 
 export const getUserCollectionThunk = createAsyncThunk<
-  { data: ProductWithFunctions[]; total: number },
-  IPayloadParams,
+  { data: ProductWithFunctions[]; totalProducts: number },
+  ITokenIdPayloadParams,
   {
     rejectValue: IError;
   }
@@ -95,7 +69,7 @@ export const getUserCollectionThunk = createAsyncThunk<
 
 export const getUserCardsThunk = createAsyncThunk<
   Wallet,
-  TokenPayload,
+  ITokenPayloadParams,
   {
     rejectValue: IError;
   }
@@ -113,13 +87,13 @@ export const getUserCardsThunk = createAsyncThunk<
 
 export const updateUsernameThunk = createAsyncThunk<
   User,
-  UsernamePayloadParams,
+  IUsernamePayloadParams,
   {
     rejectValue: IError;
   }
->('/user/:id', async ({ token, userId, username }, thunkApi) => {
+>('/user/:id', async ({ token, username }, thunkApi) => {
   try {
-    const response = await updateUsername(token, userId, username);
+    const response = await updateUsername(token, username);
     return response;
   } catch (e) {
     return thunkApi.rejectWithValue({
@@ -129,15 +103,14 @@ export const updateUsernameThunk = createAsyncThunk<
 });
 
 export const removeUserCCThunk = createAsyncThunk<
-  Wallet,
-  IPayloadParams,
+  void,
+  ITokenIdPayloadParams,
   {
     rejectValue: IError;
   }
 >('/wallet/cards/:id/delete', async ({ token, id }, thunkApi) => {
   try {
-    const response = await removeUserCC(token, id);
-    return response.data;
+    await removeUserCC(token, id);
   } catch (e) {
     return thunkApi.rejectWithValue({
       errorMessage: e.message,
@@ -147,7 +120,7 @@ export const removeUserCCThunk = createAsyncThunk<
 
 export const createNewCCThunk = createAsyncThunk<
   Card,
-  NewCCPayloadParams,
+  INewCCPayloadParams,
   {
     rejectValue: IError;
   }
@@ -163,8 +136,8 @@ export const createNewCCThunk = createAsyncThunk<
 });
 
 export const addFundsThunk = createAsyncThunk<
-  Wallet,
-  AddFundsPayloadParams,
+  void,
+  IAddFundsPayloadParams,
   {
     rejectValue: IError;
   }
@@ -172,8 +145,7 @@ export const addFundsThunk = createAsyncThunk<
   '/wallet/cards/:cardId/payments`',
   async ({ token, data, cardId }, thunkApi) => {
     try {
-      const response = await addFundsToUserWallet(token, data, cardId);
-      return response;
+      await addFundsToUserWallet(token, data, cardId);
     } catch (e) {
       return thunkApi.rejectWithValue({
         errorMessage: e.message,

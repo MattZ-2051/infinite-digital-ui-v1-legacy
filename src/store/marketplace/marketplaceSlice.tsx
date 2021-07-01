@@ -1,31 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-type ReleaseStatus = 'released' | 'upcoming' | ''; // 'noOneSelling'
-
-interface IFilters {
-  status: ReleaseStatus;
-  date: string[] | null;
-  price: number[];
-  category: string[];
-  brand: string[];
-  series: string[];
-  search: string;
-  rarity: string[];
-  creator: string[];
-}
-
-interface IPagination {
-  page: string;
-  perPage: string;
-}
-
-interface IState {
-  loading: string;
-  error: string | null;
-  filters: IFilters;
-  sortBy: string; // 'startDate' | 'rarity' | 'price
-  pagination: IPagination;
-}
+import { IFilters, IPagination, IState, ReleaseStatus } from './Interface';
 
 const defaultFilters: IFilters = {
   status: '',

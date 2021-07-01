@@ -1,5 +1,6 @@
 import { Sku, SkuWithTotal } from 'entities/sku';
 import { axiosInstance } from '../coreService';
+import { handleApiError } from 'utils/apiError';
 
 export const getSkuTiles = async (options?: {
   queryParams?: string;
@@ -27,8 +28,7 @@ export const getSkuTiles = async (options?: {
       maxSkusMinPrice,
     };
   } catch (e) {
-    console.error(`getSkuTiles: Error requesting sku tile details. ${e}`);
-    throw new Error(e);
+    throw handleApiError(e);
   }
 };
 
@@ -37,12 +37,16 @@ export const getFeaturedSkuTiles = async (options?: {
   issuerId?: string;
   queryParams?: string;
 }): Promise<SkuWithTotal> => {
-  return await getSkuTiles({
-    token: options?.token,
-    queryParams: `?${
-      options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
-    }${options?.queryParams || ''}`,
-  });
+  try {
+    return await getSkuTiles({
+      token: options?.token,
+      queryParams: `?${
+        options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
+      }${options?.queryParams || ''}`,
+    });
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const getSku = async <T extends boolean = false>(
@@ -64,8 +68,7 @@ export const getSku = async <T extends boolean = false>(
 
     return response.data;
   } catch (e) {
-    console.error(`getSku: Error requesting sku details. ${e}`);
-    throw new Error(e);
+    throw handleApiError(e);
   }
 };
 

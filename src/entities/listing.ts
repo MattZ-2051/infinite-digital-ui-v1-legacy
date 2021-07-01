@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Bid } from 'entities/bid';
 export interface Listing {
   _id: string;
   canceled: boolean;
@@ -10,6 +11,7 @@ export interface Listing {
   saleType: 'auction' | 'fixed';
   supply: number;
   minBid: number;
+  bids: Bid[];
   startDate: Date;
   endDate: Date;
   createdAt: Date;

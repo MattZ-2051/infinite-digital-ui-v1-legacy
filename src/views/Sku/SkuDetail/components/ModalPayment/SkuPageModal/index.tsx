@@ -141,8 +141,8 @@ const SkuPageModal = ({
         setLoading(false);
         Toast.error(
           <>
-            {response.data.message}. Please try again, see the{' '}
-            <a href="/help">Help page</a> to learn more.
+            Please try again, see the <a href="/help">Help page</a> to learn
+            more.
           </>
         );
       }

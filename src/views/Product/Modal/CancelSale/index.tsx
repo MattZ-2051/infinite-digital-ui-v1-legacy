@@ -4,6 +4,7 @@ import Emoji from 'components/Emoji';
 import { useAuth0 } from '@auth0/auth0-react';
 import { cancelListing } from 'services/api/listingService';
 import Toast from 'utils/Toast';
+import { createSale } from 'utils/messages';
 import { HistoryStatus } from '../../History/types';
 
 interface Props {
@@ -33,7 +34,7 @@ const CancelSale = ({
         window.location.reload();
       }, 1200);
     } else {
-      Toast.error(res.data.message);
+      Toast.error(createSale.error);
     }
   };
   const Body = (): JSX.Element => {

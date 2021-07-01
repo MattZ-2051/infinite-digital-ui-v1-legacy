@@ -80,8 +80,8 @@ const SkuDetail = (): JSX.Element => {
   }
 
   async function fetchCollectors() {
-    const collectors = await getProductCollectors(skuid);
-    setCollectors(collectors);
+    const { data, totalCollectors } = await getProductCollectors(skuid);
+    setCollectors({ data: data, total: totalCollectors });
   }
 
   async function fetchOwnerCollectors() {
@@ -95,7 +95,10 @@ const SkuDetail = (): JSX.Element => {
       true,
       loggedInUser.id
     );
-    setOwnerCollectors(ownerCollectors);
+    setOwnerCollectors({
+      data: ownerCollectors.data,
+      total: ownerCollectors.totalCollectors,
+    });
   }
 
   async function fetchSku() {

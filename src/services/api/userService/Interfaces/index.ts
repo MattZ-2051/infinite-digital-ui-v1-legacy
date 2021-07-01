@@ -6,3 +6,8 @@ export interface IUser {
   hederaAccount: string;
   externalId: string;
 }
+
+export interface IAddFundsData {
+  email: string;
+  amount: number;
+}

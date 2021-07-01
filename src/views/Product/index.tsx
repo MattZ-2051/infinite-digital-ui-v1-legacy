@@ -37,9 +37,9 @@ const Product = ({}) => {
       perPage
     );
 
-    setProduct(productRes.data);
+    setProduct(productRes);
     setTransactionHistory(transactionRes.data);
-    setTotalTransactions(transactionRes.total);
+    setTotalTransactions(transactionRes.totalTransactions);
   }
 
   async function updateUserBalance() {

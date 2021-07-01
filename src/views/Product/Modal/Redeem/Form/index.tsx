@@ -99,7 +99,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
         window.location.reload();
       }, 1200);
     } else {
-      Toast.error(res.data.message);
+      Toast.error('Whoops! Something went wrong please try again.');
       setIsModalOpen(false);
     }
   };

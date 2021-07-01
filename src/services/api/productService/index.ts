@@ -1,18 +1,19 @@
-import { Collector } from 'entities/collector';
-import { ProductWithFunctions } from 'entities/product';
+import { ProductWithFunctions, Product } from 'entities/product';
 import { axiosInstance } from '../coreService';
-import { AxiosResponse } from 'axios';
+import { handleApiError } from 'utils/apiError';
+import { ITransaction } from 'entities/transaction';
 import { Bid } from 'entities/bid';
-
-export const getProducts = async (token: string) => {
-  const response = await axiosInstance.request({
-    method: 'GET',
-    url: '/products',
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  return response;
-};
+import {
+  IProductTxHistory,
+  MyBid,
+  IProductsOwnedByUser,
+  ProductCollectors,
+  SkuReleasesOwnedByUser,
+  MyBids,
+} from './Interfaces';
+import { Sku } from 'entities/sku';
+import { Collector } from 'entities/collector';
+import { AxiosResponse } from 'axios';
 
 export const getProductsOwnedByUser = async (
   userId: string,
@@ -20,7 +21,7 @@ export const getProductsOwnedByUser = async (
   page?: number,
   perPage?: number,
   includeFunctions = true
-): Promise<{ data: ProductWithFunctions[]; total: number }> => {
+): Promise<IProductsOwnedByUser> => {
   const params = { owner: userId, includeFunctions };
   if (page) {
     params['page'] = page;
@@ -36,8 +37,8 @@ export const getProductsOwnedByUser = async (
   const { data, headers } = response;
   const contentRange: string = headers['content-range'];
   const rangeArray = contentRange.split('/');
-  const total = Number(rangeArray[1]);
-  return { data, total };
+  const totalProducts = Number(rangeArray[1]);
+  return { data, totalProducts };
 };
 
 export const getProductCollectors = async (
@@ -48,8 +49,8 @@ export const getProductCollectors = async (
   searchTerm?: string,
   forSaleCheck?: boolean,
   sortBySerialAsc = true,
-  ownerId?: string,
-): Promise<{ data: Collector[]; total: number }> => {
+  ownerId?: string
+): Promise<ProductCollectors> => {
   const params = { includeFunctions };
   if (page) {
     params['page'] = page;
@@ -74,23 +75,23 @@ export const getProductCollectors = async (
   const { data, headers } = response;
   const contentRange: string = headers['content-range'];
   const rangeArray = contentRange.split('/');
-  const total = Number(rangeArray[1]);
-  return { data, total };
+  const totalCollectors = Number(rangeArray[1]);
+  return { data, totalCollectors };
 };
 
 export const getSingleProduct = async (
   productId: string,
   includeFunctions = true
-) => {
+): Promise<ProductWithFunctions> => {
   try {
-    const res = await axiosInstance.request({
+    const res = await axiosInstance.request<ProductWithFunctions>({
       method: 'GET',
       url: `/products/${productId}`,
       params: { includeFunctions },
     });
-    return res;
+    return res.data;
   } catch (err) {
-    return err;
+    throw handleApiError(err);
   }
 };
 
@@ -98,9 +99,9 @@ export const getProductTransactionHistory = async (
   productId: string,
   page?: number,
   perPage?: number
-) => {
+): Promise<IProductTxHistory> => {
   try {
-    const res = await axiosInstance.request({
+    const res = await axiosInstance.request<ITransaction[]>({
       method: 'GET',
       url: `/products/${productId}/transactions`,
       params: { page: page, per_page: perPage },
@@ -108,10 +109,10 @@ export const getProductTransactionHistory = async (
     const { data, headers } = res;
     const contentRange: string = headers['content-range'];
     const rangeArray = contentRange.split('/');
-    const total = Number(rangeArray[1]);
-    return { data, total };
+    const totalTransactions = Number(rangeArray[1]);
+    return { data, totalTransactions };
   } catch (err) {
-    return err;
+    throw handleApiError(err);
   }
 };
 
@@ -120,14 +121,14 @@ export const getReleasesOwnedByUser = async (
   page?: number,
   perPage?: number,
   queryParams?: string
-) => {
+): Promise<SkuReleasesOwnedByUser> => {
   const params = { issuerId };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
   try {
-    const res = await axiosInstance.request({
+    const res = await axiosInstance.request<Sku[]>({
       method: 'GET',
       url: `/skus/tiles/${queryParams || ''}`,
       params,
@@ -135,8 +136,8 @@ export const getReleasesOwnedByUser = async (
     const { data, headers } = res;
     const contentRange: string = headers['content-range'];
     const rangeArray = contentRange.split('/');
-    const total = Number(rangeArray[1]);
-    return { data, total };
+    const totalReleases = Number(rangeArray[1]);
+    return { data, totalReleases };
   } catch (err) {
     return err;
   }
@@ -146,9 +147,9 @@ export const redeemProduct = async (
   token: string,
   data: any,
   productId: string
-): Promise<any> => {
+): Promise<AxiosResponse<Product>> => {
   try {
-    const response = await axiosInstance.patch<any>(
+    const response = await axiosInstance.patch<Product>(
       `/products/${productId}/redeem`,
       data,
       {
@@ -157,8 +158,7 @@ export const redeemProduct = async (
     );
     return response;
   } catch (e) {
-    console.error('err', e.response);
-    return e.response;
+    throw handleApiError(e);
   }
 };
 
@@ -168,20 +168,20 @@ export const getBids = async (
   page?: number,
   perPage?: number,
   includeFunctions = true
-): Promise<any> => {
+): Promise<AxiosResponse<Bid[]>> => {
   const params = { listing: listingId, includeFunctions };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
   try {
-    const response = await axiosInstance.get<any>('/bids', {
+    const response = await axiosInstance.get<Bid[]>('/bids', {
       headers: { Authorization: `Bearer ${token}` },
       params,
     });
     return response;
   } catch (e) {
-    return e.response;
+    throw handleApiError(e);
   }
 };
 
@@ -189,11 +189,19 @@ export const postBid = async (
   id: string,
   token: string,
   body: any
-): Promise<AxiosResponse<any>> => {
-  const response = await axiosInstance.post(`/listings/${id}/bids`, body, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response;
+): Promise<AxiosResponse<Bid>> => {
+  try {
+    const response = await axiosInstance.post<Bid>(
+      `/listings/${id}/bids`,
+      body,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response;
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const getMeBids = async (
@@ -201,14 +209,14 @@ export const getMeBids = async (
   page?: number,
   perPage?: number,
   includeFunctions = true
-): Promise<any> => {
+): Promise<MyBids> => {
   const params = { includeFunctions };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
   try {
-    const response = await axiosInstance.get<any>('/bids/active', {
+    const response = await axiosInstance.get<MyBid[]>('/bids/active', {
       headers: { Authorization: `Bearer ${token}` },
       params,
     });
@@ -217,9 +225,9 @@ export const getMeBids = async (
     const rangeArray = contentRange.split('/');
     const total = Number(rangeArray[1]);
 
-    return { data: data as Bid[], total: total as number };
+    return { data, totalBids: total };
   } catch (e) {
-    return e.response;
+    throw handleApiError(e);
   }
 };
 
@@ -227,9 +235,9 @@ export const downloadAssetFile = async (
   token: string,
   productId: string,
   key: string
-): Promise<any> => {
+): Promise<{ presignedUrl: string }> => {
   try {
-    const response = await axiosInstance.post<any>(
+    const response = await axiosInstance.post<{ presignedUrl: string }>(
       `/products/${productId}/private-link`,
       { key },
       {
@@ -238,6 +246,6 @@ export const downloadAssetFile = async (
     );
     return response.data;
   } catch (e) {
-    return e.response;
+    throw handleApiError(e);
   }
 };

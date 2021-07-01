@@ -39,7 +39,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
-      setTotalProducts(itemsRes.total);
+      setTotalProducts(itemsRes.totalProducts);
     }
 
     if (user.role === 'issuer') {
@@ -51,7 +51,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       );
       if (releasesRes.data) {
         setUserReleases(releasesRes.data);
-        setTotalReleases(releasesRes.total);
+        setTotalReleases(releasesRes.totalReleases);
       }
     }
   }

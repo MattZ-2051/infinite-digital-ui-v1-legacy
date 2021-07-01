@@ -50,18 +50,20 @@ export interface Sku {
     createdAt?: Date;
     updatedAt?: Date;
   };
-  category: {
-    _id: string;
-    name: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-  };
+  category: Category;
   issuer: User;
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;
   resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
+}
+
+interface Category {
+  _id: string;
+  name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SkuWithTotal {

@@ -2,16 +2,7 @@ import { axiosInstance } from '../coreService';
 import { IPlaidAccount } from 'entities/plaidAccount';
 import { IWithdraw } from 'entities/withdraw';
 import { IBillingForAch } from 'components/BillingFormForAch';
-
-function handleApiError(err) {
-  if (err.response) {
-    return new Error(err.response.data);
-  }
-  if (err.request) {
-    return new Error('No Response Received');
-  }
-  return new Error('Bad Request');
-}
+import { handleApiError } from 'utils/apiError';
 
 export const doWithdraw = async (
   token: string,

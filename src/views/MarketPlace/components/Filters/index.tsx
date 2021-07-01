@@ -14,7 +14,8 @@ import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
-import { IUser } from 'services/api/userService/Interfaces/IUser';
+import { IUser } from 'services/api/userService/Interfaces';
+import { ISeries } from 'services/api/seriesService/Interfaces/ISeries';
 
 export interface IProps {
   activeFilters: any; //TODO: change type
@@ -25,7 +26,7 @@ export interface IProps {
 const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState<ISeries[]>([]);
   const [creators, setCreators] = useState<IUser[] | undefined>([]);
 
   const dropDownOptions = {

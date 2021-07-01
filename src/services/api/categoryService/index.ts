@@ -1,4 +1,5 @@
 import { axiosInstance } from '../coreService';
+import { handleApiError } from 'utils/apiError';
 
 export const getCategories = async (options?: { queryParams?: string }) => {
   try {
@@ -8,9 +9,6 @@ export const getCategories = async (options?: { queryParams?: string }) => {
     });
     return response.data;
   } catch (e) {
-    console.error(
-      `getCategories: Error requesting sku categories tile details. ${e}`
-    );
-    return undefined;
+    throw handleApiError(e);
   }
 };
