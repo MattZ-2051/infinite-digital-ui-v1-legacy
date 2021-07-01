@@ -62,7 +62,7 @@ const ProductDetails = ({ product }: Props) => {
           )}
           {product?.sku.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">
-              {`1 of ${product?.totalSupply}`}
+              {`${product?.serialNumber} of ${product?.totalSupply}`}
             </S.SkuInfo>
           )}
 
