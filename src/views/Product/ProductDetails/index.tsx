@@ -10,12 +10,19 @@ import * as S from './styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { SkuCounter } from 'views/Sku/SkuDetail/components/SkuCounter/skuCounter';
+import { ReactComponent as hederaIcon } from 'assets/svg/logos/hedera.svg';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
+const HederaIcon = () => (
+  <SvgIcon viewBox="-7 -7 25 27" component={hederaIcon} />
+);
 
 interface Props {
   sku: Sku;
   totalSupply: number;
   circulatingSupply: number;
   redeemable: boolean;
+  skuTokenId: string | undefined;
 }
 
 const ProductDetails = ({
@@ -23,6 +30,7 @@ const ProductDetails = ({
   totalSupply,
   circulatingSupply,
   redeemable,
+  skuTokenId = undefined,
 }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -32,7 +40,10 @@ const ProductDetails = ({
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${sku?._id}`);
   };
-
+  const handleRedirectToKabuto = () => {
+    window.location.href = `https://explorer.kabuto.sh/mainnet/id/${skuTokenId}`;
+  };
+  const skuIsVariable = sku?.supplyType === 'variable';
   const theme = useTheme();
   const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
   const toggleDescription = () => {
@@ -62,13 +73,16 @@ const ProductDetails = ({
             <S.SkuInfo color="#7c7c7c">{`1 of ${totalSupply}`}</S.SkuInfo>
           )} */}
           <SkuCounter sku={sku} />
-
-          {sku?.supplyType === 'variable' && (
+          {skuIsVariable && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
-              {sku?.supplyType === 'variable' &&
-                `${circulatingSupply} Released `}
+              {`${circulatingSupply} Released `}
               (See All)
             </S.SkuInfo>
+          )}
+          {skuTokenId && (
+            <S.tokenIdDiv onClick={handleRedirectToKabuto}>
+              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
+            </S.tokenIdDiv>
           )}
         </S.Flex>
         <S.Flex>

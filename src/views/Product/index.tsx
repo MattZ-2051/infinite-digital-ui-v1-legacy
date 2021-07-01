@@ -75,6 +75,7 @@ const Product = ({}) => {
         totalSupply={product.totalSupply}
         circulatingSupply={product.circulatingSupply || 0}
         redeemable={redeemable}
+        skuTokenId={product.tokenId}
       />
       <History
         product={product}
