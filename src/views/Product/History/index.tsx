@@ -213,12 +213,7 @@ const History = ({ product, transactionHistory }: Props): JSX.Element => {
           )}
           {status === 'not-for-sale' && (
             <S.ButtonContainer>
-              <S.Button
-                onClick={handleSaleAction}
-                className="button_noSale"
-                width="130px"
-                hover={false}
-              >
+              <S.Button className="button_noSale" width="130px" hover={false}>
                 Not for sale
               </S.Button>
             </S.ButtonContainer>
