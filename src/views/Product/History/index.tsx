@@ -130,6 +130,7 @@ const History = ({
         <PP.Title product={product} marketPlaceUrl={marketPlaceUrl} />
         <PP.Header
           product={product}
+          isOwner={product?.owner._id === loggedInUser.id}
           handlers={handlers}
           historyStatus={historyStatus}
           setIsRedeemModalOpen={setIsRedeemModalOpen}
@@ -137,9 +138,10 @@ const History = ({
           activeSalePrice={activeSalePrice}
           setIsCancelModalOpen={setIsCancelModalOpen}
           auctionStatus={auctionStatus}
+          setSelectedTab={setSelectedTab}
         />
 
-        {util.auctionOrWillBeAuction() &&
+        {util.isActiveAuction() &&
           selectedTab === 'auction' &&
           matchesMobile && (
             <PP.AuctionCountDown product={product} countdown={countdown} />

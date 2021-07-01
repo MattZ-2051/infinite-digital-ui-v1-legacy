@@ -2,7 +2,7 @@ import * as S from '../styles';
 import Transaction from '../Transaction';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
-import { formatCountdown, formatDate } from 'utils/dates';
+import { formatDate } from 'utils/dates';
 export const Auction = ({
   util,
   handlers,
@@ -17,13 +17,10 @@ export const Auction = ({
     <>
       <S.TransactionHistory>
         {util.product?.upcomingProductListings.length !== 0 ? (
-          <S.BidsContainer padding="22px 0px">
+          <S.BidsContainer padding={'22px 0px'}>
             <S.Text color="white" size="18px" fontWeight={600}>
               Starts at ${util.product?.upcomingProductListings[0].minBid} in{' '}
-              {util.product?.upcomingProductListings[0].startDate &&
-                formatCountdown(
-                  new Date(util.product.upcomingProductListings[0].startDate)
-                )}{' '}
+              {util.countDown()}{' '}
             </S.Text>
             <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
               (
@@ -51,7 +48,7 @@ export const Auction = ({
                 on
               </S.Text>
               <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                {util.product?.activeProductListings[0] &&
+                {util.product?.activeProductListings[0].length !== 0 &&
                   `${formatDate(
                     new Date(util.product?.activeProductListings[0].startDate)
                   )}`}
@@ -125,13 +122,12 @@ export const Auction = ({
             </S.BidsHistory>
           )
         )}
-        {auctionStatus !== 'upcoming-auction' &&
+        {auctionStatus.split('-')[0] !== 'upcoming' &&
           auctionStatus !== 'active-auction-no-bid-owner' &&
           auctionStatus !== 'active-auction-no-bid-user' &&
           (matchesMobile ? (
             <S.FlexColumn alignItems="center" padding="32px 0 0 0">
-              {(util.product?.activeProductListings.length !== 0 ||
-                util.product?.upcomingProductListings.length !== 0) && (
+              {util.product?.activeProductListings.length !== 0 && (
                 <S.FlexDiv>
                   <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                     Started at
@@ -164,7 +160,7 @@ export const Auction = ({
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                paddingTop: '30px',
+                paddingTop: '32px',
               }}
             >
               <S.StyledPagination
@@ -173,10 +169,9 @@ export const Auction = ({
                 count={Math.ceil(totalBids / util.perPage)}
                 onChange={handlers.handlePagination}
                 siblingCount={matchesMobile ? 0 : 1}
+                padding="0px"
               />
-
-              {(util.product?.activeProductListings.length !== 0 ||
-                util.product?.upcomingProductListings.length !== 0) && (
+              {util.product?.activeProductListings.length !== 0 && (
                 <S.FlexDiv>
                   <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
                     Started at

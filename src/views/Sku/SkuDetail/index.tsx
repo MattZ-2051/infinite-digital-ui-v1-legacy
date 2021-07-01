@@ -96,7 +96,6 @@ const SkuDetail = (): JSX.Element => {
       loggedInUser.id
     );
     setOwnerCollectors(ownerCollectors);
-    console.log('owner--->', ownerCollectors);
   }
 
   async function fetchSku() {

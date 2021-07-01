@@ -12,6 +12,7 @@ export const TabBar = ({
   auctionStatus,
 }) => {
   const isAuctionOrWillBe = util.auctionOrWillBeAuction();
+  const isActiveAuction = util.isActiveAuction();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const parsedStartDate =
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
@@ -64,7 +65,7 @@ export const TabBar = ({
           auctionStatus.split('-')[0] === 'upcoming'
         }
       />
-      {isAuctionOrWillBe &&
+      {isActiveAuction &&
         selectedTab === 'auction' &&
         (matchesMobile ? (
           <S.TextContainer

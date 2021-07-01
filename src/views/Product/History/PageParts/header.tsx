@@ -3,9 +3,11 @@ import * as S from '../styles';
 import * as Comps from '../components';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
+import { formatDate } from 'utils/dates';
 
 export const Header = ({
   product,
+  isOwner,
   handlers,
   historyStatus,
   setIsRedeemModalOpen,
@@ -13,6 +15,7 @@ export const Header = ({
   activeSalePrice,
   setIsCancelModalOpen,
   auctionStatus,
+  setSelectedTab,
 }) => {
   const { visible, setVisible, ref } = useOutsideAlert(false);
   const [showLink, setShowLink] = useState<boolean>(false);
@@ -21,6 +24,7 @@ export const Header = ({
   const bids = handlers.util.bids;
   const redeemable = product.sku.redeemable && product.redeemedStatus === 'NA';
   const handler = handlers;
+
   return (
     <S.Header>
       <S.Row
@@ -157,8 +161,20 @@ export const Header = ({
             </div>
           </S.ButtonContainer>
         )}
-
-      {(auctionStatus === 'upcoming-auction' ||
+      {historyStatus === 'upcoming-auction' &&
+        selectedTab === 'history' &&
+        product && (
+          <S.FlexColumn padding="0 80px 0 0">
+            <S.Text color="white" size="24px" fontWeight={600}>
+              Upcoming Auction
+            </S.Text>
+            <S.Text size="14px" color="#999999" fontWeight={500}>
+              (Starts{' '}
+              {formatDate(product?.upcomingProductListings[0]?.startDate)})
+            </S.Text>
+          </S.FlexColumn>
+        )}
+      {(auctionStatus === 'upcoming-auction-owner' ||
         auctionStatus === 'active-auction-no-bid-owner') &&
         selectedTab === 'auction' && (
           <S.ButtonContainer>
@@ -175,10 +191,25 @@ export const Header = ({
             </div>
           </S.ButtonContainer>
         )}
+      {historyStatus === 'active-auction' &&
+        !isOwner &&
+        selectedTab === 'history' && (
+          <S.ButtonContainer>
+            <S.Button
+              hover={true}
+              width="160px"
+              height="56px"
+              fontSize="20px"
+              onClick={() => setSelectedTab('auction')}
+            >
+              Bid Now
+            </S.Button>
+          </S.ButtonContainer>
+        )}
 
-      {(auctionStatus === 'upcoming-auction' ||
-        auctionStatus === 'active-auction-bid-owner') &&
-        selectedTab === 'auction' && (
+      {historyStatus === 'active-auction' &&
+        selectedTab === 'history' &&
+        isOwner && (
           <S.ButtonContainer>
             <div
               style={{
@@ -187,14 +218,16 @@ export const Header = ({
                 flexDirection: 'column',
               }}
             >
-              <S.BidAmount>${bids[0].bidAmt}</S.BidAmount>
+              <S.BidAmount>
+                ${bids[0]?.bidAmt || product?.activeProductListings[0]?.minBid}
+              </S.BidAmount>
               <S.Text
                 color="#7c7c7c"
                 size="16px"
                 fontWeight={500}
                 style={{ padding: '0' }}
               >
-                Current Bid
+                {bids.length === 0 ? 'Minimun Bid' : 'Current Bid'}
               </S.Text>
             </div>
           </S.ButtonContainer>

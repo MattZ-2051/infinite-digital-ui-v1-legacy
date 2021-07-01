@@ -1,5 +1,6 @@
 import { AuctionStatus, HistoryStatus } from './types';
 import { getBids } from 'services/api/productService';
+import { useCountdown } from 'hooks/useCountdown';
 export class Util {
   product;
   isAuthenticated;
@@ -59,9 +60,10 @@ export class Util {
         return 'active-sale';
     }
 
-    if (!activeListings && !upcomingListings) return 'not-for-sale';
-    if (activeListings && !upcomingListings) return 'buy-now';
-    if (!activeListings && upcomingListings) return 'upcoming';
+    if (!activeListings && !upcomingListings && !isAuction)
+      return 'not-for-sale';
+    if (activeListings && !upcomingListings && !isAuction) return 'buy-now';
+    if (!activeListings && upcomingListings && !isAuction) return 'upcoming';
     return '';
   };
 
@@ -72,17 +74,16 @@ export class Util {
     const areBids = this.bids.length !== 0;
     const userIsOwner = this.product?.owner?._id === this.loggedInUser.id;
     const isAuction =
-      this.product?.activeProductListings[0]?.saleType === 'auction';
+      this.product?.activeProductListings[0]?.saleType === 'auction' ||
+      this.product?.upcomingProductListings[0]?.saleType === 'auction';
 
     if (userIsOwner) {
       if (!upcomingListings && activeListings && !areBids)
         return 'active-auction-no-bid-owner';
       if (!upcomingListings && activeListings && areBids)
         return 'active-auction-bid-owner';
-      if (upcomingListings && !activeListings && isAuction) {
-        return '';
-      }
-      if (upcomingListings && !activeListings) return 'upcoming-auction-owner';
+      if (upcomingListings && !activeListings && isAuction)
+        return 'upcoming-auction-owner';
     }
 
     if (upcomingListings && !activeListings && isAuction)
@@ -93,6 +94,16 @@ export class Util {
       return 'active-auction-no-bid-user';
 
     return '';
+  };
+
+  countDown = () => {
+    const parsedStartDate =
+      this.product &&
+      new Date(
+        this.product?.activeProductListings[0]?.endDate ||
+          this.product?.upcomingProductListings[0]?.startDate
+      );
+    return useCountdown(parsedStartDate);
   };
 
   productListingExists = () => {
@@ -140,4 +151,14 @@ export class Util {
       this.product?.activeProductListings[0]?.saleType === 'auction') ||
     (this.product?.upcomingProductListings.length !== 0 &&
       this.product?.upcomingProductListings[0]?.saleType === 'auction');
+
+  isActiveAuction = () =>
+    this.product?.activeProductListings.length !== 0 &&
+    this.product?.activeProductListings[0]?.saleType === 'auction' &&
+    this.product?.upcomingProductListings.length === 0;
+
+  isUpcomingAuction = () =>
+    this.product?.activeProductListings.length === 0 &&
+    this.product?.activeProductListings[0]?.saleType === 'auction' &&
+    this.product?.upcomingProductListings.length !== 0;
 }
