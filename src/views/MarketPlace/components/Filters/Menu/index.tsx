@@ -4,9 +4,10 @@ import * as S from './styles';
 export interface IProps {
   handleFilter: (name: string, data: string) => void;
   activeFilterStatus: string;
+  loading?: boolean;
 }
 
-const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
+const MenuFilter = ({ handleFilter, activeFilterStatus, loading }: IProps) => {
   const skuTotal = useAppSelector((state) => state.sku.skus.total) as number;
   return (
     <S.ButtonFilters>
@@ -20,7 +21,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
           >
             All{' '}
             {activeFilterStatus === '' && (
-              <S.TotalFilter>&nbsp; ({skuTotal})</S.TotalFilter>
+              <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
             )}
           </S.Button>
           {/* <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
@@ -37,7 +38,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
         >
           On Sale{' '}
           {activeFilterStatus === 'onSale' && (
-            <S.TotalFilter>&nbsp; ({skuTotal})</S.TotalFilter>
+            <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
           )}
         </S.Button>
       </S.Li>
@@ -50,7 +51,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus }: IProps) => {
         >
           Upcoming{' '}
           {activeFilterStatus === 'upcoming' && (
-            <S.TotalFilter>&nbsp; ({skuTotal})</S.TotalFilter>
+            <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
           )}
         </S.Button>
       </S.Li>

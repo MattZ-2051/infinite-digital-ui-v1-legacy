@@ -29,6 +29,7 @@ import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [maxPrice, setMaxPrice] = useState(2000);
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const activePagination = useAppSelector(
@@ -96,6 +97,20 @@ const MarketPlace = (): JSX.Element => {
     };
     dispatch(updateFilter(payload));
     setPage(1);
+    const cloneFilters = { ...activeFilters };
+    cloneFilters[name] = value;
+    const queryString = createQueryString(
+      cloneFilters,
+      { page: '1', perPage: '6' },
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
   };
 
   const handlePagination = (
@@ -104,6 +119,19 @@ const MarketPlace = (): JSX.Element => {
   ) => {
     setPage(value);
     dispatch(updatePagination({ page: String(value), perPage: '6' }));
+    const pagination = { page: String(value), perPage: '6' };
+    const queryString = createQueryString(
+      activeFilters,
+      pagination,
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
   };
 
   const handleSort = (sortValue: string) => {
@@ -115,15 +143,20 @@ const MarketPlace = (): JSX.Element => {
   };
 
   const fetchData = (fn, queryParams?) => {
+    setLoading(true);
     return fn(
       getSkuTilesThunk({
         queryParams: queryParams || `${urlQueryString.toString()}`,
       })
-    ).then((response) => {
-      if (response.type === 'skus/get/fulfilled') {
-        setMaxPrice(response.payload.maxSkusMinPrice);
-      }
-    });
+    ).then(
+      (response) => {
+        setLoading(false);
+        if (response.type === 'skus/get/fulfilled') {
+          setMaxPrice(response.payload.maxSkusMinPrice);
+        }
+      },
+      () => setLoading(false)
+    );
   };
 
   // Load initial data on mount
@@ -139,18 +172,18 @@ const MarketPlace = (): JSX.Element => {
       isMounted.current = false;
     } else {
       // Avoid regenerating the url if the user press the browser back button
-      const queryString = createQueryString(
-        activeFilters,
-        activePagination,
-        activeSort
-      );
-      if (regenerateUrl.current) {
-        history.push(`/marketplace?${queryString.toString()}`);
-        fetchData(dispatch, `?${queryString.toString()}`);
-      } else {
-        regenerateUrl.current = true;
-        fetchData(dispatch, `?${queryString.toString()}`);
-      }
+      // const queryString = createQueryString(
+      //   activeFilters,
+      //   activePagination,
+      //   activeSort
+      // );
+      // if (regenerateUrl.current) {
+      //   history.push(`/marketplace?${queryString.toString()}`);
+      //   fetchData(dispatch, `?${queryString.toString()}`);
+      // } else {
+      //   regenerateUrl.current = true;
+      //   fetchData(dispatch, `?${queryString.toString()}`);
+      // }
     }
   }, [activeFilters, activePagination, activeSort]);
 
@@ -203,6 +236,7 @@ const MarketPlace = (): JSX.Element => {
           handleFilter={handleFilter}
           activeFilters={activeFilters}
           maxPrice={maxPrice}
+          loading={loading}
         />
       )}
 
@@ -213,6 +247,7 @@ const MarketPlace = (): JSX.Element => {
             activeFilters={activeFilters}
             maxPrice={maxPrice}
             skuTotal={skus?.total}
+            loading={loading}
           />
         </S.Sidebar>
         <S.Content>
