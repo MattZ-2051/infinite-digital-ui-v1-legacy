@@ -21,7 +21,9 @@ const MenuFilter = ({ handleFilter, activeFilterStatus, loading }: IProps) => {
           >
             All{' '}
             {activeFilterStatus === '' && (
-              <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
+              <S.TotalFilter>
+                &nbsp; {!loading && `(${skuTotal})`}
+              </S.TotalFilter>
             )}
           </S.Button>
           {/* <small style={{ paddingLeft: '10px', color: '#9e9e9e' }}>
@@ -38,7 +40,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus, loading }: IProps) => {
         >
           On Sale{' '}
           {activeFilterStatus === 'onSale' && (
-            <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
+            <S.TotalFilter>&nbsp; {!loading && `(${skuTotal})`}</S.TotalFilter>
           )}
         </S.Button>
       </S.Li>
@@ -51,7 +53,7 @@ const MenuFilter = ({ handleFilter, activeFilterStatus, loading }: IProps) => {
         >
           Upcoming{' '}
           {activeFilterStatus === 'upcoming' && (
-            <S.TotalFilter>&nbsp; ({!loading && skuTotal})</S.TotalFilter>
+            <S.TotalFilter>&nbsp; {!loading && `(${skuTotal})`}</S.TotalFilter>
           )}
         </S.Button>
       </S.Li>
