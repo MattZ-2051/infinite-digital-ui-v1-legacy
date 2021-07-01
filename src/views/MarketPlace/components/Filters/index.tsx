@@ -21,9 +21,16 @@ export interface IProps {
   activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
   maxPrice?: number;
+  skuTotal?: number;
+  loading?: boolean;
 }
 
-const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
+const Filters = ({
+  handleFilter,
+  activeFilters,
+  maxPrice,
+  loading,
+}: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
   const [series, setSeries] = useState<ISeries[]>([]);
@@ -86,6 +93,7 @@ const Filters = ({ handleFilter, activeFilters, maxPrice }: IProps) => {
       <Menu
         handleFilter={handleFilter}
         activeFilterStatus={activeFilters.status}
+        loading={loading}
       />
       <div style={{ paddingBottom: '30px' }}>
         <div
