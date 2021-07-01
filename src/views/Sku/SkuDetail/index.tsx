@@ -59,6 +59,9 @@ const SkuDetail = (): JSX.Element => {
     setOwnerAccessVisible(!ownerAccessVisible);
   };
 
+  const arePrivateAssets =
+    sku?.nftPrivateAssets && sku?.nftPrivateAssets?.length > 0;
+
   useEffect(() => {
     fetchSku().then((sku) => {
       fetchProducts(sku?.issuer?._id);
@@ -259,7 +262,7 @@ const SkuDetail = (): JSX.Element => {
             </S.Tab>
             {/* <S.Padding /> */}
 
-            {sku?.nftPrivateAssets && sku?.nftPrivateAssets?.length > 0 ? (
+            {arePrivateAssets ? (
               <S.Tab
                 style={{
                   width: '50%',

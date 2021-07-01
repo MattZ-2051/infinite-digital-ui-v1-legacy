@@ -18,6 +18,12 @@ export const TabBar = ({
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
 
+  const arePrivateAssets =
+    util.product?.sku?.nftPrivateAssets &&
+    util.product?.sku?.nftPrivateAssets.length > 0;
+  console.log(arePrivateAssets);
+  const isUserOwner = util.loggedInUser.id === util.product?.owner?._id;
+
   return (
     <S.TabBar>
       {isAuctionOrWillBe && (
@@ -42,18 +48,18 @@ export const TabBar = ({
       </S.Tab>
       <S.Padding />
 
-      <S.Tab
-        themeStyle={themeStyle}
-        selected={selectedTab === 'owner_access'}
-        onClick={() => setSelectedTab('owner_access')}
-      >
-        <S.ContainerImgLabel>
-          {util.loggedInUser.id !== util.product?.owner?._id && (
-            <img src={padlock} alt="padlock-icon"></img>
-          )}{' '}
-          <S.LabelOwnerAccess>Owner Access</S.LabelOwnerAccess>
-        </S.ContainerImgLabel>
-      </S.Tab>
+      {arePrivateAssets && (
+        <S.Tab
+          themeStyle={themeStyle}
+          selected={selectedTab === 'owner_access'}
+          onClick={() => setSelectedTab('owner_access')}
+        >
+          <S.ContainerImgLabel>
+            {!isUserOwner && <img src={padlock} alt="padlock-icon"></img>}{' '}
+            <S.LabelOwnerAccess>Owner Access</S.LabelOwnerAccess>
+          </S.ContainerImgLabel>
+        </S.Tab>
+      )}
 
       <S.GrayLine
         marginRight={
