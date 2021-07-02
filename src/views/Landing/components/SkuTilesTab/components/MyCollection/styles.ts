@@ -1,8 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const TileContainer = styled.div<{ index: number }>`
-  //  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
-  //  padding: 0 20px;
+  padding: 0;
 `;
 
 export const HeaderContainer = styled.div`
