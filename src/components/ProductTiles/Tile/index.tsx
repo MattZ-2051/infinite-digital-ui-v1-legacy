@@ -62,19 +62,20 @@ const Tile = ({
         {redeemable ? (
           <RedeemIcon src={redeemIcon} style={{ position: 'absolute' }} />
         ) : null}
-
-        <Media
-          src={skuImg}
-          styles={{
-            height: '240px',
-            width: '302px',
-            borderRadius: '20px 20px 0 0',
-            objectFit: 'cover',
-          }}
-        />
+        <div style={{ height: '240px', width: '302px' }}>
+          <Media
+            src={skuImg}
+            styles={{
+              height: '240px',
+              width: '302px',
+              borderRadius: '20px 20px 0 0',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         <S.StyledCardContent themeStyle={themeStyle}>
-          <Row>
+          <Row style={{ height: '21px' }}>
             <S.IssuerName>
               {cropText(topLeft, maxIssuerNameLength)}
             </S.IssuerName>

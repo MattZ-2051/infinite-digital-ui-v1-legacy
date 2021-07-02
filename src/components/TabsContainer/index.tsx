@@ -11,7 +11,7 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
   && {
     .MuiTabs-centered {
       width: ${(props) => (props.width ? `${props.width}` : '100%')};
-      border-bottom: 2px solid #ebebeb;
+      border-bottom: 1px solid #ebebeb;
     }
     .MuiTabs-indicator {
       background-color: black !important;
@@ -25,7 +25,6 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
     }
 
     .MuiTab-wrapper {
-      font-size: 28px;
       text-transform: capitalize;
     }
 

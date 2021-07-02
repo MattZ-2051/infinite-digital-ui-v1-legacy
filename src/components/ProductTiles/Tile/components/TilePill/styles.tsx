@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-  margin-left: 5px;
+  margin-left: 4px;
 `;
 
 export const Pill = styled.div<{ isLight?: boolean }>`
@@ -13,7 +13,7 @@ export const Pill = styled.div<{ isLight?: boolean }>`
   align-items: center;
   color: ${(props) => (props.isLight ? 'black' : '#c4c4c4')};
   justify-content: space-between;
-  padding: 0 25px;
+  padding: 0 22px;
   bottom: 25px;
 `;
 

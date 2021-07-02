@@ -13,7 +13,7 @@ export const StyledCard = styled(Card)<{ themeStyle; theme }>`
   overflow: hidden;
   border-radius: 20px;
   position: relative;
-  height: 100%;
+  height: 451px;
   border-style: solid;
   border-color: ${({ themeStyle }) =>
     themeStyle === 'dark' ? 'none' : '#ededed'};
@@ -44,8 +44,8 @@ export const CardImg = styled.img`
 export const RedeemIcon = styled.img`
   position: absolute;
   width: 40px;
-  right: 0.6%;
-  top: 0.6%;
+  right: 9px;
+  top: 11px;
 `;
 
 export default Title;
