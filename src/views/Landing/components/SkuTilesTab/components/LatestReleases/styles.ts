@@ -1,9 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const TileContainer = styled.div<{ index: number }>`
-  padding: 0 20px;
-  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
-
+  padding: 0;
   @media screen and (max-width: 600px) {
     padding: 0;
   }

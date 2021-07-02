@@ -34,7 +34,7 @@ const Items = ({
 };
 
 const TileContainer = styled.div<{ index: number }>`
-  padding: 0 10px;
+  padding: 0 12px;
 `;
 
 const hasCollection = css`
