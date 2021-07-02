@@ -93,7 +93,7 @@ export const Tile = styled.div`
 export const TileContainer = styled.div<{ index: number }>`
   padding: 0 20px;
   float: left;
-  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '4px'}`};
 `;
 
 interface ISection {
@@ -320,4 +320,3 @@ export const ToggleArrow = styled.button`
   border: none;
   outline: none;
 `;
-

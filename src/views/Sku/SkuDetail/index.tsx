@@ -125,7 +125,7 @@ const SkuDetail = (): JSX.Element => {
   const handleRedirectToIssuer = () => {
     history.push(`/collection/${sku.issuer.username}`);
   };
-
+  const tylesLimit = 4;
   const skuMessage = createMessage(sku);
   return (
     <div>
@@ -324,7 +324,7 @@ const SkuDetail = (): JSX.Element => {
             {featuredProducts &&
               filteredFeaturedSku.map((el, index) => {
                 // TODO: Stopping after index 5
-                if (index >= 4) return null;
+                if (index >= tylesLimit) return null;
                 return (
                   <S.TileContainer key={index} index={index}>
                     <SkuTile sku={el} key={index} themeStyle="light" />
