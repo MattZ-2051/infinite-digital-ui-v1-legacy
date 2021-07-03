@@ -16,10 +16,8 @@ import {
 } from 'store/marketplace/marketplaceSlice';
 import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
-// import { sortByItems } from 'config/marketplace';
 // Components
 import SearchInput from './components/Filters/SearchInput';
-// import SortByFilter from './components/Filters/SortByFilter';
 import SkuTile from './components/SkuTile';
 import PageLoader from 'components/PageLoader';
 // Icons
@@ -170,20 +168,6 @@ const MarketPlace = (): JSX.Element => {
   useEffect(() => {
     if (isMounted.current) {
       isMounted.current = false;
-    } else {
-      // Avoid regenerating the url if the user press the browser back button
-      // const queryString = createQueryString(
-      //   activeFilters,
-      //   activePagination,
-      //   activeSort
-      // );
-      // if (regenerateUrl.current) {
-      //   history.push(`/marketplace?${queryString.toString()}`);
-      //   fetchData(dispatch, `?${queryString.toString()}`);
-      // } else {
-      //   regenerateUrl.current = true;
-      //   fetchData(dispatch, `?${queryString.toString()}`);
-      // }
     }
   }, [activeFilters, activePagination, activeSort]);
 

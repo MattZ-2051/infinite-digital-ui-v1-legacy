@@ -31,6 +31,9 @@ const DropDownCheckFilter = ({
     const target = e.target;
     const id = target.id;
     const checked = target.checked;
+    const isCreator: boolean = filterCategory == 'creator';
+    const oneIsActive: boolean = activeFilters.length == 1;
+    if (checked && isCreator && oneIsActive) activeFilters = [];
 
     if (checked) {
       handleFilter(filterCategory, [...activeFilters, id]);

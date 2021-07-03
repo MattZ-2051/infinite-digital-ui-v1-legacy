@@ -46,7 +46,7 @@ const Filters = ({
     ],
     series,
     creator: creators?.map((el: IUser) => {
-      return { id: el.id, name: el.username };
+      return { id: el._id, name: el.username };
     }),
   };
 
@@ -72,7 +72,7 @@ const Filters = ({
     getCreators().then((data) => {
       setCreators(
         data?.filter((el: IUser) => {
-          return el.id !== '60a4921addc7af020455d315';
+          return el._id !== '60a4921addc7af020455d315';
         })
       );
     });
