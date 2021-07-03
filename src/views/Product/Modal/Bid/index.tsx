@@ -68,7 +68,10 @@ const BidModal = ({
         , would you like to{' '}
         <strong
           onClick={() => {
-            history.push('/wallet');
+            history.push({
+              pathname: `/wallet`,
+              state: { modalOpen: true },
+            });
           }}
           style={{ borderBottom: '1px solid black', cursor: 'pointer' }}
         >

@@ -6,8 +6,17 @@ export const insuficientFounds = (userBalance, priceWithFee, history) => {
     <>
       Whoops, insufficient funds! Your available balance is ${userBalance} and
       you need ${priceWithFee} to cover the bid and marketplace fee. Click{' '}
-      <a onClick={() => history.push('/wallet')}>click here</a> to deposit more
-      funds.
+      <a
+        onClick={() =>
+          history.push({
+            pathname: `/wallet`,
+            state: { modalOpen: true },
+          })
+        }
+      >
+        click here
+      </a>{' '}
+      to deposit more funds.
     </>
   );
 };

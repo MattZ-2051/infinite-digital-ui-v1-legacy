@@ -67,6 +67,9 @@ export const Listing = styled.div`
 export const SkuTitle = styled.div`
   font-size: 48px;
   letter-spacing: -2px;
+  line-height: 61px;
+  font-style: normal;
+  font-weight: 400;
 `;
 
 export const Brand = styled.h3`
