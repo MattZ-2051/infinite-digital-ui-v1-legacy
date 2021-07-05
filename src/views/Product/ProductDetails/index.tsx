@@ -52,9 +52,7 @@ const ProductDetails = ({
 
   return (
     <S.Container>
-      {sku?.nftPublicAssets && (
-        <ImageGallery nftPublicAsset={sku.nftPublicAssets} height="50%" />
-      )}
+      <ImageGallery nftPublicAsset={sku?.nftPublicAssets} height="50%" />
       <S.Body>
         <S.Flex justifyContent="space-between" alignItems="center">
           <S.Issuer>{sku?.issuerName}</S.Issuer>

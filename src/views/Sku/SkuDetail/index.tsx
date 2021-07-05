@@ -132,9 +132,7 @@ const SkuDetail = (): JSX.Element => {
       <S.HeaderContainer>
         <S.HeaderContent>
           <S.HeaderLeft>
-            {sku?.nftPublicAssets && (
-              <ImageGallery nftPublicAsset={sku.nftPublicAssets} />
-            )}
+            <ImageGallery nftPublicAsset={sku?.nftPublicAssets} />
           </S.HeaderLeft>
           <S.HeaderRight>
             <S.ProductDetail>

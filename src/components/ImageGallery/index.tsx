@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 import AudioIcon from 'assets/img/icons/audio-icon.png';
-import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
-import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
 import { FileAsset } from 'entities/sku';
+import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
 
 export interface ImageGalleryProps {
   nftPublicAsset: FileAsset[];
@@ -106,8 +105,10 @@ const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
   return (
     <Container height={height}>
       <ImageContainer>
-        {nftPublicAsset[selectedImage] && (
+        {nftPublicAsset ? (
           <MediaView src={nftPublicAsset[selectedImage].url} />
+        ) : (
+          <MediaView src={InfiniteLogo} />
         )}
       </ImageContainer>
       <ThumbnailMenu>

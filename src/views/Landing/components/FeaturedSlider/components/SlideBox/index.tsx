@@ -50,9 +50,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
     <S.Container>
       <Link to={`/marketplace/${product._id}`}>
         <S.MediaContainer>
-          {product.nftPublicAssets && (
-            <ImageGallery nftPublicAsset={product?.nftPublicAssets} />
-          )}
+          <ImageGallery nftPublicAsset={product?.nftPublicAssets} />
         </S.MediaContainer>
       </Link>
 
