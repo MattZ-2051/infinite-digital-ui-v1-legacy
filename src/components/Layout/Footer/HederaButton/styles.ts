@@ -3,7 +3,7 @@ import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
 export const ToolTipText = styled.span`
   position: absolute;
-  bottom: 40px;
+  bottom: 7px;
   left: 16px;
   color: black;
   overflow: hidden;
@@ -23,7 +23,7 @@ export const ShowLinkDiv = styled.div`
 
 export const StyledToolTip = styled(ToolTip)`
   position: absolute;
-  bottom: -15px;
+  bottom: -48px;
   color: black;
   left: 16px;
   transform: translate(-50%, -50%);
