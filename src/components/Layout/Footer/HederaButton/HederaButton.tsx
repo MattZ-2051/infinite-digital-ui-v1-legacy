@@ -11,8 +11,8 @@ const HederaButton = () => {
   return (
     <S.ShowLinkDiv>
       {showLink && (
-        <div style={{ width: '363px' }}>
-          <S.StyledToolTip></S.StyledToolTip>
+        <div style={{ width: '363px', position: 'absolute' }}>
+          <S.StyledToolTip />
           <S.ToolTipText>
             INFINITE NFTs are minted on the Hedera Hashgraph
           </S.ToolTipText>
