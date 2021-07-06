@@ -21,10 +21,10 @@ import SkuDescription from './components/SkuDescription';
 import LineDivider from './components/LineDivider';
 import NotifyModal from 'components/NotifyModal';
 import notifyIcon from 'assets/svg/icons/notify-white.svg';
-import OwnerAccessList from 'views/Product/OwnerAccess';
-import Collapsible from './components/Collapsible';
+import OwnerAccess from 'views/Product/OwnerAccess';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { getPrivateAssets } from 'services/api/productService';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -50,6 +50,7 @@ const SkuDetail = (): JSX.Element => {
   >('description');
   const [descriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const [ownerAccessVisible, setOwnerAccessVisible] = useState<boolean>(false);
+  const [privateAssets, setPrivateAssets] = useState<any>([]);
   const theme = useTheme();
   const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
   const toggleDescription = () => {
@@ -59,8 +60,7 @@ const SkuDetail = (): JSX.Element => {
     setOwnerAccessVisible(!ownerAccessVisible);
   };
 
-  const arePrivateAssets =
-    sku?.nftPrivateAssets && sku?.nftPrivateAssets?.length > 0;
+  const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
 
   useEffect(() => {
     fetchSku().then((sku) => {
@@ -68,6 +68,14 @@ const SkuDetail = (): JSX.Element => {
     });
     fetchCollectors();
     fetchOwnerCollectors();
+  }, [skuid]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessTokenSilently();
+      getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
+    };
+    fetchData();
   }, [skuid]);
 
   useEffect(() => {
@@ -292,8 +300,17 @@ const SkuDetail = (): JSX.Element => {
               <SkuDescription description={sku?.description || ''} />
             ) : selectedTab === 'owner_access' &&
               (ownerAccessVisible || !isSmall) ? (
-              <OwnerAccessList
-                assets={sku?.nftPrivateAssets || []}
+              // <OwnerAccessList
+              //   assets={sku?.nftPrivateAssets || []}
+              //   owner={
+              //     (ownerCollectors?.data && ownerCollectors?.data.length > 0) ||
+              //     false
+              //   }
+              //   themeStyle="light"
+              //   productId={ownerCollectors?.data[0]._id || ''}
+              // />
+              <OwnerAccess
+                skuId={sku._id}
                 owner={
                   (ownerCollectors?.data && ownerCollectors?.data.length > 0) ||
                   false

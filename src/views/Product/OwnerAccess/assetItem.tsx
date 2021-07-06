@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as S from './styles';
-import { FileAsset } from 'entities/sku';
+import { FileAsset } from 'entities/fileAsset';
 import { withStyles } from '@material-ui/core/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import { bytesToSize } from 'utils/convert';
@@ -36,12 +36,12 @@ const AssetItem = ({ asset, owner, productId, themeStyle }: IProps) => {
   const [download, setDownload] = useState<boolean>(false);
   const [presignedUrl, setPresignedUrl] = useState<string | null>(null);
 
-  const splitKey = asset.key.split('/');
+  const splitKey = asset?.key?.split('/');
   let assetName = '';
   if (splitKey) {
     assetName = splitKey[splitKey.length - 1];
   }
-  const assetType = asset.type.split('/')[0];
+  const assetType = asset?.type?.split('/')[0];
 
   const handleDownload = async () => {
     const link = anchorRef.current;

@@ -1,5 +1,5 @@
 import { AuctionStatus, HistoryStatus } from './types';
-import { getBids } from 'services/api/productService';
+import { getBids, getPrivateAssets } from 'services/api/productService';
 import { useCountdown } from 'hooks/useCountdown';
 export class Util {
   product;
@@ -7,30 +7,36 @@ export class Util {
   loggedInUser;
   bidIncrement;
   bids;
+  privateAssets;
   auctionPage;
   perPage;
   setBids;
   setTotalBids;
   transactionHistory;
   bidAmount;
+  setPrivateAssets;
 
   constructor(
     product,
     isAuthenticated,
     loggedInUser,
     bids,
+    privateAssets,
     auctionPage = 5,
     perPage,
     setBids,
     setTotalBids,
     transactionHistory,
-    bidAmount
+    bidAmount,
+    setPrivateAssets
   ) {
     this.product = product;
     this.isAuthenticated = isAuthenticated;
     this.loggedInUser = loggedInUser;
     this.bidIncrement =
       product?.activeProductListings[0]?.auctionBidIncrement || 1;
+
+    this.privateAssets = privateAssets;
     this.bids = bids;
     this.auctionPage = auctionPage;
     this.perPage = perPage;
@@ -38,6 +44,7 @@ export class Util {
     this.setTotalBids = setTotalBids;
     this.transactionHistory = transactionHistory;
     this.bidAmount = bidAmount;
+    this.setPrivateAssets = setPrivateAssets;
   }
 
   getHistoryStatus = (): HistoryStatus => {
@@ -143,6 +150,15 @@ export class Util {
     if (res) {
       this.setBids(res.data);
       this.setTotalBids(res.data[0]?.listing?.bids?.length);
+    }
+  };
+
+  fetchPrivateAssets = async (token) => {
+    console.log('token', token);
+    const res = await getPrivateAssets(this.product.sku._id, token);
+    if (res) {
+      this.setPrivateAssets(res.data);
+      console.log(res.data);
     }
   };
 

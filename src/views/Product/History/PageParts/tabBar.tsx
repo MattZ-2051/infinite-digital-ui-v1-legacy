@@ -18,10 +18,8 @@ export const TabBar = ({
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
 
-  const arePrivateAssets =
-    util.product?.sku?.nftPrivateAssets &&
-    util.product?.sku?.nftPrivateAssets.length > 0;
-  console.log(arePrivateAssets);
+  const arePrivateAssets = util?.privateAssets?.length > 0;
+
   const isUserOwner = util.loggedInUser.id === util.product?.owner?._id;
 
   return (

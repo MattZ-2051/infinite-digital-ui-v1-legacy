@@ -14,7 +14,8 @@ import CancelSale from '../Modal/CancelSale';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useCountdown } from 'hooks/useCountdown';
 import * as S from './styles';
-import OwnerAccessList from 'views/Product/OwnerAccess';
+// import OwnerAccessList from 'views/Product/OwnerAccess/assetList';
+import OwnerAccess from 'views/Product/OwnerAccess';
 import { Util } from './util';
 import { Handlers } from './handlers';
 import { HistoryStatus, AuctionStatus, tabSelect } from './types';
@@ -37,7 +38,11 @@ const History = ({
   setHistoryPage,
 }: Props): JSX.Element => {
   //Hooks
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    getAccessTokenSilently,
+  } = useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
@@ -52,8 +57,10 @@ const History = ({
   const [isAuctionModalOpen, setIsAuctionModalOpen] = useState<boolean>(false);
   const [isBidModalOpen, setIsBidModalOpen] = useState<boolean>(false);
   const [bids, setBids] = useState<Bid[]>([]);
+  const [privateAssets, setPrivateAssets] = useState<any>([]);
   const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
+  const [token, setToken] = useState<string>('');
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
@@ -82,12 +89,14 @@ const History = ({
     isAuthenticated,
     loggedInUser,
     bids,
+    privateAssets,
     auctionPage,
     perPage,
     setBids,
     setTotalBids,
     transactionHistory,
-    bidAmount
+    bidAmount,
+    setPrivateAssets
   );
   const handlers = new Handlers(
     setIsModalOpen,
@@ -121,6 +130,15 @@ const History = ({
   useEffect(() => {
     util.fetchBids();
   }, [auctionPage]);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getAccessTokenSilently();
+      setToken(token);
+    };
+    fetchToken();
+    util.fetchPrivateAssets(token);
+  }, [token]);
 
   if (historyStatus === '' || !handlers) return <></>;
 
@@ -176,12 +194,14 @@ const History = ({
         )}
 
         {product && selectedTab === 'owner_access' && (
-          <OwnerAccessList
-            assets={product.sku?.nftPrivateAssets || []}
-            owner={loggedInUser.id === product.owner?._id}
-            productId={product._id}
-            themeStyle={'dark'}
-          />
+          <>
+            <OwnerAccess
+              productId={product._id}
+              skuId={product.sku._id}
+              themeStyle={'dark'}
+              owner={loggedInUser.id === product.owner?._id}
+            />
+          </>
         )}
       </S.Container>
       {product && historyStatus === 'buy-now' && (

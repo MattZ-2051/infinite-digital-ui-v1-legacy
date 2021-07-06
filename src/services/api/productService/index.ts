@@ -3,6 +3,7 @@ import { axiosInstance } from '../coreService';
 import { handleApiError } from 'utils/apiError';
 import { ITransaction } from 'entities/transaction';
 import { Bid } from 'entities/bid';
+import { FileAsset } from 'entities/fileAsset';
 import {
   IProductTxHistory,
   MyBid,
@@ -170,7 +171,7 @@ export const getBids = async (
   includeFunctions = true
 ): Promise<AxiosResponse<Bid[]>> => {
   const params = { listing: listingId, includeFunctions };
-  if (page) {
+  if (page && perPage) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
@@ -249,3 +250,27 @@ export const downloadAssetFile = async (
     throw handleApiError(e);
   }
 };
+
+export const getPrivateAssets = async (skuId: string, token: string, page?: number,
+  perPage?: number): Promise<{ data: FileAsset[]; total: number }> => {
+  const params = {};
+  try {
+    if (page && perPage) {
+      params['page'] = page;
+      params['per_page'] = perPage;
+    }
+
+    const response = await axiosInstance.get<FileAsset[]>(`skus/${skuId}/private-assets`, {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    })
+    const { data, headers } = response;
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+
+    return { data, total };
+  } catch (error) {
+    return error.response;
+  }
+}
