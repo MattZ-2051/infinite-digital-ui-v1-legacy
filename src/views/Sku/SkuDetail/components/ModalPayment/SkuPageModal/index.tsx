@@ -182,12 +182,6 @@ const SkuPageModal = ({
 
   const content = (
     <>
-      {/* <S.ImageContainer>
-          <img src={product.imageUrls[0]} alt="" />
-          <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-            <CloseModal style={{ cursor: 'pointer' }} />
-          </S.CloseButton>
-        </S.ImageContainer> */}
       <S.Body>
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />

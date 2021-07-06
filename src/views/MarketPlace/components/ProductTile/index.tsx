@@ -23,6 +23,9 @@ const ProductTile = ({
   const handleRedirect = () => {
     history.push(`/product/${product._id}`);
   };
+  const imageUrl = sku.nftPublicAssets[0].previewUrl
+    ? sku.nftPublicAssets[0].previewUrl
+    : sku.nftPublicAssets[0].url;
 
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
@@ -51,7 +54,7 @@ const ProductTile = ({
       sku={sku}
       redeemable={sku.redeemable}
       status={status}
-      skuImg={sku?.nftPublicAssets[0]?.url}
+      skuImg={imageUrl}
       skuRarity={sku.rarity}
       topLeft={sku.issuerName}
       middle={sku.name}

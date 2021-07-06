@@ -52,12 +52,6 @@ const ModalPayment = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      {/* <S.ImageContainer>
-        <img src={sku.imageUrls[0]} alt="" />
-        <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-          <CloseModal style={{ cursor: 'pointer' }} />
-        </S.CloseButton>
-      </S.ImageContainer> */}
       <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
         <CloseModal style={{ cursor: 'pointer' }} />
       </S.CloseButton>

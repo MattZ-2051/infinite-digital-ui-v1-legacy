@@ -12,7 +12,7 @@ export interface Sku {
   redeemable: boolean;
   maxSupply?: number;
   imageUrls: string[];
-  graphicUrl: string; // Default image
+  graphicUrl: string; // Default image (DEPRECATED)
   startDate?: Date;
   endDate?: Date;
   issuerName: string;
@@ -81,4 +81,5 @@ export interface FileAsset {
   type: string;
   url: string;
   width: number;
+  previewUrl: string;
 }

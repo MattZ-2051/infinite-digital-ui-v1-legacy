@@ -74,7 +74,9 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const handleRedirect = () => {
     history.push(`/marketplace/${_id}`);
   };
-
+  const skuImage =
+    nftPublicAssets &&
+    (nftPublicAssets[0].previewUrl || nftPublicAssets[0].url);
   return (
     <Tile
       sku={sku}
@@ -86,7 +88,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       status={status}
       redeemable={redeemable}
       pillInfo={pillInfo}
-      skuImg={nftPublicAssets && nftPublicAssets[0]?.url}
+      skuImg={skuImage}
       unique={maxSupply === 1}
       handleRedirect={handleRedirect}
       supplyType={supplyType}
