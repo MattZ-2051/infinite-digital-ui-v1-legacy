@@ -374,9 +374,6 @@ export const BidsContainer = styled.div<{ padding: string }>`
   font-weight: 600;
   background: #2e2e2e;
   overflow: hidden;
-  @media screen and (max-width: 1160px) {
-    padding: 48px 24px 48px 24px;
-  }
 `;
 
 export const StyledPagination = styled(Pagination)<{
