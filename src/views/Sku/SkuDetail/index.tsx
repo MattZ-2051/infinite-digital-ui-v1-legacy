@@ -165,7 +165,7 @@ const SkuDetail = (): JSX.Element => {
                 <S.Brand onClick={handleRedirectToIssuer}>
                   {sku.issuerName || ''}
                 </S.Brand>
-                <Rarity type={sku.rarity} fontSize="24" fontWeight="400" />
+                <Rarity type={sku.rarity} fontSize="24" fontWeight="700" />
               </div>
 
               <S.SkuTitle>{sku.name}</S.SkuTitle>
@@ -173,6 +173,8 @@ const SkuDetail = (): JSX.Element => {
               <p
                 style={{
                   fontSize: '18px',
+                  lineHeight: '23px',
+                  fontWeight: 400,
                 }}
               >
                 {sku.series?.name}
@@ -191,7 +193,10 @@ const SkuDetail = (): JSX.Element => {
                     }}
                   >
                     <RedeemIcon />
-                    &nbsp; Redeemable{' '}
+                    &nbsp;{' '}
+                    <span style={{ fontSize: '16px', lineHeight: '20px' }}>
+                      Redeemable{' '}
+                    </span>
                     <S.SlashStyle>
                       {skuMessage !== '' ? ' / ' : null}
                     </S.SlashStyle>

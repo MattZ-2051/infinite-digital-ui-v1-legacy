@@ -47,11 +47,10 @@ const UpcomingData = ({
       {' '}
       <S.Container>
         <S.BoxColumn>
-          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming</h4>
-          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>{''}</small>
+          <S.BoxTitle>Upcoming</S.BoxTitle>
+          <S.BoxSubtitle>{''}</S.BoxSubtitle>
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'center' }}>
-          {/* <span style={{ fontSize: '28px' }}>${price}</span> */}
           <S.Price>${price}</S.Price>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
@@ -60,7 +59,6 @@ const UpcomingData = ({
           )}
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'right' }}>
-          {/* <span style={{ fontSize: '28px' }}>{countdown}</span> */}
           <S.CountDownTime>{countdown}</S.CountDownTime>
           <S.StartDate>{formatDate(startDate)}</S.StartDate>
         </S.BoxColumn>
@@ -120,13 +118,10 @@ const FromCreatorBox = ({
     <S.Container>
       <S.Detail>
         <S.BoxColumn>
-          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
-          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-            Initial Release
-          </small>
+          <S.BoxTitle>From Creator</S.BoxTitle>
+          <S.BoxSubtitle>Initial Release</S.BoxSubtitle>
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'center' }}>
-          {/* <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span> */}
           <S.Price>{price && `$${price}`}</S.Price>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
@@ -167,15 +162,10 @@ const FromCollectorsBox = ({
   return (
     <S.Container>
       <S.BoxColumn>
-        <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Collectors</h4>
-        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Lowest Listing Price
-        </small>
+        <S.BoxTitle>From Collectors</S.BoxTitle>
+        <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
       </S.BoxColumn>
       <S.BoxColumn style={{ textAlign: 'center' }}>
-        {/* <span style={{ fontSize: '28px' }}>
-          {!!countProductListings ? `$${minimunPrice}` : '--'}
-        </span> */}
         <S.Price> {!!countProductListings ? `$${minimunPrice}` : '--'}</S.Price>
         <small style={{ fontSize: '15px' }}>
           {!!countProductListings

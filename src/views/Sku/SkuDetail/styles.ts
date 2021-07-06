@@ -69,12 +69,13 @@ export const SkuTitle = styled.div`
   letter-spacing: -2px;
   line-height: 61px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
 `;
 
 export const Brand = styled.h3`
   font-size: 24px;
   color: #8e8e8e;
+  font-weight: 700;
   margin-bottom: 16px;
   :hover {
     cursor: pointer;

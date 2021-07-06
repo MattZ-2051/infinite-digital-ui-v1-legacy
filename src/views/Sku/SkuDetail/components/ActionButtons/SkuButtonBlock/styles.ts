@@ -81,3 +81,18 @@ export const StartDate = styled.span`
   line-height: 23px;
   color: #8E8E8E;
 `;
+
+export const BoxTitle = styled.span`
+  font-style: normal;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  color: '#8E8E8E';
+`;
+
+export const BoxSubtitle = styled.div`
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 19px;
+  color: #7C7C7C;
+`;
