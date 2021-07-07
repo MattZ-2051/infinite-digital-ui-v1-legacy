@@ -176,8 +176,9 @@ const MarketPlace = (): JSX.Element => {
   }, [activeFilters]);
 
   // Update the filters on browser back btn
+
   useEffect(() => {
-    return history.listen(() => {
+    history.listen(() => {
       if (history.action === 'POP') {
         regenerateUrl.current = false;
         const urlParams = processUrlParams();
@@ -192,6 +193,9 @@ const MarketPlace = (): JSX.Element => {
       }
     });
   }, [history]);
+
+  console.log('url', urlQueryString);
+  console.log('active filters', activeFilters);
 
   if (!skus) return <PageLoader />;
   return (
