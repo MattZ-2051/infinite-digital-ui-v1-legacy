@@ -10,22 +10,30 @@ interface Props {
   themeStyle: 'light' | 'dark';
 }
 
+/*Product Tile Types */
+type ProductTileTypes =
+  | 'active-listing'
+  | 'no-active-listing'
+  | 'upcoming-product-time'
+  | '';
+
 const ProductTile = ({
   product,
   productSerialNumber,
   themeStyle = 'light',
 }: Props): JSX.Element => {
-  let status: /*Product Tile Types */
-  'active-listing' | 'no-active-listing' | 'upcoming-product-time' | '' = '';
+  let status: ProductTileTypes = '';
   const history = useHistory();
   const { sku } = product;
   let pillInfo = '';
   const handleRedirect = () => {
     history.push(`/product/${product._id}`);
   };
-  const imageUrl = sku.nftPublicAssets[0].previewUrl
+  const imageUrl = sku.nftPublicAssets
     ? sku.nftPublicAssets[0].previewUrl
-    : sku.nftPublicAssets[0].url;
+      ? sku.nftPublicAssets[0].previewUrl
+      : sku.nftPublicAssets[0].url
+    : sku.graphicUrl;
 
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {

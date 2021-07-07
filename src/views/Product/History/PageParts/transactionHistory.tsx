@@ -12,11 +12,16 @@ export const TransactionHistory = ({
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const perPage = handlers.util.perPage;
 
+  let txArr = util.transactionHistory;
+  txArr = txArr.filter((tx) => tx.type !== 'nft_mint');
+  const mintTx = util.transactionHistory.filter((tx) => tx.type === 'nft_mint');
+  txArr.push(...mintTx);
+
   return (
     <S.TransactionHistory>
       <S.TransactionContainer>
-        {util.transactionHistory instanceof Array &&
-          util.transactionHistory.map((tx, index) => {
+        {txArr instanceof Array &&
+          txArr.map((tx, index) => {
             return <Transaction key={tx._id} transaction={tx} />;
           })}
       </S.TransactionContainer>
