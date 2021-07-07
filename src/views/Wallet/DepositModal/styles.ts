@@ -5,7 +5,7 @@ export const BodyContainer = styled.div`
   position: absolute;
   max-width: 550px;
   width: 500px;
-  max-height: 650px;
+  max-height: 750px;
   background-color: white;
   padding-top: 16px;
   outline: none;
@@ -71,9 +71,11 @@ export const Row = styled.div<{ disabled: boolean }>`
   .icon__arrow {
     color: #9e9e9e;
   }
-  :hover .icon__arrow {
+  ${(props) =>
+    !props.disabled &&
+    `:hover .icon__arrow {
     color: black;
-  }
+  };`}
 `;
 
 export const ExitIcon = styled.div`

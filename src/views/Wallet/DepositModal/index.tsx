@@ -15,6 +15,7 @@ import * as S from './styles';
 import sukuIcon from 'assets/img/icons/suku-icon.png';
 import circleIcon from 'assets/img/icons/circle-icon.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
+import hbarIcon from 'assets/img/icons/hbar-icon.png';
 
 interface IDepositModal {
   kycMaxLevel: number;
@@ -95,7 +96,7 @@ const DepositModal = ({
           disabled={true}
           rowText="HBAR"
           rowSubText="Hedera Hashgraph"
-          imgSrc={circleIcon}
+          imgSrc={hbarIcon}
           color="#9e9e9e"
           handleRedirect={handleRedirect}
         />
