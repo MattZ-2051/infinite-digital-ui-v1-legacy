@@ -18,6 +18,7 @@ const CircleBtn = ({ kycDisabled, setIsUSDCModelOpen, kycPending }) => {
           ? Toast.warning(<KycRequiredText kycPending={kycPending} />)
           : setIsUSDCModelOpen(true)
       }
+      disabled={false}
     >
       <S.FlexAlignCenter>
         <img width="50px" src={usdcIcon} />

@@ -79,6 +79,7 @@ const DepositModal = ({
           setIsUSDCModelOpen={setIsUSDCModelOpen}
         />
         <DepositRow
+          disabled={false}
           rowText="Circle"
           rowSubText={circleSubText}
           imgSrc={circleIcon}
@@ -91,6 +92,15 @@ const DepositModal = ({
           kycPending={kycPending}
         />
         <DepositRow
+          disabled={true}
+          rowText="HBAR"
+          rowSubText="Hedera Hashgraph"
+          imgSrc={circleIcon}
+          color="#9e9e9e"
+          handleRedirect={handleRedirect}
+        />
+        <DepositRow
+          disabled={true}
           imgSrc={sukuIcon}
           color="#9e9e9e"
           rowText="SUKU"

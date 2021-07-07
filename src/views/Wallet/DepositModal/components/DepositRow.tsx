@@ -8,6 +8,7 @@ interface IProps {
   rowText: string;
   rowSubText: string;
   handleRedirect: () => void;
+  disabled: boolean;
 }
 
 const DepositRow = ({
@@ -16,10 +17,14 @@ const DepositRow = ({
   rowText,
   rowSubText,
   handleRedirect,
+  disabled,
 }: IProps) => {
   return (
     <>
-      <S.Row onClick={handleRedirect}>
+      <S.Row
+        disabled={disabled}
+        onClick={disabled ? () => null : handleRedirect}
+      >
         <S.FlexAlignCenter>
           <img src={imgSrc} />
         </S.FlexAlignCenter>

@@ -15,7 +15,7 @@ const coinbaseCheckoutId = config.misc.coinbaseCheckoutId;
 
 const CoinBaseBtn = ({ kycDisabled, coinbaseMetadata, kycPending }: IProps) => {
   const bodyBtn = (
-    <S.Row>
+    <S.Row disabled={false}>
       <S.FlexAlignCenter>
         <img src={coinbaseIcon} />
       </S.FlexAlignCenter>

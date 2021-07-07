@@ -30,6 +30,7 @@ const AchAccountItem = ({
         gridTemplateColumns: '18% 42% 40%',
         cursor: onRemove || !isApprovalGood ? 'initial' : undefined,
       }}
+      disabled={false}
     >
       <S.FlexAlignCenter>
         <img
