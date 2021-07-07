@@ -23,6 +23,7 @@ interface Props {
   circulatingSupply: number;
   redeemable: boolean;
   skuTokenId: string | undefined;
+  explorerLink: string | undefined;
 }
 
 const ProductDetails = ({
@@ -31,6 +32,7 @@ const ProductDetails = ({
   circulatingSupply,
   redeemable,
   skuTokenId = undefined,
+  explorerLink = undefined,
 }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -39,9 +41,6 @@ const ProductDetails = ({
   const [descriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const handleRedirectToSkuPage = () => {
     history.push(`/marketplace/${sku?._id}`);
-  };
-  const handleRedirectToKabuto = () => {
-    window.location.href = `https://explorer.kabuto.sh/mainnet/id/${skuTokenId}`;
   };
   const skuIsVariable = sku?.supplyType === 'variable';
   const theme = useTheme();
@@ -77,10 +76,14 @@ const ProductDetails = ({
               (See All)
             </S.SkuInfo>
           )}
-          {skuTokenId && (
-            <S.tokenIdDiv onClick={handleRedirectToKabuto}>
+          {skuTokenId && explorerLink ? (
+            <S.TokenExplorerLink target="_blank" href={explorerLink}>
               {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
-            </S.tokenIdDiv>
+            </S.TokenExplorerLink>
+          ) : (
+            <S.TokenExplorerLinkPlain>
+              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
+            </S.TokenExplorerLinkPlain>
           )}
         </S.Flex>
         <S.Flex>

@@ -22,6 +22,7 @@ export interface ProductWithFunctions {
   serialNumber: string;
   activeProductListings: Listing[];
   expiredProductListings: Listing[];
+  explorerLink?: string;
   soldProductListings: Listing[];
   upcomingProductListings: Listing[];
   totalSupply: number;

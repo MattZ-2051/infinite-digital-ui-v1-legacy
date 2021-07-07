@@ -82,6 +82,7 @@ const Collectors = () => {
         circulatingSupply={sku?.circulatingSupply || 0}
         redeemable={sku?.redeemable}
         skuTokenId={undefined}
+        explorerLink={undefined}
       />
       <S.Container>
         <S.Title>
