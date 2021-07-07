@@ -176,8 +176,9 @@ const MarketPlace = (): JSX.Element => {
   }, [activeFilters]);
 
   // Update the filters on browser back btn
+
   useEffect(() => {
-    return history.listen(() => {
+    history.listen(() => {
       if (history.action === 'POP') {
         regenerateUrl.current = false;
         const urlParams = processUrlParams();
