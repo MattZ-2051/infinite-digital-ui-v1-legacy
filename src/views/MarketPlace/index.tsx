@@ -194,9 +194,6 @@ const MarketPlace = (): JSX.Element => {
     });
   }, [history]);
 
-  console.log('url', urlQueryString);
-  console.log('active filters', activeFilters);
-
   if (!skus) return <PageLoader />;
   return (
     <S.Container>

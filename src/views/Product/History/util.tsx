@@ -154,11 +154,9 @@ export class Util {
   };
 
   fetchPrivateAssets = async (token) => {
-    console.log('token', token);
     const res = await getPrivateAssets(this.product.sku._id, token);
     if (res) {
       this.setPrivateAssets(res.data);
-      console.log(res.data);
     }
   };
 

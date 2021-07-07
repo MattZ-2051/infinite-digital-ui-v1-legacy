@@ -17,7 +17,6 @@ import { getUserInfoThunk } from 'store/session/sessionThunks';
 const Product = ({}) => {
   const [product, setProduct] = useState<ProductType | null>(null);
   const { productId } = useParams<{ productId: string }>();
-  console.log(product);
   const [transactionHistory, setTransactionHistory] = useState<
     ITransaction[] | null
   >(null);
