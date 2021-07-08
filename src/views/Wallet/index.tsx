@@ -19,40 +19,16 @@ import Pagination from '@material-ui/lab/Pagination';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListBids from './ActiveBids';
 import KycButton from './KycButton/kycButton';
-
-const NoResults = styled.div``;
-
-// const ProductsGrid = styled.div`
-//   margin: auto;
-//   display: grid;
-//   grid-gap: 24px;
-//   grid-template-columns: repeat(auto-fit, 300px);
-//   justify-content: space-evenly;
-//   margin-top: 20px;
-// `;
-const ProductsGrid = styled.div`
-  margin-bottom: 30px;
-`;
-
-// const PaginationContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-top: 20px;
-// `;
-const PaginationContainer = styled.div``;
-
-const Content = styled.section`
-  width: 100%;
-`;
-
+import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 const PER_PAGE = 5;
 
 const Wallet = (props) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
-    useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState<boolean>(
+    false
+  );
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -64,6 +40,13 @@ const Wallet = (props) => {
   // const [isElOverflown, setIsElOverflown] = useState<boolean>(false);
   const [valueCurrentPage, setCurrentPage] = useState<number>(1);
   const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
+
+  const [sortByTransactions, setSortByTransactions] = useState<
+    'newest' | 'oldest'
+  >('newest');
+  const [sortByActiveBids, setSortByActiveBids] = useState<'newest' | 'oldest'>(
+    'newest'
+  );
   // const documentElement = document.getElementById('tx');
 
   const { username: username } = useAppSelector((state) => state.session.user);
@@ -77,7 +60,7 @@ const Wallet = (props) => {
     dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
   }
 
-  async function fetchTransactions(page: number) {
+  async function fetchTransactions(page: number, sortByTransactions?: string) {
     setTransactionsLoading(true);
     const res = await getMyTransactions(
       await getAccessTokenSilently(),
@@ -101,7 +84,8 @@ const Wallet = (props) => {
             type: 'withdrawal',
           },
         ],
-      }
+      },
+      sortByTransactions
     );
     setTransactions(res);
     setTransactionsLoading(false);
@@ -115,8 +99,10 @@ const Wallet = (props) => {
   }, []);
 
   useEffect(() => {
-    fetchTransactions(valueCurrentPage);
-  }, [valueCurrentPage]);
+    if (selectedTab === 0) {
+      fetchTransactions(valueCurrentPage, sortByTransactions);
+    }
+  }, [valueCurrentPage, sortByTransactions, selectedTab]);
 
   // useEffect(() => {
   //   if (documentElement) {
@@ -248,7 +234,7 @@ const Wallet = (props) => {
                   }}
                   onClick={() => setSelectedTab(0)}
                 >
-                  Latest Transactions
+                  Transaction History
                 </S.Tab>
                 <span style={{ padding: '0 20px' }} />
                 <S.Tab
@@ -262,6 +248,22 @@ const Wallet = (props) => {
                 >
                   Active Bids
                 </S.Tab>
+                <div style={{ float: 'right' }}>
+                  <SortByFilter
+                    handleSort={(value) =>
+                      selectedTab === 0
+                        ? setSortByTransactions(value)
+                        : setSortByActiveBids(value)
+                    }
+                    activeSort={
+                      selectedTab === 0 ? sortByTransactions : sortByActiveBids
+                    }
+                    options={[
+                      { value: 'newest', name: 'Newest' },
+                      { value: 'oldest', name: 'Oldest' },
+                    ]}
+                  />
+                </div>
                 <S.GrayLine style={{ width: '100%' }} />
               </div>
             </S.TabContainer>
@@ -271,34 +273,34 @@ const Wallet = (props) => {
               id="tx"
             >
               {selectedTab === 0 && (
-                <Content>
+                <S.Content>
                   {transactionsLoading || !transactions ? (
                     <PageLoader size={15} />
                   ) : !transactions.data.length ? (
-                    <NoResults>
+                    <S.NoResults>
                       <p>No transactions yet</p>
-                    </NoResults>
+                    </S.NoResults>
                   ) : (
                     <>
-                      <ProductsGrid>
+                      <S.ProductsGrid>
                         {transactions.data.map((tx, index) => {
                           return <Transaction tx={tx} key={index} />;
                         })}
-                      </ProductsGrid>
-                      <PaginationContainer>
+                      </S.ProductsGrid>
+                      <S.PaginationContainer>
                         <Pagination
                           count={Math.ceil(transactions.total / PER_PAGE)}
                           page={valueCurrentPage}
                           onChange={(ev, page) => setCurrentPage(page)}
                           siblingCount={matchesMobile ? 0 : 1}
                         />
-                      </PaginationContainer>
+                      </S.PaginationContainer>
                     </>
                   )}
-                </Content>
+                </S.Content>
               )}
 
-              {selectedTab === 1 && <ListBids />}
+              {selectedTab === 1 && <ListBids sortBy={sortByActiveBids} />}
             </S.LatestTransactionsContainer>
             {/*<S.FlexRow>*/}
             {/*  {isElOverflown && (*/}

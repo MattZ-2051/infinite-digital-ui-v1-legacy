@@ -200,3 +200,16 @@ export const AvailableText = styled.span`
   color: #9e9e9e;
   padding-right: 8px;
 `;
+
+export const ProductsGrid = styled.div`
+  margin-bottom: 30px;
+`;
+
+export const Content = styled.section`
+  width: 100%;
+`;
+
+export const PaginationContainer = styled.div``;
+
+export const NoResults = styled.div``;
+

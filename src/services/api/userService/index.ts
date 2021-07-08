@@ -43,18 +43,21 @@ export const getMyTransactions = async (
   token: string,
   page: number,
   per_page: number,
-  filter
+  filter,
+  sortBy = 'newest'
 ): Promise<{ data: ITransaction[]; total: number }> => {
   try {
+    const params = {
+      filter: JSON.stringify(filter),
+      page,
+      per_page,
+    }
+    params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
     const response = await axiosInstance.request<ITransaction[]>({
       method: 'GET',
       url: `/users/me/transactions`,
       headers: { Authorization: `Bearer ${token}` },
-      params: {
-        filter: JSON.stringify(filter),
-        page,
-        per_page,
-      },
+      params,
     });
     const { data, headers } = response;
     const contentRange: string = headers['content-range'];

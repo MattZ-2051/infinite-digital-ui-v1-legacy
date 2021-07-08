@@ -209,9 +209,11 @@ export const getMeBids = async (
   token: string,
   page?: number,
   perPage?: number,
-  includeFunctions = true
+  includeFunctions = true,
+  sortBy = 'newest'
 ): Promise<MyBids> => {
   const params = { includeFunctions };
+  params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;

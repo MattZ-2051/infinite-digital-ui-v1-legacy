@@ -6,30 +6,18 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 interface IProps {
   options: any; //TODO: change type
-  handleSort: (sortValue: string) => void;
+  handleSort: (sortValue: 'newest' | 'oldest') => void;
   activeSort: string;
 }
 
 const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const getCurrentLabel = () => {
-    return options.filter((option) => {
+    return options.find((option) => {
       return option.value === activeSort;
     });
   };
-  const [label, setLabel] = useState<string | undefined>(
-    getCurrentLabel()[0].name
-  );
-  const handleDropDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.currentTarget;
-    const filterValue = target.id;
-    const filterName = target.dataset.name;
-
-    handleSort(filterValue);
-    setLabel(filterName);
-    setIsHidden(true);
-  };
-
+  const currentLabel = getCurrentLabel();
   const handleChange = () => {
     setIsHidden(!isHidden);
   };
@@ -39,21 +27,21 @@ const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
     return option.value !== activeSort;
   };
 
-  options = options.filter(getNewOptions);
+  const newOptions = options.filter(getNewOptions);
 
   return (
     <S.Container>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex' }}>
         <S.SortBy>Sort by:</S.SortBy>
-        <S.Label>{label}</S.Label>
+        <S.Label>{currentLabel?.name}</S.Label>
         {isHidden ? (
           <S.DownArrow
-            style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
+            style={{ color: 'black', fontSize: '30px', marginBottom: '5px' }}
             onClick={handleChange}
           />
         ) : (
           <S.UpArrow
-            style={{ color: 'black', fontSize: '35px', marginBottom: '5px' }}
+            style={{ color: 'black', fontSize: '30px', marginBottom: '5px' }}
             onClick={handleChange}
           />
         )}
@@ -61,14 +49,15 @@ const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
       <>
         {isHidden ? null : (
           <S.HiddenDiv>
-            {options instanceof Array &&
-              options.map((option, index) => {
+            {newOptions instanceof Array &&
+              newOptions.map((option, index) => {
                 return (
                   <S.DropDownDiv
-                    key={index}
-                    id={option.value}
-                    data-name={option.name}
-                    onClick={handleDropDown}
+                    key={option.value}
+                    onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                      handleSort(option.value);
+                      setIsHidden(true);
+                    }}
                     style={{ height: '38px' }}
                   >
                     <p style={{ fontWeight: 400, fontSize: '16px' }}>
@@ -87,7 +76,7 @@ const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
 const S: any = {};
 
 S.Container = styled.div`
-  display: flex;
+  /* display: flex; */
   justify-content: flex-end;
   position: relative;
 `;

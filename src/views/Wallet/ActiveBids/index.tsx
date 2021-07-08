@@ -37,7 +37,11 @@ interface MyListing extends AuxListing {
   issuer: User;
 }
 
-const ListBids = () => {
+interface IProps {
+  sortBy: 'newest' | 'oldest';
+}
+
+const ListBids = ({ sortBy }: IProps) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [bids, setBids] = useState<{
     data: MyBid[];
@@ -54,13 +58,15 @@ const ListBids = () => {
     },
     [setCurrentPage]
   );
-  const fetchMeBids = async (page: number) => {
+  const fetchMeBids = async (page: number, sortBy: string) => {
     try {
       setLoading(true);
       const res = await getMeBids(
         await getAccessTokenSilently(),
         page,
-        PER_PAGE
+        PER_PAGE,
+        true,
+        sortBy
       );
       if (res) {
         setBids({ data: res.data, total: res.totalBids });
@@ -73,8 +79,8 @@ const ListBids = () => {
   };
 
   useEffect(() => {
-    fetchMeBids(valueCurrentPage);
-  }, [valueCurrentPage]);
+    fetchMeBids(valueCurrentPage, sortBy);
+  }, [valueCurrentPage, sortBy]);
 
   if (loading || !bids) return <PageLoader size={15} />;
   if (!bids?.data.length)
