@@ -95,7 +95,7 @@ const DepositModal = ({
         <DepositRow
           disabled={true}
           rowText="HBAR"
-          rowSubText="Hedera Hashgraph"
+          rowSubText="Coming Soon"
           imgSrc={hbarIcon}
           color="#9e9e9e"
           handleRedirect={handleRedirect}
