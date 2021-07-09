@@ -321,7 +321,7 @@ const SkuDetail = (): JSX.Element => {
                   false
                 }
                 themeStyle="light"
-                productId={ownerCollectors?.data[0]._id || ''}
+                productId={ownerCollectors?.data?.[0]?._id || ''}
               />
             ) : (
               <></>

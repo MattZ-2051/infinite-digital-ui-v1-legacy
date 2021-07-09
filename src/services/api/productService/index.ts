@@ -65,7 +65,7 @@ export const getProductCollectors = async (
   }
   let queryParams = `sortBy=serialNumber:${sortBySerialAsc ? 'asc' : 'desc'}`;
   if (ownerId) {
-    queryParams = queryParams + `&owner=${ownerId}`;
+    queryParams = queryParams + `&ownerId=${ownerId}`;
   }
 
   const response = await axiosInstance.request<Collector[]>({
