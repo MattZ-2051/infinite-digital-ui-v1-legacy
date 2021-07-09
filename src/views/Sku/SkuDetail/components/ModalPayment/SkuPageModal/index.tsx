@@ -85,7 +85,7 @@ const SkuPageModal = ({
     const tx: ITransaction[] | false =
       res.data instanceof Array &&
       res.data.filter((tx) => {
-        if (tx?.transactionData?.sku[0]?._id === product?._id) {
+        if (tx?.transactionData?.sku?._id === product?._id) {
           return tx;
         }
       });

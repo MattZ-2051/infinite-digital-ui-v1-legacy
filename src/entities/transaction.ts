@@ -15,7 +15,10 @@ export type TransactionType =
   | 'nft_transfer_manual'
   | 'royalty_fee'
   | 'nft_mint'
-  | 'bid';
+  | 'bid'
+  | 'claim'
+  | 'nft_redeem';
+
 
 export type TransactionStatus = 'success' | 'error' | 'pending';
 export type DepositType = 'cc' | string;
@@ -42,7 +45,7 @@ interface Product {
 
 export interface TransactionData {
   product: Product[];
-  sku: Sku[];
+  sku: Sku;
   listing: string;
   amount: number;
   bid: string;

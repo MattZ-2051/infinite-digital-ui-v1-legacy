@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
 import depositIcon from 'assets/svg/icons/deposit-funds.svg';
 import withdrawIcon from 'assets/svg/icons/withdraw-funds.svg';
+import redeemIcon from 'assets/svg/icons/redeemable-border.svg';
+import claimedIcon from 'assets/svg/icons/claimed.svg';
 import dollarSign from 'assets/img/icons/dollarSign-icon.png';
 import purchaseIcon from 'assets/img/icons/purchase-icon.png';
 import { ITransaction } from 'entities/transaction';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ActionInfo from './actionInfo';
 import { useTheme } from '@material-ui/core/styles';
 import * as S from './styles';
 
@@ -124,8 +127,8 @@ const PurchaseInfo = ({ tx }: { tx: ITransaction }) => (
         ? 'You bought from'
         : 'You tried buying from'}
     </span>
-    <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-      {tx.transactionData.sku[0]?.name}
+    <S.Link to={`/marketplace/${tx.transactionData?.sku?._id}`}>
+      {tx.transactionData.sku?.name}
     </S.Link>
     <S.Link to={`/product/${tx.transactionData?.product[0]?._id}`}>
       #{tx.transactionData.product[0]?.serialNumber}
@@ -205,8 +208,8 @@ const SaleInfo = ({ tx }: { tx: ITransaction }) => (
   <>
     <S.Icon src={dollarSign} />
     <span>You sold</span>
-    <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-      {tx.transactionData.sku[0]?.name}
+    <S.Link to={`/marketplace/${tx.transactionData?.sku?._id}`}>
+      {tx.transactionData.sku?.name}
     </S.Link>
     <S.Link to={`/product/${tx.transactionData.product[0]?._id}`}>
       #{tx.transactionData.product[0]?.serialNumber}
@@ -228,8 +231,8 @@ const RoyaltyInfo = ({ tx }: { tx: ITransaction }) => (
   <>
     <S.Icon src={dollarSign} />
     <span>You received a royalty payment for the sale of</span>
-    <S.Link to={`/marketplace/${tx.transactionData?.sku[0]?._id}`}>
-      {tx.transactionData.sku[0]?.name}
+    <S.Link to={`/marketplace/${tx.transactionData?.sku?._id}`}>
+      {tx.transactionData.sku?.name}
     </S.Link>
     <S.Link to={`/product/${tx.transactionData?.product[0]?._id}`}>
       #{tx.transactionData.product[0]?.serialNumber}
@@ -263,6 +266,12 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'sale' && <SaleInfo tx={tx} />}
         {tx.type === 'royalty_fee' && <RoyaltyInfo tx={tx} />}
         {tx.type === 'withdrawal' && <WithdrawalInfo tx={tx} />}
+        {tx.type === 'claim' && (
+          <ActionInfo tx={tx} text="You claimed" icon={claimedIcon} />
+        )}
+        {tx.type === 'nft_redeem' && (
+          <ActionInfo tx={tx} text="You redeemed" icon={redeemIcon} />
+        )}
         {tx.type === 'deposit' &&
           tx.transactionData?.deposit?.type === 'cc' && (
             <CCDepositInfo tx={tx} />
