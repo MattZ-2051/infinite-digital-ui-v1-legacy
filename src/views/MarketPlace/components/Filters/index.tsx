@@ -23,6 +23,7 @@ export interface IProps {
   maxPrice?: number;
   skuTotal?: number;
   loading?: boolean;
+  clearFilters: () => void;
 }
 
 const Filters = ({
@@ -30,6 +31,7 @@ const Filters = ({
   activeFilters,
   maxPrice,
   loading,
+  clearFilters,
 }: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
@@ -77,16 +79,6 @@ const Filters = ({
       );
     });
   }, []);
-
-  useEffect(() => {
-    return () => {
-      clearFilters();
-    };
-  }, []);
-
-  const clearFilters = () => {
-    dispatch(restoreFilters());
-  };
 
   return (
     <Container>

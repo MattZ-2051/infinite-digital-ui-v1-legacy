@@ -13,6 +13,7 @@ import {
   updatePagination,
   updateSortBy,
   setMarketplaceState,
+  restoreFilters,
 } from 'store/marketplace/marketplaceSlice';
 import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
@@ -23,6 +24,7 @@ import PageLoader from 'components/PageLoader';
 // Icons
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
+import { getSkuTiles } from 'services/api/sku';
 
 const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -146,15 +148,9 @@ const MarketPlace = (): JSX.Element => {
       getSkuTilesThunk({
         queryParams: queryParams || `${urlQueryString.toString()}`,
       })
-    ).then(
-      (response) => {
-        setLoading(false);
-        if (response.type === 'skus/get/fulfilled') {
-          setMaxPrice(response.payload.maxSkusMinPrice);
-        }
-      },
-      () => setLoading(false)
-    );
+    )
+      .catch()
+      .then(() => setLoading(false));
   };
 
   // Load initial data on mount
@@ -163,6 +159,16 @@ const MarketPlace = (): JSX.Element => {
     const page = new URLSearchParams(urlQueryString).get('page');
     setPage(Number(page));
   }, [dispatch]);
+
+  useEffect(() => {
+    setLoading(true);
+    getSkuTiles({})
+      .then(({ maxSkusMinPrice }) => {
+        maxSkusMinPrice && setMaxPrice(maxSkusMinPrice);
+      })
+      .catch()
+      .then(() => setLoading(false));
+  }, []);
 
   // Request new data on filters change
   useEffect(() => {
@@ -194,6 +200,31 @@ const MarketPlace = (): JSX.Element => {
     });
   }, [history]);
 
+  const clearFilters = () => {
+    dispatch(restoreFilters());
+    // const cloneFilters = { ...activeFilters };
+    // cloneFilters[name] = value;
+    const queryString = createQueryString(
+      [],
+      { page: '1', perPage: '6' },
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
+    // handleFilter(filterCategory, activeFilters);
+  };
+
+  // useEffect(() => {
+  //   return () => {
+  //     clearFilters();
+  //   };
+  // }, []);
+
   if (!skus) return <PageLoader />;
   return (
     <S.Container>
@@ -222,6 +253,7 @@ const MarketPlace = (): JSX.Element => {
           activeFilters={activeFilters}
           maxPrice={maxPrice}
           loading={loading}
+          clearFilters={clearFilters}
         />
       )}
 
@@ -233,6 +265,7 @@ const MarketPlace = (): JSX.Element => {
             maxPrice={maxPrice}
             skuTotal={skus?.total}
             loading={loading}
+            clearFilters={clearFilters}
           />
         </S.Sidebar>
         <S.Content>
