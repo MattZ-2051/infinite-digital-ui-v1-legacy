@@ -11,6 +11,8 @@ import { Product } from 'entities/product';
 import { Listing } from 'entities/listing';
 import redeemableIcon from 'assets/svg/icons/redeemable2.svg';
 import redeemableIcon_disabled from 'assets/svg/icons/redeemable2_disabled.svg';
+import BidInformation from './bidInformation';
+
 interface Bid {
   _id: string;
   bidAmt: number;
@@ -36,6 +38,7 @@ interface MyListing extends AuxListing {
 
 interface IProps {
   activeBid: Bid;
+  matchesMobile: boolean;
 }
 
 const activeColor = {
@@ -44,7 +47,7 @@ const activeColor = {
   grey: '#9e9e9e',
 };
 
-const ActiveBid = ({ activeBid }: IProps) => {
+const ActiveBid = ({ activeBid, matchesMobile }: IProps) => {
   const history = useHistory();
 
   const expiresIn = duration(
@@ -105,53 +108,20 @@ const ActiveBid = ({ activeBid }: IProps) => {
         <S.TransactionDescription>
           {currentActiveBid?.username}
         </S.TransactionDescription>
+        {matchesMobile && (
+          <BidInformation
+            activeColor={activeColor}
+            currentActiveBid={currentActiveBid}
+          />
+        )}
       </S.TransactionDetail>
       <S.TransactionRow>
-        <S.ContainerRow>
-          <S.TranscriptionContainer>
-            <S.TransactionDescription
-              style={{
-                color: activeColor.grey,
-              }}
-            >
-              You bid{' '}
-              {currentActiveBid.bidType === 'exceeded'
-                ? `$${currentActiveBid?.bidAmt}`
-                : ''}
-            </S.TransactionDescription>
-            <S.ArrowIcon style={{ fontSize: '12px', margin: '0 5px' }} />
-            {currentActiveBid.bidType === 'exceeded' && (
-              <>
-                <S.TransactionDescription style={{ color: activeColor.red }}>
-                  Bid exceeded
-                </S.TransactionDescription>
-                <S.ArrowIcon
-                  style={{
-                    fontSize: '12px',
-                    margin: '0 5px',
-                    color: activeColor.red,
-                  }}
-                />
-              </>
-            )}
-            <span
-              style={{
-                fontSize: '16px',
-                fontWeight: 400,
-                color: `${
-                  currentActiveBid.bidType === 'not-exceeded'
-                    ? activeColor.black
-                    : activeColor.red
-                }`,
-              }}
-            >
-              ${currentActiveBid?.highestAmt?.toFixed(2)}
-            </span>
-          </S.TranscriptionContainer>
-          <S.TransactionDescription style={{ justifyContent: 'flex-end' }}>
-            Expires in {currentActiveBid?.expiresIn}
-          </S.TransactionDescription>
-        </S.ContainerRow>
+        {!matchesMobile && (
+          <BidInformation
+            activeColor={activeColor}
+            currentActiveBid={currentActiveBid}
+          />
+        )}
         <S.ArrowIcon
           style={{ marginLeft: '10px' }}
           onClick={handleRouteChange}

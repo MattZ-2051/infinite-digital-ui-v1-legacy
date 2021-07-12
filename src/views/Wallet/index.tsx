@@ -134,9 +134,7 @@ const Wallet = (props) => {
   const getUserWithdrawableBalance = () => {
     return parseFloat(user?.balances?.ccWithdrawablesLock).toFixed(2);
   };
-  const changeWithdrawIcon = () => {
-    setWithdrawIcon(withdrawIconWhite);
-  };
+
   return (
     <S.Container
       showMore={true}

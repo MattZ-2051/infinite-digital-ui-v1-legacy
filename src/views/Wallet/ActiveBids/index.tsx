@@ -83,6 +83,7 @@ const ListBids = ({ sortBy }: IProps) => {
   }, [valueCurrentPage, sortBy]);
 
   if (loading || !bids) return <PageLoader size={15} />;
+
   if (!bids?.data.length)
     return (
       <S.NoResults>
@@ -98,6 +99,7 @@ const ListBids = ({ sortBy }: IProps) => {
             <ActiveBids
               key={activeBid?.listing?.product?._id}
               activeBid={activeBid}
+              matchesMobile={matchesMobile}
             />
           );
         })}
