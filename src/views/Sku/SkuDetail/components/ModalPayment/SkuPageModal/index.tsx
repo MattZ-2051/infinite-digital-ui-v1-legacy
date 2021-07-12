@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
@@ -101,14 +101,24 @@ const SkuPageModal = ({
     } else if (tx[0].status === 'success' && tx[0].type === 'purchase') {
       setModalPaymentVisible(true);
       setStatusMode('success');
-      const product = res.data[0]?.transactionData?.product[0];
-      setNewProduct(product);
-      Toast.success(
-        <>
-          Payment Successful, click
-          <a href={`/product/${product._id}`}> here </a> to view your product.
-        </>
-      );
+      const newPurchasedProduct = res.data[0]?.transactionData?.product[0];
+      const url = history.location.pathname.split('/');
+      setNewProduct(newPurchasedProduct);
+      if (url[2] !== product._id) {
+        Toast.success(
+          <>
+            Congrats! Your NFT purchase was processed successfully! Click
+            <a href={`/product/${newPurchasedProduct._id}`}> here </a> to view
+            your product {product.name} #{newPurchasedProduct.serialNumber}.
+          </>
+        );
+      }
+
+      if (url[1] === 'marketplace' && url[2] === product._id) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
+      }
     } else if (tx[0].status === 'error' && tx[0].type === 'purchase') {
       setModalPaymentVisible(true);
       setStatusMode('error');
@@ -133,7 +143,6 @@ const SkuPageModal = ({
       // TODO: Check payment
       if (response.status === 200) {
         setStatusMode('processing');
-        Toast.success(purchase.patchListingsPurchaseProcessing);
         dispatch(getUserInfoThunk({ token: userToken }));
         setLoading(false);
         fetchTransactions();
