@@ -18,6 +18,8 @@ export const getMe = async (token: string): Promise<User> => {
     return {
       ...response.data,
       auctionBidIncrement: response.headers['auction-bid-increment'],
+      initialBuyersFeePercentage:
+        response.headers['initial-buyers-fee-percentage'],
     };
   } catch (err) {
     throw handleApiError(err);
@@ -51,7 +53,7 @@ export const getMyTransactions = async (
       filter: JSON.stringify(filter),
       page,
       per_page,
-    }
+    };
     params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
     const response = await axiosInstance.request<ITransaction[]>({
       method: 'GET',

@@ -59,6 +59,9 @@ const SkuPageModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  const initialBuyersFeePercentage = parseFloat(
+    useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
+  );
 
   const royaltyFee = Math.round(
     (product?.activeSkuListings[0]?.price * product?.royaltyFeePercentage) / 100
@@ -274,12 +277,13 @@ const SkuPageModal = ({
                 </S.PriceInfo>
               </S.FlexRow>
               <S.FlexRow>
-                <S.PriceInfo>{`Marketplace Fee (5%):`}</S.PriceInfo>
+                <S.PriceInfo>{`Marketplace Fee (${initialBuyersFeePercentage}%):`}</S.PriceInfo>
                 <S.PriceInfo>
                   $
-                  {(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(
-                    2
-                  )}
+                  {(
+                    product?.activeSkuListings[0]?.price *
+                    (initialBuyersFeePercentage / 100)
+                  ).toFixed(2)}
                 </S.PriceInfo>
               </S.FlexRow>
             </S.SkuInfo>
@@ -289,7 +293,8 @@ const SkuPageModal = ({
                 $
                 {(
                   product?.activeSkuListings[0]?.price +
-                  product?.activeSkuListings[0]?.price * (5 / 100)
+                  product?.activeSkuListings[0]?.price *
+                    (initialBuyersFeePercentage / 100)
                 ).toFixed(2)}
               </S.Total>
             </S.FlexRow>
