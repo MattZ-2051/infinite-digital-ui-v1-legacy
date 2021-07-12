@@ -1,136 +1,119 @@
-import React from 'react';
-import styled from 'styled-components';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Sku } from 'entities/sku';
+import { User } from 'entities/user';
+import { Product } from 'entities/product';
+import { Listing } from 'entities/listing';
+import { getMeBids } from 'services/api/productService';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useAuth0 } from '@auth0/auth0-react';
+import PageLoader from 'components/PageLoader';
+import ActiveBids from './rowBid';
+import Pagination from '@material-ui/lab/Pagination';
+import * as S from './styles';
 
-interface IProps {
-  bidType: 'exceeded' | 'not-exceeded';
+const PER_PAGE = 5;
+const CURRENT_PAGE = 1;
+
+interface MyBid {
+  _id: string;
+  bidAmt: number;
+  createdAt: Date;
+  updatedAt: Date;
+  listing: MyListing;
+  sku: Sku;
+  owner: User;
 }
 
-const activeColor = {
-  red: 'red',
-  black: 'black',
-  grey: '#9e9e9e',
-};
+type AuxHighestbid = Omit<MyBid, 'listing' | 'owner'>;
+interface Highestbid extends AuxHighestbid {
+  listing: string;
+  owner: string;
+}
 
-const ActiveBids = ({ bidType }: IProps) => {
-  const history = useHistory();
+type AuxListing = Omit<Listing, 'product' | 'issuer'>;
+interface MyListing extends AuxListing {
+  product: Product;
+  highestBid: Highestbid;
+  issuer: User;
+}
 
-  const handleRouteChange = () => {
-    history.push('/marketplace/skuid');
+interface IProps {
+  sortBy: 'newest' | 'oldest';
+}
+
+const ListBids = ({ sortBy }: IProps) => {
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const [bids, setBids] = useState<{
+    data: MyBid[];
+    total: number;
+  } | null>(null);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const { getAccessTokenSilently } = useAuth0();
+  const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
+
+  const changePageCallback = useCallback(
+    (ev, page) => {
+      setCurrentPage(page);
+    },
+    [setCurrentPage]
+  );
+  const fetchMeBids = async (page: number, sortBy: string) => {
+    try {
+      setLoading(true);
+      const res = await getMeBids(
+        await getAccessTokenSilently(),
+        page,
+        PER_PAGE,
+        true,
+        sortBy
+      );
+      if (res) {
+        setBids({ data: res.data, total: res.totalBids });
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchMeBids(valueCurrentPage, sortBy);
+  }, [valueCurrentPage, sortBy]);
+
+  if (loading || !bids) return <PageLoader size={15} />;
+
+  if (!bids?.data.length)
+    return (
+      <S.NoResults>
+        <p>No transactions yet</p>
+      </S.NoResults>
+    );
+
   return (
-    <Container onClick={handleRouteChange}>
-      <TransactionDetail>
-        <Name
-          style={{
-            color: `${
-              bidType === 'not-exceeded' ? activeColor.black : activeColor.red
-            }`,
-          }}
-        >
-          K8IROS — AK2 | #2465
-        </Name>
-        <TransactionDescription>@gabrielcantarin</TransactionDescription>
-      </TransactionDetail>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <TransactionDescription
-              style={{
-                color: activeColor.grey,
-              }}
-            >
-              You bid
-            </TransactionDescription>
-            <ArrowIcon style={{ fontSize: '12px', margin: '0 5px' }} />
-            {bidType === 'exceeded' && (
-              <>
-                <TransactionDescription style={{ color: 'red' }}>
-                  Bid Exceeded
-                </TransactionDescription>
-                <ArrowIcon
-                  style={{
-                    fontSize: '12px',
-                    margin: '0 5px',
-                  }}
-                />
-              </>
-            )}
-            <span
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: `${
-                  bidType === 'not-exceeded'
-                    ? activeColor.black
-                    : activeColor.red
-                }`,
-              }}
-            >
-              $1200
-            </span>
-          </div>
-          <TransactionDescription style={{ justifyContent: 'flex-end' }}>
-            Expires in 2h 47m
-          </TransactionDescription>
-        </div>
-        <ArrowIcon
-          style={{ marginLeft: '10px' }}
-          onClick={handleRouteChange}
-          className="redirect"
+    <S.GridContainer>
+      <S.BidsGrid>
+        {bids?.data?.map((activeBid) => {
+          return (
+            <ActiveBids
+              key={activeBid?.listing?.product?._id}
+              activeBid={activeBid}
+              matchesMobile={matchesMobile}
+            />
+          );
+        })}
+      </S.BidsGrid>
+      <S.PaginationContainer>
+        <Pagination
+          count={Math.ceil(bids.total / PER_PAGE)}
+          page={valueCurrentPage}
+          onChange={changePageCallback}
+          siblingCount={matchesMobile ? 0 : 1}
         />
-      </div>
-    </Container>
+      </S.PaginationContainer>
+    </S.GridContainer>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 20px 0;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const TransactionDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ArrowIcon = styled(ArrowForwardIosIcon)`
-  color: #9e9e9e;
-  margin-bottom: 3px;
-  :hover.redirect {
-    cursor: pointer;
-    transform: scale(1.1);
-    color: black;
-  }
-`;
-
-const Name = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const TransactionDescription = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-  color: #9e9e9e;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-export default ActiveBids;
+export default ListBids;

@@ -5,6 +5,7 @@ export interface IProps {
   type?: string;
   fontSize?: string;
   fontWeight?: string;
+  margin?: string;
 }
 
 interface RarityColors {
@@ -21,7 +22,7 @@ const rarityColors: RarityColors = {
   epic: 'linear-gradient(45deg, #40C9FF 0%, #E81CFF 100%)',
 };
 
-const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
+const Rarity = ({ type, fontSize, fontWeight, margin }: IProps) => {
   return (
     <>
       {type === 'rare' && (
@@ -41,7 +42,11 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
               background: `${rarityColors['rare']}`,
             }}
           ></span>
-          <RareStyle fontSize={fontSize} fontWeight={fontWeight}>
+          <RareStyle
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            margin={margin}
+          >
             Rare
           </RareStyle>
         </div>
@@ -62,7 +67,11 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
               background: 'white',
             }}
           ></span>
-          <CommonStyle fontSize={fontSize} fontWeight={fontWeight}>
+          <CommonStyle
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            margin={margin}
+          >
             Common
           </CommonStyle>
         </div>
@@ -83,7 +92,11 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
               background: `${rarityColors['uncommon']}`,
             }}
           ></span>
-          <UncommonStyle fontSize={fontSize} fontWeight={fontWeight}>
+          <UncommonStyle
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            margin={margin}
+          >
             Uncommon
           </UncommonStyle>
         </div>
@@ -104,7 +117,11 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
               background: `${rarityColors['legendary']}`,
             }}
           ></span>
-          <LegendaryStyle fontSize={fontSize} fontWeight={fontWeight}>
+          <LegendaryStyle
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            margin={margin}
+          >
             Legendary
           </LegendaryStyle>
         </div>
@@ -125,7 +142,11 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
               background: `${rarityColors['epic']}`,
             }}
           ></span>
-          <EpicStyle fontSize={fontSize} fontWeight={fontWeight}>
+          <EpicStyle
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            margin={margin}
+          >
             Epic
           </EpicStyle>
         </div>
@@ -134,10 +155,15 @@ const Rarity = ({ type, fontSize, fontWeight }: IProps) => {
   );
 };
 
-const RarityStyle = styled.p<{ fontSize?: string; fontWeight?: string }>`
+const RarityStyle = styled.p<{
+  fontSize?: string;
+  fontWeight?: string;
+  margin?: string;
+}>`
   font-weight: ${({ fontWeight }) => fontWeight || '600'};
   font-size: ${({ fontSize }) => (fontSize ? `${fontSize}px` : '16px')};
   padding-bottom: 5px;
+  ${(props) => props.margin && `margin: ${props.margin}`};
 `;
 
 const LegendaryStyle = styled(RarityStyle)`

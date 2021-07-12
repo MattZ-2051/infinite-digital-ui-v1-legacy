@@ -6,13 +6,12 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 68% 27% 5%;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 20px 0;
-  grid-template-columns: 68% 15% 12% 5%;
+  grid-template-columns: 64% 14% 18% 4%;
   @media screen and (max-width: 960px) {
-    grid-template-columns: 48% 41% 11%;
+    grid-template-columns: 57% 30% 9%;
   }
 `;
 
@@ -49,12 +48,15 @@ export const TransactionDescription = styled.span`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  text-align: center;
+  text-align: left;
+  padding-left: 5px;
+  padding-right: 5px;
 
   @media screen and (max-width: 960px) {
     display: flex;
-    flex-direction: column;
-    align-items: end;
+    align-items: flex-start;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 `;
 
@@ -70,7 +72,10 @@ export const Color = styled.span<{ color: string }>`
 `;
 
 export const Icon = styled.img`
-  padding-right: 24px;
+  @media screen and (max-width: 960px) {
+    padding-top: 5px;
+  }
+  padding-right: 14px;
 `;
 
 export const Date = styled.span`
@@ -78,12 +83,17 @@ export const Date = styled.span`
 `;
 
 export const Link = styled(NavLink)`
-  padding: 0 5px;
-  text-align: center;
+  margin-left: 3px;
+  margin-right: 3px;
+  // padding: 0 5px;
+  // text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const TxIdContainer = styled.div`
-  padding-left: 55px;
+  // padding-left: 55px;
   color: #9e9e9e;
   font-size: 15px;
   font-weight: 400;
@@ -105,9 +115,22 @@ export const TxId = styled.span`
 `;
 
 export const DateContainer = styled.div`
-  text-align: end;
+  text-align: start;
   justify-content: center;
   display: flex;
   flex-direction: column;
-  width: max-content;
+  width: 100%;
+  @media screen and (max-width: 960px) {
+    text-align: end;
+  }
+`;
+
+export const HistoryLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  @media screen and (max-width: 600px) {
+    width: 73%;
+  }
 `;

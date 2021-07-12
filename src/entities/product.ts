@@ -14,7 +14,7 @@ export interface Product {
 
 export interface ProductWithFunctions {
   _id: string;
-  redeemedStatus: string;
+  redeemedStatus: 'NA' | 'pending' | 'redeemed';
   tokenId: string;
   owner: User;
   listing: Listing;
@@ -22,6 +22,7 @@ export interface ProductWithFunctions {
   serialNumber: string;
   activeProductListings: Listing[];
   expiredProductListings: Listing[];
+  explorerLink?: string;
   soldProductListings: Listing[];
   upcomingProductListings: Listing[];
   totalSupply: number;

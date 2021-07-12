@@ -1,8 +1,10 @@
 import { useAppSelector } from 'store/hooks';
-import styled from 'styled-components/macro';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
+import { useState } from 'react';
+import * as S from './styles';
+import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -19,15 +21,18 @@ const MobileMenu = ({
   user,
   onSelect,
 }: IProps): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userData = useAppSelector((state) => state.session.user);
+
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen);
+    return isModalOpen;
+  };
+
   return (
     <>
-      {isAuthenticated && (
-        <Title data-testid="user-name">Hello {user?.name || ''}!</Title>
-      )}
-
       {!isAuthenticated && (
-        <AuthButtonsWrapper>
+        <S.AuthButtonsWrapper>
           <TextButton
             color="white"
             size="big"
@@ -39,80 +44,64 @@ const MobileMenu = ({
           <TextButton color="white" size="big" onClick={() => login()}>
             Sign In
           </TextButton>
-        </AuthButtonsWrapper>
+        </S.AuthButtonsWrapper>
       )}
-
-      <ListMenu>
-        <Item>
-          <TextButton
-            type="link"
-            color="white"
-            to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
-            onClick={onSelect}
-          >
-            Marketplace
-          </TextButton>
-        </Item>
-
-        {isAuthenticated && (
-          <Item>
-            <TextButton
-              type="link"
-              to={`/collection/${userData.username}`}
-              color="white"
-              onClick={onSelect}
-            >
-              My Collection
-            </TextButton>
-          </Item>
-        )}
-        {isAuthenticated && (
-          <Item>
-            <TextButton
-              type="link"
-              to={`/wallet`}
-              color="white"
-              onClick={onSelect}
-            >
-              My Wallet
-            </TextButton>
-          </Item>
-        )}
-      </ListMenu>
-
       {isAuthenticated && (
-        <IconButton
-          icon={ExitToAppIcon}
-          color="white"
-          onClick={() => logout({ returnTo: window.location.origin })}
-          style={{ position: 'absolute', bottom: '40px', right: '40px' }}
-          data-testid="logout-btn"
-        />
+        <>
+          {' '}
+          <S.Title data-testid="user-name">Hello {user?.name || ''}!</S.Title>
+          <S.ListMenu>
+            <S.Item>
+              <TextButton
+                type="link"
+                color="white"
+                to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                onClick={onSelect}
+              >
+                Marketplace
+              </TextButton>
+            </S.Item>
+
+            <S.Item>
+              <TextButton
+                type="link"
+                to={`/collection/${userData.username}`}
+                color="white"
+                onClick={onSelect}
+              >
+                My Collection
+              </TextButton>
+            </S.Item>
+
+            <S.Item>
+              <TextButton
+                type="link"
+                to={`/wallet`}
+                color="white"
+                onClick={onSelect}
+              >
+                My Wallet
+              </TextButton>
+            </S.Item>
+
+            <S.Item>
+              <TextButton type="link" color="white" onClick={openModal}>
+                Edit Username
+              </TextButton>
+            </S.Item>
+          </S.ListMenu>
+          <EditModal isModalOpen={isModalOpen} handleClose={openModal} />
+          <IconButton
+            icon={ExitToAppIcon}
+            color="white"
+            onClick={() => logout({ returnTo: window.location.origin })}
+            style={{ position: 'absolute', bottom: '40px', right: '40px' }}
+            data-testid="logout-btn"
+          />
+        </>
       )}
     </>
   );
 };
-
-const Title = styled.h5`
-  margin-bottom: 48px;
-`;
-
-const ListMenu = styled.ul`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Item = styled.li`
-  display: flex;
-  align-items: center;
-  margin-bottom: 32px;
-`;
-
-const AuthButtonsWrapper = styled.div`
-  margin-bottom: 40px;
-`;
 
 export default MobileMenu;

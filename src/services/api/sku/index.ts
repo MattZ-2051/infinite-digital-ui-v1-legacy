@@ -1,14 +1,21 @@
 import { Sku, SkuWithTotal } from 'entities/sku';
 import { axiosInstance } from '../coreService';
+import { handleApiError } from 'utils/apiError';
 
 export const getSkuTiles = async (options?: {
   queryParams?: string;
   token?: string;
 }): Promise<SkuWithTotal> => {
   try {
+    const qss = new URLSearchParams(options?.queryParams);
+    const status = qss.get('status');
+    if (status === 'onSale') {
+      qss.delete('status');
+      qss.append('forSale', 'true');
+    }
     const response = await axiosInstance.request<Sku[]>({
       method: 'GET',
-      url: `/skus/tiles/${options?.queryParams || ''}`,
+      url: `/skus/tiles/${qss.toString() ? `?${qss.toString()}` : ''}`,
       headers: {
         ...(options?.token && { Authorization: `Bearer ${options?.token}` }),
       },
@@ -16,15 +23,18 @@ export const getSkuTiles = async (options?: {
     const { data, headers } = response;
     const contentRange: string = headers['content-range'];
     const rangeArray = contentRange.split('/');
+    const maxSkusMinPrice = headers['max-skus-min-price']
+      ? Number(headers['max-skus-min-price'])
+      : 0;
     const total = Number(rangeArray[1]);
 
     return {
       data,
       total,
+      maxSkusMinPrice,
     };
   } catch (e) {
-    console.error(`getSkuTiles: Error requesting sku tile details. ${e}`);
-    throw new Error(e);
+    throw handleApiError(e);
   }
 };
 
@@ -33,12 +43,16 @@ export const getFeaturedSkuTiles = async (options?: {
   issuerId?: string;
   queryParams?: string;
 }): Promise<SkuWithTotal> => {
-  return await getSkuTiles({
-    token: options?.token,
-    queryParams: `?${
-      options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
-    }${options?.queryParams || ''}`,
-  });
+  try {
+    return await getSkuTiles({
+      token: options?.token,
+      queryParams: `?${
+        options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
+      }${options?.queryParams || ''}`,
+    });
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const getSku = async <T extends boolean = false>(
@@ -60,12 +74,11 @@ export const getSku = async <T extends boolean = false>(
 
     return response.data;
   } catch (e) {
-    console.error(`getSku: Error requesting sku details. ${e}`);
-    throw new Error(e);
+    throw handleApiError(e);
   }
 };
 
 // We're using this SkuCallReturnType because the /skus endpoint returns
 // a "Sku" if includeFunctions is false
 // but a "SkuWithFunctions" if includeFunctions is true
-type SkuCallReturnType<T> = T extends true ? Sku : Sku;
+type SkuCallReturnType<T> = Sku;

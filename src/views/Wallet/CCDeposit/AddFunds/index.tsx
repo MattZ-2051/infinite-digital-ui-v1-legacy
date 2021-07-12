@@ -10,6 +10,7 @@ import {
   getUserCardsThunk,
   removeUserCCThunk,
   addFundsThunk,
+  getUserInfoThunk,
 } from 'store/session/sessionThunks';
 import Toast from 'utils/Toast';
 import * as S from './styles';
@@ -51,8 +52,15 @@ const AddFunds = () => {
     const userToken = await getAccessTokenSilently();
     fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
     if (amount && zeros.includes(amount)) return;
-    if (isNaN(Number(fundsBody?.amount))) {
-      Toast.error('An Error Occurred: Please enter a valid amount.');
+    // if (isNaN(Number(fundsBody?.amount))) {
+    //   Toast.error('An Error Occurred: Please enter a valid amount.');
+    //   return;
+    // }
+
+    if (amount && parseFloat(amount.replaceAll(',', '')) > 1000) {
+      Toast.error(
+        'You can only deposit up to $1000 USD per credit card transaction'
+      );
       return;
     }
 
@@ -61,6 +69,7 @@ const AddFunds = () => {
     );
     if (res.type.split('/')[5] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
       history.push(`/wallet/deposit/success`);
     } else {
       // FIXME: make async thunk typesafe to avoid any type
@@ -82,7 +91,7 @@ const AddFunds = () => {
       Toast.success('Card Successfully Removed');
       setTimeout(() => {
         history.push(`/wallet/addcreditcard`);
-      }, 2500);
+      }, 2000);
     }
   };
 
@@ -90,8 +99,6 @@ const AddFunds = () => {
   const month = userCard.expMonth.toString();
 
   const expDate = (month.length === 1 ? '0' + month : month) + '/' + year;
-
-  console.log('amount', amount);
 
   return (
     <S.Container>
@@ -151,7 +158,6 @@ const AddFunds = () => {
               loadingComponentRender={() => (
                 <PulseLoader color="#FFF" size={9} loading={true} />
               )}
-              active={activeButton}
             >
               Add Funds
             </S.AddFundsButton>

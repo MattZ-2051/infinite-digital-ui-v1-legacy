@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   width: 46%;
   max-width: 713px;
+  /* flex: 2; */
   margin-left: 64px;
   padding-right: 10px;
 
@@ -14,16 +15,19 @@ export const Container = styled.div`
   }
 `;
 
+export const ViewAll = styled(Link)`
+  float: right;
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 24px;
+`;
+
 export const Items = styled.div`
-  padding-top: 24px;
+  /* padding-top: 24px; */
   width: 100%;
   max-width: 713px;
   overflow: hidden;
-  height: 400px;
-  :hover {
-    overflow: auto;
-  }
-
+  height: 450px;
   @media screen and (max-width: 960px) {
     margin-left: 0;
   }

@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { UsersState } from './Interface';
+import { checkStatePending, showErrorToast } from 'utils/storeUtil';
 import {
   getUserInfoThunk,
   getUserCollectionThunk,
@@ -9,14 +11,7 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from './sessionThunks';
-
-interface UsersState {
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: null | any;
-  user: any;
-  userCollection: any;
-  userCards: any;
-}
+import { stat } from 'fs';
 
 export const sessionSlice = createSlice({
   name: 'session',
@@ -37,73 +32,82 @@ export const sessionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Get User Info Thunk
     builder.addCase(getUserInfoThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
       state.user = payload;
     });
+    builder.addCase(getUserInfoThunk.rejected, (state, { error }) => {
+      checkStatePending(state);
+      showErrorToast(error.message);
+    });
+
+    // Get User Collection Thunk
     builder.addCase(getUserCollectionThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
-      //('payload: ', payload)
+      checkStatePending(state);
       state.userCollection = payload;
     });
+    builder.addCase(getUserCollectionThunk.rejected, (state, { error }) => {
+      checkStatePending(state);
+      showErrorToast(error.message);
+    });
+
+    // Get User Card Info Thunk
     builder.addCase(getUserCardsThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
       state.userCards = payload;
       state.user.balance = payload.balance.amount;
     });
+    builder.addCase(getUserCardsThunk.rejected, (state, { error }) => {
+      checkStatePending(state);
+      showErrorToast(error.message);
+    });
+
+    // Update Username Thunk
     builder.addCase(updateUsernameThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
+
       state.user.username = payload.username;
     });
     builder.addCase(updateUsernameThunk.rejected, (state, { error }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
+      showErrorToast(error.message);
     });
+
+    // delete user and clear state, doesn't actaully ping API but clears user from store
     builder.addCase(deleteUser, (state, {}) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
       state.user = {};
     });
+
+    // Create New CreditCard Thunk
     builder.addCase(createNewCCThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
+
       state.userCards = payload;
     });
     builder.addCase(createNewCCThunk.rejected, (state, { error }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
+      showErrorToast(error.message);
     });
-    builder.addCase(removeUserCCThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+
+    // Removing User Credit Card
+    builder.addCase(removeUserCCThunk.fulfilled, (state) => {
+      checkStatePending(state);
+      state.userCards.cards = [];
     });
     builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
+      showErrorToast(error.message);
     });
-    builder.addCase(addFundsThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+
+    // Adding funds to user account
+    builder.addCase(addFundsThunk.fulfilled, (state) => {
+      checkStatePending(state);
     });
-    builder.addCase(addFundsThunk.rejected, (state) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+    builder.addCase(addFundsThunk.rejected, (state, { error }) => {
+      checkStatePending(state);
+      showErrorToast(error.message);
     });
   },
 });

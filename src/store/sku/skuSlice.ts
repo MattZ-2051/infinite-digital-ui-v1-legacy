@@ -2,11 +2,13 @@ import { createSlice, SerializedError } from '@reduxjs/toolkit';
 import { getSkuTilesThunk } from './skuThunks';
 import { Sku } from 'entities/sku';
 import { skuFactory } from './skuFactory';
+import { checkStatePending, showErrorToast } from 'utils/storeUtil';
 
 interface InitialListingState {
   skus: {
     data: Sku[];
     total: number;
+    maxSkusMinPrice?: number;
   };
   loading: 'idle' | 'pending';
   currentRequestId: string | undefined;
@@ -19,6 +21,7 @@ export const skuSlice = createSlice({
     skus: {
       data: [skuFactory.build()],
       total: 0,
+      maxSkusMinPrice: 20000,
     },
     loading: 'idle',
     currentRequestId: undefined,
@@ -33,12 +36,11 @@ export const skuSlice = createSlice({
       }
     });
     builder.addCase(getSkuTilesThunk.fulfilled, (state, { payload }) => {
-      if (state.loading === 'pending') {
-        state.loading = 'idle';
-      }
+      checkStatePending(state);
       state.skus = {
         data: payload.data,
         total: payload.total,
+        maxSkusMinPrice: payload.maxSkusMinPrice,
       };
       state.currentRequestId = undefined;
     });
@@ -49,6 +51,7 @@ export const skuSlice = createSlice({
         state.error = action.error;
         state.currentRequestId = undefined;
       }
+      showErrorToast(action.error.message);
     });
   },
 });

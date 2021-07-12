@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/macro';
+import { useState } from 'react';
 import AudioIcon from 'assets/img/icons/audio-icon.png';
-import { ReactComponent as TDRotationIcon } from 'assets/svg/icons/3drotation.svg';
-import { ReactComponent as TDGraphicIcon } from 'assets/svg/icons/3d-graphic-icon.svg';
-import Squircle from 'components/Squircle';
+import { FileAsset } from 'entities/sku';
+import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
+import * as S from './styles';
 
 export interface ImageGalleryProps {
-  images: string[];
+  nftPublicAsset: FileAsset[];
   height?: string;
 }
 
@@ -78,48 +77,65 @@ const VectaryThumbnail = ({ src }: { src: string }) => {
   );
 };
 
-const MediaView = ({ src }: { src: string }) => {
-  if (src.endsWith('mov') || src.endsWith('mp4')) {
-    return <VideoView src={src} />;
-  } else if (
-    src.endsWith('jpg') ||
-    src.endsWith('jpeg') ||
-    src.endsWith('png')
-  ) {
-    return <ImageView src={src} />;
-  } else if (src.endsWith('mp3')) {
-    return <AudioView src={src} />;
-  } else if (src.includes('vectary')) {
-    return <VectaryView src={src} />;
-  } else {
-    return <></>;
-  }
+const MediaView = ({
+  assets,
+  assetIndex,
+}: {
+  assets: FileAsset[];
+  assetIndex: number;
+}) => {
+  let source = '';
+  if (assets) source = assets[assetIndex].previewUrl || assets[assetIndex].url;
+  if (source.endsWith('mov') || source.endsWith('mp4'))
+    return <VideoView src={source} />;
+
+  if (
+    source.endsWith('jpg') ||
+    source.endsWith('jpeg') ||
+    source.endsWith('png')
+  )
+    return <ImageView src={source} />;
+
+  if (source.endsWith('mp3')) return <AudioView src={source} />;
+
+  if (source.includes('vectary')) return <VectaryView src={source} />;
+
+  return <ImageView src={InfiniteLogo} />;
 };
 
-const ImageGallery = ({ images, height }: ImageGalleryProps) => {
+const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
     setSelectedImage(imageNumber);
   };
+  const getImage = (asset: FileAsset) => {
+    if (asset.previewUrl) return asset.previewUrl;
+    if (asset.url) return asset.url;
+    return InfiniteLogo;
+  };
+
+  const handleError = (e) => {
+    e.target.src = InfiniteLogo;
+  };
 
   return (
-    <Container height={height}>
-      <ImageContainer>
-        {images[selectedImage] && <MediaView src={images[selectedImage]} />}
-      </ImageContainer>
-
-      <ThumbnailMenu>
-        {images &&
-          images.map((el, index) => {
+    <S.Container height={height}>
+      <S.ImageContainer>
+        <MediaView assets={nftPublicAsset} assetIndex={selectedImage} />
+      </S.ImageContainer>
+      <S.ThumbnailMenu>
+        {nftPublicAsset &&
+          nftPublicAsset.map((el: FileAsset, index) => {
             return (
-              <Thumbnail
+              <S.Thumbnail
                 key={index}
                 active={selectedImage === index}
                 onClick={() => handleImageChange(index)}
               >
                 {/* <STDGraphicIcon /> */}
-                {el?.endsWith('mov') || el?.endsWith('mp4') ? (
+                {getImage(el).endsWith('mov') ||
+                getImage(el).endsWith('mp4') ? (
                   <video
                     style={{
                       width: '100%',
@@ -128,99 +144,21 @@ const ImageGallery = ({ images, height }: ImageGalleryProps) => {
                     controls={false}
                     loop={true}
                     muted={true}
-                    src={el}
+                    src={getImage(el)}
                   ></video>
-                ) : el?.endsWith('mp3') ? (
-                  <img src={AudioIcon} alt="" />
-                ) : el?.includes('vectary') ? (
-                  <VectaryThumbnail src={el} />
+                ) : getImage(el).endsWith('mp3') ? (
+                  <img src={AudioIcon} onError={handleError} />
+                ) : getImage(el).includes('vectary') ? (
+                  <VectaryThumbnail src={getImage(el)} />
                 ) : (
-                  <img src={el} alt="" />
+                  <img src={getImage(el)} onError={handleError} />
                 )}
-              </Thumbnail>
+              </S.Thumbnail>
             );
           })}
-      </ThumbnailMenu>
-    </Container>
+      </S.ThumbnailMenu>
+    </S.Container>
   );
 };
-
-// const STDGraphicIcon = styled(TDGraphicIcon)`
-//   position: absolute;
-//   top: 10px;
-//   right: 10px;
-//   z-index: 222;
-//   padding: 3px;
-//   width: 23px;
-//   height: 23px;
-//   background-color: #ffffff;
-// `;
-
-const Container = styled.div<{ height?: string }>`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #fffff;
-  height: ${(props) => (props.height ? `${props.height};` : `100%`)};
-  width: 100%;
-  max-width: 700px;
-  max-height: 700px;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    user-select: none;
-  }
-
-  @media screen and (max-width: 1160px) {
-    max-width: 100%;
-  }
-
-  @media screen and (max-width: 640px) {
-    overflow: auto;
-    height: auto !important;
-  }
-`;
-
-const ImageContainer = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const ThumbnailMenu = styled.div`
-  position: absolute;
-  display: inline-grid;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content;
-  grid-gap: 8px;
-  left: 30px;
-  bottom: 30px;
-`;
-
-interface ThumbnailItemProps {
-  active?: boolean;
-}
-
-const Thumbnail = styled.div<ThumbnailItemProps>`
-  transition: 0.4s;
-  opacity: 0.6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 85px;
-  height: 85px;
-  border: 1px solid;
-  border-color: ${(props) => (props.active ? 'black' : '#d2d2d2')};
-  cursor: pointer;
-  overflow: hidden;
-
-  &:hover {
-    border-color: black;
-  }
-`;
 
 export default ImageGallery;

@@ -8,7 +8,7 @@ export interface IProps {
 }
 
 const HederaIcon = () => (
-  <SvgIcon viewBox="-7 -7 30 30" component={hederaIcon} />
+  <SvgIcon viewBox="-7 -7 29 30" component={hederaIcon} />
 );
 
 const SkuDescription = ({ description }: IProps): JSX.Element => {
@@ -21,23 +21,27 @@ const SkuDescription = ({ description }: IProps): JSX.Element => {
         dangerouslySetInnerHTML={createMarkup(description) || ''}
       />
       <S.Hedera>
-        <S.IconContainer>
-          <HederaIcon />
-        </S.IconContainer>
-        <span>INFINITE NFTs are minted on the Hedera Hashgraph</span>
-        <a
-          href=" https://support.suku.world/infinite/hedera-hashgraph-hts"
-          target="_blank"
-        >
-          Learn more
-        </a>
+        <S.DivContainer>
+          <S.IconContainer>
+            <HederaIcon />
+          </S.IconContainer>
+          <span>INFINITE NFTs are minted on the Hedera Hashgraph</span>
+        </S.DivContainer>
+        <S.DivContainer>
+          <a
+            href=" https://support.suku.world/infinite/hedera-hashgraph-hts"
+            target="_blank"
+          >
+            Learn more
+          </a>
+        </S.DivContainer>
       </S.Hedera>
     </>
   );
 
   return (
     <S.Container>
-      <Collapsible title="Description" body={body} />
+      {body}
     </S.Container>
   );
 };

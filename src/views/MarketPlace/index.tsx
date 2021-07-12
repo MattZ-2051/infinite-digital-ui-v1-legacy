@@ -13,22 +13,24 @@ import {
   updatePagination,
   updateSortBy,
   setMarketplaceState,
+  restoreFilters,
 } from 'store/marketplace/marketplaceSlice';
 import * as S from './styles';
 import { SkuWithTotal } from 'entities/sku';
-// import { sortByItems } from 'config/marketplace';
 // Components
 import SearchInput from './components/Filters/SearchInput';
-// import SortByFilter from './components/Filters/SortByFilter';
 import SkuTile from './components/SkuTile';
 import PageLoader from 'components/PageLoader';
 // Icons
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
+import { getSkuTiles } from 'services/api/sku';
 
 const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [maxPrice, setMaxPrice] = useState(2000);
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
   const activePagination = useAppSelector(
     (store) => store.marketplace.pagination
@@ -41,7 +43,6 @@ const MarketPlace = (): JSX.Element => {
   const urlQueryString = window.location.search;
   const regenerateUrl = useRef(true);
   const isMounted = useRef(true);
-
   // Create the url query-string using the redux stored data: filters, sort, pagination
   const createQueryString = (
     filters,
@@ -49,7 +50,6 @@ const MarketPlace = (): JSX.Element => {
     sort: string
   ) => {
     const params = new URLSearchParams();
-
     // Filters
     Object.keys(filters).forEach((categoryName) => {
       const categoryValue = filters[categoryName];
@@ -63,6 +63,9 @@ const MarketPlace = (): JSX.Element => {
             case 'price':
               params.append('minPrice', categoryValue[0]);
               params.append('maxPrice', categoryValue[1]);
+              break;
+            case 'creator':
+              params.append('issuerId', categoryValue.join(','));
               break;
             default:
               params.append(categoryName, categoryValue.join(','));
@@ -94,6 +97,20 @@ const MarketPlace = (): JSX.Element => {
     };
     dispatch(updateFilter(payload));
     setPage(1);
+    const cloneFilters = { ...activeFilters };
+    cloneFilters[name] = value;
+    const queryString = createQueryString(
+      cloneFilters,
+      { page: '1', perPage: '6' },
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
   };
 
   const handlePagination = (
@@ -102,6 +119,19 @@ const MarketPlace = (): JSX.Element => {
   ) => {
     setPage(value);
     dispatch(updatePagination({ page: String(value), perPage: '6' }));
+    const pagination = { page: String(value), perPage: '6' };
+    const queryString = createQueryString(
+      activeFilters,
+      pagination,
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
   };
 
   const handleSort = (sortValue: string) => {
@@ -112,45 +142,38 @@ const MarketPlace = (): JSX.Element => {
     setFiltersVisible((filtersVisible) => !filtersVisible);
   };
 
+  const fetchData = (fn, queryParams?) => {
+    setLoading(true);
+    return fn(
+      getSkuTilesThunk({
+        queryParams: queryParams || `${urlQueryString.toString()}`,
+      })
+    )
+      .catch()
+      .then(() => setLoading(false));
+  };
+
   // Load initial data on mount
   useEffect(() => {
-    (() => {
-      dispatch(
-        getSkuTilesThunk({
-          queryParams: `${urlQueryString.toString()}`,
-        })
-      );
-      const page = new URLSearchParams(urlQueryString).get('page');
-      setPage(Number(page));
-    })();
+    fetchData(dispatch, `${urlQueryString.toString()}`);
+    const page = new URLSearchParams(urlQueryString).get('page');
+    setPage(Number(page));
   }, [dispatch]);
+
+  useEffect(() => {
+    setLoading(true);
+    getSkuTiles({})
+      .then(({ maxSkusMinPrice }) => {
+        maxSkusMinPrice && setMaxPrice(maxSkusMinPrice);
+      })
+      .catch()
+      .then(() => setLoading(false));
+  }, []);
 
   // Request new data on filters change
   useEffect(() => {
     if (isMounted.current) {
       isMounted.current = false;
-    } else {
-      // Avoid regenerating the url if the user press the browser back button
-      const queryString = createQueryString(
-        activeFilters,
-        activePagination,
-        activeSort
-      );
-      if (regenerateUrl.current) {
-        history.push(`/marketplace?${queryString.toString()}`);
-        dispatch(
-          getSkuTilesThunk({
-            queryParams: `?${queryString.toString()}`,
-          })
-        );
-      } else {
-        regenerateUrl.current = true;
-        dispatch(
-          getSkuTilesThunk({
-            queryParams: `?${queryString.toString()}`,
-          })
-        );
-      }
     }
   }, [activeFilters, activePagination, activeSort]);
 
@@ -159,8 +182,9 @@ const MarketPlace = (): JSX.Element => {
   }, [activeFilters]);
 
   // Update the filters on browser back btn
+
   useEffect(() => {
-    return history.listen(() => {
+    history.listen(() => {
       if (history.action === 'POP') {
         regenerateUrl.current = false;
         const urlParams = processUrlParams();
@@ -175,6 +199,31 @@ const MarketPlace = (): JSX.Element => {
       }
     });
   }, [history]);
+
+  const clearFilters = () => {
+    dispatch(restoreFilters());
+    // const cloneFilters = { ...activeFilters };
+    // cloneFilters[name] = value;
+    const queryString = createQueryString(
+      [],
+      { page: '1', perPage: '6' },
+      activeSort
+    );
+    if (regenerateUrl.current) {
+      history.push(`/marketplace?${queryString.toString()}`);
+      fetchData(dispatch, `?${queryString.toString()}`);
+    } else {
+      regenerateUrl.current = true;
+      fetchData(dispatch, `?${queryString.toString()}`);
+    }
+    // handleFilter(filterCategory, activeFilters);
+  };
+
+  // useEffect(() => {
+  //   return () => {
+  //     clearFilters();
+  //   };
+  // }, []);
 
   if (!skus) return <PageLoader />;
   return (
@@ -199,12 +248,25 @@ const MarketPlace = (): JSX.Element => {
       </S.Header>
 
       {filtersVisible && matchesMobile && (
-        <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
+        <Filters
+          handleFilter={handleFilter}
+          activeFilters={activeFilters}
+          maxPrice={maxPrice}
+          loading={loading}
+          clearFilters={clearFilters}
+        />
       )}
 
       <S.Main>
         <S.Sidebar>
-          <Filters handleFilter={handleFilter} activeFilters={activeFilters} />
+          <Filters
+            handleFilter={handleFilter}
+            activeFilters={activeFilters}
+            maxPrice={maxPrice}
+            skuTotal={skus?.total}
+            loading={loading}
+            clearFilters={clearFilters}
+          />
         </S.Sidebar>
         <S.Content>
           {/* Sku Tile data from store being rendered with Sku Tiles */}

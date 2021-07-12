@@ -1,9 +1,9 @@
 <svg width="395" height="70" viewBox="0 0 395 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d)">
+<g filter="url(#filter10_d)">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M32 46.9962V47H32.5H190.254C191.219 47 192.151 47.3486 192.879 47.9816L196.188 50.8588C196.94 51.5132 198.06 51.5132 198.812 50.8588L202.686 47.4908C203.05 47.1743 203.516 47 203.998 47H362H362.5V46.9962C373.167 46.8308 378.5 41.3321 378.5 30.5C378.5 19.6679 373.167 14.1692 362.5 14.0038V14H362H32.5H32V14.0038C21.3333 14.1692 16 19.6679 16 30.5C16 41.3321 21.3333 46.8308 32 46.9962Z" fill="white"/>
 </g>
 <defs>
-<filter id="filter0_d" x="0" y="0" width="394.5" height="69.3496" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter10_d" x="0" y="0" width="394.5" height="69.3496" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
 <feOffset dy="2"/>

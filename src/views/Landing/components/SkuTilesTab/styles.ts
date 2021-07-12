@@ -15,6 +15,8 @@ export const Container = styled.section`
 `;
 
 export const ViewAll = styled(Link)`
+  font-weight: bold;
+  font-family: 'PlusJakartaSans';
   position: absolute;
   right: 0;
   top: 21px;

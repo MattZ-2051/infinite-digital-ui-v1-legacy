@@ -1,44 +1,66 @@
 import { Listing } from 'entities/listing';
 import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../coreService';
-import { ProductWithFunctions } from 'entities/product';
-import * as Sentry from '@sentry/react';
+import { handleApiError } from 'utils/apiError';
+import { ITransaction } from 'entities/transaction';
 
 export const getListings = async (
   token: string
 ): Promise<AxiosResponse<Listing[]>> => {
-  const response = await axiosInstance.request({
-    method: 'GET',
-    url: '/listings',
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  return response;
+  try {
+    const response = await axiosInstance.request<Listing[]>({
+      method: 'GET',
+      url: '/listings',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const patchListingsPurchase = async (
   token: string,
   id: string
-): Promise<AxiosResponse<any>> => {
+): Promise<AxiosResponse<ITransaction>> => {
   try {
-    const response = await axiosInstance.request({
+    const response = await axiosInstance.request<ITransaction>({
       method: 'PATCH',
       url: `/listings/${id}/purchase`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return response;
   } catch (err) {
-    Sentry.captureException(err);
-    return err.response;
+    throw handleApiError(err);
   }
 };
 
 export const postListings = async (
   token: string,
   body: any
-): Promise<AxiosResponse<any>> => {
-  const response = await axiosInstance.post('/listings', body, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response;
+): Promise<AxiosResponse<Listing>> => {
+  try {
+    const response = await axiosInstance.post<Listing>('/listings', body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const cancelListing = async (
+  token: string,
+  listingId: string
+): Promise<AxiosResponse<Listing>> => {
+  try {
+    const res = await axiosInstance.patch<Listing>(
+      `/listings/${listingId}/cancel`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return res;
+  } catch (e) {
+    throw handleApiError(e);
+  }
 };

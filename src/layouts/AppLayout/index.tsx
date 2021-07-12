@@ -45,7 +45,6 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
 
 const Header = styled.header`
   position: relative;
-  z-index: 1320;
   background-color: black;
 `;
 

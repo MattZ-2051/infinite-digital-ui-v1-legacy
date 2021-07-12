@@ -30,7 +30,7 @@ export const HeaderContent = styled.div`
 `;
 
 export const Main = styled.div`
-  height: 100vh;
+  height: 100%;
   max-width: 1440px;
   margin: 0 auto;
   @media screen and (max-width: 960px) {
@@ -39,23 +39,25 @@ export const Main = styled.div`
 `;
 
 export const Body = styled.div`
-  height: 100vh;
+  height: 100%;
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 25% 75%;
   @media screen and (max-width: 960px) {
     grid-template-columns: 100%;
   }
 `;
 
 export const LeftCol = styled.div`
+  height: 100%;
   max-width: 320px;
   display: flex;
   flex-direction: column;
   padding: 48px 0 48px 48px;
-
+  margin-bottom: 97px;
   @media screen and (max-width: 960px) {
     padding: 24px;
     max-width: 100%;
+    margin-bottom: 0;
   }
 `;
 
@@ -63,6 +65,7 @@ export const RightCol = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
+  height: 100%;
 `;
 
 export const Link = styled(RouterLink)`
@@ -94,8 +97,10 @@ export const FlexRow = styled.div`
 
 export const AvailableAmount = styled.span`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   color: black;
+  font-family: 'Circular';
+  padding-left: 2px;
 `;
 
 export const Available = styled.div`
@@ -106,10 +111,10 @@ export const Available = styled.div`
 `;
 
 export const AvailableSubText = styled.span`
-  font-size: 14px;
+  font-family: 'PlusJakartaSans';
+  font-size: 12px;
   color: #9e9e9e;
   font-weight: 400;
-  padding-left: 5px;
 `;
 
 export const Tab = styled.span`
@@ -141,11 +146,11 @@ export const SeeMore = styled.p`
   }
 `;
 
-export const LatestTransactionsContainer = styled.div<{ overflow: boolean }>`
+export const GridContainer = styled.div<{ overflow?: boolean }>`
   padding: 0 48px;
-  height: ${(props) => (props.overflow ? `70%` : `70%`)};
+  height: 95%; // ${(props) => (props.overflow ? `80%` : `80%`)};
   overflow-y: ${(props) => (props.overflow ? `auto` : `hidden`)};
-
+  margin-bottom: 10px;
   @media screen and (max-width: 960px) {
     padding: 24px;
     overflow-y: auto;
@@ -166,14 +171,15 @@ export const HeaderText = styled.span`
 `;
 
 export const ActionButton = styled.button`
-  width: 269px;
+  width: 302px;
   height: 56px;
   color: white;
   background-color: black;
   border: none;
-  font-weight: 600;
-  font-size: 20px;
-  border-radius: 35px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  border-radius: 26px;
   border: 2px solid black;
   :hover {
     background-color: white;
@@ -194,9 +200,65 @@ export const GrayLine = styled.div`
   padding-top: 12px;
 `;
 
-export const AvailableText = styled.span`
+export const GreyBigText = styled.span`
   font-size: 16px;
-  font-weight: 600;
+  font-family: 'Circular';
+  font-weight: 400;
   color: #9e9e9e;
   padding-right: 8px;
+`;
+export const Icon = styled.img`
+  padding-right: 20px;
+`;
+
+export const TextInButton = styled.div`
+  padding-left: 21px;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: 'Circular';
+`;
+
+export const IconContainer = styled.div`
+  display: flex;
+`;
+
+export const ButtonContainer = styled.div`
+  padding-top: 16px;
+`;
+
+export const ProductsGrid = styled.div`
+  margin-bottom: 30px;
+`;
+
+export const Content = styled.section`
+  width: 100%;
+`;
+
+export const PaginationContainer = styled.div``;
+
+export const NoResults = styled.div``;
+
+//export const GridContainer = styled.div<{ overflow?: boolean }>`
+
+export const OptionsContainers = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const TabOptions = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+export const TabButton = styled.div<{
+  selectedTab: number;
+  highlightOption: number;
+}>`
+  margin-bottom: -14px;
+  margin-right: 20px;
+  padding-bottom: 12px;
+  border-bottom: ${(pps) =>
+    pps.selectedTab === pps.highlightOption ? `2px solid black` : `none`};
+  color: ${(pps) =>
+    pps.selectedTab === pps.highlightOption ? `black` : `#9e9e9e`};
 `;

@@ -1,5 +1,8 @@
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
+import { Theme } from 'theme/theme';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 export const HeaderContainer = styled.div`
   background-color: #1a1a1a;
@@ -9,8 +12,8 @@ export const HeaderContent = styled.div`
   max-width: 1440px;
   margin: auto;
   display: flex;
+  min-height: 700px;
   flex-direction: row;
-  height: 700px;
   color: white;
   justify-content: space-between;
   @media screen and (max-width: 960px) {
@@ -29,6 +32,12 @@ export const HeaderLeft = styled.div`
   }
 `;
 
+export const SlashStyle = styled.span`
+  color: '#7c7c7c',
+  fontWeight: 600,
+  padding: '0 5px',
+`;
+
 export const HeaderRight = styled.div`
   width: 46%;
   display: flex;
@@ -41,7 +50,12 @@ export const HeaderRight = styled.div`
 `;
 
 export const ProductDetail = styled.div`
-  padding: 48px 80px 20px 48px;
+  @media (min-width: 960px) {
+    padding: 48px 80px 20px 48px;
+  }
+  @media (max-width: 959px) {
+    padding: 48px 24px 20px 24px;
+  }
 `;
 
 export const Listing = styled.div`
@@ -53,11 +67,15 @@ export const Listing = styled.div`
 export const SkuTitle = styled.div`
   font-size: 48px;
   letter-spacing: -2px;
+  line-height: 61px;
+  font-style: normal;
+  font-weight: 700;
 `;
 
 export const Brand = styled.h3`
   font-size: 24px;
   color: #8e8e8e;
+  font-weight: 700;
   margin-bottom: 16px;
   :hover {
     cursor: pointer;
@@ -79,7 +97,7 @@ export const Tile = styled.div`
 export const TileContainer = styled.div<{ index: number }>`
   padding: 0 20px;
   float: left;
-  padding-left: ${({ index }) => `${index === 0 ? '0px' : '10px'}`};
+  padding-left: ${({ index }) => `${index === 0 ? '0px' : '4px'}`};
 `;
 
 interface ISection {
@@ -210,10 +228,99 @@ export const CreatorName = styled(Link)`
   font-weight: 500;
   margin: 0;
   padding-left: 5px;
+  &&::after {
+    /* content: '/'; */
+    margin-right: 8px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-weight: normal;
+    color: #7c7c7c;
+  }
 `;
 
-export const ViewAll = styled(Link)`
-  float: right;
+export const NotifyIconImg = styled.img`
+  margin-right: 8px;
+  vertical-align: middle;
+`;
+
+export const NotifyMe = styled(Link)`
+  font-size: 15px;
   text-decoration: none;
-  font-size: 18px;
+  color: white;
+  font-weight: 500;
+`;
+
+export const Tab = styled.div<{
+  selected: boolean;
+  theme: Theme;
+  themeStyle?: 'light' | 'dark';
+}>`
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: ${(props) => (props.selected ? 'black' : '#888888')};
+  padding-bottom: 14px;
+  border: none;
+  border-bottom: ${(props) =>
+    props.selected ? '2px solid black' : '2px solid #ebebeb'};
+  position: relative;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+`;
+
+export const Padding = styled.div`
+  padding-left: 32px;
+  border-bottom: 2px solid #2e2e2e;
+`;
+
+export const ContainerSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 62%;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+  }
+`;
+
+export const ContainerTabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* width: 100%; */
+  ::after {
+    content: '';
+    border-bottom: 2px solid #ebebeb;
+    width: 100%;
+  }
+`;
+
+export const ContainerDisplayTabs = styled.div`
+  display: flex;
+  flex: 1;
+  margin-top: 20;
+  width: 100%;
+  flex-direction: column;
+`;
+
+export const DownArrow = styled(KeyboardArrowDownIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const UpArrow = styled(KeyboardArrowUpIcon)`
+  :hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+`;
+
+export const ToggleArrow = styled.button`
+  background-color: transparent;
+  border: none;
+  outline: none;
 `;

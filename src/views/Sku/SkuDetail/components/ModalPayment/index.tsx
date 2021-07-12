@@ -17,6 +17,7 @@ import { User } from 'entities/user';
 import Toast from 'utils/Toast';
 import { purchase } from 'utils/messages';
 import { Listing } from 'entities/listing';
+import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds';
 
@@ -81,11 +82,13 @@ const ModalPayment = ({
       history.push(`/product/${product._id}`);
     }
   };
+  const image =
+    product.nftPublicAssets[0].previewUrl || product.nftPublicAssets[0].url;
 
   const Content: any = () => (
     <>
       <S.ImageContainer>
-        <img src={product.imageUrls[0]} alt="" />
+        <img src={image} alt={InfiniteLogo} />
         <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>

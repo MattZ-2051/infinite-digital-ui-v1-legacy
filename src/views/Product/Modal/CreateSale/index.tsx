@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, VoidFunctionComponent } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Modal from 'components/Modal';
 import Button from 'components/Buttons/Button';
@@ -11,22 +11,22 @@ import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/types';
 
 export interface IModalProps {
-  visible: boolean;
-  setModalPaymentVisible: (a: boolean) => void;
   product: ProductWithFunctions;
-  setStatus: (a: Status) => void;
+  setStatus: (a: HistoryStatus) => void;
   setActiveSalePrice: (a: number) => void;
+  setSaleModal: (a: boolean) => void;
+  isModalOpen: boolean;
 }
 
 const CreateSale = ({
-  visible,
-  setModalPaymentVisible,
   product,
   setStatus,
   setActiveSalePrice,
+  setSaleModal,
+  isModalOpen,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
@@ -35,9 +35,7 @@ const CreateSale = ({
   const [total, setTotal] = useState<number>();
   const [loading, setLoading] = useState(false);
 
-  const fee = product?.resale
-    ? product?.resaleSellersFeePercentage
-    : product?.initialSellersFeePercentage;
+  const fee = product?.resaleSellersFeePercentage;
 
   useEffect(() => {
     if (price) {
@@ -70,9 +68,11 @@ const CreateSale = ({
       });
       if (result) {
         Toast.success(createSale.success);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
         setLoading(false);
-        setStatus('active-sale');
-        setModalPaymentVisible(false);
+        setSaleModal(false);
         setActiveSalePrice(result.data?.price);
       }
     } catch (e) {
@@ -89,10 +89,14 @@ const CreateSale = ({
     }
   };
 
+  const handleClose = () => {
+    setSaleModal(false);
+  };
+
   return (
     <Modal
-      open={visible}
-      onClose={() => setModalPaymentVisible(false)}
+      open={isModalOpen}
+      onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
@@ -102,7 +106,7 @@ const CreateSale = ({
           <CloseModal />
         </S.CloseButton>
       </S.ImageContainer> */}
-      <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+      <S.CloseButton onClick={handleClose}>
         <CloseModal />
       </S.CloseButton>
       <S.Header>

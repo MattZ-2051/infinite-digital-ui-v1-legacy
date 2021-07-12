@@ -32,14 +32,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [page, setPage] = useState(1);
   const [totalReleases, setTotalReleases] = useState(1);
   const [totalProducts, setTotalProducts] = useState(1);
-  const perPage = 8;
-  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const perPage = matchesMobile ? 4 : 8;
   const queryParams = '?sortBy=startDate:1';
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
-      setTotalProducts(itemsRes.total);
+      setTotalProducts(itemsRes.totalProducts);
     }
 
     if (user.role === 'issuer') {
@@ -51,7 +51,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       );
       if (releasesRes.data) {
         setUserReleases(releasesRes.data);
-        setTotalReleases(releasesRes.total);
+        setTotalReleases(releasesRes.totalReleases);
       }
     }
   }
@@ -209,7 +209,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               </S.TabBar>
             </div>
 
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+            <S.GrayLine />
           </div>
           {selectedTab === 'releases' && (
             <Releases
@@ -267,15 +267,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
         } else {
           total = totalProducts;
         }
-        if (total > 8)
+        if (total > perPage)
           return (
-            <S.StyledPagination
-              themeStyle={themeStyle}
-              count={Math.ceil(total / perPage)}
-              page={page}
-              onChange={handlePagination}
-              siblingCount={matchesMobile ? 0 : 1}
-            />
+            <S.PaginationContainer>
+              <S.StyledPagination
+                themeStyle={themeStyle}
+                count={Math.ceil(total / perPage)}
+                page={page}
+                onChange={handlePagination}
+                siblingCount={matchesMobile ? 0 : 1}
+              />
+            </S.PaginationContainer>
           );
       })(selectedTab)}
     </S.Container>

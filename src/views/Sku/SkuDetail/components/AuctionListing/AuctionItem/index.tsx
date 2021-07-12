@@ -33,6 +33,7 @@ const AuctionItem = ({
       : 'On sale for';
 
   const formattedPrice = usePriceFormatter(activeProductListing?.price);
+  const formattedBid = usePriceFormatter(activeProductListing?.minBid);
 
   return (
     <Container>
@@ -56,13 +57,22 @@ const AuctionItem = ({
           <span style={{ color: '#9E9E9E', marginRight: '10px' }}>
             {auctionDetailMsg}
           </span>
-          {activeProductListing && (
-            <>
-              <span
-                style={{ fontWeight: 'bold', color: 'black' }}
-              >{`$${formattedPrice}`}</span>{' '}
-            </>
-          )}
+          {activeProductListing &&
+            activeProductListing?.saleType !== 'auction' && (
+              <>
+                <span
+                  style={{ fontWeight: 'bold', color: 'black' }}
+                >{`$${formattedPrice}`}</span>{' '}
+              </>
+            )}
+          {activeProductListing &&
+            activeProductListing?.saleType === 'auction' && (
+              <>
+                <span
+                  style={{ fontWeight: 'bold', color: 'black' }}
+                >{`$${formattedBid}`}</span>{' '}
+              </>
+            )}
           <br />
           {upcomingProductListing && (
             <>

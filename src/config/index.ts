@@ -27,6 +27,12 @@ interface AppConfig {
   metadata: {
     environmentName: string;
   };
+  hubspot: {
+    region: string;
+    portalId: string;
+    formId: string;
+    target: string;
+  };
 }
 
 export const config: AppConfig = {
@@ -64,5 +70,13 @@ export const config: AppConfig = {
     sentryDsn: getEnvVar('REACT_APP_SENTRY_DSN', false),
     sentrySampleRate:
       parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
+  },
+  hubspot: {
+    region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
+    portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
+    formId:
+      getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
+      'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+    target: getEnvVar('REACT_APP_HUBSPOT_TARGET', false) || '#embed-hubspot',
   },
 };
