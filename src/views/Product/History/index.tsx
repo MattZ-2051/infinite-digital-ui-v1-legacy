@@ -38,11 +38,8 @@ const History = ({
   setHistoryPage,
 }: Props): JSX.Element => {
   //Hooks
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();

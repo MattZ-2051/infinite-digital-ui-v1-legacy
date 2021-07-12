@@ -76,6 +76,7 @@ const Product = ({}) => {
         redeemable={redeemable}
         skuTokenId={product.tokenId}
         explorerLink={product?.explorerLink}
+        serialNumber={product.serialNumber}
       />
       <History
         product={product}

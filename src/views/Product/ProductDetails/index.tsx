@@ -24,6 +24,7 @@ interface Props {
   redeemable: boolean;
   skuTokenId: string | undefined;
   explorerLink: string | undefined;
+  serialNumber: string;
 }
 
 const ProductDetails = ({
@@ -33,6 +34,7 @@ const ProductDetails = ({
   redeemable,
   skuTokenId = undefined,
   explorerLink = undefined,
+  serialNumber,
 }: Props) => {
   //TODO: add backend changes for sku series name and series name for series
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -66,11 +68,13 @@ const ProductDetails = ({
               <S.SkuInfo color="#7c7c7c">/</S.SkuInfo>&nbsp;
             </S.Flex>
           )}
-          {/* {sku?.supplyType === 'fixed' && (
-            <S.SkuInfo color="#7c7c7c">{`1 of ${totalSupply}`}</S.SkuInfo>
-          )} */}
-          <SkuCounter sku={sku} />
-          {skuIsVariable && (
+          {sku?.supplyType === 'fixed' && (
+            <S.SkuInfo color="#7c7c7c">
+              {`${serialNumber} of ${totalSupply}`}
+            </S.SkuInfo>
+          )}
+
+          {sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
               {`${circulatingSupply} Released `}
               (See All)
