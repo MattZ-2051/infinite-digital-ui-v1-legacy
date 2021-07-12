@@ -24,7 +24,7 @@ interface Props {
   redeemable: boolean;
   skuTokenId: string | undefined;
   explorerLink: string | undefined;
-  serialNumber: string;
+  serialNumber?: string;
 }
 
 const ProductDetails = ({
