@@ -91,7 +91,7 @@ const ListBids = ({ sortBy }: IProps) => {
     );
 
   return (
-    <>
+    <S.GridContainer>
       <S.BidsGrid>
         {bids?.data?.map((activeBid) => {
           return (
@@ -110,7 +110,7 @@ const ListBids = ({ sortBy }: IProps) => {
           siblingCount={matchesMobile ? 0 : 1}
         />
       </S.PaginationContainer>
-    </>
+    </S.GridContainer>
   );
 };
 

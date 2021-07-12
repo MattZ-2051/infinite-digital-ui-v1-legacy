@@ -1,7 +1,9 @@
 import styled from 'styled-components/macro';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
-export const PaginationContainer = styled.div``;
+export const PaginationContainer = styled.div`
+  align-self: flex-end;
+`;
 
 export const BidsGrid = styled.div`
   margin-bottom: 30px;
@@ -9,6 +11,10 @@ export const BidsGrid = styled.div`
 
 export const NoResults = styled.div``;
 
+export const GridContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
