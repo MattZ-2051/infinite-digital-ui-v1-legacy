@@ -40,7 +40,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
   const totalSupplyLeftIsNotZero = totalSupplyLeft !== 0;
   const activeProductListingsExist = activeProductListings?.length !== 0;
   const activeSkuListingsExist = activeSkuListings?.length !== 0;
-  const skuListingIsExpired = skuListings[0].status === 'expired';
+  const skuListingIsExpired = skuListings[0]?.status === 'expired';
 
   (() => {
     if (
