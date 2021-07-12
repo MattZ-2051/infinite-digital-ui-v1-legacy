@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local

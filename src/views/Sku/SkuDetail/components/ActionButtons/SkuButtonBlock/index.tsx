@@ -93,14 +93,18 @@ const FromCreatorBox = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const isSkuOwner = sku?.issuer._id === loggedInUserId;
 
   const handleBuyNowClick = () => {
-    // TODO: Check this call with pablo
-    onBuyNow();
     if (isAuthenticated) {
-      setIsModalOpen(true);
+      if (isSkuOwner) {
+        Toast.error('Cannot purchase your own SKU');
+      } else {
+        setIsModalOpen(true);
+      }
     } else {
       Toast.warning(
         <>
@@ -194,7 +198,6 @@ const SkuButtonBlock = ({
   sku,
   user,
   onBuyNow,
-  collectors,
   onProcessing,
 }: ISkuButtonBlock): JSX.Element => {
   const numSkuListings = sku.skuListings.length;
