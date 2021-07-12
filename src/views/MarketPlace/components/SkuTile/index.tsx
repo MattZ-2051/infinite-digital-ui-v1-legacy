@@ -1,6 +1,6 @@
 import Tile from 'components/ProductTiles/Tile';
 import { Sku } from 'entities/sku';
-import { formatCountdown, formatSkuCountdown } from 'utils/dates';
+import { formatSkuCountdown } from 'utils/dates';
 import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
@@ -74,9 +74,10 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const handleRedirect = () => {
     history.push(`/marketplace/${_id}`);
   };
-  const skuImage =
-    nftPublicAssets &&
-    (nftPublicAssets[0].previewUrl || nftPublicAssets[0].url);
+
+  const skuImage = nftPublicAssets
+    ? nftPublicAssets[0].previewUrl || nftPublicAssets[0].url
+    : sku.graphicUrl;
   return (
     <Tile
       sku={sku}
