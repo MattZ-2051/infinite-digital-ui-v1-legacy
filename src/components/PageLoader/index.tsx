@@ -3,11 +3,13 @@ import { PulseLoader } from 'react-spinners';
 
 interface Props {
   size?: number;
+  backGroundColor?: string;
+  color?: string;
 }
-const PageLoader = ({ size }: Props) => {
+const PageLoader = ({ size, color, backGroundColor }: Props) => {
   return (
-    <Container>
-      <PulseLoader size={size || 50} color={'#000'} margin={10} />
+    <Container style={{ backgroundColor: backGroundColor || 'white' }}>
+      <PulseLoader size={size || 50} color={color || '#000'} margin={10} />
     </Container>
   );
 };
@@ -15,7 +17,6 @@ const PageLoader = ({ size }: Props) => {
 const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;

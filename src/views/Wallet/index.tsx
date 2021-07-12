@@ -13,7 +13,6 @@ import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListBids from './ActiveBids';
 import KycButton from './KycButton/kycButton';
 import LatestTransactions from './LatestTransactions';
@@ -23,7 +22,6 @@ import withdrawIconWhite from 'assets/svg/icons/withdraw-funds-white.svg';
 import withdrawIconBlack from 'assets/svg/icons/withdraw-funds-black.svg';
 import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndImage';
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
-import { Flex } from 'views/Sku/SkuDetail/components/ModalPayment/SkuPageModal/styles';
 import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 const PER_PAGE = 5;
 
@@ -32,8 +30,6 @@ const Wallet = (props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
     useState<boolean>(false);
-  const [withdrawIcon, setWithdrawIcon] = useState<string>(withdrawIconWhite);
-  const [depositIcon, setDepositIcon] = useState<string>(depositIconWhite);
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -136,10 +132,7 @@ const Wallet = (props) => {
   };
 
   return (
-    <S.Container
-      showMore={true}
-      // showMore={showMore}
-    >
+    <S.Container showMore={true}>
       <S.Header>
         <S.HeaderContent>
           <S.Link to={`/collection/${username}`}>

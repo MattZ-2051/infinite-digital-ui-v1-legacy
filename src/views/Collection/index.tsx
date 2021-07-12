@@ -72,7 +72,8 @@ const Collection = (): JSX.Element => {
     fetchUser();
   }, [username]);
 
-  if (user._id === '0' || !user) return <PageLoader />;
+  if (user._id === '0' || !user)
+    return <PageLoader backGroundColor="black" color="white" />;
 
   const handleModalClose = () => {
     setIsModalOpen(false);

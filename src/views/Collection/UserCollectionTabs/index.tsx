@@ -13,6 +13,8 @@ import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as S from './styles';
+import PageLoader from 'components/PageLoader';
+
 interface IProps {
   user: User;
   isAuthenticated: boolean;
@@ -34,9 +36,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [totalProducts, setTotalProducts] = useState(1);
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   const perPage = matchesMobile ? 4 : 8;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const queryParams = '?sortBy=startDate:1';
+
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
+    setIsLoading(false);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
       setTotalProducts(itemsRes.totalProducts);
@@ -98,7 +103,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   ) => {
     setPage(value);
   };
-
+  if (isLoading)
+    return <PageLoader color={'white'} backGroundColor={'black'} />;
   return (
     <S.Container themeStyle={themeStyle}>
       {userStatus === 'loggedIn' && (
