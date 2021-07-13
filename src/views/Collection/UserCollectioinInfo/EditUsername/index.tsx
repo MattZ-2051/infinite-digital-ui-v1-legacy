@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import ModalComponent from 'components/Modal';
-import exitIconImg from 'assets/img/icons/exit-icon.png';
 import checkIconImg from 'assets/img/icons/check-icon.png';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -8,12 +6,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import Loader from 'components/Loader';
 
-interface Props {
-  isModalOpen: boolean;
-  handleClose: () => void;
-}
-
-const EditModal = ({ isModalOpen, handleClose }: Props) => {
+const EditUsername = () => {
   let currentUserName = useAppSelector((state) => state.session.user.username);
   const updateMessage = 'Update Username';
   const [newUsername, setNewUsername] = useState<string>(currentUserName);
@@ -61,7 +54,6 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
     setErrorMessage('');
     setButtonMessage(updateMessage);
     setConfirmed(false);
-    handleClose();
   };
   const handleChange = (e) => {
     setErrorMessage('');
@@ -72,49 +64,26 @@ const EditModal = ({ isModalOpen, handleClose }: Props) => {
 
   return (
     <>
-      <ModalComponent open={isModalOpen} height="280px">
-        <S.Container>
-          {
-            <S.Body>
-              <S.Icon>
-                <S.ExitIconImg
-                  src={exitIconImg}
-                  onClick={resetAndHandleClose}
-                />
-              </S.Icon>
-              <S.Content>
-                <S.Header>Edit Your Username</S.Header>
-                {errorMessage === '' ? null : (
-                  <S.SubHeader style={{ color: 'red' }}>
-                    {errorMessage}
-                  </S.SubHeader>
-                )}
-
-                <S.Input>
-                  <S.At>@</S.At>
-                  <S.UsernameInput
-                    onChange={handleChange}
-                    value={newUsername}
-                    placeholder="Username"
-                  />
-                  <S.CheckIcon>
-                    {confirmed && <S.CheckIconImg src={checkIconImg} />}
-                  </S.CheckIcon>
-                </S.Input>
-                <S.Border></S.Border>
-                <div style={{ paddingTop: '40px' }}>
-                  <S.Button onClick={handleSubmit}>
-                    {loading && <Loader color="white" size={10} />}
-                    {!loading && buttonMessage}
-                  </S.Button>
-                </div>
-              </S.Content>
-            </S.Body>
-          }
-        </S.Container>
-      </ModalComponent>
+      <S.Input>
+        <S.At>@</S.At>
+        <S.UsernameInput
+          onChange={handleChange}
+          value={newUsername}
+          placeholder="Username"
+        />
+        <S.CheckIcon>
+          {confirmed && <S.CheckIconImg src={checkIconImg} />}
+        </S.CheckIcon>
+      </S.Input>
+      <S.Border></S.Border>
+      <div style={{ paddingTop: '40px' }}>
+        <S.Button onClick={handleSubmit}>
+          {loading && <Loader color="white" size={10} />}
+          {!loading && buttonMessage}
+        </S.Button>
+      </div>
     </>
   );
 };
 
-export default EditModal;
+export default EditUsername;

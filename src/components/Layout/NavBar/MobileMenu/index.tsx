@@ -4,8 +4,8 @@ import TextButton from 'components/Buttons/TextButton';
 import IconButton from 'components/Buttons/IconButton';
 import { useState } from 'react';
 import * as S from './styles';
-import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
-
+//import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
+import UserProfileDetails from 'views/Collection/UserCollectioinInfo/UserProfileDetails';
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
   logout: (redirect?: any) => void;
@@ -86,11 +86,14 @@ const MobileMenu = ({
 
             <S.Item>
               <TextButton type="link" color="white" onClick={openModal}>
-                Edit Username
+                Profile Details
               </TextButton>
             </S.Item>
           </S.ListMenu>
-          <EditModal isModalOpen={isModalOpen} handleClose={openModal} />
+          <UserProfileDetails
+            isModalOpen={isModalOpen}
+            handleClose={openModal}
+          />
           <IconButton
             icon={ExitToAppIcon}
             color="white"
