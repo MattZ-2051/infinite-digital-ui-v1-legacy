@@ -128,7 +128,10 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  if (!collectors || !featuredProducts || !sku) return <PageLoader />;
+  if (!collectors || !featuredProducts || sku == undefined) {
+    return <PageLoader />;
+  }
+  if (!sku) throw new Error('They are no skus available.');
 
   const handleRedirectToIssuer = () => {
     history.push(`/collection/${sku.issuer.username}`);
