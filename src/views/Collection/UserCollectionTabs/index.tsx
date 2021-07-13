@@ -123,7 +123,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   selected={selectedTab === 'items'}
                   onClick={() => setSelectedTab('items')}
                 >
-                  My Items
+                  {"NFT's Owned"}
                 </S.Tab>
               </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
@@ -156,7 +156,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('releases')}
                 >
-                  My Releases
+                  Releases
                 </S.Tab>
                 <span style={{ padding: '0 20px' }}></span>
                 <S.Tab
@@ -164,7 +164,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  My Items
+                  {"NFT's Owned"}
                 </S.Tab>
               </S.TabBar>
             </div>
@@ -210,7 +210,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  Items
+                  {"NFT's Owned"}
                 </S.Tab>
               </S.TabBar>
             </div>
@@ -249,7 +249,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  Items
+                  {"NFT's Owned"}
                 </S.Tab>
               </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
