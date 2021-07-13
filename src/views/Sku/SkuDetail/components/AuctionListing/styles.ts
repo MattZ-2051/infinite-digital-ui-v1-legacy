@@ -45,10 +45,9 @@ export const Title = styled.h2`
 
 export const NoOwners = styled.div`
   padding-top: 24px;
-  font-size: 16px;
-  color: #9e9e9e;
-  font-weight: 600;
-  border-bottom: 1px solid #ebebeb;
+  font-size: 18px;
+  color: black;
+  font-weight: 500;
   padding-bottom: 20px;
   width: 100%;
 `;
