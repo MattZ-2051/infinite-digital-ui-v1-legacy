@@ -19,6 +19,7 @@ import MomentUtils from '@date-io/moment';
 import moment, { Moment } from 'moment';
 import TextField from 'components/TextFIeld';
 import TimePicker from 'components/TimePicker';
+import { useAppSelector } from 'store/hooks';
 interface Props {
   visible: boolean;
   setModalAuctionVisible: (a: boolean) => void;
@@ -32,10 +33,6 @@ const AuctionModal = ({
   visible,
   setModalAuctionVisible,
 }: Props) => {
-  const fee = product?.resale
-    ? product?.resaleSellersFeePercentage
-    : product?.initialSellersFeePercentage;
-
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
   const [serviceFee, setServiceFee] = useState<number>();
@@ -46,6 +43,12 @@ const AuctionModal = ({
   const [endDate, setEndDate] = useState<any | null>(moment());
   const [startTime, setStartTime] = useState<any | null>(moment());
   const [endTime, setEndTime] = useState<any | null>(moment());
+  const initialBuyersFeePercentage = useAppSelector(
+    (state) => state.session.user.initialBuyersFeePercentage
+  );
+  const fee = product?.resale
+    ? product?.resaleBuyersFeePercentage
+    : product?.initialBuyersFeePercentage;
 
   useEffect(() => {
     if (price) {
@@ -83,6 +86,9 @@ const AuctionModal = ({
   }
 
   const handleStartAuction = async () => {
+    if (!startTime || !endTime) {
+      Toast.success('Please enter a valid date.');
+    }
     const resStartDate = composeDates(startDate, startTime);
     const resEndDate = composeDates(endDate, endTime);
     if (!compareDates(resStartDate, resEndDate)) {
@@ -236,7 +242,7 @@ const AuctionModal = ({
       <S.Detail>
         <S.DetailRowPrice>
           <div>
-            <span>Marketplace fee (5%):</span>
+            <span>{`Marketplace Fee (${fee}%):`}</span>
           </div>
           <div>
             <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
@@ -287,7 +293,7 @@ const AuctionModal = ({
         onClick={handleStartAuction}
         disabled={loading || !price}
       >
-        start auction
+        Start Auction
       </Button>
     </S.Body>
   );
