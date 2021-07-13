@@ -83,7 +83,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
   };
 
   const handleSubmit = async () => {
-    info.country = selectedCount || { name: '', iso2: '' };
+    info.country = selectedCount?.name || '';
     info.district = district || { name: '', stateCode: '' };
     const checkErrors = validate(info, setFieldError);
     if (checkErrors) return;

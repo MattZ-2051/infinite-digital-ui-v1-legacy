@@ -28,7 +28,7 @@ export interface RedeemInfo {
   district: District;
   postalCode: string;
   city: string;
-  country: Country;
+  country: string;
   shippingNotes: string;
 }
 
@@ -41,10 +41,7 @@ export const payload: RedeemInfo = {
   },
   postalCode: '',
   city: '',
-  country: {
-    name: '',
-    iso2: '',
-  },
+  country: '',
   shippingNotes: '',
 };
 
