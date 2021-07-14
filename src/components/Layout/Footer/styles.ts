@@ -6,6 +6,7 @@ export const StyledFooter = styled.footer`
   bottom: 0;
   width: 100%;
   background-color: black;
+  padding: 0 80px;
 `;
 
 export const HederaText = styled.div`
@@ -16,6 +17,8 @@ export const HederaText = styled.div`
 export const FooterContent = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 1440px;
+  margin: auto;
   padding: 17px 80px;
   font-size: 12px;
   color: white;
