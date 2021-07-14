@@ -75,11 +75,10 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     history.push(`/marketplace/${_id}`);
   };
 
-  console.log('sku', sku);
-
   const skuImage =
     nftPublicAssets && nftPublicAssets
-      ? nftPublicAssets[0].previewUrl || nftPublicAssets[0].url
+      ? (nftPublicAssets[0] && nftPublicAssets[0].previewUrl) ||
+        (nftPublicAssets[0] && nftPublicAssets[0].url)
       : sku.graphicUrl;
   return (
     <Tile
