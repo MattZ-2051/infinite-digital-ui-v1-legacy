@@ -1,22 +1,27 @@
+import { Dispatch, SetStateAction } from 'react';
 import * as S from '../styles';
 import KycRequiredText from './KycRequiredText';
-import DepositRow from './DepositRow';
 import usdcIcon from 'assets/img/icons/usdc.png';
 import Toast from 'utils/Toast';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { modalContentType } from '../../DepositModal';
 
 interface IProps {
   kycDisabled: boolean;
-  setIsUSDCModelOpen: () => void;
+  setModalContent: Dispatch<SetStateAction<modalContentType>>;
   kycPending: boolean;
 }
-const CircleBtn = ({ kycDisabled, setIsUSDCModelOpen, kycPending }) => {
+const CircleBtn = ({
+  kycDisabled,
+  setModalContent,
+  kycPending,
+}: IProps): JSX.Element => {
   return (
     <S.Row
       onClick={() =>
         kycDisabled
           ? Toast.warning(<KycRequiredText kycPending={kycPending} />)
-          : setIsUSDCModelOpen(true)
+          : setModalContent('USDCDeposit')
       }
       disabled={false}
     >

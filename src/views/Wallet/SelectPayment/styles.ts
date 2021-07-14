@@ -1,4 +1,29 @@
 import styled from 'styled-components/macro';
+import CoinbaseCommerceButton from 'react-coinbase-commerce';
+
+export const BodyContainer = styled.div`
+  position: absolute;
+  max-width: 550px;
+  width: 500px;
+  max-height: 750px;
+  background-color: white;
+  padding-top: 16px;
+  outline: none;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @media screen and (max-width: 550px) {
+    width: 100%;
+  }
+`;
+
+export const BodyContent = styled.div`
+  padding: 0 40px 40px 40px;
+  @media screen and (max-width: 550px) {
+    padding: 0 10px;
+  }
+`;
 
 export const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
@@ -21,6 +46,12 @@ export const Header = styled.span`
   font-weight: 600;
   border-bottom: 2px solid black;
   padding-bottom: 14px;
+`;
+
+export const SubHeader = styled.div`
+  font-size: 16px;
+  color: #7d7d7d;
+  padding-top: 25px;
 `;
 
 export const Row = styled.div<{ disabled: boolean }>`
@@ -58,9 +89,9 @@ export const ExitIcon = styled.div`
   }
 `;
 
-export const FlexColumn = styled.div`
+export const FlexAlignCenter = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
 `;
 
 export const FlexEnd = styled.div`
@@ -69,7 +100,15 @@ export const FlexEnd = styled.div`
   justify-content: flex-end;
 `;
 
-export const FlexAlignCenter = styled.div`
+export const FlexColumn = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+`;
+
+export const CoinbaseButton = styled(CoinbaseCommerceButton)`
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
 `;
