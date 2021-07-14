@@ -82,7 +82,7 @@ const EditUsername = ({ currentUsername }) => {
           </S.CheckIcon>
         </S.Input>
         <S.TextWithIcon>
-          Edit
+          <span>Edit</span>
           <S.ToggleButton onClick={handleSubmit}>
             <S.EditIcon />
           </S.ToggleButton>

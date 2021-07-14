@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import { ReactComponent as editSVG } from 'assets/svg/icons/edit-profile-icon.svg';
+import { ReactComponent as resetSVG } from 'assets/svg/icons/lock-reset.svg';
 
 export const Container = styled.div`
   positioin: absolute;
@@ -118,6 +119,10 @@ export const ModalSectionTitle = styled.h3`
 
 export const ModalSection = styled.section`
   width: 100%;
+  color: #7d7d7d;
+  > * + * {
+    margin-top: 2px;
+  }
   @media screen and (min-width: 460px) {
     min-width: 330px;
   }
@@ -132,24 +137,39 @@ export const FlexSpaceBetween = styled.div`
 
 export const TextWithIcon = styled.span`
   display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const ToggleButton = styled.button`
   background-color: #000;
-  width: 24px;
-  height: 24px;
-  border-radius: 20px;
+  padding: 5px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 42%;
   border: 0;
   margin-left: 9px;
+  display: flex;
+  align-items: center;
 `;
 
 export const EditIcon = styled(editSVG)`
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   stroke: #fff;
   fill: none;
   :hover {
     stroke: white;
+    cursor: pointer;
+  }
+`;
+
+export const ResetIcon = styled(resetSVG)`
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+  :hover {
+    fill: #fff;
     cursor: pointer;
   }
 `;

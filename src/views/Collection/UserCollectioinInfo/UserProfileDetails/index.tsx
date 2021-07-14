@@ -64,7 +64,7 @@ const ModalTitle = styled.h2`
 const BorderWrapper = styled.span`
   border-bottom: 2px solid black;
   display: inline;
-  padding-bottom: 17px;
+  padding-bottom: 19px;
   width: max-content;
 `;
 
