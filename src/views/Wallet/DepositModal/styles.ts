@@ -58,9 +58,10 @@ export const ExitIcon = styled.div`
   }
 `;
 
-export const FlexColumn = styled.div`
+export const FlexColumn = styled.div<{ padding?: string }>`
   display: flex;
   flex-direction: column;
+  padding: ${(props) => props.padding};
 `;
 
 export const FlexEnd = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { PulseLoader } from 'react-spinners';
 import { IPlaidAccount } from 'entities/plaidAccount';
@@ -68,7 +68,7 @@ const AchAccountList = ({
   }
   if (valueErrorWithdraw) {
     return (
-      <S.FlexColumn>
+      <S.FlexColumn padding="100px 0 0 0">
         <S2.Text fontSize="22px" fontWeight={600} color="black">
           {String.fromCodePoint(...[9888, 65039])} Whoops, something went wrong.
         </S2.Text>
@@ -77,6 +77,7 @@ const AchAccountList = ({
           color="#7d7d7d"
           fontSize="16px"
           fontWeight={500}
+          padding="28px 0 32px 0"
         >
           There was an issue processing your request. Please try again or visit
           the{' '}
