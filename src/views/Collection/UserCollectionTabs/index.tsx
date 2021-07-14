@@ -48,6 +48,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     }
 
     if (user.role === 'issuer') {
+      setThemeStyle('dark');
       const releasesRes = await getReleasesOwnedByUser(
         user._id,
         page,
@@ -58,6 +59,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
         setUserReleases(releasesRes.data);
         setTotalReleases(releasesRes.totalReleases);
       }
+    } else {
+      setThemeStyle('light');
     }
   }
 

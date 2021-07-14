@@ -42,7 +42,7 @@ const SkuDetail = (): JSX.Element => {
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
-  const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0(); // TODO: remove if not using
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<
@@ -72,8 +72,10 @@ const SkuDetail = (): JSX.Element => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessTokenSilently();
-      getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
+      if (isAuthenticated) {
+        const token = await getAccessTokenSilently();
+        getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
+      }
     };
     fetchData();
   }, [skuid]);

@@ -69,6 +69,10 @@ const Collection = (): JSX.Element => {
   }
 
   useEffect(() => {
+    setUser((prevState) => ({
+      ...prevState,
+      _id: '0',
+    }));
     fetchUser();
   }, [username]);
 

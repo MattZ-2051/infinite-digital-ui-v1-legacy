@@ -2,7 +2,7 @@ import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { ProductWithFunctions } from 'entities/product';
 import { useHistory } from 'react-router-dom';
-import { formatCountdown } from 'utils/dates';
+import { formatSkuCountdown } from 'utils/dates';
 
 interface Props {
   product: ProductWithFunctions;
@@ -38,7 +38,7 @@ const ProductTile = ({
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
       status = 'upcoming-product-time';
-      pillInfo = formatCountdown(
+      pillInfo = formatSkuCountdown(
         new Date(product?.upcomingProductListings[0]?.startDate)
       );
       return status;
