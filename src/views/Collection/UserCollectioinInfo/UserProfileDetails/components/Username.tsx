@@ -3,7 +3,7 @@ import checkIconImg from 'assets/img/icons/check-icon.png';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import * as S from './styles';
+import * as S from '../styles';
 import Loader from 'components/Loader';
 
 interface IEditUsernameProps {
@@ -12,7 +12,7 @@ interface IEditUsernameProps {
 
 const EditUsername = ({ currentUsername }) => {
   let currentUserName = useAppSelector((state) => state.session.user.username);
-  const updateMessage = 'Update Username';
+  const updateMessage = 'Save';
   const [newUsername, setNewUsername] = useState<string>(currentUserName);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
@@ -67,26 +67,28 @@ const EditUsername = ({ currentUsername }) => {
   };
 
   return (
-    <>
-      <S.Input>
-        <S.At>@</S.At>
-        <S.UsernameInput
-          onChange={handleChange}
-          value={newUsername}
-          placeholder="Username"
-        />
-        <S.CheckIcon>
-          {confirmed && <S.CheckIconImg src={checkIconImg} />}
-        </S.CheckIcon>
-      </S.Input>
-      <S.Border></S.Border>
-      <div style={{ paddingTop: '40px' }}>
-        <S.Button onClick={handleSubmit}>
-          {loading && <Loader color="white" size={10} />}
-          {!loading && buttonMessage}
-        </S.Button>
-      </div>
-    </>
+    <S.ModalSection>
+      <S.ModalSectionTitle>Username</S.ModalSectionTitle>
+      <S.FlexSpaceBetween>
+        <S.Input>
+          <S.At>@</S.At>
+          <S.UsernameInput
+            onChange={handleChange}
+            value={newUsername}
+            placeholder="Username"
+          />
+          <S.CheckIcon>
+            {confirmed && <S.CheckIconImg src={checkIconImg} />}
+          </S.CheckIcon>
+        </S.Input>
+        <S.TextWithIcon>
+          Edit
+          <S.ToggleButton onClick={handleSubmit}>
+            <S.EditIcon />
+          </S.ToggleButton>
+        </S.TextWithIcon>
+      </S.FlexSpaceBetween>
+    </S.ModalSection>
   );
 };
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { ReactComponent as editSVG } from 'assets/svg/icons/edit-profile-icon.svg';
 
 export const Container = styled.div`
   positioin: absolute;
@@ -16,6 +17,12 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  > * + * {
+    margin-top: 30px;
+  }
+  > :first-child {
+    margin-top: 40px;
+  }
 `;
 
 export const SubHeader = styled.span`
@@ -26,7 +33,6 @@ export const SubHeader = styled.span`
 `;
 
 export const UsernameInput = styled.input`
-  width: 65%;
   border: none;
   font-size: 16px;
   :focus {
@@ -35,7 +41,6 @@ export const UsernameInput = styled.input`
 `;
 
 export const At = styled.span`
-  padding-right: 10px;
   font-size: 16px;
   color: #7d7d7d;
 `;
@@ -44,7 +49,6 @@ export const Input = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  padding-top: 30px;
 `;
 
 export const Button = styled.button`
@@ -101,4 +105,51 @@ export const CheckIconImg = styled.img`
 
 export const Body = styled.div`
   width: 100%;
+  padding: 0 20px 40px 20px;
+  font-family: Circular, sans-serif;
+`;
+
+export const ModalSectionTitle = styled.h3`
+  font-size: 14px;
+  line-height: 18px;
+  color: #7d7d7d;
+  font-weight: 400;
+`;
+
+export const ModalSection = styled.section`
+  width: 100%;
+  @media screen and (min-width: 460px) {
+    min-width: 330px;
+  }
+`;
+
+export const FlexSpaceBetween = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const TextWithIcon = styled.span`
+  display: flex;
+`;
+
+export const ToggleButton = styled.button`
+  background-color: #000;
+  width: 24px;
+  height: 24px;
+  border-radius: 20px;
+  border: 0;
+  margin-left: 9px;
+`;
+
+export const EditIcon = styled(editSVG)`
+  width: 12px;
+  height: 12px;
+  stroke: #fff;
+  fill: none;
+  :hover {
+    stroke: white;
+    cursor: pointer;
+  }
 `;

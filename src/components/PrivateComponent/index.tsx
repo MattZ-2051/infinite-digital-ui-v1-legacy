@@ -3,6 +3,7 @@
  */
 import { useAppSelector } from 'store/hooks';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IProps {}
 
 const PrivateComponent: React.FC<IProps> = (props: any) => {

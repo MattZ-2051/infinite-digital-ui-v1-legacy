@@ -1,15 +1,26 @@
+import { useState } from 'react';
 import ModalComponent from 'components/Modal';
 import * as S from './styles';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import styled from 'styled-components/macro';
 import { ReactComponent as UserProfileSvg } from 'assets/svg/icons/user-profile-icon.svg';
-import EditUsername from '../EditUsername';
+import Toast from 'utils/Toast';
+import { useAppSelector } from 'store/hooks';
+import Username from './components/Username';
+import EmailAddress from './components/EmailAddress';
+import Password from './components/Password';
+
 interface Props {
   isModalOpen: boolean;
   handleClose: () => void;
 }
 
 const UserProfileDetails = ({ isModalOpen, handleClose }) => {
+  const currentUsername = useAppSelector(
+    (state) => state.session.user.username
+  );
+  const currentEmail = useAppSelector((state) => state.session.user.email);
+  const [editingUsername, setEditingUsername] = useState<boolean>(false);
   return (
     <ModalComponent open={isModalOpen}>
       <S.Body>
@@ -25,9 +36,10 @@ const UserProfileDetails = ({ isModalOpen, handleClose }) => {
           </BorderWrapper>
           <Grayline />
         </ModalHeader>
-
         <S.Content>
-          <EditUsername />
+          <Username currentUsername={currentUsername} />
+          <EmailAddress currentEmail={currentEmail} />
+          <Password />
         </S.Content>
       </S.Body>
     </ModalComponent>
