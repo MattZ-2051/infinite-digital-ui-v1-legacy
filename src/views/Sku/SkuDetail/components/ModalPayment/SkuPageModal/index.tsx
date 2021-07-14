@@ -14,7 +14,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
 
@@ -143,7 +143,7 @@ const SkuPageModal = ({
       // TODO: Check payment
       if (response.status === 200) {
         setStatusMode('processing');
-        dispatch(getUserInfoThunk({ token: userToken }));
+        dispatch(getUserCardsThunk({ token: userToken }));
         setLoading(false);
         fetchTransactions();
       } else {

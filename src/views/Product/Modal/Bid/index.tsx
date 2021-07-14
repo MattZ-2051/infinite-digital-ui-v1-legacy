@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'components/Modal';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { ProductWithFunctions } from 'entities/product';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
@@ -12,10 +12,11 @@ import { useHistory } from 'react-router-dom';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
 import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import { postBid } from 'services/api/productService';
 import Loader from 'components/Loader';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 
 interface Props {
   visible: boolean;
@@ -39,7 +40,7 @@ const BidModal = ({
   const { getAccessTokenSilently } = useAuth0();
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const calculatedMarketplaceFee =
     parseFloat(bidAmount) * (marketplaceFee / 100);
   const totalCost = parseFloat(bidAmount) + calculatedMarketplaceFee;
@@ -120,6 +121,7 @@ const BidModal = ({
         bidAmt: parseFloat(bidAmount),
       });
       if (result) {
+        dispatch(getUserCardsThunk({ token: userToken }));
         displaySuccessBidMessage();
         setLoading(false);
         setModalBidVisible(false);

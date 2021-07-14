@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import DepositModal from './DepositModal';
 import WhitdrawModal from './WithdrawModal';

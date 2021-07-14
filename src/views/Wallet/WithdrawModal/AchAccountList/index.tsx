@@ -13,6 +13,11 @@ import AddIcon from '@material-ui/icons/Add';
 import DustbinIcon from 'assets/svg/icons/dustbin.svg';
 import AchAccountItemRemoveConfirm from './AchAccountItemRemoveConfirm';
 import { IWithdraw } from '../../../../entities/withdraw';
+import { useAppDispatch } from 'store/hooks';
+import {
+  getUserCardsThunk,
+  getUserInfoThunk,
+} from 'store/session/sessionThunks';
 
 interface IAchAccountListProps {
   onError: (Error) => any;
@@ -37,6 +42,13 @@ const AchAccountList = ({
   const [valueIsDeleteMode, setIsDeleteMode] = useState<boolean>(false);
   const [valueToDeleteSelected, setToDeleteSelected] =
     useState<IPlaidAccount | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const fetchUserWalletInfo = async () => {
+    dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
+    dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
+  };
   useEffect(() => {
     async function doFetch() {
       setLoadingInformation(<span>Loading accounts</span>);
@@ -213,6 +225,7 @@ const AchAccountList = ({
             return doWithdraw(await getAccessTokenSilently(), item.id, amount)
               .then(setSuccessWithdrawData, setErrorWithdraw)
               .then(() => {
+                fetchUserWalletInfo();
                 setLoadingInformation(null);
               });
           }}
