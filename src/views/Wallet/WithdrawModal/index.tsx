@@ -6,6 +6,7 @@ import AchAccountList from './AchAccountList';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import Toast from 'utils/Toast';
 import { withdraw } from 'utils/messages';
+import { useMediaQuery } from '@material-ui/core';
 
 interface IWithdrawModal {
   isModalOpen?: boolean;
@@ -17,6 +18,7 @@ const WithdrawModal = ({
   handleClose,
 }: IWithdrawModal): JSX.Element => {
   const [valueIsAdding, setIsAdding] = useState<boolean>(false);
+  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   return (
     <ModalComponent
       open={isModalOpen || false}
@@ -52,8 +54,7 @@ const WithdrawModal = ({
         </S.ExitIcon>
         <S.BodyContent
           style={{
-            padding: 56,
-            paddingTop: 0,
+            padding: matchesMobile ? '0px' : '0px 56px 20px 56px',
             flex: 1,
             justifyContent: 'space-between',
             display: 'flex',
@@ -64,7 +65,6 @@ const WithdrawModal = ({
             <AchAccountList
               onError={(err) => {
                 Toast.error(withdraw.error);
-                // Toast.error(err.message);
               }}
               onAddNew={() => setIsAdding(true)}
               onClose={handleClose}
@@ -72,8 +72,7 @@ const WithdrawModal = ({
           ) : (
             <AchAccountAdd
               onError={(err) => {
-                // Toast.error(withdraw.error);
-                Toast.error(err.message);
+                Toast.error(withdraw.error);
               }}
               onSuccess={() => {
                 Toast.success(withdraw.achAdded);
