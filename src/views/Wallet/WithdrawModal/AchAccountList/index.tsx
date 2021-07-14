@@ -6,13 +6,13 @@ import { doWithdraw } from 'services/api/walletService';
 import { getAchAccounts, removeAch } from 'services/api/walletService';
 import AchAccountItem from './AchAccountItem';
 import AchAccountDepositForm from '../AchAccountDepositForm';
+import { Link } from 'react-router-dom';
 import * as S from '../../DepositModal/styles';
 import * as S2 from '../styles';
 import AddIcon from '@material-ui/icons/Add';
 import DustbinIcon from 'assets/svg/icons/dustbin.svg';
 import AchAccountItemRemoveConfirm from './AchAccountItemRemoveConfirm';
 import { IWithdraw } from '../../../../entities/withdraw';
-// import { ReactComponent as DustbinIcon } from 'assets/svg/icons/dustbin.svg';
 
 interface IAchAccountListProps {
   onError: (Error) => any;
@@ -68,29 +68,23 @@ const AchAccountList = ({
   }
   if (valueErrorWithdraw) {
     return (
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
-        <span
-          style={{
-            fontSize: 22,
-            textAlign: 'center',
-            lineHeight: '28px',
-            fontWeight: 600,
-          }}
-        >
+      <S.FlexColumn>
+        <S2.Text fontSize="22px" fontWeight={600} color="black">
           {String.fromCodePoint(...[9888, 65039])} Whoops, something went wrong.
-        </span>
-        <p style={{ textAlign: 'center', color: '#7D7D7D' }}>
-          Lorem ipsum dolor sit amet, consectetur ipsum dolor sit amet,
-          adipiscing consectetur.
-        </p>
+        </S2.Text>
+        <S2.Text
+          textAlign="center"
+          color="#7d7d7d"
+          fontSize="16px"
+          fontWeight={500}
+        >
+          There was an issue processing your request. Please try again or visit
+          the{' '}
+          <Link to="https://support.suku.world/how-do-withdrawals-work">
+            Help Page
+          </Link>{' '}
+          if this issue persists.{' '}
+        </S2.Text>
         <S2.Button
           type="button"
           style={{ width: '100%' }}
@@ -110,10 +104,11 @@ const AchAccountList = ({
         >
           Select Another Payment Method
         </S2.SubButton>
-      </div>
+      </S.FlexColumn>
     );
   }
   if (valueSuccessWithdrawData) {
+    const txData = valueSuccessWithdrawData.transactionData;
     return (
       <div
         style={{
@@ -124,20 +119,69 @@ const AchAccountList = ({
           flexDirection: 'column',
         }}
       >
-        <span
+        <S2.Text
+          fontSize="22px"
+          textAlign="center"
+          fontWeight={800}
+          color="black"
+        >
+          {String.fromCodePoint(0x1f918)} Withdraw Initiated!
+        </S2.Text>
+        <div
           style={{
-            fontSize: 22,
-            textAlign: 'center',
-            lineHeight: '28px',
-            fontWeight: 800,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '32px 0',
           }}
         >
-          {String.fromCodePoint(0x1f918)} Successful withdraw!
-        </span>
-        <p style={{ textAlign: 'center', color: '#7D7D7D' }}>
-          Lorem ipsum dolor sit amet, consectetur ipsum dolor sit amet,
-          adipiscing consectetur.
-        </p>
+          <div style={{ display: 'flex', paddingBottom: '5px' }}>
+            <S2.Text
+              color="#7d7d7d"
+              fontSize="16px"
+              fontWeight={500}
+              textAlign="center"
+            >
+              Your request to withdraw{' '}
+              <S2.Text
+                color="black"
+                fontSize="16px"
+                fontWeight={600}
+                textAlign="center"
+              >
+                ${txData.withdraw.amount}
+              </S2.Text>{' '}
+              to
+            </S2.Text>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <S2.Text
+              color="black"
+              fontSize="16px"
+              fontWeight={600}
+              textAlign="center"
+            >
+              {' '}
+              {txData.withdraw.institution_name}
+            </S2.Text>
+            <S2.Text
+              color="black"
+              fontSize="16px"
+              fontWeight={500}
+              padding="0 5px"
+            >
+              {' '}
+              {txData.withdraw.ach_number}
+            </S2.Text>
+            <S2.Text
+              color="#7d7d7d"
+              fontSize="16px"
+              fontWeight={500}
+              textAlign="center"
+            >
+              has started.
+            </S2.Text>
+          </div>
+        </div>
         <S2.Button type="button" style={{ width: '100%' }} onClick={onClose}>
           Back to My Wallet
         </S2.Button>
@@ -199,14 +243,14 @@ const AchAccountList = ({
       <div>
         <div>
           <S.Header>
-            {valueIsDeleteMode
-              ? 'Remove account'
-              : 'Select a payment to withdraw to'}
+            {valueIsDeleteMode ? 'Remove account' : 'Withdraw funds to'}
           </S.Header>
           <S.GrayLine style={{ width: '100%' }} />
         </div>
         <p style={{ color: '#7D7D7D' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          {valueIsDeleteMode
+            ? 'Select an account to remove'
+            : 'Select a bank account to withdraw funds to'}
         </p>
       </div>
       <div

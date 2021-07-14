@@ -3,6 +3,7 @@ import { IPlaidAccount } from 'entities/plaidAccount';
 import { IWithdraw } from 'entities/withdraw';
 import { IBillingForAch } from 'components/BillingFormForAch';
 import { handleApiError } from 'utils/apiError';
+import { IHbarDeposits } from './Interfaces';
 
 export const doWithdraw = async (
   token: string,
@@ -98,6 +99,22 @@ export const getPlaidLinkToken = async (token: string): Promise<any> => {
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const checkHbarDeposits = async (
+  token: string
+): Promise<IHbarDeposits> => {
+  try {
+    const response = await axiosInstance.post<IHbarDeposits>(
+      `/wallet/hbar/check`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    console.log(response);
     return response.data;
   } catch (err) {
     throw handleApiError(err);

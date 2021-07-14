@@ -19,6 +19,40 @@ export const BodyContainer = styled.div`
   }
 `;
 
+export const DepositFormContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  padding-top: 40px;
+`;
+
+export const Text = styled.p<{
+  color: string;
+  fontSize: string;
+  fontWeight: number;
+  textAlign?: string;
+  padding?: string;
+}>`
+  ${(props) =>
+    `font-size: ${props.fontSize};
+  font-weight: ${props.fontWeight};
+  color: ${props.color};
+  text-align: ${props.textAlign};
+  padding: ${props.padding};
+  margin: 0;
+  display: inline;
+  `}
+`;
+
+export const BankImg = styled.img<{ backgroundColor: string }>`
+  border-radius: 100%;
+  height: 48px;
+  margin-right: 25px;
+  background-color: ${(props) => props.backgroundColor};
+`;
+
 export const BodyContent = styled.div`
   padding: 0 40px 40px 40px;
   @media screen and (max-width: 550px) {
@@ -84,7 +118,7 @@ export const AddAccountButton = styled.button`
 
 export const Button = styled.button`
   min-height: 56px;
-  width: 330px;
+  width: 100%;
   border: none;
   background-color: black;
   font-size: 20px;
@@ -108,6 +142,7 @@ export const StyledLoadingButton = styled(LoadingButton)`
   font-weight: 600;
   border-radius: 35px;
   color: white;
+  margin-bottom: 32px;
   :hover {
     cursor: pointer;
   }
@@ -117,7 +152,6 @@ export const StyledLoadingButton = styled(LoadingButton)`
 `;
 
 export const SubButton = styled.button`
-  min-height: 56px;
   width: 100%;
   border: none;
   background-color: white;
@@ -125,6 +159,7 @@ export const SubButton = styled.button`
   font-weight: 600;
   border-radius: 35px;
   color: black;
+  margin-top: 32px;
   :hover {
     cursor: pointer;
   }
@@ -156,6 +191,8 @@ export const AmountContainer = styled.div`
   padding: 17px 24px;
   border-radius: 35px;
   background-color: #f8f8f8;
+  margin-bottom: 32px;
+  margin-top: 16px;
 `;
 
 export const AmountInput = styled(CurrencyInput)`
@@ -164,6 +201,7 @@ export const AmountInput = styled(CurrencyInput)`
   border-radius: 35px;
   background-color: transparent;
   font-size: 16px;
+  font-weight: 600;
   text-align: center;
   :focus {
     outline: none;
@@ -174,5 +212,6 @@ export const DollarSign = styled.span`
   color: #7d7d7d;
   font-size: 16px;
   padding-right: 10px;
+  font-weight: 600;
   position: absolute;
 `;
