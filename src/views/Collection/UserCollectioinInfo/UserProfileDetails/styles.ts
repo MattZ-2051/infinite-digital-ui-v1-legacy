@@ -22,6 +22,7 @@ export const Content = styled.div`
   flex-direction: column;
   * {
     line-height: 160%;
+    font-family: Circular, sans-serif;
   }
   > * + * {
     margin-top: 30px;
