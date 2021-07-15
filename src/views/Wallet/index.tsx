@@ -138,7 +138,9 @@ const Wallet = (props) => {
   const getUserWithdrawableBalance = () => {
     return parseFloat(user?.balances?.ccWithdrawablesLock).toFixed(2);
   };
-
+  const screenMinHeight = () => {
+    return { minHeight: window.innerHeight - 320 };
+  };
   return (
     <S.Container showMore={true}>
       <S.Header>
@@ -152,7 +154,7 @@ const Wallet = (props) => {
         </S.HeaderContent>
       </S.Header>
 
-      <S.Main>
+      <S.Main style={screenMinHeight()}>
         <S.Body>
           <S.LeftCol>
             <div style={{ width: '100%' }}>
