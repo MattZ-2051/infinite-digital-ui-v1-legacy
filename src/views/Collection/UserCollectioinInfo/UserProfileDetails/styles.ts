@@ -65,7 +65,7 @@ export const Input = styled.div`
   align-items: center;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ disabled?: boolean }>`
   max-width: 64px;
   height: 24px;
   margin-top: 4px;
@@ -73,10 +73,17 @@ export const Button = styled.button`
   padding: 2px 18px;
   font-size: 12px;
   font-weight: 400;
-  background-color: black;
+  background-color: ${({ disabled }) => (disabled ? '#aeaeae' : '#000')};
   border-radius: 20px;
   color: white;
   border: none;
+
+  &.button__text {
+    background-color: unset;
+    color: #000;
+    padding: 2px 12px;
+  }
+
   :hover {
     cursor: pointer;
     transform: scale(1.025);
@@ -133,11 +140,11 @@ export const ModalSectionTitle = styled.h3`
   font-weight: 400;
 `;
 
-export const ModalSection = styled.section`
+export const ModalSection = styled.section<{ error?: boolean }>`
   width: 100%;
   color: #7d7d7d;
   padding-bottom: 10px;
-  border-bottom: thin solid #ebebeb;
+  border-bottom: thin solid ${({ error }) => (error ? '#da1010' : '#ebebeb')};
   > * + * {
     margin-top: 2px;
   }
@@ -206,4 +213,10 @@ export const ResetIcon = styled(resetSVG)`
     fill: #ebebeb;
     cursor: pointer;
   }
+`;
+
+export const Error = styled.p`
+  color: #da1010;
+  max-width: 330px;
+  margin-top: 8px;
 `;

@@ -27,7 +27,7 @@ const EditUsername = ({
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [buttonMessage, setButtonMessage] = useState<string>(updateMessage);
-
+  const [modified, setModified] = useState<boolean>(false);
   const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
 
   const handleSubmit = async () => {
@@ -42,9 +42,9 @@ const EditUsername = ({
     } else {
       setConfirmed(true);
       setErrorMessage('');
-      setTimeout(() => {
+      /*setTimeout(() => {
         resetAndHandleClose();
-      }, 1500);
+      }, 1500);*/
     }
     setLoading(false);
     setButtonMessage('Done!');
@@ -52,50 +52,63 @@ const EditUsername = ({
     return;
   };
 
-  const resetAndHandleClose = () => {
-    setErrorMessage('');
-
-    setConfirmed(false);
-  };
-
-  useEffect(() => {
-    let isValid = true;
-    setErrorMessage('');
-    if (newUsername.length === 0 || newUsername === currentUserName) {
-      isValid = false;
-      setErrorMessage('Please enter a new username');
-      // hide save button?
-    }
-    if (/[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername)) {
-      isValid = false;
-      setErrorMessage(
-        `${'Your username cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
-      );
-    }
-    if (newUsername.length < 3 || newUsername.length > 18) {
-      isValid = false;
-      setErrorMessage(
-        'Your username must be between 3 and 18 characters long.'
-      );
-    }
-    if (isValid) {
-      const debounceCheckAvailable = setTimeout(async () => {
-        const userWithName = await getUser(newUsername, 1, 1);
-        if (userWithName[0]) {
-          console.log(userWithName);
-          setErrorMessage('The username you selected is already taken.');
-        }
-      }, 1000);
-      return () => clearTimeout(debounceCheckAvailable);
-    }
-  }, [newUsername]);
-
   const handleChange = (e) => {
     //setErrorMessage('');
     //setConfirmed(false);
     //setLoading(false);
+    if (!modified) setModified(true);
     setNewUsername(e.target.value);
   };
+
+  const handleReset = () => {
+    setErrorMessage('');
+    setNewUsername(currentUserName);
+    setUsernameInvalid(false);
+    setModified(false);
+    setConfirmed(false);
+    setEditingUsername(false);
+  };
+
+  useEffect(() => {
+    let notValid = false;
+    setUsernameInvalid(false);
+    setErrorMessage('');
+
+    if (newUsername.length === 0 || newUsername === currentUserName) {
+      setUsernameInvalid(true);
+      setErrorMessage('Please enter a new username');
+      notValid = true;
+      // hide save button?
+    }
+    if (/[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername)) {
+      setUsernameInvalid(true);
+      setErrorMessage(
+        `${'Your username cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
+      );
+      notValid = true;
+    }
+    if (newUsername.length < 3 || newUsername.length > 18) {
+      setUsernameInvalid(true);
+      setErrorMessage(
+        'Your username must be between 3 and 18 characters long.'
+      );
+      notValid = true;
+    }
+    if (!notValid) {
+      console.log('checking available...');
+      const debounceCheckAvailable = setTimeout(async () => {
+        const userWithName = await getUser(newUsername, 1, 1);
+        if (userWithName[0]) {
+          setErrorMessage('The username you selected is already taken.');
+          setUsernameInvalid(true);
+        }
+      }, 1000);
+      return () => clearTimeout(debounceCheckAvailable);
+    }
+
+    console.log(usernameInvalid);
+    //setUsernameInvalid(false);
+  }, [newUsername]);
 
   const usernameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -106,7 +119,7 @@ const EditUsername = ({
 
   return (
     <>
-      <S.ModalSection>
+      <S.ModalSection error={modified && usernameInvalid}>
         <S.ModalSectionTitle>Username</S.ModalSectionTitle>
         <S.FlexSpaceBetween>
           <S.Input>
@@ -132,13 +145,14 @@ const EditUsername = ({
           </S.Input>
           {editingUsername ? (
             <>
-              <S.Button onClick={() => setEditingUsername(false)}>
-                Save
-              </S.Button>
               <S.Button
-                style={{ backgroundColor: 'unset', color: '#000' }}
+                disabled={usernameInvalid || newUsername === currentUserName}
                 onClick={() => setEditingUsername(false)}
               >
+                Save
+              </S.Button>
+
+              <S.Button className="button__text" onClick={handleReset}>
                 Cancel
               </S.Button>
             </>
@@ -152,7 +166,9 @@ const EditUsername = ({
           )}
         </S.FlexSpaceBetween>
       </S.ModalSection>
-      <p>{errorMessage}</p>
+      {editingUsername && modified && usernameInvalid && (
+        <S.Error>{errorMessage}</S.Error>
+      )}
     </>
   );
 };
