@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import { ReactComponent as editSVG } from 'assets/svg/icons/edit-profile-icon.svg';
 import { ReactComponent as resetSVG } from 'assets/svg/icons/lock-reset.svg';
 import { ReactComponent as checkSVG } from 'assets/svg/icons/check.svg';
+import { ReactComponent as UserProfileSvg } from 'assets/svg/icons/user-profile-icon.svg';
 
 export const Container = styled.div`
   positioin: absolute;
@@ -108,14 +109,7 @@ export const Header = styled.span`
   font-size: 22px;
   font-weight: 600;
 `;
-/*
-export const CheckIcon = styled.div`
-  padding-left: 8px;
-  display: flex;
-  align-items: center;
-  width: 30px;
-`;
-*/
+
 export const ExitIconImg = styled.img`
   :hover {
     cursor: pointer;
@@ -219,4 +213,39 @@ export const Error = styled.p`
   color: #da1010;
   max-width: 330px;
   margin-top: 8px;
+`;
+
+export const ModalHeader = styled.header`
+  width: 100%;
+`;
+
+export const FlexAlignCenter = styled.div`
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row;
+`;
+
+export const ModalTitle = styled.h2`
+  font-size: 22px;
+  line-height: 28px;
+  width: max-content;
+  display: inline;
+`;
+
+export const BorderWrapper = styled.span`
+  border-bottom: 2px solid black;
+  display: inline;
+  padding-bottom: 19px;
+  width: max-content;
+`;
+
+export const Grayline = styled.div`
+  border-bottom: 2px solid #d8d8d8;
+  padding-top: 16px;
+`;
+
+export const UserProfileIcon = styled(UserProfileSvg)`
+  fill: none;
+  stroke: black;
+  margin-right: 10px;
 `;

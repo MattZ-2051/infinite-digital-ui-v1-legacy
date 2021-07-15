@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getUser } from 'services/api/userService';
 import * as S from '../styles';
 import { ClipLoader } from 'react-spinners';
-//import * as A from '@auth0/auth0-react';
 
 interface IEditUsernameProps {
   currentUsername: string;

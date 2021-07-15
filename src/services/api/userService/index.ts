@@ -217,7 +217,6 @@ export const requestPasswordReset = async (
   };
   try {
     const response = await axios.request<string>(options);
-    console.log(response);
     const { data, status, statusText } = response;
     return { data, status, statusText };
   } catch (err) {
