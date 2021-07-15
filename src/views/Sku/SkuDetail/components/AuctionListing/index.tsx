@@ -28,7 +28,7 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
                   listings={el.listings}
                   serialNumber={el.serialNumber}
                   ownerName={el.owner.username}
-                  highestBid={el.activeProductListing?.price}
+                  highestBid={el.highestBid?.bidAmt}
                   endDate={el.activeProductListing?.endDate}
                   upcomingProductListing={el.upcomingProductListing}
                 />
