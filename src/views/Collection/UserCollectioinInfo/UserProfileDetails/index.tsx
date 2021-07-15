@@ -4,21 +4,31 @@ import * as S from './styles';
 import exitIconImg from 'assets/img/icons/exit-icon.png';
 import styled from 'styled-components/macro';
 import { ReactComponent as UserProfileSvg } from 'assets/svg/icons/user-profile-icon.svg';
-import Toast from 'utils/Toast';
 import { useAppSelector } from 'store/hooks';
 import Username from './components/Username';
 import EmailAddress from './components/EmailAddress';
 import Password from './components/Password';
-
+import { requestPasswordReset } from 'services/api/userService';
+import { useAuth0 } from '@auth0/auth0-react';
 interface Props {
   isModalOpen: boolean;
   handleClose: () => void;
 }
 
-const UserProfileDetails = ({ isModalOpen, handleClose }) => {
+const UserProfileDetails = ({
+  isModalOpen,
+  handleClose,
+}: Props): JSX.Element => {
   const currentUsername = useAppSelector(
     (state) => state.session.user.username
   );
+  const userIsSocial = useAppSelector(
+    (state) =>
+      state.session.user[
+        'http://schemas.microsoft.com/ws/2008/06/identity/id/meta'
+      ].isSocial
+  );
+  const userId = useAppSelector((state) => state.session.user.id);
   const currentEmail = useAppSelector((state) => state.session.user.email);
   const [editingUsername, setEditingUsername] = useState<boolean>(false);
 
@@ -26,14 +36,14 @@ const UserProfileDetails = ({ isModalOpen, handleClose }) => {
     handleClose();
     setEditingUsername(false);
   };
-
+  const { getAccessTokenSilently } = useAuth0();
   return (
     <ModalComponent open={isModalOpen}>
       <S.Body>
         <S.Icon>
           <S.ExitIconImg src={exitIconImg} onClick={handleCloseAndReset} />
         </S.Icon>
-        <ModalHeader style={{ width: '100%' }}>
+        <ModalHeader>
           <BorderWrapper>
             <FlexAlignCenter>
               <UserProfileIcon />
@@ -49,14 +59,16 @@ const UserProfileDetails = ({ isModalOpen, handleClose }) => {
             setEditingUsername={setEditingUsername}
           />
           <EmailAddress currentEmail={currentEmail} />
-          <Password />
+          {!userIsSocial && <Password currentEmail={currentEmail}/>}
         </S.Content>
       </S.Body>
     </ModalComponent>
   );
 };
 
-const ModalHeader = styled.header``;
+const ModalHeader = styled.header`
+  width: 100%;
+`;
 
 const FlexAlignCenter = styled.div`
   display: inline-flex;

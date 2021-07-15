@@ -4,8 +4,14 @@ import { USDCAddress } from 'entities/usdcAddress';
 import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
-import { IUser, IAddFundsData } from './Interfaces/index';
+import {
+  IUser,
+  IAddFundsData,
+  IPasswordResetResponse,
+} from './Interfaces/index';
 import { handleApiError } from 'utils/apiError';
+import { config } from 'config';
+import axios, { Method } from 'axios';
 
 export const getMe = async (token: string): Promise<User> => {
   try {
@@ -51,7 +57,7 @@ export const getMyTransactions = async (
       filter: JSON.stringify(filter),
       page,
       per_page,
-    }
+    };
     params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
     const response = await axiosInstance.request<ITransaction[]>({
       method: 'GET',
@@ -187,6 +193,33 @@ export const updateUsername = async (
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const requestPasswordReset = async (
+  token: string,
+  email: string
+): Promise<IPasswordResetResponse> => {
+  const options = {
+    method: 'POST' as Method,
+    url: `https://${config.auth.auth0Domain}/dbconnections/change_password`,
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      client_id: config.auth.auth0ClientId,
+      email,
+      connection: 'Username-Password-Authentication',
+    },
+  };
+  try {
+    const response = await axios.request<string>(options);
+    console.log(response);
+    const { data, status, statusText } = response;
+    return { data, status, statusText };
   } catch (err) {
     throw handleApiError(err);
   }
