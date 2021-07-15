@@ -1,5 +1,6 @@
 import React from 'react';
 import { IPlaidAccount } from 'entities/plaidAccount';
+import * as S from './styles';
 
 interface IAchAccountInfoBoxProps {
   item: IPlaidAccount;
@@ -14,17 +15,14 @@ const AchAccountInfoBox = ({ item }: IAchAccountInfoBoxProps) => {
           alignItems: 'center',
         }}
       >
-        <img
+        <S.BankImg
           alt="logo"
           src={item.plaidInfo.institution_logo}
-          style={{
-            backgroundColor: item.plaidInfo.institution_primary_color
+          backgroundColor={
+            item.plaidInfo.institution_primary_color
               ? `#${item.plaidInfo.institution_primary_color}`
-              : 'white',
-            borderRadius: '100%',
-            height: 48,
-            marginRight: 25,
-          }}
+              : 'white'
+          }
         />
       </div>
       <div
@@ -33,23 +31,12 @@ const AchAccountInfoBox = ({ item }: IAchAccountInfoBoxProps) => {
           flexDirection: 'column',
         }}
       >
-        <span
-          style={{
-            color: '#000000',
-            fontSize: 16,
-            fontWeight: 600,
-          }}
-        >
+        <S.Text color="black" fontSize="16px" fontWeight={600}>
           {item.plaidInfo.metadata.institution.name}
-        </span>
-        <span
-          style={{
-            fontSize: 16,
-            color: '#9e9e9e',
-          }}
-        >
+        </S.Text>
+        <S.Text color="#9e9e9e" fontSize="16px" fontWeight={500}>
           xxxx{item.plaidInfo.metadata.account.mask}
-        </span>
+        </S.Text>
       </div>
     </div>
   );

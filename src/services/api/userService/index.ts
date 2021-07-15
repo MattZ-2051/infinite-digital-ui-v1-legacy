@@ -4,11 +4,7 @@ import { USDCAddress } from 'entities/usdcAddress';
 import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
-import {
-  IUser,
-  IAddFundsData,
-  IPasswordResetResponse,
-} from './Interfaces/index';
+import { IUser, IPasswordResetResponse } from './Interfaces/index';
 import { handleApiError } from 'utils/apiError';
 import { config } from 'config';
 import axios, { Method } from 'axios';

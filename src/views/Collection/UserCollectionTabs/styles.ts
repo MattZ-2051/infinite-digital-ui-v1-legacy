@@ -54,7 +54,6 @@ export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
 
 export const GrayLine = styled.div`
   border-bottom: 1px solid #ebebeb;
-  width: 80%;
   padding-bottom: 14px;
 `;
 

@@ -14,7 +14,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
 
@@ -58,6 +58,9 @@ const SkuPageModal = ({
   const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
+  );
+  const initialBuyersFeePercentage = parseFloat(
+    useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
   );
 
   const royaltyFee = Math.round(
@@ -143,7 +146,7 @@ const SkuPageModal = ({
       // TODO: Check payment
       if (response.status === 200) {
         setStatusMode('processing');
-        dispatch(getUserInfoThunk({ token: userToken }));
+        dispatch(getUserCardsThunk({ token: userToken }));
         setLoading(false);
         fetchTransactions();
       } else {
@@ -283,7 +286,7 @@ const SkuPageModal = ({
                 </S.PriceInfo>
               </S.FlexRow>
               <S.FlexRow>
-                <S.PriceInfo>{`Marketplace Fee (5%):`}</S.PriceInfo>
+                <S.PriceInfo>{`Marketplace Fee (${initialBuyersFeePercentage}%):`}</S.PriceInfo>
                 <S.PriceInfo>
                   $
                   {(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(

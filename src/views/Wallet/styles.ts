@@ -32,7 +32,7 @@ export const HeaderContent = styled.div`
 export const Main = styled.div`
   height: 100%;
   max-width: 1440px;
-  margin: 0 auto;
+  margin: 10 auto;
   @media screen and (max-width: 960px) {
     grid-template-columns: 100%;
   }

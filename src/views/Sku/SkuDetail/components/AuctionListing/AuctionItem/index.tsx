@@ -33,7 +33,7 @@ const AuctionItem = ({
       : 'On sale for';
 
   const formattedPrice = usePriceFormatter(activeProductListing?.price);
-  const formattedBid = usePriceFormatter(activeProductListing?.minBid);
+  const formattedBid = usePriceFormatter(highestBid);
 
   return (
     <Container>

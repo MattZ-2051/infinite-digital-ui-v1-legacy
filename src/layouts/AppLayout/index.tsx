@@ -55,12 +55,12 @@ const HeaderLeft = styled.div`
 `;
 
 const HeaderContent = styled.div`
-  // max-width: 1440px;
+  max-width: 1440px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: auto;
-  padding: 0 50px 0 50px;
+  padding: 0 80px 0 80px;
 
   @media screen and (max-width: 960px) {
     padding: 0 32px 0 32px;

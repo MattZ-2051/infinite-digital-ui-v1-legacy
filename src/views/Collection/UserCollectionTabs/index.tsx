@@ -48,6 +48,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     }
 
     if (user.role === 'issuer') {
+      setThemeStyle('dark');
       const releasesRes = await getReleasesOwnedByUser(
         user._id,
         page,
@@ -58,6 +59,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
         setUserReleases(releasesRes.data);
         setTotalReleases(releasesRes.totalReleases);
       }
+    } else {
+      setThemeStyle('light');
     }
   }
 
@@ -123,7 +126,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   selected={selectedTab === 'items'}
                   onClick={() => setSelectedTab('items')}
                 >
-                  {"NFT's Owned"}
+                  {'NFTs'}
                 </S.Tab>
               </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
@@ -164,7 +167,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  {"NFT's Owned"}
+                  {'NFTs'}
                 </S.Tab>
               </S.TabBar>
             </div>
@@ -210,7 +213,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  {"NFT's Owned"}
+                  {'NFTs'}
                 </S.Tab>
               </S.TabBar>
             </div>
@@ -249,7 +252,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={themeStyle}
                   onClick={() => setSelectedTab('items')}
                 >
-                  {"NFT's Owned"}
+                  {'NFTs'}
                 </S.Tab>
               </S.TabBar>
               <span style={{ padding: '0 20px' }}></span>
