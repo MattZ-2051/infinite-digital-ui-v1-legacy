@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
-export const StyledFooter = styled.footer`
+export const StyledFooter = styled.footer<{ padding: string }>`
   position: relative;
   bottom: 0;
   width: 100%;
   background-color: black;
-  padding: 0 80px;
+  padding: ${(props) => props.padding};
 `;
 
 export const HederaText = styled.div`

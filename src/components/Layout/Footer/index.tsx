@@ -24,7 +24,7 @@ const Footer = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <S.StyledFooter>
+    <S.StyledFooter padding={isSmall ? '0' : '0 80px'}>
       <S.FooterContent>
         <S.FooterBottom>
           <Divider gap={24} tag="nav" styles={{ flex: 1 }}>
