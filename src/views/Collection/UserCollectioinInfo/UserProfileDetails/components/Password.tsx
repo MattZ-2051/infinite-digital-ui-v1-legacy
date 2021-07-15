@@ -5,12 +5,12 @@ const Password = () => (
     <S.ModalSectionTitle>Password</S.ModalSectionTitle>
     <S.FlexSpaceBetween>
       <span style={{ color: '#000' }}>• • • • • •</span>
-      <S.TextWithIcon>
+      <S.ButtonWithIcon>
         <span>Send password reset email</span>
-        <S.ToggleButton>
+        <S.IconContainer>
           <S.ResetIcon />
-        </S.ToggleButton>
-      </S.TextWithIcon>
+        </S.IconContainer>
+      </S.ButtonWithIcon>
     </S.FlexSpaceBetween>
   </S.ModalSection>
 );

@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import { ReactComponent as editSVG } from 'assets/svg/icons/edit-profile-icon.svg';
 import { ReactComponent as resetSVG } from 'assets/svg/icons/lock-reset.svg';
+import { ReactComponent as checkSVG } from 'assets/svg/icons/check.svg';
 
 export const Container = styled.div`
   positioin: absolute;
@@ -18,6 +19,9 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  * {
+    line-height: 160%;
+  }
   > * + * {
     margin-top: 30px;
   }
@@ -35,10 +39,18 @@ export const SubHeader = styled.span`
 
 export const UsernameInput = styled.input`
   border: none;
+  font-family: Circular, sans-serif;
   font-size: 16px;
+  width: 90%;
   :focus {
     outline: none;
   }
+`;
+
+export const UsernameDisplay = styled.span`
+  margin-left: 2px;
+  width: min-content;
+  color: #000;
 `;
 
 export const At = styled.span`
@@ -48,17 +60,21 @@ export const At = styled.span`
 
 export const Input = styled.div`
   display: flex;
+  flex-direction: row;
   width: 100%;
-  justify-content: center;
+  align-items: center;
 `;
 
 export const Button = styled.button`
-  width: 220px;
-  height: 56px;
-  font-size: 18px;
-  font-weight: 600;
+  max-width: 64px;
+  height: 24px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 2px 18px;
+  font-size: 12px;
+  font-weight: 400;
   background-color: black;
-  border-radius: 35px;
+  border-radius: 20px;
   color: white;
   border: none;
   :hover {
@@ -85,14 +101,14 @@ export const Header = styled.span`
   font-size: 22px;
   font-weight: 600;
 `;
-
+/*
 export const CheckIcon = styled.div`
   padding-left: 8px;
   display: flex;
   align-items: center;
   width: 30px;
 `;
-
+*/
 export const ExitIconImg = styled.img`
   :hover {
     cursor: pointer;
@@ -120,6 +136,8 @@ export const ModalSectionTitle = styled.h3`
 export const ModalSection = styled.section`
   width: 100%;
   color: #7d7d7d;
+  padding-bottom: 10px;
+  border-bottom: thin solid #ebebeb;
   > * + * {
     margin-top: 2px;
   }
@@ -135,22 +153,37 @@ export const FlexSpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
-export const TextWithIcon = styled.span`
+export const ButtonWithIcon = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: unset;
+  border: 0;
+  margin: 0;
+  color: #7d7d7d;
+  :hover {
+    color: #000;
+    cursor: pointer;
+  }
 `;
 
-export const ToggleButton = styled.button`
+export const IconContainer = styled.div`
   background-color: #000;
   padding: 5px;
   width: fit-content;
   height: fit-content;
-  border-radius: 42%;
+  border-radius: 14px;
   border: 0;
   margin-left: 9px;
   display: flex;
   align-items: center;
+`;
+
+export const CheckIcon = styled(checkSVG)`
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  margin-right: auto;
 `;
 
 export const EditIcon = styled(editSVG)`
@@ -159,17 +192,18 @@ export const EditIcon = styled(editSVG)`
   stroke: #fff;
   fill: none;
   :hover {
-    stroke: white;
+    stroke: #ebebeb;
     cursor: pointer;
   }
 `;
 
 export const ResetIcon = styled(resetSVG)`
+  margin-right: 2px;
   width: 20px;
   height: 20px;
   fill: #fff;
   :hover {
-    fill: #fff;
+    fill: #ebebeb;
     cursor: pointer;
   }
 `;

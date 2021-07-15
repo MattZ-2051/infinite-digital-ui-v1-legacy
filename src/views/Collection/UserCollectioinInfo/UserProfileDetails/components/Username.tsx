@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState, useRef, useEffect } from 'react';
 import checkIconImg from 'assets/img/icons/check-icon.png';
 import { updateUsernameThunk } from 'store/session/sessionThunks';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import * as S from '../styles';
 import Loader from 'components/Loader';
-
+import { getUser } from 'services/api/userService';
 interface IEditUsernameProps {
   currentUsername: string;
+  editingUsername: boolean;
+  setEditingUsername: Dispatch<SetStateAction<boolean>>;
 }
 
-const EditUsername = ({ currentUsername }) => {
+const EditUsername = ({
+  currentUsername,
+  editingUsername,
+  setEditingUsername,
+}: IEditUsernameProps): JSX.Element => {
   let currentUserName = useAppSelector((state) => state.session.user.username);
   const updateMessage = 'Save';
   const [newUsername, setNewUsername] = useState<string>(currentUserName);
@@ -22,21 +28,12 @@ const EditUsername = ({ currentUsername }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [buttonMessage, setButtonMessage] = useState<string>(updateMessage);
 
+  const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
+
   const handleSubmit = async () => {
     const token = await getAccessTokenSilently();
     const data = { token: token, userId: userId, username: newUsername };
-    if (newUsername.length === 0 || newUsername === currentUserName) {
-      return setErrorMessage('Please enter a new username');
-    }
-    if (
-      /[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername) ||
-      newUsername.length < 3 ||
-      newUsername.length > 12
-    ) {
-      return setErrorMessage(
-        `${'Your username must be between 3 and 12 characters long and cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
-      );
-    }
+
     setLoading(true);
     const res = await dispatch(updateUsernameThunk(data));
     if (res.type.split('/')[3] === 'rejected') {
@@ -54,41 +51,109 @@ const EditUsername = ({ currentUsername }) => {
     currentUserName = newUsername;
     return;
   };
+
   const resetAndHandleClose = () => {
     setErrorMessage('');
-    setButtonMessage(updateMessage);
+
     setConfirmed(false);
   };
-  const handleChange = (e) => {
+
+  useEffect(() => {
+    let isValid = true;
     setErrorMessage('');
-    setConfirmed(false);
-    setLoading(false);
+    if (newUsername.length === 0 || newUsername === currentUserName) {
+      isValid = false;
+      setErrorMessage('Please enter a new username');
+      // hide save button?
+    }
+    if (/[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername)) {
+      isValid = false;
+      setErrorMessage(
+        `${'Your username cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
+      );
+    }
+    if (newUsername.length < 3 || newUsername.length > 18) {
+      isValid = false;
+      setErrorMessage(
+        'Your username must be between 3 and 18 characters long.'
+      );
+    }
+    if (isValid) {
+      const debounceCheckAvailable = setTimeout(async () => {
+        const userWithName = await getUser(newUsername, 1, 1);
+        if (userWithName[0]) {
+          console.log(userWithName);
+          setErrorMessage('The username you selected is already taken.');
+        }
+      }, 1000);
+      return () => clearTimeout(debounceCheckAvailable);
+    }
+  }, [newUsername]);
+
+  const handleChange = (e) => {
+    //setErrorMessage('');
+    //setConfirmed(false);
+    //setLoading(false);
     setNewUsername(e.target.value);
   };
 
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (editingUsername) {
+      usernameInputRef.current?.focus();
+    }
+  }, [editingUsername]);
+
   return (
-    <S.ModalSection>
-      <S.ModalSectionTitle>Username</S.ModalSectionTitle>
-      <S.FlexSpaceBetween>
-        <S.Input>
-          <S.At>@</S.At>
-          <S.UsernameInput
-            onChange={handleChange}
-            value={newUsername}
-            placeholder="Username"
-          />
-          <S.CheckIcon>
-            {confirmed && <S.CheckIconImg src={checkIconImg} />}
-          </S.CheckIcon>
-        </S.Input>
-        <S.TextWithIcon>
-          <span>Edit</span>
-          <S.ToggleButton onClick={handleSubmit}>
-            <S.EditIcon />
-          </S.ToggleButton>
-        </S.TextWithIcon>
-      </S.FlexSpaceBetween>
-    </S.ModalSection>
+    <>
+      <S.ModalSection>
+        <S.ModalSectionTitle>Username</S.ModalSectionTitle>
+        <S.FlexSpaceBetween>
+          <S.Input>
+            <S.At>@</S.At>
+            {editingUsername ? (
+              <>
+                <S.UsernameInput
+                  onChange={handleChange}
+                  value={newUsername}
+                  placeholder="Username"
+                  ref={usernameInputRef}
+                />
+              </>
+            ) : (
+              <>
+                <S.UsernameDisplay>{currentUsername}</S.UsernameDisplay>
+                <S.CheckIcon />
+              </>
+            )}
+
+            {/*confirmed && */}
+            {/*<S.IconContainer onClick={handleSubmit}>*/}
+          </S.Input>
+          {editingUsername ? (
+            <>
+              <S.Button onClick={() => setEditingUsername(false)}>
+                Save
+              </S.Button>
+              <S.Button
+                style={{ backgroundColor: 'unset', color: '#000' }}
+                onClick={() => setEditingUsername(false)}
+              >
+                Cancel
+              </S.Button>
+            </>
+          ) : (
+            <S.ButtonWithIcon onClick={() => setEditingUsername(true)}>
+              <span>Edit</span>
+              <S.IconContainer>
+                <S.EditIcon />
+              </S.IconContainer>
+            </S.ButtonWithIcon>
+          )}
+        </S.FlexSpaceBetween>
+      </S.ModalSection>
+      <p>{errorMessage}</p>
+    </>
   );
 };
 

@@ -37,7 +37,11 @@ const UserProfileDetails = ({ isModalOpen, handleClose }) => {
           <Grayline />
         </ModalHeader>
         <S.Content>
-          <Username currentUsername={currentUsername} />
+          <Username
+            currentUsername={currentUsername}
+            editingUsername={editingUsername}
+            setEditingUsername={setEditingUsername}
+          />
           <EmailAddress currentEmail={currentEmail} />
           <Password />
         </S.Content>
