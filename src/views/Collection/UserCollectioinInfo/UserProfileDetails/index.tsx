@@ -21,11 +21,17 @@ const UserProfileDetails = ({ isModalOpen, handleClose }) => {
   );
   const currentEmail = useAppSelector((state) => state.session.user.email);
   const [editingUsername, setEditingUsername] = useState<boolean>(false);
+
+  const handleCloseAndReset = () => {
+    handleClose();
+    setEditingUsername(false);
+  };
+
   return (
     <ModalComponent open={isModalOpen}>
       <S.Body>
         <S.Icon>
-          <S.ExitIconImg src={exitIconImg} onClick={handleClose} />
+          <S.ExitIconImg src={exitIconImg} onClick={handleCloseAndReset} />
         </S.Icon>
         <ModalHeader style={{ width: '100%' }}>
           <BorderWrapper>

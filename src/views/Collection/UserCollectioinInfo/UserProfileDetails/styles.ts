@@ -85,7 +85,7 @@ export const Button = styled.button<{ disabled?: boolean }>`
   }
 
   :hover {
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? 'auto' : 'pointer')};
     transform: scale(1.025);
   }
   :focus {
