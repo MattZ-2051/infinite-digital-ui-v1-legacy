@@ -141,6 +141,7 @@ export const WalletSubheader = styled.p`
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
+  font-size: 14px;
   line-height: 160%;
   button {
     display: flex;
@@ -152,12 +153,21 @@ export const WalletSubheader = styled.p`
   }
   .wallet__explorer {
     margin-bottom: 12px;
-    color: #636363;
     display: flex;
     flex-direction: row;
+    align-items: center;
     @media screen and (min-width: 420px) {
       margin-bottom: 0;
       margin-left: auto;
+    }
+    * {
+      color: #636363;
+      font-weight: 400;
+      font-size: 14px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-decoration: none;
     }
   }
   @media screen and (min-width: 420px) {

@@ -25,6 +25,7 @@ export interface IRawHbarTransaction {
 export interface INewHbarTransactions {
   depositStatus: 'pending' | 'success' | 'error';
   rate: number;
+  hbarAmount: string;
   usdAmount: string;
   rawTransaction: IRawHbarTransaction;
 }
@@ -33,4 +34,9 @@ export interface IHbarDeposits {
   newTransactions: INewHbarTransactions[];
   totalHbarAmount: number;
   totalUsdAmount: string;
+}
+
+export interface IWalletExplorerAddress {
+  address: string;
+  explorerLink: string;
 }

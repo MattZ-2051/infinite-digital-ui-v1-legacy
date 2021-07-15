@@ -1,5 +1,4 @@
 import { useState, ReactElement } from 'react';
-import { useAppSelector } from 'store/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import hbarIcon from 'assets/img/icons/hbar-icon.png';
@@ -17,11 +16,10 @@ export interface INewHbarDeposit {
   consensusAt: Date | string;
   id: string;
   status: 'success' | 'pending' | 'error';
-  depositAmount: number;
+  depositAmount: string;
 }
 
 const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
-  const { hederaAccount } = useAppSelector((state) => state.session.user);
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
@@ -37,16 +35,12 @@ const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
 
       if (deposits?.newTransactions?.length) {
         deposits.newTransactions.forEach((dep) => {
-          const { consensusAt, id, tokenTransfers } = dep.rawTransaction;
-
-          const depositAmount = tokenTransfers.find(
-            (t) => t.account === hederaAccount
-          )?.amount;
+          const { consensusAt, id } = dep.rawTransaction;
 
           depositSummary.push({
             id,
             status: dep.depositStatus,
-            depositAmount: depositAmount ?? 0,
+            depositAmount: dep.hbarAmount,
             consensusAt: new Date(consensusAt),
           });
         });
