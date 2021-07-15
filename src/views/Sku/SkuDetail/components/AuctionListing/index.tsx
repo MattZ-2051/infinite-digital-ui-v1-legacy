@@ -28,7 +28,7 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
                   listings={el.listings}
                   serialNumber={el.serialNumber}
                   ownerName={el.owner.username}
-                  highestBid={el.activeProductListing?.price}
+                  highestBid={el.highestBid?.bidAmt}
                   endDate={el.activeProductListing?.endDate}
                   upcomingProductListing={el.upcomingProductListing}
                 />
@@ -41,14 +41,16 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
       ) : null}
     </S.Items>
   ) : (
-    <S.NoOwners>No one owns this item yet</S.NoOwners>
+    <S.NoOwners>Be the first to collect this NFT!</S.NoOwners>
   );
   return (
     <S.Container>
       <Collapsible
         title="Collectors"
         body={body}
-        collectorsTotalNum={collectors.length}
+        collectorsTotalNum={
+          collectors.length !== 0 ? collectors.length : undefined
+        }
         borderTitle={true}
       />
     </S.Container>

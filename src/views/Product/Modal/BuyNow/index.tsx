@@ -13,7 +13,7 @@ import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
 import { HistoryStatus } from '../../History/types';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -75,6 +75,7 @@ const BuyNowModal = ({
         if (result) {
           setStatusMode('processing');
           Toast.success('Purchase Pending.');
+          dispatch(getUserCardsThunk({ token: userToken }));
         }
         setLoading(false);
       } catch (e) {
@@ -112,12 +113,6 @@ const BuyNowModal = ({
   const Body = () => {
     return (
       <>
-        {/* <S.ImageContainer>
-          <img src={product.imageUrls[0]} alt="" />
-          <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-            <CloseModal style={{ cursor: 'pointer' }} />
-          </S.CloseButton>
-        </S.ImageContainer> */}
         <S.Body>
           <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
             <CloseModal style={{ cursor: 'pointer' }} />

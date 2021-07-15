@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { IPlaidAccount } from 'entities/plaidAccount';
 import AchAccountInfoBox from './AchAccountInfoBox';
-import * as S2 from './styles';
+import * as S from './styles';
+import { useEffect } from 'react';
+import Toast from 'utils/Toast';
+import { useAppSelector } from 'store/hooks';
+import { useMediaQuery } from '@material-ui/core';
 
 interface IAchAccountDepositFormProps {
   item: IPlaidAccount;
@@ -19,24 +23,61 @@ const AchAccountDepositForm = ({
   const [valueAmount, setAmount] = useState<string>('');
   const [valueSubmitted, setSubmitted] = useState<boolean>(false);
   const errorAmount = !valueAmount;
+  const withdrawableBalance = useAppSelector(
+    (state) => state.session.user.balances.ccWithdrawablesLock
+  );
+
+  useEffect(() => {
+    if (valueSubmitted && errorAmount) {
+      Toast.error('Enter a valid amount.');
+    }
+  }, [valueSubmitted, errorAmount]);
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        flexDirection: 'column',
-        flex: 1,
-        alignItems: 'center',
-      }}
-    >
+    <S.DepositFormContainer>
       <AchAccountInfoBox item={item} />
-      <p style={{ textAlign: 'center', color: '#7D7D7D' }}>
-        Lorem ipsum dolor consectetur adipiscing elit sit amet, consectetur
-        adipiscing elit.
-      </p>
-      <S2.AmountContainer>
-        <S2.DollarSign>$</S2.DollarSign>
-        <S2.AmountInput
+      <S.Text
+        color="#7d7d7d"
+        fontSize="16px"
+        fontWeight={500}
+        textAlign="center"
+        padding={'32px 0 0 0'}
+      >
+        Enter the amount you would like to withdraw
+      </S.Text>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+        }}
+      >
+        <S.Text
+          color="#7d7d7d"
+          fontSize="16px"
+          fontWeight={500}
+          padding="16px 0 0 0"
+        >
+          Withdrawable balance:
+        </S.Text>
+        <S.Text
+          color="color"
+          fontSize="16px"
+          fontWeight={600}
+          padding="0 0 0 5px"
+        >
+          ${parseFloat(withdrawableBalance).toFixed(2)}
+        </S.Text>
+      </div>
+      <S.Text
+        color="#7d7d7d"
+        fontSize="14px"
+        fontWeight={500}
+        padding="5px 0 16px 0"
+      >
+        (Excludes pending transactions)
+      </S.Text>
+      <S.AmountContainer>
+        <S.DollarSign>$</S.DollarSign>
+        <S.AmountInput
           placeholder="Enter Amount"
           decimalsLimit={2}
           fixedDecimalLength={2}
@@ -49,9 +90,8 @@ const AchAccountDepositForm = ({
           step={10}
           allowNegativeValue={false}
         />
-        {valueSubmitted && errorAmount && <span>Enter an amount</span>}
-      </S2.AmountContainer>
-      <S2.Button
+      </S.AmountContainer>
+      <S.Button
         type="button"
         onClick={() => {
           setSubmitted(true);
@@ -61,12 +101,12 @@ const AchAccountDepositForm = ({
           return onWithdraw(item, valueAmount).catch(onError);
         }}
       >
-        Send Money
-      </S2.Button>
-      <S2.SubButton type="button" onClick={onCancel}>
+        Deposit
+      </S.Button>
+      <S.SubButton type="button" onClick={onCancel}>
         Go Back
-      </S2.SubButton>
-    </div>
+      </S.SubButton>
+    </S.DepositFormContainer>
   );
 };
 

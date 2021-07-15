@@ -104,6 +104,7 @@ interface ISection {
   flexDirection?: string;
   color?: string;
   padding?: string;
+  height?: string;
 }
 
 export const Section = styled.section<ISection>`
@@ -114,7 +115,7 @@ export const Section = styled.section<ISection>`
   padding: ${(props) => props.padding || '0 80px 48px 80px'};
   margin: auto;
   font-size: 16px;
-  // border: solid red 1px;
+  height: ${(props) => `${props.height}`};
 
   @media screen and (max-width: 960px) {
     flex-direction: column;
@@ -140,6 +141,20 @@ export const SectionSubTitle = styled.h3`
 
 export const TilesContainer = styled.div`
   display: flex;
+`;
+
+export const Text = styled.p<{
+  fontSize: string;
+  fontWeight: number;
+  color: string;
+  padding?: string;
+}>`
+  ${(props) =>
+    `font-size: ${props.fontSize};
+    font-weight: ${props.fontWeight};
+    color: ${props.color};
+    margin: 0;
+    padding: ${props.padding};`}
 `;
 
 export const Breadcrumbs = styled.div`

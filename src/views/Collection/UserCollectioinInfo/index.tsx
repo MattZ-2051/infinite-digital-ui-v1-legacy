@@ -31,25 +31,28 @@ const UserCollectioinInfo = ({
       if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
         userStatus = 'loggedInIssuer';
         return userStatus;
-      } else if (userId === loggedInUser.id) {
+      }
+      if (userId === loggedInUser.id) {
         userStatus = 'loggedIn';
         return userStatus;
-      } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+      }
+      if (userId !== loggedInUser.id && user?.role === 'issuer') {
         userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
-      } else if (userId !== loggedInUser.id) {
-        userStatus = 'notCurrentUserProfile';
         return userStatus;
       }
-    } else {
-      if (user?.role === 'issuer') {
-        userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
-      } else {
+      if (userId !== loggedInUser.id) {
         userStatus = 'notCurrentUserProfile';
         return userStatus;
       }
     }
+
+    if (user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+      return userStatus;
+    }
+
+    userStatus = 'notCurrentUserProfile';
+    return userStatus;
   };
 
   const handleUsernameEdit = () => {

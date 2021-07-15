@@ -3,6 +3,7 @@ import { IPlaidAccount } from 'entities/plaidAccount';
 import { IWithdraw } from 'entities/withdraw';
 import { IBillingForAch } from 'components/BillingFormForAch';
 import { handleApiError } from 'utils/apiError';
+import { IHbarDeposits, IWalletExplorerAddress } from './Interfaces';
 
 export const doWithdraw = async (
   token: string,
@@ -96,6 +97,35 @@ export const getPlaidLinkToken = async (token: string): Promise<any> => {
     const response = await axiosInstance.post(
       `/wallet/ach/link`,
       {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const checkHbarDeposits = async (
+  token: string
+): Promise<IHbarDeposits> => {
+  try {
+    const response = await axiosInstance.post<IHbarDeposits>(
+      `/wallet/hbar/check`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const getHbarExplorerAddress = async (
+  token: string
+): Promise<IWalletExplorerAddress> => {
+  try {
+    const response = await axiosInstance.get<IWalletExplorerAddress>(
+      `/wallet/hbar/address`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;

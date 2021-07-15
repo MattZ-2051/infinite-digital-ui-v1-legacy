@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import DepositModal from './DepositModal';
 import WhitdrawModal from './WithdrawModal';
@@ -13,7 +13,6 @@ import { ITransaction } from 'entities/transaction';
 import MuiDivider from '@material-ui/core/Divider';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListBids from './ActiveBids';
 import KycButton from './KycButton/kycButton';
 import LatestTransactions from './LatestTransactions';
@@ -23,8 +22,9 @@ import withdrawIconWhite from 'assets/svg/icons/withdraw-funds-white.svg';
 import withdrawIconBlack from 'assets/svg/icons/withdraw-funds-black.svg';
 import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndImage';
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
-import { Flex } from 'views/Sku/SkuDetail/components/ModalPayment/SkuPageModal/styles';
 import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
+import TabOptions from './Components/tabOptions/tabOptions';
+import TabHeaderOptions from './Components/TabHeaderOptions/tabHeaderOptions';
 const PER_PAGE = 5;
 
 const Wallet = (props) => {
@@ -32,8 +32,6 @@ const Wallet = (props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
     useState<boolean>(false);
-  const [withdrawIcon, setWithdrawIcon] = useState<string>(withdrawIconWhite);
-  const [depositIcon, setDepositIcon] = useState<string>(depositIconWhite);
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -50,7 +48,6 @@ const Wallet = (props) => {
   const [sortByActiveBids, setSortByActiveBids] = useState<'newest' | 'oldest'>(
     'newest'
   );
-  // const documentElement = document.getElementById('tx');
 
   const { username: username } = useAppSelector((state) => state.session.user);
 
@@ -136,10 +133,7 @@ const Wallet = (props) => {
   };
 
   return (
-    <S.Container
-      showMore={true}
-      // showMore={showMore}
-    >
+    <S.Container showMore={true}>
       <S.Header>
         <S.HeaderContent>
           <S.Link to={`/collection/${username}`}>
@@ -196,34 +190,14 @@ const Wallet = (props) => {
 
           <S.RightCol>
             <S.TabContainer>
-              <S.OptionsContainers>
-                <S.TabOptions>
-                  <S.TabButton highlightOption={0} selectedTab={selectedTab}>
-                    <S.Tab onClick={() => setSelectedTab(0)}>
-                      Transaction History
-                    </S.Tab>
-                  </S.TabButton>
-                  <S.TabButton highlightOption={1} selectedTab={selectedTab}>
-                    <S.Tab onClick={() => setSelectedTab(1)}>Active Bids</S.Tab>
-                  </S.TabButton>
-                </S.TabOptions>
-                <div style={{ float: 'right' }}>
-                  <SortByFilter
-                    handleSort={(value) =>
-                      selectedTab === 0
-                        ? setSortByTransactions(value)
-                        : setSortByActiveBids(value)
-                    }
-                    activeSort={
-                      selectedTab === 0 ? sortByTransactions : sortByActiveBids
-                    }
-                    options={[
-                      { value: 'newest', name: 'Newest' },
-                      { value: 'oldest', name: 'Oldest' },
-                    ]}
-                  />
-                </div>
-              </S.OptionsContainers>
+              <TabHeaderOptions
+                setSelectedTab={setSelectedTab}
+                selectedTab={selectedTab}
+                sortByTransactions={sortByTransactions}
+                sortByActiveBids={sortByActiveBids}
+                setSortByTransactions={setSortByTransactions}
+                setSortByActiveBids={setSortByActiveBids}
+              />
               <S.GrayLine style={{ width: '100%' }} />
             </S.TabContainer>
             <S.GridContainer id="tx">

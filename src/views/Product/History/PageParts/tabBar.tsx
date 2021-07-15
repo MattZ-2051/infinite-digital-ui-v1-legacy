@@ -22,6 +22,10 @@ export const TabBar = ({
 
   const isUserOwner = util.loggedInUser.id === util.product?.owner?._id;
 
+  if (countdown === '0h 0m 0s') {
+    window.location.reload();
+  }
+
   return (
     <S.TabBar>
       {isAuctionOrWillBe && (

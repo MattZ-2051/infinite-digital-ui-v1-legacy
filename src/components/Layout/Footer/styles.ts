@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
-export const StyledFooter = styled.footer`
+export const StyledFooter = styled.footer<{ padding: string }>`
   position: relative;
   bottom: 0;
   width: 100%;
   background-color: black;
+  padding: ${(props) => props.padding};
 `;
 
 export const HederaText = styled.div`
@@ -16,7 +17,8 @@ export const HederaText = styled.div`
 export const FooterContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 17px 80px;
+  max-width: 1440px;
+  margin: auto;
   font-size: 12px;
   color: white;
   @media screen and (max-width: 960px) {

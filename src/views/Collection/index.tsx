@@ -16,6 +16,7 @@ import NotifyModal from 'components/NotifyModal';
 import Button from 'components/Buttons';
 import notifyIcon from 'assets/svg/icons/notify-black.svg';
 import * as S from './styles';
+import MapsLocalDining from 'material-ui/svg-icons/maps/local-dining';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text?.split('. ');
@@ -54,25 +55,30 @@ const Collection = (): JSX.Element => {
 
   const history = useHistory();
   const username = history.location.pathname.split('/')[2];
+  const [loading, setLoading] = useState<boolean>(true);
   const { isAuthenticated } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   async function fetchUser() {
     try {
       const data = await getUser(username, 1, 1);
+
       if (data) {
         setUser(data[0]);
+        setLoading(false);
       }
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
   }
-
   useEffect(() => {
+    setLoading(true);
     fetchUser();
   }, [username]);
 
-  if (user._id === '0' || !user) return <PageLoader />;
+  if (user._id === '0' || !user || loading)
+    return <PageLoader backGroundColor="black" color="white" />;
 
   const handleModalClose = () => {
     setIsModalOpen(false);

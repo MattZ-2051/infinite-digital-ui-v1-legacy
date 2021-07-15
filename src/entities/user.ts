@@ -22,7 +22,23 @@ export interface User {
   errorMessage?: string;
   showNotifyMe?: boolean;
   auctionBidIncrement?: string;
-  initialBuyersFeePercentage?: string;
+}
+
+export interface ExtendedBalanceInfo {
+  bidsLock: string;
+  purchasesLock: string;
+  salesLock: string;
+  depositsLock: string;
+  withdrawalsLock: string;
+  ccNoWithdrawablesLock: string;
+  ccWithdrawablesLock: string;
+  lockedPositiveBalance: string;
+  lockedNegativeBalance: string;
+  lockedBalance: string;
+  totalBalance: string;
+  // royaltyFeesLock: string;
+  circleBalance: string;
+  transactionAvailableBalance: string;
 }
 
 export interface ExtendedBalanceInfo {

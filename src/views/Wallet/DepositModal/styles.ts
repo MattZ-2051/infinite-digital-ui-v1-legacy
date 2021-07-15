@@ -18,6 +18,14 @@ export const BodyContainer = styled.div`
   }
 `;
 
+export const CoinbaseButton = styled(CoinbaseCommerceButton)`
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+`;
+
 export const BodyContent = styled.div`
   padding: 0 40px 40px 40px;
   @media screen and (max-width: 550px) {
@@ -89,9 +97,10 @@ export const ExitIcon = styled.div`
   }
 `;
 
-export const FlexAlignCenter = styled.div`
+export const FlexColumn = styled.div<{ padding?: string }>`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: ${(props) => props.padding};
 `;
 
 export const FlexEnd = styled.div`
@@ -100,15 +109,7 @@ export const FlexEnd = styled.div`
   justify-content: flex-end;
 `;
 
-export const FlexColumn = styled.div`
+export const FlexAlignCenter = styled.div`
   display: flex;
-  flex-direction: column;
-`;
-
-export const CoinbaseButton = styled(CoinbaseCommerceButton)`
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 0;
+  align-items: center;
 `;

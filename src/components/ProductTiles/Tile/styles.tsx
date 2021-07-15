@@ -103,6 +103,7 @@ export const BottomCardText = styled.p<{ theme; themeStyle }>`
   text-align: end;
   display: flex;
   align-items: center;
+  max-width: 75%;
 `;
 
 export const AccentCardText = styled(BottomCardText)<{ theme; themeStyle }>`

@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 import BillingFormForAch, {
   IBillingForAch,
@@ -123,8 +124,8 @@ const AchAccountAdd = ({
           {String.fromCodePoint(...[9888, 65039])} Whoops, something went wrong.
         </span>
         <p style={{ textAlign: 'center', color: '#7D7D7D' }}>
-          Lorem ipsum dolor sit amet, consectetur ipsum dolor sit amet,
-          adipiscing consectetur.
+          There was an issue processing your request. Please try again or visit
+          the <Link to="/help">Help Page</Link> if this issue persists.{' '}
         </p>
         <S2.Button
           type="button"
@@ -146,7 +147,7 @@ const AchAccountAdd = ({
         <S.GrayLine style={{ width: '100%' }} />
       </div>
       <p style={{ color: '#7D7D7D' }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Complete this form to add a new bank account.
       </p>
       <BillingFormForAch
         showValidations={valueFormSubmitted}

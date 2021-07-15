@@ -42,7 +42,7 @@ const SkuDetail = (): JSX.Element => {
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
-  const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0(); // TODO: remove if not using
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<
@@ -72,8 +72,10 @@ const SkuDetail = (): JSX.Element => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessTokenSilently();
-      getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
+      if (isAuthenticated) {
+        const token = await getAccessTokenSilently();
+        getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
+      }
     };
     fetchData();
   }, [skuid]);
@@ -128,7 +130,10 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  if (!collectors || !featuredProducts || !sku) return <PageLoader />;
+  if (!collectors || !featuredProducts || sku == undefined) {
+    return <PageLoader />;
+  }
+  if (!sku) throw new Error('They are no skus available.');
 
   const handleRedirectToIssuer = () => {
     history.push(`/collection/${sku.issuer.username}`);
@@ -170,43 +175,29 @@ const SkuDetail = (): JSX.Element => {
 
               <S.SkuTitle>{sku.name}</S.SkuTitle>
 
-              <p
-                style={{
-                  fontSize: '18px',
-                  lineHeight: '23px',
-                  fontWeight: 400,
-                }}
+              <S.Text
+                fontSize="18px"
+                fontWeight={500}
+                color="white"
+                padding="16px 0 0 0"
               >
                 {sku.series?.name}
-              </p>
+              </S.Text>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                 }}
               >
-                {sku.redeemable && (
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <RedeemIcon />
-                    &nbsp;{' '}
-                    <span style={{ fontSize: '16px', lineHeight: '20px' }}>
-                      Redeemable{' '}
-                    </span>
-                    <S.SlashStyle>
-                      {skuMessage !== '' ? ' / ' : null}
-                    </S.SlashStyle>
-                  </div>
-                )}
-                <span>{skuMessage}</span>
+                <S.Text
+                  color="#7c7c7c"
+                  fontSize="16px"
+                  fontWeight={500}
+                  padding="10px 0"
+                >
+                  {skuMessage}
+                </S.Text>
               </div>
-
-              <LineDivider />
-
               <div
                 style={{
                   display: 'flex',
@@ -235,6 +226,22 @@ const SkuDetail = (): JSX.Element => {
                   </>
                 )}
               </div>
+              <LineDivider />
+              {sku.redeemable && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginLeft: '-7px',
+                  }}
+                >
+                  <RedeemIcon />
+                  &nbsp;{' '}
+                  <span style={{ fontSize: '16px', lineHeight: '20px' }}>
+                    Redeemable{' '}
+                  </span>
+                </div>
+              )}
             </S.ProductDetail>
 
             <S.ButtonsContainer>
@@ -249,7 +256,12 @@ const SkuDetail = (): JSX.Element => {
           </S.HeaderRight>
         </S.HeaderContent>
       </S.HeaderContainer>
-      <S.Section flexDirection="row" color="#9E9E9E" padding="55px 80px 0 80px">
+      <S.Section
+        flexDirection="row"
+        color="#9E9E9E"
+        padding="55px 80px 0 80px"
+        height={filteredFeaturedSku.length === 0 ? '100vh' : ''}
+      >
         <S.ContainerSection>
           <S.ContainerTabs>
             <S.Tab
@@ -338,7 +350,7 @@ const SkuDetail = (): JSX.Element => {
         )}
       </S.Section>
       {filteredFeaturedSku.length > 0 && (
-        <S.Section>
+        <S.Section height="100vh">
           <S.SectionTitle>Related Releases</S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&

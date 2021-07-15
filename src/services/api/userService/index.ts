@@ -4,7 +4,7 @@ import { USDCAddress } from 'entities/usdcAddress';
 import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
-import { IUser, IAddFundsData } from './Interfaces/index';
+import { IUser } from './Interfaces/index';
 import { handleApiError } from 'utils/apiError';
 
 export const getMe = async (token: string): Promise<User> => {
@@ -18,8 +18,6 @@ export const getMe = async (token: string): Promise<User> => {
     return {
       ...response.data,
       auctionBidIncrement: response.headers['auction-bid-increment'],
-      initialBuyersFeePercentage:
-        response.headers['initial-buyers-fee-percentage'],
     };
   } catch (err) {
     throw handleApiError(err);

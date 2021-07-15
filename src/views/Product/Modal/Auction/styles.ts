@@ -59,6 +59,7 @@ export const SubTitle = styled.p`
   line-height: 20px;
   letter-spacing: 0.02em;
   color: #9e9e9e;
+  text-align: center;
 `;
 
 export const SkuInfo = styled.div`
