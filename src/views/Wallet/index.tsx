@@ -30,8 +30,9 @@ const PER_PAGE = 5;
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] =
-    useState<boolean>(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState<boolean>(
+    false
+  );
   const user = useAppSelector((state) => state.session.user);
   const [transactions, setTransactions] = useState<{
     data: ITransaction[];
@@ -84,6 +85,12 @@ const Wallet = (props) => {
           {
             type: 'withdrawal',
           },
+          {
+            type: 'nft_redeem',
+          },
+          {
+            type: 'claim',
+          },
         ],
       },
       sortByTransactions
@@ -131,7 +138,9 @@ const Wallet = (props) => {
   const getUserWithdrawableBalance = () => {
     return parseFloat(user?.balances?.ccWithdrawablesLock).toFixed(2);
   };
-
+  const screenMinHeight = () => {
+    return { minHeight: window.innerHeight - 320 };
+  };
   return (
     <S.Container showMore={true}>
       <S.Header>
@@ -145,7 +154,7 @@ const Wallet = (props) => {
         </S.HeaderContent>
       </S.Header>
 
-      <S.Main>
+      <S.Main style={screenMinHeight()}>
         <S.Body>
           <S.LeftCol>
             <div style={{ width: '100%' }}>

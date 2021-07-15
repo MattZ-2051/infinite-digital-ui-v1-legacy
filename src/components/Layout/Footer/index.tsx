@@ -22,27 +22,42 @@ import HederaButton from './HederaButton/HederaButton';
 const Footer = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const matchesMobile = useMediaQuery('(max-width:539px)', { noSsr: true });
   return (
     <S.StyledFooter padding={isSmall ? '0' : '0 80px'}>
       <S.FooterContent>
         <S.FooterBottom>
-          <Divider gap={24} tag="nav" styles={{ flex: 1 }}>
-            <TextButton to="/help" color="grey" size="small">
+          <ScreenSelector matchesMobile={matchesMobile}>
+            <TextButton
+              to="/help"
+              color="grey"
+              size="small"
+              matchesMobile={matchesMobile}
+            >
               Help
             </TextButton>
 
-            <TextButton to="/privacy" color="grey" size="small">
+            <TextButton
+              to="/privacy"
+              color="grey"
+              size="small"
+              matchesMobile={matchesMobile}
+            >
               Privacy Policy
             </TextButton>
 
-            <TextButton to="/terms" color="grey" size="small">
+            <TextButton
+              to="/terms"
+              color="grey"
+              size="small"
+              matchesMobile={matchesMobile}
+            >
               Terms & Conditions
             </TextButton>
             <Hidden smDown>
               <HederaButton />
             </Hidden>
-          </Divider>
+          </ScreenSelector>
 
           <Hidden smDown>
             <div style={{ color: '#7c7c7c', fontSize: '14px', flex: 1 }}>
@@ -82,3 +97,17 @@ const Footer = () => {
 };
 
 export default Footer;
+
+const ScreenSelector = ({ children, matchesMobile }) => {
+  if (!matchesMobile)
+    return (
+      <Divider gap={24} tag="nav" styles={{ flex: 1 }}>
+        {children}
+      </Divider>
+    );
+  return (
+    <S.TextButtonContainer matchesMobile={matchesMobile}>
+      {children}
+    </S.TextButtonContainer>
+  );
+};

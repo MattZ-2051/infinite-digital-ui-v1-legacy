@@ -68,24 +68,26 @@ const Product = ({}) => {
     }
   }
   return (
-    <S.Content>
-      <ProductDetails
-        sku={product.sku}
-        totalSupply={product.totalSupply}
-        circulatingSupply={product.circulatingSupply || 0}
-        redeemable={redeemable}
-        skuTokenId={product.tokenId}
-        explorerLink={product?.explorerLink}
-        serialNumber={product.serialNumber}
-      />
-      <History
-        product={product}
-        transactionHistory={transactionHistory}
-        totalTransactions={totalTransactions}
-        historyPage={historyPage}
-        setHistoryPage={setHistoryPage}
-      />
-    </S.Content>
+    <div style={{ background: '#1a1a1a' }}>
+      <S.Content>
+        <ProductDetails
+          sku={product.sku}
+          totalSupply={product.totalSupply}
+          circulatingSupply={product.circulatingSupply || 0}
+          redeemable={redeemable}
+          skuTokenId={product.tokenId}
+          explorerLink={product?.explorerLink}
+          serialNumber={product.serialNumber}
+        />
+        <History
+          product={product}
+          transactionHistory={transactionHistory}
+          totalTransactions={totalTransactions}
+          historyPage={historyPage}
+          setHistoryPage={setHistoryPage}
+        />
+      </S.Content>
+    </div>
   );
 };
 

@@ -75,3 +75,12 @@ export const ShowLinkDiv = styled.div`
     width: 0;
   }
 `;
+
+export const TextButtonContainer = styled.div<{ matchesMobile }>`
+  ${(props) =>
+    props.matchesMobile
+      ? `  display: flex;
+          justify-content: space-between;
+          `
+      : ''};
+`;
