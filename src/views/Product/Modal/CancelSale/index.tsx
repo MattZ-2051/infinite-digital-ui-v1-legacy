@@ -10,7 +10,7 @@ import { HistoryStatus } from '../../History/types';
 interface Props {
   visible: boolean;
   setModalPaymentVisible: (a: boolean) => void;
-  listingId: string;
+  listingId?: string;
   setStatus: (status: HistoryStatus) => void;
   modalType: 'auction' | 'sale';
 }
@@ -25,16 +25,25 @@ const CancelSale = ({
   const { getAccessTokenSilently } = useAuth0();
 
   const handleCancelListing = async () => {
-    const userToken = await getAccessTokenSilently();
-    const res = await cancelListing(userToken, listingId);
-    if (res.status === 200) {
-      Toast.success('Listing successfully cancelled.');
-      setModalPaymentVisible(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+    if (!listingId) {
+      Toast.success(
+        <>
+          Whoops! Something went wrong, please try again or go to the
+          <a href="/help">Help Page</a>to contact us.
+        </>
+      );
     } else {
-      Toast.error(createSale.error);
+      const userToken = await getAccessTokenSilently();
+      const res = await cancelListing(userToken, listingId);
+      if (res.status === 200) {
+        Toast.success('Listing successfully cancelled.');
+        setModalPaymentVisible(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      } else {
+        Toast.error(createSale.error);
+      }
     }
   };
   const Body = (): JSX.Element => {
