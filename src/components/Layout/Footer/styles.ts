@@ -19,7 +19,6 @@ export const FooterContent = styled.div`
   flex-direction: column;
   max-width: 1440px;
   margin: auto;
-  padding: 17px 80px;
   font-size: 12px;
   color: white;
   @media screen and (max-width: 960px) {
