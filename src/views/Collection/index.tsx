@@ -84,6 +84,10 @@ const Collection = (): JSX.Element => {
     setIsModalOpen(false);
   };
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <S.Container>
       <ViewContainer>
