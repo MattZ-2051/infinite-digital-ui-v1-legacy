@@ -25,8 +25,6 @@ interface Props {
   bidAmount: string;
 }
 
-const marketplaceFee = 5;
-
 const BidModal = ({
   product,
   visible,
@@ -37,6 +35,9 @@ const BidModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  const marketplaceFee = product.resale
+    ? product.resaleBuyersFeePercentage
+    : product.initialSellersFeePercentage;
   const { getAccessTokenSilently } = useAuth0();
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
