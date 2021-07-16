@@ -55,13 +55,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'postalCode') {
-      setInfo((prevState) => ({
-        ...prevState,
-        [name]: value.replace(/[^0-9]/g, ''),
-      }));
-      return;
-    }
+
     setInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -117,6 +111,17 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
 
       {isOpen && (
         <S.InputContainer className="menu">
+          <S.FormRow>
+            <S.FormInput
+              id="standard-basic"
+              label="Name"
+              size="medium"
+              fullWidth
+              name="name"
+              onChange={handleChange}
+              value={info?.name}
+            />
+          </S.FormRow>
           <S.FormRow>
             <S.FormInput
               id="standard-basic"
