@@ -21,9 +21,9 @@ const UserProfileDetails = ({
   );
   const userIsSocial = useAppSelector(
     (state) =>
-      state.session.user[
+      state.session?.user[
         'http://schemas.microsoft.com/ws/2008/06/identity/id/meta'
-      ].isSocial
+      ]?.isSocial
   );
   const userId = useAppSelector((state) => state.session.user.id);
   const currentEmail = useAppSelector((state) => state.session.user.email);
