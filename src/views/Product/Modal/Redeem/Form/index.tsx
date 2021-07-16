@@ -55,6 +55,13 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'postalCode' || name === 'name') {
+      setInfo((prevState) => ({
+        ...prevState,
+        [name]: value.replace(/[^0-9A-Za-z]/g, ''),
+      }));
+      return;
+    }
 
     setInfo((prevState) => ({
       ...prevState,
