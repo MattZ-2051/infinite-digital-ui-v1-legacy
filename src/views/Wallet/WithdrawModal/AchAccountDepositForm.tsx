@@ -80,7 +80,6 @@ const AchAccountDepositForm = ({
         <S.AmountInput
           placeholder="Enter Amount"
           decimalsLimit={2}
-          fixedDecimalLength={2}
           value={valueAmount}
           prefix="$"
           onValueChange={(value) => {
