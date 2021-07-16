@@ -26,14 +26,17 @@ const CancelSale = ({
 
   const handleCancelListing = async () => {
     if (!listingId) {
-      Toast.success(
+      Toast.error(
         <>
-          Whoops! Something went wrong, please try again or go to the
-          <a href="/help">Help Page</a>to contact us.
+          Whoops! Something went wrong, please try again or go to the{' '}
+          <a href="/help">help page</a> to contact us.
         </>
       );
     } else {
       const userToken = await getAccessTokenSilently();
+      if (!userToken) {
+        Toast.error('user token error');
+      }
       const res = await cancelListing(userToken, listingId);
       if (res.status === 200) {
         Toast.success('Listing successfully cancelled.');
@@ -46,6 +49,7 @@ const CancelSale = ({
       }
     }
   };
+
   const Body = (): JSX.Element => {
     return (
       <S.Container>

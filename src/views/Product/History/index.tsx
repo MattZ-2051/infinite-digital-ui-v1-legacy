@@ -67,10 +67,11 @@ const History = ({
 
   //Constants
   const perPage = 5;
-  const listingId = product?.activeProductListings
-    ? product.activeProductListings[0] && product.activeProductListings[0]._id
-    : product?.upcomingProductListings[0] &&
-      product?.upcomingProductListings[0]._id;
+  const listingId =
+    product?.activeProductListings?.length === 0
+      ? product.upcomingProductListings[0]?._id
+      : product?.activeProductListings[0]?._id;
+
   const [auctionPage, setAuctionPage] = useState<number>(1);
   const price = product?.listing?.price;
   const modalMode = price && userBalance >= price ? 'hasFunds' : 'noFunds';
