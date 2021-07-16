@@ -48,7 +48,10 @@ export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
     themeStyle === 'dark'
       ? theme.palette.dark.baseComplement
       : theme.palette.light.baseComplement};
-  width: 100%;
+
+  @media screen and (min-width: 1440px) {
+    width: 1440px;
+  }
   padding: 40px;
 `;
 
@@ -60,6 +63,16 @@ export const GrayLine = styled.div`
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const WhiteContainerForBigScreen = styled.div<{ screenWidth: number }>`
+  @media screen and (min-width: 1440px) {
+    width: ${({ screenWidth }) => screenWidth}px;
+    margin-left: ${({ screenWidth }) => -(screenWidth - 1440) / 2}px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Tab = styled.div<{
