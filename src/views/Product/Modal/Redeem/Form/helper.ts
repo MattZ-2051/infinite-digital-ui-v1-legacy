@@ -23,6 +23,7 @@ export const errors: Errors = {
 };
 
 export interface RedeemInfo {
+  name: string;
   addressLine1: string;
   addressLine2: string;
   district: District;
@@ -33,6 +34,7 @@ export interface RedeemInfo {
 }
 
 export const payload: RedeemInfo = {
+  name: '',
   addressLine1: '',
   addressLine2: '',
   district: {
