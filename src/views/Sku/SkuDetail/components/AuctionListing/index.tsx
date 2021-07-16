@@ -15,6 +15,9 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
     <S.Items>
       {collectors &&
         collectors.slice(0, 4).map((el, index) => {
+          const highestBid = el.highestBid
+            ? el.highestBid?.bidAmt
+            : el.activeProductListing?.minBid;
           return (
             <Link
               key={index}
@@ -28,7 +31,7 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
                   listings={el.listings}
                   serialNumber={el.serialNumber}
                   ownerName={el.owner.username}
-                  highestBid={el.highestBid?.bidAmt}
+                  highestBid={highestBid}
                   endDate={el.activeProductListing?.endDate}
                   upcomingProductListing={el.upcomingProductListing}
                 />
