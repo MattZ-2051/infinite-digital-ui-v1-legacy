@@ -72,14 +72,16 @@ export const ProductsGrid = styled.div`
   display: grid;
   grid-gap: 26px;
   grid-template-columns: repeat(auto-fit, 300px);
-  /* justify-content: space-evenly; */
   margin-top: 20px;
 `;
 
 export const PaginationContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: 20px;
+  @media screen and (max-width: 960px) {
+    justify-content: center;
+  }
 `;
 
 export const NoResults = styled.div`
