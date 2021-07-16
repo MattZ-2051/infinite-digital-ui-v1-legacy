@@ -80,9 +80,10 @@ export const Button = styled.button<{ disabled?: boolean }>`
   color: white;
   border: none;
 
-  &.button__text {
-    background-color: unset;
-    color: #000;
+  &.button__cancel {
+    background-color: #adadad;
+    color: #fff;
+    margin-right: 8px;
     padding: 2px 12px;
   }
 

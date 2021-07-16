@@ -139,6 +139,10 @@ const EditUsername = ({
           </S.Input>
           {editingUsername ? (
             <>
+              <S.Button className="button__cancel" onClick={handleReset}>
+                Cancel
+              </S.Button>
+
               <S.Button
                 disabled={
                   usernameInvalid || newUsername === currentUsername || loading
@@ -146,10 +150,6 @@ const EditUsername = ({
                 onClick={handleSubmit}
               >
                 {loading ? <ClipLoader size={20} color="#fff" /> : 'Save'}
-              </S.Button>
-
-              <S.Button className="button__text" onClick={handleReset}>
-                Cancel
               </S.Button>
             </>
           ) : (
