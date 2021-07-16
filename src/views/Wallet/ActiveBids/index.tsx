@@ -87,7 +87,7 @@ const ListBids = ({ sortBy }: IProps) => {
   if (!bids?.data.length)
     return (
       <S.NoResults>
-        <p>No transactions yet</p>
+        <p>No bids yet</p>
       </S.NoResults>
     );
 
