@@ -97,7 +97,7 @@ const AchAccountDepositForm = ({
           if (errorAmount) {
             return;
           }
-          return onWithdraw(item, valueAmount).catch(onError);
+          return onWithdraw(item, parseFloat(valueAmount).toFixed(2)).catch(onError);
         }}
       >
         Deposit
