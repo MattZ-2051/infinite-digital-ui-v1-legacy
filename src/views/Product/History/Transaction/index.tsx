@@ -33,7 +33,7 @@ const Transaction = ({ transaction, bid }: Props) => {
         </S.Username>
 
         <S.TransactionInfo padding="0 0 0 10px">
-          {transaction.type !== 'redeem' && (
+          {transaction.type !== 'nft_redeem' && (
             <S.TransactionDetails alignItems="flex-start">
               {transaction?.type === 'purchase' &&
                 transaction?.status === 'success' && (
@@ -46,22 +46,23 @@ const Transaction = ({ transaction, bid }: Props) => {
                     </S.Text>
                   </S.FlexDiv>
                 )}
-              {transaction?.type === 'nft_mint' && (
-                <S.FlexDiv>
-                  <S.Text>NFT Minted</S.Text>
-                </S.FlexDiv>
-              )}
+              {transaction?.type === 'nft_mint' && <S.Text>NFT Minted</S.Text>}
               {transaction?.type === 'nft_transfer_manual' && (
                 <S.FlexDiv>
                   <S.Text>Recieved Transfer</S.Text>
                 </S.FlexDiv>
               )}
-              <S.Date>
+
+              <S.Date
+                width={
+                  matchesMobile && transaction.type === 'nft_mint' ? '90px' : ''
+                }
+              >
                 {transaction && formatDate(new Date(transaction?.updatedAt))}
               </S.Date>
             </S.TransactionDetails>
           )}
-          {transaction.type === 'redeem' && (
+          {transaction.type === 'nft_redeem' && (
             <S.TransactionDetails alignItems="flex-end">
               <S.FlexDiv>
                 <S.RedeemIcon />
@@ -75,7 +76,7 @@ const Transaction = ({ transaction, bid }: Props) => {
             </S.TransactionDetails>
           )}
         </S.TransactionInfo>
-        {transaction.type !== 'redeem' && (
+        {transaction.type !== 'nft_redeem' && (
           <div
             style={{ position: 'relative' }}
             onMouseEnter={() => setShowLink(true)}

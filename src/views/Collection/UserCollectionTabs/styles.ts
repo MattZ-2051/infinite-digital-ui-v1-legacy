@@ -65,11 +65,14 @@ export const TabBar = styled.div`
   flex-direction: row;
 `;
 
-export const WhiteContainerForBigScreen = styled.div<{ screenWidth: number }>`
+export const ContainerForBigScreen = styled.div<{
+  screenWidth: number;
+  backgroundColor: string;
+}>`
   @media screen and (min-width: 1440px) {
     width: ${({ screenWidth }) => screenWidth}px;
     margin-left: ${({ screenWidth }) => -(screenWidth - 1440) / 2}px;
-    background-color: white;
+    background-color: ${(props) => `${props.backgroundColor}`};
     display: flex;
     justify-content: center;
   }
