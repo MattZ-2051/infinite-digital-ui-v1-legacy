@@ -43,12 +43,9 @@ const AuctionModal = ({
   const [endDate, setEndDate] = useState<any | null>(moment());
   const [startTime, setStartTime] = useState<any | null>(moment());
   const [endTime, setEndTime] = useState<any | null>(moment());
-  const initialBuyersFeePercentage = useAppSelector(
-    (state) => state.session.user.initialBuyersFeePercentage
-  );
   const fee = product?.resale
     ? product?.resaleBuyersFeePercentage
-    : product?.initialBuyersFeePercentage;
+    : product?.initialSellersFeePercentage;
 
   useEffect(() => {
     if (price) {
