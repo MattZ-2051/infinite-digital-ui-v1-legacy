@@ -112,7 +112,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   if (isLoading)
     return <PageLoader color={'white'} backGroundColor={'black'} />;
   return (
-    <S.WhiteContainerForBigScreen screenWidth={window.innerWidth}>
+    <S.ContainerForBigScreen
+      screenWidth={window.innerWidth}
+      backgroundColor={user.role === 'issuer' ? 'black' : 'white'}
+    >
       <S.Container themeStyle={themeStyle}>
         {userStatus === 'loggedIn' && (
           <>
@@ -294,7 +297,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
             );
         })(selectedTab)}
       </S.Container>
-    </S.WhiteContainerForBigScreen>
+    </S.ContainerForBigScreen>
   );
 };
 
