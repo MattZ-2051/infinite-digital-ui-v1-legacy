@@ -1,8 +1,12 @@
 import { toast } from 'react-toastify';
 
-const success = (message) => toast.success(<>{message}</>);
-const error = (message) => toast.error(<>{message}</>);
-const dark = (message) => toast.dark(<>{message}</>);
-const warning = (message) => toast.warning(<>{message}</>);
+const success = (message, toastId?: string) =>
+  toast.success(<>{message}</>, { toastId });
+const error = (message, toastId?: string) =>
+  toast.error(<>{message}</>, { toastId });
+const dark = (message, toastId?: string) =>
+  toast.dark(<>{message}</>, { toastId });
+const warning = (message, toastId?: string) =>
+  toast.warning(<>{message}</>, { toastId });
 
 export default { success, error, warning, dark };

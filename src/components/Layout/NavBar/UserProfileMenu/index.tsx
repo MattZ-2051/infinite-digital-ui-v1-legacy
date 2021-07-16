@@ -3,6 +3,8 @@ import { ReactComponent as WalletSvg } from 'assets/svg/icons/wallet.svg';
 import { ReactComponent as SignOutSvg } from 'assets/svg/icons/signout.svg';
 import { ReactComponent as AccountSettingsSvg } from 'assets/svg/icons/account-settings.svg';
 import { ReactComponent as EditProfileSvg } from 'assets/svg/icons/edit-profile-icon.svg';
+import { ReactComponent as UserProfileSvg } from 'assets/svg/icons/user-profile-icon.svg';
+
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from 'store/hooks';
@@ -30,6 +32,7 @@ const UserProfileMenu = ({ visible, setVisible, setIsModalOpen }: IProps) => {
     setVisible(false);
   };
 
+  // replace this with profile details modal
   const handleUsernameEdit = () => {
     setIsModalOpen(true);
   };
@@ -39,9 +42,9 @@ const UserProfileMenu = ({ visible, setVisible, setIsModalOpen }: IProps) => {
         <ButtonContainer>
           <Button onClick={handleUsernameEdit}>
             <IconContainer>
-              <EditProfileIcon className="icon_wallet" />
+              <UserProfileIcon className="icon_wallet" />
             </IconContainer>
-            <Label>Edit Username</Label>
+            <Label>Profile Details</Label>
           </Button>
           <Button onClick={handleWalletRedirect}>
             <IconContainer>
@@ -68,7 +71,7 @@ const Container = styled.div`
   right: -60px;
   border-radius: 20px;
   display: flex;
-  flex-direction: column:
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -126,7 +129,7 @@ const WalletIcon = styled(WalletSvg)`
   stroke: #7c7c7c;
 `;
 
-const EditProfileIcon = styled(EditProfileSvg)`
+const UserProfileIcon = styled(UserProfileSvg)`
   fill: none;
   stroke: #7c7c7c;
 `;
