@@ -62,3 +62,9 @@ export const SubscribeButton = styled(Button)`
     }
   }
 `;
+
+export const ContainerHubspot = styled.div`
+  background: red;
+  width: 410px;
+  margin-top: 20px;
+`;
