@@ -5,6 +5,7 @@ export interface Collector {
   createdAt: Date;
   activeProductListing?: Listing;
   upcomingProductListing?: Listing;
+  listing: Listing;
   listings: Listing[];
   highestBid: HighestBid;
   owner: User;
