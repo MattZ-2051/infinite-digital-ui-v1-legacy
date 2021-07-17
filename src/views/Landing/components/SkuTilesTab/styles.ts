@@ -10,7 +10,10 @@ export const Container = styled.section`
   border-radius: 10px;
 
   @media screen and (max-width: 960px) {
-    padding: 24px;
+    padding: 0px;
+  }
+  @media screen and (max-width: 1024px) {
+    height: 100%;
   }
 `;
 

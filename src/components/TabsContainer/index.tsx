@@ -7,6 +7,10 @@ export interface IProps {
 
 const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
   margin-bottom: 48px;
+  @media screen and (max-width: 960px) {
+    padding: 12px;
+    padding-bottom: 0px;
+  }
 
   && {
     .MuiTabs-centered {
