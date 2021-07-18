@@ -3,6 +3,7 @@ import { ReactComponent as RightArrow } from 'assets/svg/icons/landing-right-arr
 
 export const Container = styled.section`
   background-color: black;
+  margin: auto;
   position: relative;
   display: flex;
   padding: 80px;
