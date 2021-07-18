@@ -1,56 +1,96 @@
-import Button from 'components/Buttons/Button';
 import * as S from './styles';
-import HeroImg from 'assets/img/backgrounds/hero-bg.png';
-//import { useHistory } from 'react-router-dom';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { ReactComponent as ShoeImg } from 'assets/svg/logos/dinwiddie-shoe.svg';
+import DropImg from 'assets/svg/logos/dinwiddie-drop-img.png';
+import { useHistory } from 'react-router';
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
   isAuthenticated: boolean;
 }
 
 const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
-  //const history = useHistory();
-
+  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const history = useHistory();
   const handleClick = () => {
-    // if (isAuthenticated) {
-    //   history.push('/marketplace?page=1&per_page=6&sortBy=startDate:asc');
-    // } else {
-    //   login({ screen_hint: 'signup' });
-    // }
     login({ screen_hint: 'signup' });
   };
   return (
-    <S.Container>
-      {/* <S.Img src={HeroImg} /> */}
-      <video
-        src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
-        autoPlay
-        playsInline
-        muted
-        loop
-        controls={false}
-        style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
-      ></video>
+    <div style={{ backgroundColor: 'black' }}>
+      <S.Container>
+        <S.SubContainer order={matchesMobile ? 1 : 0}>
+          <S.Title>
+            Spencer Dinwiddie’s <br /> <span>1st NFT Release!</span>
+          </S.Title>
 
-      <S.Title>
-        Start your INFINITE <br /> <span>Collection today!</span>
-      </S.Title>
+          <S.Subtitle color="white" fontSize="18px" fontWeight={600}>
+            {"Redeemable 3D/AR NFTs from Spencer's K8IROS sneaker line"}
+          </S.Subtitle>
+          <S.Subtitle
+            color="#9da1a8"
+            fontSize="18px"
+            fontWeight={600}
+            style={{ margin: '0' }}
+          >
+            {
+              'In support of the The Dinwiddie Family Foundation with 4 lucky NFT'
+            }
+          </S.Subtitle>
+          <S.Subtitle
+            color="#9da1a8"
+            fontSize="18px"
+            fontWeight={600}
+            style={{ margin: '0' }}
+          >
+            {
+              "owners able to redeem their NFTs for a signed physical pair of Spencer's"
+            }
+          </S.Subtitle>
+          <S.Subtitle color="#9da1a8" fontSize="18px" fontWeight={600}>
+            {'original K8IROS shoes'}
+          </S.Subtitle>
 
-      <S.Subtitle>
-        Our team at Suku has partnered with industry leaders to bring you <br />{' '}
-        exclusive NFTs on the INFINITE beta platform.
-      </S.Subtitle>
+          <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
+            Launching Thursday, July 22st, 12:00 PM (ET)
+          </S.Subtitle>
 
-      {!isAuthenticated && (
-        <Button
-          color="white"
-          onClick={handleClick}
-          data-testid="start-collection-btn"
-        >
-          Sign Up Now
-        </Button>
-      )}
-    </S.Container>
+          <div style={{ display: 'flex', width: '100%' }}>
+            {!isAuthenticated && (
+              <S.Button onClick={handleClick}>Sign Up Now</S.Button>
+            )}
+            <S.DropButtonContainer
+              paddingLeft={isAuthenticated ? '0' : '32px'}
+              onClick={() =>
+                history.push('/marketplace/60ee02eb2411640e7bad6c50')
+              }
+            >
+              <S.DropButton>Go to K8IROS Drops </S.DropButton>
+              <S.DropArrow />
+            </S.DropButtonContainer>
+          </div>
+        </S.SubContainer>
+        <S.SubContainer order={matchesMobile ? 0 : 1}>
+          {/* <video
+          src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
+          autoPlay
+          playsInline
+          muted
+          loop
+          controls={false}
+          style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
+        ></video> */}
+          <S.ImgContainer>
+            <ShoeImg
+              style={
+                matchesMobile
+                  ? { width: '265px', height: 'auto' }
+                  : { width: '380px', height: 'auto' }
+              }
+            />
+            <S.ShoeImg src={DropImg} alt="" />
+          </S.ImgContainer>
+        </S.SubContainer>
+      </S.Container>
+    </div>
   );
 };
 
