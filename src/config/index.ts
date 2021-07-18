@@ -28,16 +28,10 @@ interface AppConfig {
     environmentName: string;
   };
   hubspot: {
-    helpSection: {
-      region: string;
-      portalId: string;
-      formId: string;
-    };
-    mailSubscribingSection: {
-      region: string;
-      portalId: string;
-      formId: string;
-    };
+    region: string;
+    portalId: string;
+    formId: string;
+    target: string;
   };
 }
 
@@ -78,18 +72,11 @@ export const config: AppConfig = {
       parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
   },
   hubspot: {
-    helpSection: {
-      region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
-      portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
-      formId:
-        getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
-        'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-      // target: getEnvVar('REACT_APP_HUBSPOT_TARGET', false) || '#embed-hubspot',
-    },
-    mailSubscribingSection: {
-      region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
-      portalId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID', true),
-      formId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', true)
-    },
+    region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
+    portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
+    formId:
+      getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
+      'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+    target: getEnvVar('REACT_APP_HUBSPOT_TARGET', false) || '#embed-hubspot',
   },
 };
