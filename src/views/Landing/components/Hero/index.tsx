@@ -17,7 +17,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   return (
     <div style={{ backgroundColor: 'black' }}>
       <S.Container>
-        {/* <S.SubContainer order={matchesMobile ? 1 : 0}>
+        <S.SubContainer order={matchesMobile ? 1 : 0}>
           <S.Title>
             Spencer Dinwiddie’s <br /> <span>1st NFT Release!</span>
           </S.Title>
@@ -79,7 +79,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
             />
             <S.DropImg src={DropImg} alt="" />
           </S.ImgContainer>
-        </S.SubContainer> */}
+        </S.SubContainer>
       </S.Container>
     </div>
   );
