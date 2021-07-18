@@ -71,7 +71,7 @@ export const ImgContainer = styled.div`
   }
 `;
 
-export const ShoeImg = styled.img`
+export const DropImg = styled.img`
   position: absolute;
   right: 0;
   left: 30%;

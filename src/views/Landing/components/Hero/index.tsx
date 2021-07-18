@@ -17,7 +17,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   return (
     <div style={{ backgroundColor: 'black' }}>
       <S.Container>
-        <S.SubContainer order={matchesMobile ? 1 : 0}>
+        {/* <S.SubContainer order={matchesMobile ? 1 : 0}>
           <S.Title>
             Spencer Dinwiddie’s <br /> <span>1st NFT Release!</span>
           </S.Title>
@@ -69,15 +69,6 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
           </div>
         </S.SubContainer>
         <S.SubContainer order={matchesMobile ? 0 : 1}>
-          {/* <video
-          src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
-          autoPlay
-          playsInline
-          muted
-          loop
-          controls={false}
-          style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
-        ></video> */}
           <S.ImgContainer>
             <ShoeImg
               style={
@@ -86,9 +77,9 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
                   : { width: '380px', height: 'auto' }
               }
             />
-            <S.ShoeImg src={DropImg} alt="" />
+            <S.DropImg src={DropImg} alt="" />
           </S.ImgContainer>
-        </S.SubContainer>
+        </S.SubContainer> */}
       </S.Container>
     </div>
   );
