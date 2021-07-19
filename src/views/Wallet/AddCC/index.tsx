@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
+import { PulseLoader } from "react-spinners";
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import {
   createNewCCThunk,
@@ -18,7 +19,7 @@ import {
 } from './helper';
 import { useHistory } from 'react-router-dom';
 import Toast from 'components/Toast';
-import BillingForm from '../../../components/BillingForm';
+import BillingForm from 'components/BillingForm';
 
 const AddCC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -207,7 +208,13 @@ const AddCC = () => {
             />
           ) : null}
           <S.ButtonContainer>
-            <S.Button onClick={handleSubmit}>Add Card</S.Button>
+            <S.SLoadingButton
+              onClick={handleSubmit}
+              type="button"
+              loadingComponentRender={() => <PulseLoader color="white" />}
+            >
+              Add Card
+            </S.SLoadingButton>
           </S.ButtonContainer>
         </S.Box>
       </S.Container>

@@ -107,7 +107,6 @@ export const sessionSlice = createSlice({
     });
     builder.addCase(addFundsThunk.rejected, (state, { error }) => {
       checkStatePending(state);
-      showErrorToast(error.message);
     });
   },
 });

@@ -33,6 +33,11 @@ interface AppConfig {
     formId: string;
     target: string;
   };
+  kycLimits: {
+    ccDepositLimit: string;
+    dailyDepositLimit: string;
+    weeklyDepositLimit: string;
+  };
 }
 
 export const config: AppConfig = {
@@ -78,5 +83,10 @@ export const config: AppConfig = {
       getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
       'a25ae540-4e5a-4858-90fb-20edc5ca1252',
     target: getEnvVar('REACT_APP_HUBSPOT_TARGET', false) || '#embed-hubspot',
+  },
+  kycLimits: {
+    ccDepositLimit: getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', false) || '1000',
+    dailyDepositLimit: getEnvVar('REACT_APP_DAILY_DEPOSIT_LIMIT_USD', false) || '1000',
+    weeklyDepositLimit: getEnvVar('REACT_APP_WEEKLY_DEPOSIT_LIMIT_USD', false) || '3000',
   },
 };

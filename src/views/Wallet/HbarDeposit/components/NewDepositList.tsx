@@ -5,7 +5,7 @@ import {
   ProductsGrid,
 } from '../styles';
 import { INewHbarDeposit } from '../index';
-import Transaction from './HbarTransaction';
+import HbarTransaction from './HbarTransaction';
 
 const NewDepositList = ({
   depSummary,
@@ -29,7 +29,7 @@ const NewDepositList = ({
         </NewDepositsSubheader>
         <ProductsGrid>
           {depSummary?.length > 0 &&
-            depSummary.map((dep) => <Transaction dep={dep} key={dep.id} />)}
+            depSummary.map((dep) => <HbarTransaction dep={dep} key={dep.id} />)}
         </ProductsGrid>
       </S.Content>
     </LatestTransactionsContainer>

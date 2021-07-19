@@ -18,8 +18,9 @@ const countriesList: Array<Country> = countries
   }));
 
 export const validate = (billingDetails) => {
+  const nameValidation = billingDetails.name ? false : billingDetails.name.split(' ').length < 2 ? '' : '';
   return {
-    name: billingDetails.name.split(' ').length < 2,
+    name: nameValidation,
     city: billingDetails.city.length < 1,
     country: !billingDetails.country,
     line1: billingDetails.line1.length < 5,
@@ -41,7 +42,7 @@ export interface IBilling {
   postalCode: string;
 }
 
-export type IBillingValidation = Record<keyof IBilling, boolean>;
+export type IBillingValidation = Record<keyof IBilling, boolean | string>;
 export type IBillingExtraProps = Partial<Record<keyof IBilling, any>>;
 
 // React.HTMLAttributes<HTMLDivElement>
