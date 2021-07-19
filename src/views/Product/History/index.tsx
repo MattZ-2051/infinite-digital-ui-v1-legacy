@@ -38,8 +38,7 @@ const History = ({
   setHistoryPage,
 }: Props): JSX.Element => {
   //Hooks
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
@@ -57,7 +56,7 @@ const History = ({
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
-  const [token, setToken] = useState<string>('');
+  // const [token, setToken] = useState<string>('');
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
@@ -134,15 +133,8 @@ const History = ({
   }, [auctionPage]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const fetchToken = async () => {
-        const token = await getAccessTokenSilently();
-        setToken(token);
-      };
-      fetchToken();
-      util.fetchPrivateAssets(token);
-    }
-  }, [token]);
+    util.fetchPrivateAssets();
+  }, [product?.sku?._id]);
 
   if (historyStatus === '' || !handlers) return <></>;
 
@@ -203,7 +195,7 @@ const History = ({
               productId={product._id}
               skuId={product.sku._id}
               themeStyle={'dark'}
-              owner={loggedInUser.id === product.owner?._id}
+              owner={loggedInUser && loggedInUser.id === product.owner?._id}
             />
           </>
         )}

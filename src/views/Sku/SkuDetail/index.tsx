@@ -42,7 +42,7 @@ const SkuDetail = (): JSX.Element => {
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
-  const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0(); // TODO: remove if not using
+  const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<
@@ -69,16 +69,10 @@ const SkuDetail = (): JSX.Element => {
     fetchCollectors();
     fetchOwnerCollectors();
   }, [skuid]);
-  
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (!isLoading && isAuthenticated) {
-        const token = await getAccessTokenSilently();
-        getPrivateAssets(skuid, token).then((resp) => setPrivateAssets(resp));
-      }
-    };
-    fetchData();
-  }, [skuid, isLoading, isAuthenticated]);
+    getPrivateAssets(skuid).then((resp) => setPrivateAssets(resp));
+  }, [skuid]);
 
   useEffect(() => {
     const filtered = featuredProducts?.filter(
@@ -317,19 +311,12 @@ const SkuDetail = (): JSX.Element => {
               <SkuDescription description={sku?.description || ''} />
             ) : selectedTab === 'owner_access' &&
               (ownerAccessVisible || !isSmall) ? (
-              // <OwnerAccessList
-              //   assets={sku?.nftPrivateAssets || []}
-              //   owner={
-              //     (ownerCollectors?.data && ownerCollectors?.data.length > 0) ||
-              //     false
-              //   }
-              //   themeStyle="light"
-              //   productId={ownerCollectors?.data[0]._id || ''}
-              // />
               <OwnerAccess
                 skuId={sku._id}
                 owner={
-                  (ownerCollectors?.data && ownerCollectors?.data.length > 0) ||
+                  (loggedInUser?.id &&
+                    ownerCollectors?.data &&
+                    ownerCollectors?.data.length > 0) ||
                   false
                 }
                 themeStyle="light"
