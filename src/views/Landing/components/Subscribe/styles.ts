@@ -23,6 +23,12 @@ export const Tagline = styled.span`
   }
 `;
 
+export const ContainerHubspot = styled.div`
+  background: red;
+  width: 410px;
+  margin-top: 20px;
+`;
+
 export const Header = styled.span`
   font-size: 35px;
   font-weight: 700;
