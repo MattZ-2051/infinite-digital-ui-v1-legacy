@@ -43,6 +43,7 @@ const SkuDetail = (): JSX.Element => {
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
+  const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<
@@ -63,6 +64,7 @@ const SkuDetail = (): JSX.Element => {
   const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
 
   useEffect(() => {
+    setLoading(true);
     fetchSku().then((sku) => {
       fetchProducts(sku?.issuer?._id);
     });
@@ -84,6 +86,7 @@ const SkuDetail = (): JSX.Element => {
   async function fetchProducts(issuerId: string) {
     const skuTiles = await getFeaturedSkuTiles({ issuerId: issuerId });
     setFeaturedProducts(skuTiles.data);
+    setLoading(false);
   }
 
   async function fetchCollectors() {
@@ -124,7 +127,7 @@ const SkuDetail = (): JSX.Element => {
     setModalPaymentVisible(true);
   };
 
-  if (!collectors || !featuredProducts || sku == undefined) {
+  if (!collectors || !featuredProducts || sku == undefined || loading) {
     return <PageLoader />;
   }
   if (!sku) throw new Error('They are no skus available.');
