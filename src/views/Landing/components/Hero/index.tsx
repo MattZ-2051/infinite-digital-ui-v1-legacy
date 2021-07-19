@@ -105,6 +105,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
               style={{ width: matchesMobile ? '265px' : '380px' }}
               autoPlay={true}
               controls={false}
+              preload="auto"
               loop={true}
               muted={false}
               src="https://infinite-digital-prod.s3.amazonaws.com/spencer/profile/K8IROS+Turntable+mashup.mp4"
