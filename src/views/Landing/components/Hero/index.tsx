@@ -59,11 +59,9 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
             )}
             <S.DropButtonContainer
               paddingLeft={isAuthenticated ? '0' : '32px'}
-              onClick={() =>
-                history.push('/marketplace/60ee02eb2411640e7bad6c50')
-              }
+              onClick={() => history.push('/collection/SDinwiddie25')}
             >
-              <S.DropButton>Go to K8IROS Drops </S.DropButton>
+              <S.DropButton>{"Go to Spencer's Drops "}</S.DropButton>
               <S.DropArrow />
             </S.DropButtonContainer>
           </div>
