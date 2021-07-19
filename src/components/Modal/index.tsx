@@ -13,6 +13,7 @@ interface IProps extends ModalProps {
   padding?: string;
   bodyStyle?: any;
   margin?: string;
+  centered?: boolean;
 }
 
 const ModalComponent = ({
@@ -23,6 +24,7 @@ const ModalComponent = ({
   padding,
   bodyStyle,
   margin,
+  centered,
   ...props
 }: IProps): JSX.Element => {
   return (
@@ -34,6 +36,7 @@ const ModalComponent = ({
         padding={padding}
         style={bodyStyle}
         margin={margin}
+        centered={centered}
       >
         {children}
       </S.ModalBody>
