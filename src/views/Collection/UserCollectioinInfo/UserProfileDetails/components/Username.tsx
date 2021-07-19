@@ -84,14 +84,14 @@ const EditUsername = ({
     if (/[!@#$%^&*)(+=.<>{} \[\]:;'"|~\/]/g.test(newUsername)) {
       setUsernameInvalid(true);
       setErrorMessage(
-        `${'Your username cannot include spaces or these characters:/  ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
+        `${'Your username must be between 3 and 18 characters long and cannot include spaces or these characters: / ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
       );
       notValid = true;
     }
     if (newUsername.length < 3 || newUsername.length > 18) {
       setUsernameInvalid(true);
       setErrorMessage(
-        'Your username must be between 3 and 18 characters long.'
+        `${'Your username must be between 3 and 18 characters long and cannot include spaces or these characters: / ! @ # $ % ^ & * ( ) + = < > { }[ ] . : ;\'"|~'}`
       );
       notValid = true;
     }
