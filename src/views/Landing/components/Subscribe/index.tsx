@@ -4,12 +4,22 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
 import { config } from 'config';
 import { subscribeMail } from 'services/api/subscribe';
+import Toast from 'utils/Toast';
 
 const Subscribe = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [subscribed, setSubscribed] = useState<string>('');
+  const [header, setHeader] = useState<string>(
+    'Stay up to date on the latest updates!'
+  );
+  const [tagline, setTagline] = useState<string>(
+    "Want to know what's coming next?"
+  );
+  const [buttonText, setButtonText] = useState<string>(
+    'Join our mailing list!'
+  );
 
   const onChange = (event) => {
     setEmail(event?.target?.value);
@@ -22,23 +32,29 @@ const Subscribe = (): JSX.Element => {
     return regex.test(input);
   };
 
-  const subscribe = () => {
-    const { isAuthenticated } = useAuth0();
-    const subscribe = async () => {
-      const fields = [{ name: 'email', value: email }];
-      if (isAuthenticated) {
-        fields.push({ name: 'infinite_userid', value: loggedInUser.id });
-        fields.push({
-          name: 'infinite_username',
-          value: loggedInUser.username,
-        });
-      }
-      try {
-        const resp = await subscribeMail(fields);
-        setSubscribed(resp);
-      } catch (error) {}
-      setEmail('');
-    };
+  const { isAuthenticated } = useAuth0();
+
+  const subscribe = async () => {
+    const fields = [{ name: 'email', value: email }];
+    if (isAuthenticated) {
+      fields.push({ name: 'infinite_userid', value: loggedInUser.id });
+      fields.push({
+        name: 'infinite_username',
+        value: loggedInUser.username,
+      });
+    }
+    try {
+      const resp = await subscribeMail(fields);
+      setSubscribed(resp);
+      Toast.success(
+        'Thanks for signing up for the INFINITE newsletter! Stay tuned for more updates coming soon.'
+      );
+      setHeader('Thanks for signing up!');
+      setTagline('Newsletter signup successful');
+      setButtonText('Done');
+    } catch (error) {
+      Toast.error('Whoops! Something went wrong, Please try again.');
+    }
   };
 
   useEffect(() => {
@@ -51,37 +67,31 @@ const Subscribe = (): JSX.Element => {
   }, [subscribed]);
   return (
     <S.Container>
-      <S.Tagline>Want to know what is coming next?</S.Tagline>
-      <S.Header>Stay up to date on the newest updates.</S.Header>
-      {subscribed === '' ? (
-        <>
-          <S.EmailInput
-            name="subscribe"
-            type="email"
-            id="standard-basic"
-            onChange={onChange}
-            value={email}
-            placeholder="Enter your email"
-            error={error}
-            helperText={error ? 'Email must be formatted correctly.' : ''}
-          />
-          <S.SubscribeButton
-            disabled={error || !email}
-            color="gray"
-            style={{
-              height: '56px',
-              borderRadius: '25px',
-            }}
-            onClick={subscribe}
-          >
-            Subscribe now!
-          </S.SubscribeButton>{' '}
-        </>
-      ) : (
-        <span style={{ color: 'white', marginTop: 20, fontSize: '18px' }}>
-          Thanks for subscribing!
-        </span>
-      )}
+      <S.Tagline>{tagline}</S.Tagline>
+      <S.Header>{header}</S.Header>
+      <>
+        <S.EmailInput
+          name="subscribe"
+          type="email"
+          id="standard-basic"
+          onChange={onChange}
+          value={email}
+          placeholder="Enter your email"
+          error={error}
+          helperText={error ? 'Email must be formatted correctly.' : ''}
+        />
+        <S.SubscribeButton
+          disabled={error || !email}
+          color="gray"
+          style={{
+            height: '56px',
+            borderRadius: '25px',
+          }}
+          onClick={subscribe}
+        >
+          {buttonText}
+        </S.SubscribeButton>{' '}
+      </>
     </S.Container>
   );
 };
