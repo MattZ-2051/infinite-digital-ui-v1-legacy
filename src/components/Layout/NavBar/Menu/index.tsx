@@ -6,8 +6,8 @@ import UserProfileMenu from '../UserProfileMenu';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
 import { useAppSelector } from 'store/hooks';
 import avatarIcon from 'assets/img/icons/avatar-icon.png';
-//import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
 import UserProfileDetails from 'views/Collection/UserCollectioinInfo/UserProfileDetails';
+import PageLoader from 'components/PageLoader';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -23,6 +23,8 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
     setIsModalOpen(false);
   };
 
+  console.log('user', user?.username);
+
   return (
     <>
       <Container>
@@ -34,13 +36,16 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
             Marketplace
           </TextButton>
 
-          {isAuthenticated && (
+          {isAuthenticated && !user?.username && (
+            <PageLoader size={10} backGroundColor="black" color="white" />
+          )}
+          {isAuthenticated && user?.username && (
             <TextButton to={`/collection/${user.username}`} color="grey">
               My Collection
             </TextButton>
           )}
 
-          {isAuthenticated && (
+          {isAuthenticated && user?.username && (
             <AcountInfoContainer>
               <div
                 ref={ref}

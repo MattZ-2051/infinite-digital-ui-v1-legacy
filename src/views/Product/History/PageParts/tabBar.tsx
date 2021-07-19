@@ -70,7 +70,7 @@ export const TabBar = ({
 
       <S.GrayLine
         marginRight={
-          selectedTab === 'history' ||
+          (!matchesMobile && selectedTab === 'history') ||
           selectedTab === 'owner_access' ||
           auctionStatus.split('-')[0] === 'upcoming'
         }

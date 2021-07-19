@@ -15,7 +15,7 @@ export const RedeemMessage = ({ matchesMobile, isRedeemable }: Props) => {
           <S.Redeemed color="white">Redeemable</S.Redeemed>
         </S.FlexDiv>
       ) : (
-        <S.FlexDiv padding="0 0 0 16px">
+        <S.FlexDiv padding={matchesMobile ? '0' : '0 0 0 16px'}>
           <S.IsRedeemedIcon />
           <S.Redeemed color="#7c7c7c">Redeemed</S.Redeemed>
         </S.FlexDiv>
