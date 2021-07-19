@@ -41,7 +41,7 @@ export const BoxColumn = styled.div`
     font-weight: 400;
   }
   span {
-    letter-spacing: -2px;
+    // letter-spacing: -2px;
   }
 
   /* @media screen and (max-width: 600px) {
@@ -117,6 +117,7 @@ export const BoxTitle = styled.span`
   font-size: 24px;
   font-weight: 700;
   line-height: 30px;
+
   color: '#8E8E8E';
 `;
 

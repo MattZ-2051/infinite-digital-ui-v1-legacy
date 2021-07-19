@@ -134,7 +134,7 @@ const UpcomingData = ({
           <S.Price>${price}</S.Price>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
-              {items && `(${items} items)`}
+              {items && `(${items} NFTs)`}
             </small>
           )}
         </S.BoxColumn>
