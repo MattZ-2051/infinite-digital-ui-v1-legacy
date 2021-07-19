@@ -335,6 +335,11 @@ export const ButtonContainer = styled.div<{ flexDirection?: string }>`
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+  /* ::after {
+    content: '';
+    border-bottom: 1px solid #2e2e2e;
+    width: 90%;
+  } */
 `;
 
 export const Tab = styled.div<{
@@ -357,6 +362,7 @@ export const Tab = styled.div<{
   :focus {
     outline: none;
   }
+
 `;
 
 export const TransactionContainer = styled.div`

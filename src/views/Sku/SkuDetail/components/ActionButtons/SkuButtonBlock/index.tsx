@@ -134,7 +134,7 @@ const UpcomingData = ({
           <S.Price>${price}</S.Price>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
-              {items && `(${items} items)`}
+              {items && `(${items} NFTs)`}
             </small>
           )}
         </S.BoxColumn>
@@ -349,13 +349,13 @@ const SkuButtonBlock = ({
     sku.totalSupply === 1
   ) {
     const listing = collectors[0]?.listing;
-    const startDate = listing.startDate;
-    const endDate = listing.endDate;
-    const price = listing.minBid;
+    const startDate = listing?.startDate;
+    const endDate = listing?.endDate;
+    const price = listing?.minBid;
     const owner = collectors[0]?.owner;
     const serialNumber = collectors[0]?.serialNumber;
-    const isAuction = listing.saleType === 'auction';
-    const productId = collectors[0]?.listing.product;
+    const isAuction = listing?.saleType === 'auction';
+    const productId = collectors[0]?.listing?.product;
 
     if (isAuction) {
       if (listing.status === 'upcoming') {
@@ -367,7 +367,8 @@ const SkuButtonBlock = ({
             productId={productId}
           />
         );
-      } else if (listing.status === 'active') {
+      }
+      if (listing.status === 'active') {
         return (
           <UpcomingAuction
             endDate={endDate}
@@ -376,7 +377,8 @@ const SkuButtonBlock = ({
             productId={productId}
           />
         );
-      } else if (listing.status === 'sold') {
+      }
+      if (listing.status === 'sold') {
         return (
           <UpcomingAuction
             auctionState="sold"

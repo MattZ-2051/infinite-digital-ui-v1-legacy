@@ -13,17 +13,25 @@ export const Container = styled.div<{ height?: string }>`
   overflow: hidden;
 
   img {
-    width: 100%;
+    height: 100%;
+    width: auto;
     user-select: none;
   }
 
   @media screen and (max-width: 1160px) {
     max-width: 100%;
-  }
-
-  @media screen and (max-width: 640px) {
     overflow: auto;
     height: auto !important;
+
+    video {
+      max-height: 700px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      max-width: 700px;
+    }
   }
 `;
 

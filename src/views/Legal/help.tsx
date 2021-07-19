@@ -15,10 +15,10 @@ const Help = () => {
       const windowWithHubspotForm: WindowWithHubspotForm = window;
       if (loaded && !error && windowWithHubspotForm.hbspt) {
         windowWithHubspotForm.hbspt.forms.create({
-          region: config.hubspot.region,
-          portalId: config.hubspot.portalId,
-          formId: config.hubspot.formId,
-          target: config.hubspot.target,
+          region: config.hubspot.helpSection.region,
+          portalId: config.hubspot.helpSection.portalId,
+          formId: config.hubspot.helpSection.formId,
+          target: '#embed-hubspot',
         });
       }
     }
