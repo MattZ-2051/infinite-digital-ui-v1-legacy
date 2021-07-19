@@ -30,7 +30,7 @@ const FilterChip = ({ label, type, onClick }: IProps) => {
           }}
         >
           <span style={{ fontSize: '16px', fontWeight: 400 }}>Clear All</span>
-          <Clear onClick={onClick} />
+          <Clear/>
         </StyledDiv>
       )}
     </>

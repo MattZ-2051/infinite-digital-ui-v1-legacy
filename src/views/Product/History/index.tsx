@@ -41,7 +41,6 @@ const History = ({
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
-  console.log(selectedTab, 'aca');
   const history = useHistory();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [isModalOpen, setIsModalOpen] = useState(false);
