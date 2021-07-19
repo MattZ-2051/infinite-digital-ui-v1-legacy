@@ -17,6 +17,7 @@ import Button from 'components/Buttons';
 import notifyIcon from 'assets/svg/icons/notify-black.svg';
 import * as S from './styles';
 import MapsLocalDining from 'material-ui/svg-icons/maps/local-dining';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text?.split('. ');
@@ -58,6 +59,7 @@ const Collection = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const { isAuthenticated } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   async function fetchUser() {
     try {
@@ -182,25 +184,20 @@ const Collection = (): JSX.Element => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: '10rem',
-            paddingBottom: '10rem',
+            marginTop: matchesMobile ? '40px' : '156px',
+            marginBottom: matchesMobile ? '80px' : '120px',
           }}
         >
           <FlexColumn
-            childMargin="1rem"
+            childMargin="0"
             style={{
-              margin: '1rem',
+              margin: '0',
               alignItems: 'center',
               width: '80%',
-              marginTop: '2rem',
+              marginTop: '0',
             }}
           >
-            <TextContainer
-              textAlign="center"
-              fontSize="48"
-              fontWeight="700"
-              style={{ marginBottom: '160px' }}
-            >
+            <TextContainer textAlign="center" fontSize="48" fontWeight="700">
               {taglineMain}
               <GradientText textAlign="center" fontSize="48" fontWeight="700">
                 {taglineGradient}
