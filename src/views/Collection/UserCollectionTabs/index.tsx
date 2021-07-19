@@ -111,9 +111,24 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   };
   if (isLoading)
     return <PageLoader color={'white'} backGroundColor={'black'} />;
+
+  const getWidthMinusScrollbar = () => {
+    let width = window.innerWidth;
+
+    if (window.innerWidth && document.documentElement.clientWidth) {
+      width = Math.min(window.innerWidth, document.documentElement.clientWidth);
+    } else {
+      width =
+        document.documentElement.clientWidth ||
+        document.getElementsByTagName('body')[0].clientWidth;
+    }
+
+    return width;
+  };
+
   return (
     <S.ContainerForBigScreen
-      screenWidth={window.innerWidth}
+      screenWidth={getWidthMinusScrollbar()}
       backgroundColor={user.role === 'issuer' ? 'black' : 'white'}
     >
       <S.Container themeStyle={themeStyle}>
