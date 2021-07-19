@@ -48,7 +48,7 @@ const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
       setDepSummary(depositSummary);
       setPaymentsChecked(true);
     } catch (e) {
-      setErrorMsg(e.message?.message);
+      setErrorMsg(e?.message);
     }
     setLoading(false);
   }
@@ -87,7 +87,11 @@ const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
           </S.FlexColumn>
         )}
         <WalletAddress paymentsChecked={paymentsChecked} />
-        {errorMsg && <p>An error occurred: {errorMsg}</p>}
+        {errorMsg && (
+          <p style={{ color: '#da1010' }}>
+            An error occurred, please try again later.
+          </p>
+        )}
         {!paymentsChecked && (
           <S.FlexColumn className="deposit__step">
             <p style={{ fontSize: '14px', fontWeight: 600 }}>Step 2:</p>

@@ -84,20 +84,20 @@ const CoinbaseDepositInfo = ({ tx }: { tx: ITransaction }) => (
 
 const HbarDepositInfo = ({ tx }: { tx: ITransaction }) => (
   <>
-    <S.Icon src={hbarIcon} />
+    <S.Icon src={hbarIcon} width="auto" height="32px" />
     <S.HistoryLine>
       {tx.status === 'success'
         ? 'You added funds by depositing'
         : tx.status === 'pending'
-          ? 'You added funds by depositing'
-          : 'You tried to add funds by depositing'}
-      <S.Bold>
-        ${tx.transactionData.deposit?.amount}
-      </S.Bold>
+        ? 'You added funds by depositing'
+        : 'You tried to add funds by depositing'}
+      <S.Bold>${tx.transactionData.deposit?.amount}</S.Bold>
       using
-      <S.Bold>Hedera Hashgraph</S.Bold>
-      {tx.status === 'pending' ? (
-        <S.Bold>(Pending)</S.Bold>
+      <S.Bold>Hbar</S.Bold>
+      {tx.status === 'pending' || tx.status === 'success' ? (
+        <S.Bold
+          style={{ textTransform: 'capitalize' }}
+        >{`(${tx.status})`}</S.Bold>
       ) : tx.status === 'error' ? (
         <S.Bold>(Transaction Failed)</S.Bold>
       ) : null}
@@ -335,9 +335,9 @@ const Transaction = ({ tx }: IProps) => {
             <CoinbaseDepositInfo tx={tx} />
           )}
         {tx.type === 'deposit' &&
-        tx.transactionData?.deposit?.type === 'hbar' && (
-          <HbarDepositInfo tx={tx} />
-        )}
+          tx.transactionData?.deposit?.type === 'hbar' && (
+            <HbarDepositInfo tx={tx} />
+          )}
       </S.TransactionDescription>
       {!isSmall ? (
         <>
