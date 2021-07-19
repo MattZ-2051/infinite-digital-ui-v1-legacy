@@ -21,7 +21,7 @@ const Container = styled.div<{ height?: string; backgroundColor?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  backgroundcolor: ${(props) =>
+  background-color: ${(props) =>
     props.backgroundColor ? `${props.backgroundColor}` : `white`};
 `;
 
