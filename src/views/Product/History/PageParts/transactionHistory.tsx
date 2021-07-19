@@ -25,7 +25,7 @@ export const TransactionHistory = ({
             return <Transaction key={tx._id} transaction={tx} />;
           })}
       </S.TransactionContainer>
-      {totalTransactions > 1 &&
+      {totalTransactions > perPage &&
         (matchesMobile ? (
           <S.FlexDiv justifyContent="center" padding="30px 0 0 0">
             <S.StyledPagination
