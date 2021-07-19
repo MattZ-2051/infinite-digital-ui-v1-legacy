@@ -182,6 +182,7 @@ const Collection = (): JSX.Element => {
           style={{
             display: 'flex',
             justifyContent: 'center',
+            height: '100vh',
           }}
         >
           <FlexColumn
