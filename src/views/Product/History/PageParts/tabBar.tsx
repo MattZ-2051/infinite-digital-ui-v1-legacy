@@ -48,7 +48,12 @@ export const TabBar = ({
       >
         History
       </S.Tab>
-      <S.Padding />
+      <S.Padding
+      // style={{
+      //   borderBottom:
+      //     selectedTab === 'history' ? 'none' : ': 2px solid #2e2e2e;',
+      // }}
+      />
 
       {arePrivateAssets && (
         <S.Tab
@@ -66,10 +71,12 @@ export const TabBar = ({
       <S.GrayLine
         marginRight={
           selectedTab === 'history' ||
+          selectedTab === 'owner_access' ||
           auctionStatus.split('-')[0] === 'upcoming'
         }
         width={
           selectedTab === 'history' ||
+          selectedTab === 'owner_access' ||
           auctionStatus.split('-')[0] === 'upcoming'
         }
       />

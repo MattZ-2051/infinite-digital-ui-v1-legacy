@@ -41,6 +41,7 @@ const History = ({
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
+  console.log(selectedTab, 'aca');
   const history = useHistory();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -135,6 +136,12 @@ const History = ({
   useEffect(() => {
     util.fetchPrivateAssets();
   }, [product?.sku?._id]);
+
+  useEffect(() => {
+    if (privateAssets?.length > 0) {
+      setSelectedTab('owner_access');
+    }
+  }, [privateAssets]);
 
   if (historyStatus === '' || !handlers) return <></>;
 
