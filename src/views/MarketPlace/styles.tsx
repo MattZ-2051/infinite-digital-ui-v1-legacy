@@ -73,6 +73,10 @@ export const ProductsGrid = styled.div`
   grid-gap: 26px;
   grid-template-columns: repeat(auto-fit, 300px);
   margin-top: 20px;
+  // justify-content: center;
+  @media screen and (max-width: 1140px) {
+    justify-content: center;
+  }
 `;
 
 export const PaginationContainer = styled.div`
