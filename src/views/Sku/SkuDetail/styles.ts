@@ -195,11 +195,12 @@ export const LineDivider = styled.div`
 
 export const ProductContainer = styled.div`
   display: flex;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  height: 36em;
+  overflow: hidden;
+  height: 100%;
   margin-bottom: 30px;
-
+  :hover {
+    overflow-x: auto;
+  }
   @media screen and (max-width: 960px) {
     flex-direction: column;
     padding: 56px 24px 0 24px;
