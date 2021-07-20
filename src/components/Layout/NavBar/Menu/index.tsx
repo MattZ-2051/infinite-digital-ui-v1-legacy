@@ -23,21 +23,21 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
     setIsModalOpen(false);
   };
 
-  console.log('user', user?.username);
-
   return (
     <>
       <Container>
         <Divider gap={32}>
-          <TextButton
-            to="/marketplace"
-            color="grey"
-          >
+          <TextButton to="/marketplace" color="grey">
             Marketplace
           </TextButton>
 
           {isAuthenticated && !user?.username && (
-            <PageLoader size={10} backGroundColor="black" color="white" />
+            <PageLoader
+              size={10}
+              backGroundColor="black"
+              color="white"
+              height="100%"
+            />
           )}
           {isAuthenticated && user?.username && (
             <TextButton to={`/collection/${user.username}`} color="grey">
