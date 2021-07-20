@@ -111,7 +111,8 @@ const History = ({
     setHistoryPage,
     selectedTab
   );
-
+  const isAuctionOrWillBe = util.auctionOrWillBeAuction();
+  const isActiveAuction = util.isActiveAuction();
   //effects.
 
   useEffect(() => {
@@ -129,7 +130,9 @@ const History = ({
   }, [selectedTab]);
 
   useEffect(() => {
-    util.fetchBids();
+    if (isActiveAuction) {
+      util.fetchBids();
+    }
   }, [auctionPage]);
 
   useEffect(() => {
