@@ -19,7 +19,6 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [txLink, setTxLink] = useState<string>();
-  const [color, setColor] = useState('#000');
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -48,7 +47,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
     });
     const usdcTxs = txList.result.filter(
       (txResponse) =>
-        txResponse.contractAddress === usdcAddress[CHAIN_ID] &&
+        txResponse.contractAddress === usdcAddress &&
         txResponse.blockNumber > startBlock
     );
     if (usdcTxs.length > 0) {
@@ -73,7 +72,6 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
           )}
         </p>
         <p>
-          {buttonDisabled && !usdcAddress && <p>Loading...</p>}
           {userUsdcAddress && (
             <StylesFromCreditCard.FormInput
               size="medium"
@@ -95,8 +93,8 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
         {userUsdcAddress && !txLink && (
           <p>
             <PulseLoader
-              color={color}
-              loading={usdcAddress && !txLink}
+              color="#000"
+              loading={!txLink}
               css={'display:block;margin: 0 auto;'}
               size={9}
               margin={3}

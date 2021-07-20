@@ -13,6 +13,7 @@ interface AppConfig {
     coinbaseCheckoutId: string;
   };
   blockchain: {
+    usdcTokenContractAddress: string;
     chainId: number;
     apiKey: string;
   };
@@ -44,6 +45,9 @@ interface AppConfig {
     dailyDepositLimit: string;
     weeklyDepositLimit: string;
   };
+  gtag: {
+    id: string;
+  };
 }
 
 export const config: AppConfig = {
@@ -69,6 +73,7 @@ export const config: AppConfig = {
     apiKey:
       getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
       '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
+    usdcTokenContractAddress: getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) || '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
   },
   kyc: {
     templateLvl1:
@@ -89,7 +94,6 @@ export const config: AppConfig = {
       formId:
         getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
         'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-      // target: getEnvVar('REACT_APP_HUBSPOT_TARGET', false) || '#embed-hubspot',
     },
     mailSubscribingSection: {
       region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
@@ -108,4 +112,7 @@ export const config: AppConfig = {
     weeklyDepositLimit:
       getEnvVar('REACT_APP_WEEKLY_DEPOSIT_LIMIT_USD', false) || '3000',
   },
+  gtag: {
+    id: getEnvVar('REACT_APP_GTAG_ID', false) || 'G-KH8PDB7NVR',
+  }
 };

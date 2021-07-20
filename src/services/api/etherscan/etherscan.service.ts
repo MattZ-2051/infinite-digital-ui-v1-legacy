@@ -8,12 +8,7 @@ export const Networks = {
   Ropsten: 3,
 };
 
-export const usdcAddress: {
-  [key: number]: string;
-} = {
-  [Networks.MainNet]: '',
-  [Networks.Ropsten]: '0x07865c6e87b9f70255377e024ace6630c1eaa37f', // ToDo: More hardcoded things...
-};
+export const usdcAddress = config.blockchain.usdcTokenContractAddress;
 
 const apiUrl: {
   [key: number]: string;

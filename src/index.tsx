@@ -44,32 +44,74 @@ const providerConfig = {
   onRedirectCallback,
 };
 
-Sentry.init({
-  dsn: 'https://d62e365d86514f3f81a5d9864667adda@o734225.ingest.sentry.io/5784745',
-  integrations: [new Integrations.BrowserTracing()],
+declare global {
+  interface Window {
+    dataLayer: any;
+    gtag: any;
+  }
+}
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 0.1,
-});
+function addGtag() {
+  const tagId = 'googletagmanagerscript';
+  if (document.getElementById(tagId)) {
+    return;
+  }
+  const script = document.createElement("script");
+  script.id = tagId;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${config.gtag.id}`;
+  script.async = true;
+  document.body.appendChild(script);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = (...args) => {
+    window.dataLayer.push(args);
+  }
+  window.gtag('js', new Date());
+  window.gtag('config', config.gtag.id);
+}
+
+function addHubspot(portalId) {
+  const tagId = `hs-script-loader-${portalId}`;
+  if (document.getElementById(tagId)) {
+    return;
+  }
+  const script = document.createElement("script");
+  script.id = tagId;
+  script.src = `//js.hs-scripts.com/${portalId}.js`;
+  script.async = true;
+  script.defer = true;
+  document.body.appendChild(script);
+}
+
+const Main = () => {
+  React.useEffect(
+    () => {
+      // addGtag();
+      addHubspot(config.hubspot.helpSection.portalId);
+      addHubspot(config.hubspot.mailSubscribingSection.portalId);
+    },
+    []
+  );
+  return (
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Auth0Provider
+              {...providerConfig}
+              useRefreshTokens={true}
+              cacheLocation="localstorage"
+            >
+              <App />
+            </Auth0Provider>
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
+    </React.StrictMode>
+  );
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Auth0Provider
-            {...providerConfig}
-            useRefreshTokens={true}
-            cacheLocation="localstorage"
-          >
-            <App />
-          </Auth0Provider>
-        </PersistGate>
-      </Provider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <Main />,
   document.getElementById('root')
 );
 
