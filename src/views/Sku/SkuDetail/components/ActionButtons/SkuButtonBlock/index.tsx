@@ -235,14 +235,17 @@ interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
   skuId: string;
+  circulatingSupply: number;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
   skuId,
+  circulatingSupply,
 }: IFromCollectorsBox): JSX.Element => {
   const history = useHistory();
+  if (circulatingSupply === 0) return <> </>;
   return (
     <S.Container>
       <S.BoxColumn>
@@ -450,6 +453,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );
@@ -479,6 +483,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );
