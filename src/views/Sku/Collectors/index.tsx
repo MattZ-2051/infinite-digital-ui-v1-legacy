@@ -87,7 +87,7 @@ const Collectors = () => {
       <S.Container>
         <S.Title>
           <div>
-            <S.TitleLink to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
+            <S.TitleLink to="/marketplace">
               Marketplace
             </S.TitleLink>{' '}
             /{' '}

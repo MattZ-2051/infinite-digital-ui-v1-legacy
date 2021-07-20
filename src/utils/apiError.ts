@@ -38,7 +38,7 @@ export type AppError = NetError | ApiError | ApiLogicError;
 export function handleApiError(err) : AppError {
   Sentry.captureException(err);
   if (err.response) {
-    return new ApiLogicError(err.response.data, err.response);
+    return new ApiLogicError(err.response.data.message, err.response);
   }
   if (err.request) {
     return new ApiError('No Response Received', err.request);

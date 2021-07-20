@@ -66,7 +66,14 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
       <div style={{ textAlign: 'center' }}>
         <p>
           {!buttonDisabled && (
-            <ActionButton onClick={getUSDCAddress}>
+            <ActionButton
+              onClick={getUSDCAddress}
+              style={{
+                justifyContent: 'center',
+                fontSize: '20px',
+                fontWeight: 700,
+              }}
+            >
               Generate USDC Address
             </ActionButton>
           )}

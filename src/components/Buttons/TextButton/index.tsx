@@ -61,6 +61,7 @@ const TextButton = styled(({ color, size, matchesMobile, ...rest }) => (
     padding: 0;
     margin: 0;
     background: none;
+    font-weight: 600;
     text-transform: none;
     font-size: ${(props) => {
       switch (props.size) {

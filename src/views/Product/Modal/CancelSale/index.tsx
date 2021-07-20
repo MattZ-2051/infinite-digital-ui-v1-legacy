@@ -98,6 +98,7 @@ const CancelSale = ({
   };
   return (
     <Modal
+      centered={true}
       open={visible}
       onClose={() => setModalPaymentVisible(false)}
       aria-labelledby="simple-modal-title"

@@ -8,8 +8,6 @@ export const Container = styled.section`
   display: flex;
   padding: 80px;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   text-align: center;
   color: white;
   padding-bottom: 100px;
@@ -23,10 +21,14 @@ export const Container = styled.section`
   }
 `;
 
-export const DropButtonContainer = styled.div<{ paddingLeft: string }>`
+export const DropButtonContainer = styled.div<{
+  paddingLeft: string;
+  paddingTop: string;
+}>`
   display: flex;
   align-items: center;
   padding-left: ${(props) => `${props.paddingLeft}`};
+  padding-top: ${(props) => `${props.paddingTop}`};
 `;
 
 export const DropArrow = styled(RightArrow)`
@@ -46,8 +48,8 @@ export const DropButton = styled.span`
   }
 `;
 
-export const Button = styled.button`
-  width: 179px;
+export const Button = styled.button<{ width: string }>`
+  width: ${(props) => `${props.width}`};
   height: 48px;
   color: white;
   font-weight: 600;
@@ -61,6 +63,8 @@ export const Button = styled.button`
   }
   :hover {
     cursor: pointer;
+    background-color: #ddf874;
+    color: black;
   }
 `;
 
@@ -74,22 +78,26 @@ export const ImgContainer = styled.div`
 export const DropImg = styled.img`
   position: absolute;
   right: 0;
-  left: 30%;
-  top: 75%;
+  left: 44%;
+  top: 78%;
+  width: 305px;
 
   @media screen and (max-width: 960px) {
     width: 235px;
+    left: 38%;
   }
 `;
 
-export const SubContainer = styled.div<{ order: number }>`
+export const SubContainer = styled.div<{ order: number; padding?: string }>`
   order: ${(props) => `${props.order}`};
+  padding: ${(props) => `${props.padding}`};
 `;
 
-export const Title = styled.h1`
-  font-size: 56px;
+export const Title = styled.h1<{ fontSize: string }>`
+  font-size: ${(props) => `${props.fontSize}`};
   font-weight: 700;
-  margin: 50px 0 24px 0;
+  margin: 0;
+  // margin: 50px 0 24px 0;
   text-align: left;
 
   span {
@@ -99,9 +107,8 @@ export const Title = styled.h1`
   }
 
   @media screen and (max-width: 600px) {
-    margin: 50px 0 24px 0;
+    margin: 44px 0 18px 0;
     font-size: 32px;
-    margin-bottom: 10%;
     text-align: center;
     span {
       font-size: 32px;
@@ -117,12 +124,12 @@ export const Subtitle = styled.h2<{
   font-weight: ${(props) => `${props.fontWeight}`};
   font-size: 18px;
   color: ${(props) => `${props.color}`};
-  margin-bottom: 32px;
   line-height: 32px;
   text-align: left;
+  margin: 0;
 
   @media screen and (max-width: 600px) {
-    margin-bottom: 12%;
+    // margin-bottom: 12%;
     text-align: center;
   }
 `;

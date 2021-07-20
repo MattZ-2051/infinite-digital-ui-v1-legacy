@@ -30,7 +30,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
       <Container>
         <Divider gap={32}>
           <TextButton
-            to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+            to="/marketplace"
             color="grey"
           >
             Marketplace

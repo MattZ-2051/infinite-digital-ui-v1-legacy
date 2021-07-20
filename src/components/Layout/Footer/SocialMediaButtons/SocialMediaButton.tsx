@@ -33,7 +33,7 @@ interface IProps {
 const url = {
   [Social.Facebook]: 'https://www.facebook.com/infinitebysuku',
   [Social.Instagram]: 'https://www.instagram.com/infinitebysuku/',
-  [Social.TicTok]: 'https://www.tiktok.com/@_goinfinite',
+  [Social.TicTok]: 'https://www.tiktok.com/@infinitebysuku?lang=en',
   [Social.Twitter]: 'https://twitter.com/infinitebysuku',
 };
 

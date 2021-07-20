@@ -55,7 +55,7 @@ const MobileMenu = ({
               <TextButton
                 type="link"
                 color="white"
-                to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                to="/marketplace"
                 onClick={onSelect}
               >
                 Marketplace
