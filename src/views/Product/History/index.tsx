@@ -127,7 +127,7 @@ const History = ({
     if (selectedTab === 'auction') {
       setAuctionStatus(util.getAuctionStatus());
     }
-  }, [selectedTab]);
+  }, [selectedTab, totalBids]);
 
   useEffect(() => {
     if (isActiveAuction) {
