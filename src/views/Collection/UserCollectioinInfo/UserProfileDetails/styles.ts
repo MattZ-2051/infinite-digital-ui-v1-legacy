@@ -243,7 +243,7 @@ export const BorderWrapper = styled.span`
 
 export const Grayline = styled.div`
   border-bottom: 2px solid #d8d8d8;
-  padding-top: 16px;
+  padding-top: 18px;
 `;
 
 export const UserProfileIcon = styled(UserProfileSvg)`
