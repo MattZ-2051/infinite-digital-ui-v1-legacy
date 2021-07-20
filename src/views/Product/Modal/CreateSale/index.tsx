@@ -99,121 +99,120 @@ const CreateSale = ({
       onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      centered={true}
     >
-      {/* <S.ImageContainer>
-        <img src={product?.sku?.imageUrls[0]} alt="" />
-        <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+      <S.Body>
+        <S.CloseButton onClick={handleClose}>
           <CloseModal />
         </S.CloseButton>
-      </S.ImageContainer> */}
-      <S.CloseButton onClick={handleClose}>
-        <CloseModal />
-      </S.CloseButton>
-      <S.Header>
-        <S.Title>List Your NFT For Sale</S.Title>
-      </S.Header>
-      <S.ModalContainer>
-        <S.StyledMuiDivider />
+        <S.Header>
+          <S.Title>List Your NFT For Sale</S.Title>
+        </S.Header>
+        <S.ModalContainer>
+          <S.StyledMuiDivider />
 
-        <S.Detail>
-          <S.DetailRow>
-            <span>{product?.sku?.issuerName}</span>
-            <Rarity type={product?.sku?.rarity} />
-          </S.DetailRow>
+          <S.Detail>
+            <S.DetailRow>
+              <S.IssuerName>{product?.sku?.issuerName}</S.IssuerName>
+              <Rarity type={product?.sku?.rarity} />
+            </S.DetailRow>
 
-          <S.DetailRow style={{ fontSize: '20px' }}>
-            <span>{product?.sku?.name}</span>
-          </S.DetailRow>
+            <S.DetailRow style={{ fontSize: '20px' }}>
+              <S.SkuName>{product?.sku?.name}</S.SkuName>
+            </S.DetailRow>
 
-          <S.DetailRow>
-            <span>
-              {product?.sku?.series?.name}
-              {product?.sku?.redeemable && (
-                <>
-                  <Redeemable /> / Redeemable
-                </>
-              )}
-            </span>
-            <div>
-              <span style={{ color: '#9E9E9E' }}>Serial:</span>
-              <span>#{product.serialNumber}</span>
-            </div>
-          </S.DetailRow>
-        </S.Detail>
+            <S.DetailRow>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <S.SeriesName>{product?.sku?.series?.name}</S.SeriesName>
+                {product?.sku?.redeemable && (
+                  <>
+                    <Redeemable />{' '}
+                    <S.Redeemable>&nbsp;/ Reedemable</S.Redeemable>
+                  </>
+                )}
+              </div>
+              <div>
+                <span style={{ color: '#9E9E9E' }}>Serial:</span>
+                <span>#{product.serialNumber}</span>
+              </div>
+            </S.DetailRow>
+          </S.Detail>
 
-        <S.StyledMuiDivider />
-        <S.InputContainer>
-          <TextField
-            type="money"
-            placeholder="Enter price"
-            onChange={(value) => onPriceChanged(value)}
-            defaultValue={price}
-            name={price}
-          />
-        </S.InputContainer>
-        <S.Detail>
-          <S.DetailRowPrice>
-            <div>
-              <span>Marketplace fee ({fee}%):</span>
-            </div>
-            <div>
-              <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
-            </div>
-          </S.DetailRowPrice>
-          {product?.royaltyFeePercentage > 0 && product?.resale && (
+          <S.StyledMuiDivider />
+          <S.InputContainer>
+            <TextField
+              type="money"
+              placeholder="Enter price"
+              onChange={(value) => onPriceChanged(value)}
+              defaultValue={price}
+              name={price}
+            />
+          </S.InputContainer>
+          <S.Detail>
             <S.DetailRowPrice>
               <div>
-                <span>
-                  Creator royalty fee ({product?.royaltyFeePercentage}%) :
-                </span>
+                <span>Marketplace fee ({fee}%):</span>
               </div>
-              <div>${royaltyFee?.toFixed(2)}</div>
+              <div>
+                <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
+              </div>
             </S.DetailRowPrice>
-          )}
-        </S.Detail>
+            {product?.royaltyFeePercentage > 0 && product?.resale && (
+              <S.DetailRowPrice>
+                <div>
+                  <span>
+                    Creator royalty fee ({product?.royaltyFeePercentage}%) :
+                  </span>
+                </div>
+                <div>${royaltyFee?.toFixed(2)}</div>
+              </S.DetailRowPrice>
+            )}
+          </S.Detail>
 
-        <S.StyledMuiDivider />
+          <S.StyledMuiDivider />
 
-        <S.Detail>
-          <S.DetailRow>
-            <div>
-              <strong>Final Payout:</strong>
-            </div>
-            <div>
-              <strong style={{ fontSize: '20px' }}>
-                ${price === '' ? 0 : total?.toFixed(2)}
-              </strong>
-            </div>
-          </S.DetailRow>
-        </S.Detail>
-        <S.Footer>
-          <p>
-            Listing your NFT for sale on the marketplace will allow it to be
-            purchased by other users. Once listed for sale it cannot be canceled
-            <br />
-            <a
-              target="_blank"
-              href="https://support.suku.world/"
-              rel="noreferrer"
-            >
-              Click here to learn more.
-            </a>
-          </p>
-        </S.Footer>
-        <Button
-          style={{
-            height: '56px',
-            borderRadius: '24px',
-            width: '100%',
-            textDecoration: 'none',
-            textTransform: 'capitalize',
-          }}
-          onClick={startSale}
-          disabled={loading || !price}
-        >
-          Start Sale
-        </Button>
-      </S.ModalContainer>
+          <S.Detail>
+            <S.DetailRow>
+              <div>
+                <strong>Final Payout:</strong>
+              </div>
+              <div>
+                <strong style={{ fontSize: '20px' }}>
+                  ${price === '' ? 0 : total?.toFixed(2)}
+                </strong>
+              </div>
+            </S.DetailRow>
+          </S.Detail>
+          <S.Footer>
+            <p>
+              Listing your NFT for sale on the marketplace will allow it to be
+              purchased by other users. Once listed for sale it cannot be
+              canceled
+              <br />
+              <a
+                target="_blank"
+                href="https://support.suku.world/"
+                rel="noreferrer"
+              >
+                Click here to learn more.
+              </a>
+            </p>
+          </S.Footer>
+          <Button
+            style={{
+              height: '56px',
+              borderRadius: '24px',
+              width: '100%',
+              textDecoration: 'none',
+              textTransform: 'capitalize',
+            }}
+            onClick={startSale}
+            disabled={loading || !price}
+          >
+            Start Sale
+          </Button>
+        </S.ModalContainer>
+      </S.Body>
     </Modal>
   );
 };
