@@ -3,6 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import padlock from 'assets/svg/icons/padlock-icon.svg';
 import { formatDate } from 'utils/dates';
 import { useCountdown } from 'hooks/useCountdown';
+import { useEffect } from 'react';
 
 export const TabBar = ({
   util,
@@ -25,6 +26,12 @@ export const TabBar = ({
   if (countdown === '0h 0m 0s') {
     window.location.reload();
   }
+
+  useEffect(() => {
+    if (isActiveAuction || isAuctionOrWillBe) {
+      setSelectedTab('auction');
+    }
+  }, []);
 
   return (
     <S.TabBar>
