@@ -15,27 +15,29 @@ import {
 import Toast from 'utils/Toast';
 import * as S from './styles';
 import { config } from 'config';
-import {ApiLogicError} from "../../../../utils/apiError";
+import { ApiLogicError } from '../../../../utils/apiError';
 
 const ccDepositLimit = parseInt(config.kycLimits.ccDepositLimit, 10);
-const dailyDepositLimitMsgRe = /^You've deposited \$(?<depositByNow>\S+) USD in the past 24 hours\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
-const weeklyDepositLimitMsgRe = /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
+const dailyDepositLimitMsgRe =
+  /^You've deposited \$(?<depositByNow>\S+) USD in the past 24 hours\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
+const weeklyDepositLimitMsgRe =
+  /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 
 const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
 
 function showDepositToastMessage(depositErrMsg) {
-  const matchDaily = dailyDepositLimitMsgRe.exec(
-    depositErrMsg,
-  );
+  const matchDaily = dailyDepositLimitMsgRe.exec(depositErrMsg);
   if (matchDaily) {
-    Toast.error(`You\'ve deposited $${matchDaily?.groups?.depositByNow} USD in the past 24 hours. The deposit would exceed the current allowable limit of $${matchDaily?.groups?.depositLimit} USD`);
+    Toast.error(
+      `You\'ve deposited $${matchDaily?.groups?.depositByNow} USD in the past 24 hours. The deposit would exceed the current allowable limit of $${matchDaily?.groups?.depositLimit} USD`
+    );
     return;
   }
-  const matchWeekly = weeklyDepositLimitMsgRe.exec(
-    depositErrMsg,
-  );
+  const matchWeekly = weeklyDepositLimitMsgRe.exec(depositErrMsg);
   if (matchWeekly) {
-    Toast.error(`You\'ve deposited $${matchWeekly?.groups?.depositByNow} USD in the past seven days. The deposit would exceed the current allowable limit of $${matchWeekly?.groups?.depositLimit} USD`);
+    Toast.error(
+      `You\'ve deposited $${matchWeekly?.groups?.depositByNow} USD in the past seven days. The deposit would exceed the current allowable limit of $${matchWeekly?.groups?.depositLimit} USD`
+    );
     return;
   }
   Toast.error(`Other deposit error`);
@@ -81,10 +83,14 @@ const AddFunds = () => {
     }
 
     const res = await dispatch(
-      addFundsThunk({ token: userToken, data: {
+      addFundsThunk({
+        token: userToken,
+        data: {
           email: userCard.metadata.email,
           amount: lAmount,
-        }, cardId: userCard.id })
+        },
+        cardId: userCard.id,
+      })
     );
 
     if (res.type.split('/').slice(-1)?.[0] !== 'rejected') {

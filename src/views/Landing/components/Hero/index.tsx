@@ -45,7 +45,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
             </S.Subtitle>
           </div>
           <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
-            Launching Thursday, July 22st, <br />
+            Launching Thursday, July 22st, {matchesMobile && <br />}
             12:00 PM (ET)
           </S.Subtitle>
 
