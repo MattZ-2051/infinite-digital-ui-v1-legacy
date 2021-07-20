@@ -47,7 +47,7 @@ const Landing = () => {
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeaturedSlider />
-      <SkuTilesTab isAuthenticated={isAuthenticated} />
+      <SkuTilesTab />
       <Subscribe />
     </main>
   );

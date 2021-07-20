@@ -82,7 +82,7 @@ const History = ({
         product?.upcomingProductListings[0]?.startDate
     );
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
-  const marketPlaceUrl = '/marketplace?page=1&per_page=6&sortBy=startDate:asc';
+  const marketPlaceUrl = '/marketplace';
 
   //clases
   const util = new Util(

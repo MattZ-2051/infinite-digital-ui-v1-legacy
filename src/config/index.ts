@@ -30,9 +30,14 @@ interface AppConfig {
   };
   hubspot: {
     region: string;
-    portalId: string;
-    helpFormId: string;
-    mailSubscribingFormId: string;
+    helpSection: {
+      portalId: string;
+      formId: string;
+    };
+    mailSubscribingSection: {
+      portalId: string;
+      formId: string;
+    };
   };
   kycLimits: {
     ccDepositLimit: string;
@@ -81,9 +86,14 @@ export const config: AppConfig = {
   },
   hubspot: {
     region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
-    portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
-    helpFormId: getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) || 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-    mailSubscribingFormId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', true),
+    helpSection: {
+      formId: getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) || 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+      portalId: getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '8953348',
+    },
+    mailSubscribingSection: {
+      formId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', false) || 'ef10e4fd-1595-42d1-b10b-6d6dd9b2b46f',
+      portalId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID', false) || '20243335',
+    },
   },
   kycLimits: {
     ccDepositLimit:

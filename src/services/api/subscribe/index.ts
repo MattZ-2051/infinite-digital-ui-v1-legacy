@@ -3,8 +3,8 @@ import { config } from 'config';
 import { handleApiError } from 'utils/apiError';
 
 export const subscribeMail = async (fields): Promise<string> => {
-  const portalId = config.hubspot.portalId;
-  const formId = config.hubspot.mailSubscribingFormId;
+  const portalId = config.hubspot.mailSubscribingSection.portalId;
+  const formId = config.hubspot.mailSubscribingSection.formId;
 
   try {
     const resp = await axios.request<{ inlineMessage: string }>({

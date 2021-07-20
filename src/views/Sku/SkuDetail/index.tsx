@@ -163,7 +163,7 @@ const SkuDetail = (): JSX.Element => {
             <S.ProductDetail>
               <S.Breadcrumbs>
                 <a
-                  href="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                  href="/marketplace"
                   style={{ color: 'white' }}
                 >
                   Marketplace
