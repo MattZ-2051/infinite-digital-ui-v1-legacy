@@ -49,6 +49,7 @@ export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
       ? theme.palette.dark.baseComplement
       : theme.palette.light.baseComplement};
 
+  min-height: 70vh;
   @media screen and (min-width: 1440px) {
     width: 1440px;
   }

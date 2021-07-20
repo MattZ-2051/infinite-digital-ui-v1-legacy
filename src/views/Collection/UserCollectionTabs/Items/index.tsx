@@ -8,6 +8,14 @@ interface Props {
   themeStyle?: 'light' | 'dark';
 }
 
+const NoItems = () => {
+  return (
+    <div style={{ margin: 'auto' }}>
+      <h1 style={{ fontWeight: 500 }}>No NFTs Owned Yet</h1>
+    </div>
+  );
+};
+
 const Items = ({
   userItems,
   collection,
@@ -15,20 +23,22 @@ const Items = ({
 }: Props): JSX.Element => {
   return (
     <Container collection={collection || false}>
-      {userItems &&
-        userItems.map((product: ProductWithFunctions, index) => {
-          if (product.sku === null) return;
-          return (
-            <TileContainer key={product._id} index={index}>
-              <ProductTile
-                themeStyle={themeStyle}
-                product={product}
-                productSerialNumber={product.serialNumber}
-                key={product._id}
-              />
-            </TileContainer>
-          );
-        })}
+      {userItems?.length === 0
+        ? NoItems()
+        : userItems &&
+          userItems.map((product: ProductWithFunctions, index) => {
+            if (product.sku === null) return;
+            return (
+              <TileContainer key={product._id} index={index}>
+                <ProductTile
+                  themeStyle={themeStyle}
+                  product={product}
+                  productSerialNumber={product.serialNumber}
+                  key={product._id}
+                />
+              </TileContainer>
+            );
+          })}
     </Container>
   );
 };
