@@ -15,9 +15,9 @@ const Help = () => {
       const windowWithHubspotForm: WindowWithHubspotForm = window;
       if (loaded && !error && windowWithHubspotForm.hbspt) {
         windowWithHubspotForm.hbspt.forms.create({
-          region: config.hubspot.helpSection.region,
-          portalId: config.hubspot.helpSection.portalId,
-          formId: config.hubspot.helpSection.formId,
+          region: config.hubspot.region,
+          portalId: config.hubspot.portalId,
+          formId: config.hubspot.helpFormId,
           target: '#embed-hubspot',
         });
       }

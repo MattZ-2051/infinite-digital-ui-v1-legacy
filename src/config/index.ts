@@ -29,21 +29,13 @@ interface AppConfig {
     environmentName: string;
   };
   hubspot: {
-    helpSection: {
-      region: string;
-      portalId: string;
-      formId: string;
-    };
-    mailSubscribingSection: {
-      region: string;
-      portalId: string;
-      formId: string;
-    };
+    region: string;
+    portalId: string;
+    helpFormId: string;
+    mailSubscribingFormId: string;
   };
   kycLimits: {
     ccDepositLimit: string;
-    dailyDepositLimit: string;
-    weeklyDepositLimit: string;
   };
   gtag: {
     id: string;
@@ -88,29 +80,14 @@ export const config: AppConfig = {
       parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
   },
   hubspot: {
-    helpSection: {
-      region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
-      portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
-      formId:
-        getEnvVar('REACT_APP_HUBSPOT_FORM_ID', false) ||
-        'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-    },
-    mailSubscribingSection: {
-      region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
-      portalId: getEnvVar(
-        'REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID',
-        true
-      ),
-      formId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', true),
-    },
+    region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
+    portalId: getEnvVar('REACT_APP_HUBSPOT_PORTAL_ID', false) || '8953348',
+    helpFormId: getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) || 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+    mailSubscribingFormId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', true),
   },
   kycLimits: {
     ccDepositLimit:
       getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', false) || '1000',
-    dailyDepositLimit:
-      getEnvVar('REACT_APP_DAILY_DEPOSIT_LIMIT_USD', false) || '1000',
-    weeklyDepositLimit:
-      getEnvVar('REACT_APP_WEEKLY_DEPOSIT_LIMIT_USD', false) || '3000',
   },
   gtag: {
     id: getEnvVar('REACT_APP_GTAG_ID', false) || 'G-KH8PDB7NVR',
