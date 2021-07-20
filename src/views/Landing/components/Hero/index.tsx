@@ -2,6 +2,7 @@ import * as S from './styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import DropImg from 'assets/img/backgrounds/spencer-hero.png';
 import { useHistory } from 'react-router';
+import HeroLoadingImg from 'assets/img/backgrounds/hero-loading.png';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -102,13 +103,17 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
         >
           <S.ImgContainer>
             <video
-              style={{ width: matchesMobile ? '265px' : '380px' }}
+              style={{
+                width: matchesMobile ? '265px' : '380px',
+                height: matchesMobile ? '265px' : '380px',
+              }}
               autoPlay={true}
-              controls={false}
-              preload="auto"
+              preload="metadata"
               loop={true}
-              muted={false}
+              muted={true}
+              controls={false}
               src="https://infinite-digital-prod.s3.amazonaws.com/spencer/profile/K8IROS+Turntable+mashup.mp4"
+              poster={HeroLoadingImg}
             />
             <S.DropImg src={DropImg} alt="" />
           </S.ImgContainer>
