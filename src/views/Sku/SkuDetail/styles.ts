@@ -123,6 +123,10 @@ export const Section = styled.section<ISection>`
   }
 `;
 
+export const SectionContainer = styled.div`
+  min-height: ${() => screen.height - 830}px;
+`;
+
 export const SectionTitle = styled.h2`
   font-weight: 600 !important;
   font-size: 24px;
