@@ -44,13 +44,10 @@ const BuyNowModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-  const initialBuyersFeePercentage = parseFloat(
-    useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
-  );
 
   const marketplaceFee = product?.resale
     ? product.resaleBuyersFeePercentage
-    : initialBuyersFeePercentage;
+    : product.initialSellersFeePercentage;
   const history = useHistory();
 
   const royaltyFee = Math.round(
@@ -290,6 +287,7 @@ const BuyNowModal = ({
       }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      centered={true}
     >
       <Body />
     </Modal>
