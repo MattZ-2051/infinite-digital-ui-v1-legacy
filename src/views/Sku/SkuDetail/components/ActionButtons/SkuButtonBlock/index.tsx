@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { formatDate } from 'utils/dates';
+import { formatCountdown, formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
@@ -26,6 +26,86 @@ const ComingSoon = (): JSX.Element => {
     </S.Container>
   );
 };
+
+interface IUpcomingAuction {
+  startDate?: Date;
+  price?: number;
+  serialNumber?: string;
+  owner?: User;
+  endDate?: Date;
+  auctionState: 'active' | 'upcoming' | 'sold';
+  productId?: string;
+}
+
+const UpcomingAuction = ({
+  startDate,
+  price,
+  serialNumber,
+  owner,
+  endDate,
+  auctionState,
+  productId,
+}: IUpcomingAuction) => {
+  const history = useHistory();
+  const boxWidth =
+    auctionState === 'upcoming' || auctionState === 'active' ? '62%' : '52%';
+  return (
+    <>
+      {' '}
+      <S.Container>
+        <S.Detail width={boxWidth}>
+          {(auctionState === 'upcoming' || auctionState === 'active') && (
+            <S.BoxColumn>
+              {auctionState === 'upcoming' && (
+                <>
+                  <S.BoxTitle>Upcoming Auction</S.BoxTitle>
+                  <S.BoxSubtitle>
+                    Starts {startDate && formatDate(startDate)}
+                  </S.BoxSubtitle>
+                </>
+              )}
+              {auctionState === 'active' && (
+                <>
+                  <S.BoxTitle>Active Auction</S.BoxTitle>
+                  <S.BoxSubtitle>
+                    Ends {endDate && formatDate(endDate)}
+                  </S.BoxSubtitle>
+                </>
+              )}
+            </S.BoxColumn>
+          )}
+          {auctionState === 'sold' && (
+            <S.SoldOutAuctionBox>
+              <S.SerialNumber>#{serialNumber}</S.SerialNumber>
+              <S.Slash>/</S.Slash>
+              <S.BoxColumn style={{ justifyContent: 'normal' }}>
+                <S.Text fontWeight={500} color="#7c7c7c" fontSize="16px">
+                  Owner
+                </S.Text>
+                <S.Text fontWeight={500} color="white" fontSize="16px">
+                  @{owner?.username}
+                </S.Text>
+              </S.BoxColumn>
+            </S.SoldOutAuctionBox>
+          )}
+          {(auctionState === 'upcoming' || auctionState === 'active') && (
+            <S.BoxColumn style={{ textAlign: 'center' }}>
+              <S.Price>{price && `$${price}`}</S.Price>
+              <small style={{ fontSize: '15px' }}>
+                {(auctionState === 'upcoming' && '(Starting at)') ||
+                  (auctionState === 'active' && '(Highest bid)')}
+              </small>
+            </S.BoxColumn>
+          )}
+        </S.Detail>
+        <S.Button onClick={() => history.push(`/product/${productId}`)}>
+          View NFT
+        </S.Button>
+      </S.Container>
+    </>
+  );
+};
+
 interface IUpcomingData {
   startDate?: Date;
   price: number;
@@ -54,7 +134,7 @@ const UpcomingData = ({
           <S.Price>${price}</S.Price>
           {supplyType !== 'variable' && (
             <small style={{ fontSize: '15px' }}>
-              {items && `(${items} items)`}
+              {items && `(${items} NFTs)`}
             </small>
           )}
         </S.BoxColumn>
@@ -155,14 +235,17 @@ interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
   skuId: string;
+  circulatingSupply: number;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
   skuId,
+  circulatingSupply,
 }: IFromCollectorsBox): JSX.Element => {
   const history = useHistory();
+  if (circulatingSupply === 0) return <> </>;
   return (
     <S.Container>
       <S.BoxColumn>
@@ -177,11 +260,11 @@ const FromCollectorsBox = ({
             : `${countProductListings} on sale`}
         </small>
       </S.BoxColumn>
-      <div>
+      <S.SeeAllContainer>
         <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
           See All
         </S.Button>
-      </div>
+      </S.SeeAllContainer>
     </S.Container>
   );
 };
@@ -199,6 +282,7 @@ const SkuButtonBlock = ({
   user,
   onBuyNow,
   onProcessing,
+  collectors,
 }: ISkuButtonBlock): JSX.Element => {
   const numSkuListings = sku.skuListings.length;
   const activeListings = sku.skuListings.filter(
@@ -260,13 +344,63 @@ const SkuButtonBlock = ({
   // }
 
   /**
+   * Upcoming Auction sku Listing
+   */
+  if (
+    !upcomingSkuListings.length &&
+    !activeListings.length &&
+    sku.totalSupply === 1
+  ) {
+    const listing = collectors[0]?.listing;
+    const startDate = listing?.startDate;
+    const endDate = listing?.endDate;
+    const price = listing?.minBid;
+    const owner = collectors[0]?.owner;
+    const serialNumber = collectors[0]?.serialNumber;
+    const isAuction = listing?.saleType === 'auction';
+    const productId = collectors[0]?.listing?.product;
+
+    if (isAuction) {
+      if (listing.status === 'upcoming') {
+        return (
+          <UpcomingAuction
+            startDate={startDate}
+            price={price}
+            auctionState="upcoming"
+            productId={productId}
+          />
+        );
+      }
+      if (listing.status === 'active') {
+        return (
+          <UpcomingAuction
+            endDate={endDate}
+            price={price}
+            auctionState="active"
+            productId={productId}
+          />
+        );
+      }
+      if (listing.status === 'sold') {
+        return (
+          <UpcomingAuction
+            auctionState="sold"
+            owner={owner}
+            serialNumber={serialNumber}
+            productId={productId}
+          />
+        );
+      }
+    }
+  }
+
+  /**
    * Upcoming sku listings
    */
   if (upcomingSkuListings.length > 0 && !activeListings.length) {
     const upcomingSkuListing = upcomingSkuListings[0];
     const startDate = upcomingSkuListing.startDate;
     const price = upcomingSkuListing.price;
-    // TODO: Changed this from supplyLeft (not in api response) to supply
     const numItems = upcomingSkuListing.supply;
 
     return (
@@ -319,6 +453,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );
@@ -348,6 +483,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );

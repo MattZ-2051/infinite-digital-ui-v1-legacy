@@ -253,7 +253,7 @@ export const downloadAssetFile = async (
   }
 };
 
-export const getPrivateAssets = async (skuId: string, token: string, page?: number,
+export const getPrivateAssets = async (skuId: string, page?: number,
   perPage?: number): Promise<{ data: FileAsset[]; total: number }> => {
   const params = {};
   try {
@@ -263,7 +263,6 @@ export const getPrivateAssets = async (skuId: string, token: string, page?: numb
     }
 
     const response = await axiosInstance.get<FileAsset[]>(`skus/${skuId}/private-assets`, {
-      headers: { Authorization: `Bearer ${token}` },
       params,
     })
     const { data, headers } = response;

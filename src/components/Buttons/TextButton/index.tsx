@@ -46,15 +46,22 @@ const TextButtonGrey = css`
   }
 `;
 
-const TextButton = styled(({ color, size, ...rest }) => (
+const TextButton = styled(({ color, size, matchesMobile, ...rest }) => (
   <MuiButton {...rest} />
 ))`
   && {
     min-width: 0;
+
+    ${(props) =>
+      props.matchesMobile
+        ? '@media screen and (max-width: 450px) {width: min-content}'
+        : ''};
+
     transition: 0.3s;
     padding: 0;
     margin: 0;
     background: none;
+    font-weight: 600;
     text-transform: none;
     font-size: ${(props) => {
       switch (props.size) {

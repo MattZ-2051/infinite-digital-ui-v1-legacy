@@ -10,7 +10,7 @@ import { HistoryStatus } from '../../History/types';
 interface Props {
   visible: boolean;
   setModalPaymentVisible: (a: boolean) => void;
-  listingId: string;
+  listingId?: string;
   setStatus: (status: HistoryStatus) => void;
   modalType: 'auction' | 'sale';
 }
@@ -25,18 +25,31 @@ const CancelSale = ({
   const { getAccessTokenSilently } = useAuth0();
 
   const handleCancelListing = async () => {
-    const userToken = await getAccessTokenSilently();
-    const res = await cancelListing(userToken, listingId);
-    if (res.status === 200) {
-      Toast.success('Listing successfully cancelled.');
-      setModalPaymentVisible(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+    if (!listingId) {
+      Toast.error(
+        <>
+          Whoops! Something went wrong, please try again or go to the{' '}
+          <a href="/help">help page</a> to contact us.
+        </>
+      );
     } else {
-      Toast.error(createSale.error);
+      const userToken = await getAccessTokenSilently();
+      if (!userToken) {
+        Toast.error('user token error');
+      }
+      const res = await cancelListing(userToken, listingId);
+      if (res.status === 200) {
+        Toast.success('Listing successfully cancelled.');
+        setModalPaymentVisible(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+      } else {
+        Toast.error(createSale.error);
+      }
     }
   };
+
   const Body = (): JSX.Element => {
     return (
       <S.Container>
@@ -85,6 +98,7 @@ const CancelSale = ({
   };
   return (
     <Modal
+      centered={true}
       open={visible}
       onClose={() => setModalPaymentVisible(false)}
       aria-labelledby="simple-modal-title"

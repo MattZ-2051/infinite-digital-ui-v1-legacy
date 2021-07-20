@@ -80,7 +80,6 @@ const AchAccountDepositForm = ({
         <S.AmountInput
           placeholder="Enter Amount"
           decimalsLimit={2}
-          fixedDecimalLength={2}
           value={valueAmount}
           prefix="$"
           onValueChange={(value) => {
@@ -98,7 +97,7 @@ const AchAccountDepositForm = ({
           if (errorAmount) {
             return;
           }
-          return onWithdraw(item, valueAmount).catch(onError);
+          return onWithdraw(item, parseFloat(valueAmount).toFixed(2)).catch(onError);
         }}
       >
         Deposit

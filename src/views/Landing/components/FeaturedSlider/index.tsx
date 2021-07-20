@@ -8,6 +8,7 @@ import { SkuWithTotal } from 'entities/sku';
 import { getFeaturedSkuTiles } from 'services/api/sku';
 // import { ReactComponent as RightArrow } from 'assets/svg/icons/arrow-right.svg';
 import RightArrow from 'assets/svg/icons/arrow-right-white.svg';
+import PageLoader from 'components/PageLoader';
 
 const FeaturedSlider = (): JSX.Element => {
   const [tiles, setTiles] = useState<SkuWithTotal>({ data: [], total: 0 });
@@ -35,6 +36,15 @@ const FeaturedSlider = (): JSX.Element => {
     autoplaySpeed: 4000,
     speed: 850,
   };
+  if (tiles.data.length === 0)
+    return (
+      <PageLoader
+        size={40}
+        height="60vh"
+        color="white"
+        backGroundColor="black"
+      />
+    );
 
   return (
     <Container>

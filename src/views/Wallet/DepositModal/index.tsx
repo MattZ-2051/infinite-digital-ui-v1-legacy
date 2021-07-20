@@ -82,7 +82,7 @@ const DepositModal = ({
   }
 
   return (
-    <ModalComponent open={isModalOpen || false} margin="130px 0">
+    <ModalComponent open={isModalOpen || false} centered={true}>
       {resolveModalContent(modalContent)}
     </ModalComponent>
   );

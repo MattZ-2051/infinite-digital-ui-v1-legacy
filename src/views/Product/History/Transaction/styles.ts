@@ -119,6 +119,9 @@ export const TransactionDetails = styled.div<{ alignItems: string }>`
   padding-right: 10px;
   justify-content: center;
   align-items: ${(props) => props.alignItems && `${props.alignItems}`};
+  @media screen and (max-width: 960px) {
+    align-items: flex-start;
+  }
 `;
 
 export const LinkIcon = styled(linkSVG)`
@@ -138,11 +141,17 @@ export const Description = styled.span<{ paddingRight: string }>`
   padding-right: ${(props) => props.paddingRight && `${props.paddingRight}`};
 `;
 
-export const FlexDiv = styled.div`
+export const FlexDiv = styled.div<{ width?: string }>`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: ${(props) => (props.width ? `${props.width}` : `100%`)};
+`;
+
+export const FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 export const Text = styled.span`
@@ -151,10 +160,11 @@ export const Text = styled.span`
   font-size: 16px;
 `;
 
-export const Date = styled.p`
+export const Date = styled.p<{ width?: string }>`
   margin: 0;
   font-size: 13px;
   color: #9e9e9e;
+  width: ${(props) => `${props.width}`};
 `;
 
 export const Username = styled.p`

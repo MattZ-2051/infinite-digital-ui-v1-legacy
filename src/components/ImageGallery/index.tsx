@@ -35,18 +35,7 @@ const AudioView = ({ src }: { src: string }) => {
 };
 
 const ImageView = ({ src }: { src: string }) => {
-  return (
-    <img
-      src={src}
-      alt=""
-      style={{
-        width: 'auto',
-        height: 'auto',
-        maxHeight: '700px',
-        maxWidth: '700px',
-      }}
-    />
-  );
+  return <img src={src} alt="" />;
 };
 
 const VectaryView = ({ src }: { src: string }) => {

@@ -93,9 +93,13 @@ const AchAccountList = ({
         >
           There was an issue processing your request. Please try again or visit
           the{' '}
-          <Link to="https://support.suku.world/how-do-withdrawals-work">
+          <a
+            href="https://support.suku.world/how-do-withdrawals-work"
+            target="_blank"
+            rel="noreferrer"
+          >
             Help Page
-          </Link>{' '}
+          </a>{' '}
           if this issue persists.{' '}
         </S2.Text>
         <S2.Button

@@ -4,7 +4,7 @@ export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
   padding: 48px 80px 48px 80px;
-  min-height: calc(100vh - 162px);
+  min-height: 100vh;
 
   @media screen and (max-width: 600px) {
     padding: 48px 24px 48px 24px;
@@ -72,14 +72,20 @@ export const ProductsGrid = styled.div`
   display: grid;
   grid-gap: 26px;
   grid-template-columns: repeat(auto-fit, 300px);
-  /* justify-content: space-evenly; */
   margin-top: 20px;
+  // justify-content: center;
+  @media screen and (max-width: 1140px) {
+    justify-content: center;
+  }
 `;
 
 export const PaginationContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: 20px;
+  @media screen and (max-width: 960px) {
+    justify-content: center;
+  }
 `;
 
 export const NoResults = styled.div`

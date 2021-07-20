@@ -3,6 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import padlock from 'assets/svg/icons/padlock-icon.svg';
 import { formatDate } from 'utils/dates';
 import { useCountdown } from 'hooks/useCountdown';
+import { useEffect } from 'react';
 
 export const TabBar = ({
   util,
@@ -26,6 +27,12 @@ export const TabBar = ({
     window.location.reload();
   }
 
+  useEffect(() => {
+    if (isActiveAuction || isAuctionOrWillBe) {
+      setSelectedTab('auction');
+    }
+  }, []);
+
   return (
     <S.TabBar>
       {isAuctionOrWillBe && (
@@ -48,7 +55,12 @@ export const TabBar = ({
       >
         History
       </S.Tab>
-      <S.Padding />
+      <S.Padding
+      // style={{
+      //   borderBottom:
+      //     selectedTab === 'history' ? 'none' : ': 2px solid #2e2e2e;',
+      // }}
+      />
 
       {arePrivateAssets && (
         <S.Tab
@@ -65,11 +77,13 @@ export const TabBar = ({
 
       <S.GrayLine
         marginRight={
-          selectedTab === 'history' ||
+          (!matchesMobile && selectedTab === 'history') ||
+          selectedTab === 'owner_access' ||
           auctionStatus.split('-')[0] === 'upcoming'
         }
         width={
           selectedTab === 'history' ||
+          selectedTab === 'owner_access' ||
           auctionStatus.split('-')[0] === 'upcoming'
         }
       />

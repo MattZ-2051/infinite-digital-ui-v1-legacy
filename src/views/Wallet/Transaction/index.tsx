@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import coinbaseIcon from 'assets/img/icons/coinbase.png';
+import hbarIcon from 'assets/img/icons/hbar-icon.png';
 import depositIcon from 'assets/svg/icons/deposit-funds.svg';
 import withdrawIcon from 'assets/svg/icons/withdraw-funds.svg';
 import redeemIcon from 'assets/svg/icons/redeemable-border.svg';
@@ -74,6 +75,29 @@ const CoinbaseDepositInfo = ({ tx }: { tx: ITransaction }) => (
       <S.Bold>Coinbase</S.Bold>
       {tx.status === 'pending' ? (
         <S.Bold>(Pending)</S.Bold>
+      ) : tx.status === 'error' ? (
+        <S.Bold>(Transaction Failed)</S.Bold>
+      ) : null}
+    </S.HistoryLine>
+  </>
+);
+
+const HbarDepositInfo = ({ tx }: { tx: ITransaction }) => (
+  <>
+    <S.Icon src={hbarIcon} width="auto" height="32px" />
+    <S.HistoryLine>
+      {tx.status === 'success'
+        ? 'You added funds by depositing'
+        : tx.status === 'pending'
+        ? 'You added funds by depositing'
+        : 'You tried to add funds by depositing'}
+      <S.Bold>${tx.transactionData.deposit?.amount}</S.Bold>
+      using
+      <S.Bold>Hbar</S.Bold>
+      {tx.status === 'pending' || tx.status === 'success' ? (
+        <S.Bold
+          style={{ textTransform: 'capitalize' }}
+        >{`(${tx.status})`}</S.Bold>
       ) : tx.status === 'error' ? (
         <S.Bold>(Transaction Failed)</S.Bold>
       ) : null}
@@ -309,6 +333,10 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'deposit' &&
           tx.transactionData?.deposit?.type === 'coinbase' && (
             <CoinbaseDepositInfo tx={tx} />
+          )}
+        {tx.type === 'deposit' &&
+          tx.transactionData?.deposit?.type === 'hbar' && (
+            <HbarDepositInfo tx={tx} />
           )}
       </S.TransactionDescription>
       {!isSmall ? (

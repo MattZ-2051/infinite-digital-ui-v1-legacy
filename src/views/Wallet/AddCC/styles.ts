@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Select from '@material-ui/core/Select';
+import LoadingButton from "components/Buttons/LoadingButton";
 
 export const S: any = {};
 
@@ -128,6 +129,27 @@ S.HeaderDiv = styled.div`
 `;
 
 S.Button = styled.button`
+  width: 410px;
+  height: 56px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 35px;
+  font-size: 20px;
+  font-weigth: 600;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    width: 100%;
+  }
+`;
+
+S.SLoadingButton = styled(LoadingButton)`
   width: 410px;
   height: 56px;
   border: none;

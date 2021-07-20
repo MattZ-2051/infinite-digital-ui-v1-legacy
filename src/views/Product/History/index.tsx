@@ -38,8 +38,7 @@ const History = ({
   setHistoryPage,
 }: Props): JSX.Element => {
   //Hooks
-  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
@@ -57,7 +56,7 @@ const History = ({
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
-  const [token, setToken] = useState<string>('');
+  // const [token, setToken] = useState<string>('');
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
@@ -67,6 +66,11 @@ const History = ({
 
   //Constants
   const perPage = 5;
+  const listingId =
+    product?.activeProductListings?.length === 0
+      ? product.upcomingProductListings[0]?._id
+      : product?.activeProductListings[0]?._id;
+
   const [auctionPage, setAuctionPage] = useState<number>(1);
   const price = product?.listing?.price;
   const modalMode = price && userBalance >= price ? 'hasFunds' : 'noFunds';
@@ -129,13 +133,14 @@ const History = ({
   }, [auctionPage]);
 
   useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getAccessTokenSilently();
-      setToken(token);
-    };
-    fetchToken();
-    util.fetchPrivateAssets(token);
-  }, [token]);
+    util.fetchPrivateAssets();
+  }, [product?.sku?._id]);
+
+  useEffect(() => {
+    if (privateAssets?.length > 0) {
+      setSelectedTab('owner_access');
+    }
+  }, [privateAssets]);
 
   if (historyStatus === '' || !handlers) return <></>;
 
@@ -196,7 +201,7 @@ const History = ({
               productId={product._id}
               skuId={product.sku._id}
               themeStyle={'dark'}
-              owner={loggedInUser.id === product.owner?._id}
+              owner={loggedInUser && loggedInUser.id === product.owner?._id}
             />
           </>
         )}
@@ -215,7 +220,7 @@ const History = ({
         <CancelSale
           setModalPaymentVisible={setIsCancelModalOpen}
           visible={isCancelModalOpen}
-          listingId={product?.activeProductListings[0]?._id}
+          listingId={listingId}
           setStatus={setHistoryStatus}
           modalType="sale"
         />
@@ -250,7 +255,7 @@ const History = ({
           <CancelSale
             setModalPaymentVisible={setIsCancelModalOpen}
             visible={isCancelModalOpen}
-            listingId={product?.activeProductListings[0]?._id}
+            listingId={listingId}
             setStatus={setHistoryStatus}
             modalType="auction"
           />

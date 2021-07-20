@@ -1,5 +1,4 @@
 import * as S from './styles';
-import Collapsible from '../../components/Collapsible';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { ReactComponent as hederaIcon } from 'assets/svg/logos/hedera.svg';
 
@@ -39,11 +38,7 @@ const SkuDescription = ({ description }: IProps): JSX.Element => {
     </>
   );
 
-  return (
-    <S.Container>
-      {body}
-    </S.Container>
-  );
+  return <S.Container>{body}</S.Container>;
 };
 
 export default SkuDescription;

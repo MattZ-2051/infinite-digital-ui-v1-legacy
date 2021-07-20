@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import 'react-credit-cards/es/styles-compiled.css';
-import { Container, Padding } from '../styles';
+import { Padding } from '../styles';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -14,8 +14,34 @@ import {
 } from 'store/session/sessionThunks';
 import Toast from 'utils/Toast';
 import * as S from './styles';
+import { config } from 'config';
+import { ApiLogicError } from '../../../../utils/apiError';
+
+const ccDepositLimit = parseInt(config.kycLimits.ccDepositLimit, 10);
+const dailyDepositLimitMsgRe =
+  /^You've deposited \$(?<depositByNow>\S+) USD in the past 24 hours\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
+const weeklyDepositLimitMsgRe =
+  /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 
 const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
+
+function showDepositToastMessage(depositErrMsg) {
+  const matchDaily = dailyDepositLimitMsgRe.exec(depositErrMsg);
+  if (matchDaily) {
+    Toast.error(
+      `You\'ve deposited $${matchDaily?.groups?.depositByNow} USD in the past 24 hours. The deposit would exceed the current allowable limit of $${matchDaily?.groups?.depositLimit} USD`
+    );
+    return;
+  }
+  const matchWeekly = weeklyDepositLimitMsgRe.exec(depositErrMsg);
+  if (matchWeekly) {
+    Toast.error(
+      `You\'ve deposited $${matchWeekly?.groups?.depositByNow} USD in the past seven days. The deposit would exceed the current allowable limit of $${matchWeekly?.groups?.depositLimit} USD`
+    );
+    return;
+  }
+  Toast.error(`Other deposit error`);
+}
 
 const AddFunds = () => {
   const userCard = useAppSelector((state) => state.session.userCards.cards[0]);
@@ -24,14 +50,6 @@ const AddFunds = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
   const [activeButton, setActiveButton] = useState<boolean>(false);
-  const fundsBody = {
-    email: userCard.metadata.email,
-    amount: amount,
-  };
-
-  if (userCard.status !== 'complete') {
-    history.push(`/wallet/addcreditcard`);
-  }
 
   const handleChange = (e) => {
     if (e.target.value.split('.').length !== 2) {
@@ -50,29 +68,49 @@ const AddFunds = () => {
   }, [amount]);
   const addFunds = async () => {
     const userToken = await getAccessTokenSilently();
-    fundsBody.amount = fundsBody.amount?.replace(',', '').replace(/^0+/, '');
+    const lAmount = amount?.replace(',', '').replace(/^0+/, '');
     if (amount && zeros.includes(amount)) return;
-    // if (isNaN(Number(fundsBody?.amount))) {
+    // if (isNaN(Number(lAmount))) {
     //   Toast.error('An Error Occurred: Please enter a valid amount.');
     //   return;
     // }
 
-    if (amount && parseFloat(amount.replaceAll(',', '')) > 1000) {
+    if (amount && parseFloat(amount.replaceAll(',', '')) > ccDepositLimit) {
       Toast.error(
-        'You can only deposit up to $1000 USD per credit card transaction'
+        `You can only deposit up to $${ccDepositLimit} USD per credit card transaction`
       );
       return;
     }
 
     const res = await dispatch(
-      addFundsThunk({ token: userToken, data: fundsBody, cardId: userCard.id })
+      addFundsThunk({
+        token: userToken,
+        data: {
+          email: userCard.metadata.email,
+          amount: lAmount,
+        },
+        cardId: userCard.id,
+      })
     );
 
-    if (res.type.split('/')[5] !== 'rejected') {
+    if (res.type.split('/').slice(-1)?.[0] !== 'rejected') {
       dispatch(getUserCardsThunk({ token: userToken }));
       dispatch(getUserInfoThunk({ token: userToken }));
       history.push(`/wallet/deposit/success`);
     } else {
+      if (res?.payload?.rawError) {
+        if (res.payload.rawError instanceof ApiLogicError) {
+          if (res.payload.rawError.response.data?.message) {
+            showDepositToastMessage(res.payload.rawError.response.data.message);
+          } else {
+            Toast.error(`Deposit Error`);
+          }
+        } else {
+          Toast.error(`Deposit Error`);
+        }
+      } else {
+        Toast.error(`Deposit Error`);
+      }
       history.push(`/wallet/deposit/error`);
     }
   };
@@ -93,6 +131,13 @@ const AddFunds = () => {
       }, 2000);
     }
   };
+
+  if (!userCard || userCard.status !== 'complete') {
+    history.push(`/wallet/addcreditcard`);
+  }
+  if (!userCard) {
+    return null;
+  }
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();

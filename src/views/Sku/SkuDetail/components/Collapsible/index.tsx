@@ -25,10 +25,19 @@ const Collapsible = ({
 
   return (
     <>
-      <S.Title borderTitle={borderTitle}>
-        {title}
+      <S.Title borderTitle={borderTitle} onClick={toggleDescription}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+          }}
+        >
+          {title}
+          {collectorsTotalNum && <S.Total>{collectorsTotalNum} Total</S.Total>}
+        </div>
         {isSmall && (
-          <S.ToggleArrow onClick={toggleDescription}>
+          <S.ToggleArrow>
             {!descriptionVisible ? (
               <S.DownArrow style={{ color: 'black' }} />
             ) : (
@@ -36,7 +45,6 @@ const Collapsible = ({
             )}
           </S.ToggleArrow>
         )}
-        {collectorsTotalNum && <S.Total>{collectorsTotalNum} Total</S.Total>}
       </S.Title>
       {(descriptionVisible || !isSmall) && body}
     </>

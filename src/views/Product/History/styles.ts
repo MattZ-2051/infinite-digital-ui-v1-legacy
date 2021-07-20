@@ -335,6 +335,11 @@ export const ButtonContainer = styled.div<{ flexDirection?: string }>`
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+  /* ::after {
+    content: '';
+    border-bottom: 1px solid #2e2e2e;
+    width: 90%;
+  } */
 `;
 
 export const Tab = styled.div<{
@@ -357,10 +362,11 @@ export const Tab = styled.div<{
   :focus {
     outline: none;
   }
+
 `;
 
 export const TransactionContainer = styled.div`
-  height: 86%;
+  margin-bottom: 15px;
 `;
 
 export const BidsContainer = styled.div<{ padding: string }>`
@@ -376,33 +382,33 @@ export const BidsContainer = styled.div<{ padding: string }>`
   overflow: hidden;
 `;
 
-export const StyledPagination = styled(Pagination)<{
+export const StyledPagination = styled(Pagination) <{
   theme;
   themeStyle;
   padding?: string;
 }>`
   .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
     background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.light.baseMain
-        : theme.palette.dark.baseMain};
+    themeStyle === 'dark'
+      ? theme.palette.light.baseMain
+      : theme.palette.dark.baseMain};
 
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.dark.baseMain
-        : theme.palette.light.baseMain};
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
     &:hover {
     }
   }
   .MuiButtonBase-root.MuiPaginationItem-root {
     background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   .MuiPaginationItem-ellipsis {
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   padding: ${(props) => props.padding && `${props.padding}`};
 `;

@@ -195,11 +195,12 @@ export const LineDivider = styled.div`
 
 export const ProductContainer = styled.div`
   display: flex;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  height: 36em;
+  overflow: hidden;
+  height: 100%;
   margin-bottom: 30px;
-
+  :hover {
+    overflow-x: auto;
+  }
   @media screen and (max-width: 960px) {
     flex-direction: column;
     padding: 56px 24px 0 24px;
@@ -207,6 +208,7 @@ export const ProductContainer = styled.div`
     overflow-y: auto;
     height: auto;
     align-items: center;
+    padding-top: 0px;
   }
 
   @media screen and (max-width: 600px) {
@@ -274,7 +276,8 @@ export const Tab = styled.div<{
   font-size: 24px;
   line-height: 30px;
   color: ${(props) => (props.selected ? 'black' : '#888888')};
-  padding-bottom: 14px;
+  padding-bottom: 16px;
+
   border: none;
   border-bottom: ${(props) =>
     props.selected ? '2px solid black' : '2px solid #ebebeb'};
@@ -305,10 +308,15 @@ export const ContainerTabs = styled.div`
   display: flex;
   flex-direction: row;
   /* width: 100%; */
-  ::after {
-    content: '';
-    border-bottom: 2px solid #ebebeb;
-    width: 100%;
+  @media screen and (min-width: 960px) {
+    ::after {
+      content: '';
+      border-bottom: 2px solid #ebebeb;
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
   }
 `;
 

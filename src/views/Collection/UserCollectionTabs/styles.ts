@@ -48,19 +48,34 @@ export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
     themeStyle === 'dark'
       ? theme.palette.dark.baseComplement
       : theme.palette.light.baseComplement};
-  width: 100%;
+
+  @media screen and (min-width: 1440px) {
+    width: 1440px;
+  }
   padding: 40px;
 `;
 
 export const GrayLine = styled.div`
   border-bottom: 1px solid #ebebeb;
-  width: 80%;
   padding-bottom: 14px;
 `;
 
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const ContainerForBigScreen = styled.div<{
+  screenWidth: number;
+  backgroundColor: string;
+}>`
+  @media screen and (min-width: 1440px) {
+    width: ${({ screenWidth }) => screenWidth}px;
+    margin-left: ${({ screenWidth }) => -(screenWidth - 1440) / 2}px;
+    background-color: ${(props) => `${props.backgroundColor}`};
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Tab = styled.div<{

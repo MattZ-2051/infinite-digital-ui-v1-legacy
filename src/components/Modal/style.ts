@@ -19,9 +19,17 @@ export const ModalBody = styled.div<{
   width?: string;
   padding?: string;
   margin?: string;
+  centered?: boolean;
 }>`
   margin: ${(props) => (props.margin ? `${props.margin}` : `0`)};
-  top: 30px;
+  top: ${(props) => (props.centered ? `50%` : `30px`)};
+  ${(props) => {
+    if (props.centered)
+      return `
+      left: 50%;
+      transform: translate(-50%, -50%);
+      `;
+  }}
   background-color: #ffffff;
   position: absolute;
   min-width: 280px;

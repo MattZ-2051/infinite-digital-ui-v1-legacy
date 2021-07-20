@@ -11,3 +11,9 @@ export interface IAddFundsData {
   email: string;
   amount: number;
 }
+
+export interface IPasswordResetResponse {
+  status: number;
+  statusText: string;
+  data: string;
+}

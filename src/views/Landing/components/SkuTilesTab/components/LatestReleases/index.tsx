@@ -3,21 +3,11 @@ import { Sku } from 'entities/sku';
 import { getSkuTiles } from 'services/api/sku';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import * as S from './styles';
+import PageLoader from 'components/PageLoader';
 
 const LatestReleases = (): JSX.Element => {
   const [tiles, setTiles] = useState<Sku[] | []>([]);
   const [themeStyle, setTheme] = useState<'light' | 'dark'>('light');
-
-  // const filterFeatured = (tiles: Sku[]) => {
-  //   const filteredTiles: Sku[] = [];
-  //   for (const tile of tiles) {
-  //     if (filteredTiles.length === 4) break;
-  //     if (!tile.featured) {
-  //       filteredTiles.push(tile);
-  //     }
-  //   }
-  //   return filteredTiles;
-  // };
 
   // List only different users
   const filteredByUser = (tiles: Sku[]) => {
@@ -46,6 +36,7 @@ const LatestReleases = (): JSX.Element => {
     fetchProducts();
   }, []);
 
+  if (tiles.length === 0) return <PageLoader size={40} height="60vh" />;
   return (
     <S.ProductContainer>
       {tiles &&

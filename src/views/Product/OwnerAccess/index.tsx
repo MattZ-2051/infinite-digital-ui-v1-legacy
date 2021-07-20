@@ -30,8 +30,7 @@ const OwnerAccess = ({ skuId, productId, themeStyle, owner }: IProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessTokenSilently();
-      getPrivateAssets(skuId, token, valueCurrentPage, PER_PAGE).then((resp) =>
+      getPrivateAssets(skuId, valueCurrentPage, PER_PAGE).then((resp) =>
         setPrivateAssets(resp)
       );
     };

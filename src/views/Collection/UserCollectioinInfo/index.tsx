@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
-import EditModal from './EditModal';
+// import EditModal from './EditModal';
+import UserProfileDetails from './UserProfileDetails';
 import * as S from './styles';
 interface IProps {
   user: User | undefined;
@@ -149,7 +150,10 @@ const UserCollectioinInfo = ({
           </span> */}
         </>
       )}
-      <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
+      <UserProfileDetails
+        isModalOpen={isModalOpen}
+        handleClose={handleModalClose}
+      />
     </S.Container>
   );
 };

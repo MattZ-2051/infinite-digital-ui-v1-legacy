@@ -84,6 +84,12 @@ const Wallet = (props) => {
           {
             type: 'withdrawal',
           },
+          {
+            type: 'nft_redeem',
+          },
+          {
+            type: 'claim',
+          },
         ],
       },
       sortByTransactions
@@ -131,7 +137,9 @@ const Wallet = (props) => {
   const getUserWithdrawableBalance = () => {
     return parseFloat(user?.balances?.ccWithdrawablesLock).toFixed(2);
   };
-
+  const screenMinHeight = () => {
+    return { minHeight: window.innerHeight - 320 };
+  };
   return (
     <S.Container showMore={true}>
       <S.Header>
@@ -145,7 +153,7 @@ const Wallet = (props) => {
         </S.HeaderContent>
       </S.Header>
 
-      <S.Main>
+      <S.Main style={screenMinHeight()}>
         <S.Body>
           <S.LeftCol>
             <div style={{ width: '100%' }}>
@@ -198,7 +206,7 @@ const Wallet = (props) => {
                 setSortByTransactions={setSortByTransactions}
                 setSortByActiveBids={setSortByActiveBids}
               />
-              <S.GrayLine style={{ width: '100%' }} />
+              <S.GrayLine style={{ width: '100%', paddingTop: '4px' }} />
             </S.TabContainer>
             <S.GridContainer id="tx">
               {selectedTab === 0 && (

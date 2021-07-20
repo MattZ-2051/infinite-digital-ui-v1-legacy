@@ -149,6 +149,7 @@ export const addFundsThunk = createAsyncThunk<
     } catch (e) {
       return thunkApi.rejectWithValue({
         errorMessage: e.message,
+        rawError: e,
       } as IError);
     }
   }

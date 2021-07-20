@@ -1,7 +1,8 @@
-import Button from 'components/Buttons/Button';
 import * as S from './styles';
-import HeroImg from 'assets/img/backgrounds/hero-bg.png';
-//import { useHistory } from 'react-router-dom';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import DropImg from 'assets/img/backgrounds/spencer-hero.png';
+import { useHistory } from 'react-router';
+import HeroLoadingImg from 'assets/img/backgrounds/hero-loading.png';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -9,48 +10,116 @@ interface IProps {
 }
 
 const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
-  //const history = useHistory();
-
+  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const history = useHistory();
   const handleClick = () => {
-    // if (isAuthenticated) {
-    //   history.push('/marketplace?page=1&per_page=6&sortBy=startDate:asc');
-    // } else {
-    //   login({ screen_hint: 'signup' });
-    // }
     login({ screen_hint: 'signup' });
   };
   return (
-    <S.Container>
-      {/* <S.Img src={HeroImg} /> */}
-      <video
-        src="https://infinite-digital-prod.s3.amazonaws.com/featured/Infinite_mache_header_686x340.mp4"
-        autoPlay
-        playsInline
-        muted
-        loop
-        controls={false}
-        style={{ width: '100%', maxWidth: '686px', height: 'auto' }}
-      ></video>
+    <div style={{ backgroundColor: 'black' }}>
+      <S.Container>
+        <S.SubContainer order={matchesMobile ? 1 : 0}>
+          <S.Title fontSize={matchesMobile ? '32px' : '64px'}>
+            Spencer Dinwiddie’s <br /> <span>1st NFT Release!</span>
+          </S.Title>
+          <div style={{ paddingTop: matchesMobile ? '0' : '24px' }}>
+            <S.Subtitle color="white" fontSize="18px" fontWeight={600}>
+              {"Redeemable 3D/AR NFTs from Spencer's K8IROS sneaker line"}
+            </S.Subtitle>
+          </div>
 
-      <S.Title>
-        Start your INFINITE <br /> <span>Collection today!</span>
-      </S.Title>
+          <div
+            style={{
+              padding: matchesMobile ? '10px 0 14px 0' : '8px 0 16px 0',
+            }}
+          >
+            <S.Subtitle
+              color="#9da1a8"
+              fontSize={matchesMobile ? '16px' : '18px'}
+              fontWeight={400}
+              style={{ margin: '0', whiteSpace: 'pre-wrap' }}
+            >
+              {matchesMobile
+                ? `In support of the The Dinwiddie Family Foundation with 4 lucky NFT owners able to redeem their NFTs for a signed physical pair of Spencer's original K8IROS shoes`
+                : `In support of the The Dinwiddie Family Foundation with 4 lucky NFT \nowners able to redeem their NFTs for a signed physical pair of Spencer's \noriginal K8IROS shoes`}
+            </S.Subtitle>
+          </div>
+          <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
+            Launching Thursday, July 22st, <br />
+            12:00 PM (ET)
+          </S.Subtitle>
 
-      <S.Subtitle>
-        Our team at Suku has partnered with industry leaders to bring you <br />{' '}
-        exclusive NFTs on the INFINITE beta platform.
-      </S.Subtitle>
-
-      {!isAuthenticated && (
-        <Button
-          color="white"
-          onClick={handleClick}
-          data-testid="start-collection-btn"
+          {!matchesMobile ? (
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                paddingTop: '32px',
+              }}
+            >
+              {!isAuthenticated && (
+                <S.Button width="179px" onClick={handleClick}>
+                  Sign Up Now
+                </S.Button>
+              )}
+              <S.DropButtonContainer
+                paddingLeft={isAuthenticated ? '0' : '32px'}
+                paddingTop="0"
+                onClick={() => history.push('/collection/SDinwiddie25')}
+              >
+                <S.DropButton>{"Go to Spencer's Drops "}</S.DropButton>
+                <S.DropArrow />
+              </S.DropButtonContainer>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: '24px',
+              }}
+            >
+              {!isAuthenticated && (
+                <S.Button width="100%" onClick={handleClick}>
+                  Sign Up Now
+                </S.Button>
+              )}
+              <S.DropButtonContainer
+                paddingLeft="0"
+                paddingTop="30px"
+                onClick={() => history.push('/collection/SDinwiddie25')}
+              >
+                <S.DropButton>{"Go to Spencer's Drops "}</S.DropButton>
+                <S.DropArrow />
+              </S.DropButtonContainer>
+            </div>
+          )}
+        </S.SubContainer>
+        <S.SubContainer
+          order={matchesMobile ? 0 : 1}
+          padding={matchesMobile ? '0' : '0 0 0 94px'}
         >
-          Sign Up Now
-        </Button>
-      )}
-    </S.Container>
+          <S.ImgContainer>
+            <video
+              style={{
+                width: matchesMobile ? '265px' : '380px',
+                height: matchesMobile ? '265px' : '380px',
+              }}
+              autoPlay={true}
+              preload="metadata"
+              loop={true}
+              muted={true}
+              controls={false}
+              src="https://infinite-digital-prod.s3.amazonaws.com/spencer/profile/K8IROS+Turntable+mashup.mp4"
+              poster={HeroLoadingImg}
+            />
+            <S.DropImg src={DropImg} alt="" />
+          </S.ImgContainer>
+        </S.SubContainer>
+      </S.Container>
+    </div>
   );
 };
 

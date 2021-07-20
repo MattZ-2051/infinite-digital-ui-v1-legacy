@@ -36,7 +36,7 @@ const HbarBtn = ({
           <S.RowText style={{ color: kycDisabled ? '#9e9e9e' : 'black' }}>
             HBAR
           </S.RowText>
-          <S.RowSubText>Depoist funds using Hedera Hashgraph.</S.RowSubText>
+          <S.RowSubText>Deposit funds using Hedera Hashgraph.</S.RowSubText>
         </S.FlexColumn>
         <S.FlexEnd>
           <ArrowForwardIosIcon className="icon_arrow" />

@@ -17,8 +17,8 @@ const Help = () => {
         windowWithHubspotForm.hbspt.forms.create({
           region: config.hubspot.region,
           portalId: config.hubspot.portalId,
-          formId: config.hubspot.formId,
-          target: config.hubspot.target,
+          formId: config.hubspot.helpFormId,
+          target: '#embed-hubspot',
         });
       }
     }

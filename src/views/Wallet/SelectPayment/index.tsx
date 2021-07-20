@@ -34,7 +34,6 @@ const SelectPayment = ({
   const userCards = useAppSelector((state) => state.session.userCards);
 
   const kycDisabled = kycMaxLevel < 1;
-  const circleSubText = 'Deposit funds using a credit card';
 
   const handleRedirect = () => {
     if (userCards.cards.length >= 1) {
@@ -60,8 +59,8 @@ const SelectPayment = ({
         />
         <DepositRow
           disabled={false}
-          rowText="Circle"
-          rowSubText={circleSubText}
+          rowText="Credit Card"
+          rowSubText="Deposit funds using a credit card"
           imgSrc={circleIcon}
           color="black"
           handleRedirect={handleRedirect}

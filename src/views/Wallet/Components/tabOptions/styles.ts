@@ -19,7 +19,7 @@ export const TabButton = styled.div<{
   selectedTab: number;
   highlightOption: number;
 }>`
-  margin-bottom: -14px;
+  margin-bottom: -6px;
   margin-right: 20px;
   padding-bottom: 12px;
   border-bottom: ${(pps) =>
