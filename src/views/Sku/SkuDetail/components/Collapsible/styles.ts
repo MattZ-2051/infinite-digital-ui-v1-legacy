@@ -6,7 +6,8 @@ export const Title = styled.div<{ borderTitle?: boolean }>`
   font-size: 24px;
   font-weight: 600;
   color: black;
-  padding-bottom: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 15px;
   display: flex;
   border-bottom: ${(props) => (props.borderTitle ? '2px solid #ebebeb' : '')};
   line-height: 30px;

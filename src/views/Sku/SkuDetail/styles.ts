@@ -207,6 +207,7 @@ export const ProductContainer = styled.div`
     overflow-y: auto;
     height: auto;
     align-items: center;
+    padding-top: 0px;
   }
 
   @media screen and (max-width: 600px) {
@@ -274,7 +275,8 @@ export const Tab = styled.div<{
   font-size: 24px;
   line-height: 30px;
   color: ${(props) => (props.selected ? 'black' : '#888888')};
-  padding-bottom: 14px;
+  padding-bottom: 16px;
+
   border: none;
   border-bottom: ${(props) =>
     props.selected ? '2px solid black' : '2px solid #ebebeb'};
@@ -305,10 +307,15 @@ export const ContainerTabs = styled.div`
   display: flex;
   flex-direction: row;
   /* width: 100%; */
-  ::after {
-    content: '';
-    border-bottom: 2px solid #ebebeb;
-    width: 100%;
+  @media screen and (min-width: 960px) {
+    ::after {
+      content: '';
+      border-bottom: 2px solid #ebebeb;
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
   }
 `;
 

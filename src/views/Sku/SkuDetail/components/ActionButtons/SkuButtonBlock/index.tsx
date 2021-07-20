@@ -257,11 +257,11 @@ const FromCollectorsBox = ({
             : `${countProductListings} on sale`}
         </small>
       </S.BoxColumn>
-      <div>
+      <S.SeeAllContainer>
         <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
           See All
         </S.Button>
-      </div>
+      </S.SeeAllContainer>
     </S.Container>
   );
 };

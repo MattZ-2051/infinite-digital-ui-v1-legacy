@@ -25,6 +25,8 @@ import OwnerAccess from 'views/Product/OwnerAccess';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { getPrivateAssets } from 'services/api/productService';
+import Collapsible from './components/Collapsible';
+import { isUndefined } from 'util';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -135,6 +137,19 @@ const SkuDetail = (): JSX.Element => {
   const handleRedirectToIssuer = () => {
     history.push(`/collection/${sku.issuer.username}`);
   };
+  const ownerAccessInfo = (
+    <OwnerAccess
+      skuId={sku._id}
+      owner={
+        (loggedInUser?.id &&
+          ownerCollectors?.data &&
+          ownerCollectors?.data.length > 0) ||
+        false
+      }
+      themeStyle="light"
+      productId={ownerCollectors?.data?.[0]?._id || ''}
+    />
+  );
   const tylesLimit = 4;
   const skuMessage = createMessage(sku);
   return (
@@ -260,54 +275,51 @@ const SkuDetail = (): JSX.Element => {
         height={filteredFeaturedSku.length === 0 ? '100vh' : ''}
       >
         <S.ContainerSection>
-          <S.ContainerTabs>
-            <S.Tab
-              style={{ paddingRight: '20px' }}
-              themeStyle={'light'}
-              selected={selectedTab === 'description'}
-              onClick={() => setSelectedTab('description')}
-            >
-              <div style={{ display: 'flex' }}>
-                Description{' '}
-                {isSmall && (
-                  <S.ToggleArrow onClick={toggleDescription}>
-                    {!descriptionVisible ? (
-                      <S.DownArrow style={{ color: 'black' }} />
-                    ) : (
-                      <S.UpArrow style={{ color: 'black' }} />
-                    )}
-                  </S.ToggleArrow>
-                )}
-              </div>
-            </S.Tab>
-            {/* <S.Padding /> */}
-
-            {arePrivateAssets ? (
+          {!isSmall && (
+            <S.ContainerTabs>
               <S.Tab
-                style={{
-                  width: '50%',
-                }}
-                themeStyle={'dark'}
-                selected={selectedTab === 'owner_access'}
-                onClick={() => setSelectedTab('owner_access')}
+                style={{ paddingRight: !isSmall ? '20px' : '0' }}
+                themeStyle={'light'}
+                selected={selectedTab === 'description'}
+                onClick={() => setSelectedTab('description')}
               >
-                <div style={{ display: 'flex' }}>
-                  Owner Access{' '}
-                  {isSmall && (
-                    <S.ToggleArrow onClick={toggleOwnerAccess}>
-                      {!ownerAccessVisible ? (
-                        <S.DownArrow style={{ color: 'black' }} />
-                      ) : (
-                        <S.UpArrow style={{ color: 'black' }} />
-                      )}
-                    </S.ToggleArrow>
-                  )}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: isSmall ? 'space-between' : 'flex-start',
+                    alignContent: 'center',
+                  }}
+                  onClick={toggleDescription}
+                >
+                  <div>Description</div>
                 </div>
               </S.Tab>
-            ) : (
-              <></>
-            )}
-          </S.ContainerTabs>
+              {/* <S.Padding /> */}
+
+              {arePrivateAssets && (
+                <S.Tab
+                  style={{
+                    width: '100%',
+                  }}
+                  themeStyle={'dark'}
+                  selected={selectedTab === 'owner_access'}
+                  onClick={() =>
+                    isSmall ? toggleOwnerAccess : setSelectedTab('owner_access')
+                  }
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: isSmall ? 'space-between' : 'flex-start',
+                      alignContent: 'center',
+                    }}
+                  >
+                    <div>Owner Access </div>
+                  </div>
+                </S.Tab>
+              )}
+            </S.ContainerTabs>
+          )}
           <S.ContainerDisplayTabs>
             {selectedTab === 'description' &&
             (descriptionVisible || !isSmall) ? (
@@ -329,8 +341,25 @@ const SkuDetail = (): JSX.Element => {
               <></>
             )}
           </S.ContainerDisplayTabs>
+          {isSmall && (
+            <>
+              <Collapsible
+                title="Description"
+                body={<SkuDescription description={sku?.description || ''} />}
+                collectorsTotalNum={undefined}
+                borderTitle={true}
+              ></Collapsible>
+              {arePrivateAssets && (
+                <Collapsible
+                  title="OwnerAccess"
+                  body={ownerAccessInfo}
+                  collectorsTotalNum={undefined}
+                  borderTitle={true}
+                ></Collapsible>
+              )}
+            </>
+          )}
         </S.ContainerSection>
-
         {collectors && sku && (
           <AuctionListing
             collectors={collectors.data}
@@ -340,7 +369,7 @@ const SkuDetail = (): JSX.Element => {
         )}
       </S.Section>
       {filteredFeaturedSku.length > 0 && (
-        <S.Section height="100vh">
+        <S.Section min-height="100vh">
           <S.SectionTitle>Related Releases</S.SectionTitle>
           <S.ProductContainer>
             {featuredProducts &&

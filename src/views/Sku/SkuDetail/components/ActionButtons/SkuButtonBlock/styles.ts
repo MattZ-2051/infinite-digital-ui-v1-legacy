@@ -48,7 +48,11 @@ export const BoxColumn = styled.div`
 
 } */
 `;
-
+export const SeeAllContainer = styled.div`
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  } ;
+`;
 export const Button = styled.button`
   background-color: ${(props) => (props.disabled ? '#2D2D2D' : '#FFFFFF')};
   color: ${(props) => (props.disabled ? '#5F5F5F' : '#000000')};
