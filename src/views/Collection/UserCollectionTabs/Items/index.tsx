@@ -10,9 +10,20 @@ interface Props {
 
 const NoItems = () => {
   return (
-    <div style={{ margin: 'auto' }}>
-      <h1 style={{ fontWeight: 500 }}>No NFTs Owned Yet</h1>
-    </div>
+    <Container
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '40vh',
+      }}
+    >
+      <h3
+        style={{ fontWeight: 500, paddingBottom: '120px', textAlign: 'center' }}
+      >
+        Visit the marketplace to start your INFINITE NFT collection today!
+      </h3>
+    </Container>
   );
 };
 

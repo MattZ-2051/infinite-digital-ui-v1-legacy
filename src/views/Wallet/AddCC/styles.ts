@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Select from '@material-ui/core/Select';
-import LoadingButton from "components/Buttons/LoadingButton";
+import LoadingButton from 'components/Buttons/LoadingButton';
 
 export const S: any = {};
 
@@ -11,12 +11,11 @@ S.Container = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-height: 80vh;
+height: 100vh;
 margin: auto
 z-index: 1;
 overflow: auto;
 width: 100%;
-
 `;
 
 S.HeaderContainer = styled.div`

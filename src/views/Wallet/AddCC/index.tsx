@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import { PulseLoader } from "react-spinners";
+import { PulseLoader } from 'react-spinners';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import {
   createNewCCThunk,
@@ -18,7 +18,7 @@ import {
   CardErrors,
 } from './helper';
 import { useHistory } from 'react-router-dom';
-import Toast from 'components/Toast';
+import Toast from 'utils/Toast';
 import BillingForm from 'components/BillingForm';
 
 const AddCC = () => {
@@ -31,11 +31,6 @@ const AddCC = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
-  const [toastStatus, setToastStatus] = useState<'error' | 'success'>(
-    'success'
-  );
-  const [toastMessage, setToastMessage] = useState<string>('');
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
@@ -67,15 +62,10 @@ const AddCC = () => {
 
     if (res.type.split('/')[4] === 'rejected') {
       setFormError(true);
-      setIsToastVisible(true);
-      setToastStatus('error');
-      setToastMessage('Error Occurred');
     } else {
       setFormError(false);
       dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
-      setIsToastVisible(true);
-      setToastStatus('success');
-      setToastMessage('Card Added');
+      Toast.success('Card successfully added');
       setTimeout(() => {
         history.push(`/wallet/deposit/addfunds`);
       }, 2000);
@@ -93,13 +83,6 @@ const AddCC = () => {
 
   return (
     <>
-      <Toast
-        isVisible={isToastVisible}
-        status={toastStatus}
-        setIsVisible={setIsToastVisible}
-      >
-        {toastMessage}
-      </Toast>
       <S.Container>
         <S.Box>
           <S.HeaderContainer>
