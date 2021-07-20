@@ -139,12 +139,6 @@ const History = ({
     util.fetchPrivateAssets();
   }, [product?.sku?._id]);
 
-  useEffect(() => {
-    if (privateAssets?.length > 0) {
-      setSelectedTab('owner_access');
-    }
-  }, [privateAssets]);
-
   if (historyStatus === '' || !handlers) return <></>;
 
   return (
