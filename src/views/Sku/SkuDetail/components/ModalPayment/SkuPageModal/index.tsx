@@ -403,6 +403,7 @@ const SkuPageModal = ({
       }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      centered={true}
     >
       {content}
     </Modal>
