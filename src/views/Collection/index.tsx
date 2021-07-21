@@ -50,8 +50,9 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionHeaderMain, descriptionHeaderGradient] =
-    splitLastSentence(descriptionHeader);
+  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
+    descriptionHeader
+  );
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();
@@ -175,7 +176,9 @@ const Collection = (): JSX.Element => {
                   fontWeight: 500,
                 }}
               >
-                {descriptionBody}
+                <div
+                  dangerouslySetInnerHTML={{ __html: descriptionBody }}
+                ></div>
               </TextContainer>
             </FlexColumn>
           </S.ContainerMarginLeft>
