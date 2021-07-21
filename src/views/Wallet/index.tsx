@@ -174,6 +174,7 @@ const Wallet = (props) => {
             <TextAndAmount
               text={'Available:'}
               amount={getUserAvailableBalance()}
+              subtitle={'(Excludes pending transactions and active bids)'}
             />
             <ButtonTextAndImage
               text={'Deposit'}
@@ -184,6 +185,7 @@ const Wallet = (props) => {
             <TextAndAmount
               text={'Withdrawable:'}
               amount={getUserWithdrawableBalance()}
+              subtitle={'(Excludes pending transactions)'}
             />
             <ButtonTextAndImage
               text={'Withdrawal'}
