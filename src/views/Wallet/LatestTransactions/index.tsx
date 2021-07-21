@@ -19,7 +19,7 @@ const LatestTransactions = ({
         <PageLoader size={15} />
       ) : !transactions.data.length ? (
         <S.NoResults>
-          <p>No transactions yet</p>
+          <p>Check back here to see your transactions</p>
         </S.NoResults>
       ) : (
         <>

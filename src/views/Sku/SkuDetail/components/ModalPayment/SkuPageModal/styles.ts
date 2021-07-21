@@ -65,7 +65,7 @@ export const SerialNum = styled.p`
 
 export const Body = styled.div`
   padding: 20px;
-  width: min-content;
+  width: 100%;
 `;
 
 export const Flex = styled.div`
@@ -74,7 +74,7 @@ export const Flex = styled.div`
 `;
 
 export const SerialName = styled.p`
-  margin 0;
+  margin: 0;
   font-size: 16px;
   color: #9e9e9e;
   font-weight: 500;
@@ -168,7 +168,10 @@ export const Terms = styled.p`
 
 export const Button = styled.button`
   min-height: 56px;
-  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: min(330px, 100%);
   border: none;
   background-color: black;
   font-size: 20px;
@@ -185,7 +188,10 @@ export const Button = styled.button`
 
 export const SubButton = styled.button`
   min-height: 56px;
-  width: 330px;
+  width: min(330px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   border: none;
   background-color: white;
   font-size: 20px;

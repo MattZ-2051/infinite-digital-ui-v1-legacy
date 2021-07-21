@@ -37,9 +37,10 @@ export const FooterBottom = styled.div`
   align-items: center;
 
   @media screen and (max-width: 960px) {
-    display: grid;
-    justify-content: center;
-    grid-gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     margin: auto;
   }
 `;
@@ -79,7 +80,10 @@ export const ShowLinkDiv = styled.div`
 export const TextButtonContainer = styled.div<{ matchesMobile }>`
   ${(props) =>
     props.matchesMobile
-      ? `  display: flex;
+      ? ` 
+          width:120%;
+          margin-bottom:20px;
+           display: flex;
           justify-content: space-between;
           `
       : ''};

@@ -93,6 +93,7 @@ const RedeemModal = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       width="100%"
+      margin="0"
     >
       <Body />
     </Modal>

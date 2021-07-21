@@ -18,6 +18,7 @@ import {
 
 // Hedera button
 import HederaButton from './HederaButton/HederaButton';
+import { useWindowScroll } from 'react-use';
 
 const Footer = () => {
   const theme = useTheme();
@@ -28,6 +29,18 @@ const Footer = () => {
       <S.FooterContent>
         <S.FooterBottom>
           <ScreenSelector matchesMobile={matchesMobile}>
+            <TextButton
+              color="grey"
+              size="small"
+              matchesMobile={matchesMobile}
+              onClick={() => {
+                location.replace(
+                  'https://support.suku.world/infinite-powered-by-suku'
+                );
+              }}
+            >
+              FAQ
+            </TextButton>
             <TextButton
               to="/help"
               color="grey"
@@ -77,6 +90,7 @@ const Footer = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginBottom: '20px',
               }}
             >
               <HederaButton />
@@ -86,7 +100,13 @@ const Footer = () => {
             </div>
           </Hidden>
           <Hidden mdUp>
-            <div style={{ color: 'var(--grey-40)', textAlign: 'center' }}>
+            <div
+              style={{
+                marginBottom: '24px',
+                color: 'var(--grey-40)',
+                textAlign: 'center',
+              }}
+            >
               INFINITE© 2021 All rights reserved.
             </div>
           </Hidden>

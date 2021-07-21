@@ -60,6 +60,9 @@ S.DropDown = styled(Select)`
 `;
 
 S.FormInput = styled(TextField)`
+  & .MuiInputBase-input.MuiInput-input.Mui-disabled.Mui-disabled {
+    text-align: center;
+  }
   & .Mui-focused {
     color: black;
   }
@@ -167,4 +170,12 @@ S.SLoadingButton = styled(LoadingButton)`
   @media screen and (max-width: 960px) {
     width: 100%;
   }
+`;
+
+S.Content = styled.div`
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

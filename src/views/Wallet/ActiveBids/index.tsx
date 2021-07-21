@@ -87,7 +87,7 @@ const ListBids = ({ sortBy }: IProps) => {
   if (!bids?.data.length)
     return (
       <S.NoResults>
-        <p>No bids yet</p>
+        <p>Check back here to see your active bids</p>
       </S.NoResults>
     );
 

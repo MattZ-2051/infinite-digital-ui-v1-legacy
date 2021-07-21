@@ -45,10 +45,6 @@ const SelectPayment = ({
 
   return (
     <S.BodyContainer>
-      <S.ExitIcon>
-        <img src={exitIcon} onClick={handleClose} className="icon__exit" />
-      </S.ExitIcon>
-
       <S.BodyContent>
         <S.Header>Select a payment to deposit</S.Header>
         <S.GrayLine style={{ width: '100%' }} />
