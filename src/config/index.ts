@@ -91,9 +91,9 @@ export const config: AppConfig = {
     helpSection: {
       formId:
         getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) ||
-        'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+        '8a6d1a6a-62f6-41f4-be2c-c2c4f4ab01ea',
       portalId:
-        getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '8953348',
+        getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '20243335',
     },
     mailSubscribingSection: {
       formId:
