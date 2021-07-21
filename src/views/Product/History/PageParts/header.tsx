@@ -21,6 +21,7 @@ export const Header = ({
   const [showLink, setShowLink] = useState<boolean>(false);
   const selectedTab = handlers.selectedTab;
   const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const smallMobile = useMediaQuery('(max-width: 400px)');
   const bids = handlers.util.bids;
   const redeemable = product.sku.redeemable && product.redeemedStatus === 'NA';
   const handler = handlers;
@@ -164,11 +165,23 @@ export const Header = ({
       {historyStatus === 'upcoming-auction' &&
         selectedTab === 'history' &&
         product && (
-          <S.FlexColumn padding="0 80px 0 0">
-            <S.Text color="white" size="24px" fontWeight={600}>
+          <S.FlexColumn padding={matchesMobile ? '0' : '0 80px 0 0'}>
+            <S.Text
+              color="white"
+              size="24px"
+              fontWeight={600}
+              textAlign={matchesMobile ? 'end' : ''}
+              width={smallMobile ? '120px' : ''}
+            >
               Upcoming Auction
             </S.Text>
-            <S.Text size="14px" color="#999999" fontWeight={500}>
+            <S.Text
+              size="14px"
+              color="#999999"
+              fontWeight={500}
+              textAlign={smallMobile ? 'center' : ''}
+              width={smallMobile ? '108px' : ''}
+            >
               (Starts{' '}
               {formatDate(product?.upcomingProductListings[0]?.startDate)})
             </S.Text>
