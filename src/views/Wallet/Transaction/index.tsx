@@ -91,7 +91,7 @@ const HbarDepositInfo = ({ tx }: { tx: ITransaction }) => (
         : tx.status === 'pending'
         ? 'You added funds by depositing'
         : 'You tried to add funds by depositing'}
-      <S.Bold>${tx.transactionData.deposit?.amountUnrated} Hbar</S.Bold>
+      <S.Bold>{tx.transactionData.deposit?.amountUnrated}&nbsp;Hbar</S.Bold>
       {tx.status === 'pending' || tx.status === 'success' ? (
         <S.Bold
           style={{ textTransform: 'capitalize' }}
