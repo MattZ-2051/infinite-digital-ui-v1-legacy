@@ -224,12 +224,14 @@ export const Padding = styled.div`
 export const ProductOwner = styled.div<{
   flexDirection: string;
   padding?: string;
+  textAlign?: string;
 }>`
   display: flex;
   flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
   font-size: 16px;
   padding-left: 0;
   padding: ${(props) => props.padding && `${props.padding}`};
+  text-align: ${(props) => `${props.textAlign}`};
 `;
 
 export const Owner = styled.span`
@@ -296,15 +298,32 @@ export const Button = styled.button<{
     color: black;
   }`
       : 'color: #9e9e9e;'}
+  @media screen and (max-width: 1160px) {
+    width: 100%;
+    max-width: 400px;
+  }
 `;
 
-export const Header = styled.div`
+export const ButtonContainer = styled.div<{ flexDirection?: string }>`
+  padding-right: 80px;
+  display: flex;
+  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
+  align-items: center;
+  @media screen and (max-width: 1160px) {
+    padding-bottom: 30px;
+    padding-right: 0;
+    justify-content: center;
+  }
+`;
+
+export const Header = styled.div<{ justifyContent?: string }>`
   font-size: 48px;
   font-weight: 600;
   color: #7c7c7c;
   display: flex;
   padding-top: 40px;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.justifyContent ? `${props.justifyContent}` : 'space-between'};
   margin-bottom: 32px;
   align-items: baseline;
 
@@ -314,9 +333,10 @@ export const Header = styled.div`
   }
 `;
 
-export const Title = styled.div`
+export const Title = styled.div<{ textAlign: string }>`
   color: #7c7c7c;
   font-size: 16px;
+  text-align: ${(props) => `${props.textAlign}`};
 `;
 
 export const Slash = styled.span`
@@ -326,16 +346,6 @@ export const Slash = styled.span`
 
   ${mediaQueries.sm} {
     display: inline-block;
-  }
-`;
-
-export const ButtonContainer = styled.div<{ flexDirection?: string }>`
-  padding-right: 0;
-  display: flex;
-  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
-  align-items: center;
-  ${mediaQueries.sm} {
-    padding-right: 80px;
   }
 `;
 

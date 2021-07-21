@@ -86,6 +86,16 @@ export const DropImg = styled.img`
     width: 235px;
     left: 38%;
   }
+
+  @media screen and (max-width: 400px) {
+    width: 230px;
+    left: 35%;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 210px;
+    left: 30%;
+  }
 `;
 
 export const SubContainer = styled.div<{ order: number; padding?: string }>`
