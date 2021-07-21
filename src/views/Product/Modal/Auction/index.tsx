@@ -10,16 +10,12 @@ import { ProductWithFunctions } from 'entities/product';
 import Button from 'components/Buttons/Button';
 import { postListings } from 'services/api/listingService';
 import Toast from 'utils/Toast';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
 import MomentUtils from '@date-io/moment';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import TextField from 'components/TextFIeld';
-import TimePicker from 'components/TimePicker';
-import { useAppSelector } from 'store/hooks';
+
 interface Props {
   visible: boolean;
   setModalAuctionVisible: (a: boolean) => void;
@@ -35,8 +31,8 @@ const AuctionModal = ({
 }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
-  const [serviceFee, setServiceFee] = useState<number>();
   const [royaltyFee, setRoyaltyFee] = useState<number>();
+  const [serviceFee, setServiceFee] = useState<number>();
   const [total, setTotal] = useState<number>();
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState<any | null>(moment());
@@ -44,17 +40,16 @@ const AuctionModal = ({
   const [startTime, setStartTime] = useState<any | null>(moment());
   const [endTime, setEndTime] = useState<any | null>(moment());
   const fee = product?.resale
-    ? product?.resaleBuyersFeePercentage
-    : product?.initialSellersFeePercentage;
+    ? product?.sku?.sellerTransactionFeePercentageSecondary
+    : product?.sku?.sellerTransactionFeePercentage;
 
   useEffect(() => {
     if (price) {
       const serviceFee = (fee * parseFloat(price)) / 100;
       const royaltyFee =
-        (product?.royaltyFeePercentage * parseFloat(price)) / 100;
+        (product?.sku?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
-
       if (product?.resale) {
         setTotal(parseFloat(price) - serviceFee - royaltyFee);
       } else {
@@ -139,8 +134,8 @@ const AuctionModal = ({
         <S.Title>Create auction</S.Title>
         <S.ContainerSubtitle>
           <S.SubTitle>
-            You wont be able to transfer or redeem this item while your auction
-            is in progress.
+            Once started, an auction can only be canceled if there have been no
+            active bids placed.
           </S.SubTitle>
         </S.ContainerSubtitle>
       </S.Header>
@@ -271,12 +266,14 @@ const AuctionModal = ({
         </S.DetailRow>
       </S.Detail>
 
-      <S.Footer>
-        <p>
-          All resales of this product a subject to a 15% royalty fee set by and
-          to be paid to the original creator.
-        </p>
-      </S.Footer>
+      {royaltyFee !== 0 && (
+        <S.Footer>
+          <p>
+            All resales of this product a subject to a {royaltyFee}% royalty fee
+            set by and to be paid to the original creator.
+          </p>
+        </S.Footer>
+      )}
 
       <Button
         style={{
@@ -301,7 +298,8 @@ const AuctionModal = ({
       onClose={() => setModalAuctionVisible(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      bodyStyle={{ 'overflow-y': 'scroll', 'max-height': '100vh' }}
+      bodyStyle={{ 'overflow-y': 'scroll', height: '97vh' }}
+      centered={true}
     >
       {content}
     </Modal>
