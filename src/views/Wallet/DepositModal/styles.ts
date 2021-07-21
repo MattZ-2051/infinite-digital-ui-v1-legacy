@@ -54,6 +54,9 @@ export const Header = styled.span`
   font-weight: 600;
   border-bottom: 2px solid black;
   padding-bottom: 14px;
+  @media screen and (max-width: 330px) {
+    font-size: 18px;
+  }
 `;
 
 export const SubHeader = styled.div`
