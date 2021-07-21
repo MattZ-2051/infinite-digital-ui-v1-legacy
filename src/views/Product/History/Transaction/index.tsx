@@ -12,9 +12,14 @@ interface Props {
 }
 
 const Transaction = ({ transaction, bid }: Props) => {
+  const cropText = (text: string, limit: number) => {
+    return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
+  };
+
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const matchesSmScreen = useMediaQuery('(max-width:576px)');
 
   const handleRedirectToCollections = () => {
     if (transaction) {
@@ -27,9 +32,14 @@ const Transaction = ({ transaction, bid }: Props) => {
 
   if (transaction) {
     return (
-      <S.Container>
+      <S.Container
+        className={transaction.type !== 'nft_redeem' ? 'with-link' : ''}
+      >
         <S.Username className="username" onClick={handleRedirectToCollections}>
-          @{transaction?.owner.username}
+          @
+          {matchesSmScreen
+            ? cropText(transaction?.owner.username, 8)
+            : transaction?.owner.username}
         </S.Username>
 
         <S.TransactionInfo padding="0 0 0 10px">
@@ -38,7 +48,7 @@ const Transaction = ({ transaction, bid }: Props) => {
               {transaction?.type === 'purchase' &&
                 transaction?.status === 'success' && (
                   <S.FlexDiv>
-                    <S.Description paddingRight="16px">
+                    <S.Description paddingRight="0.5ch">
                       Bought for
                     </S.Description>
                     <S.Text>
@@ -46,7 +56,11 @@ const Transaction = ({ transaction, bid }: Props) => {
                     </S.Text>
                   </S.FlexDiv>
                 )}
-              {transaction?.type === 'nft_mint' && <S.Text>NFT Minted</S.Text>}
+              {transaction?.type === 'nft_mint' && (
+                <S.FlexDiv>
+                  <S.Text>NFT Minted</S.Text>
+                </S.FlexDiv>
+              )}
               {transaction?.type === 'nft_transfer_manual' && (
                 <S.FlexDiv>
                   <S.Text>Recieved Transfer</S.Text>
@@ -64,7 +78,7 @@ const Transaction = ({ transaction, bid }: Props) => {
           )}
           {transaction.type === 'nft_redeem' && (
             <S.TransactionDetails alignItems="flex-end">
-              <S.FlexDiv>
+              <S.FlexDiv style={{ flexWrap: 'nowrap' }}>
                 <S.RedeemIcon />
                 <S.Description paddingRight="0">
                   Redeemed this product

@@ -216,6 +216,9 @@ export const GrayLine = styled.div<{ width?: boolean; marginRight?: boolean }>`
 export const Padding = styled.div`
   padding-left: 32px;
   border-bottom: 2px solid #2e2e2e;
+  @media screen and (max-width: 400px) {
+    padding-left: 26px;
+  }
 `;
 
 export const ProductOwner = styled.div<{
