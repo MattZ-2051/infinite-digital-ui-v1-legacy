@@ -25,4 +25,5 @@ export const noCollection = css`
 
 export const Container = styled.div<{ collection?: boolean }>`
   ${({ collection }) => (collection ? hasCollection : noCollection)}
+  min-height: 70vh;
 `;

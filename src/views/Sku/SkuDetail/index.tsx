@@ -27,6 +27,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { getPrivateAssets } from 'services/api/productService';
 import Collapsible from './components/Collapsible';
 import { isUndefined } from 'util';
+import { ViewAgenda } from '@material-ui/icons';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -163,7 +164,7 @@ const SkuDetail = (): JSX.Element => {
             <S.ProductDetail>
               <S.Breadcrumbs>
                 <a
-                  href="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
+                  href="/marketplace"
                   style={{ color: 'white' }}
                 >
                   Marketplace
@@ -268,44 +269,21 @@ const SkuDetail = (): JSX.Element => {
           </S.HeaderRight>
         </S.HeaderContent>
       </S.HeaderContainer>
-      <S.Section
-        flexDirection="row"
-        color="#9E9E9E"
-        padding="55px 80px 0 80px"
-        height={filteredFeaturedSku.length === 0 ? '100vh' : ''}
-      >
-        <S.ContainerSection>
-          {!isSmall && (
-            <S.ContainerTabs>
-              <S.Tab
-                style={{ paddingRight: !isSmall ? '20px' : '0' }}
-                themeStyle={'light'}
-                selected={selectedTab === 'description'}
-                onClick={() => setSelectedTab('description')}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: isSmall ? 'space-between' : 'flex-start',
-                    alignContent: 'center',
-                  }}
-                  onClick={toggleDescription}
-                >
-                  <div>Description</div>
-                </div>
-              </S.Tab>
-              {/* <S.Padding /> */}
-
-              {arePrivateAssets && (
+      <S.SectionContainer>
+        <S.Section
+          flexDirection="row"
+          color="#9E9E9E"
+          padding="55px 80px 0 80px"
+          height={filteredFeaturedSku.length === 0 ? '100vh' : ''}
+        >
+          <S.ContainerSection>
+            {!isSmall && (
+              <S.ContainerTabs>
                 <S.Tab
-                  style={{
-                    width: '100%',
-                  }}
-                  themeStyle={'dark'}
-                  selected={selectedTab === 'owner_access'}
-                  onClick={() =>
-                    isSmall ? toggleOwnerAccess : setSelectedTab('owner_access')
-                  }
+                  style={{ paddingRight: !isSmall ? '20px' : '0' }}
+                  themeStyle={'light'}
+                  selected={selectedTab === 'description'}
+                  onClick={() => setSelectedTab('description')}
                 >
                   <div
                     style={{
@@ -313,78 +291,107 @@ const SkuDetail = (): JSX.Element => {
                       justifyContent: isSmall ? 'space-between' : 'flex-start',
                       alignContent: 'center',
                     }}
+                    onClick={toggleDescription}
                   >
-                    <div>Owner Access </div>
+                    <div>Description</div>
                   </div>
                 </S.Tab>
-              )}
-            </S.ContainerTabs>
-          )}
-          <S.ContainerDisplayTabs>
-            {selectedTab === 'description' &&
-            (descriptionVisible || !isSmall) ? (
-              <SkuDescription description={sku?.description || ''} />
-            ) : selectedTab === 'owner_access' &&
-              (ownerAccessVisible || !isSmall) ? (
-              <OwnerAccess
-                skuId={sku._id}
-                owner={
-                  (loggedInUser?.id &&
-                    ownerCollectors?.data &&
-                    ownerCollectors?.data.length > 0) ||
-                  false
-                }
-                themeStyle="light"
-                productId={ownerCollectors?.data?.[0]?._id || ''}
-              />
-            ) : (
-              <></>
+                {/* <S.Padding /> */}
+
+                {arePrivateAssets && (
+                  <S.Tab
+                    style={{
+                      width: '100%',
+                    }}
+                    themeStyle={'dark'}
+                    selected={selectedTab === 'owner_access'}
+                    onClick={() =>
+                      isSmall
+                        ? toggleOwnerAccess
+                        : setSelectedTab('owner_access')
+                    }
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: isSmall
+                          ? 'space-between'
+                          : 'flex-start',
+                        alignContent: 'center',
+                      }}
+                    >
+                      <div>Owner Access </div>
+                    </div>
+                  </S.Tab>
+                )}
+              </S.ContainerTabs>
             )}
-          </S.ContainerDisplayTabs>
-          {isSmall && (
-            <>
-              <Collapsible
-                title="Description"
-                body={<SkuDescription description={sku?.description || ''} />}
-                collectorsTotalNum={undefined}
-                borderTitle={true}
-              ></Collapsible>
-              {arePrivateAssets && (
+            <S.ContainerDisplayTabs>
+              {selectedTab === 'description' &&
+              (descriptionVisible || !isSmall) ? (
+                <SkuDescription description={sku?.description || ''} />
+              ) : selectedTab === 'owner_access' &&
+                (ownerAccessVisible || !isSmall) ? (
+                <OwnerAccess
+                  skuId={sku._id}
+                  owner={
+                    (loggedInUser?.id &&
+                      ownerCollectors?.data &&
+                      ownerCollectors?.data.length > 0) ||
+                    false
+                  }
+                  themeStyle="light"
+                  productId={ownerCollectors?.data?.[0]?._id || ''}
+                />
+              ) : (
+                <></>
+              )}
+            </S.ContainerDisplayTabs>
+            {isSmall && (
+              <>
                 <Collapsible
-                  title="OwnerAccess"
-                  body={ownerAccessInfo}
+                  title="Description"
+                  body={<SkuDescription description={sku?.description || ''} />}
                   collectorsTotalNum={undefined}
                   borderTitle={true}
                 ></Collapsible>
-              )}
-            </>
+                {arePrivateAssets && (
+                  <Collapsible
+                    title="OwnerAccess"
+                    body={ownerAccessInfo}
+                    collectorsTotalNum={undefined}
+                    borderTitle={true}
+                  ></Collapsible>
+                )}
+              </>
+            )}
+          </S.ContainerSection>
+          {collectors && sku && (
+            <AuctionListing
+              collectors={collectors.data}
+              hasProducts={collectors.data.length !== 0}
+              skuId={sku._id}
+            />
           )}
-        </S.ContainerSection>
-        {collectors && sku && (
-          <AuctionListing
-            collectors={collectors.data}
-            hasProducts={collectors.data.length !== 0}
-            skuId={sku._id}
-          />
-        )}
-      </S.Section>
-      {filteredFeaturedSku.length > 0 && (
-        <S.Section min-height="100vh">
-          <S.SectionTitle>Related Releases</S.SectionTitle>
-          <S.ProductContainer>
-            {featuredProducts &&
-              filteredFeaturedSku.map((el, index) => {
-                // TODO: Stopping after index 5
-                if (index >= tylesLimit) return null;
-                return (
-                  <S.TileContainer key={index} index={index}>
-                    <SkuTile sku={el} key={index} themeStyle="light" />
-                  </S.TileContainer>
-                );
-              })}
-          </S.ProductContainer>
         </S.Section>
-      )}
+        {filteredFeaturedSku.length > 0 && (
+          <S.Section>
+            <S.SectionTitle>Related Releases</S.SectionTitle>
+            <S.ProductContainer>
+              {featuredProducts &&
+                filteredFeaturedSku.map((el, index) => {
+                  // TODO: Stopping after index 5
+                  if (index >= tylesLimit) return null;
+                  return (
+                    <S.TileContainer key={index} index={index}>
+                      <SkuTile sku={el} key={index} themeStyle="light" />
+                    </S.TileContainer>
+                  );
+                })}
+            </S.ProductContainer>
+          </S.Section>
+        )}
+      </S.SectionContainer>
       <NotifyModal
         isModalOpen={isNotifyModalOpen}
         handleClose={() => setIsNotifyModalOpen(false)}

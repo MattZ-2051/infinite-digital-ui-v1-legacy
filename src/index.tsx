@@ -69,14 +69,14 @@ function addGtag() {
   window.gtag('config', config.gtag.id);
 }
 
-function addHubspot() {
-  const tagId = `hs-script-loader`;
+function addHubspot(portalId: string) {
+  const tagId = `hs-script-loader-${portalId}`;
   if (document.getElementById(tagId)) {
     return;
   }
   const script = document.createElement("script");
   script.id = tagId;
-  script.src = `//js.hs-scripts.com/${config.hubspot.portalId}.js`;
+  script.src = `//js.hs-scripts.com/${portalId}.js`;
   script.async = true;
   script.defer = true;
   document.body.appendChild(script);
@@ -86,7 +86,8 @@ const Main = () => {
   React.useEffect(
     () => {
       // addGtag();
-      addHubspot();
+      addHubspot(config.hubspot.helpSection.portalId);
+      addHubspot(config.hubspot.mailSubscribingSection.portalId);
     },
     []
   );

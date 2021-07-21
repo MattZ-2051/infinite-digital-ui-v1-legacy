@@ -16,8 +16,8 @@ const Help = () => {
       if (loaded && !error && windowWithHubspotForm.hbspt) {
         windowWithHubspotForm.hbspt.forms.create({
           region: config.hubspot.region,
-          portalId: config.hubspot.portalId,
-          formId: config.hubspot.helpFormId,
+          portalId: config.hubspot.helpSection.portalId,
+          formId: config.hubspot.helpSection.formId,
           target: '#embed-hubspot',
         });
       }
@@ -45,7 +45,7 @@ const Help = () => {
       </S.HelpColumn>
       <S.HelpColumn>
         <S.Header style={{ marginLeft: '80px' }}>Contact/Support Form</S.Header>
-        <S.Container id="embed-hubspot"></S.Container>
+        <S.Container id="embed-hubspot"/>
       </S.HelpColumn>
     </S.HelpContainer>
   );

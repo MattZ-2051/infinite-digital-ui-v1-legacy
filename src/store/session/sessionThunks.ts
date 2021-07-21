@@ -97,7 +97,7 @@ export const updateUsernameThunk = createAsyncThunk<
     return response;
   } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: e,
+      errorMessage: e.response.data.message,
     } as IError);
   }
 });
@@ -113,7 +113,7 @@ export const removeUserCCThunk = createAsyncThunk<
     await removeUserCC(token, id);
   } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: e.message,
+      errorMessage: e.response.data.message,
     } as IError);
   }
 });
@@ -130,7 +130,7 @@ export const createNewCCThunk = createAsyncThunk<
     return response;
   } catch (e) {
     return thunkApi.rejectWithValue({
-      errorMessage: e.message,
+      errorMessage: e.response.data.message,
     } as IError);
   }
 });
@@ -148,7 +148,7 @@ export const addFundsThunk = createAsyncThunk<
       await addFundsToUserWallet(token, data, cardId);
     } catch (e) {
       return thunkApi.rejectWithValue({
-        errorMessage: e.message,
+        errorMessage: e.response.data.message,
         rawError: e,
       } as IError);
     }

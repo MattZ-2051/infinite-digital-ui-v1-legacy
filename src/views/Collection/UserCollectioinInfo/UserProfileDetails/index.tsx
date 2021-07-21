@@ -35,7 +35,7 @@ const UserProfileDetails = ({
   };
 
   return (
-    <ModalComponent open={isModalOpen}>
+    <ModalComponent open={isModalOpen} centered={true}>
       <S.Body>
         <S.Icon>
           <S.ExitIconImg src={exitIconImg} onClick={handleCloseAndReset} />

@@ -82,7 +82,7 @@ const History = ({
         product?.upcomingProductListings[0]?.startDate
     );
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
-  const marketPlaceUrl = '/marketplace?page=1&per_page=6&sortBy=startDate:asc';
+  const marketPlaceUrl = '/marketplace';
 
   //clases
   const util = new Util(
@@ -111,7 +111,8 @@ const History = ({
     setHistoryPage,
     selectedTab
   );
-
+  const isAuctionOrWillBe = util.auctionOrWillBeAuction();
+  const isActiveAuction = util.isActiveAuction();
   //effects.
 
   useEffect(() => {
@@ -126,21 +127,17 @@ const History = ({
     if (selectedTab === 'auction') {
       setAuctionStatus(util.getAuctionStatus());
     }
-  }, [selectedTab]);
+  }, [selectedTab, totalBids]);
 
   useEffect(() => {
-    util.fetchBids();
+    if (isActiveAuction) {
+      util.fetchBids();
+    }
   }, [auctionPage]);
 
   useEffect(() => {
     util.fetchPrivateAssets();
   }, [product?.sku?._id]);
-
-  useEffect(() => {
-    if (privateAssets?.length > 0) {
-      setSelectedTab('owner_access');
-    }
-  }, [privateAssets]);
 
   if (historyStatus === '' || !handlers) return <></>;
 

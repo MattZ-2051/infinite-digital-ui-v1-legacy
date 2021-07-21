@@ -11,7 +11,6 @@ import {
   removeUserCCThunk,
   addFundsThunk,
 } from './sessionThunks';
-import { stat } from 'fs';
 
 export const sessionSlice = createSlice({
   name: 'session',
@@ -69,9 +68,9 @@ export const sessionSlice = createSlice({
 
       state.user.username = payload.username;
     });
-    builder.addCase(updateUsernameThunk.rejected, (state, { error }) => {
+    builder.addCase(updateUsernameThunk.rejected, (state, { payload }) => {
       checkStatePending(state);
-      showErrorToast(error.message);
+      showErrorToast(payload?.errorMessage);
     });
 
     // delete user and clear state, doesn't actaully ping API but clears user from store
@@ -86,9 +85,9 @@ export const sessionSlice = createSlice({
 
       state.userCards = payload;
     });
-    builder.addCase(createNewCCThunk.rejected, (state, { error }) => {
+    builder.addCase(createNewCCThunk.rejected, (state, { payload }) => {
       checkStatePending(state);
-      showErrorToast(error.message);
+      showErrorToast(payload?.errorMessage);
     });
 
     // Removing User Credit Card
@@ -96,16 +95,16 @@ export const sessionSlice = createSlice({
       checkStatePending(state);
       state.userCards.cards = [];
     });
-    builder.addCase(removeUserCCThunk.rejected, (state, { error }) => {
+    builder.addCase(removeUserCCThunk.rejected, (state, { payload }) => {
       checkStatePending(state);
-      showErrorToast(error.message);
+      showErrorToast(payload?.errorMessage);
     });
 
     // Adding funds to user account
     builder.addCase(addFundsThunk.fulfilled, (state) => {
       checkStatePending(state);
     });
-    builder.addCase(addFundsThunk.rejected, (state, { error }) => {
+    builder.addCase(addFundsThunk.rejected, (state) => {
       checkStatePending(state);
     });
   },
