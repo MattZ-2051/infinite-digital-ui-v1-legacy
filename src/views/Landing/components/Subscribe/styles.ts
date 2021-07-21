@@ -41,11 +41,15 @@ export const Header = styled.span`
     margin-right: 24px;
   }
 `;
-export const EmailInput = styled(TextField)`
+export const EmailInput = styled(TextField)<{
+  isDisabled: boolean | undefined;
+}>`
   margin-top: 40px;
   margin-bottom: 13px;
   width: 410px;
-  color: white;
+  opacity: ${(props) => (props.isDisabled ? '0.25' : '1')};
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'initial')};
+  color: ${(props) => (props.isDisabled ? 'grey' : 'white')};
   div {
     color: white;
   }
@@ -55,6 +59,7 @@ export const EmailInput = styled(TextField)`
   && .MuiInput-underline:not(.Mui-error)::after {
     border-color: #fff;
   }
+
   @media screen and (max-width: 410px) {
     width: 80%;
   }

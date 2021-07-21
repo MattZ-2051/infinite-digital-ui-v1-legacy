@@ -89,12 +89,19 @@ export const config: AppConfig = {
   hubspot: {
     region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
     helpSection: {
-      formId: getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) || 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
-      portalId: getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '8953348',
+      formId:
+        getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) ||
+        'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+      portalId:
+        getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '8953348',
     },
     mailSubscribingSection: {
-      formId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', false) || 'ef10e4fd-1595-42d1-b10b-6d6dd9b2b46f',
-      portalId: getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID', false) || '20243335',
+      formId:
+        getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', false) ||
+        'ef10e4fd-1595-42d1-b10b-6d6dd9b2b46f',
+      portalId:
+        getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID', false) ||
+        '20243335',
     },
   },
   kycLimits: {

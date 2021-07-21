@@ -33,6 +33,16 @@ const MobileMenu = ({
     <>
       {!isAuthenticated && (
         <S.AuthButtonsWrapper>
+          <S.Item>
+            <TextButton
+              type="link"
+              color="white"
+              to="/marketplace"
+              onClick={onSelect}
+            >
+              Marketplace
+            </TextButton>
+          </S.Item>
           <TextButton
             color="white"
             size="big"
@@ -61,7 +71,6 @@ const MobileMenu = ({
                 Marketplace
               </TextButton>
             </S.Item>
-
             <S.Item>
               <TextButton
                 type="link"

@@ -85,6 +85,9 @@ const History = ({
   const marketPlaceUrl = '/marketplace';
 
   //clases
+  const txHistory = transactionHistory.filter((el) => {
+    return el.status !== 'error';
+  });
   const util = new Util(
     product,
     isAuthenticated,
@@ -95,7 +98,7 @@ const History = ({
     perPage,
     setBids,
     setTotalBids,
-    transactionHistory,
+    txHistory,
     bidAmount,
     setPrivateAssets
   );

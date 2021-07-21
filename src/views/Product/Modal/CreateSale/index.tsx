@@ -35,13 +35,15 @@ const CreateSale = ({
   const [total, setTotal] = useState<number>();
   const [loading, setLoading] = useState(false);
 
-  const fee = product?.resaleSellersFeePercentage;
+  const fee = product?.resale
+    ? product?.sku?.sellerTransactionFeePercentage
+    : product?.sku?.sellerTransactionFeePercentageSecondary;
 
   useEffect(() => {
     if (price) {
       const serviceFee = (fee * parseFloat(price)) / 100;
       const royaltyFee =
-        (product?.royaltyFeePercentage * parseFloat(price)) / 100;
+        (product?.sku?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
       if (product?.resale) {
@@ -185,17 +187,8 @@ const CreateSale = ({
           </S.Detail>
           <S.Footer>
             <p>
-              Listing your NFT for sale on the marketplace will allow it to be
-              purchased by other users. Once listed for sale it cannot be
-              canceled
-              <br />
-              <a
-                target="_blank"
-                href="https://support.suku.world/"
-                rel="noreferrer"
-              >
-                Click here to learn more.
-              </a>
+              If your NFT is bought on the marketplace, payment will be
+              transferred to your INFINITE wallet.
             </p>
           </S.Footer>
           <Button

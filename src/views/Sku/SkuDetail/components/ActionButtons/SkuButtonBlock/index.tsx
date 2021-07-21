@@ -11,6 +11,7 @@ import { useCountdown } from 'hooks/useCountdown';
 import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
+import { useMediaQuery } from '@material-ui/core';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -121,27 +122,38 @@ const UpcomingData = ({
 }: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   return (
     <>
       {' '}
       <S.Container>
-        <S.BoxColumn>
-          <S.BoxTitle>Upcoming</S.BoxTitle>
-          <S.BoxSubtitle>{''}</S.BoxSubtitle>
-        </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'center' }}>
-          <S.Price>${price}</S.Price>
-          {supplyType !== 'variable' && (
-            <small style={{ fontSize: '15px' }}>
-              {items && `(${items} NFTs)`}
-            </small>
-          )}
-        </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'right' }}>
-          <S.CountDownTime>{countdown}</S.CountDownTime>
-          <S.StartDate>{formatDate(startDate)}</S.StartDate>
-        </S.BoxColumn>
+        <S.Detail style={{ alignItems: 'flex-start' }}>
+          <S.BoxColumn>
+            <S.BoxTitle>Upcoming</S.BoxTitle>
+            <S.BoxSubtitle>{''}</S.BoxSubtitle>
+            {matchesMobile && (
+              <>
+                <S.CountDownTime>{countdown}</S.CountDownTime>
+                <S.StartDate>{formatDate(startDate)}</S.StartDate>
+              </>
+            )}
+          </S.BoxColumn>
+          <S.BoxColumn style={{ textAlign: 'center' }}>
+            <S.Price>${price}</S.Price>
+            {supplyType !== 'variable' && (
+              <small style={{ fontSize: '15px' }}>
+                {items && `(${items} NFTs)`}
+              </small>
+            )}
+          </S.BoxColumn>
+        </S.Detail>
+        {!matchesMobile && (
+          <S.BoxColumn style={{ textAlign: 'right' }}>
+            <S.CountDownTime>{countdown}</S.CountDownTime>
+            <S.StartDate>{formatDate(startDate)}</S.StartDate>
+          </S.BoxColumn>
+        )}
       </S.Container>
     </>
   );
@@ -235,31 +247,33 @@ interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
   skuId: string;
-  circulatingSupply: number;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
   skuId,
-  circulatingSupply,
 }: IFromCollectorsBox): JSX.Element => {
   const history = useHistory();
-  if (circulatingSupply === 0) return <> </>;
   return (
     <S.Container>
-      <S.BoxColumn>
-        <S.BoxTitle>From Collectors</S.BoxTitle>
-        <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
-      </S.BoxColumn>
-      <S.BoxColumn style={{ textAlign: 'center' }}>
-        <S.Price> {!!countProductListings ? `$${minimunPrice}` : '--'}</S.Price>
-        <small style={{ fontSize: '15px' }}>
-          {!!countProductListings
-            ? `(${countProductListings} for sale)`
-            : `${countProductListings} on sale`}
-        </small>
-      </S.BoxColumn>
+      <S.Detail>
+        <S.BoxColumn>
+          <S.BoxTitle>From Collectors</S.BoxTitle>
+          <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
+        </S.BoxColumn>
+        <S.BoxColumn style={{ textAlign: 'center' }}>
+          <S.Price>
+            {' '}
+            {!!countProductListings ? `$${minimunPrice}` : '--'}
+          </S.Price>
+          <small style={{ fontSize: '15px' }}>
+            {!!countProductListings
+              ? `(${countProductListings} for sale)`
+              : `${countProductListings} on sale`}
+          </small>
+        </S.BoxColumn>
+      </S.Detail>
       <S.SeeAllContainer>
         <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
           See All
@@ -294,54 +308,6 @@ const SkuButtonBlock = ({
   const canceledSkuListings = sku.skuListings.filter(
     (skuListing) => skuListing.canceled
   );
-
-  // if (!numSkuListings || sku.totalSkuSupplyLeft === 0) {
-  //   return <></>; // Returning empty for now
-  //   // need to remove this return after MVP
-  //   // This scenario is for the direct product listing (post-MVP)
-
-  //   // this is STATE 0 = 1 product listing only = no sku listings
-  //   const upcomingProductListings = collectors.filter(
-  //     (collector) => collector.upcomingProductListing
-  //   );
-  //   if (upcomingProductListings.length > 0) {
-  //     const upcomingProductListing =
-  //       upcomingProductListings[0].upcomingProductListing;
-  //     if (upcomingProductListing?.saleType === 'fixed') {
-  //       // Price attribute: upcomingProductListing.price
-  //       return <> return countdown timer for upcoming </>;
-  //     } else if (upcomingProductListing?.saleType === 'auction') {
-  //       // Price attribute: upcomingProductListing.minBid
-  //       return <> auction scenario - return countdown timer</>;
-  //     }
-  //   }
-  //   const activeProductListings = collectors.filter(
-  //     (collector) => collector.activeProductListing
-  //   );
-  //   if (activeProductListings.length > 0) {
-  //     const activeProductListing =
-  //       activeProductListings[0].activeProductListing;
-  //     return <> {activeProductListing?.price} </>;
-  //   }
-  //   if (
-  //     upcomingProductListings.length === 0 &&
-  //     activeProductListings.length === 0
-  //   ) {
-  //     // This is a product listing
-  //     return (
-  //       <>
-  //         <FromCreatorBox
-  //           sku={sku}
-  //           listing={undefined}
-  //           user={user}
-  //           onBuyNow={onBuyNow}
-  //           buttonDisabled={true}
-  //           buttonLabel="Not for sale"
-  //         />
-  //       </>
-  //     );
-  //   }
-  // }
 
   /**
    * Upcoming Auction sku Listing
@@ -453,7 +419,6 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
-          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );
@@ -483,7 +448,6 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
-          circulatingSupply={sku.circulatingSupply}
         />
       </>
     );

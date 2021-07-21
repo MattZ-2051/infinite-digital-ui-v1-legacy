@@ -216,17 +216,22 @@ export const GrayLine = styled.div<{ width?: boolean; marginRight?: boolean }>`
 export const Padding = styled.div`
   padding-left: 32px;
   border-bottom: 2px solid #2e2e2e;
+  @media screen and (max-width: 400px) {
+    padding-left: 26px;
+  }
 `;
 
 export const ProductOwner = styled.div<{
   flexDirection: string;
   padding?: string;
+  textAlign?: string;
 }>`
   display: flex;
   flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
   font-size: 16px;
   padding-left: 0;
   padding: ${(props) => props.padding && `${props.padding}`};
+  text-align: ${(props) => `${props.textAlign}`};
 `;
 
 export const Owner = styled.span`
@@ -259,12 +264,16 @@ export const Text = styled.p<{
   color: string;
   size: string;
   fontWeight: number;
+  textAlign?: string;
+  width?: string;
 }>`
   margin: 0;
   color: ${(props) => `${props.color}`};
   font-size: ${(props) => `${props.size}`};
   font-weight: ${(props) => `${props.fontWeight}`};
   padding: 0 5px;
+  text-align: ${(props) => `${props.textAlign}`};
+  width: ${(props) => `${props.width}`};
 `;
 
 export const Button = styled.button<{
@@ -289,15 +298,32 @@ export const Button = styled.button<{
     color: black;
   }`
       : 'color: #9e9e9e;'}
+  @media screen and (max-width: 1160px) {
+    width: 100%;
+    max-width: 400px;
+  }
 `;
 
-export const Header = styled.div`
+export const ButtonContainer = styled.div<{ flexDirection?: string }>`
+  padding-right: 80px;
+  display: flex;
+  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
+  align-items: center;
+  @media screen and (max-width: 1160px) {
+    padding-bottom: 30px;
+    padding-right: 0;
+    justify-content: center;
+  }
+`;
+
+export const Header = styled.div<{ justifyContent?: string }>`
   font-size: 48px;
   font-weight: 600;
   color: #7c7c7c;
   display: flex;
   padding-top: 40px;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.justifyContent ? `${props.justifyContent}` : 'space-between'};
   margin-bottom: 32px;
   align-items: baseline;
 
@@ -307,9 +333,10 @@ export const Header = styled.div`
   }
 `;
 
-export const Title = styled.div`
+export const Title = styled.div<{ textAlign: string }>`
   color: #7c7c7c;
   font-size: 16px;
+  text-align: ${(props) => `${props.textAlign}`};
 `;
 
 export const Slash = styled.span`
@@ -319,16 +346,6 @@ export const Slash = styled.span`
 
   ${mediaQueries.sm} {
     display: inline-block;
-  }
-`;
-
-export const ButtonContainer = styled.div<{ flexDirection?: string }>`
-  padding-right: 0;
-  display: flex;
-  flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
-  align-items: center;
-  ${mediaQueries.sm} {
-    padding-right: 80px;
   }
 `;
 
@@ -362,7 +379,6 @@ export const Tab = styled.div<{
   :focus {
     outline: none;
   }
-
 `;
 
 export const TransactionContainer = styled.div`
@@ -382,33 +398,33 @@ export const BidsContainer = styled.div<{ padding: string }>`
   overflow: hidden;
 `;
 
-export const StyledPagination = styled(Pagination) <{
+export const StyledPagination = styled(Pagination)<{
   theme;
   themeStyle;
   padding?: string;
 }>`
   .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
     background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.light.baseMain
-      : theme.palette.dark.baseMain};
+      themeStyle === 'dark'
+        ? theme.palette.light.baseMain
+        : theme.palette.dark.baseMain};
 
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
-      : theme.palette.light.baseMain};
+      themeStyle === 'dark'
+        ? theme.palette.dark.baseMain
+        : theme.palette.light.baseMain};
     &:hover {
     }
   }
   .MuiButtonBase-root.MuiPaginationItem-root {
     background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   .MuiPaginationItem-ellipsis {
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   padding: ${(props) => props.padding && `${props.padding}`};
 `;

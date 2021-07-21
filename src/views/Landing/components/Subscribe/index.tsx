@@ -20,7 +20,7 @@ const Subscribe = (): JSX.Element => {
   const [buttonText, setButtonText] = useState<string>(
     'Join our mailing list!'
   );
-
+  const buttonTextDone = 'Done';
   const onChange = (event) => {
     setEmail(event?.target?.value);
     setError(!isValidEmail(event?.target?.value));
@@ -51,7 +51,7 @@ const Subscribe = (): JSX.Element => {
       );
       setHeader('Thanks for signing up!');
       setTagline('Newsletter signup successful');
-      setButtonText('Done');
+      setButtonText(buttonTextDone);
     } catch (error) {
       Toast.error('Whoops! Something went wrong, Please try again.');
     }
@@ -79,9 +79,10 @@ const Subscribe = (): JSX.Element => {
           placeholder="Enter your email"
           error={error}
           helperText={error ? 'Email must be formatted correctly.' : ''}
+          isDisabled={buttonText == buttonTextDone}
         />
         <S.SubscribeButton
-          disabled={error || !email}
+          disabled={error || !email || buttonText == buttonTextDone}
           color="gray"
           style={{
             height: '56px',

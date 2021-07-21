@@ -57,6 +57,7 @@ export interface Sku {
   royaltyFeePercentage: number;
   resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
+  sellerTransactionFeePercentageSecondary: number;
 }
 
 interface Category {

@@ -11,6 +11,9 @@ interface IProps {
 
 const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const matchesSmallScreen = useMediaQuery('(max-width: 400px', {
+    noSsr: true,
+  });
   const history = useHistory();
   const handleClick = () => {
     login({ screen_hint: 'signup' });

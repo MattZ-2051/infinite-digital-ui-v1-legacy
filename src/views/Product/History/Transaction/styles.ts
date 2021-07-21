@@ -16,6 +16,14 @@ export const Container = styled.div`
   :hover .username {
     color: white;
   }
+  @media screen and (max-width: 400px) {
+    display: grid;
+    column-gap: 8px;
+    grid-template-columns: min-content 1fr;
+    &.with-link {
+      grid-template-columns: min-content 1fr 24px;
+    }
+  }
 `;
 
 export const RedeemIcon = styled(RedeemSvg)`
@@ -71,20 +79,21 @@ export const ToolTipText = styled.span`
 
   @media screen and (max-width: 960px) {
     position: absolute;
-  bottom: 3.5em;
-  color: black;
-  width: 95px;
-  overflow: hidden;
-  font-size: 12px;
-  left: -6em;
+    bottom: 3.5em;
+    color: black;
+    width: 95px;
+    overflow: hidden;
+    font-size: 12px;
+    left: -6em;
 
-  text-align: center;
-  :hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  a {
-    font-weight: 400;
+    text-align: center;
+    :hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    a {
+      font-weight: 400;
+    }
   }
 `;
 
@@ -111,6 +120,9 @@ export const TransactionInfo = styled.div<{ padding?: string }>`
   justify-content: flex-end;
   width: 100%;
   padding: ${(props) => props.padding && `${props.padding}`};
+  @media screen and (max-width: 400px) {
+    padding-left: 4px;
+  }
 `;
 
 export const TransactionDetails = styled.div<{ alignItems: string }>`
@@ -122,12 +134,18 @@ export const TransactionDetails = styled.div<{ alignItems: string }>`
   @media screen and (max-width: 960px) {
     align-items: flex-start;
   }
+  @media screen and (max-width: 400px) {
+    padding-right: 0;
+  }
 `;
 
 export const LinkIcon = styled(linkSVG)`
   width: 40px;
   stroke: #9e9e9e;
   fill: none;
+  @media screen and (max-width: 400px) {
+    width: 24px;
+  }
   :hover {
     stroke: white;
     cursor: pointer;
@@ -146,6 +164,9 @@ export const FlexDiv = styled.div<{ width?: string }>`
   justify-content: flex-start;
   align-items: center;
   width: ${(props) => (props.width ? `${props.width}` : `100%`)};
+  @media screen and (max-width: 400px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const FlexColumn = styled.div`
