@@ -41,8 +41,9 @@ const DepositModal = ({
     }
   }
 
-  const [modalContent, setModalContent] =
-    useState<modalContentType>('SelectPayment');
+  const [modalContent, setModalContent] = useState<modalContentType>(
+    'SelectPayment'
+  );
 
   function resolveModalContent(componentName: string) {
     switch (componentName) {
@@ -62,7 +63,7 @@ const DepositModal = ({
         return (
           <>
             <ExitButton exitAction={() => setModalContent('SelectPayment')} />
-            <USDCDeposit />
+            <USDCDeposit handleClose={handleClose} />
           </>
         );
       case 'SelectPayment':
