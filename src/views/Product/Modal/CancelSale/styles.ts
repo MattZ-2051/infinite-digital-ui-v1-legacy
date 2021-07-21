@@ -37,6 +37,7 @@ export const Header = styled.p`
   color: black;
   padding-left: 8px;
   font-size: 22px;
+  text-align: center;
 `;
 
 export const SubHeader = styled.p`

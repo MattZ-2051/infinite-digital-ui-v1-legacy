@@ -61,7 +61,7 @@ const CancelSale = ({
             {modalType === 'sale' && (
               <>
                 <Emoji symbol="❌" />
-                <S.Header>Cancel Sale?</S.Header>
+                <S.Header>Are you sure you want to cancel your NFT sale listing?</S.Header>
               </>
             )}
             {modalType === 'auction' && (
