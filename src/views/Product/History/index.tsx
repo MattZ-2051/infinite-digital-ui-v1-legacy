@@ -114,6 +114,7 @@ const History = ({
     setHistoryPage,
     selectedTab
   );
+  const isAuctionOrWillBe = util.auctionOrWillBeAuction();
   const isActiveAuction = util.isActiveAuction();
   //effects.
 
