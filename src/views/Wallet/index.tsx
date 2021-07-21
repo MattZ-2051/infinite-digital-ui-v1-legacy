@@ -109,7 +109,13 @@ const Wallet = (props) => {
     if (selectedTab === 0) {
       fetchTransactions(valueCurrentPage, sortByTransactions);
     }
-  }, [valueCurrentPage, sortByTransactions, selectedTab]);
+  }, [
+    valueCurrentPage,
+    sortByTransactions,
+    selectedTab,
+    isModalOpen,
+    isWithdrawModalOpen,
+  ]);
 
   const handleClose = () => {
     setIsModalOpen(false);
