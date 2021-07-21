@@ -303,13 +303,15 @@ const AchAccountList = ({
             <AddIcon style={{ marginRight: 5 }} />
             Add new bank account
           </S2.AddAccountButton>
-          <S2.AddAccountButton
-            type="button"
-            onClick={() => setIsDeleteMode((prev) => !prev)}
-          >
-            <img src={DustbinIcon} alt="dustbin" style={{ marginRight: 5 }} />
-            Remove account
-          </S2.AddAccountButton>
+          {valueAchAccounts?.length > 0 && (
+            <S2.AddAccountButton
+              type="button"
+              onClick={() => setIsDeleteMode((prev) => !prev)}
+            >
+              <img src={DustbinIcon} alt="dustbin" style={{ marginRight: 5 }} />
+              Remove account
+            </S2.AddAccountButton>
+          )}
         </div>
       ) : (
         <div
