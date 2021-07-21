@@ -135,7 +135,10 @@ const BuyNowModal = ({
       setLoading(true);
       const userToken = await getAccessTokenSilently();
       try {
-        const result = await patchListingsPurchase(userToken, '');
+        const result = await patchListingsPurchase(
+          userToken,
+          product?.listing?._id
+        );
 
         // TODO: Check payment
         console.log('res', result);
