@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 
 export const BodyContainer = styled.div`
-  position: absolute;
   max-width: 550px;
   width: 500px;
   max-height: 750px;
@@ -10,9 +9,7 @@ export const BodyContainer = styled.div`
   padding-top: 16px;
   outline: none;
   border-radius: 10px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
   @media screen and (max-width: 550px) {
     width: 100%;
   }
@@ -27,8 +24,9 @@ export const BodyContent = styled.div`
 
 export const GrayLine = styled.div`
   border-bottom: 2px solid #d8d8d8;
-  padding-top: 12px;
+  margin-top: -2px;
   width: 80%;
+  position: initial;
 `;
 
 export const RowText = styled.span`
@@ -46,6 +44,10 @@ export const Header = styled.span`
   font-weight: 600;
   border-bottom: 2px solid black;
   padding-bottom: 14px;
+  display: block;
+  position: relative;
+  max-width: max-content;
+  z-index: 1;
 `;
 
 export const SubHeader = styled.div`
