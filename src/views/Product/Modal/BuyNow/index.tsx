@@ -47,6 +47,14 @@ const BuyNowModal = ({
     (state) => state.session.user?.availableBalance
   );
 
+  const ErrorMessage = () =>
+    Toast.error(
+      <>
+        There was an error processing your purchase. Please try again, see the{' '}
+        <a href="/help">help page</a> to learn more.
+      </>
+    );
+
   const marketplaceFee = product?.resale
     ? product.resaleBuyersFeePercentage
     : product.initialSellersFeePercentage;
@@ -127,12 +135,10 @@ const BuyNowModal = ({
       setLoading(true);
       const userToken = await getAccessTokenSilently();
       try {
-        const result = await patchListingsPurchase(
-          userToken,
-          product.listing._id
-        );
+        const result = await patchListingsPurchase(userToken, '');
 
         // TODO: Check payment
+        console.log('res', result);
         if (result) {
           setStatusMode('processing');
           checkPendingStatus();
@@ -141,10 +147,10 @@ const BuyNowModal = ({
         setLoading(false);
       } catch (e) {
         setLoading(false);
-        Toast.error(purchase.patchListingsPurchaseError);
+        ErrorMessage();
       }
     } else {
-      Toast.error(purchase.patchListingsPurchaseError);
+      ErrorMessage();
     }
   };
 
