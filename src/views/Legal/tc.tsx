@@ -51,8 +51,10 @@ const TC = () => {
         communication between two sets of users: sellers (“Sellers”) and buyers
         (“Buyers”). Sellers may market their sale of items (further clarified
         below to include, amongst other things, NFTs, services, and physical
-        goods) and Buyers may peruse and at their option, bid or buy the items.
-        The actual contract for sale is between the Seller and Buyer. Company is
+        goods) and Buyers may peruse and at their option, bid or buy the items.  
+        Auctions shall also be governed by the Company Auction Terms [see below], 
+        which are incorporated herein by this reference. The actual contract for 
+        sale is between the Seller and Buyer. Company is
         not a party to the transaction, a Seller, or a traditional auctioneer
         but does usually receive a fee as an Online Service Provider. The
         Company has no control over and provides no guarantee related to: the
