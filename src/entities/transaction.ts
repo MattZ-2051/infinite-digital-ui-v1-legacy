@@ -49,7 +49,6 @@ export interface TransactionData {
   listing: string;
   amount: number;
   bid: string;
-  hederaTransaction?: HederaTransaction;
   circleReceipt?: CircleReceipt;
   buyer: {
     _id: string;
@@ -59,7 +58,6 @@ export interface TransactionData {
     _id: string;
     username: string;
   };
-  ownerAvailableBalance: number;
   cost: Cost;
   explorerLink: string;
   status: string;
@@ -68,10 +66,15 @@ export interface TransactionData {
     id: string;
     type: DepositType;
     amount: string;
+    amountRate?: string;
+    amountRated?: string;
+    amountUnrated?: string;
+    hederaTransaction?: HederaTransaction;
+    hederaTransactionLink?: string;
     card?: Card;
     coinbasePayment?: { amount: string; currency: string };
+    transactionHash: string | undefined;
   };
-  transactionHash: string | undefined;
   withdraw?: {
     amount: string;
     institution_id: string;
@@ -95,14 +98,10 @@ interface Cost {
 }
 
 export interface HederaTransaction {
-  transactionHash: string;
-  transactionId: string;
-  explorerLink: string;
-  from: string;
-  to: string;
-  tokenId: string;
+  rate: number;
+  hash: string;
+  id: string;
   status: string;
-  ownerAvailableBalance: number;
 }
 
 export interface CircleReceipt {

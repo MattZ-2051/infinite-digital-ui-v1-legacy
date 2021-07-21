@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as S from '../../Transaction/styles';
@@ -36,8 +36,7 @@ const HbarTransaction = ({ dep }: { dep: INewHbarDeposit }): JSX.Element => {
           <span style={{ fontWeight: 600, color: 'black' }}>
             {dep.depositAmount}
           </span>
-          <span> using </span>
-          <span style={{ fontWeight: 600, color: 'black' }}> Hbar </span>
+          <span style={{ fontWeight: 600, color: 'black' }}>Hbar</span>
         </span>
       </S.TransactionDescription>
       {!isSmall ? (
@@ -67,7 +66,14 @@ const HbarTransaction = ({ dep }: { dep: INewHbarDeposit }): JSX.Element => {
       </S.TransactionDetail>
       {showTxId && (
         <TxIdContainer>
-          Transaction ID: <S.TxId>{dep.id}</S.TxId>
+          Transaction ID: <a
+            href={dep.trxLink}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.TxId>{dep.id}</S.TxId>
+          </a><br/>
+          Conversion rate: 1 hbar = {dep.rate} USD
           {isSmall && (
             <TransactionDetail
               style={{ justifyContent: 'flex-start' }}

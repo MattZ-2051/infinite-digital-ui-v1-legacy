@@ -91,9 +91,7 @@ const HbarDepositInfo = ({ tx }: { tx: ITransaction }) => (
         : tx.status === 'pending'
         ? 'You added funds by depositing'
         : 'You tried to add funds by depositing'}
-      <S.Bold>${tx.transactionData.deposit?.amount}</S.Bold>
-      using
-      <S.Bold>Hbar</S.Bold>
+      <S.Bold>${tx.transactionData.deposit?.amountUnrated} Hbar</S.Bold>
       {tx.status === 'pending' || tx.status === 'success' ? (
         <S.Bold
           style={{ textTransform: 'capitalize' }}
@@ -370,7 +368,15 @@ const Transaction = ({ tx }: IProps) => {
       </S.TransactionDetail>
       {showTxId && (
         <S.TxIdContainer>
-          Transaction ID: <S.TxId>{tx._id}</S.TxId>
+          Transaction ID: <S.TxId>{tx._id}</S.TxId><br/>
+          Hedera transaction ID: <a
+          href={tx.transactionData.deposit?.hederaTransactionLink}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
+        </a><br/>
+          Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
         </S.TxIdContainer>
       )}
     </S.Container>

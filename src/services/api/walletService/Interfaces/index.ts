@@ -28,6 +28,7 @@ export interface INewHbarTransactions {
   hbarAmount: string;
   usdAmount: string;
   rawTransaction: IRawHbarTransaction;
+  kabutoLink: string;
 }
 
 export interface IHbarDeposits {

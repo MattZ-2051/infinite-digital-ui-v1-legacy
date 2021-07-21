@@ -63,7 +63,7 @@ const Transaction = ({ transaction, bid }: Props) => {
               )}
               {transaction?.type === 'nft_transfer_manual' && (
                 <S.FlexDiv>
-                  <S.Text>Recieved Transfer</S.Text>
+                  <S.Text>Received Transfer</S.Text>
                 </S.FlexDiv>
               )}
 
@@ -98,7 +98,7 @@ const Transaction = ({ transaction, bid }: Props) => {
           >
             {showLink && !matchesMobile && (
               <div>
-                <S.ToolTip></S.ToolTip>
+                <S.ToolTip/>
                 <S.ToolTipText>
                   <a
                     href={transaction?.transactionData?.explorerLink}

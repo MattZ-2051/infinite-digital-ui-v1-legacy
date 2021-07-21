@@ -17,6 +17,8 @@ export interface INewHbarDeposit {
   id: string;
   status: 'success' | 'pending' | 'error';
   depositAmount: string;
+  trxLink: string;
+  rate: number;
 }
 
 const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
@@ -40,6 +42,8 @@ const HbarDeposit = ({ handleClose }: IHbarDepositProps): ReactElement => {
             id,
             status: dep.depositStatus,
             depositAmount: dep.hbarAmount,
+            trxLink: dep.kabutoLink,
+            rate: dep.rate,
             consensusAt: new Date(consensusAt),
           };
         });
