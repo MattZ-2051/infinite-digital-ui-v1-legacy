@@ -14,6 +14,8 @@ import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
 import { HistoryStatus } from '../../History/types';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
+import { getMyTransactions } from 'services/api/userService';
+import { useEffect } from 'react';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -54,6 +56,68 @@ const BuyNowModal = ({
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
 
+  const checkPendingStatus = async () => {
+    const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
+      $or: [
+        {
+          type: {
+            $in: ['purchase', 'deposit'],
+          },
+          status: { $exists: true },
+        },
+        {
+          type: 'sale',
+        },
+        {
+          type: 'royalty_fee',
+        },
+        {
+          type: 'withdrawal',
+        },
+        {
+          type: 'nft_redeem',
+        },
+        {
+          type: 'claim',
+        },
+      ],
+    });
+    if (res.data.length !== 0) {
+      const pendingTxArr = res.data.filter((el) => {
+        return el.transactionData.listing === product.listing._id;
+      });
+      const pendingTx = pendingTxArr[0];
+      if (pendingTx) {
+        if (pendingTx.status === 'pending') {
+          setStatusMode('processing');
+          setTimeout(() => {
+            checkPendingStatus();
+          }, 2000);
+        } else if (pendingTx.status === 'success') {
+          setStatusMode('completed');
+          Toast.success(
+            <>
+              You successfuly purchased {pendingTx.transactionData.sku.name} #
+              {pendingTx?.transactionData?.product[0]?.serialNumber} click{' '}
+              <a
+                href={`/product/${pendingTx?.transactionData?.product[0]?._id}`}
+              >
+                here
+              </a>{' '}
+              to view your product.
+            </>
+          );
+          const pathName = history.location.pathname.split('/')[1];
+          if (pathName && pathName === 'product') {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        }
+      }
+    }
+  };
+
   const buyAction = async () => {
     if (!checkTerms) {
       Toast.error(purchase.termsError);
@@ -71,7 +135,7 @@ const BuyNowModal = ({
         // TODO: Check payment
         if (result) {
           setStatusMode('processing');
-          Toast.success('Purchase Pending.');
+          checkPendingStatus();
           dispatch(getUserCardsThunk({ token: userToken }));
         }
         setLoading(false);
@@ -84,6 +148,9 @@ const BuyNowModal = ({
     }
   };
 
+  useEffect(() => {
+    checkPendingStatus();
+  }, []);
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
