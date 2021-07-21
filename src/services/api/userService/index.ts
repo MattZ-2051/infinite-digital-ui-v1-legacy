@@ -1,5 +1,5 @@
 import { Card } from 'entities/card';
-import { ITransaction, TransactionData } from 'entities/transaction';
+import { ITransaction } from 'entities/transaction';
 import { USDCAddress } from 'entities/usdcAddress';
 import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
@@ -20,6 +20,8 @@ export const getMe = async (token: string): Promise<User> => {
     return {
       ...response.data,
       auctionBidIncrement: response.headers['auction-bid-increment'],
+      initialBuyersFeePercentage:
+        response.headers['initial-buyers-fee-percentage'],
     };
   } catch (err) {
     throw handleApiError(err);
