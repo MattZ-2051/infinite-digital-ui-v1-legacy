@@ -247,7 +247,7 @@ const BidModal = ({
             onClick={() => setCheckTerms(!checkTerms)}
           />
           <S.Terms>I accept the </S.Terms>{' '}
-          <S.TermLink onClick={() => history.push('/terms')}>
+          <S.TermLink onClick={() => window.open('/terms', '_blank')}>
             Terms & Conditions
           </S.TermLink>
         </S.Center>

@@ -188,15 +188,12 @@ const Wallet = (props) => {
               subtitle={'(Excludes pending transactions)'}
             />
 
-            <S.ToolTip data-text="Withdrawals will be enabled soon.">
-              <ButtonTextAndImage
-                disabled={true}
-                text={'Withdrawal'}
-                handlerOnClick={handleOpenWithdraw}
-                hoverIcon={withdrawIconBlack}
-                normalIcon={withdrawIconWhite}
-              />
-            </S.ToolTip>
+            <ButtonTextAndImage
+              text={'Withdrawal'}
+              handlerOnClick={handleOpenWithdraw}
+              hoverIcon={withdrawIconBlack}
+              normalIcon={withdrawIconWhite}
+            />
 
             <MuiDivider style={{ margin: '32px 0 24px 0', width: '89%' }} />
 
