@@ -180,7 +180,7 @@ const BuyNowModal = ({
   };
 
   const handleTCRouteChange = () => {
-    history.push('/terms');
+    window.open('/terms', '_blank');
   };
 
   const Body = () => {

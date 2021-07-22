@@ -154,6 +154,7 @@ S.TermLink = styled.p`
   margin-left: 10px;
   font-weight: 600;
   border-bottom: 1px solid black;
+  cursor: pointer;
 `;
 
 S.Terms = styled.p`
