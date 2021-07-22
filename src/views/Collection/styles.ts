@@ -17,7 +17,9 @@ export const Container = styled.div`
     align-items: center;
     width: 100%;
   }
-
+  @media screen and (min-height: 1920px) {
+    min-height: ${() => screen.height - 125}px;
+  }
   /* NOTE: This is setting children to black. Might need a more elegant way */
   > * {
     background-color: black;

@@ -274,6 +274,7 @@ export const Text = styled.p<{
   padding: 0 5px;
   text-align: ${(props) => `${props.textAlign}`};
   width: ${(props) => `${props.width}`};
+  white-space: nowrap;
 `;
 
 export const Button = styled.button<{

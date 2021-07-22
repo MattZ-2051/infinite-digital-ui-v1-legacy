@@ -368,15 +368,22 @@ const Transaction = ({ tx }: IProps) => {
       </S.TransactionDetail>
       {showTxId && (
         <S.TxIdContainer>
-          Transaction ID: <S.TxId>{tx._id}</S.TxId><br/>
-          Hedera transaction ID: <a
-          href={tx.transactionData.deposit?.hederaTransactionLink}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
-        </a><br/>
-          Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
+          Transaction ID: <S.TxId>{tx._id}</S.TxId>
+          {
+            Boolean(tx.transactionData?.deposit?.hederaTransactionLink) && (
+              <>
+                <br/>
+                Hedera transaction ID: <a
+                  href={tx.transactionData.deposit?.hederaTransactionLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
+                </a><br/>
+                Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
+              </>
+            )
+          }
         </S.TxIdContainer>
       )}
     </S.Container>
