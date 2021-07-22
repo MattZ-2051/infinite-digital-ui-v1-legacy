@@ -14,12 +14,10 @@ import CancelSale from '../Modal/CancelSale';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useCountdown } from 'hooks/useCountdown';
 import * as S from './styles';
-// import OwnerAccessList from 'views/Product/OwnerAccess/assetList';
 import OwnerAccess from 'views/Product/OwnerAccess';
 import { Util } from './util';
 import { Handlers } from './handlers';
 import { HistoryStatus, AuctionStatus, tabSelect } from './types';
-import padlock from 'assets/svg/icons/padlock-icon.svg';
 import * as PP from './PageParts';
 
 interface Props {
@@ -114,7 +112,6 @@ const History = ({
     setHistoryPage,
     selectedTab
   );
-  const isAuctionOrWillBe = util.auctionOrWillBeAuction();
   const isActiveAuction = util.isActiveAuction();
   //effects.
 

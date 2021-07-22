@@ -61,7 +61,7 @@ const CancelSale = ({
             {modalType === 'sale' && (
               <>
                 <Emoji symbol="❌" />
-                <S.Header>Are you sure you want to cancel your NFT sale listing?</S.Header>
+                <S.Header>Cancel Sale?</S.Header>
               </>
             )}
             {modalType === 'auction' && (
@@ -73,8 +73,7 @@ const CancelSale = ({
           </S.HeaderContainer>
           {modalType === 'sale' && (
             <S.SubHeader>
-              By confirming this action you will remove this item from the
-              marketplace and will not be available for other users to buy.
+              Are you sure you want to cancel your NFT sale listing?
             </S.SubHeader>
           )}
 

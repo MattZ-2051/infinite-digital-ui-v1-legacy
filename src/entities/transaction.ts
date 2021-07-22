@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Card } from './card';
+import { Sku } from 'entities/sku';
 
 export type TransactionType =
   | 'deposit'
@@ -19,7 +20,6 @@ export type TransactionType =
   | 'claim'
   | 'nft_redeem';
 
-
 export type TransactionStatus = 'success' | 'error' | 'pending';
 export type DepositType = 'cc' | string;
 
@@ -33,22 +33,20 @@ export interface ITransaction {
   status: TransactionStatus;
 }
 
-interface Sku {
-  _id: string;
-  name: string;
-}
-
 interface Product {
   serialNumber: string;
   _id: string;
 }
 
 export interface TransactionData {
-  product: Product[];
+  product: any;
   sku: Sku;
   listing: string;
+  endDate: Date;
   amount: number;
   bid: string;
+  saleType: string;
+  hederaTransaction?: HederaTransaction;
   circleReceipt?: CircleReceipt;
   buyer: {
     _id: string;

@@ -153,6 +153,8 @@ const SkuDetail = (): JSX.Element => {
   );
   const tylesLimit = 4;
   const skuMessage = createMessage(sku);
+
+  console.log('here', sku.nftPublicAssets);
   return (
     <div>
       <S.HeaderContainer>
@@ -163,10 +165,7 @@ const SkuDetail = (): JSX.Element => {
           <S.HeaderRight>
             <S.ProductDetail>
               <S.Breadcrumbs>
-                <a
-                  href="/marketplace"
-                  style={{ color: 'white' }}
-                >
+                <a href="/marketplace" style={{ color: 'white' }}>
                   Marketplace
                 </a>
                 <span style={{ color: '#7C7C7C' }}>{sku.name}</span>

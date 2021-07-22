@@ -10,4 +10,5 @@ export interface Bid {
   listing: Listing;
   sku: Sku;
   owner: User;
+  status: string;
 }

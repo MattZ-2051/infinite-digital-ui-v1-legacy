@@ -50,9 +50,8 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
-    descriptionHeader
-  );
+  const [descriptionHeaderMain, descriptionHeaderGradient] =
+    splitLastSentence(descriptionHeader);
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();
@@ -186,9 +185,10 @@ const Collection = (): JSX.Element => {
         <S.Container
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             marginTop: matchesMobile ? '40px' : '156px',
             marginBottom: matchesMobile ? '80px' : '120px',
+            height: '100vh',
           }}
         >
           <FlexColumn

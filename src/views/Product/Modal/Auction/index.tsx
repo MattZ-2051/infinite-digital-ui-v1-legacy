@@ -224,7 +224,7 @@ const AuctionModal = ({
       <S.InputContainer>
         <TextField
           type="money"
-          placeholder="Enter min bid price"
+          placeholder="Enter the minimum bid"
           onChange={onPriceChanged}
           defaultValue={price}
           name={price}
@@ -240,11 +240,11 @@ const AuctionModal = ({
             <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
           </div>
         </S.DetailRowPrice>
-        {product?.royaltyFeePercentage > 0 && product?.resale && (
+        {product?.sku?.royaltyFeePercentage > 0 && product?.resale && (
           <S.DetailRowPrice>
             <div>
               <span>
-                Creator royalty fee ({product?.royaltyFeePercentage}%) :
+                Creator royalty fee ({product?.sku.royaltyFeePercentage}%) :
               </span>
             </div>
             <div>${royaltyFee?.toFixed(2)}</div>
@@ -266,11 +266,12 @@ const AuctionModal = ({
         </S.DetailRow>
       </S.Detail>
 
-      {royaltyFee !== 0 && (
+      {product?.sku?.royaltyFeePercentage > 0 && product?.resale && (
         <S.Footer>
           <p>
-            All resales of this product a subject to a {royaltyFee}% royalty fee
-            set by and to be paid to the original creator.
+            All resales of this product a subject to a{' '}
+            {product?.sku?.royaltyFeePercentage}% royalty fee set by and to be
+            paid to the original creator.
           </p>
         </S.Footer>
       )}

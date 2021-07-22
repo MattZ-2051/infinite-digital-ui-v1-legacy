@@ -35,9 +35,7 @@ const BidModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-  const marketplaceFee = product.resale
-    ? product.resaleBuyersFeePercentage
-    : product.initialSellersFeePercentage;
+  const marketplaceFee = product?.initialBuyersFeePercentage;
   const { getAccessTokenSilently } = useAuth0();
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -256,8 +254,9 @@ const BidModal = ({
 
         <S.ContainerInfoText style={{ background: 'transparent' }}>
           <S.InfoText>
-            All resales of this product are subject to a 5% royalty fee set by
-            and to be paid to the original creator.
+            All resales of this product are subject to a{' '}
+            {product?.sku?.royaltyFeePercentage}% royalty fee set by and to be
+            paid to the original creator.
           </S.InfoText>
         </S.ContainerInfoText>
 

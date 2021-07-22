@@ -57,7 +57,7 @@ const BuyNowModal = ({
 
   const marketplaceFee = product?.resale
     ? product.resaleBuyersFeePercentage
-    : product.initialSellersFeePercentage;
+    : product.initialBuyersFeePercentage;
   const history = useHistory();
 
   const royaltyFee = Math.round(

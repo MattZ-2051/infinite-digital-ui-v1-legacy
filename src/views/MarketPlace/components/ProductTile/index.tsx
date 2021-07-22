@@ -25,7 +25,7 @@ const ProductTile = ({
   let status: ProductTileTypes = '';
   const history = useHistory();
   const { sku } = product;
-  let pillInfo = '';
+  let pillInfo: string | number = '';
   const handleRedirect = () => {
     history.push(`/product/${product._id}`);
   };
@@ -44,7 +44,16 @@ const ProductTile = ({
       return status;
     } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
-      pillInfo = product?.activeProductListings[0].price;
+
+      console.log(product?.minPrice === 0);
+      if (
+        product?.activeProductListings[0]?.saleType === 'auction' &&
+        product.minPrice === 0
+      ) {
+        pillInfo = product?.activeProductListings[0]?.minBid;
+      } else {
+        pillInfo = product?.activeProductListings[0].price;
+      }
       return status;
     } else if (
       product?.activeProductListings.length === 0 &&
