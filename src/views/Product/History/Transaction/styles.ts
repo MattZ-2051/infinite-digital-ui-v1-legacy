@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import { ReactComponent as linkSVG } from 'assets/svg/icons/link-icon.svg';
 import { ReactComponent as SvgToolTip } from 'assets/svg/icons/tooltip.svg';
+import { ReactComponent as AuctionSVG } from 'assets/svg/icons/auction-icon.svg';
 import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 
 export const Container = styled.div`
@@ -24,6 +25,13 @@ export const Container = styled.div`
       grid-template-columns: min-content 1fr 24px;
     }
   }
+`;
+
+export const AuctionIcon = styled(AuctionSVG)`
+  fill: #7c7c7c;
+  stroke: #7c7c7c;
+  margin-right: 8px;
+  padding: 2px;
 `;
 
 export const RedeemIcon = styled(RedeemSvg)`
@@ -56,6 +64,63 @@ export const ToolTip = styled(SvgToolTip)`
     right: 0;
     :hover {
       cursor: pointer;
+    }
+  }
+`;
+
+export const AuctionToolTip = styled(SvgToolTip)`
+  position: absolute;
+  bottom: 30px;
+  color: black;
+  right: -3.5em;
+  width: 160px;
+  :hover {
+    cursor: pointer;
+  }
+  @media screen and (max-width: 1160px) {
+    position: absolute;
+    bottom: 30px;
+    color: black;
+    right: 0;
+    :hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+export const AuctionToolTipText = styled.span`
+  position: absolute;
+  bottom: 3em;
+  color: black;
+  width: 175px;
+  overflow: hidden;
+  font-size: 14px;
+  left: -5.5em;
+  text-align: center;
+  :hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  a {
+    font-weight: 400;
+  }
+
+  @media screen and (max-width: 960px) {
+    position: absolute;
+    bottom: 3.5em;
+    color: black;
+    width: 95px;
+    overflow: hidden;
+    font-size: 12px;
+    left: -6em;
+
+    text-align: center;
+    :hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    a {
+      font-weight: 400;
     }
   }
 `;
