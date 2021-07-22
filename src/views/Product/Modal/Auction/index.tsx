@@ -240,11 +240,11 @@ const AuctionModal = ({
             <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
           </div>
         </S.DetailRowPrice>
-        {product?.royaltyFeePercentage > 0 && product?.resale && (
+        {product?.sku?.royaltyFeePercentage > 0 && product?.resale && (
           <S.DetailRowPrice>
             <div>
               <span>
-                Creator royalty fee ({product?.royaltyFeePercentage}%) :
+                Creator royalty fee ({product?.sku.royaltyFeePercentage}%) :
               </span>
             </div>
             <div>${royaltyFee?.toFixed(2)}</div>
