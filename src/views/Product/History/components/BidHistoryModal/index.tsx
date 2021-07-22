@@ -8,6 +8,7 @@ import { getBids } from 'services/api/productService';
 import { Bid } from 'entities/bid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Sku } from 'entities/sku';
+import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable2.svg';
 
 interface IModalProps {
   visible: boolean;
@@ -121,6 +122,7 @@ const BidHistoryModal = ({
                 >
                   /
                 </S.Text> */}
+                <RedeemIcon style={{ marginRight: '10px' }} />
                 <S.Text
                   color="black"
                   fontWeight={600}
