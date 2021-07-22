@@ -326,7 +326,7 @@ const SkuButtonBlock = ({
     const listing = collectors[0]?.listing;
     const startDate = listing?.startDate;
     const endDate = listing?.endDate;
-    const price = listing?.minBid;
+    const price = sku?.minHighestBid;
     const owner = collectors[0]?.owner;
     const serialNumber = collectors[0]?.serialNumber;
     const isAuction = listing?.saleType === 'auction';
