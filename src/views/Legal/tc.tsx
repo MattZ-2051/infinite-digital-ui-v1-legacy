@@ -8,7 +8,7 @@ const TC = () => {
       <S.P1>
         <strong>Terms of Service</strong>
       </S.P1>
-      <S.P1>Last Modified: May 26, 2021</S.P1>
+      <S.P1>Last Modified: July 21, 2021</S.P1>
       <S.P2>
         <S.S1>
           <strong>Acceptance of the Terms of&nbsp;</strong>
@@ -51,23 +51,23 @@ const TC = () => {
         communication between two sets of users: sellers (“Sellers”) and buyers
         (“Buyers”). Sellers may market their sale of items (further clarified
         below to include, amongst other things, NFTs, services, and physical
-        goods) and Buyers may peruse and at their option, bid or buy the items.  
-        Auctions shall also be governed by the Company Auction Terms [see below], 
-        which are incorporated herein by this reference. The actual contract for 
-        sale is between the Seller and Buyer. Company is
-        not a party to the transaction, a Seller, or a traditional auctioneer
-        but does usually receive a fee as an Online Service Provider. The
-        Company has no control over and provides no guarantee related to: the
-        existence, accuracy, quality, safety or legality of the NFTs and items
-        advertised or user content; the ability or legal standing of Sellers to
-        sell NFTS and items; the ability of Buyers to pay for NFTs and items; or
-        that any user will complete a transaction or return an NFT or item.
-        Items for sale can include physical goods with our without NFC ships,
-        and services, as well as digital items such as non-fungible tokens
-        (“NFTs”), smart contracts, cryptocurrencies, and other digital-based
-        goods (collectively, “Digital Assets”). Some Digital Assets may relate
-        or interface with distributed applications (“Dapps”) and blockchains,
-        including Bitcoin, Ethereum, and USDC. 
+        goods) and Buyers may peruse and at their option, bid or buy the items.
+        Auctions shall also be governed by the Company Auction Terms (see
+        below), which are incorporated herein by this reference. The actual
+        contract for sale is between the Seller and Buyer. Company is not a
+        party to the transaction, a Seller, or a traditional auctioneer but does
+        usually receive a fee as an Online Service Provider. The Company has no
+        control over and provides no guarantee related to: the existence,
+        accuracy, quality, safety or legality of the NFTs and items advertised
+        or user content; the ability or legal standing of Sellers to sell NFTS
+        and items; the ability of Buyers to pay for NFTs and items; or that any
+        user will complete a transaction or return an NFT or item. Items for
+        sale can include physical goods with our without NFC ships, and
+        services, as well as digital items such as non-fungible tokens (“NFTs”),
+        smart contracts, cryptocurrencies, and other digital-based goods
+        (collectively, “Digital Assets”). Some Digital Assets may relate or
+        interface with distributed applications (“Dapps”) and blockchains,
+        including Bitcoin, Ethereum, and USDC.
       </S.P3>
       <S.P3>
         The Marketplace is offered and available to authorized users who are 18
@@ -161,18 +161,22 @@ const TC = () => {
         using similar technology to digital currencies. But while digital
         currencies are usually fungible, NFTs usually are not. Each NFT is coded
         into a blockchain, contains built-in methods for evidence of
-        authentication and proof of ownership. When you buy an NFT, the terms of
+        authentication and proof of ownership. When you buy an NFT, the terms of
         your purchase, and the rights you actually purchase and own, may be
-        limited by the terms or technology of the underlying NFT. It is up to
-        you to confirm your understanding of what you are selling or buying and
-        the license you are receiving which is determined by the Seller in its
-        sole discretion and if no custom license is provided by Seller to Buyer
-        at the point of sale for an item, such as an NFT and its related Art,
-        then the NFT Owner Content License (“NOCL”) provided below shall apply
-        as between Seller and Buyer. The license to any purchased NFT is a
-        matter between the Seller and Buyer, and Company is not a party to the
-        licensing transaction. All licenses and all ownership interests in any
-        Digital Asset, such as NFTs, shall pass directly from Seller to Buyer.
+        limited by the terms or technology of the underlying NFT. Some NFTs may
+        include a right to redeem the physical item to which the NFT relates and
+        which carries the NFC tag. In such instances, once the NFT has been
+        redeemed, the NFT will remain circulation, but the redemption right will
+        be terminated. It is up to you to confirm your understanding of what you
+        are selling or buying and the license you are receiving which is
+        determined by the Seller in its sole discretion and if no custom license
+        is provided by Seller to Buyer at the point of sale for an item, such as
+        an NFT and its related Art, then the NFT Owner Content License (“NOCL”)
+        provided below shall apply as between Seller and Buyer. The license to
+        any purchased NFT is a matter between the Seller and Buyer, and Company
+        is not a party to the licensing transaction. All licenses and all
+        ownership interests in any Digital Asset, such as NFTs, shall pass
+        directly from Seller to Buyer.
       </S.P5>
       <S.P6>
         <S.S4>
@@ -188,7 +192,7 @@ const TC = () => {
           infringement, or a Buyer or Seller acts fraudulently or illegally or
           in an infringing manner, then the defrauded or injured Buyer/Seller
           shall have no recourse against Company, but solely against the
-          respective Seller/Buyer. 
+          respective Seller/Buyer.
         </S.S4>
       </S.P6>
       <S.P7>
@@ -229,8 +233,8 @@ const TC = () => {
           agree that Seller (or, as applicable, its licensors) owns all legal
           right, title and interest in and to the Art, and all intellectual
           property rights therein. The rights that you have in and to the Art
-          are limited to those described in this License. Seller reserves all
-          rights in and to the Art not expressly granted to you in this License.
+          are limited to those described in this License. Seller reserves all
+          rights in and to the Art not expressly granted to you in this License.
         </S.P5>
 
         <S.P4>
@@ -238,9 +242,9 @@ const TC = () => {
         </S.P4>
         <S.P5>
           a. General Use. Subject to Buyer’s continued compliance with the terms
-          of this License, Seller (“Seller” herein shall refer to the original
+          of this License, Seller (“Seller” herein shall refer to the original
           Seller) grants you a worldwide, non-exclusive, non-transferable,
-          royalty-free license to use, copy, and display the Art for your
+          royalty-free license to use, copy, and display the Art for your
           Purchased NFTs solely for the following purposes: (i) for your own
           personal, non-commercial use; (ii) as part of a marketplace that
           permits the purchase and sale of your NFTs, provided that the
@@ -253,7 +257,7 @@ const TC = () => {
           for their Purchased NFTs to ensure that only the actual owner can
           display the Art, and provided that the Art is no longer visible once
           the owner of the Purchased NFT leaves the website/application. b.
-          Commercial Use. You have no license or rights to make commercial use
+          Commercial Use. You have no license or rights to make commercial use
           of the Art.
         </S.P5>
 
@@ -262,7 +266,7 @@ const TC = () => {
         </S.P4>
         <S.P5>
           You agree that you may not, nor permit any third party to do or
-          attempt to do any of the foregoing: (i) modify the Art for your
+          attempt to do any of the following: (i) modify the Art for your
           Purchased NFT in any way, including, without limitation, the shapes,
           designs, drawings, attributes, or color schemes; (ii) use the Art for
           your Purchased NFTs to advertise, market, or sell any third party
@@ -282,34 +286,34 @@ const TC = () => {
           property rights in or to the Art for your Purchased NFTs; or (vii)
           otherwise utilize the Art for your Purchased NFTs for your or any
           third party’s commercial benefit. To the extent that Art associated
-          with your Purchased NFTs contains Third Party IP (e.g., licensed
+          with your Purchased NFTs contains Third Party IP (e.g., licensed
           intellectual property from a celebrity, athlete, or other public
           figure), you understand and agree as follows: (w) that you will not
           have the right to use such Third-Party IP in any way except as
-          incorporated in the Art, and subject to the license and restrictions
-          contained herein; The restriction in Section 4 will survive the
-          expiration or termination of this License.
+          incorporated in the Art, and subject to the license and restrictions
+          contained herein; The restriction in this Section will survive the
+          expiration or termination of this License.
         </S.P5>
 
         <S.P4>
           <S.S1>Terms of License</S.S1>
         </S.P4>
         <S.P5>
-          The license granted in Section 3 above applies only to the extent that
+          The license granted in Section 3 above applies only to the extent that
           you continue to Own the applicable Purchased NFT. If at any time you
           sell, trade, donate, give away, transfer, or otherwise dispose of your
-          Purchased NFT for any reason, the license granted in Section 3 will
+          Purchased NFT for any reason, the license granted in Section 3 will
           immediately expire with respect to those NFTs without the requirement
           of notice, and you will have no further rights in or to the Art for
           those NFTs. Any secondary transfer of the Purchased NFT and its
           related Art is prohibited and null and void unless the acquirer or
-          Buyer as the case may be agrees to and takes subject to
-          this License Agreement and evidence of the same is provided in writing
-          to the Seller immediately upon transfer. This license agreement is
-          governed by California law.  Exclusive jurisdiction for any and all
-          disputes related to or arising out of this license agreement, or
-          breaches of the same, shall be in San Francisco County state and
-          federal courts as applicable.
+          Buyer as the case may be agrees to and takes subject to this License
+          Agreement and evidence of the same is provided in writing to the
+          Seller immediately upon transfer. This license agreement is governed
+          by California law. Exclusive jurisdiction for any and all disputes
+          related to or arising out of this license agreement, or breaches of
+          the same, shall be in San Francisco County state and federal courts as
+          applicable.
         </S.P5>
       </S.P5>
       <S.P2>
@@ -427,7 +431,7 @@ const TC = () => {
         its own discretion. The contract for the purchase of goods/services
         between Buyer and Seller is directly concluded by that Buyer and Seller,
         even if Company provides payment-related services to assist in
-        concluding the purchase. 
+        concluding the purchase.
       </S.P13>
       <S.P12>&nbsp; &nbsp;&nbsp;</S.P12>
       <S.P13>
@@ -1584,6 +1588,133 @@ const TC = () => {
         Consumer Affairs by contacting them in writing at 400 R Street,
         Sacramento, CA 95814, or by telephone at (800) 952-5210.
       </S.P8>
+      <S.P2>
+        <S.S1>
+          <strong>Acceptance of the Auction Terms </strong>
+        </S.S1>
+      </S.P2>
+      <S.P3>
+        These auction terms of service are entered into by and between You and
+        Infinite Assets, Inc., a Delaware corporation, with offices at 3250 NE
+        1st Avenue, Miami, FL 33137. (“Company”, “we” or “us”). The following
+        auction terms and conditions, together with any documents they expressly
+        incorporate by reference (collectively, these “Auction Terms of
+        Service”), govern your use of the auction functionality of the
+        Marketplace located at goinfinite.io (the “Website”), the “Marketplace”)
+        together with the Terms of Service *(see above). All Auction
+        Participants (individually &quot;Sellers,&quot; &quot;Buyers,&quot;
+        &quot;You,&quot; and &quot;Users&quot;) must review and accept these
+        Auction Terms and our Terms of Service which are incorporated herein by
+        reference (collectively, &quot;Terms&quot;) before participation in any
+        Auction on the Marketplace. Please read the Auction Terms of Service
+        carefully before you engage in an auction. By using the Marketplace and
+        engaging in an auction, or by clicking to accept the Auction Terms of
+        Service when this option is made available to you, you agree to be bound
+        and abide by these Auction Terms of Service, the Terms of Service and
+        our Privacy Policy, found at goinfinite.io/privacy, incorporated herein
+        by reference. If you do not want to agree to these Auction Terms of
+        Service, the Terms of Service or the Privacy Policy, you must not access
+        or use the auction functionality of the Marketplace. All information we
+        collect on this Marketplace is subject to our Privacy Policy. By using
+        the Marketplace, you consent to all actions taken by us with respect to
+        your information in compliance with the Privacy Policy.
+      </S.P3>
+
+      <S.P2>
+        <S.S1>
+          <strong>Auctions Overview</strong>
+        </S.S1>
+      </S.P2>
+      <S.P3>
+        The Marketplace facilitates two different time-based auction formats
+        Scheduled Auctions and Reserve Auctions. Any Seller may use the
+        Marketplace to initiate a time-based Auction for the sale of one or more
+        Items (&quot;Art&quot;). The auction may also follow one of two bidding
+        formats: an English auction, in which the highest bid wins at the end;
+        or a Dutch auction, in which the price falls until someone purchases.
+        Scheduled Auctions In a Scheduled Auction, the Seller establishes a
+        specific start and end time for an Auction to go live. Sellers may
+        optionally include a Starting Price. As long as the Starting Price is
+        met by an Auction Participant, the work will be sold. Works without a
+        Starting Price will be sold to the highest bidder, no matter what the
+        bid is. A Scheduled Auction may be cancelled prior to the start of the
+        auction, i.e. when it is counting down to kick off. After the auction
+        begins, it cannot be stopped, cancelled, or undone. Sellers that
+        initiate Scheduled Auctions should be prepared to sell their works at
+        the Starting Price, or at any price if no Starting Price is established.
+        Reserve Auctions In a Reserve Auction, an Auction for an artwork is
+        configured to automatically go live once a bid is received equal or
+        greater to a public Reserve Price established by the Seller. Once the
+        Reserve Price is met, the Auction is configured to last for the time set
+        by the Seller. The work goes to the highest bidder at the end of the
+        Auction. Once the timed portion of a Reserve Auction has begun (i.e.
+        after the Reserve Price is met), the auction cannot be stopped,
+        cancelled, or undone. Sellers that initiate Reserve Auctions should be
+        prepared to sell the work at the Reserve Price and should make
+        absolutely sure that they entered the Reserve Price correctly. Once
+        initiated, both Scheduled and Reserve Auctions last for a discrete
+        window of time (between 1 hour and up to 7 days for Scheduled Auctions
+        and approximately 24 hours for Reserve Auctions). Auction timers are not
+        exact and only represent an approximate as to the start or end time
+        remaining for a particular Auction. Participants should get their bids
+        in as early as possible to ensure that they are processed by the Auction
+        smart contract before the close of the Auction. Auction Fees and
+        Royalties Infinite applies the same fee structure to works sold in
+        Auctions as other methods. A 5% transaction fee is charged to the Buyer
+        of the work, and on primary sales a 15% commission is charged to the
+        Seller. Irrevocable Bids Bids placed during a Scheduled or Reserve
+        Auction are irrevocable. Bids will only be returned if a higher bid is
+        placed. Auction Participants should check every bid submitted during an
+        Auction because an incorrect bid will be impossible to return. Violation
+        of these Terms May Result in Revoked Restricted Auction Privileges
+        Infinite reserves the unilateral right to terminate a User&apos;s
+        account, restrict a User&apos;s access to the Auctions, or otherwise
+        limit any User&apos;s ability to use the Marketplace for violation of
+        these Terms. Infinite has absolute and sole discretion to determine
+        whether a User&apos;s conduct constitutes a violation of these Terms.
+        Disclaimers, Waivers, and Releases User Acknowledges the Risk of Smart
+        Contracts and Blockchain Technology Infinite Auctions utilize
+        experimental smart contract and blockchain technology, including non
+        fungible tokens, cryptocurrencies, consensus algorithms, and
+        decentralized or peer-to-peer networks and systems. Users acknowledge
+        and agree that such technologies are experimental, speculative, and
+        inherently risky. Users acknowledge and agree that the Infinite smart
+        contracts may be subject to bugs, malfunctions, timing errors, hacking
+        and theft, or changes to the protocol rules of the Ethereum blockchain
+        (i.e., &quot;forks&quot;), which can adversely affect the smart
+        contracts and may expose you to a risk of total loss, forfeiture of your
+        digital currency or Infinite works, or lost opportunities to buy or sell
+        Infinite works. Infinite assumes no liability or responsibility for any
+        such smart contract or related failures, risks, or uncertainties. Users
+        Assume the Risk of Participating in Auctions Users hereby acknowledge
+        and assume the risk of initiating or participating in Auctions and take
+        full responsibility and liability for the outcome of any Auction they
+        participate in, whether or not smart contracts, the Infinite Site, or
+        other Auction participants behave as expected or intended. Users hereby
+        represent that they are knowledgeable, experienced and sophisticated in
+        using blockchain technology, the Infinite site, and in initiating
+        Ethereum-based transactions. Infinite Makes No Representations or
+        Warranties Infinite makes no representations or warranties, express or
+        implied, written or oral, made by or on behalf of Infinite in connection
+        therewith, including any representations or warranties of title,
+        non-infringement, functionality, merchantability, usage, security,
+        suitability or fitness for any particular purpose, workmanship or
+        technical quality of any Infinite item or work, smart contract code, or
+        software. Infinite is Not Liable for the Outcome of Any Auction Infinite
+        shall not be liable to you for contract, tort, or any other types of
+        damages, including indirect, special, incidental, consequential,
+        punitive or exemplary damages arising out of or related to participation
+        in or the outcome of a Infinite Auction or smart contract-enabled
+        transaction, whether or not Infinite has been advised or knew of the
+        possibility of such damages. Infinite&apos;s liability for damages under
+        this Agreement shall in all cases be limited to, and under no
+        circumstances shall exceed, the amount of Auction proceeds actually
+        received by Infinite as profit after deducting all costs, fees and
+        liabilities incurred by or on behalf of Infinite. Infinite May Modify
+        these Terms Infinite reserves, the right, in its sole and absolute
+        discretion, to amend, modify, alter or supplement these Terms and the
+        smart contracts accessible through the Infinite Site from time to time.
+      </S.P3>
       <S.P26>
         <br />
       </S.P26>
