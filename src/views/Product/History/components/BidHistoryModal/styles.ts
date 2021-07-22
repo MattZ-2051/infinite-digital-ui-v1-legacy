@@ -4,6 +4,14 @@ import Pagination from '@material-ui/lab/Pagination';
 export const Container = styled.div`
   padding: 20px;
   min-width: 400px;
+  @media screen and (max-width: 400px) {
+    width: 90%;
+    padding: 0 25%;
+  }
+  @media screen and (max-width: 330px) {
+    width: 90%;
+    padding: 0 30%;
+  }
 `;
 
 export const PaginationContainer = styled.div`
