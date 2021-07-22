@@ -61,7 +61,15 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
-      pillInfo = minPrice;
+      if (
+        sku.activeProductListings &&
+        sku?.activeProductListings[0]?.saleType === 'auction' &&
+        minPrice === 0
+      ) {
+        pillInfo = sku?.maxBid;
+      } else {
+        pillInfo = minPrice;
+      }
       return;
     } else if (totalSupplyLeft === 0 || sku.activeSkuListings?.length === 0) {
       status = 'no-sale';
