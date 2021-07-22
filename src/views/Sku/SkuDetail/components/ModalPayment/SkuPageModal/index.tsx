@@ -189,7 +189,7 @@ const SkuPageModal = ({
   };
 
   const handleTCRouteChange = () => {
-    history.push('/terms');
+    window.open('/terms','_blank');
   };
 
   const content = (

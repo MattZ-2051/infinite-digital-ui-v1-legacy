@@ -37,23 +37,56 @@ export const Auction = ({
             <S.BidsContainer padding="32px 0px">
               No bids placed yet
             </S.BidsContainer>
-            <S.TextContainer paddingTop="32px">
-              <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
-                Started at
-              </S.Text>
-              <S.Text color="white" size="16px" fontWeight={600}>
-                ${util.product?.activeProductListings[0].minBid}
-              </S.Text>{' '}
-              <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                on
-              </S.Text>
-              <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                {util.product?.activeProductListings[0].length !== 0 &&
-                  `${formatDate(
-                    new Date(util.product?.activeProductListings[0].startDate)
-                  )}`}
-              </S.Text>
-            </S.TextContainer>
+            {matchesMobile ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  paddingTop: '32px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
+                    Started at
+                  </S.Text>
+                  <S.Text color="white" size="16px" fontWeight={600}>
+                    ${util.product?.activeProductListings[0].minBid}
+                  </S.Text>{' '}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    on
+                  </S.Text>
+                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    {util.product?.activeProductListings[0].length !== 0 &&
+                      `${formatDate(
+                        new Date(
+                          util.product?.activeProductListings[0].startDate
+                        )
+                      )}`}
+                  </S.Text>
+                </div>
+              </div>
+            ) : (
+              <S.TextContainer paddingTop="32px">
+                <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
+                  Started at
+                </S.Text>
+                <S.Text color="white" size="16px" fontWeight={600}>
+                  ${util.product?.activeProductListings[0].minBid}
+                </S.Text>{' '}
+                <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                  on
+                </S.Text>
+                <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                  {util.product?.activeProductListings[0].length !== 0 &&
+                    `${formatDate(
+                      new Date(util.product?.activeProductListings[0].startDate)
+                    )}`}
+                </S.Text>
+              </S.TextContainer>
+            )}
           </>
         ) : auctionStatus === 'active-auction-bid-owner' ? (
           <S.BidsHistory>
@@ -127,25 +160,46 @@ export const Auction = ({
           auctionStatus !== 'active-auction-no-bid-user' &&
           (matchesMobile ? (
             <S.FlexColumn alignItems="center" padding="32px 0 0 0">
-              {util.product?.activeProductListings.length !== 0 && (
-                <S.FlexDiv>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    Started at
-                  </S.Text>
-                  <S.Text color="white" size="16px" fontWeight={600}>
-                    ${util.product?.activeProductListings[0]?.minBid}
-                  </S.Text>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    on{' '}
-                    {util.product &&
-                      formatDate(
-                        new Date(
-                          util.product?.activeProductListings[0]?.startDate
-                        )
-                      )}
-                  </S.Text>
-                </S.FlexDiv>
-              )}
+              {util.product?.activeProductListings.length !== 0 &&
+                (!matchesMobile ? (
+                  <S.FlexDiv>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      Started at
+                    </S.Text>
+                    <S.Text color="white" size="16px" fontWeight={600}>
+                      ${util.product?.activeProductListings[0]?.minBid}
+                    </S.Text>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      on{' '}
+                      {util.product &&
+                        formatDate(
+                          new Date(
+                            util.product?.activeProductListings[0]?.startDate
+                          )
+                        )}
+                    </S.Text>
+                  </S.FlexDiv>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        Started at
+                      </S.Text>
+                      <S.Text color="white" size="16px" fontWeight={600}>
+                        ${util.product?.activeProductListings[0]?.minBid}
+                      </S.Text>
+                    </div>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      on{' '}
+                      {util.product &&
+                        formatDate(
+                          new Date(
+                            util.product?.activeProductListings[0]?.startDate
+                          )
+                        )}
+                    </S.Text>
+                  </div>
+                ))}
               <S.StyledPagination
                 themeStyle={themeStyle}
                 page={util.auctionPage}
@@ -171,25 +225,46 @@ export const Auction = ({
                 siblingCount={matchesMobile ? 0 : 1}
                 padding="0px"
               />
-              {util.product?.activeProductListings.length !== 0 && (
-                <S.FlexDiv>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    Started at
-                  </S.Text>
-                  <S.Text color="white" size="16px" fontWeight={600}>
-                    ${util.product?.activeProductListings[0]?.minBid}
-                  </S.Text>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
-                    on{' '}
-                    {util.product &&
-                      formatDate(
-                        new Date(
-                          util.product?.activeProductListings[0]?.startDate
-                        )
-                      )}
-                  </S.Text>
-                </S.FlexDiv>
-              )}
+              {util.product?.activeProductListings.length !== 0 &&
+                (!matchesMobile ? (
+                  <S.FlexDiv>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      Started at
+                    </S.Text>
+                    <S.Text color="white" size="16px" fontWeight={600}>
+                      ${util.product?.activeProductListings[0]?.minBid}
+                    </S.Text>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      on{' '}
+                      {util.product &&
+                        formatDate(
+                          new Date(
+                            util.product?.activeProductListings[0]?.startDate
+                          )
+                        )}
+                    </S.Text>
+                  </S.FlexDiv>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div>
+                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                        Started at
+                      </S.Text>
+                      <S.Text color="white" size="16px" fontWeight={600}>
+                        ${util.product?.activeProductListings[0]?.minBid}
+                      </S.Text>
+                    </div>
+                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      on{' '}
+                      {util.product &&
+                        formatDate(
+                          new Date(
+                            util.product?.activeProductListings[0]?.startDate
+                          )
+                        )}
+                    </S.Text>
+                  </div>
+                ))}
             </div>
           ))}
       </S.TransactionHistory>
