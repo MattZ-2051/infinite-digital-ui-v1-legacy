@@ -247,40 +247,46 @@ interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
   skuId: string;
+  circulatingSupply: number;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
   skuId,
+  circulatingSupply,
 }: IFromCollectorsBox): JSX.Element => {
   const history = useHistory();
-  return (
-    <S.Container>
-      <S.Detail>
-        <S.BoxColumn>
-          <S.BoxTitle>From Collectors</S.BoxTitle>
-          <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
-        </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'center' }}>
-          <S.Price>
-            {' '}
-            {!!countProductListings ? `$${minimunPrice}` : '--'}
-          </S.Price>
-          <small style={{ fontSize: '15px' }}>
-            {!!countProductListings
-              ? `(${countProductListings} for sale)`
-              : `${countProductListings} on sale`}
-          </small>
-        </S.BoxColumn>
-      </S.Detail>
-      <S.SeeAllContainer>
-        <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
-          See All
-        </S.Button>
-      </S.SeeAllContainer>
-    </S.Container>
-  );
+  if (circulatingSupply === 0) {
+    return <></>;
+  } else {
+    return (
+      <S.Container>
+        <S.Detail>
+          <S.BoxColumn>
+            <S.BoxTitle>From Collectors</S.BoxTitle>
+            <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
+          </S.BoxColumn>
+          <S.BoxColumn style={{ textAlign: 'center' }}>
+            <S.Price>
+              {' '}
+              {!!countProductListings ? `$${minimunPrice}` : '--'}
+            </S.Price>
+            <small style={{ fontSize: '15px' }}>
+              {!!countProductListings
+                ? `(${countProductListings} for sale)`
+                : `${countProductListings} on sale`}
+            </small>
+          </S.BoxColumn>
+        </S.Detail>
+        <S.SeeAllContainer>
+          <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
+            See All
+          </S.Button>
+        </S.SeeAllContainer>
+      </S.Container>
+    );
+  }
 };
 
 interface ISkuButtonBlock {
@@ -419,6 +425,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku?.circulatingSupply}
         />
       </>
     );
@@ -448,6 +455,7 @@ const SkuButtonBlock = ({
           minimunPrice={sku?.minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
+          circulatingSupply={sku?.circulatingSupply}
         />
       </>
     );
