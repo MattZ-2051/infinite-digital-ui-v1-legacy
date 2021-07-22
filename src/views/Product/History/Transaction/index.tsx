@@ -76,7 +76,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                     <S.Text>Recieved Transfer</S.Text>
                   </S.FlexDiv>
                 )}
-                {transaction.type === 'purchase' &&
+                {/* {transaction.type === 'purchase' &&
                   transaction.transactionData.saleType === 'auction' &&
                   transaction?.status === 'success' && (
                     <S.TransactionDetails alignItems="flex-end">
@@ -92,7 +92,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                         </S.Text>
                       </S.FlexDiv>
                     </S.TransactionDetails>
-                  )}
+                  )} */}
                 <S.Date
                   width={
                     matchesMobile && transaction.type === 'nft_mint'
@@ -118,7 +118,7 @@ const Transaction = ({ transaction, bid }: Props) => {
               </S.TransactionDetails>
             )}
           </S.TransactionInfo>
-          {transaction.type === 'purchase' &&
+          {/* {transaction.type === 'purchase' &&
             transaction.status === 'success' &&
             transaction.transactionData.saleType === 'auction' && (
               <div
@@ -139,7 +139,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                   onClick={() => setShowBidModal(true)}
                 />
               </div>
-            )}
+            )} */}
           {transaction.type !== 'nft_redeem' && (
             <div
               style={{ position: 'relative' }}
@@ -170,7 +170,7 @@ const Transaction = ({ transaction, bid }: Props) => {
             </div>
           )}
         </S.Container>
-        {transaction.transactionData.saleType === 'auction' && (
+        {/* {transaction.transactionData.saleType === 'auction' && (
           <BidHistoryModal
             visible={showBidModal}
             listingId={transaction?.transactionData?.listing}
@@ -179,7 +179,7 @@ const Transaction = ({ transaction, bid }: Props) => {
             serialNumber={transaction?.transactionData?.product?.serialNumber}
             sku={transaction?.transactionData?.sku}
           />
-        )}
+        )} */}
       </>
     );
   } else if (bid) {
