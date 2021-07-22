@@ -8,7 +8,7 @@ export const AuctionCountDown = ({ product, countdown }) => {
     <>
       <S.FlexDiv
         justifyContent={matchesMobile ? 'center' : 'flex-end'}
-        padding={matchesMobile ? '15px 0 0 0' : '0 0 10px 0'}
+        padding={matchesMobile ? '0 0 0 0' : '0 0 10px 0'}
       >
         {' '}
         <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
