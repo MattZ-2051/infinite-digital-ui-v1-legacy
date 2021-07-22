@@ -12,7 +12,6 @@ export const Container = styled.section`
   color: white;
   padding-bottom: 100px;
   max-width: 1440px;
-
   @media screen and (max-width: 960px) {
     font-size: 0.9rem;
     padding: 24px;
@@ -81,17 +80,14 @@ export const DropImg = styled.img`
   left: 44%;
   top: 78%;
   width: 305px;
-
   @media screen and (max-width: 960px) {
     width: 235px;
     left: 38%;
   }
-
   @media screen and (max-width: 400px) {
     width: 230px;
     left: 35%;
   }
-
   @media screen and (max-width: 330px) {
     width: 210px;
     left: 30%;
@@ -109,13 +105,11 @@ export const Title = styled.h1<{ fontSize: string }>`
   margin: 0;
   // margin: 50px 0 24px 0;
   text-align: left;
-
   span {
     background: #ddf874;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
   @media screen and (max-width: 600px) {
     margin: 44px 0 18px 0;
     font-size: 32px;
@@ -137,7 +131,6 @@ export const Subtitle = styled.h2<{
   line-height: 32px;
   text-align: left;
   margin: 0;
-
   @media screen and (max-width: 600px) {
     // margin-bottom: 12%;
     text-align: center;
@@ -150,13 +143,11 @@ export const ArrowButton = styled.div`
   bottom: 90px;
   display: flex;
   justify-content: center;
-
   svg {
     font-size: 10rem;
     position: absolute;
     cursor: pointer;
   }
-
   svg + svg {
     top: 29px;
     cursor: pointer;
