@@ -219,6 +219,9 @@ export const Padding = styled.div`
   @media screen and (max-width: 400px) {
     padding-left: 26px;
   }
+  @media screen and (max-width: 330px) {
+    padding-left: 14px;
+  }
 `;
 
 export const ProductOwner = styled.div<{
@@ -379,6 +382,9 @@ export const Tab = styled.div<{
   }
   :focus {
     outline: none;
+  }
+  @media screen and (max-width: 330px) {
+    font-size: 16px;
   }
 `;
 
