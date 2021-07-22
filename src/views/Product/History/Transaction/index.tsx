@@ -4,7 +4,7 @@ import { Bid } from 'entities/bid';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import BidHistoryModal from '../components/BidHistoryModal';
+import BidHistoryModal from '../components/BidHistoryModal/index';
 import * as S from './styles';
 
 interface Props {
@@ -170,14 +170,16 @@ const Transaction = ({ transaction, bid }: Props) => {
             </div>
           )}
         </S.Container>
-        <BidHistoryModal
-          visible={showBidModal}
-          listingId={transaction?.transactionData?.listing}
-          setModalVisibility={setShowBidModal}
-          endDate={transaction?.transactionData.endDate}
-          serialNumber={transaction?.transactionData?.product?.serialNumber}
-          sku={transaction?.transactionData?.sku}
-        />
+        {transaction.transactionData.saleType === 'auction' && (
+          <BidHistoryModal
+            visible={showBidModal}
+            listingId={transaction?.transactionData?.listing}
+            setModalVisibility={setShowBidModal}
+            endDate={transaction?.transactionData.endDate}
+            serialNumber={transaction?.transactionData?.product?.serialNumber}
+            sku={transaction?.transactionData?.sku}
+          />
+        )}
       </>
     );
   } else if (bid) {
