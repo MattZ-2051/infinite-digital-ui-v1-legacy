@@ -35,7 +35,12 @@ const CancelSale = ({
     } else {
       const userToken = await getAccessTokenSilently();
       if (!userToken) {
-        Toast.error('user token error');
+        Toast.error(
+          <>
+            Whoops! Something went wrong, please try again or go to the{' '}
+            <a href="/help">help page</a> to contact us.
+          </>
+        );
       }
       const res = await cancelListing(userToken, listingId);
       if (res.status === 200) {

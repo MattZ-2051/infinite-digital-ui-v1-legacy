@@ -51,12 +51,12 @@ const DropDown = ({
                 </S.Button>
               </>
             ))}
-          <S.Button hover={true} onClick={() => setAuctionModalVisible(true)}>
+          {/* <S.Button hover={true} onClick={() => setAuctionModalVisible(true)}>
             <S.Label>Start Auction</S.Label>
             <S.IconContainer>
               <S.AuctionIcon className="icon_auction" />
             </S.IconContainer>
-          </S.Button>
+          </S.Button> */}
           <S.Button hover={true} onClick={openSaleModal}>
             <S.Label>Sell Your NFT</S.Label>
             <S.IconContainer>

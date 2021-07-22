@@ -33,7 +33,7 @@ const Transaction = ({ transaction, bid }: Props) => {
     }
   };
 
-  if (transaction) {
+  if (transaction?.transactionData?.saleType !== 'auction' && transaction) {
     return (
       <>
         <S.Container
