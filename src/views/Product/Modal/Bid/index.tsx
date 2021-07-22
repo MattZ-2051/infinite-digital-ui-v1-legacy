@@ -35,9 +35,7 @@ const BidModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-  const marketplaceFee = product.resale
-    ? product.resaleBuyersFeePercentage
-    : product.initialSellersFeePercentage;
+  const marketplaceFee = product?.initialBuyersFeePercentage;
   const { getAccessTokenSilently } = useAuth0();
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
