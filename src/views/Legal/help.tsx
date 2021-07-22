@@ -40,12 +40,13 @@ const Help = () => {
         </S.SubTitle>
         <S.SubTitle>
           If you still have a question or suggestion, please submit the
-          contact/support form or email us at support@goinfinite.io
+          contact/support form or email us at{' '}
+          <a href="mailto:support@goinfinite.com">support@goinfinite.io</a>
         </S.SubTitle>
       </S.HelpColumn>
       <S.HelpColumn>
         <S.Header style={{ marginLeft: '80px' }}>Contact/Support Form</S.Header>
-        <S.Container id="embed-hubspot"/>
+        <S.Container id="embed-hubspot" />
       </S.HelpColumn>
     </S.HelpContainer>
   );
