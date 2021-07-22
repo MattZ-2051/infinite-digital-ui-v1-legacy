@@ -22,6 +22,7 @@ export interface Sku {
   maxBid: number; // The cheapest price a sku can be sold
   minPrice: number;
   minCurrentBid: number;
+  minHighestBid?: number;
   circulatingSupply: number;
   totalSupply: number;
   totalSupplyLeft: number;
