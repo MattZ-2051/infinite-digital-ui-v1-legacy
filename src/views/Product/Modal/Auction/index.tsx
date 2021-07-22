@@ -224,7 +224,7 @@ const AuctionModal = ({
       <S.InputContainer>
         <TextField
           type="money"
-          placeholder="Enter min bid price"
+          placeholder="Enter the minimum bid"
           onChange={onPriceChanged}
           defaultValue={price}
           name={price}
@@ -266,7 +266,7 @@ const AuctionModal = ({
         </S.DetailRow>
       </S.Detail>
 
-      {royaltyFee !== 0 && (
+      {product?.sku?.royaltyFeePercentage > 0 && product?.resale && (
         <S.Footer>
           <p>
             All resales of this product a subject to a{' '}

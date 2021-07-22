@@ -81,7 +81,7 @@ const BidHistoryModal = ({
           padding="0 0 16px 0"
           textAlign="center"
         >
-          Closed on {formatDate(endDate)}
+          Won on {formatDate(endDate)}
         </S.Text>
         <S.GreyLine />
         <S.FlexDiv
