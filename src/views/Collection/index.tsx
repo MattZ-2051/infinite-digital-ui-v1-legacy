@@ -188,7 +188,7 @@ const Collection = (): JSX.Element => {
             justifyContent: 'flex-start',
             marginTop: matchesMobile ? '40px' : '156px',
             marginBottom: matchesMobile ? '80px' : '120px',
-            height: '100vh',
+            minHeight: '0px',
           }}
         >
           <FlexColumn
