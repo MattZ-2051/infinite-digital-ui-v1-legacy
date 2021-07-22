@@ -23,7 +23,7 @@ import { useWindowScroll } from 'react-use';
 const Footer = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const matchesMobile = useMediaQuery('(max-width:539px)', { noSsr: true });
+  const matchesMobile = useMediaQuery('(max-width:600px)', { noSsr: true });
   return (
     <S.StyledFooter padding={isSmall ? '0' : '0 80px'}>
       <S.FooterContent>
