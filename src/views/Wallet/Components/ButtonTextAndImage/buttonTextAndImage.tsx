@@ -7,11 +7,13 @@ const ButtonTextAndImage = ({
   handlerOnClick,
   normalIcon,
   hoverIcon,
+  disabled,
 }: IButtonTextAndImage) => {
   const [icon, setIcon] = useState<string>(normalIcon);
   return (
     <S.ButtonContainer>
       <S.ActionButton
+        disabled={disabled}
         onClick={handlerOnClick}
         onMouseEnter={() => {
           setIcon(hoverIcon);
