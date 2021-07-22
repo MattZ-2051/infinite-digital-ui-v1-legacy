@@ -56,7 +56,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                   transaction?.status === 'success' && (
                     <S.FlexDiv>
                       <S.Description paddingRight="0.5ch">
-                        Bought for{' '}
+                        Bought for
                       </S.Description>
                       <S.Text>
                         $
