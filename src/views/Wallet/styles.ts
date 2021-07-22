@@ -263,3 +263,49 @@ export const TabButton = styled.div<{
   color: ${(pps) =>
     pps.selectedTab === pps.highlightOption ? `black` : `#9e9e9e`};
 `;
+
+export const ToolTip = styled.span`
+  position: relative;
+  &:before {
+    content: attr(data-text);
+    position: absolute;
+
+    bottom: 100%;
+    transform: translateY(-50%);
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 12px;
+    width: 100%;
+    max-width: min(300px, 100%);
+    padding: 10px;
+    border-radius: 10px;
+    background: black;
+    color: #fff;
+    text-align: center;
+
+    display: none;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+
+    bottom: 100%;
+    margin-bottom: -19px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* the arrow */
+    border: 10px solid #000;
+    border-color: black transparent transparent transparent;
+
+    display: none;
+  }
+  &:hover:before,
+  &:hover:after {
+    display: block;
+  }
+`;

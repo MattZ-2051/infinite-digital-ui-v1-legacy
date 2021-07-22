@@ -23,7 +23,14 @@ export const ActionButton = styled.button`
   :focus {
     outline: none;
   }
-
+  :disabled {
+    background-color: #9e9e9e;
+    border: 0;
+  }
+  :disabled:hover {
+    background-color: #9e9e9e;
+    color: white;
+  }
   @media screen and (max-width: 960px) {
     width: 100%;
   }

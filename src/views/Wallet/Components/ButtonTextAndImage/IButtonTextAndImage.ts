@@ -3,4 +3,5 @@ export interface IButtonTextAndImage {
   handlerOnClick: () => void;
   normalIcon: string;
   hoverIcon: string;
+  disabled?: boolean;
 }
