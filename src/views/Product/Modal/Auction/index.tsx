@@ -269,8 +269,9 @@ const AuctionModal = ({
       {royaltyFee !== 0 && (
         <S.Footer>
           <p>
-            All resales of this product a subject to a {royaltyFee}% royalty fee
-            set by and to be paid to the original creator.
+            All resales of this product a subject to a{' '}
+            {product?.sku?.royaltyFeePercentage}% royalty fee set by and to be
+            paid to the original creator.
           </p>
         </S.Footer>
       )}
