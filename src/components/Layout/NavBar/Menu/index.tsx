@@ -6,7 +6,8 @@ import UserProfileMenu from '../UserProfileMenu';
 import { useOutsideAlert } from 'hooks/oustideAlerter';
 import { useAppSelector } from 'store/hooks';
 import avatarIcon from 'assets/img/icons/avatar-icon.png';
-import EditModal from 'views/Collection/UserCollectioinInfo/EditModal';
+import UserProfileDetails from 'views/Collection/UserCollectioinInfo/UserProfileDetails';
+import PageLoader from 'components/PageLoader';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -26,20 +27,25 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
     <>
       <Container>
         <Divider gap={32}>
-          <TextButton
-            to="/marketplace?page=1&per_page=6&sortBy=startDate:asc"
-            color="grey"
-          >
+          <TextButton to="/marketplace" color="grey">
             Marketplace
           </TextButton>
 
-          {isAuthenticated && (
+          {isAuthenticated && !user?.username && (
+            <PageLoader
+              size={10}
+              backGroundColor="black"
+              color="white"
+              height="100%"
+            />
+          )}
+          {isAuthenticated && user?.username && (
             <TextButton to={`/collection/${user.username}`} color="grey">
               My Collection
             </TextButton>
           )}
 
-          {isAuthenticated && (
+          {isAuthenticated && user?.username && (
             <AcountInfoContainer>
               <div
                 ref={ref}
@@ -75,7 +81,10 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
           )}
         </Divider>
       </Container>
-      <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
+      <UserProfileDetails
+        isModalOpen={isModalOpen}
+        handleClose={handleModalClose}
+      />
     </>
   );
 };

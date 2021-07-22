@@ -1,96 +1,103 @@
 import { Card } from 'entities/card';
-import { ITransaction, TransactionData } from 'entities/transaction';
+import { ITransaction } from 'entities/transaction';
 import { USDCAddress } from 'entities/usdcAddress';
-import { User } from 'entities/user';
+import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
-
-// TODO: Commented code
-// the following endpoint is deprecated:
-// export const getUserInfoByAuth0Id = async (userId: string, token: string) => {
-//   const response = await axiosInstance.request<User[]>({
-//     method: 'GET',
-//     url: `/users?sub=${userId}`,
-//     headers: { Authorization: `Bearer ${token}` },
-//   });
-
-//   return response;
-// };
+import { IUser, IPasswordResetResponse } from './Interfaces/index';
+import { handleApiError } from 'utils/apiError';
+import { config } from 'config';
+import axios, { Method } from 'axios';
 
 export const getMe = async (token: string): Promise<User> => {
-  const response = await axiosInstance.request<User>({
-    method: 'GET',
-    url: `/users/me`,
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const response = await axiosInstance.request<User>({
+      method: 'GET',
+      url: `/users/me`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  return {
-    ...response.data,
-    auctionBidIncrement: response.headers['auction-bid-increment'],
-    initialBuyersFeePercentage:
-      response.headers['initial-buyers-fee-percentage'],
-  };
+    return {
+      ...response.data,
+      auctionBidIncrement: response.headers['auction-bid-increment'],
+      initialBuyersFeePercentage:
+        response.headers['initial-buyers-fee-percentage'],
+    };
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const getBalances = async (
+  token: string
+): Promise<ExtendedBalanceInfo> => {
+  try {
+    const response = await axiosInstance.request<ExtendedBalanceInfo>({
+      method: 'GET',
+      url: `/wallet/balance`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const getMyTransactions = async (
   token: string,
   page: number,
   per_page: number,
-  filter
+  filter,
+  sortBy = 'newest'
 ): Promise<{ data: ITransaction[]; total: number }> => {
-  const response = await axiosInstance.request<ITransaction[]>({
-    method: 'GET',
-    url: `/users/me/transactions`,
-    headers: { Authorization: `Bearer ${token}` },
-    params: {
+  try {
+    const params = {
       filter: JSON.stringify(filter),
       page,
       per_page,
-    },
-  });
-  const { data, headers } = response;
-  const contentRange: string = headers['content-range'];
-  const rangeArray = contentRange.split('/');
-  const total = Number(rangeArray[1]);
-  return { data, total };
+    };
+    params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
+    const response = await axiosInstance.request<ITransaction[]>({
+      method: 'GET',
+      url: `/users/me/transactions`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    const { data, headers } = response;
+    const contentRange: string = headers['content-range'];
+    const rangeArray = contentRange.split('/');
+    const total = Number(rangeArray[1]);
+    return { data, total };
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const getMyCards = async (token: string): Promise<Wallet> => {
-  const response = await axiosInstance.request<Wallet>({
-    method: 'GET',
-    url: '/wallet',
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const response = await axiosInstance.request<Wallet>({
+      method: 'GET',
+      url: '/wallet',
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  return response.data;
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
 };
 
 export const addFundsToUserWallet = async (
   token: string,
   data: any,
   cardId: string
-): Promise<Wallet> => {
+): Promise<void> => {
   try {
-    const response = await axiosInstance.post(
-      `/wallet/cards/${cardId}/payments`,
-      data,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return response.data;
+    await axiosInstance.post<void>(`/wallet/cards/${cardId}/payments`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   } catch (err) {
-    if (err.response) {
-      throw new Error(err.response.data.message);
-    } else if (err.request) {
-      /*
-       * The request was made but no response was received, `err.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
-      throw new Error('No Response Received');
-    } else {
-      // Something happened in setting up the request and triggered an err
-      throw new Error('Bad Request');
-    }
+    throw handleApiError(err);
   }
 };
 
@@ -106,7 +113,7 @@ export const generateUSDCAddress = async (
     );
     return response.data;
   } catch (err) {
-    throw new Error('Error generating USDC address');
+    throw handleApiError(err);
   }
 };
 
@@ -117,42 +124,21 @@ export const createNewCC = async (token: string, data: any): Promise<Card> => {
     });
     return response.data;
   } catch (err) {
-    if (err.response) {
-      throw new Error('Error occured');
-    } else if (err.request) {
-      /*
-       * The request was made but no response was received, `err.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
-      throw new Error('No Response Received');
-    } else {
-      // Something happened in setting up the request and triggered an err
-      throw new Error('Bad Request');
-    }
+    throw handleApiError(err);
   }
 };
 
 export const removeUserCC = async (token: string, cardId: string) => {
   try {
-    const response = await axiosInstance.delete(`/wallet/cards/${cardId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axiosInstance.delete<void>(
+      `/wallet/cards/${cardId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (err) {
-    if (err.response) {
-      throw new Error('Error Occured');
-    } else if (err.request) {
-      /*
-       * The request was made but no response was received, `err.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
-      throw new Error('No Response Received');
-    } else {
-      // Something happened in setting up the request and triggered an err
-      throw new Error('Bad Request');
-    }
+    throw handleApiError(err);
   }
 };
 
@@ -171,19 +157,7 @@ export const getUser = async (
     });
     return response.data;
   } catch (err) {
-    if (err.response) {
-      return err.response.data;
-    } else if (err.request) {
-      /*
-       * The request was made but no response was received, `err.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
-      throw new Error('No Response Received');
-    } else {
-      // Something happened in setting up the request and triggered an err
-      throw new Error('Bad Request');
-    }
+    throw handleApiError(err);
   }
 };
 
@@ -200,13 +174,12 @@ export const getPersonalToken = async (
     );
     return response.data;
   } catch (err) {
-    throw new Error('Error getting personal token');
+    throw handleApiError(err);
   }
 };
 
 export const updateUsername = async (
   token: string,
-  userId: string,
   username: string
 ): Promise<User> => {
   try {
@@ -219,34 +192,47 @@ export const updateUsername = async (
     );
     return response.data;
   } catch (err) {
-    if (err.response) {
-      throw new Error(err.response.data);
-    } else if (err.request) {
-      /*
-       * The request was made but no response was received, `err.request`
-       * is an instance of XMLHttpRequest in the browser and an instance
-       * of http.ClientRequest in Node.js
-       */
-      throw new Error('No Response Received');
-    } else {
-      // Something happened in setting up the request and triggered an err
-      throw new Error('Bad Request');
-    }
+    throw handleApiError(err);
   }
 };
 
-export const getCreators = async (options?: { queryParams?: string }) => {
+export const requestPasswordReset = async (
+  token: string,
+  email: string
+): Promise<IPasswordResetResponse> => {
+  const options = {
+    method: 'POST' as Method,
+    url: `https://${config.auth.auth0Domain}/dbconnections/change_password`,
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: {
+      client_id: config.auth.auth0ClientId,
+      email,
+      connection: 'Username-Password-Authentication',
+    },
+  };
   try {
-    const response = await axiosInstance.request({
+    const response = await axios.request<string>(options);
+    const { data, status, statusText } = response;
+    return { data, status, statusText };
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const getCreators = async (options?: {
+  queryParams?: string;
+}): Promise<IUser[] | undefined> => {
+  try {
+    const { data }: { data: IUser[] } = await axiosInstance.request({
       method: 'GET',
       url: `/users`,
       params: { role: 'issuer', page: 1, per_page: 50 },
     });
-    return response.data;
-  } catch (e) {
-    console.error(
-      `getCategories: Error requesting sku categories tile details. ${e}`
-    );
-    return undefined;
+    return data;
+  } catch (err) {
+    throw handleApiError(err);
   }
 };

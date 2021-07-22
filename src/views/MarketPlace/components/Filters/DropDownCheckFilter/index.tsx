@@ -13,9 +13,9 @@ import { ReactComponent as CheckboxUnselectedIcon } from 'assets/svg/icons/check
 interface IProps {
   label?: string;
   width?: string;
-  options: { id: string; name: string }[];
+  options: { id: string; name: string }[] | undefined;
   handleFilter: (name: string, data: any) => void;
-  filterCategory: 'category' | 'brand' | 'series' | 'rarity' | 'issuerName';
+  filterCategory: 'category' | 'brand' | 'series' | 'rarity' | 'creator';
   activeFilters: any;
 }
 
@@ -31,6 +31,8 @@ const DropDownCheckFilter = ({
     const target = e.target;
     const id = target.id;
     const checked = target.checked;
+    const isCreator: boolean = filterCategory == 'creator';
+    const oneIsActive: boolean = activeFilters.length == 1;
 
     if (checked) {
       handleFilter(filterCategory, [...activeFilters, id]);

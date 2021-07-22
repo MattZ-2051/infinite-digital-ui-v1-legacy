@@ -13,6 +13,7 @@ interface AppConfig {
     coinbaseCheckoutId: string;
   };
   blockchain: {
+    usdcTokenContractAddress: string;
     chainId: number;
     apiKey: string;
   };
@@ -26,6 +27,23 @@ interface AppConfig {
   };
   metadata: {
     environmentName: string;
+  };
+  hubspot: {
+    region: string;
+    helpSection: {
+      portalId: string;
+      formId: string;
+    };
+    mailSubscribingSection: {
+      portalId: string;
+      formId: string;
+    };
+  };
+  kycLimits: {
+    ccDepositLimit: string;
+  };
+  gtag: {
+    id: string;
   };
 }
 
@@ -52,6 +70,9 @@ export const config: AppConfig = {
     apiKey:
       getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
       '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
+    usdcTokenContractAddress:
+      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
+      '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
   },
   kyc: {
     templateLvl1:
@@ -64,5 +85,30 @@ export const config: AppConfig = {
     sentryDsn: getEnvVar('REACT_APP_SENTRY_DSN', false),
     sentrySampleRate:
       parseFloat(getEnvVar('REACT_APP_SENTRY_SAMPLE_RATE', false)) || 0.1,
+  },
+  hubspot: {
+    region: getEnvVar('REACT_APP_HUBSPOT_REGION', false) || 'na1',
+    helpSection: {
+      formId:
+        getEnvVar('REACT_APP_HUBSPOT_HELP_FORM_ID', false) ||
+        '8a6d1a6a-62f6-41f4-be2c-c2c4f4ab01ea',
+      portalId:
+        getEnvVar('REACT_APP_HUBSPOT_HELP_PORTAL_ID', false) || '20243335',
+    },
+    mailSubscribingSection: {
+      formId:
+        getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_FORM_ID', false) ||
+        'ef10e4fd-1595-42d1-b10b-6d6dd9b2b46f',
+      portalId:
+        getEnvVar('REACT_APP_HUBSPOT_MAIL_SUBSCRIPTION_PORTAL_ID', false) ||
+        '20243335',
+    },
+  },
+  kycLimits: {
+    ccDepositLimit:
+      getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', false) || '2000',
+  },
+  gtag: {
+    id: getEnvVar('REACT_APP_GTAG_ID', false) || 'G-KH8PDB7NVR',
   },
 };

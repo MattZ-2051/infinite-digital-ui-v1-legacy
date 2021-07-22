@@ -29,15 +29,23 @@ export const BlockIcon = styled(MuiBlockIcon)`
 `;
 
 export const LevelIndicator = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: black;
   margin-left: 10px;
+  font-family: 'Circular';
+  font-size: 16px;
+
   padding-top: 4px;
 `;
 
 export const StatusText = styled.span`
   margin-left: 10px;
   padding-top: 4px;
+  font-family: 'Circular';
+  font-weight: 400;
+  font-size: 16px;
+  color: #9e9e9e;
+  font-style: Medium;
 `;
 
 export const VerifiedUserOutlinedIcon = styled(MuiVerifiedUserOutlinedIcon)`

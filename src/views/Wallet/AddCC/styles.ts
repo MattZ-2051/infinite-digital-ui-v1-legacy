@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Select from '@material-ui/core/Select';
+import LoadingButton from 'components/Buttons/LoadingButton';
 
 export const S: any = {};
 
@@ -10,12 +11,11 @@ S.Container = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-height: 80vh;
+height: 100vh;
 margin: auto
 z-index: 1;
 overflow: auto;
 width: 100%;
-
 `;
 
 S.HeaderContainer = styled.div`
@@ -60,6 +60,9 @@ S.DropDown = styled(Select)`
 `;
 
 S.FormInput = styled(TextField)`
+  & .MuiInputBase-input.MuiInput-input.Mui-disabled.Mui-disabled {
+    text-align: center;
+  }
   & .Mui-focused {
     color: black;
   }
@@ -146,4 +149,33 @@ S.Button = styled.button`
   @media screen and (max-width: 960px) {
     width: 100%;
   }
+`;
+
+S.SLoadingButton = styled(LoadingButton)`
+  width: 410px;
+  height: 56px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 35px;
+  font-size: 20px;
+  font-weigth: 600;
+  :hover {
+    cursor: pointer;
+  }
+  :focus {
+    outline: none;
+  }
+
+  @media screen and (max-width: 960px) {
+    width: 100%;
+  }
+`;
+
+S.Content = styled.div`
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

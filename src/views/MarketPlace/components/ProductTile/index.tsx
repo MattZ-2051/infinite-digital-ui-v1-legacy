@@ -2,7 +2,7 @@ import React from 'react';
 import Tile from 'components/ProductTiles/Tile';
 import { ProductWithFunctions } from 'entities/product';
 import { useHistory } from 'react-router-dom';
-import { formatCountdown } from 'utils/dates';
+import { formatSkuCountdown } from 'utils/dates';
 
 interface Props {
   product: ProductWithFunctions;
@@ -10,30 +10,50 @@ interface Props {
   themeStyle: 'light' | 'dark';
 }
 
+/*Product Tile Types */
+type ProductTileTypes =
+  | 'active-listing'
+  | 'no-active-listing'
+  | 'upcoming-product-time'
+  | '';
+
 const ProductTile = ({
   product,
   productSerialNumber,
   themeStyle = 'light',
 }: Props): JSX.Element => {
-  let status: /*Product Tile Types */
-  'active-listing' | 'no-active-listing' | 'upcoming-product-time' | '' = '';
+  let status: ProductTileTypes = '';
   const history = useHistory();
   const { sku } = product;
-  let pillInfo = '';
+  let pillInfo: string | number = '';
   const handleRedirect = () => {
     history.push(`/product/${product._id}`);
   };
+  const imageUrl = sku.nftPublicAssets
+    ? sku.nftPublicAssets[0].previewUrl
+      ? sku.nftPublicAssets[0].previewUrl
+      : sku.nftPublicAssets[0].url
+    : sku.graphicUrl;
 
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
       status = 'upcoming-product-time';
-      pillInfo = formatCountdown(
+      pillInfo = formatSkuCountdown(
         new Date(product?.upcomingProductListings[0]?.startDate)
       );
       return status;
     } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
-      pillInfo = product?.activeProductListings[0].price;
+
+      console.log(product?.minPrice === 0);
+      if (
+        product?.activeProductListings[0]?.saleType === 'auction' &&
+        product.minPrice === 0
+      ) {
+        pillInfo = product?.activeProductListings[0]?.minBid;
+      } else {
+        pillInfo = product?.activeProductListings[0].price;
+      }
       return status;
     } else if (
       product?.activeProductListings.length === 0 &&
@@ -51,7 +71,7 @@ const ProductTile = ({
       sku={sku}
       redeemable={sku.redeemable}
       status={status}
-      skuImg={sku.graphicUrl}
+      skuImg={imageUrl}
       skuRarity={sku.rarity}
       topLeft={sku.issuerName}
       middle={sku.name}

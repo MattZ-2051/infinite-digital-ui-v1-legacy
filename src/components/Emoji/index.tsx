@@ -3,10 +3,12 @@ import React from 'react';
 interface IProps {
   label?: string;
   symbol: any;
+  size?: string;
 }
 
-const Emoji = ({ label, symbol }: IProps) => (
+const Emoji = ({ label, symbol, size }: IProps) => (
   <span
+    style={{ fontSize: size }}
     className="emoji"
     role="img"
     aria-label={label || ''}

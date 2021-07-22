@@ -74,3 +74,13 @@ export const ContainerMarginRight = styled.div`
     color: white;
   }
 `;
+
+export const BasicInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const NotifyIconImg = styled.img`
+  margin-right: 8px;
+  vertical-align: middle;
+`;

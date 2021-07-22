@@ -25,10 +25,8 @@ const Container = styled.div`
   grid-auto-columns: max-content;
   grid-gap: var(--gap);
   @media screen and (max-width: 960px) {
-    display: inline-grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    grid-gap: var(--gap);
+    margin-top: 24px;
+    margin-bottom: 20px;
     justify-content: center;
   }
 `;

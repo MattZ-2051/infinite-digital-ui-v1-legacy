@@ -38,6 +38,16 @@ const ButtonBlack = css`
   }
 `;
 
+const ButtonGray = css`
+  background-color: #2d2d2d;
+  color: #fff;
+  &:hover {
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+`;
+
 const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
   && {
     height: 40px;
@@ -66,6 +76,8 @@ const StyledButton = styled(({ color, ...rest }) => <MuiButton {...rest} />)`
           return ButtonBlack;
         case 'white':
           return ButtonWhite;
+        case 'gray':
+          return ButtonGray;
         default:
           return ButtonBlack;
       }

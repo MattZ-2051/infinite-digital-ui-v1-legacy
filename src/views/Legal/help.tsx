@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import useScript from 'hooks/useScript';
 import * as S from './styles';
+import { config } from 'config';
+import { useMediaQuery } from '@material-ui/core';
 
 interface WindowWithHubspotForm extends Window {
   readonly hbspt?: any;
@@ -8,15 +10,16 @@ interface WindowWithHubspotForm extends Window {
 
 const Help = () => {
   const [loaded, error] = useScript('//js.hsforms.net/forms/v2.js');
+  const matchesMobile = useMediaQuery('(max-width:1100px)', { noSsr: true });
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window) {
       const windowWithHubspotForm: WindowWithHubspotForm = window;
       if (loaded && !error && windowWithHubspotForm.hbspt) {
         windowWithHubspotForm.hbspt.forms.create({
-          region: 'na1',
-          portalId: '8953348',
-          formId: 'a25ae540-4e5a-4858-90fb-20edc5ca1252',
+          region: config.hubspot.region,
+          portalId: config.hubspot.helpSection.portalId,
+          formId: config.hubspot.helpSection.formId,
           target: '#embed-hubspot',
         });
       }
@@ -25,7 +28,9 @@ const Help = () => {
   return (
     <S.HelpContainer>
       <S.HelpColumn>
-        <S.Header>How can we help you?</S.Header>
+        <S.Header style={matchesMobile ? { textAlign: 'center' } : {}}>
+          How can we help you?
+        </S.Header>
         <S.SubTitle>
           Before submitting the contact/support form, please search the{' '}
           <a
@@ -40,12 +45,18 @@ const Help = () => {
         <S.SubTitle>
           If you still have a question or suggestion, please submit the
           contact/support form or email us at{' '}
-          <a href="upport@goinfinite.io">support@goinfinite.io.</a>
+          <a href="mailto:support@goinfinite.com">support@goinfinite.io</a>
         </S.SubTitle>
       </S.HelpColumn>
       <S.HelpColumn>
-        <S.Header style={{ marginLeft: '80px' }}>Contact/Support Form</S.Header>
-        <S.Container id="embed-hubspot"></S.Container>
+        <S.Header
+          style={
+            matchesMobile ? { textAlign: 'center', marginBottom: '20px' } : {}
+          }
+        >
+          Contact/Support Form
+        </S.Header>
+        <S.Container id="embed-hubspot" />
       </S.HelpColumn>
     </S.HelpContainer>
   );

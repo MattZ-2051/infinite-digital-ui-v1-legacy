@@ -6,11 +6,7 @@ import LatestReleases from './components/LatestReleases';
 // import Items from 'views/Collection/UserCollectionTabs/Items';
 import * as S from './styles';
 
-export interface IProps {
-  isAuthenticated: boolean;
-}
-
-const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
+const SkuTilesTab = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent, newValue: number) => {
@@ -33,8 +29,8 @@ const SkuTilesTab = ({ isAuthenticated }: IProps): JSX.Element => {
           disableRipple
           data-testid="myCollectionTab"
         />
-        <S.ViewAll to="/marketplace?page=1&per_page=6&sortBy=startDate:asc">
-          + View all
+        <S.ViewAll to="/marketplace">
+          See more
         </S.ViewAll>
       </Tabs>
 

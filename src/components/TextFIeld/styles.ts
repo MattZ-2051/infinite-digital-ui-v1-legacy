@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Input = styled.input`
-  width: 330px;
+  width: 100%;
   height: 56px;
   background: #f8f8f8;
   border-radius: 20px;
@@ -20,6 +20,7 @@ export const Input = styled.input`
 
 export const InputMoneyContainer = styled.div`
   position: relative;
+  width: 100%;
   span {
     position: absolute;
     left: 19px;

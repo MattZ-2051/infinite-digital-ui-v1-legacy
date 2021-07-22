@@ -7,46 +7,55 @@ import Collapsible from '../../components/Collapsible';
 export interface Props {
   collectors: Collector[];
   hasProducts: boolean;
+  skuId: string;
 }
 
-const AuctionListing = ({ collectors, hasProducts }: Props) => {
+const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
   const body = hasProducts ? (
     <S.Items>
       {collectors &&
-        collectors.map((el, index) => (
-          <Link
-            key={index}
-            to={'/product/' + el._id}
-            style={{ textDecoration: 'none' }}
-          >
-            {
-              <AuctionItem
-                activeProductListing={el.activeProductListing}
-                key={el.serialNumber}
-                listings={el.listings}
-                serialNumber={el.serialNumber}
-                ownerName={el.owner.username}
-                highestBid={el.activeProductListing?.price}
-                endDate={el.activeProductListing?.endDate}
-                upcomingProductListing={el.upcomingProductListing}
-              />
-            }
-          </Link>
-        ))}
-
-      {/*
-        TODO: see if we still need this (from Matt)
-        <ViewAllLink to={'/marketplace/' + collectors[0]?.sku + '/collectors'}>
-          View all collectors
-        </ViewAllLink> */}
+        collectors.slice(0, 4).map((el, index) => {
+          const highestBid = el.highestBid
+            ? el.highestBid?.bidAmt
+            : el.activeProductListing?.minBid;
+          return (
+            <Link
+              key={index}
+              to={'/product/' + el._id}
+              style={{ textDecoration: 'none' }}
+            >
+              {
+                <AuctionItem
+                  activeProductListing={el.activeProductListing}
+                  key={el.serialNumber}
+                  listings={el.listings}
+                  serialNumber={el.serialNumber}
+                  ownerName={el.owner.username}
+                  highestBid={highestBid}
+                  endDate={el.activeProductListing?.endDate}
+                  upcomingProductListing={el.upcomingProductListing}
+                />
+              }
+            </Link>
+          );
+        })}
+      {collectors?.length > 1 ? (
+        <S.ViewAll to={`/${skuId}/collectors`}>View all collectors</S.ViewAll>
+      ) : null}
     </S.Items>
   ) : (
-    <S.NoOwners>No one owns this item yet</S.NoOwners>
+    <S.NoOwners>Be the first to collect this NFT!</S.NoOwners>
   );
-
   return (
     <S.Container>
-      <Collapsible title="Collectors" body={body} />
+      <Collapsible
+        title="Collectors"
+        body={body}
+        collectorsTotalNum={
+          collectors.length !== 0 ? collectors.length : undefined
+        }
+        borderTitle={true}
+      />
     </S.Container>
   );
 };

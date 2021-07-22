@@ -8,12 +8,7 @@ export const Networks = {
   Ropsten: 3,
 };
 
-export const usdcAddress: {
-  [key: number]: string;
-} = {
-  [Networks.MainNet]: '',
-  [Networks.Ropsten]: '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
-};
+export const usdcAddress = config.blockchain.usdcTokenContractAddress;
 
 const apiUrl: {
   [key: number]: string;
@@ -21,7 +16,6 @@ const apiUrl: {
   [Networks.MainNet]: 'https://api.etherscan.io/api',
   [Networks.Ropsten]: 'https://api-ropsten.etherscan.io/api',
 };
-
 class EtherscanService {
   private apiKey = config.blockchain.apiKey;
 

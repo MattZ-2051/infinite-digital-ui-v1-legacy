@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Infinite" />
+
+    <!--  SOCIAL META Tags -->
+    <meta property="og:title" content="INFINITE by SUKU | NFT Marketplace" />
+    <meta
+      property="og:description"
+      content="Start your INFINITE NFT collection today!"
+    />
+    <meta
+      property="og:image"
+      content="https://infinite-digital-dev.s3.amazonaws.com/infinite-meta-social.png"
+    />
+    <meta property="og:url" content="https://goinfinite.io" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="goinfinite.io" />
+    <meta
+      name="twitter:image:alt"
+      content="INFINITE by SUKU | NFT Marketplace"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo512.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Infinite</title>
@@ -47,6 +65,16 @@
         font-weight: 700;
         src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-ExtraBold.woff2');
       }
+      @font-face {
+        font-family: 'Circular';
+        src: url('%PUBLIC_URL%/fonts/Circular/CircularStd-Medium.otf');
+      }
+      #hubspot-messages-iframe-container.widget-align-right {
+        display: initial !important;
+        z-index: 2147483647;
+        position: fixed !important;
+        bottom: 74px !important;
+      }
     </style>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -67,15 +95,5 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-
-    <!-- Start of HubSpot Embed Code -->
-    <script
-      type="text/javascript"
-      id="hs-script-loader"
-      async
-      defer
-      src="//js.hs-scripts.com/8953348.js"
-    ></script>
-    <!-- End of HubSpot Embed Code -->
   </body>
 </html>

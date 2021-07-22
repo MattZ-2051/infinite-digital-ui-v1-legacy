@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { ReactComponent as RightArrow } from 'assets/svg/icons/landing-right-arrow.svg';
 
 export const Container = styled.section`
   background-color: black;
@@ -27,6 +28,14 @@ export const DropButtonContainer = styled.div<{
   align-items: center;
   padding-left: ${(props) => `${props.paddingLeft}`};
   padding-top: ${(props) => `${props.paddingTop}`};
+`;
+
+export const DropArrow = styled(RightArrow)`
+  margin-left: 10px;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 export const DropButton = styled.span`

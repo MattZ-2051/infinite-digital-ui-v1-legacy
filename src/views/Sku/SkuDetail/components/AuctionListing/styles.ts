@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   width: 46%;
   max-width: 713px;
+  /* flex: 2; */
   margin-left: 64px;
-  padding-right: 10px;
 
   @media screen and (max-width: 960px) {
     margin-left: 0;
@@ -14,16 +14,19 @@ export const Container = styled.div`
   }
 `;
 
+export const ViewAll = styled(Link)`
+  float: right;
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 24px;
+`;
+
 export const Items = styled.div`
-  padding-top: 24px;
+  /* padding-top: 24px; */
   width: 100%;
   max-width: 713px;
   overflow: hidden;
-  height: 400px;
-  :hover {
-    overflow: auto;
-  }
-
+  height: 450px;
   @media screen and (max-width: 960px) {
     margin-left: 0;
   }
@@ -41,10 +44,9 @@ export const Title = styled.h2`
 
 export const NoOwners = styled.div`
   padding-top: 24px;
-  font-size: 16px;
-  color: #9e9e9e;
-  font-weight: 600;
-  border-bottom: 1px solid #ebebeb;
+  font-size: 18px;
+  color: black;
+  font-weight: 500;
   padding-bottom: 20px;
   width: 100%;
 `;

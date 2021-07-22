@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import ProfileButton from 'components/Buttons/ProfileButton';
 import { User } from 'entities/user';
 import editIconImg from 'assets/img/icons/edit-icon.png';
-import EditModal from './EditModal';
+// import EditModal from './EditModal';
+import UserProfileDetails from './UserProfileDetails';
 import * as S from './styles';
 interface IProps {
   user: User | undefined;
@@ -31,25 +32,28 @@ const UserCollectioinInfo = ({
       if (userId === loggedInUser.id && loggedInUser.role === 'issuer') {
         userStatus = 'loggedInIssuer';
         return userStatus;
-      } else if (userId === loggedInUser.id) {
+      }
+      if (userId === loggedInUser.id) {
         userStatus = 'loggedIn';
         return userStatus;
-      } else if (userId !== loggedInUser.id && user?.role === 'issuer') {
+      }
+      if (userId !== loggedInUser.id && user?.role === 'issuer') {
         userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
-      } else if (userId !== loggedInUser.id) {
-        userStatus = 'notCurrentUserProfile';
         return userStatus;
       }
-    } else {
-      if (user?.role === 'issuer') {
-        userStatus = 'notCurrentUserProfileIssuer';
-        return userStatus;
-      } else {
+      if (userId !== loggedInUser.id) {
         userStatus = 'notCurrentUserProfile';
         return userStatus;
       }
     }
+
+    if (user?.role === 'issuer') {
+      userStatus = 'notCurrentUserProfileIssuer';
+      return userStatus;
+    }
+
+    userStatus = 'notCurrentUserProfile';
+    return userStatus;
   };
 
   const handleUsernameEdit = () => {
@@ -146,7 +150,10 @@ const UserCollectioinInfo = ({
           </span> */}
         </>
       )}
-      <EditModal isModalOpen={isModalOpen} handleClose={handleModalClose} />
+      <UserProfileDetails
+        isModalOpen={isModalOpen}
+        handleClose={handleModalClose}
+      />
     </S.Container>
   );
 };

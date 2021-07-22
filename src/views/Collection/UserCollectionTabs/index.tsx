@@ -13,6 +13,8 @@ import { ProductWithFunctions } from 'entities/product';
 import { Sku } from 'entities/sku';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as S from './styles';
+import PageLoader from 'components/PageLoader';
+
 interface IProps {
   user: User;
   isAuthenticated: boolean;
@@ -32,17 +34,21 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [page, setPage] = useState(1);
   const [totalReleases, setTotalReleases] = useState(1);
   const [totalProducts, setTotalProducts] = useState(1);
-  const perPage = 8;
-  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const perPage = matchesMobile ? 4 : 8;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const queryParams = '?sortBy=startDate:1';
+
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
+    setIsLoading(false);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
-      setTotalProducts(itemsRes.total);
+      setTotalProducts(itemsRes.totalProducts);
     }
 
     if (user.role === 'issuer') {
+      setThemeStyle('dark');
       const releasesRes = await getReleasesOwnedByUser(
         user._id,
         page,
@@ -51,8 +57,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       );
       if (releasesRes.data) {
         setUserReleases(releasesRes.data);
-        setTotalReleases(releasesRes.total);
+        setTotalReleases(releasesRes.totalReleases);
       }
+    } else {
+      setThemeStyle('light');
     }
   }
 
@@ -64,6 +72,9 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     fetchData();
   }, [userId, page, user]);
 
+  const getWidth = () => {
+    return window.innerWidth;
+  };
   useEffect(() => {
     (() => {
       if (isAuthenticated === true) {
@@ -98,187 +109,210 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   ) => {
     setPage(value);
   };
+  if (isLoading)
+    return <PageLoader color={'white'} backGroundColor={'black'} />;
+
+  const getWidthMinusScrollbar = () => {
+    let width = window.innerWidth;
+
+    if (window.innerWidth && document.documentElement.clientWidth) {
+      width = Math.min(window.innerWidth, document.documentElement.clientWidth);
+    } else {
+      width =
+        document.documentElement.clientWidth ||
+        document.getElementsByTagName('body')[0].clientWidth;
+    }
+
+    return width;
+  };
 
   return (
-    <S.Container themeStyle={themeStyle}>
-      {userStatus === 'loggedIn' && (
-        <>
-          <div style={{ position: 'relative', paddingBottom: '30px' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <S.TabBar>
-                <S.Tab
-                  themeStyle={themeStyle}
-                  selected={selectedTab === 'items'}
-                  onClick={() => setSelectedTab('items')}
-                >
-                  My Items
-                </S.Tab>
-              </S.TabBar>
-              <span style={{ padding: '0 20px' }}></span>
-            </div>
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-          </div>
-
-          {selectedTab === 'items' && (
-            <Items
-              themeStyle={themeStyle}
-              userItems={userItems}
-              collection={true}
-            />
-          )}
-        </>
-      )}
-      {userStatus === 'loggedInIssuer' && (
-        <>
-          <div style={{ position: 'relative', paddingBottom: '30px' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <S.TabBar>
-                <S.Tab
-                  selected={selectedTab === 'releases'}
-                  themeStyle={themeStyle}
-                  onClick={() => setSelectedTab('releases')}
-                >
-                  My Releases
-                </S.Tab>
+    <S.ContainerForBigScreen
+      screenWidth={getWidthMinusScrollbar()}
+      backgroundColor={user.role === 'issuer' ? 'black' : 'white'}
+    >
+      <S.Container themeStyle={themeStyle}>
+        {userStatus === 'loggedIn' && (
+          <>
+            <div style={{ position: 'relative', paddingBottom: '30px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <S.TabBar>
+                  <S.Tab
+                    themeStyle={themeStyle}
+                    selected={selectedTab === 'items'}
+                    onClick={() => setSelectedTab('items')}
+                  >
+                    {'NFTs'}
+                  </S.Tab>
+                </S.TabBar>
                 <span style={{ padding: '0 20px' }}></span>
-                <S.Tab
-                  selected={selectedTab === 'items'}
-                  themeStyle={themeStyle}
-                  onClick={() => setSelectedTab('items')}
-                >
-                  My Items
-                </S.Tab>
-              </S.TabBar>
+              </div>
+              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-          </div>
-          {selectedTab === 'releases' && (
-            <Releases
-              userReleases={userReleases}
-              collection={true}
-              themeStyle={themeStyle}
-            />
-          )}
-          {selectedTab === 'items' && (
-            <Items
-              userItems={userItems}
-              collection={true}
-              themeStyle={themeStyle}
-            />
-          )}
-        </>
-      )}
-      {userStatus === 'notCurrentUserProfileIssuer' && (
-        <>
-          <div style={{ position: 'relative', paddingBottom: '30px' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <S.TabBar>
-                <S.Tab
-                  selected={selectedTab === 'releases'}
-                  themeStyle={themeStyle}
-                  onClick={() => setSelectedTab('releases')}
-                >
-                  Releases
-                </S.Tab>
+
+            {selectedTab === 'items' && (
+              <Items
+                themeStyle={themeStyle}
+                userItems={userItems}
+                collection={true}
+              />
+            )}
+          </>
+        )}
+        {userStatus === 'loggedInIssuer' && (
+          <>
+            <div style={{ position: 'relative', paddingBottom: '30px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <S.TabBar>
+                  <S.Tab
+                    selected={selectedTab === 'releases'}
+                    themeStyle={themeStyle}
+                    onClick={() => setSelectedTab('releases')}
+                  >
+                    Releases
+                  </S.Tab>
+                  <span style={{ padding: '0 20px' }}></span>
+                  <S.Tab
+                    selected={selectedTab === 'items'}
+                    themeStyle={themeStyle}
+                    onClick={() => setSelectedTab('items')}
+                  >
+                    {'NFTs'}
+                  </S.Tab>
+                </S.TabBar>
+              </div>
+              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+            </div>
+            {selectedTab === 'releases' && (
+              <Releases
+                userReleases={userReleases}
+                collection={true}
+                themeStyle={themeStyle}
+              />
+            )}
+            {selectedTab === 'items' && (
+              <Items
+                userItems={userItems}
+                collection={true}
+                themeStyle={themeStyle}
+              />
+            )}
+          </>
+        )}
+        {userStatus === 'notCurrentUserProfileIssuer' && (
+          <>
+            <div style={{ position: 'relative', paddingBottom: '30px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <S.TabBar>
+                  <S.Tab
+                    selected={selectedTab === 'releases'}
+                    themeStyle={themeStyle}
+                    onClick={() => setSelectedTab('releases')}
+                  >
+                    Releases
+                  </S.Tab>
+                  <span style={{ padding: '0 20px' }}></span>
+                  <S.Tab
+                    selected={selectedTab === 'items'}
+                    themeStyle={themeStyle}
+                    onClick={() => setSelectedTab('items')}
+                  >
+                    {'NFTs'}
+                  </S.Tab>
+                </S.TabBar>
+              </div>
+
+              <S.GrayLine />
+            </div>
+            {selectedTab === 'releases' && (
+              <Releases
+                userReleases={userReleases}
+                collection={true}
+                themeStyle={themeStyle}
+              />
+            )}
+            {selectedTab === 'items' && (
+              <Items
+                userItems={userItems}
+                collection={true}
+                themeStyle={themeStyle}
+              />
+            )}
+          </>
+        )}
+        {userStatus === 'notCurrentUserProfile' && (
+          <>
+            <div style={{ position: 'relative', paddingBottom: '30px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <S.TabBar>
+                  <S.Tab
+                    selected={selectedTab === 'items'}
+                    themeStyle={themeStyle}
+                    onClick={() => setSelectedTab('items')}
+                  >
+                    {'NFTs'}
+                  </S.Tab>
+                </S.TabBar>
                 <span style={{ padding: '0 20px' }}></span>
-                <S.Tab
-                  selected={selectedTab === 'items'}
-                  themeStyle={themeStyle}
-                  onClick={() => setSelectedTab('items')}
-                >
-                  Items
-                </S.Tab>
-              </S.TabBar>
-            </div>
+              </div>
 
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-          </div>
-          {selectedTab === 'releases' && (
-            <Releases
-              userReleases={userReleases}
-              collection={true}
-              themeStyle={themeStyle}
-            />
-          )}
-          {selectedTab === 'items' && (
-            <Items
-              userItems={userItems}
-              collection={true}
-              themeStyle={themeStyle}
-            />
-          )}
-        </>
-      )}
-      {userStatus === 'notCurrentUserProfile' && (
-        <>
-          <div style={{ position: 'relative', paddingBottom: '30px' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <S.TabBar>
-                <S.Tab
-                  selected={selectedTab === 'items'}
-                  themeStyle={themeStyle}
-                  onClick={() => setSelectedTab('items')}
-                >
-                  Items
-                </S.Tab>
-              </S.TabBar>
-              <span style={{ padding: '0 20px' }}></span>
+              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
-
-            <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
-          </div>
-          {selectedTab === 'items' && (
-            <Items
-              userItems={userItems}
-              collection={true}
-              themeStyle={themeStyle}
-            />
-          )}
-        </>
-      )}
-      {((selectedTab) => {
-        let total = 0;
-        if (selectedTab === 'releases') {
-          total = totalReleases;
-        } else {
-          total = totalProducts;
-        }
-        if (total > 8)
-          return (
-            <S.StyledPagination
-              themeStyle={themeStyle}
-              count={Math.ceil(total / perPage)}
-              page={page}
-              onChange={handlePagination}
-              siblingCount={matchesMobile ? 0 : 1}
-            />
-          );
-      })(selectedTab)}
-    </S.Container>
+            {selectedTab === 'items' && (
+              <Items
+                userItems={userItems}
+                collection={true}
+                themeStyle={themeStyle}
+              />
+            )}
+          </>
+        )}
+        {((selectedTab) => {
+          let total = 0;
+          if (selectedTab === 'releases') {
+            total = totalReleases;
+          } else {
+            total = totalProducts;
+          }
+          if (total > perPage)
+            return (
+              <S.PaginationContainer>
+                <S.StyledPagination
+                  themeStyle={themeStyle}
+                  count={Math.ceil(total / perPage)}
+                  page={page}
+                  onChange={handlePagination}
+                  siblingCount={matchesMobile ? 0 : 1}
+                />
+              </S.PaginationContainer>
+            );
+        })(selectedTab)}
+      </S.Container>
+    </S.ContainerForBigScreen>
   );
 };
 

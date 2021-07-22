@@ -1,4 +1,3 @@
-export { default as Banner } from './Banner';
 export { default as Beta } from './Beta';
 export { default as Buttons } from './Buttons';
 export { default as Divider } from './Divider';

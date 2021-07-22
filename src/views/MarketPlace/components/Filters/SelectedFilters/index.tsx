@@ -16,6 +16,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
       case 'brand':
       case 'series':
       case 'rarity':
+      case 'creator':
         filterValues = activeFilters[filterCategory].filter(
           (el: string) => el !== value
         );
@@ -79,6 +80,7 @@ const SelectedFilters = ({ handleFilter, activeFilters, options }: IProps) => {
           case 'brand':
           case 'series':
           case 'rarity':
+          case 'creator':
             createFilterCategoryChips(
               categoryName,
               activeFilters[categoryName],

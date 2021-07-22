@@ -48,7 +48,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
             </S.Subtitle>
           </div>
           <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
-            Launching Thursday, July 22st, {matchesMobile && <br />}
+            Launching Thursday, July 22nd, {matchesMobile && <br />}
             12:00 PM (ET)
           </S.Subtitle>
 
@@ -70,7 +70,8 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
                 paddingTop="0"
                 onClick={() => history.push('/collection/SDinwiddie25')}
               >
-                <S.DropButton>{'Coming Soon'}</S.DropButton>
+                <S.DropButton>{"Go to Spencer's Drops "}</S.DropButton>
+                <S.DropArrow />
               </S.DropButtonContainer>
             </div>
           ) : (
@@ -93,7 +94,8 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
                 paddingTop="30px"
                 onClick={() => history.push('/collection/SDinwiddie25')}
               >
-                <S.DropButton>{'Coming Soon'}</S.DropButton>
+                <S.DropButton>{"Go to Spencer's Drops "}</S.DropButton>
+                <S.DropArrow />
               </S.DropButtonContainer>
             </div>
           )}

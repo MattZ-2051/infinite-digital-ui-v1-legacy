@@ -5,7 +5,7 @@ export const BodyContainer = styled.div`
   position: absolute;
   max-width: 550px;
   width: 500px;
-  max-height: 650px;
+  max-height: 750px;
   background-color: white;
   padding-top: 16px;
   outline: none;
@@ -16,6 +16,14 @@ export const BodyContainer = styled.div`
   @media screen and (max-width: 550px) {
     width: 100%;
   }
+`;
+
+export const CoinbaseButton = styled(CoinbaseCommerceButton)`
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
 `;
 
 export const BodyContent = styled.div`
@@ -46,6 +54,9 @@ export const Header = styled.span`
   font-weight: 600;
   border-bottom: 2px solid black;
   padding-bottom: 14px;
+  @media screen and (max-width: 330px) {
+    font-size: 18px;
+  }
 `;
 
 export const SubHeader = styled.div`
@@ -54,22 +65,28 @@ export const SubHeader = styled.div`
   padding-top: 25px;
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<{ disabled: boolean }>`
   display: grid;
-  grid-template-columns: 15% 55% 30%;
+  grid-template-columns: 18% 52% 30%;
   padding-top: 40px;
   border-bottom: 1px solid #ebebeb;
   padding-bottom: 21px;
-  :hover {
+
+  ${(props) =>
+    !props.disabled &&
+    `:hover {
     border-bottom: 1px solid black;
     cursor: pointer;
-  }
+  };`}
+
   .icon__arrow {
     color: #9e9e9e;
   }
-  :hover .icon__arrow {
+  ${(props) =>
+    !props.disabled &&
+    `:hover .icon__arrow {
     color: black;
-  }
+  };`}
 `;
 
 export const ExitIcon = styled.div`
@@ -83,9 +100,10 @@ export const ExitIcon = styled.div`
   }
 `;
 
-export const FlexAlignCenter = styled.div`
+export const FlexColumn = styled.div<{ padding?: string }>`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: ${(props) => props.padding};
 `;
 
 export const FlexEnd = styled.div`
@@ -94,15 +112,7 @@ export const FlexEnd = styled.div`
   justify-content: flex-end;
 `;
 
-export const FlexColumn = styled.div`
+export const FlexAlignCenter = styled.div`
   display: flex;
-  flex-direction: column;
-`;
-
-export const CoinbaseButton = styled(CoinbaseCommerceButton)`
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 0;
+  align-items: center;
 `;

@@ -1,31 +1,36 @@
 import { User } from './user';
+import { Card } from './card';
+import { Sku } from 'entities/sku';
+
+export type TransactionType =
+  | 'deposit'
+  | 'transfer'
+  | 'mint'
+  | 'topup'
+  | 'purchase'
+  | 'payment'
+  | 'redeem'
+  | 'sale'
+  | 'nft_transfer'
+  | 'withdrawal'
+  | 'nft_transfer_manual'
+  | 'royalty_fee'
+  | 'nft_mint'
+  | 'bid'
+  | 'claim'
+  | 'nft_redeem';
+
+export type TransactionStatus = 'success' | 'error' | 'pending';
+export type DepositType = 'cc' | string;
 
 export interface ITransaction {
   _id: string;
   owner: User;
-  type:
-    | 'deposit'
-    | 'transfer'
-    | 'mint'
-    | 'topup'
-    | 'purchase'
-    | 'payment'
-    | 'redeem'
-    | 'sale'
-    | 'nft_transfer'
-    | 'withdrawal'
-    | 'nft_transfer_manual'
-    | 'royalty_fee'
-    | 'nft_mint';
+  type: TransactionType;
   transactionData: TransactionData;
   createdAt: Date;
   updatedAt: Date;
-  status: 'success' | 'error' | 'pending';
-}
-
-interface Sku {
-  _id: string;
-  name: string;
+  status: TransactionStatus;
 }
 
 interface Product {
@@ -34,11 +39,13 @@ interface Product {
 }
 
 export interface TransactionData {
-  product: Product[];
-  sku: Sku[];
+  product: any;
+  sku: Sku;
   listing: string;
+  endDate: Date;
   amount: number;
   bid: string;
+  saleType: string;
   hederaTransaction?: HederaTransaction;
   circleReceipt?: CircleReceipt;
   buyer: {
@@ -49,17 +56,29 @@ export interface TransactionData {
     _id: string;
     username: string;
   };
-  ownerAvailableBalance: number;
   cost: Cost;
   explorerLink: string;
   status: string;
   service: string;
   deposit?: {
     id: string;
-    type: string;
+    type: DepositType;
     amount: string;
+    amountRate?: string;
+    amountRated?: string;
+    amountUnrated?: string;
+    hederaTransaction?: HederaTransaction;
+    hederaTransactionLink?: string;
+    card?: Card;
+    coinbasePayment?: { amount: string; currency: string };
+    transactionHash: string | undefined;
   };
-  transactionHash: string | undefined;
+  withdraw?: {
+    amount: string;
+    institution_id: string;
+    institution_name: string;
+    ach_number: string;
+  };
 }
 
 interface Cost {
@@ -77,14 +96,10 @@ interface Cost {
 }
 
 export interface HederaTransaction {
-  transactionHash: string;
-  transactionId: string;
-  explorerLink: string;
-  from: string;
-  to: string;
-  tokenId: string;
+  rate: number;
+  hash: string;
+  id: string;
   status: string;
-  ownerAvailableBalance: number;
 }
 
 export interface CircleReceipt {

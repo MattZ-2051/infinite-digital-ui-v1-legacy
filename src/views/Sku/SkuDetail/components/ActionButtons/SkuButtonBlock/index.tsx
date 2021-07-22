@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { formatDate } from 'utils/dates';
+import { useHistory } from 'react-router-dom';
+import { formatCountdown, formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
@@ -10,7 +11,7 @@ import { useCountdown } from 'hooks/useCountdown';
 import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
-import * as Sentry from '@sentry/react';
+import { useMediaQuery } from '@material-ui/core';
 
 const NotAvailable = (): JSX.Element => {
   return (
@@ -26,6 +27,86 @@ const ComingSoon = (): JSX.Element => {
     </S.Container>
   );
 };
+
+interface IUpcomingAuction {
+  startDate?: Date;
+  price?: number;
+  serialNumber?: string;
+  owner?: User;
+  endDate?: Date;
+  auctionState: 'active' | 'upcoming' | 'sold';
+  productId?: string;
+}
+
+const UpcomingAuction = ({
+  startDate,
+  price,
+  serialNumber,
+  owner,
+  endDate,
+  auctionState,
+  productId,
+}: IUpcomingAuction) => {
+  const history = useHistory();
+  const boxWidth =
+    auctionState === 'upcoming' || auctionState === 'active' ? '62%' : '52%';
+  return (
+    <>
+      {' '}
+      <S.Container>
+        <S.Detail width={boxWidth}>
+          {(auctionState === 'upcoming' || auctionState === 'active') && (
+            <S.BoxColumn>
+              {auctionState === 'upcoming' && (
+                <>
+                  <S.BoxTitle>Upcoming Auction</S.BoxTitle>
+                  <S.BoxSubtitle>
+                    Starts {startDate && formatDate(startDate)}
+                  </S.BoxSubtitle>
+                </>
+              )}
+              {auctionState === 'active' && (
+                <>
+                  <S.BoxTitle>Active Auction</S.BoxTitle>
+                  <S.BoxSubtitle>
+                    Ends {endDate && formatDate(endDate)}
+                  </S.BoxSubtitle>
+                </>
+              )}
+            </S.BoxColumn>
+          )}
+          {auctionState === 'sold' && (
+            <S.SoldOutAuctionBox>
+              <S.SerialNumber>#{serialNumber}</S.SerialNumber>
+              <S.Slash>/</S.Slash>
+              <S.BoxColumn style={{ justifyContent: 'normal' }}>
+                <S.Text fontWeight={500} color="#7c7c7c" fontSize="16px">
+                  Owner
+                </S.Text>
+                <S.Text fontWeight={500} color="white" fontSize="16px">
+                  @{owner?.username}
+                </S.Text>
+              </S.BoxColumn>
+            </S.SoldOutAuctionBox>
+          )}
+          {(auctionState === 'upcoming' || auctionState === 'active') && (
+            <S.BoxColumn style={{ textAlign: 'center' }}>
+              <S.Price>{price && `$${price}`}</S.Price>
+              <small style={{ fontSize: '15px' }}>
+                {(auctionState === 'upcoming' && '(Starting at)') ||
+                  (auctionState === 'active' && '(Highest bid)')}
+              </small>
+            </S.BoxColumn>
+          )}
+        </S.Detail>
+        <S.Button onClick={() => history.push(`/product/${productId}`)}>
+          View NFT
+        </S.Button>
+      </S.Container>
+    </>
+  );
+};
+
 interface IUpcomingData {
   startDate?: Date;
   price: number;
@@ -41,29 +122,38 @@ const UpcomingData = ({
 }: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   return (
     <>
       {' '}
       <S.Container>
-        <S.BoxColumn>
-          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>Upcoming</h4>
-          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>{''}</small>
-        </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '28px' }}>${price}</span>
-          {supplyType !== 'variable' && (
-            <small style={{ fontSize: '15px' }}>
-              {items && `(${items} items)`}
-            </small>
-          )}
-        </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '28px' }}>{countdown}</span>
-          <small style={{ fontSize: '14px', color: '#8E8E8E' }}>
-            {formatDate(startDate)}
-          </small>
-        </S.BoxColumn>
+        <S.Detail style={{ alignItems: 'flex-start' }}>
+          <S.BoxColumn>
+            <S.BoxTitle>Upcoming</S.BoxTitle>
+            <S.BoxSubtitle>{''}</S.BoxSubtitle>
+            {matchesMobile && (
+              <>
+                <S.CountDownTime>{countdown}</S.CountDownTime>
+                <S.StartDate>{formatDate(startDate)}</S.StartDate>
+              </>
+            )}
+          </S.BoxColumn>
+          <S.BoxColumn style={{ textAlign: 'center' }}>
+            <S.Price>${price}</S.Price>
+            {supplyType !== 'variable' && (
+              <small style={{ fontSize: '15px' }}>
+                {items && `(${items} NFTs)`}
+              </small>
+            )}
+          </S.BoxColumn>
+        </S.Detail>
+        {!matchesMobile && (
+          <S.BoxColumn style={{ textAlign: 'right' }}>
+            <S.CountDownTime>{countdown}</S.CountDownTime>
+            <S.StartDate>{formatDate(startDate)}</S.StartDate>
+          </S.BoxColumn>
+        )}
       </S.Container>
     </>
   );
@@ -95,18 +185,17 @@ const FromCreatorBox = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const isSkuOwner = sku?.issuer._id === loggedInUserId;
 
   const handleBuyNowClick = () => {
-    // TODO: Check this call with pablo
-    onBuyNow();
     if (isAuthenticated) {
-      try {
+      if (isSkuOwner) {
+        Toast.error('Cannot purchase your own SKU');
+      } else {
         setIsModalOpen(true);
-      } catch (err) {
-        Sentry.captureException(err);
-        return err.response;
       }
     } else {
       Toast.warning(
@@ -125,13 +214,11 @@ const FromCreatorBox = ({
     <S.Container>
       <S.Detail>
         <S.BoxColumn>
-          <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Creator</h4>
-          <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-            Initial Release
-          </small>
+          <S.BoxTitle>From Creator</S.BoxTitle>
+          <S.BoxSubtitle>Initial Release</S.BoxSubtitle>
         </S.BoxColumn>
         <S.BoxColumn style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '28px' }}>{price && `$${price}`}</span>
+          <S.Price>{price && `$${price}`}</S.Price>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
               {sku?.totalSkuListingSupplyLeft >= 0 &&
@@ -159,36 +246,47 @@ const FromCreatorBox = ({
 interface IFromCollectorsBox {
   minimunPrice: number;
   countProductListings: number;
-  totalSupply?: number;
+  skuId: string;
+  circulatingSupply: number;
 }
 
 const FromCollectorsBox = ({
   minimunPrice,
   countProductListings,
+  skuId,
+  circulatingSupply,
 }: IFromCollectorsBox): JSX.Element => {
-  return (
-    <S.Container>
-      <S.BoxColumn>
-        <h4 style={{ fontSize: '24px', color: '#8E8E8E' }}>From Collectors</h4>
-        <small style={{ fontSize: '15px', color: '#8E8E8E' }}>
-          Lowest Listing Price
-        </small>
-      </S.BoxColumn>
-      <S.BoxColumn>
-        <span style={{ fontSize: '28px' }}>
-          {!!countProductListings ? minimunPrice : '--'}
-        </span>
-        <small style={{ fontSize: '15px' }}>
-          {!!countProductListings
-            ? `(${countProductListings} for sale)`
-            : `${countProductListings} minted`}
-        </small>
-      </S.BoxColumn>
-      <div>
-        <S.Button>See All</S.Button>
-      </div>
-    </S.Container>
-  );
+  const history = useHistory();
+  if (circulatingSupply === 0) {
+    return <></>;
+  } else {
+    return (
+      <S.Container>
+        <S.Detail>
+          <S.BoxColumn>
+            <S.BoxTitle>From Collectors</S.BoxTitle>
+            <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
+          </S.BoxColumn>
+          <S.BoxColumn style={{ textAlign: 'center' }}>
+            <S.Price>
+              {' '}
+              {!!countProductListings ? `$${minimunPrice}` : '--'}
+            </S.Price>
+            <small style={{ fontSize: '15px' }}>
+              {!!countProductListings
+                ? `(${countProductListings} for sale)`
+                : `${countProductListings} on sale`}
+            </small>
+          </S.BoxColumn>
+        </S.Detail>
+        <S.SeeAllContainer>
+          <S.Button onClick={() => history.push(`/${skuId}/collectors`)}>
+            See All
+          </S.Button>
+        </S.SeeAllContainer>
+      </S.Container>
+    );
+  }
 };
 
 interface ISkuButtonBlock {
@@ -203,8 +301,8 @@ const SkuButtonBlock = ({
   sku,
   user,
   onBuyNow,
-  collectors,
   onProcessing,
+  collectors,
 }: ISkuButtonBlock): JSX.Element => {
   const numSkuListings = sku.skuListings.length;
   const activeListings = sku.skuListings.filter(
@@ -217,51 +315,54 @@ const SkuButtonBlock = ({
     (skuListing) => skuListing.canceled
   );
 
-  if (!numSkuListings) {
-    return <></>; // Returning empty for now
-    // need to remove this return after MVP
-    // This scenario is for the direct product listing (post-MVP)
+  /**
+   * Upcoming Auction sku Listing
+   */
+  if (
+    !upcomingSkuListings.length &&
+    !activeListings.length &&
+    sku.totalSupply === 1
+  ) {
+    const listing = collectors[0]?.listing;
+    const startDate = listing?.startDate;
+    const endDate = listing?.endDate;
+    const price = listing?.minBid;
+    const owner = collectors[0]?.owner;
+    const serialNumber = collectors[0]?.serialNumber;
+    const isAuction = listing?.saleType === 'auction';
+    const productId = collectors[0]?.listing?.product;
 
-    // this is STATE 0 = 1 product listing only = no sku listings
-    const upcomingProductListings = collectors.filter(
-      (collector) => collector.upcomingProductListing
-    );
-    if (upcomingProductListings.length > 0) {
-      const upcomingProductListing =
-        upcomingProductListings[0].upcomingProductListing;
-      if (upcomingProductListing?.saleType === 'fixed') {
-        // Price attribute: upcomingProductListing.price
-        return <> return countdown timer for upcoming </>;
-      } else if (upcomingProductListing?.saleType === 'auction') {
-        // Price attribute: upcomingProductListing.minBid
-        return <> auction scenario - return countdown timer</>;
-      }
-    }
-    const activeProductListings = collectors.filter(
-      (collector) => collector.activeProductListing
-    );
-    if (activeProductListings.length > 0) {
-      const activeProductListing =
-        activeProductListings[0].activeProductListing;
-      return <> {activeProductListing?.price} </>;
-    }
-    if (
-      upcomingProductListings.length === 0 &&
-      activeProductListings.length === 0
-    ) {
-      // This is a product listing
-      return (
-        <>
-          <FromCreatorBox
-            sku={sku}
-            listing={undefined}
-            user={user}
-            onBuyNow={onBuyNow}
-            buttonDisabled={true}
-            buttonLabel="Not for sale"
+    if (isAuction) {
+      if (listing.status === 'upcoming') {
+        return (
+          <UpcomingAuction
+            startDate={startDate}
+            price={price}
+            auctionState="upcoming"
+            productId={productId}
           />
-        </>
-      );
+        );
+      }
+      if (listing.status === 'active') {
+        return (
+          <UpcomingAuction
+            endDate={endDate}
+            price={price}
+            auctionState="active"
+            productId={productId}
+          />
+        );
+      }
+      if (listing.status === 'sold') {
+        return (
+          <UpcomingAuction
+            auctionState="sold"
+            owner={owner}
+            serialNumber={serialNumber}
+            productId={productId}
+          />
+        );
+      }
     }
   }
 
@@ -272,7 +373,6 @@ const SkuButtonBlock = ({
     const upcomingSkuListing = upcomingSkuListings[0];
     const startDate = upcomingSkuListing.startDate;
     const price = upcomingSkuListing.price;
-    // TODO: Changed this from supplyLeft (not in api response) to supply
     const numItems = upcomingSkuListing.supply;
 
     return (
@@ -321,11 +421,12 @@ const SkuButtonBlock = ({
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
         />
-        {/* <FromCollectorsBox
-          minimunPrice={minCurrentBid}
-          totalSupply={totalSupply}
-          countProductListings={countProductListings}
-        /> */}
+        <FromCollectorsBox
+          minimunPrice={sku?.minPrice}
+          countProductListings={sku.countProductListings}
+          skuId={sku._id}
+          circulatingSupply={sku?.circulatingSupply}
+        />
       </>
     );
   }
@@ -333,9 +434,9 @@ const SkuButtonBlock = ({
   /**
    * Not for sale
    */
-  if (sku.totalSkuSupplyLeft < 1 && numSkuListings) {
+  if (sku.totalSkuListingSupplyLeft === 0 && !!numSkuListings) {
     const expiredListings = sku.skuListings.filter(
-      (skuListing) => skuListing.status === 'expired'
+      (skuListing) => skuListing.status === 'sold'
     );
     const expiredListing = expiredListings[0];
     const skuPrice = expiredListing?.price;
@@ -349,6 +450,12 @@ const SkuButtonBlock = ({
           onBuyNow={onBuyNow}
           buttonDisabled={true}
           buttonLabel="Sold Out"
+        />
+        <FromCollectorsBox
+          minimunPrice={sku?.minPrice}
+          countProductListings={sku.countProductListings}
+          skuId={sku._id}
+          circulatingSupply={sku?.circulatingSupply}
         />
       </>
     );

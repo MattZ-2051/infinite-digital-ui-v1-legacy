@@ -6,12 +6,16 @@ export interface IProps {
 }
 
 const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
-  margin-bottom: 32px;
+  margin-bottom: 48px;
+  @media screen and (max-width: 960px) {
+    padding: 12px;
+    padding-bottom: 0px;
+  }
 
   && {
     .MuiTabs-centered {
       width: ${(props) => (props.width ? `${props.width}` : '100%')};
-      border-bottom: 2px solid #ebebeb;
+      border-bottom: 1px solid #ebebeb;
     }
     .MuiTabs-indicator {
       background-color: black !important;
@@ -25,7 +29,6 @@ const Tabs = styled(({ width, ...rest }) => <MuiTabs {...rest} />)`
     }
 
     .MuiTab-wrapper {
-      font-size: 28px;
       text-transform: capitalize;
     }
 

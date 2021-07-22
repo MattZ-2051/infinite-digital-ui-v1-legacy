@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { patchListingsPurchase } from 'services/api/listingService';
 import { useHistory, Link } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
 import Modal from 'components/Modal';
@@ -12,7 +12,10 @@ import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/types';
+import { getUserCardsThunk } from 'store/session/sessionThunks';
+import { getMyTransactions } from 'services/api/userService';
+import { useEffect } from 'react';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -22,7 +25,7 @@ interface IModalProps {
   mode: Modes;
   product: ProductWithFunctions;
   serialNum?: string;
-  setStatus: (a: Status) => void;
+  setStatus: (a: HistoryStatus) => void;
 }
 
 const BuyNowModal = ({
@@ -37,18 +40,91 @@ const BuyNowModal = ({
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance?.amount
+    (state) => state.session.user?.availableBalance
   );
 
-  const marketplaceFee = 5;
+  const ErrorMessage = () =>
+    Toast.error(
+      <>
+        There was an error processing your purchase. Please try again, see the{' '}
+        <a href="/help">help page</a> to learn more.
+      </>
+    );
+
+  const marketplaceFee = product?.resale
+    ? product.resaleBuyersFeePercentage
+    : product.initialBuyersFeePercentage;
   const history = useHistory();
 
   const royaltyFee = Math.round(
     (product.minSkuPrice * product.royaltyFeePercentage) / 100
   );
+
+  const checkPendingStatus = async () => {
+    const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
+      $or: [
+        {
+          type: {
+            $in: ['purchase', 'deposit'],
+          },
+          status: { $exists: true },
+        },
+        {
+          type: 'sale',
+        },
+        {
+          type: 'royalty_fee',
+        },
+        {
+          type: 'withdrawal',
+        },
+        {
+          type: 'nft_redeem',
+        },
+        {
+          type: 'claim',
+        },
+      ],
+    });
+    if (res.data.length !== 0) {
+      const pendingTxArr = res.data.filter((el) => {
+        return el.transactionData.listing === product.listing._id;
+      });
+      const pendingTx = pendingTxArr[0];
+      if (pendingTx) {
+        if (pendingTx.status === 'pending') {
+          setStatusMode('processing');
+          setTimeout(() => {
+            checkPendingStatus();
+          }, 2000);
+        } else if (pendingTx.status === 'success') {
+          setStatusMode('completed');
+          Toast.success(
+            <>
+              You successfuly purchased {pendingTx.transactionData.sku.name} #
+              {pendingTx?.transactionData?.product[0]?.serialNumber} click{' '}
+              <a
+                href={`/product/${pendingTx?.transactionData?.product[0]?._id}`}
+              >
+                here
+              </a>{' '}
+              to view your product.
+            </>
+          );
+          const pathName = history.location.pathname.split('/')[1];
+          if (pathName && pathName === 'product') {
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }
+        }
+      }
+    }
+  };
 
   const buyAction = async () => {
     if (!checkTerms) {
@@ -61,24 +137,29 @@ const BuyNowModal = ({
       try {
         const result = await patchListingsPurchase(
           userToken,
-          product.listing._id
+          product?.listing?._id
         );
 
         // TODO: Check payment
+        console.log('res', result);
         if (result) {
           setStatusMode('processing');
-          Toast.success('Purchase Pending.');
+          checkPendingStatus();
+          dispatch(getUserCardsThunk({ token: userToken }));
         }
         setLoading(false);
       } catch (e) {
         setLoading(false);
-        Toast.error(purchase.patchListingsPurchaseError);
+        ErrorMessage();
       }
     } else {
-      Toast.error(purchase.patchListingsPurchaseError);
+      ErrorMessage();
     }
   };
 
+  useEffect(() => {
+    checkPendingStatus();
+  }, []);
   const handleActionButton = () => {
     if (statusMode === 'noFunds') {
       history.push({
@@ -105,12 +186,6 @@ const BuyNowModal = ({
   const Body = () => {
     return (
       <>
-        {/* <S.ImageContainer>
-          <img src={product.imageUrls[0]} alt="" />
-          <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-            <CloseModal style={{ cursor: 'pointer' }} />
-          </S.CloseButton>
-        </S.ImageContainer> */}
         <S.Body>
           <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
             <CloseModal style={{ cursor: 'pointer' }} />
@@ -121,7 +196,7 @@ const BuyNowModal = ({
                 <S.Title>Confirm your order:</S.Title>
                 <S.SubTitle>
                   {' '}
-                  Your current balance ${parseFloat(userBalance).toFixed(2)}
+                  Your current balance ${userBalance.toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -132,8 +207,7 @@ const BuyNowModal = ({
                   <S.Title>Whoops, Insufficient funds!</S.Title>
                 </div>
                 <S.SubTitle style={{ color: '#E74C3C' }}>
-                  Your available balance is ${' '}
-                  {parseFloat(userBalance).toFixed(2)}
+                  Your available balance is $ {userBalance.toFixed(2)}
                 </S.SubTitle>
               </>
             )}
@@ -289,6 +363,7 @@ const BuyNowModal = ({
       }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      centered={true}
     >
       <Body />
     </Modal>

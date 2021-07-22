@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-  width: 62%;
+  width: 100%;
   margin-bottom: 50px;
   @media screen and (max-width: 960px) {
     width: 100%;
@@ -38,13 +38,21 @@ export const Description = styled.div`
 
 export const Hedera = styled.div`
   width: 100%;
-  padding: 15px 24px;
+  padding: 12px 24px;
   margin-top: 24px;
   background: #f4f4f4;
-  border-radius: 20px;
+  border-radius: 26px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   div {
     margin-right: 8px;
+    display: flex;
+    align-items: center;
+  }
+  svg {
+    fill: white;
   }
   span {
     vertical-align: super;
@@ -64,3 +72,5 @@ export const IconContainer = styled.div`
   background: #2e2e2e;
   border-radius: 50%;
 `;
+
+export const DivContainer = styled.div``;

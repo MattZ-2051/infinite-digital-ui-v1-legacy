@@ -58,7 +58,6 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   minCurrentBid: 0,
   circulatingSupply: 0,
   totalSupplyLeft: 0,
-  totalSupplyUpcoming: 0,
   maxBid: 0,
   minPrice: 0,
   issuerName: '',
@@ -71,4 +70,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   royaltyFeePercentage: 0,
   resaleSellersFeePercentage: 0,
   sellerTransactionFeePercentage: 0,
+  sellerTransactionFeePercentageSecondary: 0,
+  totalUpcomingSupply: 0,
+  nftPublicAssets: [],
 });

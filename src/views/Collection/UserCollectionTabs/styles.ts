@@ -28,6 +28,17 @@ export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
   }
 `;
 
+export const PaginationContainer = styled.div`
+  display: flex;
+  @media screen and (min-width: 1369px) {
+    justify-content: flex-end;
+    margin-right: 9vh;
+  }
+  @media screen and (max-width: 1369px) {
+    justify-content: center;
+  }
+`;
+
 export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
   background-color: ${({ themeStyle, theme }) =>
     themeStyle === 'dark'
@@ -37,19 +48,35 @@ export const Container = styled.div<{ theme; themeStyle?: 'light' | 'dark' }>`
     themeStyle === 'dark'
       ? theme.palette.dark.baseComplement
       : theme.palette.light.baseComplement};
-  width: 100%;
+
+  // min-height: 70vh;
+  @media screen and (min-width: 1440px) {
+    width: 1440px;
+  }
   padding: 40px;
 `;
 
 export const GrayLine = styled.div`
-  border-bottom: 2px solid #d8d8d8;
-  width: 80%;
+  border-bottom: 1px solid #ebebeb;
   padding-bottom: 14px;
 `;
 
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const ContainerForBigScreen = styled.div<{
+  screenWidth: number;
+  backgroundColor: string;
+}>`
+  @media screen and (min-width: 1440px) {
+    width: ${({ screenWidth }) => screenWidth}px;
+    margin-left: ${({ screenWidth }) => -(screenWidth - 1440) / 2}px;
+    background-color: ${(props) => `${props.backgroundColor}`};
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Tab = styled.div<{

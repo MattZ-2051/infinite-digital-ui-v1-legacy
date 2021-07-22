@@ -1,16 +1,17 @@
+import { handleApiError } from 'utils/apiError';
 import { axiosInstance } from '../coreService';
+import { ISeries } from './Interfaces/ISeries';
 
-export const getSeries = async (options?: { queryParams?: string }) => {
+export const getSeries = async (options?: {
+  queryParams?: string;
+}): Promise<ISeries[]> => {
   try {
-    const response = await axiosInstance.request({
+    const response = await axiosInstance.request<ISeries[]>({
       method: 'GET',
       url: `/series/${options?.queryParams || ''}`,
     });
     return response.data;
   } catch (e) {
-    console.error(
-      `getCategories: Error requesting sku categories tile details. ${e}`
-    );
-    return undefined;
+    throw handleApiError(e);
   }
 };

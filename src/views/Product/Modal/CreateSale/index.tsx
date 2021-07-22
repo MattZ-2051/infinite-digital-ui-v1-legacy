@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, VoidFunctionComponent } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Modal from 'components/Modal';
 import Button from 'components/Buttons/Button';
@@ -11,22 +11,22 @@ import * as S from './styles';
 import { ReactComponent as Redeemable } from 'assets/svg/icons/redeemable2.svg';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
-import { Status } from '../../History/index';
+import { HistoryStatus } from '../../History/types';
 
 export interface IModalProps {
-  visible: boolean;
-  setModalPaymentVisible: (a: boolean) => void;
   product: ProductWithFunctions;
-  setStatus: (a: Status) => void;
+  setStatus: (a: HistoryStatus) => void;
   setActiveSalePrice: (a: number) => void;
+  setSaleModal: (a: boolean) => void;
+  isModalOpen: boolean;
 }
 
 const CreateSale = ({
-  visible,
-  setModalPaymentVisible,
   product,
   setStatus,
   setActiveSalePrice,
+  setSaleModal,
+  isModalOpen,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [price, setPrice] = useState<string>('0');
@@ -36,14 +36,14 @@ const CreateSale = ({
   const [loading, setLoading] = useState(false);
 
   const fee = product?.resale
-    ? product?.resaleSellersFeePercentage
-    : product?.initialSellersFeePercentage;
+    ? product?.sku?.sellerTransactionFeePercentage
+    : product?.sku?.sellerTransactionFeePercentageSecondary;
 
   useEffect(() => {
     if (price) {
       const serviceFee = (fee * parseFloat(price)) / 100;
       const royaltyFee =
-        (product?.royaltyFeePercentage * parseFloat(price)) / 100;
+        (product?.sku?.royaltyFeePercentage * parseFloat(price)) / 100;
       setServiceFee(serviceFee);
       setRoyaltyFee(royaltyFee);
       if (product?.resale) {
@@ -70,9 +70,11 @@ const CreateSale = ({
       });
       if (result) {
         Toast.success(createSale.success);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
         setLoading(false);
-        setStatus('active-sale');
-        setModalPaymentVisible(false);
+        setSaleModal(false);
         setActiveSalePrice(result.data?.price);
       }
     } catch (e) {
@@ -89,127 +91,121 @@ const CreateSale = ({
     }
   };
 
+  const handleClose = () => {
+    setSaleModal(false);
+  };
+
   return (
     <Modal
-      open={visible}
-      onClose={() => setModalPaymentVisible(false)}
+      open={isModalOpen}
+      onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      centered={true}
     >
-      {/* <S.ImageContainer>
-        <img src={product?.sku?.imageUrls[0]} alt="" />
-        <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
+      <S.Body>
+        <S.CloseButton onClick={handleClose}>
           <CloseModal />
         </S.CloseButton>
-      </S.ImageContainer> */}
-      <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-        <CloseModal />
-      </S.CloseButton>
-      <S.Header>
-        <S.Title>List Your NFT For Sale</S.Title>
-      </S.Header>
-      <S.ModalContainer>
-        <S.StyledMuiDivider />
+        <S.Header>
+          <S.Title>List Your NFT For Sale</S.Title>
+        </S.Header>
+        <S.ModalContainer>
+          <S.StyledMuiDivider />
 
-        <S.Detail>
-          <S.DetailRow>
-            <span>{product?.sku?.issuerName}</span>
-            <Rarity type={product?.sku?.rarity} />
-          </S.DetailRow>
+          <S.Detail>
+            <S.DetailRow>
+              <S.IssuerName>{product?.sku?.issuerName}</S.IssuerName>
+              <Rarity type={product?.sku?.rarity} />
+            </S.DetailRow>
 
-          <S.DetailRow style={{ fontSize: '20px' }}>
-            <span>{product?.sku?.name}</span>
-          </S.DetailRow>
+            <S.DetailRow style={{ fontSize: '20px' }}>
+              <S.SkuName>{product?.sku?.name}</S.SkuName>
+            </S.DetailRow>
 
-          <S.DetailRow>
-            <span>
-              {product?.sku?.series?.name}
-              {product?.sku?.redeemable && (
-                <>
-                  <Redeemable /> / Redeemable
-                </>
-              )}
-            </span>
-            <div>
-              <span style={{ color: '#9E9E9E' }}>Serial:</span>
-              <span>#{product.serialNumber}</span>
-            </div>
-          </S.DetailRow>
-        </S.Detail>
+            <S.DetailRow>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <S.SeriesName>{product?.sku?.series?.name}</S.SeriesName>
+                {product?.sku?.redeemable && (
+                  <>
+                    <Redeemable />{' '}
+                    <S.Redeemable>&nbsp;/ Reedemable</S.Redeemable>
+                  </>
+                )}
+              </div>
+              <div>
+                <span style={{ color: '#9E9E9E' }}>Serial:</span>
+                <span>#{product.serialNumber}</span>
+              </div>
+            </S.DetailRow>
+          </S.Detail>
 
-        <S.StyledMuiDivider />
-        <S.InputContainer>
-          <TextField
-            type="money"
-            placeholder="Enter price"
-            onChange={(value) => onPriceChanged(value)}
-            defaultValue={price}
-            name={price}
-          />
-        </S.InputContainer>
-        <S.Detail>
-          <S.DetailRowPrice>
-            <div>
-              <span>Marketplace fee ({fee}%):</span>
-            </div>
-            <div>
-              <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
-            </div>
-          </S.DetailRowPrice>
-          {product?.royaltyFeePercentage > 0 && product?.resale && (
+          <S.StyledMuiDivider />
+          <S.InputContainer>
+            <TextField
+              type="money"
+              placeholder="Enter price"
+              onChange={(value) => onPriceChanged(value)}
+              defaultValue={price}
+              name={price}
+            />
+          </S.InputContainer>
+          <S.Detail>
             <S.DetailRowPrice>
               <div>
-                <span>
-                  Creator royalty fee ({product?.royaltyFeePercentage}%) :
-                </span>
+                <span>Marketplace fee ({fee}%):</span>
               </div>
-              <div>${royaltyFee?.toFixed(2)}</div>
+              <div>
+                <span>${price === '' ? 0 : serviceFee?.toFixed(2)}</span>
+              </div>
             </S.DetailRowPrice>
-          )}
-        </S.Detail>
+            {product?.royaltyFeePercentage > 0 && product?.resale && (
+              <S.DetailRowPrice>
+                <div>
+                  <span>
+                    Creator royalty fee ({product?.royaltyFeePercentage}%) :
+                  </span>
+                </div>
+                <div>${royaltyFee?.toFixed(2)}</div>
+              </S.DetailRowPrice>
+            )}
+          </S.Detail>
 
-        <S.StyledMuiDivider />
+          <S.StyledMuiDivider />
 
-        <S.Detail>
-          <S.DetailRow>
-            <div>
-              <strong>Final Payout:</strong>
-            </div>
-            <div>
-              <strong style={{ fontSize: '20px' }}>
-                ${price === '' ? 0 : total?.toFixed(2)}
-              </strong>
-            </div>
-          </S.DetailRow>
-        </S.Detail>
-        <S.Footer>
-          <p>
-            Listing your NFT for sale on the marketplace will allow it to be
-            purchased by other users. Once listed for sale it cannot be canceled
-            <br />
-            <a
-              target="_blank"
-              href="https://support.suku.world/"
-              rel="noreferrer"
-            >
-              Click here to learn more.
-            </a>
-          </p>
-        </S.Footer>
-        <Button
-          style={{
-            height: '56px',
-            borderRadius: '24px',
-            width: '100%',
-            textDecoration: 'none',
-            textTransform: 'capitalize',
-          }}
-          onClick={startSale}
-          disabled={loading || !price}
-        >
-          Start Sale
-        </Button>
-      </S.ModalContainer>
+          <S.Detail>
+            <S.DetailRow>
+              <div>
+                <strong>Final Payout:</strong>
+              </div>
+              <div>
+                <strong style={{ fontSize: '20px' }}>
+                  ${price === '' ? 0 : total?.toFixed(2)}
+                </strong>
+              </div>
+            </S.DetailRow>
+          </S.Detail>
+          <S.Footer>
+            <p>
+              If your NFT is bought on the marketplace, payment will be
+              transferred to your INFINITE wallet.
+            </p>
+          </S.Footer>
+          <Button
+            style={{
+              height: '56px',
+              borderRadius: '24px',
+              width: '100%',
+              textDecoration: 'none',
+              textTransform: 'capitalize',
+            }}
+            onClick={startSale}
+            disabled={loading || !price}
+          >
+            Start Sale
+          </Button>
+        </S.ModalContainer>
+      </S.Body>
     </Modal>
   );
 };

@@ -14,17 +14,29 @@ import PriceRange from './PriceRange';
 import SelectedFilters from './SelectedFilters';
 import DropDownCheckFilter from './DropDownCheckFilter';
 import FilterChip from 'components/FilterChip';
+import { IUser } from 'services/api/userService/Interfaces';
+import { ISeries } from 'services/api/seriesService/Interfaces/ISeries';
 
 export interface IProps {
   activeFilters: any; //TODO: change type
   handleFilter: (name: string, data: string) => void;
+  maxPrice?: number;
+  skuTotal?: number;
+  loading?: boolean;
+  clearFilters: () => void;
 }
 
-const Filters = ({ handleFilter, activeFilters }: IProps) => {
+const Filters = ({
+  handleFilter,
+  activeFilters,
+  maxPrice,
+  loading,
+  clearFilters,
+}: IProps) => {
   const dispatch = useAppDispatch();
   const [categories, setCategories] = useState([]);
-  const [series, setSeries] = useState([]);
-  const [creators, setCreators] = useState([]);
+  const [series, setSeries] = useState<ISeries[]>([]);
+  const [creators, setCreators] = useState<IUser[] | undefined>([]);
 
   const dropDownOptions = {
     category: categories,
@@ -35,8 +47,8 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       { id: 'uncommon', name: 'Uncommon' },
     ],
     series,
-    creator: creators.map((el: User) => {
-      return { id: el.username, name: el.username };
+    creator: creators?.map((el: IUser) => {
+      return { id: el._id, name: el.username };
     }),
   };
 
@@ -61,28 +73,19 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
 
     getCreators().then((data) => {
       setCreators(
-        data.filter((el) => {
-          return el.id !== '60a4921addc7af020455d315';
+        data?.filter((el: IUser) => {
+          return el._id !== '60a4921addc7af020455d315';
         })
       );
     });
   }, []);
-
-  useEffect(() => {
-    return () => {
-      clearFilters();
-    };
-  }, []);
-
-  const clearFilters = () => {
-    dispatch(restoreFilters());
-  };
 
   return (
     <Container>
       <Menu
         handleFilter={handleFilter}
         activeFilterStatus={activeFilters.status}
+        loading={loading}
       />
       <div style={{ paddingBottom: '30px' }}>
         <div
@@ -114,6 +117,7 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
       <PriceRange
         handleFilter={handleFilter}
         defaultFilter={activeFilters.price}
+        maxValue={maxPrice}
       />
 
       <DropDownCheckFilter
@@ -141,8 +145,8 @@ const Filters = ({ handleFilter, activeFilters }: IProps) => {
         label="Creators"
         options={dropDownOptions.creator}
         handleFilter={handleFilter}
-        filterCategory="issuerName"
-        activeFilters={activeFilters.issuerName}
+        filterCategory="creator"
+        activeFilters={activeFilters.creator}
       />
     </Container>
   );

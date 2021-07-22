@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserCollectionInfo from './UserCollectioinInfo';
 import UserCollectionTabs from './UserCollectionTabs';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,12 @@ import { User } from 'entities/user';
 import { userFactory } from 'store/user/userFactory';
 import PageLoader from 'components/PageLoader';
 import { Media } from 'components/Media/Media';
+import NotifyModal from 'components/NotifyModal';
+import Button from 'components/Buttons';
+import notifyIcon from 'assets/svg/icons/notify-black.svg';
 import * as S from './styles';
+import MapsLocalDining from 'material-ui/svg-icons/maps/local-dining';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text?.split('. ');
@@ -45,42 +50,56 @@ const Collection = (): JSX.Element => {
     footerPhotoUrl,
     tagline,
   } = user;
-  const [descriptionHeaderMain, descriptionHeaderGradient] = splitLastSentence(
-    descriptionHeader
-  );
+  const [descriptionHeaderMain, descriptionHeaderGradient] =
+    splitLastSentence(descriptionHeader);
   const [taglineMain, taglineGradient] = splitLastSentence(tagline);
 
   const history = useHistory();
   const username = history.location.pathname.split('/')[2];
+  const [loading, setLoading] = useState<boolean>(true);
   const { isAuthenticated } = useAuth0();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   async function fetchUser() {
     try {
       const data = await getUser(username, 1, 1);
+
       if (data) {
         setUser(data[0]);
+        setLoading(false);
       }
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
   }
-
   useEffect(() => {
+    setLoading(true);
     fetchUser();
   }, [username]);
 
-  if (user._id === '0' || !user) return <PageLoader />;
+  if (user._id === '0' || !user || loading)
+    return <PageLoader backGroundColor="black" color="white" />;
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <S.Container>
       <ViewContainer>
         {bannerPhotoUrl ? (
-          <BackgroundImageContainer src={bannerPhotoUrl}>
+          <BackgroundImageContainer
+            src={bannerPhotoUrl}
+            styles={{ marginBottom: '4vh' }}
+          >
             <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
           </BackgroundImageContainer>
         ) : (
           <UserCollectionInfo user={user} isAuthenticated={isAuthenticated} />
         )}
+        <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
         <FlexRow
           style={{
             display:
@@ -107,16 +126,28 @@ const Collection = (): JSX.Element => {
                   styles={{ maxHeight: '98px', maxWidth: '98px' }}
                 />
               )}
-              <span
-                style={{
-                  fontWeight: 600,
-                  color: '#8e8e8e',
-                  fontSize: '24px',
-                  marginBottom: '28px',
-                }}
-              >
-                {user.username}
-              </span>
+              <S.BasicInfoContainer>
+                <span
+                  style={{
+                    fontWeight: 600,
+                    color: '#8e8e8e',
+                    fontSize: '24px',
+                    marginBottom: '28px',
+                  }}
+                >
+                  {user.username}
+                </span>
+                {user?.showNotifyMe && (
+                  <Button
+                    onClick={() => setIsModalOpen(true)}
+                    color="white"
+                    style={{ padding: '10px 25px' }}
+                  >
+                    <S.NotifyIconImg src={notifyIcon} />
+                    <span>Notify Me</span>
+                  </Button>
+                )}
+              </S.BasicInfoContainer>
               <TextContainer
                 textAlign="left"
                 fontSize="28"
@@ -144,33 +175,32 @@ const Collection = (): JSX.Element => {
                   fontWeight: 500,
                 }}
               >
-                {descriptionBody}
+                <div
+                  dangerouslySetInnerHTML={{ __html: descriptionBody }}
+                ></div>
               </TextContainer>
             </FlexColumn>
           </S.ContainerMarginLeft>
         </FlexRow>
-        <UserCollectionTabs user={user} isAuthenticated={isAuthenticated} />
         <S.Container
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
+            marginTop: matchesMobile ? '40px' : '156px',
+            marginBottom: matchesMobile ? '80px' : '120px',
+            height: '100vh',
           }}
         >
           <FlexColumn
-            childMargin="1rem"
+            childMargin="0"
             style={{
-              margin: '1rem',
+              margin: '0',
               alignItems: 'center',
               width: '80%',
-              marginTop: '2rem',
+              marginTop: '0',
             }}
           >
-            <TextContainer
-              textAlign="center"
-              fontSize="48"
-              fontWeight="700"
-              style={{ marginBottom: '160px' }}
-            >
+            <TextContainer textAlign="center" fontSize="48" fontWeight="700">
               {taglineMain}
               <GradientText textAlign="center" fontSize="48" fontWeight="700">
                 {taglineGradient}
@@ -179,6 +209,11 @@ const Collection = (): JSX.Element => {
           </FlexColumn>
         </S.Container>
       </ViewContainer>
+      <NotifyModal
+        isModalOpen={isModalOpen}
+        handleClose={handleModalClose}
+        username={user.username}
+      />
     </S.Container>
   );
 };

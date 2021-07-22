@@ -1,9 +1,14 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   padding: 48px 80px 48px 80px;
+  margin: auto;
   min-height: calc(100vh - 205px);
   width: 100%;
+  @media screen and (max-width: 600px) {
+    padding: 0;
+    width: 90%;
+  }
 `;
 
 export const HelpContainer = styled.div`
@@ -11,6 +16,11 @@ export const HelpContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+  }
 `;
 
 export const HelpColumn = styled.div`
@@ -22,6 +32,12 @@ export const HelpColumn = styled.div`
   h3 {
     padding-left: 80px;
   }
+  @media screen and (max-width: 600px) {
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    margin: auto;
+  }
 `;
 
 export const Header = styled.div`
@@ -31,6 +47,12 @@ export const Header = styled.div`
   padding-top: 48px;
   padding-bottom: 20px;
   border-bottom: 2px solid rgb(235, 235, 235);
+  @media screen and (max-width: 600px) {
+    padding: 0;
+    width: 90%;
+    margin: auto;
+    padding: 20px 0;
+  }
 `;
 
 export const SubTitle = styled.div`
@@ -40,6 +62,9 @@ export const SubTitle = styled.div`
   font-weight: 600;
   a {
     margin-right: 5px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 90%;
   }
 `;
 

@@ -1,14 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getSkuTiles } from 'services/api/sku';
 import { SkuWithTotal } from 'entities/sku';
+import {IError} from "../storeInterface";
 
 interface IPayloadParams {
   queryParams?: string;
   token?: string;
-}
-
-interface IError {
-  errorMessage: string;
 }
 
 export const getSkuTilesThunk = createAsyncThunk<

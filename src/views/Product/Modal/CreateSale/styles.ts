@@ -32,11 +32,22 @@ export const Header = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 20px;
 `;
 
 export const Detail = styled.div`
   display: grid;
   grid-gap: 8px;
+`;
+
+export const Body = styled.div`
+  padding: 20px;
+  width: 410px;
+  @media screen and (max-width: 960px) {
+    width: 100%;
+    height: 100vh;
+    padding: 40px 0;
+  }
 `;
 
 export const DetailRow = styled.div`
@@ -74,13 +85,9 @@ export const Footer = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 22px;
+  font-weight: 600;
   font-size: 22px;
   text-align: center;
-  letter-spacing: -1px;
-  line-height: 28px;
   margin-bottom: 8px;
 `;
 
@@ -93,26 +100,37 @@ export const SubTitle = styled.h5`
   max-width: 330px;
 `;
 
-export const Rarity = styled.div`
-  color: #00eb7c;
+export const SkuName = styled.p`
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+`;
+
+export const SeriesName = styled.p`
+  font-size: 16px;
+  color: #9e9e9e;
+  font-weight: 600;
+  padding-right: 10px;
+  font-style: normal;
+  font-weight: 500;
+`;
+
+export const Redeemable = styled.span`
+  margin: 0;
+  font-size: 16px;
+  color: black;
+  font-weight: 500;
+`;
+
+export const IssuerName = styled.p`
   font-size: 15px;
-  display: flex;
-  align-items: center;
-
-  span {
-    background: linear-gradient(41.72deg, #00eb7c -14.01%, #11d6ec 90.62%);
-    width: 12px;
-    height: 12px;
-    display: block;
-    margin-right: 5px;
-    border-radius: 50%;
-  }
+  color: #9e9e9e;
+  font-weight: 600;
+  margin: 0;
 `;
 
-export const ModalContainer = styled.div`
-  max-width: 330px;
-  flex: 1;
-`;
+export const ModalContainer = styled.div``;
 
 export const StyledMuiDivider = styled(MuiDivider)`
   margin: 20px 0;
@@ -120,4 +138,5 @@ export const StyledMuiDivider = styled(MuiDivider)`
 
 export const InputContainer = styled.div`
   margin: 31px auto 22px;
+  width: 100%;
 `;

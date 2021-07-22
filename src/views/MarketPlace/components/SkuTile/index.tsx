@@ -1,6 +1,6 @@
 import Tile from 'components/ProductTiles/Tile';
 import { Sku } from 'entities/sku';
-import { formatCountdown, formatSkuCountdown } from 'utils/dates';
+import { formatSkuCountdown } from 'utils/dates';
 import { useHistory } from 'react-router-dom';
 
 interface SkuProps {
@@ -12,13 +12,10 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const {
     _id,
     minPrice,
-    issuer,
     name,
-    graphicUrl,
     rarity,
     circulatingSupply,
     totalSupplyLeft,
-    totalSupplyUpcoming,
     series,
     minStartDate,
     redeemable,
@@ -27,6 +24,8 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     productListings,
     skuListings,
     issuerName,
+    totalUpcomingSupply,
+    nftPublicAssets,
   } = sku;
 
   const history = useHistory();
@@ -51,7 +50,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
         sku.upcomingSkuListings?.length !== 0)
     ) {
       status = 'upcoming-sku-time';
-      bottomRightText = totalSupplyUpcoming;
+      bottomRightText = totalUpcomingSupply;
       skuUpcomingTime = formatSkuCountdown(new Date(minStartDate));
       pillInfo = skuUpcomingTime;
       return;
@@ -62,7 +61,15 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
-      pillInfo = minPrice;
+      if (
+        sku.activeProductListings &&
+        sku?.activeProductListings[0]?.saleType === 'auction' &&
+        minPrice === 0
+      ) {
+        pillInfo = sku?.maxBid;
+      } else {
+        pillInfo = minPrice;
+      }
       return;
     } else if (totalSupplyLeft === 0 || sku.activeSkuListings?.length === 0) {
       status = 'no-sale';
@@ -76,6 +83,11 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     history.push(`/marketplace/${_id}`);
   };
 
+  const skuImage =
+    nftPublicAssets && nftPublicAssets
+      ? (nftPublicAssets[0] && nftPublicAssets[0].previewUrl) ||
+        (nftPublicAssets[0] && nftPublicAssets[0].url)
+      : sku.graphicUrl;
   return (
     <Tile
       sku={sku}
@@ -87,7 +99,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       status={status}
       redeemable={redeemable}
       pillInfo={pillInfo}
-      skuImg={graphicUrl}
+      skuImg={skuImage}
       unique={maxSupply === 1}
       handleRedirect={handleRedirect}
       supplyType={supplyType}

@@ -8,7 +8,7 @@ import MuiDivider from '@material-ui/core/Divider';
 import Button from 'components/Buttons/Button';
 import TextFIeld from 'components/TextFIeld';
 import CheckBox from 'components/CheckBox';
-import { Status } from '../History';
+import { HistoryStatus } from '../History/types';
 import Rarity from 'components/Rarity';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds';
@@ -18,7 +18,7 @@ export interface IModalProps {
   setModalPaymentVisible: any;
   product: ProductWithFunctions;
   mode: Modes;
-  status: Status;
+  status: HistoryStatus;
   activeAmount: number;
 }
 
@@ -52,12 +52,6 @@ const ModalPayment = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      {/* <S.ImageContainer>
-        <img src={sku.imageUrls[0]} alt="" />
-        <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
-          <CloseModal style={{ cursor: 'pointer' }} />
-        </S.CloseButton>
-      </S.ImageContainer> */}
       <S.CloseButton onClick={() => setModalPaymentVisible(false)}>
         <CloseModal style={{ cursor: 'pointer' }} />
       </S.CloseButton>

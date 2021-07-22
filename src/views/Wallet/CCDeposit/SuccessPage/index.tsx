@@ -8,7 +8,7 @@ import { useAppSelector } from 'store/hooks';
 const SuccessPage = () => {
   const history = useHistory();
   const userBalance = useAppSelector(
-    (state) => state.session.userCards?.balance
+    (state) => state.session.userCards.balance
   );
 
   const handleMarketplaceRedirect = () => {

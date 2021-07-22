@@ -9,21 +9,31 @@ import etherscanService, {
 import { S as StylesFromCreditCard } from '../AddCC/styles';
 import { ActionButton } from '../styles';
 import { PulseLoader } from 'react-spinners';
+import copy from 'copy-to-clipboard';
+import * as S from './styles';
+import usdcIcon from 'assets/img/icons/usdc-icon.png';
+import { StyledPagination } from 'views/Product/History/styles';
 
 interface IUSDCDepositProps {
   existingCard?: boolean;
+  handleClose: () => void;
 }
 
-export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
+export const USDCDeposit = ({
+  handleClose,
+}: IUSDCDepositProps): JSX.Element => {
   const [userUsdcAddress, setUserUsdcAddress] = useState<USDCAddress>();
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [txLink, setTxLink] = useState<string>();
-  const [color, setColor] = useState('#000');
+  const [copied, setCopied] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [toggleCopied, setToggleCopied] = useState<boolean>(false);
 
   const { getAccessTokenSilently } = useAuth0();
 
   async function getUSDCAddress() {
+    setLoading(true);
     setButtonDisabled(true);
     try {
       const userUsdcAddress = await generateUSDCAddress(
@@ -31,8 +41,10 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
       );
       setUserUsdcAddress(userUsdcAddress);
       waitForTx(userUsdcAddress.address);
+      setLoading(false);
     } catch (e) {
       setErrorMsg(e.message);
+      setLoading(false);
     }
   }
 
@@ -48,7 +60,7 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
     });
     const usdcTxs = txList.result.filter(
       (txResponse) =>
-        txResponse.contractAddress === usdcAddress[CHAIN_ID] &&
+        txResponse.contractAddress === usdcAddress &&
         txResponse.blockNumber > startBlock
     );
     if (usdcTxs.length > 0) {
@@ -58,67 +70,106 @@ export const USDCDeposit = ({}: IUSDCDepositProps): JSX.Element => {
     }
   }
 
+  const handleCopy = () => {
+    copy(userUsdcAddress?.address || '', {
+      format: 'text/plain',
+    });
+    setToggleCopied(!toggleCopied);
+    setCopied(true);
+  };
+
   return (
     <>
-      <h3>USDC Deposit</h3>
-      <p>
-        Funds sent to the following address will be credited to your wallet:
-      </p>
-      <div style={{ textAlign: 'center' }}>
-        <p>
-          {!buttonDisabled && (
-            <ActionButton onClick={getUSDCAddress}>
-              Generate USDC Address
-            </ActionButton>
-          )}
-        </p>
-        <p>
-          {buttonDisabled && !usdcAddress && <p>Loading...</p>}
-          {userUsdcAddress && (
-            <StylesFromCreditCard.FormInput
-              size="medium"
-              fullWidth
-              disabled
-              value={userUsdcAddress?.address}
-            />
-          )}
-        </p>
-        {userUsdcAddress && (
-          <p style={{ maxWidth: '300px', margin: 'auto' }}>
-            <small>
-              This is a USDC (Ethereum mainnet) address. Please do not send any
-              other currencies to this address, it accepts USDC only. Funds sent
-              to this address will be automatically credited to your account.
-            </small>
-          </p>
-        )}
-        {userUsdcAddress && !txLink && (
-          <p>
-            <PulseLoader
-              color={color}
-              loading={usdcAddress && !txLink}
-              css={'display:block;margin: 0 auto;'}
-              size={9}
-              margin={3}
-            />
-          </p>
-        )}
-        <p>{errorMsg}</p>
-        {txLink && (
-          <>
-            <p>Success!</p>
-            {CHAIN_ID == 3 ? (
-              <a href={'https://ropsten.etherscan.io/tx/' + txLink}>{txLink}</a>
-            ) : (
-              <a href={'https://etherscan.io/tx/' + txLink}>{txLink}</a>
+      <S.BodyContainer>
+        <S.BodyHeader>
+          <S.Icon>
+            <img src={usdcIcon} alt="usdcIcon" width="32" height="32" />
+          </S.Icon>
+          <S.Header
+            style={{ marginLeft: '17px', border: '0px', paddingBottom: 0 }}
+          >
+            USDC Deposit
+          </S.Header>
+        </S.BodyHeader>
+        <S.BodyContent>
+          <S.FlexColumn>
+            <p>Funds sent to the following address will be</p>
+            <p>automatically credited to your account.</p>
+          </S.FlexColumn>
+
+          <S.ContainerButton>
+            {!buttonDisabled ? (
+              <ActionButton
+                onClick={getUSDCAddress}
+                style={{
+                  justifyContent: 'center',
+                  fontSize: '20px',
+                  fontWeight: 700,
+                }}
+              >
+                Generate USDC Address
+              </ActionButton>
+            ) : loading ? (
+              <PulseLoader
+                color="#000"
+                loading={!txLink}
+                css={'display:block;margin: 0 auto;'}
+                size={9}
+                margin={3}
+              />
+            ) : null}
+          </S.ContainerButton>
+          <p style={{ width: '100%' }}>
+            {userUsdcAddress && (
+              <S.AddressButton style={{ marginTop: 0 }} onClick={handleCopy}>
+                <span className="account-address">
+                  {userUsdcAddress?.address}
+                  {!copied ? <S.CopyIcon /> : <S.CheckIcon />}
+                </span>
+              </S.AddressButton>
             )}
-            <p>
-              Your deposit has been received. It will take a moment for it to
-              show up in your transaction history.
-            </p>
-          </>
-        )}
-      </div>
+          </p>
+          {userUsdcAddress && (
+            <S.InfoText style={{ maxWidth: '400px', margin: 'auto' }}>
+              This is a USDC (Ethereum mainnet) address. Please do not send any
+              other currancies to this address, it accepts USDC only.
+            </S.InfoText>
+          )}
+          {userUsdcAddress && !txLink && (
+            <div style={{ display: 'flex' }}>
+              <PulseLoader
+                color="#000"
+                loading={!txLink}
+                css={'display:block;margin: 0 auto;'}
+                size={9}
+                margin={3}
+              />
+            </div>
+          )}
+          <p style={{ textAlign: 'center', color: 'red' }}>{errorMsg}</p>
+          {txLink && (
+            <>
+              <p>Success!</p>
+              {CHAIN_ID == 3 ? (
+                <a href={'https://ropsten.etherscan.io/tx/' + txLink}>
+                  {txLink}
+                </a>
+              ) : (
+                <a href={'https://etherscan.io/tx/' + txLink}>{txLink}</a>
+              )}
+              <p>
+                Your deposit has been received. It will take a moment for it to
+                show up in your transaction history.
+              </p>
+            </>
+          )}
+          <S.ContainerButton>
+            <S.ReturnButton onClick={handleClose}>
+              <span style={{ textAlign: 'center' }}>Back to Wallet</span>
+            </S.ReturnButton>
+          </S.ContainerButton>
+        </S.BodyContent>
+      </S.BodyContainer>
     </>
   );
 };

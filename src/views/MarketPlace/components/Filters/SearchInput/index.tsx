@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDebounce, useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
+import { ReactComponent as SearchIcon } from 'assets/svg/icons/search-icon.svg';
 
 export interface IProps {
   activeFilters: any;
@@ -38,7 +39,9 @@ const SearchInput = ({ handleFilter, activeFilters }: IProps) => {
   return (
     <>
       <InputDiv>
-        <SearchIcon style={{ color: '#9E9E9E', marginLeft: '15px' }} />
+        <SearchIcon
+          style={{ color: '#9E9E9E', marginLeft: '15px', width: '15px' }}
+        />
         <Input
           onChange={handleInput}
           name="search"

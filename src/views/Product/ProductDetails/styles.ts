@@ -131,3 +131,15 @@ export const BackArrow = styled(ArrowBackIosIcon)`
   font-size: 20px;
   margin-right: 10px;
 `;
+
+export const TokenExplorerLink = styled.a`
+  display: flex;
+  margin-left: 7px;
+  align-items: flex-end;
+`;
+
+export const TokenExplorerLinkPlain = styled.div`
+  display: flex;
+  margin-left: 7px;
+  align-items: flex-end;
+`;

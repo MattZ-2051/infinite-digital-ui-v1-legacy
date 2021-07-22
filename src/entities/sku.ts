@@ -12,7 +12,7 @@ export interface Sku {
   redeemable: boolean;
   maxSupply?: number;
   imageUrls: string[];
-  graphicUrl: string; // Default image
+  graphicUrl: string; // Default image (DEPRECATED)
   startDate?: Date;
   endDate?: Date;
   issuerName: string;
@@ -26,7 +26,7 @@ export interface Sku {
   totalSupply: number;
   totalSupplyLeft: number;
   totalSkuSupplyLeft: number;
-  totalSupplyUpcoming: number;
+  totalUpcomingSupply: number;
   totalSkuListingSupplyLeft: number;
   totalSkuListingSupply?: number;
   countSkuListings: number;
@@ -40,6 +40,8 @@ export interface Sku {
   activeProductListings?: Listing[];
   soldSkuListings?: Listing[];
   activeSkuListings?: any;
+  nftPrivateAssets?: FileAsset[];
+  nftPublicAssets: FileAsset[];
   series: {
     _id: string;
     name: string;
@@ -48,21 +50,37 @@ export interface Sku {
     createdAt?: Date;
     updatedAt?: Date;
   };
-  category: {
-    _id: string;
-    name: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-  };
+  category: Category;
   issuer: User;
   createdAt?: Date;
   updatedAt?: Date;
   royaltyFeePercentage: number;
   resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
+  sellerTransactionFeePercentageSecondary: number;
+}
+
+interface Category {
+  _id: string;
+  name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SkuWithTotal {
   data: Sku[];
   total: number;
+  maxSkusMinPrice?: number;
+}
+
+export interface FileAsset {
+  bucket: string;
+  hash: string;
+  height: number;
+  key: string;
+  size: number;
+  type: string;
+  url: string;
+  width: number;
+  previewUrl: string;
 }

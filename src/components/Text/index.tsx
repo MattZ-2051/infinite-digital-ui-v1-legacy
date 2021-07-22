@@ -8,6 +8,9 @@ export const TextContainer = styled.div<{
   text-align: ${(props) => (props.textAlign ? `${props.textAlign}` : 'left')};
   font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : '14px')};
   font-weight: ${(props) => (props.fontWeight ? `${props.fontWeight}` : '300')};
+  a {
+    color: #ddf873;
+  }
 `;
 
 export const GradientText = styled.span<{
