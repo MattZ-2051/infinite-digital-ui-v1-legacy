@@ -38,7 +38,7 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
 
   const history = useHistory();
   const productId = history.location.pathname.split('/')[2];
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [fieldError, setFieldError] = useState<Errors>(errors);
   const [info, setInfo] = useState<RedeemInfo>(payload);
   const [selectedCount, setSelectedCountry] = useState<Country | undefined>(
