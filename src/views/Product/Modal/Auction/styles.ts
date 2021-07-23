@@ -196,6 +196,11 @@ export const ContainerTextDate = styled.div`
 `;
 
 export const CustomTimePicker = styled(TimePicker)`
+  & .rc-time-picker-panel-select {
+    overflow-y: auto;
+    overflow-x: clip;
+    scrollbar-width: none;
+  }
   & {
     .rc-time-picker-input {
       border: none;
@@ -207,5 +212,6 @@ export const CustomTimePicker = styled(TimePicker)`
       }
     }
   }
+
   margin-top: 20px;
 `;
