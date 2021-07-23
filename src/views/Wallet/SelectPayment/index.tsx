@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useHistory } from 'react-router-dom';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 // local
@@ -18,7 +18,6 @@ interface ISelectPayment {
   kycMaxLevel: number;
   kycPending: boolean;
   isModalOpen?: boolean;
-  handleClose: () => void;
   setModalContent: Dispatch<SetStateAction<modalContentType>>;
   coinbaseMetadata: string;
 }
@@ -26,7 +25,6 @@ interface ISelectPayment {
 const SelectPayment = ({
   kycMaxLevel,
   kycPending,
-  handleClose,
   setModalContent,
   coinbaseMetadata,
 }: ISelectPayment): JSX.Element => {

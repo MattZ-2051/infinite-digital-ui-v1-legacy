@@ -18,7 +18,11 @@ const countriesList: Array<Country> = countries
   }));
 
 export const validate = (billingDetails) => {
-  const nameValidation = billingDetails.name ? false : billingDetails.name.split(' ').length < 2 ? '' : '';
+  const nameValidation = billingDetails.name
+    ? false
+    : billingDetails.name.split(' ').length < 2
+    ? ''
+    : '';
   return {
     name: nameValidation,
     city: billingDetails.city.length < 1,
@@ -110,9 +114,9 @@ const BillingForm = ({
           name="name"
           onChange={handleAnyChange}
           value={valueIn.name}
-          error={showValidations && fieldErrorIn.name}
+          error={showValidations && fieldErrorIn.name === ''}
           helperText={
-            showValidations && fieldErrorIn.name && 'Enter a valid name'
+            showValidations && fieldErrorIn.name === '' && 'Enter a valid name'
           }
           {...extraProps?.name}
         />
