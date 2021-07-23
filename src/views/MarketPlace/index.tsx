@@ -67,9 +67,9 @@ const createQueryString = (
   }
 
   // SearchBy
-  if (sort) {
-    params.append('sortBy', sort);
-  }
+  // if (sort) {
+  //   params.append('sortBy', sort);
+  // }
   return params;
 };
 
