@@ -39,6 +39,7 @@ const AuctionModal = ({
   const [endDate, setEndDate] = useState<any | null>(moment());
   const [startTime, setStartTime] = useState<any | null>(moment());
   const [endTime, setEndTime] = useState<any | null>(moment());
+  const [endDateSelectOpen, setEndDateSelectOpen] = useState<boolean>(false);
   const fee = product?.resale
     ? product?.sku?.sellerTransactionFeePercentageSecondary
     : product?.sku?.sellerTransactionFeePercentage;
@@ -184,6 +185,8 @@ const AuctionModal = ({
                 'aria-label': 'change date',
               }}
               style={{ WebkitAppearance: 'none' }}
+              autoOk={true}
+              onAccept={() => setEndDateSelectOpen(true)}
             />
           </S.PickerContainer>
           <S.PickerContainer>
@@ -198,6 +201,10 @@ const AuctionModal = ({
                 'aria-label': 'change date',
               }}
               style={{ WebkitAppearance: 'none' }}
+              autoOk={true}
+              open={endDateSelectOpen}
+              onOpen={() => setEndDateSelectOpen(true)}
+              onClose={() => setEndDateSelectOpen(false)}
             />
           </S.PickerContainer>
         </Grid>
