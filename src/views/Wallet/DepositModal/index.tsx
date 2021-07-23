@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // local
 import ModalComponent from 'components/Modal';
@@ -73,7 +73,6 @@ const DepositModal = ({
             <SelectPayment
               kycMaxLevel={kycMaxLevel}
               kycPending={kycPending}
-              handleClose={handleClose}
               setModalContent={setModalContent}
               coinbaseMetadata={coinbaseMetadata}
             />
@@ -83,7 +82,11 @@ const DepositModal = ({
   }
 
   return (
-    <ModalComponent open={isModalOpen || false} centered={true}>
+    <ModalComponent
+      open={isModalOpen || false}
+      centered={true}
+      disableEnforceFocus={true}
+    >
       {resolveModalContent(modalContent)}
     </ModalComponent>
   );
