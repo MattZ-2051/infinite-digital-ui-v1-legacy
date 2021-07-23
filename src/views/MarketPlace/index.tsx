@@ -66,10 +66,10 @@ const createQueryString = (
     params.append('per_page', pagination.perPage);
   }
 
-  // SearchBy
-  if (sort) {
-    params.append('sortBy', sort);
-  }
+  // // SearchBy
+  // if (sort) {
+  //   params.append('sortBy', sort);
+  // }
   return params;
 };
 
