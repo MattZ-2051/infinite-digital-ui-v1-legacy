@@ -25,7 +25,7 @@ const LatestReleases = (): JSX.Element => {
 
   async function fetchProducts() {
     const skuTiles = await getSkuTiles({
-      queryParams: '?page=1&per_page=50&sortBy=startDate:1',
+      queryParams: '?page=1&per_page=50',
     });
     if (skuTiles.data) {
       setTiles(filteredByUser(skuTiles.data));
