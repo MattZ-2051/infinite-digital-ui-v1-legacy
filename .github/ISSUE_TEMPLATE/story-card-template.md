@@ -2,7 +2,7 @@
 name: Story Card Template
 about: Use this template when creating a story card
 title: ''
-labels: '.FE'
+labels: '.FE','D'
 assignees: ''
 ---
 
