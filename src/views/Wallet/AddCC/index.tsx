@@ -34,12 +34,22 @@ const AddCC = () => {
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
+    setFormSubmitted(true);
     const [fieldErrorsNew, checkErrors] = validate(cardInfo);
     setFieldError(fieldErrorsNew);
     if (checkErrors) {
+      const { billingDetails } = fieldErrorsNew;
+      Toast.error('Please fill out required fields.');
+      if (
+        billingDetails.name === '' ||
+        billingDetails.line1 ||
+        billingDetails.postalCode ||
+        billingDetails.city
+      ) {
+        setIsOpen(true);
+      }
       return;
     }
-    setFormSubmitted(true);
     const userToken = await getAccessTokenSilently();
     const res = await dispatch(
       createNewCCThunk({
