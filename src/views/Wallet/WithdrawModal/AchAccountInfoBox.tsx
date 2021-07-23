@@ -17,7 +17,7 @@ const AchAccountInfoBox = ({ item }: IAchAccountInfoBoxProps) => {
       >
         <S.BankImg
           alt="logo"
-          src={item.plaidInfo.institution_logo}
+          src={`data:image/png;base64,${item.plaidInfo.institution_logo}`}
           backgroundColor={
             item.plaidInfo.institution_primary_color
               ? `#${item.plaidInfo.institution_primary_color}`
