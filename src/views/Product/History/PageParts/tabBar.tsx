@@ -97,13 +97,13 @@ export const TabBar = ({
             marginRight="0"
             padding="0 0 0 10px"
           >
-            {' '}
+            {/* {' '}
             <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
               {util.product?.activeProductListings[0] &&
                 `(${formatDate(
                   new Date(util.product?.activeProductListings[0].endDate)
                 )})`}
-            </S.Text>
+            </S.Text> */}
           </S.TextContainer>
         ) : (
           <S.TextContainer borderBottom={true}>
