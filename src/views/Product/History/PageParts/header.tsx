@@ -59,10 +59,12 @@ export const Header = ({
               @{product?.owner.username}
             </S.Owner>
           </S.ProductOwner>
-          <Comps.RedeemMessage
-            matchesMobile={matchesMobile}
-            isRedeemable={redeemable}
-          />
+          {product.sku.redeemable && (
+            <Comps.RedeemMessage
+              matchesMobile={matchesMobile}
+              isRedeemable={redeemable}
+            />
+          )}
         </S.Row>
 
         {historyStatus === 'upcoming' && selectedTab === 'history' && (
