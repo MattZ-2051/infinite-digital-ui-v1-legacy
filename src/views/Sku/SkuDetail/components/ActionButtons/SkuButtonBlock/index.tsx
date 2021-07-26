@@ -128,32 +128,44 @@ const UpcomingData = ({
     <>
       {' '}
       <S.Container>
-        <S.Detail style={{ alignItems: 'flex-start' }}>
-          <S.BoxColumn>
-            <S.BoxTitle>Upcoming</S.BoxTitle>
-            <S.BoxSubtitle>{''}</S.BoxSubtitle>
-            {matchesMobile && (
-              <>
-                <S.CountDownTime>{countdown}</S.CountDownTime>
-                <S.StartDate>{formatDate(startDate)}</S.StartDate>
-              </>
-            )}
-          </S.BoxColumn>
-          <S.BoxColumn style={{ textAlign: 'center' }}>
-            <S.Price>${price}</S.Price>
-            {supplyType !== 'variable' && (
-              <small style={{ fontSize: '15px' }}>
-                {items && `(${items} NFTs)`}
-              </small>
-            )}
-          </S.BoxColumn>
-        </S.Detail>
-        {!matchesMobile && (
-          <S.BoxColumn style={{ textAlign: 'right' }}>
-            <S.CountDownTime>{countdown}</S.CountDownTime>
-            <S.StartDate>{formatDate(startDate)}</S.StartDate>
-          </S.BoxColumn>
-        )}
+        <S.DetailsContainer>
+          <S.Detail style={{ alignItems: 'flex-start' }}>
+            <S.BoxColumn>
+              <S.BoxTitle>Upcoming</S.BoxTitle>
+              <S.BoxSubtitle>{''}</S.BoxSubtitle>
+              {matchesMobile && (
+                <>
+                  <S.CountDownTime>{countdown}</S.CountDownTime>
+                  <S.StartDate style={{ justifyContent: 'flex-start' }}>
+                    <S.FormatedDateContainer>
+                      {formatDate(startDate).split('at')[0]}
+                    </S.FormatedDateContainer>
+                    <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
+                  </S.StartDate>
+                </>
+              )}
+            </S.BoxColumn>
+            <S.BoxColumn style={{ textAlign: 'center' }}>
+              <S.Price>${price}</S.Price>
+              {/* {supplyType !== 'variable' && (
+                <small style={{ fontSize: '15px' }}>
+                  {items && `(${items} NFTs)`}
+                </small>
+              )} */}
+            </S.BoxColumn>
+          </S.Detail>
+          {!matchesMobile && (
+            <S.BoxColumn style={{ textAlign: 'right' }}>
+              <S.CountDownTime>{countdown}</S.CountDownTime>
+              <S.StartDate style={{ justifyContent: 'flex-end' }}>
+                <S.FormatedDateContainer>
+                  {formatDate(startDate).split('at')[0]}
+                </S.FormatedDateContainer>
+                <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
+              </S.StartDate>
+            </S.BoxColumn>
+          )}
+        </S.DetailsContainer>
       </S.Container>
     </>
   );

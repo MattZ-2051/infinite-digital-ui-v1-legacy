@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-  padding: 0 80px 0 48px;
+  padding: 0 48px 0 48px;
   height: 146px;
   display: flex;
   align-items: center;
@@ -22,6 +22,14 @@ export const SoldOutAuctionBox = styled.div`
   width: 100%;
 `;
 
+export const DetailsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  flex-wrap: no-wrap;
+  justify-content: space-between;
+`;
 export const Text = styled.p<{
   fontWeight: number;
   color: string;
@@ -33,6 +41,9 @@ export const Text = styled.p<{
   color: ${(props) => `${props.color}`};
 `;
 
+export const FormatedDateContainer = styled.div`
+  margin-right: 4px;
+`;
 export const BoxColumn = styled.div`
   display: flex;
   justify-content: space-between;
@@ -76,13 +87,15 @@ export const Detail = styled.div<{ width?: string }>`
   width: ${(props) => (props.width ? `${props.width}` : `52%`)};
   justify-content: space-between;
   align-items: center;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 960px) {
     justify-content: space-between;
     width: 100%;
   }
 `;
 
 export const Price = styled.span`
+  margin-left: 20px;
+  margin-right: 20px;
   font-style: normal;
   font-size: 28px;
   font-weight: 500;
@@ -97,6 +110,8 @@ export const CountDownTime = styled.span`
 `;
 
 export const StartDate = styled.span`
+  display: flex;
+  flex-wrap: wrap;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
