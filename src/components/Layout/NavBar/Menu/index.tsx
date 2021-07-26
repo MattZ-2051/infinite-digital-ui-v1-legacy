@@ -8,9 +8,10 @@ import { useAppSelector } from 'store/hooks';
 import avatarIcon from 'assets/img/icons/avatar-icon.png';
 import UserProfileDetails from 'views/Collection/UserCollectioinInfo/UserProfileDetails';
 import PageLoader from 'components/PageLoader';
+import { RedirectLoginOptions } from '@auth0/auth0-react';
 
 interface IProps {
-  login: (options?: { screen_hint: string }) => void;
+  login: (options?: RedirectLoginOptions | undefined) => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -66,15 +67,11 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
 
           {!isAuthenticated && (
             <>
-              {/* <TextButton
-                onClick={() => login({ screen_hint: 'signup' })}
+              <TextButton
+                onClick={() => login({ redirectUri: window.location.href })}
                 color="grey"
                 size="medium"
               >
-                Sign Up
-              </TextButton> */}
-
-              <TextButton onClick={() => login()} color="grey" size="medium">
                 Log In
               </TextButton>
             </>
