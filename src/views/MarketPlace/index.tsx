@@ -231,11 +231,12 @@ const MarketPlace = (): JSX.Element => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      (async function () {
+      const fetchUserInfo = async () => {
         const userToken = await getAccessTokenSilently();
         dispatch(getUserCardsThunk({ token: userToken }));
         dispatch(getUserInfoThunk({ token: userToken }));
-      })();
+      };
+      fetchUserInfo();
     }
   }, []);
 
