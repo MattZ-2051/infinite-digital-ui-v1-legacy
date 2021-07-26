@@ -12,6 +12,7 @@ import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
+import ReactGA from 'react-ga';
 import { Integrations } from '@sentry/tracing';
 
 if (config.logging.sentryDsn) {
@@ -44,29 +45,9 @@ const providerConfig = {
   onRedirectCallback,
 };
 
-declare global {
-  interface Window {
-    dataLayer: any;
-    gtag: any;
-  }
-}
-
-function addGtag() {
-  const tagId = 'googletagmanagerscript';
-  if (document.getElementById(tagId)) {
-    return;
-  }
-  const script = document.createElement("script");
-  script.id = tagId;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${config.gtag.id}`;
-  script.async = true;
-  document.body.appendChild(script);
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = (...args) => {
-    window.dataLayer.push(args);
-  }
-  window.gtag('js', new Date());
-  window.gtag('config', config.gtag.id);
+if (config.gtag.id) {
+  ReactGA.initialize(config.gtag.id);
+  ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
 function addHubspot(portalId: string) {

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { formatCountdown, formatDate } from 'utils/dates';
+import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
@@ -12,21 +12,6 @@ import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import { useMediaQuery } from '@material-ui/core';
-
-const NotAvailable = (): JSX.Element => {
-  return (
-    <S.Container>
-      <h4>Not available</h4>
-    </S.Container>
-  );
-};
-const ComingSoon = (): JSX.Element => {
-  return (
-    <S.Container>
-      <h4>Coming soon...</h4>
-    </S.Container>
-  );
-};
 
 interface IUpcomingAuction {
   startDate?: Date;
@@ -162,7 +147,6 @@ const UpcomingData = ({
 interface IFromCreatorBox {
   sku: Sku;
   listing?: Listing;
-  onBuyNow: () => void;
   price?: number;
   user: User;
   buttonDisabled: boolean;
@@ -173,7 +157,6 @@ interface IFromCreatorBox {
 const FromCreatorBox = ({
   sku,
   listing,
-  onBuyNow,
   price,
   user,
   buttonDisabled,
@@ -227,7 +210,7 @@ const FromCreatorBox = ({
           )}
         </S.BoxColumn>
       </S.Detail>
-      <S.Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
+      <S.Button disabled={buttonDisabled} onClick={handleBuyNowClick}>
         {buttonLabel}
       </S.Button>
       <SkuPageModal
@@ -292,7 +275,6 @@ const FromCollectorsBox = ({
 interface ISkuButtonBlock {
   sku: Sku;
   user: User;
-  onBuyNow: () => void;
   collectors: Collector[];
   onProcessing?: () => void;
 }
@@ -300,7 +282,6 @@ interface ISkuButtonBlock {
 const SkuButtonBlock = ({
   sku,
   user,
-  onBuyNow,
   onProcessing,
   collectors,
 }: ISkuButtonBlock): JSX.Element => {
@@ -310,9 +291,6 @@ const SkuButtonBlock = ({
   );
   const upcomingSkuListings = sku.skuListings.filter(
     (skuListing) => skuListing.status === 'upcoming' && !skuListing.canceled
-  );
-  const canceledSkuListings = sku.skuListings.filter(
-    (skuListing) => skuListing.canceled
   );
 
   /**
@@ -416,7 +394,6 @@ const SkuButtonBlock = ({
           listing={activeListing}
           price={displayPrice}
           user={user}
-          onBuyNow={onBuyNow}
           buttonDisabled={false}
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
@@ -447,7 +424,6 @@ const SkuButtonBlock = ({
           listing={expiredListing}
           price={skuPrice}
           user={user}
-          onBuyNow={onBuyNow}
           buttonDisabled={true}
           buttonLabel="Sold Out"
         />

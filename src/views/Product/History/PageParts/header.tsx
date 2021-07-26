@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import * as S from '../styles';
 import * as Comps from '../components';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -258,7 +258,7 @@ export const Header = ({
                   fontWeight={500}
                   style={{ padding: '0' }}
                 >
-                  {bids.length === 0 ? 'Minimun Bid' : 'Current Bid'}
+                  {bids.length === 0 ? 'Minimum Bid' : 'Current Bid'}
                 </S.Text>
               </div>
             </S.ButtonContainer>

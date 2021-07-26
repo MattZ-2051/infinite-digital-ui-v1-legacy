@@ -129,7 +129,7 @@ const ModalPayment = ({
         <S.DetailRow>
           <span style={{ color: '#9E9E9E' }}>Shoes</span>
           <S.Rarity>
-            <span></span> {product.rarity}
+            <span/> {product.rarity}
           </S.Rarity>
         </S.DetailRow>
 

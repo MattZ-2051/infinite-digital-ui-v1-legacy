@@ -64,7 +64,7 @@ const BidModal = ({
   function displayNoFundsError(userBalance) {
     Toast.error(
       <span>
-        Whoops, Insuficient funds! Your wallet balance ${userBalance.toFixed(2)}
+        Whoops, Insufficient funds! Your wallet balance ${userBalance.toFixed(2)}
         , would you like to{' '}
         <strong
           onClick={() => {

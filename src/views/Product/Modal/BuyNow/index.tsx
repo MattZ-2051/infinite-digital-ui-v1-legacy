@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { patchListingsPurchase } from 'services/api/listingService';
@@ -12,10 +12,9 @@ import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
-import { HistoryStatus } from '../../History/types';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
-import { useEffect } from 'react';
+import ReactGA from 'react-ga';
 
 type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
@@ -25,7 +24,6 @@ interface IModalProps {
   mode: Modes;
   product: ProductWithFunctions;
   serialNum?: string;
-  setStatus: (a: HistoryStatus) => void;
 }
 
 const BuyNowModal = ({
@@ -34,13 +32,21 @@ const BuyNowModal = ({
   mode,
   product,
   serialNum,
-  setStatus,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
   const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+
+  useEffect(
+    () => {
+      if (visible && statusMode === 'hasFunds') {
+        ReactGA.modalview('product-purchase-modal');
+      }
+    },
+    [statusMode, visible]
+  );
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
@@ -59,10 +65,6 @@ const BuyNowModal = ({
     ? product.resaleBuyersFeePercentage
     : product.initialBuyersFeePercentage;
   const history = useHistory();
-
-  const royaltyFee = Math.round(
-    (product.minSkuPrice * product.royaltyFeePercentage) / 100
-  );
 
   const checkPendingStatus = async () => {
     const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
@@ -105,7 +107,7 @@ const BuyNowModal = ({
           setStatusMode('completed');
           Toast.success(
             <>
-              You successfuly purchased {pendingTx.transactionData.sku.name} #
+              You successfully purchased {pendingTx.transactionData.sku.name} #
               {pendingTx?.transactionData?.product[0]?.serialNumber} click{' '}
               <a
                 href={`/product/${pendingTx?.transactionData?.product[0]?._id}`}

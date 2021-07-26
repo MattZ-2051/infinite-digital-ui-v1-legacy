@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
@@ -14,7 +14,6 @@ import { Sku } from 'entities/sku';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { getProductCollectors } from 'services/api/productService';
 import { createMessage } from './components/SkuCounter/SkuTextCalculator';
-import { useAuth0 } from '@auth0/auth0-react';
 import Rarity from 'components/Rarity';
 import PageLoader from 'components/PageLoader';
 import SkuDescription from './components/SkuDescription';
@@ -26,8 +25,6 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { getPrivateAssets } from 'services/api/productService';
 import Collapsible from './components/Collapsible';
-import { isUndefined } from 'util';
-import { ViewAgenda } from '@material-ui/icons';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -43,9 +40,6 @@ const SkuDetail = (): JSX.Element => {
   const [sku, setSku] = useState<Sku>();
   const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
-  const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
-  const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
@@ -126,10 +120,6 @@ const SkuDetail = (): JSX.Element => {
     return fetchSku();
   };
 
-  const showModal = (): void => {
-    setModalPaymentVisible(true);
-  };
-
   if (!collectors || !featuredProducts || sku == undefined || loading) {
     return <PageLoader />;
   }
@@ -154,7 +144,6 @@ const SkuDetail = (): JSX.Element => {
   const tylesLimit = 4;
   const skuMessage = createMessage(sku);
 
-  console.log('here', sku.nftPublicAssets);
   return (
     <div>
       <S.HeaderContainer>
@@ -261,7 +250,6 @@ const SkuDetail = (): JSX.Element => {
                 collectors={collectors.data}
                 sku={sku}
                 user={loggedInUser}
-                onBuyNow={showModal}
                 onProcessing={onProcessing}
               />
             </S.ButtonsContainer>
@@ -353,14 +341,14 @@ const SkuDetail = (): JSX.Element => {
                   body={<SkuDescription description={sku?.description || ''} />}
                   collectorsTotalNum={undefined}
                   borderTitle={true}
-                ></Collapsible>
+                />
                 {arePrivateAssets && (
                   <Collapsible
                     title="OwnerAccess"
                     body={ownerAccessInfo}
                     collectorsTotalNum={undefined}
                     borderTitle={true}
-                  ></Collapsible>
+                  />
                 )}
               </>
             )}

@@ -197,7 +197,7 @@ const History = ({
             <OwnerAccess
               productId={product._id}
               skuId={product.sku._id}
-              themeStyle={'dark'}
+              themeStyle={themeStyle}
               owner={loggedInUser && loggedInUser.id === product.owner?._id}
             />
           </>
@@ -210,7 +210,6 @@ const History = ({
           serialNum={product.serialNumber}
           visible={isModalOpen}
           mode={modalMode}
-          setStatus={setHistoryStatus}
         />
       )}
       {product && historyStatus === 'active-sale' && (

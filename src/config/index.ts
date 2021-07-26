@@ -109,6 +109,6 @@ export const config: AppConfig = {
       getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', false) || '2000',
   },
   gtag: {
-    id: getEnvVar('REACT_APP_GTAG_ID', false) || 'G-KH8PDB7NVR',
+    id: getEnvVar('REACT_APP_GTAG_ID', false),
   },
 };

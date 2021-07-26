@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import { Sku } from 'entities/sku';
@@ -17,6 +17,7 @@ import Emoji from 'components/Emoji';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
+import ReactGA from "react-ga";
 
 type Modes =
   | 'completed'
@@ -33,7 +34,6 @@ interface IModalProps {
   sku: Sku;
   user?: User;
   listing?: Listing;
-  serialNum?: string;
   onProcessing?: () => void;
 }
 
@@ -42,7 +42,6 @@ const SkuPageModal = ({
   setModalPaymentVisible,
   mode,
   sku: product,
-  serialNum,
   listing,
   onProcessing,
 }: IModalProps): JSX.Element => {
@@ -59,12 +58,17 @@ const SkuPageModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-  const initialBuyersFeePercentage = parseFloat(
-    useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
+  useEffect(
+    () => {
+      if (visible && statusMode === 'hasFunds') {
+        ReactGA.modalview('sku-purchase-modal');
+      }
+    },
+    [statusMode, visible],
   );
 
-  const royaltyFee = Math.round(
-    (product?.activeSkuListings[0]?.price * product?.royaltyFeePercentage) / 100
+  const initialBuyersFeePercentage = parseFloat(
+    useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
   );
 
   const fetchTransactions = async () => {
