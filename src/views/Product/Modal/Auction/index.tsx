@@ -119,9 +119,9 @@ const AuctionModal = ({
           window.location.reload();
         }, 1200);
       }
-    } catch (e) {
+    } catch (err) {
       setLoading(false);
-      Toast.error(createAuction.error);
+      Toast.error(err.message);
     }
   };
 
