@@ -148,10 +148,15 @@ export const Auction = ({
                 </S.PlaceBidsContainer>
               )}
 
-              {util.bids instanceof Array &&
+              {!util?.bids ||
+              util?.bids?.length === 0 ||
+              !(util.bids instanceof Array) ? (
+                <p>No transactions</p>
+              ) : (
                 util.bids.map((bid) => {
                   return <Transaction key={bid._id} bid={bid} />;
-                })}
+                })
+              )}
             </S.BidsHistory>
           )
         )}

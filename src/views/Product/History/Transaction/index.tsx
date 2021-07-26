@@ -200,7 +200,8 @@ const Transaction = ({ transaction, bid }: Props) => {
       </S.Container>
     );
   } else {
-    return <p>No Transactions</p>;
+    console.error('unknown transaction type');
+    return null;
   }
 };
 
