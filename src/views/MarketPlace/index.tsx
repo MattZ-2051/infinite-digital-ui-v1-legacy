@@ -234,7 +234,7 @@ const MarketPlace = (): JSX.Element => {
       (async function () {
         const userToken = await getAccessTokenSilently();
         dispatch(getUserCardsThunk({ token: userToken }));
-        dispatch(getUserCardsThunk({ token: userToken }));
+        dispatch(getUserInfoThunk({ token: userToken }));
       })();
     }
   }, []);
