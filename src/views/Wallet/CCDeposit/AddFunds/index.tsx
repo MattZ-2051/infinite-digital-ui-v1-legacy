@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -50,6 +50,14 @@ const AddFunds = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [amount, setAmount] = useState<string | undefined>('');
   const [activeButton, setActiveButton] = useState<boolean>(false);
+  useEffect(
+    () => {
+      if (!userCard?.id) {
+        history.push(`/wallet/addcreditcard`);
+      }
+    },
+    [userCard?.id]
+  );
 
   const handleChange = (e) => {
     if (e.target.value.split('.').length !== 2) {
@@ -126,18 +134,14 @@ const AddFunds = () => {
       return;
     } else {
       Toast.success('Card Successfully Removed');
-      setTimeout(() => {
-        history.push(`/wallet/addcreditcard`);
-      }, 2000);
     }
   };
 
-  if (!userCard || userCard.status !== 'complete') {
-    history.push(`/wallet/addcreditcard`);
-  }
   if (!userCard) {
     return null;
   }
+  const ccIsActive =  userCard.status !== 'complete';
+  const ccActiveStatus =  userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();
@@ -171,7 +175,7 @@ const AddFunds = () => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <S.ActiveText>(Active)</S.ActiveText>
+            <S.ActiveText>({ccActiveStatus})</S.ActiveText>
           </div>
           <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
         </S.Row>
@@ -196,7 +200,7 @@ const AddFunds = () => {
           />
         </S.AmountContainer>
         <Padding>
-          {activeButton ? (
+          {activeButton && ccIsActive ? (
             <S.AddFundsButton
               onClick={addFunds}
               loadingComponentRender={() => (

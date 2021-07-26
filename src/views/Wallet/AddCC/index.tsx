@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { PulseLoader } from 'react-spinners';
@@ -31,6 +31,19 @@ const AddCC = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const history = useHistory();
+
+  const lastUserCard = useAppSelector((state) => state.session.userCards.cards[0]);
+  useEffect(
+    () => {
+      if (lastUserCard) {
+        const tt = setTimeout(() => {
+          history.push(`/wallet/deposit/addfunds`);
+        }, 2000);
+        return () => clearTimeout(tt);
+      }
+    },
+    [lastUserCard?.id]
+  );
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
@@ -76,9 +89,6 @@ const AddCC = () => {
       setFormError(false);
       dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
       Toast.success('Card successfully added');
-      setTimeout(() => {
-        history.push(`/wallet/deposit/addfunds`);
-      }, 2000);
     }
   };
 
@@ -142,7 +152,7 @@ const AddCC = () => {
               }
               onChange={(e) => handleChange(e, setCardInfo)}
               type="text"
-              value={cardInfo?.expMonth || null}
+              value={cardInfo?.expMonth || ''}
               style={{ paddingRight: '10px' }}
             />
             <S.FormInput
@@ -159,7 +169,7 @@ const AddCC = () => {
               }
               onChange={(e) => handleChange(e, setCardInfo)}
               type="text"
-              value={cardInfo?.expYear || null}
+              value={cardInfo?.expYear || ''}
               style={{ paddingRight: '10px' }}
             />
             <S.FormInput
