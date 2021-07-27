@@ -72,7 +72,8 @@ export const AuctionToolTip = styled(SvgToolTip)`
   position: absolute;
   bottom: 30px;
   color: black;
-  right: -3.5em;
+  left: -4.5em;
+
   width: 160px;
   :hover {
     cursor: pointer;
@@ -92,10 +93,12 @@ export const AuctionToolTipText = styled.span`
   position: absolute;
   bottom: 3em;
   color: black;
+  font-weight: 500;
   width: 175px;
   overflow: hidden;
   font-size: 14px;
   left: -5.5em;
+  text-decoration: underline;
   text-align: center;
   :hover {
     text-decoration: underline;
@@ -234,10 +237,11 @@ export const FlexDiv = styled.div<{ width?: string }>`
   }
 `;
 
-export const FlexColumn = styled.div`
+export const FlexColumn = styled.div<{ alignItems?: string }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: ${(props) =>
+    props.alignItems ? `${props.alignItems}` : `flex-end`};
 `;
 
 export const Text = styled.span`
