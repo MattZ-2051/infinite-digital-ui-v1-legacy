@@ -82,8 +82,7 @@ export const sessionSlice = createSlice({
     // Create New CreditCard Thunk
     builder.addCase(createNewCCThunk.fulfilled, (state, { payload }) => {
       checkStatePending(state);
-
-      state.userCards = payload;
+      state.userCards.cards = [payload];
     });
     builder.addCase(createNewCCThunk.rejected, (state, { payload }) => {
       checkStatePending(state);
