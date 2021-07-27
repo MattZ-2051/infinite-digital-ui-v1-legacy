@@ -13,8 +13,8 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-// import ReactGA from 'react-ga';
-import GA4React, { useGA4React } from "ga-4-react";
+import ReactGA from 'react-ga';
+import GA4React, { useGA4React } from 'ga-4-react';
 
 if (config.logging.sentryDsn) {
   Sentry.init({
@@ -51,7 +51,7 @@ function addHubspot(portalId: string) {
   if (document.getElementById(tagId)) {
     return;
   }
-  const script = document.createElement("script");
+  const script = document.createElement('script');
   script.id = tagId;
   script.src = `//js.hs-scripts.com/${portalId}.js`;
   script.async = true;
@@ -60,14 +60,11 @@ function addHubspot(portalId: string) {
 }
 
 const Main = () => {
-  React.useEffect(
-    () => {
-      // addGtag();
-      addHubspot(config.hubspot.helpSection.portalId);
-      addHubspot(config.hubspot.mailSubscribingSection.portalId);
-    },
-    []
-  );
+  React.useEffect(() => {
+    // addGtag();
+    addHubspot(config.hubspot.helpSection.portalId);
+    addHubspot(config.hubspot.mailSubscribingSection.portalId);
+  }, []);
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>
@@ -98,10 +95,7 @@ if (config.gtag.id) {
   if (ga4react) {
     await ga4react.initialize();
   }
-  ReactDOM.render(
-    <Main />,
-    document.getElementById('root')
-  );
+  ReactDOM.render(<Main />, document.getElementById('root'));
 })();
 
 reportWebVitals();
