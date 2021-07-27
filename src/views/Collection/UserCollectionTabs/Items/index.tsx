@@ -1,11 +1,14 @@
 import styled, { css } from 'styled-components/macro';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { ProductWithFunctions } from 'entities/product';
+import PageLoader from 'components/PageLoader';
+import { PageLoaderHelper } from './pageLoaderHelper';
 
 interface Props {
   userItems: ProductWithFunctions[] | undefined;
   collection?: boolean;
   themeStyle?: 'light' | 'dark';
+  isLoading: boolean;
 }
 
 const NoItems = () => {
@@ -31,25 +34,30 @@ const Items = ({
   userItems,
   collection,
   themeStyle = 'light',
+  isLoading,
 }: Props): JSX.Element => {
   return (
     <Container collection={collection || false}>
-      {userItems?.length === 0
-        ? NoItems()
-        : userItems &&
-          userItems.map((product: ProductWithFunctions, index) => {
-            if (product.sku === null) return;
-            return (
-              <TileContainer key={product._id} index={index}>
-                <ProductTile
-                  themeStyle={themeStyle}
-                  product={product}
-                  productSerialNumber={product.serialNumber}
-                  key={product._id}
-                />
-              </TileContainer>
-            );
-          })}
+      {isLoading ? (
+        <PageLoaderHelper userItems={userItems} />
+      ) : userItems?.length === 0 ? (
+        NoItems()
+      ) : (
+        userItems &&
+        userItems.map((product: ProductWithFunctions, index) => {
+          if (product.sku === null) return;
+          return (
+            <TileContainer key={product._id} index={index}>
+              <ProductTile
+                themeStyle={themeStyle}
+                product={product}
+                productSerialNumber={product.serialNumber}
+                key={product._id}
+              />
+            </TileContainer>
+          );
+        })
+      )}
     </Container>
   );
 };

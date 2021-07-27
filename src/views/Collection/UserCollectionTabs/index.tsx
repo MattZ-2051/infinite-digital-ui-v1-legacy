@@ -37,11 +37,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   const perPage = matchesMobile ? 4 : 8;
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
   const queryParams = '?sortBy=startDate:1';
 
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
     setIsLoading(false);
+    setIsLoadingPage(false);
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
       setTotalProducts(itemsRes.totalProducts);
@@ -108,7 +110,9 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     value: number
   ) => {
     setPage(value);
+    setIsLoadingPage(true);
   };
+
   if (isLoading)
     return <PageLoader color={'white'} backGroundColor={'black'} />;
 
@@ -161,6 +165,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 themeStyle={themeStyle}
                 userItems={userItems}
                 collection={true}
+                isLoading={isLoadingPage}
               />
             )}
           </>
@@ -207,6 +212,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 userItems={userItems}
                 collection={true}
                 themeStyle={themeStyle}
+                isLoading={isLoadingPage}
               />
             )}
           </>
@@ -254,6 +260,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 userItems={userItems}
                 collection={true}
                 themeStyle={themeStyle}
+                isLoading={isLoadingPage}
               />
             )}
           </>
@@ -287,6 +294,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 userItems={userItems}
                 collection={true}
                 themeStyle={themeStyle}
+                isLoading={isLoadingPage}
               />
             )}
           </>
