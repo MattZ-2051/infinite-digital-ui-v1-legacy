@@ -77,16 +77,19 @@ const ProductDetails = ({
           {sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
               {`${circulatingSupply} Released `}
-              (See All)
             </S.SkuInfo>
           )}
-          {skuTokenId && explorerLink ? (
-            <S.TokenExplorerLink target="_blank" href={explorerLink}>
-              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
-            </S.TokenExplorerLink>
-          ) : (
+          {skuTokenId && (
             <S.TokenExplorerLinkPlain>
-              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
+              {skuIsVariable && '/'}
+              {HederaIcon()}
+              {explorerLink ? (
+                <S.TokenExplorerLink target="_blank" href={explorerLink}>
+                  Token {skuTokenId}
+                </S.TokenExplorerLink>
+              ) : (
+                <>Token {skuTokenId}</>
+              )}
             </S.TokenExplorerLinkPlain>
           )}
         </S.Flex>

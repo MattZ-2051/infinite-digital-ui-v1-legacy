@@ -306,7 +306,6 @@ const AuctionModal = ({
       onClose={() => setModalAuctionVisible(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      bodyStyle={{ 'overflow-y': 'scroll', height: '97vh' }}
       centered={true}
     >
       {content}

@@ -71,7 +71,7 @@ export const config: AppConfig = {
       getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
       '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
     usdcTokenContractAddress:
-      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
+      getEnvVar('REACT_APP_BLOCKCHAIN_ADDRESS_USDC_TOKEN_CONTRACT', false) ||
       '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
   },
   kyc: {

@@ -2,6 +2,10 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
+import {
+  getUserInfoThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 import { useUpdateEffect } from 'react-use';
 // Local
 import { getSkuTilesThunk } from 'store/sku/skuThunks';
@@ -11,7 +15,6 @@ import {
   processUrlParams,
   updateFilter,
   updatePagination,
-  updateSortBy,
   setMarketplaceState,
   restoreFilters,
 } from 'store/marketplace/marketplaceSlice';
@@ -25,6 +28,7 @@ import PageLoader from 'components/PageLoader';
 import { ReactComponent as FilterIcon } from 'assets/svg/icons/filters.svg';
 import { ReactComponent as CloseIcon } from 'assets/svg/icons/close.svg';
 import { getSkuTiles } from 'services/api/sku';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // Create the url query-string using the redux stored data: filters, sort, pagination
 const createQueryString = (
@@ -76,6 +80,7 @@ const createQueryString = (
 const MarketPlace = (): JSX.Element => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [page, setPage] = useState(1);
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState<boolean>(false);
   const [maxPrice, setMaxPrice] = useState(2000);
   const activeFilters = useAppSelector((store) => store.marketplace.filters);
@@ -223,6 +228,17 @@ const MarketPlace = (): JSX.Element => {
   useUpdateEffect(() => {
     setPage(1);
   }, [activeFilters]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchUserInfo = async () => {
+        const userToken = await getAccessTokenSilently();
+        dispatch(getUserCardsThunk({ token: userToken }));
+        dispatch(getUserInfoThunk({ token: userToken }));
+      };
+      fetchUserInfo();
+    }
+  }, []);
 
   if (!skus) return <PageLoader />;
   return (

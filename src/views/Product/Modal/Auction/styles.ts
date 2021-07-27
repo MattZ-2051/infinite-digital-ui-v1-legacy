@@ -30,7 +30,6 @@ export const Body = styled.div`
   width: 410px;
   @media screen and (max-width: 960px) {
     width: 100%;
-    height: 100vh;
     padding: 40px 0;
   }
 `;
