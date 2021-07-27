@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import Cards from 'react-credit-cards';
 import CurrencyInput from 'react-currency-input-field';
 import LoadingButton from 'components/Buttons/LoadingButton';
+import {CardStatus} from "../../../../entities/card";
 
 export const CreditCard = styled(Cards)`
   .rccs__card__background {
@@ -32,8 +33,8 @@ export const AmountInput = styled(CurrencyInput)`
   }
 `;
 
-export const ActiveText = styled.span`
-  color: #00c44f;
+export const ActiveText = styled.span<{ status: CardStatus }>`
+  color: ${(props) => (props.status === 'complete' ? '#00c44f' : (props.status === 'pending' ? '#7d7d7d' : '#e74c3c'))};
   padding-left: 5px;
 `;
 
@@ -61,14 +62,10 @@ export const FeeReminderText = styled.div`
   color: #9e9e9e;
 `;
 
-export const FeeReminderIconContainer = styled.div`
-  margin: 10px auto;
-`;
-
 export const HeaderText = styled.span`
   font-size: 22px;
   padding-left: 18px;
-  font-weigth: 600;
+  font-weight: 600;
 `;
 
 export const HeaderDiv = styled.div`
@@ -109,7 +106,7 @@ export const AddFundsButton = styled(LoadingButton)`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }
@@ -129,7 +126,7 @@ export const InactiveButton = styled.button`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :focus {
     outline: none;
   }

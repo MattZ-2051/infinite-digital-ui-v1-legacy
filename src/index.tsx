@@ -12,8 +12,9 @@ import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
-import ReactGA from 'react-ga';
 import { Integrations } from '@sentry/tracing';
+// import ReactGA from 'react-ga';
+import GA4React, { useGA4React } from "ga-4-react";
 
 if (config.logging.sentryDsn) {
   Sentry.init({
@@ -44,11 +45,6 @@ const providerConfig = {
   redirectUri: window.location.origin,
   onRedirectCallback,
 };
-
-if (config.gtag.id) {
-  ReactGA.initialize(config.gtag.id);
-  ReactGA.pageview(window.location.pathname + window.location.search);
-}
 
 function addHubspot(portalId: string) {
   const tagId = `hs-script-loader-${portalId}`;
@@ -91,9 +87,21 @@ const Main = () => {
   );
 };
 
-ReactDOM.render(
-  <Main />,
-  document.getElementById('root')
-);
+let ga4react: GA4React | null = null;
+if (config.gtag.id) {
+  // ReactGA.initialize(config.gtag.id);
+  // ReactGA.pageview(window.location.pathname + window.location.search);
+  ga4react = new GA4React(config.gtag.id);
+}
+
+(async () => {
+  if (ga4react) {
+    await ga4react.initialize();
+  }
+  ReactDOM.render(
+    <Main />,
+    document.getElementById('root')
+  );
+})();
 
 reportWebVitals();

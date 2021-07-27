@@ -140,8 +140,8 @@ const AddFunds = () => {
   if (!userCard) {
     return null;
   }
-  const ccIsActive =  userCard.status !== 'complete';
-  const ccActiveStatus =  userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
+  const ccIsActive = userCard.status !== 'complete';
+  const ccActiveStatus = userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();
@@ -175,7 +175,7 @@ const AddFunds = () => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <S.ActiveText>({ccActiveStatus})</S.ActiveText>
+            <S.ActiveText status={userCard.status}>({ccActiveStatus})</S.ActiveText>
           </div>
           <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
         </S.Row>

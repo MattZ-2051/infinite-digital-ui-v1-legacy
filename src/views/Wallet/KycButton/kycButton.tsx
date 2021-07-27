@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 import Persona, { Client } from 'persona';
+// import ModalComponent from 'components/Modal';
+// import { Inquiry } from 'persona';
 import { getPersonalToken } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -15,51 +17,25 @@ const KycButton = ({
   kycPending: boolean;
   kycMaxLevel: number;
 }): JSX.Element | null => {
-  const [userToken, setUserToken] = useState<string>();
+  // const [valueUserToken, setUserToken] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
-
-  async function initializeToken() {
+  async function openClient() {
     const res = await getPersonalToken(await getAccessTokenSilently());
-    setUserToken(res.token);
-  }
-
-  useEffect(() => {
-    initializeToken();
-  }, []);
-
-  const client: Client = new Persona.Client({
-    templateId: config.kyc.templateLvl1,
-    environment: config.kyc.environmentType,
-    referenceId: userToken,
-    onLoad: (error) => {
-      if (error) {
-        console.error(
-          `Failed with code: ${error.code} and message ${error.message}`
-        );
-      }
-      client.render();
-    },
-    onStart: (inquiryId) => {
-      console.log(`Started inquiry ${inquiryId}`);
-    },
-    onComplete: (inquiryId) => {
-      console.log(`Sending finished inquiry ${inquiryId} to backend`);
-      fetch(`/server-handler?inquiry-id=${inquiryId}`);
-    },
-    onEvent: (name, meta) => {
-      switch (name) {
-        case 'start':
-          console.log(`Received event: start`);
-          break;
-        default:
-          console.log(
-            `Received event: ${name} with meta: ${JSON.stringify(meta)}`
+    // setUserToken(res.token);
+    const client: Client = new Persona.Client({
+      templateId: config.kyc.templateLvl1,
+      environment: config.kyc.environmentType,
+      referenceId: res.token,
+      onLoad: (error) => {
+        if (error) {
+          console.error(
+            `Failed with code: ${error.code} and message ${error.message}`
           );
-      }
-    },
-  });
-
-  function openClient() {
+        } else {
+          client.render();
+        }
+      },
+    });
     client.open();
   }
 
@@ -89,7 +65,29 @@ const KycButton = ({
       </>
     );
   }
-  return <S.Container>{content}</S.Container>;
+  return (
+    <S.Container>
+      {/*<ModalComponent*/}
+      {/*  open={Boolean(valueUserToken)}*/}
+      {/*  centered={true}*/}
+      {/*  disableEnforceFocus={true}*/}
+      {/*  onClose={*/}
+      {/*    () => {*/}
+      {/*      setUserToken('');*/}
+      {/*    }*/}
+      {/*  }*/}
+      {/*>*/}
+      {/*  {valueUserToken && (*/}
+      {/*    <Inquiry*/}
+      {/*      templateId={config.kyc.templateLvl1}*/}
+      {/*      environment={config.kyc.environmentType}*/}
+      {/*      referenceId={valueUserToken}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</ModalComponent>*/}
+      {content}
+    </S.Container>
+  );
 };
 
 export default KycButton;

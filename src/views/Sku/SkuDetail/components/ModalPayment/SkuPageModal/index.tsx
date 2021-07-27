@@ -17,7 +17,7 @@ import Emoji from 'components/Emoji';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
-import ReactGA from "react-ga";
+// import ReactGA from "react-ga";
 
 type Modes =
   | 'completed'
@@ -61,7 +61,7 @@ const SkuPageModal = ({
   useEffect(
     () => {
       if (visible && statusMode === 'hasFunds') {
-        ReactGA.modalview('sku-purchase-modal');
+        // ReactGA.modalview('sku-purchase-modal');
       }
     },
     [statusMode, visible],

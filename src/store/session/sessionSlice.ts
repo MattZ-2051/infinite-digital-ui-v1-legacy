@@ -73,7 +73,7 @@ export const sessionSlice = createSlice({
       showErrorToast(payload?.errorMessage);
     });
 
-    // delete user and clear state, doesn't actaully ping API but clears user from store
+    // delete user and clear state, doesn't actually ping API but clears user from store
     builder.addCase(deleteUser, (state, {}) => {
       checkStatePending(state);
       state.user = {};

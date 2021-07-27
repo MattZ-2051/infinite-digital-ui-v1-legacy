@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import DepositModal from './DepositModal';
 import WhitdrawModal from './WithdrawModal';
@@ -22,10 +22,7 @@ import withdrawIconWhite from 'assets/svg/icons/withdraw-funds-white.svg';
 import withdrawIconBlack from 'assets/svg/icons/withdraw-funds-black.svg';
 import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndImage';
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
-import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
-import TabOptions from './Components/tabOptions/tabOptions';
 import TabHeaderOptions from './Components/TabHeaderOptions/tabHeaderOptions';
-const PER_PAGE = 5;
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
