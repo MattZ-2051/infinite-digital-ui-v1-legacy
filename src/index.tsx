@@ -88,7 +88,11 @@ let ga4react: GA4React | null = null;
 if (config.gtag.id) {
   // ReactGA.initialize(config.gtag.id);
   // ReactGA.pageview(window.location.pathname + window.location.search);
-  ga4react = new GA4React(config.gtag.id);
+  try {
+    ga4react = new GA4React(config.gtag.id);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 (async () => {
