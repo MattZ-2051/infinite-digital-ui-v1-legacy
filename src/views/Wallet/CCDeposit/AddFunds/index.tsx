@@ -23,6 +23,10 @@ const dailyDepositLimitMsgRe =
 const weeklyDepositLimitMsgRe =
   /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 
+function isValidCvv(vv) {
+  return /^\d{0,3}$/.test(vv);
+}
+
 const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
 
 function showDepositToastMessage(depositErrMsg) {
@@ -48,8 +52,8 @@ const AddFunds = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
-  const [amount, setAmount] = useState<string | undefined>('');
-  const [activeButton, setActiveButton] = useState<boolean>(false);
+  const [amount, setAmount] = useState<string>('');
+  const [valueCvv, setCvv] = useState<string>('');
   useEffect(
     () => {
       if (!userCard?.id) {
@@ -59,43 +63,24 @@ const AddFunds = () => {
     [userCard?.id]
   );
 
-  const handleChange = (e) => {
-    if (e.target.value.split('.').length !== 2) {
-      setAmount(e.target.value + '.00');
-    } else {
-      setAmount(e.target.value);
-    }
-  };
-
-  useEffect(() => {
-    if (zeros.includes(amount || '')) {
-      setActiveButton(false);
-    } else {
-      setActiveButton(true);
-    }
-  }, [amount]);
+  const activeButton = !zeros.includes(amount || '') && isValidCvv(valueCvv);
   const addFunds = async () => {
-    const userToken = await getAccessTokenSilently();
+    if (!activeButton) return;
     const lAmount = amount?.replace(',', '').replace(/^0+/, '');
-    if (amount && zeros.includes(amount)) return;
-    // if (isNaN(Number(lAmount))) {
-    //   Toast.error('An Error Occurred: Please enter a valid amount.');
-    //   return;
-    // }
-
     if (amount && parseFloat(amount.replaceAll(',', '')) > ccDepositLimit) {
       Toast.error(
         `You can only deposit up to $${ccDepositLimit} USD per credit card transaction`
       );
       return;
     }
-
+    const userToken = await getAccessTokenSilently();
     const res = await dispatch(
       addFundsThunk({
         token: userToken,
         data: {
           email: userCard.metadata.email,
           amount: lAmount,
+          cvv: valueCvv,
         },
         cardId: userCard.id,
       })
@@ -192,13 +177,39 @@ const AddFunds = () => {
             name="amount-input"
             placeholder="Enter Amount"
             decimalsLimit={2}
-            onChange={handleChange}
+            onChange={(e) => {
+              if (e.target.value.split('.').length !== 2) {
+                setAmount(e.target.value + '.00');
+              } else {
+                setAmount(e.target.value || '');
+              }
+            }}
             maxLength={10}
             step={10}
             defaultValue={0.0}
             allowNegativeValue={false}
           />
         </S.AmountContainer>
+        <S.Row style={{
+          justifyContent: 'center',
+          paddingTop: 25,
+          paddingBottom: 10,
+        }}>
+          <S.FormInput
+            onChange={(ev) => {
+              const vv = ev.target.value;
+              if (!isValidCvv(vv)) {
+                return;
+              }
+              setCvv(vv);
+            }}
+            value={valueCvv}
+            // label="CVV"
+            inputProps={{ maxLength: 3 }}
+            placeholder="CVV"
+            // maxLength={3}
+          />
+        </S.Row>
         <Padding>
           {activeButton && ccIsActive ? (
             <S.AddFundsButton
