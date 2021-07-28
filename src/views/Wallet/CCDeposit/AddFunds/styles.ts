@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import Cards from 'react-credit-cards';
 import CurrencyInput from 'react-currency-input-field';
 import LoadingButton from 'components/Buttons/LoadingButton';
+import TextField from "@material-ui/core/TextField";
 
 export const CreditCard = styled(Cards)`
   .rccs__card__background {
@@ -137,3 +138,12 @@ export const InactiveButton = styled.button`
     width: 100%;
   }
 `;
+
+export const FormInput = styled(TextField)`
+  & .MuiInputBase-input.MuiInput-input {
+    text-align: center;
+  }
+`;
+
+// export const FormInput = styled.input`
+// `;

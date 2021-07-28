@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PulseLoader } from 'react-spinners';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -22,6 +22,10 @@ const dailyDepositLimitMsgRe =
   /^You've deposited \$(?<depositByNow>\S+) USD in the past 24 hours\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 const weeklyDepositLimitMsgRe =
   /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
+
+function isValidCvv(vv) {
+  return /^\d{0,3}$/.test(vv);
+}
 
 const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
 
@@ -48,46 +52,35 @@ const AddFunds = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
-  const [amount, setAmount] = useState<string | undefined>('');
-  const [activeButton, setActiveButton] = useState<boolean>(false);
+  const [amount, setAmount] = useState<string>('');
+  const [valueCvv, setCvv] = useState<string>('');
+  useEffect(
+    () => {
+      if (!userCard?.id) {
+        history.push(`/wallet/addcreditcard`);
+      }
+    },
+    [userCard?.id]
+  );
 
-  const handleChange = (e) => {
-    if (e.target.value.split('.').length !== 2) {
-      setAmount(e.target.value + '.00');
-    } else {
-      setAmount(e.target.value);
-    }
-  };
-
-  useEffect(() => {
-    if (zeros.includes(amount || '')) {
-      setActiveButton(false);
-    } else {
-      setActiveButton(true);
-    }
-  }, [amount]);
+  const activeButton = !zeros.includes(amount || '') && isValidCvv(valueCvv);
   const addFunds = async () => {
-    const userToken = await getAccessTokenSilently();
+    if (!activeButton) return;
     const lAmount = amount?.replace(',', '').replace(/^0+/, '');
-    if (amount && zeros.includes(amount)) return;
-    // if (isNaN(Number(lAmount))) {
-    //   Toast.error('An Error Occurred: Please enter a valid amount.');
-    //   return;
-    // }
-
     if (amount && parseFloat(amount.replaceAll(',', '')) > ccDepositLimit) {
       Toast.error(
         `You can only deposit up to $${ccDepositLimit} USD per credit card transaction`
       );
       return;
     }
-
+    const userToken = await getAccessTokenSilently();
     const res = await dispatch(
       addFundsThunk({
         token: userToken,
         data: {
           email: userCard.metadata.email,
           amount: lAmount,
+          cvv: valueCvv,
         },
         cardId: userCard.id,
       })
@@ -126,18 +119,14 @@ const AddFunds = () => {
       return;
     } else {
       Toast.success('Card Successfully Removed');
-      setTimeout(() => {
-        history.push(`/wallet/addcreditcard`);
-      }, 2000);
     }
   };
 
-  if (!userCard || userCard.status !== 'complete') {
-    history.push(`/wallet/addcreditcard`);
-  }
   if (!userCard) {
     return null;
   }
+  const ccIsActive =  userCard.status !== 'complete';
+  const ccActiveStatus =  userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();
@@ -171,7 +160,7 @@ const AddFunds = () => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <S.ActiveText>(Active)</S.ActiveText>
+            <S.ActiveText>({ccActiveStatus})</S.ActiveText>
           </div>
           <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
         </S.Row>
@@ -188,15 +177,41 @@ const AddFunds = () => {
             name="amount-input"
             placeholder="Enter Amount"
             decimalsLimit={2}
-            onChange={handleChange}
+            onChange={(e) => {
+              if (e.target.value.split('.').length !== 2) {
+                setAmount(e.target.value + '.00');
+              } else {
+                setAmount(e.target.value || '');
+              }
+            }}
             maxLength={10}
             step={10}
             defaultValue={0.0}
             allowNegativeValue={false}
           />
         </S.AmountContainer>
+        <S.Row style={{
+          justifyContent: 'center',
+          paddingTop: 25,
+          paddingBottom: 10,
+        }}>
+          <S.FormInput
+            onChange={(ev) => {
+              const vv = ev.target.value;
+              if (!isValidCvv(vv)) {
+                return;
+              }
+              setCvv(vv);
+            }}
+            value={valueCvv}
+            // label="CVV"
+            inputProps={{ maxLength: 3 }}
+            placeholder="CVV"
+            // maxLength={3}
+          />
+        </S.Row>
         <Padding>
-          {activeButton ? (
+          {activeButton && ccIsActive ? (
             <S.AddFundsButton
               onClick={addFunds}
               loadingComponentRender={() => (
