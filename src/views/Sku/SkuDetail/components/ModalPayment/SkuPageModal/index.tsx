@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
@@ -115,7 +115,7 @@ const SkuPageModal = ({
         Toast.success(
           <>
             Congrats! Your NFT purchase was processed successfully! Click
-            <a href={`/product/${newPurchasedProduct._id}`}> here </a> to view
+            <Link to={`/product/${newPurchasedProduct._id}`}> here </Link> to view
             your product {product.name} #{newPurchasedProduct.serialNumber}.
           </>
         );
@@ -132,7 +132,7 @@ const SkuPageModal = ({
       Toast.error(
         <>
           There was an error processing your purchase. Please try again, see the{' '}
-          <a href="/help">Help page</a> to learn more.
+          <Link to="/help">Help page</Link> to learn more.
         </>
       );
     }
@@ -157,7 +157,7 @@ const SkuPageModal = ({
         setLoading(false);
         Toast.error(
           <>
-            Please try again, see the <a href="/help">Help page</a> to learn
+            Please try again, see the <Link to="/help">Help page</Link> to learn
             more.
           </>
         );
@@ -166,7 +166,7 @@ const SkuPageModal = ({
       Toast.error(
         <>
           There was an error processing your purchase. Please try again, see the{' '}
-          <a href="/help">Help page</a> to learn more.
+          <Link to="/help">Help page</Link> to learn more.
         </>
       );
     }

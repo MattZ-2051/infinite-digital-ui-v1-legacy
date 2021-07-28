@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
 import { useAppSelector } from 'store/hooks';
@@ -154,9 +154,9 @@ const SkuDetail = (): JSX.Element => {
           <S.HeaderRight>
             <S.ProductDetail>
               <S.Breadcrumbs>
-                <a href="/marketplace" style={{ color: 'white' }}>
+                <Link to="/marketplace" style={{ color: 'white' }}>
                   Marketplace
-                </a>
+                </Link>
                 <span style={{ color: '#7C7C7C' }}>{sku.name}</span>
               </S.Breadcrumbs>
 

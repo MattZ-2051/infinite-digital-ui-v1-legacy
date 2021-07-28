@@ -1,10 +1,11 @@
+import React from 'react';
 import Modal from 'components/Modal';
 import * as S from './styles';
+import { Link } from 'react-router-dom';
 import Emoji from 'components/Emoji';
 import { useAuth0 } from '@auth0/auth0-react';
 import { cancelListing } from 'services/api/listingService';
 import Toast from 'utils/Toast';
-import { createSale } from 'utils/messages';
 import { HistoryStatus } from '../../History/types';
 
 interface Props {
@@ -29,7 +30,7 @@ const CancelSale = ({
       Toast.error(
         <>
           Whoops! Something went wrong, please try again or go to the{' '}
-          <a href="/help">help page</a> to contact us.
+          <Link to="/help">help page</Link> to contact us.
         </>
       );
     } else {
@@ -38,7 +39,7 @@ const CancelSale = ({
         Toast.error(
           <>
             Whoops! Something went wrong, please try again or go to the{' '}
-            <a href="/help">help page</a> to contact us.
+            <Link to="/help">help page</Link> to contact us.
           </>
         );
       }

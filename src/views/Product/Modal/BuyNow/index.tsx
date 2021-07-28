@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { S } from './styles';
 import { patchListingsPurchase } from 'services/api/listingService';
@@ -57,7 +57,7 @@ const BuyNowModal = ({
     Toast.error(
       <>
         There was an error processing your purchase. Please try again, see the{' '}
-        <a href="/help">help page</a> to learn more.
+        <Link to="/help">help page</Link> to learn more.
       </>
     );
 
@@ -109,11 +109,11 @@ const BuyNowModal = ({
             <>
               You successfully purchased {pendingTx.transactionData.sku.name} #
               {pendingTx?.transactionData?.product[0]?.serialNumber} click{' '}
-              <a
-                href={`/product/${pendingTx?.transactionData?.product[0]?._id}`}
+              <Link
+                to={`/product/${pendingTx?.transactionData?.product[0]?._id}`}
               >
                 here
-              </a>{' '}
+              </Link>{' '}
               to view your product.
             </>
           );
