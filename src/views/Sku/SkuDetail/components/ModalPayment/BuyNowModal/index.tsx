@@ -139,6 +139,7 @@ const SkuPageModal = ({
   const buyAction = async () => {
     if (!checkTerms) {
       Toast.error(purchase.termsError);
+      setStatusMode('error');
       return;
     }
     if (listing) {
@@ -153,6 +154,7 @@ const SkuPageModal = ({
         fetchTransactions();
       } else {
         setLoading(false);
+        setStatusMode('error');
         Toast.error(
           <>
             Please try again, see the <Link to="/help">Help page</Link> to learn
