@@ -97,7 +97,11 @@ if (config.gtag.id) {
 
 (async () => {
   if (ga4react) {
-    await ga4react.initialize();
+    try {
+      await ga4react.initialize();
+    } catch (e) {
+      console.error(e);
+    }
   }
   ReactDOM.render(<Main />, document.getElementById('root'));
 })();
