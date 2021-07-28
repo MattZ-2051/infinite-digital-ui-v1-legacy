@@ -24,6 +24,10 @@ const weeklyDepositLimitMsgRe =
   /^You've deposited \$(?<depositByNow>\S+) USD in the past seven days\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 
 function isValidCvv(vv) {
+  return /^\d{3}$/.test(vv);
+}
+
+function isPartialValidCvv(vv) {
   return /^\d{0,3}$/.test(vv);
 }
 
@@ -125,7 +129,7 @@ const AddFunds = () => {
   if (!userCard) {
     return null;
   }
-  const ccIsActive =  userCard.status !== 'complete';
+  const ccIsActive =  userCard.status === 'complete';
   const ccActiveStatus =  userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
 
   const year = userCard.expYear.toString().slice(2, 4);
@@ -198,7 +202,7 @@ const AddFunds = () => {
           <S.FormInput
             onChange={(ev) => {
               const vv = ev.target.value;
-              if (!isValidCvv(vv)) {
+              if (!isPartialValidCvv(vv)) {
                 return;
               }
               setCvv(vv);
