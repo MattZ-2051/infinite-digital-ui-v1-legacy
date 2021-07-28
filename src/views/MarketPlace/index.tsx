@@ -230,14 +230,15 @@ const MarketPlace = (): JSX.Element => {
   }, [activeFilters]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const fetchUserInfo = async () => {
+    const fetchUserInfo = async () => {
+      if (isAuthenticated) {
         const userToken = await getAccessTokenSilently();
         dispatch(getUserCardsThunk({ token: userToken }));
         dispatch(getUserInfoThunk({ token: userToken }));
-      };
-      fetchUserInfo();
-    }
+      }
+    };
+
+    fetchUserInfo();
   }, []);
 
   if (!skus) return <PageLoader />;

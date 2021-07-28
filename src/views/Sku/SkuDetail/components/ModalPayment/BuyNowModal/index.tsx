@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import { Sku } from 'entities/sku';
@@ -14,7 +14,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
-import { getUserCardsThunk } from 'store/session/sessionThunks';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
 // import ReactGA from "react-ga";
@@ -58,14 +58,11 @@ const SkuPageModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
-  useEffect(
-    () => {
-      if (visible && statusMode === 'hasFunds') {
-        // ReactGA.modalview('sku-purchase-modal');
-      }
-    },
-    [statusMode, visible],
-  );
+  useEffect(() => {
+    if (visible && statusMode === 'hasFunds') {
+      // ReactGA.modalview('sku-purchase-modal');
+    }
+  }, [statusMode, visible]);
 
   const initialBuyersFeePercentage = parseFloat(
     useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
@@ -115,8 +112,9 @@ const SkuPageModal = ({
         Toast.success(
           <>
             Congrats! Your NFT purchase was processed successfully! Click
-            <Link to={`/product/${newPurchasedProduct._id}`}> here </Link> to view
-            your product {product.name} #{newPurchasedProduct.serialNumber}.
+            <Link to={`/product/${newPurchasedProduct._id}`}> here </Link> to
+            view your product {product.name} #{newPurchasedProduct.serialNumber}
+            .
           </>
         );
       }
@@ -150,7 +148,7 @@ const SkuPageModal = ({
       // TODO: Check payment
       if (response.status === 200) {
         setStatusMode('processing');
-        dispatch(getUserCardsThunk({ token: userToken }));
+        dispatch(getUserInfoThunk({ token: userToken }));
         setLoading(false);
         fetchTransactions();
       } else {
@@ -193,7 +191,7 @@ const SkuPageModal = ({
   };
 
   const handleTCRouteChange = () => {
-    window.open('/terms','_blank');
+    window.open('/terms', '_blank');
   };
 
   const content = (
