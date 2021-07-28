@@ -46,9 +46,8 @@ export const getFeaturedSkuTiles = async (options?: {
   try {
     return await getSkuTiles({
       token: options?.token,
-      queryParams: `?${
-        options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
-      }${options?.queryParams || ''}`,
+      queryParams: `?${options?.issuerId ? `&issuerId=${options?.issuerId}` : ''
+        }${options?.queryParams || ''}`,
     });
   } catch (err) {
     throw handleApiError(err);
@@ -82,3 +81,35 @@ export const getSku = async <T extends boolean = false>(
 // a "Sku" if includeFunctions is false
 // but a "SkuWithFunctions" if includeFunctions is true
 type SkuCallReturnType<T> = Sku;
+
+
+
+export const getSkusPhysicalClaims = async <T extends boolean = false>(
+  page: number,
+  perPage: number,
+  options?: {
+    token?: string;
+    includeFunctions?: T;
+    sortBy?: string,
+
+  }
+): Promise<SkuWithTotal> => {
+  try {
+    const response = await axiosInstance.request<{ resource: Sku[], totalDocs: number }>({
+      method: 'GET',
+      url: `/skus/physical-claims`,
+      params: {
+        includeFunctions: options?.includeFunctions,
+        page: page,
+        per_page: perPage,
+        sortBy: `createdAt:${options?.sortBy === 'oldest' ? 'asc' : 'desc'}`
+      },
+      headers: { Authorization: `Bearer ${options?.token}` },
+    });
+    const { data } = response;
+    const { resource, totalDocs } = data;
+    return { data: resource, total: totalDocs };
+  } catch (e) {
+    throw handleApiError(e);
+  }
+};

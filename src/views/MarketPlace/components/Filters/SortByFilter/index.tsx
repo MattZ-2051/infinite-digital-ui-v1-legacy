@@ -9,9 +9,10 @@ interface IProps {
   options: any; //TODO: change type
   handleSort: (sortValue: 'newest' | 'oldest') => void;
   activeSort: string;
+  theme?: 'light' | 'dark';
 }
 
-const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
+const SortByFilter = ({ options, handleSort, activeSort, theme }: IProps) => {
   const [isHidden, setIsHidden] = useState<boolean | undefined>(true);
   const matchesMobile = useMediaQuery('(max-width:950px)', { noSsr: true });
   const getCurrentLabel = () => {
@@ -35,7 +36,11 @@ const SortByFilter = ({ options, handleSort, activeSort }: IProps) => {
           <>
             <S.SortBy>Sort by:</S.SortBy>
             <S.Label>{currentLabel?.name}</S.Label>
-            <FilterArrow isHidden={isHidden} setIsHidden={setIsHidden} />
+            <FilterArrow
+              isHidden={isHidden}
+              setIsHidden={setIsHidden}
+              theme={theme}
+            />
           </>
         )}
         {matchesMobile && (
