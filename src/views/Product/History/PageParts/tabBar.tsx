@@ -4,6 +4,39 @@ import padlock from 'assets/svg/icons/padlock-icon.svg';
 import { formatDate } from 'utils/dates';
 import { useCountdown } from 'hooks/useCountdown';
 import { useEffect } from 'react';
+import MobileDropDown from '../components/mobileTabDropDown';
+import { Util } from '../util';
+
+interface ExpiresInCompProps {
+  util: Util;
+  countdown: string;
+}
+
+const ExpiresInText = ({ util, countdown }: ExpiresInCompProps) => {
+  return (
+    <S.TextContainer borderBottom={true}>
+      <S.Text color="#9e9e9e" size="18px" fontWeight={600} padding="0 5px">
+        Expires in
+      </S.Text>
+      <S.Text color="white" size="18px" fontWeight={600} padding="0 5px">
+        {util.product?.activeProductListings[0] && countdown}
+      </S.Text>{' '}
+      <S.Text color="#7c7c7c" size="14px" fontWeight={400} padding="0 5px">
+        {util.product?.activeProductListings[0] &&
+          `(${formatDate(
+            new Date(util.product?.activeProductListings[0].endDate)
+          )})`}
+      </S.Text>
+    </S.TextContainer>
+  );
+};
+
+const getTabOptionsArr = (isAuctionOrWillBe, arePrivateAssets) => {
+  const options: ['History' | 'Auction' | 'Owner Access'] = ['History'];
+  isAuctionOrWillBe && options.unshift('Auction');
+  arePrivateAssets && options.push('Owner Access');
+  return options;
+};
 
 export const TabBar = ({
   util,
@@ -23,9 +56,11 @@ export const TabBar = ({
 
   const isUserOwner = util.loggedInUser.id === util.product?.owner?._id;
 
-  if (countdown === '0h 0m 0s') {
-    window.location.reload();
-  }
+  useEffect(() => {
+    if (countdown === '0h 0m 0s' || countdown.includes('-')) {
+      window.location.reload();
+    }
+  }, [countdown]);
 
   useEffect(() => {
     if (isActiveAuction || isAuctionOrWillBe) {
@@ -33,93 +68,65 @@ export const TabBar = ({
     }
   }, []);
 
-  return (
-    <S.TabBar>
-      {isAuctionOrWillBe && (
-        <>
-          <S.Tab
-            themeStyle={'light'}
-            selected={selectedTab === 'auction'}
-            onClick={() => setSelectedTab('auction')}
-          >
-            Auction
-          </S.Tab>
-          <S.Padding />
-        </>
-      )}
+  const DesktopLayout = () => {
+    return (
+      <>
+        {isAuctionOrWillBe && (
+          <>
+            <S.Tab
+              themeStyle={'light'}
+              selected={selectedTab === 'auction'}
+              onClick={() => setSelectedTab('auction')}
+            >
+              Auction
+            </S.Tab>
+            <S.Padding />
+          </>
+        )}
 
-      <S.Tab
-        themeStyle={themeStyle}
-        selected={selectedTab === 'history'}
-        onClick={() => setSelectedTab('history')}
-      >
-        History
-      </S.Tab>
-      <S.Padding
-      // style={{
-      //   borderBottom:
-      //     selectedTab === 'history' ? 'none' : ': 2px solid #2e2e2e;',
-      // }}
-      />
-
-      {arePrivateAssets && (
         <S.Tab
           themeStyle={themeStyle}
-          selected={selectedTab === 'owner_access'}
-          onClick={() => setSelectedTab('owner_access')}
+          selected={selectedTab === 'history'}
+          onClick={() => setSelectedTab('history')}
         >
-          <S.ContainerImgLabel>
-            {!isUserOwner && <img src={padlock} alt="padlock-icon"></img>}{' '}
-            <S.LabelOwnerAccess>Owner Access</S.LabelOwnerAccess>
-          </S.ContainerImgLabel>
+          History
         </S.Tab>
-      )}
+        <S.Padding />
+        {arePrivateAssets && (
+          <S.Tab
+            themeStyle={themeStyle}
+            selected={selectedTab === 'owner_access'}
+            onClick={() => setSelectedTab('owner_access')}
+          >
+            <S.ContainerImgLabel>
+              {!isUserOwner && <img src={padlock} alt="padlock-icon"></img>}{' '}
+              <S.LabelOwnerAccess>Owner Access</S.LabelOwnerAccess>
+            </S.ContainerImgLabel>
+          </S.Tab>
+        )}
 
-      <S.GrayLine
-        marginRight={
-          matchesMobile
-            ? false
-            : selectedTab === 'history' ||
-              selectedTab === 'owner_access' ||
-              auctionStatus.split('-')[0] === 'upcoming'
-        }
-        width={
-          selectedTab === 'history' ||
-          selectedTab === 'owner_access' ||
-          auctionStatus.split('-')[0] === 'upcoming'
-        }
-      />
+        <S.GrayLine paddingBottom="38px" marginRight="80px" />
+      </>
+    );
+  };
+
+  return (
+    <S.TabBar>
+      {matchesMobile ? (
+        <MobileDropDown
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          tabOptions={getTabOptionsArr(isAuctionOrWillBe, arePrivateAssets)}
+          auctionStatus={auctionStatus}
+          matchesMobile={matchesMobile}
+        />
+      ) : (
+        <DesktopLayout />
+      )}
       {isActiveAuction &&
         selectedTab === 'auction' &&
-        (matchesMobile ? (
-          <S.TextContainer
-            borderBottom={true}
-            marginRight="0"
-            padding="0 0 0 10px"
-          >
-            {/* {' '}
-            <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
-              {util.product?.activeProductListings[0] &&
-                `(${formatDate(
-                  new Date(util.product?.activeProductListings[0].endDate)
-                )})`}
-            </S.Text> */}
-          </S.TextContainer>
-        ) : (
-          <S.TextContainer borderBottom={true}>
-            <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
-              Expires in
-            </S.Text>
-            <S.Text color="white" size="18px" fontWeight={600}>
-              {util.product?.activeProductListings[0] && countdown}
-            </S.Text>{' '}
-            <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
-              {util.product?.activeProductListings[0] &&
-                `(${formatDate(
-                  new Date(util.product?.activeProductListings[0].endDate)
-                )})`}
-            </S.Text>
-          </S.TextContainer>
+        (matchesMobile ? null : (
+          <ExpiresInText util={util} countdown={countdown} />
         ))}
     </S.TabBar>
   );

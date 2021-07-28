@@ -11,10 +11,10 @@ export const AuctionCountDown = ({ product, countdown }) => {
         padding={matchesMobile ? '0 0 0 0' : '0 0 10px 0'}
       >
         {' '}
-        <S.Text color="#9e9e9e" size="18px" fontWeight={600}>
+        <S.Text color="#9e9e9e" size="18px" fontWeight={600} padding="0 5px">
           Expires in
         </S.Text>
-        <S.Text color="white" size="18px" fontWeight={600}>
+        <S.Text color="white" size="18px" fontWeight={600} padding="0 5px">
           {product?.activeProductListings[0] && countdown}
         </S.Text>{' '}
       </S.FlexDiv>
@@ -24,7 +24,7 @@ export const AuctionCountDown = ({ product, countdown }) => {
           size="14px"
           fontWeight={400}
           textAlign="center"
-          style={{ padding: '10px 0 35px 0' }}
+          padding="10px 0 35px 0"
         >
           {product?.activeProductListings[0] &&
             `(${formatDate(

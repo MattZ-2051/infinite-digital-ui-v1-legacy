@@ -8,7 +8,7 @@ import { Collector } from 'entities/collector';
 import { Listing } from 'entities/listing';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
-import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
+import SkuPageModal from '../../ModalPayment/BuyNowModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import { useMediaQuery } from '@material-ui/core';

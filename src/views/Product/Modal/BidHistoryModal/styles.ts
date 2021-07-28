@@ -5,6 +5,15 @@ import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 export const Container = styled.div`
   padding: 20px;
   min-width: 400px;
+  height: 85vh;
+  margin: 20px;
+  overflow: hidden;
+  :hover {
+    overflow-y: auto;
+  }
+  @media screen and (max-width: 600px) {
+    min-width: 100%;
+  }
 `;
 
 export const PaginationContainer = styled.div`

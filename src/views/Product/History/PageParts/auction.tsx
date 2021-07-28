@@ -3,6 +3,12 @@ import Transaction from '../Transaction';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
 import { formatDate } from 'utils/dates';
+
+const GreyTextProps = {
+  color: '#9e9e9e',
+  size: '16px',
+};
+
 export const Auction = ({
   util,
   handlers,
@@ -18,11 +24,16 @@ export const Auction = ({
       <S.TransactionHistory>
         {util.product?.upcomingProductListings.length !== 0 ? (
           <S.BidsContainer padding={'22px 0px'}>
-            <S.Text color="white" size="18px" fontWeight={600}>
+            <S.Text color="white" size="18px" fontWeight={600} padding="0 5px">
               Starts at ${util.product?.upcomingProductListings[0].minBid} in{' '}
               {util.countDown()}{' '}
             </S.Text>
-            <S.Text color="#7c7c7c" size="14px" fontWeight={400}>
+            <S.Text
+              color="#7c7c7c"
+              size="14px"
+              fontWeight={400}
+              padding="0 5px"
+            >
               (
               {util.product?.upcomingProductListings[0].startDate &&
                 formatDate(
@@ -47,18 +58,18 @@ export const Auction = ({
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
+                  <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
                     Started at
                   </S.Text>
-                  <S.Text color="white" size="16px" fontWeight={600}>
+                  <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
                     ${util.product?.activeProductListings[0].minBid}
                   </S.Text>{' '}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                  <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
                     on
                   </S.Text>
-                  <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                  <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
                     {util.product?.activeProductListings[0].length !== 0 &&
                       `${formatDate(
                         new Date(
@@ -70,16 +81,21 @@ export const Auction = ({
               </div>
             ) : (
               <S.TextContainer paddingTop="32px">
-                <S.Text color="#9e9e9e" size="16px" fontWeight={600}>
+                <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
                   Started at
                 </S.Text>
-                <S.Text color="white" size="16px" fontWeight={600}>
+                <S.Text
+                  color="white"
+                  size="16px"
+                  fontWeight={600}
+                  padding="0 5px"
+                >
                   ${util.product?.activeProductListings[0].minBid}
                 </S.Text>{' '}
-                <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
                   on
                 </S.Text>
-                <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
                   {util.product?.activeProductListings[0].length !== 0 &&
                     `${formatDate(
                       new Date(util.product?.activeProductListings[0].startDate)
@@ -168,13 +184,28 @@ export const Auction = ({
               {util.product?.activeProductListings.length !== 0 &&
                 (!matchesMobile ? (
                   <S.FlexDiv>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       Started at
                     </S.Text>
-                    <S.Text color="white" size="16px" fontWeight={600}>
+                    <S.Text
+                      color="white"
+                      size="16px"
+                      fontWeight={600}
+                      padding="0 5px"
+                    >
                       ${util.product?.activeProductListings[0]?.minBid}
                     </S.Text>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       on{' '}
                       {util.product &&
                         formatDate(
@@ -187,14 +218,29 @@ export const Auction = ({
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      <S.Text
+                        color="#9e9e9e"
+                        size="16px"
+                        fontWeight={500}
+                        padding="0 5px"
+                      >
                         Started at
                       </S.Text>
-                      <S.Text color="white" size="16px" fontWeight={600}>
+                      <S.Text
+                        color="white"
+                        size="16px"
+                        fontWeight={600}
+                        padding="0 5px"
+                      >
                         ${util.product?.activeProductListings[0]?.minBid}
                       </S.Text>
                     </div>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       on{' '}
                       {util.product &&
                         formatDate(
@@ -233,13 +279,28 @@ export const Auction = ({
               {util.product?.activeProductListings.length !== 0 &&
                 (!matchesMobile ? (
                   <S.FlexDiv>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       Started at
                     </S.Text>
-                    <S.Text color="white" size="16px" fontWeight={600}>
+                    <S.Text
+                      color="white"
+                      size="16px"
+                      fontWeight={600}
+                      padding="0 5px"
+                    >
                       ${util.product?.activeProductListings[0]?.minBid}
                     </S.Text>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       on{' '}
                       {util.product &&
                         formatDate(
@@ -252,14 +313,29 @@ export const Auction = ({
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div>
-                      <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                      <S.Text
+                        color="#9e9e9e"
+                        size="16px"
+                        fontWeight={500}
+                        padding="0 5px"
+                      >
                         Started at
                       </S.Text>
-                      <S.Text color="white" size="16px" fontWeight={600}>
+                      <S.Text
+                        color="white"
+                        size="16px"
+                        fontWeight={600}
+                        padding="0 5px"
+                      >
                         ${util.product?.activeProductListings[0]?.minBid}
                       </S.Text>
                     </div>
-                    <S.Text color="#9e9e9e" size="16px" fontWeight={500}>
+                    <S.Text
+                      color="#9e9e9e"
+                      size="16px"
+                      fontWeight={500}
+                      padding="0 5px"
+                    >
                       on{' '}
                       {util.product &&
                         formatDate(

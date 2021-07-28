@@ -205,12 +205,15 @@ export const History = styled.span`
   padding-bottom: 16px;
 `;
 
-export const GrayLine = styled.div<{ width?: boolean; marginRight?: boolean }>`
+export const GrayLine = styled.div<{
+  marginRight?: string;
+  paddingBottom: string;
+}>`
   border-bottom: 2px solid #2e2e2e;
   color: #1a1a1a;
-  padding-bottom: 38px;
+  padding-bottom: ${(props) => `${props.paddingBottom}`};
   ${(props) => props.marginRight && `margin-right: 80px`};
-  ${(props) => props.width && `width: -webkit-fill-available`};
+  width: -webkit-fill-available;
 `;
 
 export const Padding = styled.div`
@@ -269,12 +272,13 @@ export const Text = styled.p<{
   fontWeight: number;
   textAlign?: string;
   width?: string;
+  padding: string;
 }>`
   margin: 0;
   color: ${(props) => `${props.color}`};
   font-size: ${(props) => `${props.size}`};
   font-weight: ${(props) => `${props.fontWeight}`};
-  padding: 0 5px;
+  padding: ${(props) => `${props.padding}`};
   text-align: ${(props) => `${props.textAlign}`};
   width: ${(props) => `${props.width}`};
   white-space: nowrap;

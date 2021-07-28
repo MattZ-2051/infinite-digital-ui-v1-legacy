@@ -188,6 +188,7 @@ export const Header = ({
                 fontWeight={600}
                 textAlign={matchesMobile ? 'end' : ''}
                 width={smallMobile ? '120px' : ''}
+                padding="0 5px"
               >
                 Upcoming Auction
               </S.Text>
@@ -197,6 +198,7 @@ export const Header = ({
                 fontWeight={500}
                 textAlign={smallMobile ? 'center' : ''}
                 width={smallMobile ? '108px' : ''}
+                padding="0 5px"
               >
                 (Starts{' '}
                 {formatDate(product?.upcomingProductListings[0]?.startDate)})
@@ -256,7 +258,7 @@ export const Header = ({
                   color="#7c7c7c"
                   size="16px"
                   fontWeight={500}
-                  style={{ padding: '0' }}
+                  padding="0"
                 >
                   {bids.length === 0 ? 'Minimum Bid' : 'Current Bid'}
                 </S.Text>

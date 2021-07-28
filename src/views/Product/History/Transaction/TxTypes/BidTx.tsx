@@ -1,14 +1,23 @@
 import { Props } from '../index';
 import { formatDate } from 'utils/dates';
 import * as S from '../styles';
+import { useMediaQuery } from '@material-ui/core';
 
 interface BidTxProps extends Props {
   handleRedirectToCollections: () => void;
 }
 
 const BidTx = ({ bid, handleRedirectToCollections }: BidTxProps) => {
+  const matchesSmScreen = useMediaQuery('(max-width:576px)');
+
   return (
-    <S.Container>
+    <S.Container
+      style={
+        matchesSmScreen
+          ? { flexDirection: 'column', alignItems: 'flex-start' }
+          : {}
+      }
+    >
       <S.Username className="username" onClick={handleRedirectToCollections}>
         @{bid?.owner.username}
       </S.Username>

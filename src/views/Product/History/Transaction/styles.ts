@@ -18,9 +18,8 @@ export const Container = styled.div`
     color: white;
   }
   @media screen and (max-width: 400px) {
-    display: grid;
-    column-gap: 8px;
-    grid-template-columns: min-content 1fr;
+    display: flex;
+    justify-content: space-between;
     &.with-link {
       grid-template-columns: min-content 1fr 24px;
     }
@@ -190,6 +189,7 @@ export const TransactionInfo = styled.div<{ padding?: string }>`
   padding: ${(props) => props.padding && `${props.padding}`};
   @media screen and (max-width: 400px) {
     padding-left: 4px;
+    justify-content: flex-start;
   }
 `;
 

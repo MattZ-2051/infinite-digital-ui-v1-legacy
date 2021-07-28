@@ -17,10 +17,6 @@ export interface Props {
 }
 
 const Transaction = ({ transaction, bid }: Props) => {
-  const cropText = (text: string, limit: number) => {
-    return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
-  };
-
   const [showLink, setShowLink] = useState<boolean>(false);
   const history = useHistory();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
@@ -49,56 +45,96 @@ const Transaction = ({ transaction, bid }: Props) => {
     }
   };
 
+  const DesktopTransaction = () => {
+    return (
+      <>
+        <S.Username className="username" onClick={handleRedirectToCollections}>
+          @{transaction?.owner.username}
+        </S.Username>
+        <S.TransactionInfo padding="0 0 0 10px">
+          {!isNftRedeemTx && (
+            <S.TransactionDetails alignItems="flex-start">
+              {isPurchaseTx && <PurchaseTx transaction={transaction} />}
+              {isNftMintTx && (
+                <S.FlexDiv>
+                  <S.Text>NFT Minted</S.Text>
+                </S.FlexDiv>
+              )}
+              {isNftTransferManualTx && (
+                <S.FlexDiv>
+                  <S.Text>Recieved Transfer</S.Text>
+                </S.FlexDiv>
+              )}
+              {isAuctionTx && (
+                <AuctionTx
+                  transaction={transaction}
+                  setShowBidModal={setShowBidModal}
+                />
+              )}
+              {!isAuctionTx && (
+                <S.Date width={matchesMobile && isNftMintTx ? '90px' : ''}>
+                  {transaction && formatDate(new Date(transaction?.updatedAt))}{' '}
+                </S.Date>
+              )}
+            </S.TransactionDetails>
+          )}
+          {isNftRedeemTx && <RedeemTx transaction={transaction} />}
+        </S.TransactionInfo>
+      </>
+    );
+  };
+
+  const MobileTransaction = () => {
+    return (
+      <div>
+        <S.Username className="username" onClick={handleRedirectToCollections}>
+          @{transaction?.owner.username}
+        </S.Username>
+        <S.TransactionInfo padding="0 0 0 10px">
+          {!isNftRedeemTx && (
+            <S.TransactionDetails alignItems="flex-start">
+              {isPurchaseTx && <PurchaseTx transaction={transaction} />}
+              {isNftMintTx && (
+                <S.FlexDiv>
+                  <S.Text>NFT Minted</S.Text>
+                </S.FlexDiv>
+              )}
+              {isNftTransferManualTx && (
+                <S.FlexDiv>
+                  <S.Text>Recieved Transfer</S.Text>
+                </S.FlexDiv>
+              )}
+              {isAuctionTx && (
+                <AuctionTx
+                  transaction={transaction}
+                  setShowBidModal={setShowBidModal}
+                />
+              )}
+              {!isAuctionTx && (
+                <S.Date width={matchesMobile && isNftMintTx ? '90px' : ''}>
+                  {transaction && formatDate(new Date(transaction?.updatedAt))}{' '}
+                </S.Date>
+              )}
+            </S.TransactionDetails>
+          )}
+          {isNftRedeemTx && <RedeemTx transaction={transaction} />}
+        </S.TransactionInfo>
+      </div>
+    );
+  };
+
   if (transaction) {
     return (
       <>
         <S.Container className={!isNftRedeemTx ? 'with-link' : ''}>
-          <S.Username
-            className="username"
-            onClick={handleRedirectToCollections}
-          >
-            @
-            {matchesSmScreen
-              ? cropText(transaction?.owner.username, 8)
-              : transaction?.owner.username}
-          </S.Username>
-          <S.TransactionInfo padding="0 0 0 10px">
-            {!isNftRedeemTx && (
-              <S.TransactionDetails alignItems="flex-start">
-                {isPurchaseTx && <PurchaseTx transaction={transaction} />}
-                {isNftMintTx && (
-                  <S.FlexDiv>
-                    <S.Text>NFT Minted</S.Text>
-                  </S.FlexDiv>
-                )}
-                {isNftTransferManualTx && (
-                  <S.FlexDiv>
-                    <S.Text>Recieved Transfer</S.Text>
-                  </S.FlexDiv>
-                )}
-                {isAuctionTx && (
-                  <AuctionTx
-                    transaction={transaction}
-                    setShowBidModal={setShowBidModal}
-                  />
-                )}
-                {!isAuctionTx && (
-                  <S.Date width={matchesMobile && isNftMintTx ? '90px' : ''}>
-                    {transaction &&
-                      formatDate(new Date(transaction?.updatedAt))}{' '}
-                  </S.Date>
-                )}
-              </S.TransactionDetails>
-            )}
-            {isNftRedeemTx && <RedeemTx transaction={transaction} />}
-          </S.TransactionInfo>
+          {matchesSmScreen ? <MobileTransaction /> : <DesktopTransaction />}
           {!isNftRedeemTx && (
             <div
               style={{ position: 'relative' }}
               onMouseEnter={() => setShowLink(true)}
               onMouseLeave={() => setShowLink(false)}
             >
-              {showLink && !matchesMobile && (
+              {showLink && !matchesSmScreen && (
                 <div>
                   <S.ToolTip></S.ToolTip>
                   <S.ToolTipText>
@@ -112,6 +148,13 @@ const Transaction = ({ transaction, bid }: Props) => {
                   </S.ToolTipText>
                 </div>
               )}
+              {matchesSmScreen && (
+                <S.AuctionIcon
+                  className="icon_link"
+                  onClick={() => setShowBidModal(true)}
+                />
+              )}
+
               <a
                 href={transaction?.transactionData?.explorerLink}
                 target="_blank"
