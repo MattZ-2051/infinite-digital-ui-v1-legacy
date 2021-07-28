@@ -24,12 +24,13 @@ export const SoldOutAuctionBox = styled.div`
 
 export const DetailsContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-flow: row;
-  align-content: center;
-  flex-wrap: no-wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 0.7fr;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1.5fr 0.5fr;
+  }
 `;
+
 export const Text = styled.p<{
   fontWeight: number;
   color: string;
@@ -44,20 +45,22 @@ export const Text = styled.p<{
 export const FormatedDateContainer = styled.div`
   margin-right: 4px;
 `;
-export const BoxColumn = styled.div`
+export const BoxColumn = styled.div<{ alignItems?: string }>`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  justify-content: center;
+
+  align-items: ${(props) =>
+    props.alignItems ? `${props.alignItems}` : 'flex-start'};
+  text-align: center;
   small {
     font-weight: 400;
   }
-  span {
-    // letter-spacing: -2px;
+
+  @media screen and (max-width: 600px) {
+    align-items: ${(props) =>
+      props.alignItems ? `${props.alignItems}` : 'center'};
   }
-
-  /* @media screen and (max-width: 600px) {
-
-} */
 `;
 export const SeeAllContainer = styled.div`
   @media screen and (max-width: 600px) {
@@ -113,10 +116,14 @@ export const StartDate = styled.span`
   display: flex;
   flex-wrap: wrap;
   font-style: normal;
+  justify-content: center;
   font-weight: 500;
   font-size: 18px;
   line-height: 23px;
   color: #8e8e8e;
+  @media screen and (max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 export const Slash = styled.span`

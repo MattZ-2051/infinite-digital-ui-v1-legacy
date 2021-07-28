@@ -95,16 +95,9 @@ const UpcomingAuction = ({
 interface IUpcomingData {
   startDate?: Date;
   price: number;
-  items: number;
-  supplyType: string;
 }
 
-const UpcomingData = ({
-  startDate = new Date(),
-  price,
-  items,
-  supplyType,
-}: IUpcomingData) => {
+const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
   const matchesMobile = useMediaQuery('(max-width: 960px)');
@@ -114,35 +107,26 @@ const UpcomingData = ({
       {' '}
       <S.Container>
         <S.DetailsContainer>
-          <S.Detail style={{ alignItems: 'flex-start' }}>
-            <S.BoxColumn>
-              <S.BoxTitle>Upcoming</S.BoxTitle>
-              <S.BoxSubtitle>{''}</S.BoxSubtitle>
-              {matchesMobile && (
-                <>
-                  <S.CountDownTime>{countdown}</S.CountDownTime>
-                  <S.StartDate style={{ justifyContent: 'flex-start' }}>
-                    <S.FormatedDateContainer>
-                      {formatDate(startDate).split('at')[0]}
-                    </S.FormatedDateContainer>
-                    <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
-                  </S.StartDate>
-                </>
-              )}
-            </S.BoxColumn>
-            <S.BoxColumn style={{ textAlign: 'center' }}>
-              <S.Price>${price}</S.Price>
-              {/* {supplyType !== 'variable' && (
-                <small style={{ fontSize: '15px' }}>
-                  {items && `(${items} NFTs)`}
-                </small>
-              )} */}
-            </S.BoxColumn>
-          </S.Detail>
+          <S.BoxColumn alignItems={matchesMobile ? 'flex-start' : 'center'}>
+            <S.BoxTitle>Upcoming</S.BoxTitle>
+            <S.BoxSubtitle>{''}</S.BoxSubtitle>
+            {matchesMobile && (
+              <>
+                <S.CountDownTime>{countdown}</S.CountDownTime>
+                <S.StartDate style={{ justifyContent: 'flex-start' }}>
+                  <S.FormatedDateContainer>
+                    {formatDate(startDate).split('at')[0]}
+                  </S.FormatedDateContainer>
+                  <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
+                </S.StartDate>
+              </>
+            )}
+          </S.BoxColumn>
+
           {!matchesMobile && (
-            <S.BoxColumn style={{ textAlign: 'right' }}>
+            <S.BoxColumn alignItems="center">
               <S.CountDownTime>{countdown}</S.CountDownTime>
-              <S.StartDate style={{ justifyContent: 'flex-end' }}>
+              <S.StartDate>
                 <S.FormatedDateContainer>
                   {formatDate(startDate).split('at')[0]}
                 </S.FormatedDateContainer>
@@ -150,6 +134,10 @@ const UpcomingData = ({
               </S.StartDate>
             </S.BoxColumn>
           )}
+
+          <S.BoxColumn alignItems="center">
+            <S.Price>${price}</S.Price>
+          </S.BoxColumn>
         </S.DetailsContainer>
       </S.Container>
     </>
@@ -212,7 +200,7 @@ const FromCreatorBox = ({
           <S.BoxTitle>From Creator</S.BoxTitle>
           <S.BoxSubtitle>Initial Release</S.BoxSubtitle>
         </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'center' }}>
+        <S.BoxColumn alignItems="center">
           <S.Price>{price && `$${price}`}</S.Price>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
@@ -365,14 +353,7 @@ const SkuButtonBlock = ({
     const price = upcomingSkuListing.price;
     const numItems = upcomingSkuListing.supply;
 
-    return (
-      <UpcomingData
-        startDate={startDate}
-        price={price}
-        items={numItems}
-        supplyType={sku.supplyType}
-      />
-    );
+    return <UpcomingData startDate={startDate} price={price} />;
 
     // TODO: Will implement when auctions are available
     // const saleType = upcomingSkuListing.saleType;

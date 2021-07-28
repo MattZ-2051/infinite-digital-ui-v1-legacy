@@ -68,7 +68,7 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
           {!isAuthenticated && (
             <>
               <TextButton
-                onClick={() => login({ redirectUri: window.location.href })}
+                onClick={() => login({ redirectUri: window.location.origin })}
                 color="grey"
                 size="medium"
               >
