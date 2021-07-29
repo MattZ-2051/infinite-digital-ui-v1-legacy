@@ -182,7 +182,7 @@ const AddFunds = () => {
         <S.Row>
           <div>
             <span>Credit Card</span>
-            <S.ActiveText>({ccActiveStatus})</S.ActiveText>
+            <S.ActiveText statusStr={ccActiveStatus}>({ccActiveStatus})</S.ActiveText>
           </div>
           <S.RemoveCCButton onClick={removeCard}>Remove Card</S.RemoveCCButton>
         </S.Row>

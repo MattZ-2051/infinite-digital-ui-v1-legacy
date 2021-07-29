@@ -33,8 +33,8 @@ export const AmountInput = styled(CurrencyInput)`
   }
 `;
 
-export const ActiveText = styled.span`
-  color: #00c44f;
+export const ActiveText = styled.span<{ statusStr: string }>`
+  color: ${(props) => (props.statusStr === "Active" ? '#00c44f' : (props.statusStr === "Pending" ? '#7d7d7d' : '#e74c3c'))};
   padding-left: 5px;
 `;
 
@@ -69,7 +69,7 @@ export const FeeReminderIconContainer = styled.div`
 export const HeaderText = styled.span`
   font-size: 22px;
   padding-left: 18px;
-  font-weigth: 600;
+  font-weight: 600;
 `;
 
 export const HeaderDiv = styled.div`
@@ -110,7 +110,7 @@ export const AddFundsButton = styled(LoadingButton)`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }
@@ -130,7 +130,7 @@ export const InactiveButton = styled.button`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :focus {
     outline: none;
   }
