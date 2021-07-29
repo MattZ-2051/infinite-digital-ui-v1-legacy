@@ -143,8 +143,7 @@ export const BoxTitle = styled.span`
   font-size: 24px;
   font-weight: 700;
   line-height: 30px;
-
-  color: '#8E8E8E';
+  color: #8e8e8e;
 `;
 
 export const BoxSubtitle = styled.div`

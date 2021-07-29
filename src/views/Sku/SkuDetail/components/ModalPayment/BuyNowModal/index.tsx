@@ -17,6 +17,8 @@ import Emoji from 'components/Emoji';
 import { getUserInfoThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
+import { getSingleProduct } from 'services/api/productService';
+import { ProductWithFunctions } from 'entities/product';
 // import ReactGA from "react-ga";
 
 type Modes =
@@ -33,7 +35,7 @@ interface IModalProps {
   mode: Modes;
   sku: Sku;
   user?: User;
-  listing?: Listing;
+  listing: Listing;
   onProcessing?: () => void;
 }
 
@@ -53,6 +55,7 @@ const SkuPageModal = ({
     _id: string;
     serialNumber: string;
   }>({ _id: '', serialNumber: '' });
+  const [productData, setProductData] = useState<ProductWithFunctions | null>(null);
   const dispatch = useAppDispatch();
   const history = useHistory();
   const userBalance = useAppSelector(
@@ -67,6 +70,25 @@ const SkuPageModal = ({
   const initialBuyersFeePercentage = parseFloat(
     useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
   );
+
+  const fetchProduct = async () => {
+    if (listing?.product) {
+      const productRes = await getSingleProduct(listing.product);
+      setProductData(productRes);
+    }
+  };
+
+  useEffect(() => {
+    if (listing?.type === 'product') {
+      setLoading(true);
+      fetchProduct();
+      setLoading(false);
+    }
+  }, [listing]);
+
+  const marketplaceFee = productData?.resale
+    ? productData?.resaleBuyersFeePercentage
+    : initialBuyersFeePercentage;
 
   const fetchTransactions = async () => {
     const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
@@ -279,23 +301,17 @@ const SkuPageModal = ({
             </S.Text>
           </S.Center>
         )}
-
         {statusMode !== 'success' && statusMode !== 'error' && (
           <>
             <S.SkuInfo>
               <S.FlexRow>
                 <S.PriceInfo>Seller Price:</S.PriceInfo>
-                <S.PriceInfo>
-                  ${product?.activeSkuListings[0]?.price.toFixed(2)}
-                </S.PriceInfo>
+                <S.PriceInfo>${listing?.price.toFixed(2)}</S.PriceInfo>
               </S.FlexRow>
               <S.FlexRow>
-                <S.PriceInfo>{`Marketplace Fee (${initialBuyersFeePercentage}%):`}</S.PriceInfo>
+                <S.PriceInfo>{`Marketplace Fee (${marketplaceFee}%):`}</S.PriceInfo>
                 <S.PriceInfo>
-                  $
-                  {(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(
-                    2
-                  )}
+                  ${(listing?.price * (marketplaceFee / 100)).toFixed(2)}
                 </S.PriceInfo>
               </S.FlexRow>
             </S.SkuInfo>
@@ -304,8 +320,8 @@ const SkuPageModal = ({
               <S.Total>
                 $
                 {(
-                  product?.activeSkuListings[0]?.price +
-                  product?.activeSkuListings[0]?.price * (5 / 100)
+                  listing?.price +
+                  listing?.price * (marketplaceFee / 100)
                 ).toFixed(2)}
               </S.Total>
             </S.FlexRow>

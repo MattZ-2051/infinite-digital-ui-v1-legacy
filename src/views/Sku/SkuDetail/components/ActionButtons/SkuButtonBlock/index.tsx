@@ -13,54 +13,96 @@ import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import { useMediaQuery } from '@material-ui/core';
 
-interface IUpcomingAuction {
+interface IAuctionSale {
   startDate?: Date;
   price?: number;
   serialNumber?: string;
   owner?: User;
   endDate?: Date;
-  auctionState: 'active' | 'upcoming' | 'sold';
+  state: 'active' | 'upcoming' | 'sold' | 'inactive';
   productId?: string;
+  type?: string;
+  sku?: Sku;
+  user?: User;
+  onProcessing?: () => void;
+  listing?: Listing;
 }
 
-const UpcomingAuction = ({
+const AuctionSale = ({
   startDate,
   price,
   serialNumber,
   owner,
   endDate,
-  auctionState,
+  state,
+  type,
   productId,
-}: IUpcomingAuction) => {
+  sku,
+  user,
+  onProcessing,
+  listing,
+}: IAuctionSale) => {
   const history = useHistory();
-  const boxWidth =
-    auctionState === 'upcoming' || auctionState === 'active' ? '62%' : '52%';
+  const boxWidth = state === 'upcoming' || state === 'active' ? '62%' : '52%';
+  const typeName = type === 'auction' ? 'Auction' : 'Sale';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const userBalance = useAppSelector(
+    (state) => state.session.user?.availableBalance
+  );
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
+  const hasFunds = price ? userBalance >= price : false;
+  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const isSkuOwner = sku?.issuer._id === loggedInUserId;
+
+  const handleBuyNowClick = () => {
+    if (isAuthenticated) {
+      if (isSkuOwner) {
+        Toast.error('Cannot purchase your own SKU');
+      } else {
+        setIsModalOpen(true);
+      }
+    } else {
+      Toast.warning(
+        <>
+          You need to be{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            logged in
+          </a>{' '}
+          in order to complete a purchase
+        </>
+      );
+    }
+  };
+
   return (
     <>
       {' '}
       <S.Container>
         <S.Detail width={boxWidth}>
-          {(auctionState === 'upcoming' || auctionState === 'active') && (
+          {(state === 'upcoming' || state === 'active') && (
             <S.BoxColumn>
-              {auctionState === 'upcoming' && (
+              {state === 'upcoming' && (
                 <>
-                  <S.BoxTitle>Upcoming Auction</S.BoxTitle>
+                  <S.BoxTitle>Upcoming {typeName}</S.BoxTitle>
                   <S.BoxSubtitle>
                     Starts {startDate && formatDate(startDate)}
                   </S.BoxSubtitle>
                 </>
               )}
-              {auctionState === 'active' && (
+              {state === 'active' && (
                 <>
-                  <S.BoxTitle>Active Auction</S.BoxTitle>
+                  <S.BoxTitle>Active {typeName}</S.BoxTitle>
                   <S.BoxSubtitle>
-                    Ends {endDate && formatDate(endDate)}
+                    {type === 'auction'
+                      ? `Ends ${endDate && formatDate(endDate)}`
+                      : `Started ${startDate && formatDate(startDate)}`}
                   </S.BoxSubtitle>
                 </>
               )}
             </S.BoxColumn>
           )}
-          {auctionState === 'sold' && (
+          {(state === 'sold' || state === 'inactive') && (
             <S.SoldOutAuctionBox>
               <S.SerialNumber>#{serialNumber}</S.SerialNumber>
               <S.Slash>/</S.Slash>
@@ -74,19 +116,34 @@ const UpcomingAuction = ({
               </S.BoxColumn>
             </S.SoldOutAuctionBox>
           )}
-          {(auctionState === 'upcoming' || auctionState === 'active') && (
+          {(state === 'upcoming' || state === 'active') && (
             <S.BoxColumn style={{ textAlign: 'center' }}>
               <S.Price>{price && `$${price}`}</S.Price>
-              <small style={{ fontSize: '15px' }}>
-                {(auctionState === 'upcoming' && '(Starting at)') ||
-                  (auctionState === 'active' && '(Highest bid)')}
-              </small>
+              {type === 'auction' && (
+                <small style={{ fontSize: '15px' }}>
+                  {(state === 'upcoming' && '(Starting at)') ||
+                    (state === 'active' && '(Highest bid)')}
+                </small>
+              )}
             </S.BoxColumn>
           )}
         </S.Detail>
-        <S.Button onClick={() => history.push(`/product/${productId}`)}>
-          View NFT
-        </S.Button>
+        {type === 'fixed' && state === 'active' ? (
+          <S.Button onClick={() => handleBuyNowClick()}>Buy Now</S.Button>
+        ) : (
+          <S.Button onClick={() => history.push(`/product/${productId}`)}>
+            View NFT
+          </S.Button>
+        )}
+        <SkuPageModal
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          mode={modalMode}
+          sku={sku as Sku}
+          user={user}
+          listing={listing as Listing}
+          onProcessing={onProcessing}
+        />
       </S.Container>
     </>
   );
@@ -219,7 +276,7 @@ const FromCreatorBox = ({
         mode={modalMode}
         sku={sku}
         user={user}
-        listing={listing}
+        listing={listing as Listing}
         onProcessing={onProcessing}
       />
     </S.Container>
@@ -293,51 +350,108 @@ const SkuButtonBlock = ({
     (skuListing) => skuListing.status === 'upcoming' && !skuListing.canceled
   );
 
+  const activeProductListings = sku.productListings?.filter(
+    (productListing) =>
+      productListing.type === 'product' &&
+      productListing.status === 'active' &&
+      !productListing.canceled
+  );
+  const upcomingProductListings = sku.productListings?.filter(
+    (productListing) =>
+      productListing.type === 'product' &&
+      productListing.status === 'upcoming' &&
+      !productListing.canceled
+  );
+
   /**
-   * Upcoming Auction sku Listing
+   * Single product auction or sale sku listing
    */
   if (
     !upcomingSkuListings.length &&
     !activeListings.length &&
     sku.totalSupply === 1
   ) {
-    const listing = collectors[0]?.listing;
-    const startDate = listing?.startDate;
-    const endDate = listing?.endDate;
-    const price = sku?.minHighestBid;
-    const owner = collectors[0]?.owner;
-    const serialNumber = collectors[0]?.serialNumber;
-    const isAuction = listing?.saleType === 'auction';
-    const productId = collectors[0]?.listing?.product;
+    const {
+      owner,
+      serialNumber,
+      listing: { startDate, endDate, price, saleType, status, product } = {},
+      listing,
+    } = collectors[0];
+    const { minHighestBid } = sku;
 
-    if (isAuction) {
-      if (listing.status === 'upcoming') {
+    if (saleType === 'auction') {
+      if (status === 'upcoming') {
         return (
-          <UpcomingAuction
+          <AuctionSale
             startDate={startDate}
-            price={price}
-            auctionState="upcoming"
-            productId={productId}
+            price={minHighestBid}
+            state="upcoming"
+            productId={product}
+            type={saleType}
           />
         );
       }
-      if (listing.status === 'active') {
+      if (status === 'active') {
         return (
-          <UpcomingAuction
+          <AuctionSale
             endDate={endDate}
-            price={price}
-            auctionState="active"
-            productId={productId}
+            price={minHighestBid}
+            state="active"
+            productId={product}
+            type={saleType}
           />
         );
       }
-      if (listing.status === 'sold') {
+      if (status === 'sold') {
         return (
-          <UpcomingAuction
-            auctionState="sold"
+          <AuctionSale
+            state="sold"
             owner={owner}
             serialNumber={serialNumber}
-            productId={productId}
+            productId={product}
+          />
+        );
+      }
+    }
+    if (saleType === 'fixed') {
+      if (!activeProductListings && !upcomingProductListings) {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state="inactive"
+          />
+        );
+      }
+      if (status === 'upcoming') {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state={status}
+            startDate={startDate}
+            price={price}
+            type={saleType}
+          />
+        );
+      }
+
+      if (status === 'active') {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state={status}
+            startDate={startDate}
+            price={price}
+            type={saleType}
+            sku={sku}
+            user={user}
+            listing={listing}
+            onProcessing={onProcessing}
           />
         );
       }
@@ -379,7 +493,6 @@ const SkuButtonBlock = ({
     const saleType = activeListing?.saleType;
     // TODO: When 'auction' saleType is implemented, the price should display bid price
     const displayPrice = saleType === 'fixed' ? skuPrice : skuPrice;
-
     return (
       <>
         <FromCreatorBox
