@@ -93,7 +93,12 @@ export const addFundsToUserWallet = async (
   cardId: string
 ): Promise<void> => {
   try {
-    await axiosInstance.post<void>(`/wallet/cards/${cardId}/payments`, data, {
+    await axiosInstance.post<void>(`/wallet/cards/${cardId}/payments`,
+      {
+        ...data,
+        waitForConfirmation: true,
+      },
+      {
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch (err) {
@@ -119,7 +124,12 @@ export const generateUSDCAddress = async (
 
 export const createNewCC = async (token: string, data: any): Promise<Card> => {
   try {
-    const response = await axiosInstance.post<Card>('/wallet/cards', data, {
+    const response = await axiosInstance.post<Card>('/wallet/cards',
+      {
+        ...data,
+        waitForConfirmation: true,
+      },
+      {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
