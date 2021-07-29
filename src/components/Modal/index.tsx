@@ -14,6 +14,7 @@ interface IProps extends ModalProps {
   bodyStyle?: any;
   margin?: string;
   centered?: boolean;
+  borderRadius?: string;
 }
 
 const ModalComponent = ({
@@ -24,6 +25,7 @@ const ModalComponent = ({
   padding,
   bodyStyle,
   margin,
+  borderRadius,
   centered,
   ...props
 }: IProps): JSX.Element => {
@@ -37,6 +39,7 @@ const ModalComponent = ({
         style={bodyStyle}
         margin={margin}
         centered={centered}
+        borderRadius={borderRadius}
       >
         {children}
       </S.ModalBody>
