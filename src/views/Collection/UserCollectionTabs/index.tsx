@@ -18,6 +18,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
+import { Username } from 'views/Product/History/Transaction/styles';
 
 interface IProps {
   user: User;
@@ -117,38 +118,34 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     }
   }, [userName, page, user, sortByClaims, selectedTab]);
 
-  const getWidth = () => {
-    return window.innerWidth;
-  };
   useEffect(() => {
-    (() => {
-      if (isAuthenticated === true) {
-        if (userName === loggedInUser.username && user.role === 'issuer') {
-          setUserStatus('loggedInIssuer');
-          setSelectedTab('releases');
-        } else if (userName === loggedInUser.username) {
-          setUserStatus('loggedIn');
-          setSelectedTab('items');
-        } else if (
-          userName !== loggedInUser.username &&
-          user.role === 'issuer'
-        ) {
-          setUserStatus('notCurrentUserProfileIssuer');
-          setSelectedTab('releases');
-        } else if (userName !== loggedInUser.username) {
-          setUserStatus('notCurrentUserProfile');
-          setSelectedTab('items');
-        }
-      } else {
-        if (user.role === 'issuer') {
-          setUserStatus('notCurrentUserProfileIssuer');
-          setSelectedTab('releases');
-        } else {
-          setUserStatus('notCurrentUserProfile');
-          setSelectedTab('items');
-        }
-      }
-    })();
+    let status = 'loggedIn';
+    let tab: 'items' | 'releases' | 'claims' | '' = 'items';
+    const isIssuer = user.role == 'issuer';
+    const isOwner = userName == loggedInUser.username;
+
+    if (isIssuer && isAuthenticated && isOwner) {
+      status = 'loggedInIssuer';
+      tab = 'releases';
+    }
+
+    if (!isIssuer && isAuthenticated && isOwner) {
+      status = 'loggedIn';
+      tab = 'items';
+    }
+
+    if (isIssuer && (!isAuthenticated || !isOwner)) {
+      status = 'notCurrentUserProfileIssuer';
+      tab = 'releases';
+    }
+
+    if (!isIssuer && (!isAuthenticated || !isOwner)) {
+      status = 'notCurrentUserProfile';
+      tab = 'items';
+    }
+
+    setSelectedTab(tab);
+    setUserStatus(status);
   }, []);
 
   const handlePagination = (
@@ -260,6 +257,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 userItems={userItems}
                 collection={true}
                 isLoading={isLoadingPage}
+                isUserCollection={true}
               />
             )}
             {selectedTab === 'claims' && (
@@ -351,6 +349,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 collection={true}
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
+                isUserCollection={true}
               />
             )}
             {selectedTab === 'claims' && (
@@ -406,6 +405,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 collection={true}
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
+                isUserCollection={false}
               />
             )}
           </>
@@ -439,6 +439,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 collection={true}
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
+                isUserCollection={false}
               />
             )}
           </>
