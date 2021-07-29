@@ -147,7 +147,7 @@ const AddFunds = () => {
   if (!userCard) {
     return null;
   }
-  const ccIsActive = ccStatusIsActive(userCard.status);
+  const ccIsActive = ccStatusIsActive(userCard);
   const ccActiveStatus = ccStatusActiveString(userCard);
 
   const year = userCard.expYear.toString().slice(2, 4);
