@@ -56,6 +56,7 @@ const MobileDropDown = ({
 
 const Arrow = styled(ArrowIcon)<{ isMenuVisible: boolean }>`
   margin-left: 10px;
+  margin-top: 2px;
   ${(props) => props.isMenuVisible && `transform: rotate(180deg)`}
 `;
 

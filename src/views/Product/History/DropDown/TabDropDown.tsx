@@ -47,7 +47,7 @@ position: absolute;
 background-color: #252525;
 right: 0;
 left: 0;
-top: -20px;
+top: 10%;
 border-radius: 20px;
 display: flex;
 width: 177px;

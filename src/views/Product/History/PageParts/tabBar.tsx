@@ -51,6 +51,7 @@ export const TabBar = ({
   const parsedStartDate =
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
+  const selectedTabIsAuction = selectedTab === 'auction';
 
   const arePrivateAssets = util?.privateAssets?.length > 0;
 
@@ -105,7 +106,10 @@ export const TabBar = ({
           </S.Tab>
         )}
 
-        <S.GrayLine paddingBottom="38px" marginRight="80px" />
+        <S.GrayLine
+          paddingBottom="38px"
+          marginRight={selectedTabIsAuction ? '' : '80px'}
+        />
       </>
     );
   };
