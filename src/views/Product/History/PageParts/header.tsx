@@ -138,6 +138,7 @@ export const Header = ({
                 <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                 <div style={{ display: 'flex' }}>
                   <S.StatusText>Status:</S.StatusText>
+                  {/* ToDo: This status is hardcoded */}
                   <S.ActiveText>active</S.ActiveText>
                 </div>
               </S.FlexColumn>{' '}
@@ -163,6 +164,7 @@ export const Header = ({
                   <S.ActiveAmount>${activeSalePrice}</S.ActiveAmount>
                   <div style={{ display: 'flex' }}>
                     <S.StatusText>Status:</S.StatusText>
+                    {/* ToDo: This status is hardcoded */}
                     <S.ActiveText>active</S.ActiveText>
                   </div>
                 </S.FlexColumn>

@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 import Cards from 'react-credit-cards';
 import CurrencyInput from 'react-currency-input-field';
 import LoadingButton from 'components/Buttons/LoadingButton';
-import {CardStatus} from "../../../../entities/card";
 import TextField from "@material-ui/core/TextField";
 
 export const CreditCard = styled(Cards)`
@@ -34,8 +33,8 @@ export const AmountInput = styled(CurrencyInput)`
   }
 `;
 
-export const ActiveText = styled.span<{ status: CardStatus }>`
-  color: ${(props) => (props.status === 'complete' ? '#00c44f' : (props.status === 'pending' ? '#7d7d7d' : '#e74c3c'))};
+export const ActiveText = styled.span<{ statusStr: string }>`
+  color: ${(props) => (props.statusStr === "Active" ? '#00c44f' : (props.statusStr === "Pending" ? '#7d7d7d' : '#e74c3c'))};
   padding-left: 5px;
 `;
 
