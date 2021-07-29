@@ -16,6 +16,7 @@ import Toast from 'utils/Toast';
 import * as S from './styles';
 import { config } from 'config';
 import { ApiLogicError } from '../../../../utils/apiError';
+import {Card, CVVVerificationStatus, VerificationStatusEnum} from "../../../../entities/card";
 
 const ccDepositLimit = parseInt(config.kycLimits.ccDepositLimit, 10);
 const dailyDepositLimitMsgRe =
@@ -29,6 +30,23 @@ function isValidCvv(vv) {
 
 function isPartialValidCvv(vv) {
   return /^\d{0,3}$/.test(vv);
+}
+
+function ccStatusActiveString(userCard: Card) {
+  if (ccStatusIsActive(userCard)) {
+    return 'Active';
+  } else if (userCard.status === VerificationStatusEnum.pending) {
+    return 'Pending';
+  }
+  return 'Failed';
+}
+
+function ccStatusIsActive(obj: Card) {
+  return obj.status === VerificationStatusEnum.complete &&
+  obj.verification?.cvv === CVVVerificationStatus.pass;
+  // &&
+  // obj.verification?.avs === AVSCode.A &&
+  // !obj.riskEvaluation
 }
 
 const zeros = ['0', '0.00', '.00', '', '00.00', '0.000', '0...00', '0.0..00'];
@@ -129,8 +147,8 @@ const AddFunds = () => {
   if (!userCard) {
     return null;
   }
-  const ccIsActive =  userCard.status === 'complete';
-  const ccActiveStatus =  userCard.status === 'complete' ? 'Active' : (userCard.status === 'pending' ? 'Pending' : 'Failed');
+  const ccIsActive = ccStatusIsActive(userCard.status);
+  const ccActiveStatus = ccStatusActiveString(userCard);
 
   const year = userCard.expYear.toString().slice(2, 4);
   const month = userCard.expMonth.toString();
