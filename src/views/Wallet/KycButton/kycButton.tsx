@@ -5,10 +5,14 @@ import Persona, { Client } from 'persona';
 // import { Inquiry } from 'persona';
 import { getPersonalToken } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import ReactTooltip from 'react-tooltip';
 import * as S from './styles';
 import { config } from '../../../config';
+import UnverifiedUserIcon from 'assets/img/icons/unverifiedUser.png';
+import VerifiedLvl1Icon from 'assets/img/icons/lvl1.png';
+import VerifiedLvl2Icon from 'assets/img/icons/lvl2.png';
+import PendingVerificationUserIcon from 'assets/img/icons/pendingVerificationUser.png';
+import ArrowRightIcon from 'assets/svg/icons/deposit-funds-black.svg';
 
 const KycButton = ({
   kycPending,
@@ -43,25 +47,89 @@ const KycButton = ({
   if (kycPending) {
     content = (
       <>
-        <AccessTimeIcon />
-        <S.StatusText>Pending...</S.StatusText>
+        <S.Content>
+          {kycMaxLevel === 0 && (
+            <>
+              <S.FlexCenter
+                style={{
+                  marginBottom: '10px',
+                }}
+              >
+                <S.PendingVerification src={PendingVerificationUserIcon} />
+                <S.StatusText>Pending...</S.StatusText>
+              </S.FlexCenter>
+              <S.InfoText>Your account verification is in progress.</S.InfoText>
+            </>
+          )}
+          {kycMaxLevel === 1 && (
+            <>
+              <S.FlexCenter
+                style={{
+                  marginBottom: '10px',
+                }}
+              >
+                <S.VerifiedUserLvl1Icon src={VerifiedLvl1Icon} />
+                <S.LevelIndicator>Lvl {kycMaxLevel}</S.LevelIndicator>
+                <S.ArrowRight
+                  style={{ marginRight: '10px' }}
+                  src={ArrowRightIcon}
+                />
+                <S.PendingVerification src={PendingVerificationUserIcon} />
+                <S.StatusText>Lvl {kycMaxLevel + 1} Pending...</S.StatusText>
+              </S.FlexCenter>
+              <S.InfoText>
+                {
+                  'You are eligible to deposit cryptocurrency and a cumulative balance > $10K'
+                }
+              </S.InfoText>
+            </>
+          )}
+        </S.Content>
       </>
     );
   } else if (kycMaxLevel >= 1) {
     content = (
       <>
-        <S.VerifiedUserOutlinedIcon />
-        <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
+        <S.Content>
+          <S.FlexCenter
+            style={{
+              marginBottom: '10px',
+            }}
+          >
+            {kycMaxLevel === 1 ? (
+              <S.VerifiedUserLvl1Icon src={VerifiedLvl1Icon} />
+            ) : (
+              <S.VerifiedUserLvl2Icon src={VerifiedLvl2Icon} />
+            )}
+            <S.LevelIndicator>Lvl {kycMaxLevel}</S.LevelIndicator>
+          </S.FlexCenter>
+          <S.InfoText>
+            {
+              'You are eligible to deposit cryptocurrency and a cumulative balance > $10K'
+            }
+          </S.InfoText>
+        </S.Content>
       </>
     );
   } else {
     content = (
       <>
-        <ReactTooltip className="extraClass" delayHide={500} effect="solid">
-          <S.LearnMore href="#">Learn more</S.LearnMore>
-        </ReactTooltip>
-        <S.BlockIcon onClick={openClient} data-tip />
-        <S.StatusText>Unverified</S.StatusText>
+        <S.Content>
+          <S.SecondaryContent>
+            <S.FlexCenter>
+              <S.BlockIcon src={UnverifiedUserIcon} />
+              <S.StatusText>Unverified</S.StatusText>
+            </S.FlexCenter>
+            <S.VerifyButton onClick={openClient} color="black">
+              Verify
+            </S.VerifyButton>
+          </S.SecondaryContent>
+          <S.InfoText>
+            {
+              'Account verification is required for users to deposit cryptocurrency or >$10K USD from a credit card.'
+            }
+          </S.InfoText>
+        </S.Content>
       </>
     );
   }

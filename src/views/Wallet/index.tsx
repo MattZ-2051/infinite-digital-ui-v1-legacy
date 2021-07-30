@@ -182,7 +182,9 @@ const Wallet = (props) => {
             <TextAndAmount
               text={'Withdrawable:'}
               amount={getUserWithdrawableBalance()}
-              subtitle={'(Excludes pending transactions)'}
+              subtitle={
+                '(Excludes pending transactions and credit card payments less than 30 days old)'
+              }
             />
             <ButtonTextAndImage
               disabled={false}
