@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import AudioIcon from 'assets/img/icons/audio-icon.png';
 import { FileAsset } from 'entities/sku';
 import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
 import * as S from './styles';
+import { useEffect } from 'react';
 
 export interface ImageGalleryProps {
   nftPublicAsset: FileAsset[];
@@ -10,8 +11,16 @@ export interface ImageGalleryProps {
 }
 
 const VideoView = ({ src }: { src: string }) => {
+  const vidRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    vidRef.current?.play();
+    return () => {
+      vidRef.current?.pause();
+    };
+  }, []);
   return (
     <video
+      ref={vidRef}
       style={{
         width: '100%',
         height: '100%',
@@ -108,6 +117,14 @@ const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
     e.target.src = InfiniteLogo;
   };
 
+  const vidRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  useEffect(() => {
+    for (const ref of vidRefs.current) ref?.play();
+    return () => {
+      for (const ref of vidRefs.current) ref?.pause();
+    };
+  }, []);
+
   return (
     <S.Container height={height}>
       <S.ImageContainer>
@@ -126,6 +143,7 @@ const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
                 {getImage(el).endsWith('mov') ||
                 getImage(el).endsWith('mp4') ? (
                   <video
+                    ref={(el) => vidRefs.current?.push(el)}
                     style={{
                       width: '100%',
                     }}

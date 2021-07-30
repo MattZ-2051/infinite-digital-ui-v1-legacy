@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as CSS from 'csstype';
 import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
 import styled from 'styled-components/macro';
@@ -18,9 +18,17 @@ export const Media = (props: ImageProps): JSX.Element => {
     // Set fallback image
     ev.target.src = fallbackImage ? fallbackImage : InfiniteLogo;
   };
+  const vidRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    vidRef.current?.play();
+    return () => {
+      vidRef.current?.pause();
+    };
+  }, []);
 
   return src?.endsWith('mov') || src?.endsWith('mp4') ? (
     <video
+      ref={vidRef}
       src={src}
       style={{
         ...styles,
