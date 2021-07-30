@@ -14,10 +14,12 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
 
   const redirectToSpencerProfile = () => {
     history.push('/collection/SDinwiddie25');
+    setPopUpVisible(false);
   };
   const imgSrcUrl = matchesMobile
     ? 'https://infinite-digital-prod.s3.amazonaws.com/spencer/profile/modal-freenft-mobile.png'
     : 'https://infinite-digital-prod.s3.amazonaws.com/spencer/profile/modal-freenft-desktop.png';
+
   const Body = () => {
     return (
       <S.Container>
@@ -79,6 +81,7 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
                 flexDirection="row"
                 padding={matchesMobile ? '24px 0 36px 0' : ''}
                 onClick={redirectToSpencerProfile}
+                style={{ cursor: 'pointer' }}
               >
                 <S.Text
                   fontWeight={600}
