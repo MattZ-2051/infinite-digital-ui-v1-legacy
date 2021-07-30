@@ -45,7 +45,6 @@ const SortByFilter = ({ options, handleSort, activeSort, theme }: IProps) => {
         )}
         {matchesMobile && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <S.SortBy>Sort by </S.SortBy>
             <FilterHamburguer isHidden={isHidden} setIsHidden={setIsHidden} />
           </div>
         )}
