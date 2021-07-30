@@ -358,6 +358,7 @@ const GiveawayBox = ({
   const isSkuOwner = issuer._id === loggedInUserId;
   const history = useHistory();
   const [minting, setMinting] = useState<boolean>(false);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
   const boxWidth =
     giveawayState === 'upcoming' || giveawayState === 'active' ? '62%' : '52%';
 
@@ -438,7 +439,7 @@ const GiveawayBox = ({
     <S.Container>
       <S.Detail width={boxWidth}>
         {(giveawayState === 'upcoming' || giveawayState === 'active') && (
-          <S.BoxColumn>
+          <S.BoxColumn alignItems={matchesMobile ? 'flex-start' : 'center'}>
             {giveawayState === 'upcoming' && (
               <>
                 <S.BoxTitle>NFT Giveaway</S.BoxTitle>
@@ -450,7 +451,9 @@ const GiveawayBox = ({
             {giveawayState === 'active' && (
               <>
                 <S.BoxTitle>NFT Giveaway</S.BoxTitle>
-                <S.BoxSubtitle>
+                <S.BoxSubtitle
+                  style={{ textAlign: matchesMobile ? 'left' : 'center' }}
+                >
                   Ends {endDate && formatDate(endDate)}
                 </S.BoxSubtitle>
               </>
@@ -458,7 +461,10 @@ const GiveawayBox = ({
           </S.BoxColumn>
         )}
         {(giveawayState === 'upcoming' || giveawayState === 'active') && (
-          <S.BoxColumn style={{ alignItems: 'center', flexBasis: '10ch' }}>
+          <S.BoxColumn
+            alignItems={matchesMobile ? 'flex-end' : 'center'}
+            style={{ flexBasis: '10ch' }}
+          >
             <S.Amount>{(isOpenEdition && <>&#8734;</>) || supply}</S.Amount>
             <small style={{ fontSize: '15px' }}>
               {isOpenEdition
