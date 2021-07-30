@@ -186,8 +186,6 @@ const Collection = (): JSX.Element => {
           style={{
             display: 'flex',
             justifyContent: 'flex-start',
-            marginTop: matchesMobile ? '40px' : '156px',
-            marginBottom: matchesMobile ? '80px' : '120px',
             minHeight: '0px',
           }}
         >

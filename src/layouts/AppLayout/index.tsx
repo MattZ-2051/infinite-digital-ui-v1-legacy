@@ -55,7 +55,9 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         </HeaderContent>
       </Header>
       <PopUpModal visible={popUpVisible} setPopUpVisible={setPopUpVisible} />
-      <ErrorBoundary>{children}</ErrorBoundary>
+      <ErrorBoundary>
+        <MainContainer>{children}</MainContainer>
+      </ErrorBoundary>
       <Footer />
     </>
   );
@@ -64,6 +66,10 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
 const Header = styled.header`
   position: relative;
   background-color: black;
+`;
+
+const MainContainer = styled.div`
+  min-height: calc(100vh - 128px);
 `;
 
 const HeaderLeft = styled.div`
