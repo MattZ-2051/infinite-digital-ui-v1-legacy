@@ -10,34 +10,30 @@ import Footer from 'components/Layout/Footer';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
 import PopUpModal from 'components/Modal/PopUpModal';
-import Toast from 'utils/Toast';
+import CookieBanner from 'components/CookieBanner';
+
 export interface IProps {
   children: JSX.Element;
 }
-
-const cookieMessage = (
-  <>
-    We use cookies to personalize your experience, By using our website and our
-    services you agree to our use of cookies as described in our{' '}
-    <a href="/terms">terms</a>.
-  </>
-);
 
 const AppLayout = ({ children }: IProps): JSX.Element => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
+  const [cookieBannerVisible, setIsCookieBannerVisible] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const visited = localStorage['alreadyVisited'];
     if (visited) {
       setPopUpVisible(false);
+      setIsCookieBannerVisible(false);
       //do not view Popup
     } else {
       //this is the first time
       localStorage['alreadyVisited'] = true;
-      Toast.warning(cookieMessage);
       setPopUpVisible(true);
+      setIsCookieBannerVisible(true);
     }
   }, []);
 
@@ -58,6 +54,10 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
       <ErrorBoundary>
         <MainContainer>{children}</MainContainer>
       </ErrorBoundary>
+      <CookieBanner
+        isVisible={cookieBannerVisible}
+        setIsVisible={setIsCookieBannerVisible}
+      />
       <Footer />
     </>
   );

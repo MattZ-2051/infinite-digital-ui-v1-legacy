@@ -3,6 +3,7 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import { useHistory } from 'react-router';
 import Modal from '../index';
 import * as S from './styles';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IProps {
   visible: boolean;
@@ -11,6 +12,7 @@ interface IProps {
 const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
   const matchesMobile = useMediaQuery('(max-width: 1100px)');
   const history = useHistory();
+  const { loginWithRedirect } = useAuth0();
 
   const redirectToSpencerProfile = () => {
     history.push('/collection/SDinwiddie25');
@@ -72,7 +74,16 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
               padding="24px 0"
               flexDirection={matchesMobile ? 'column' : 'row'}
             >
-              <S.Button background="black" color="white">
+              <S.Button
+                background="black"
+                color="white"
+                onClick={() =>
+                  loginWithRedirect({
+                    appState: { returnTo: '/collection/SDinwiddie25' },
+                    redirectUri: window.location.origin,
+                  })
+                }
+              >
                 Sign Up Now
               </S.Button>
               <S.FlexDiv
@@ -101,6 +112,8 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
               <br />
               No purchase necessary to enter, simply sign up for an account
               today!
+              <br />
+              Limited while supplies last
             </S.GreyLowerSectionText>
           </S.LowerLeftSection>
         </div>

@@ -16,8 +16,12 @@ import NotifyModal from 'components/NotifyModal';
 import Button from 'components/Buttons';
 import notifyIcon from 'assets/svg/icons/notify-black.svg';
 import * as S from './styles';
-import MapsLocalDining from 'material-ui/svg-icons/maps/local-dining';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useAppDispatch } from 'store/hooks';
+import {
+  getUserInfoThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 
 const splitLastSentence = (text: string): [string, string] => {
   const splitText = text?.split('. ');
@@ -57,9 +61,18 @@ const Collection = (): JSX.Element => {
   const history = useHistory();
   const username = history.location.pathname.split('/')[2];
   const [loading, setLoading] = useState<boolean>(true);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const matchesMobile = useMediaQuery('(max-width: 960px)');
+  const dispatch = useAppDispatch();
+
+  const fetchLoggedInUser = async () => {
+    if (isAuthenticated) {
+      const userToken = await getAccessTokenSilently();
+      dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
+    }
+  };
 
   async function fetchUser() {
     try {
@@ -78,6 +91,10 @@ const Collection = (): JSX.Element => {
     setLoading(true);
     fetchUser();
   }, [username]);
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
 
   if (user._id === '0' || !user || loading)
     return <PageLoader backGroundColor="black" color="white" />;

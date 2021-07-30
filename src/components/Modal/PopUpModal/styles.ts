@@ -88,6 +88,8 @@ export const LowerLeftSection = styled.div`
   background-color: #efefef;
   height: 86px;
   width: 100%;
+  display: flex;
+  align-items: center;
   @media screen and (max-width: 1100px) {
     height: 85px;
   }

@@ -25,6 +25,12 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { getPrivateAssets } from 'services/api/productService';
 import Collapsible from './components/Collapsible';
+import { useAppDispatch } from 'store/hooks';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  getUserInfoThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -51,6 +57,16 @@ const SkuDetail = (): JSX.Element => {
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const theme = useTheme();
   const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const fetchUserInfo = async () => {
+    if (isAuthenticated) {
+      const userToken = await getAccessTokenSilently();
+      dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
+    }
+  };
   const toggleDescription = () => {
     setDescriptionVisible(!descriptionVisible);
   };
@@ -72,6 +88,10 @@ const SkuDetail = (): JSX.Element => {
   useEffect(() => {
     getPrivateAssets(skuid).then((resp) => setPrivateAssets(resp));
   }, [skuid]);
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     const filtered = featuredProducts?.filter(

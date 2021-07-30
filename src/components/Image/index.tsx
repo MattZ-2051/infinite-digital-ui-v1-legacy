@@ -50,7 +50,7 @@ export const ImageContainer = styled.div<{ src?: string }>`
   @media screen and (max-width: 840px) {
     height: auto;
     min-height: 0;
-    box-shadow: inset 0px -10px 40px 15px black;
+    box-shadow: inset 010px 40px 15px black;
   }
 `;
 
