@@ -439,7 +439,7 @@ const GiveawayBox = ({
     <S.Container>
       <S.Detail width={boxWidth}>
         {(giveawayState === 'upcoming' || giveawayState === 'active') && (
-          <S.BoxColumn alignItems={matchesMobile ? 'flex-start' : 'center'}>
+          <S.BoxColumn alignItems="flex-start">
             {giveawayState === 'upcoming' && (
               <>
                 <S.BoxTitle>NFT Giveaway</S.BoxTitle>
@@ -451,9 +451,7 @@ const GiveawayBox = ({
             {giveawayState === 'active' && (
               <>
                 <S.BoxTitle>NFT Giveaway</S.BoxTitle>
-                <S.BoxSubtitle
-                  style={{ textAlign: matchesMobile ? 'left' : 'center' }}
-                >
+                <S.BoxSubtitle style={{ textAlign: 'left' }}>
                   Ends {endDate && formatDate(endDate)}
                 </S.BoxSubtitle>
               </>
