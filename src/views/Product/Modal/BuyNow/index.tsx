@@ -39,14 +39,11 @@ const BuyNowModal = ({
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  useEffect(
-    () => {
-      if (visible && statusMode === 'hasFunds') {
-        // ReactGA.modalview('product-purchase-modal');
-      }
-    },
-    [statusMode, visible]
-  );
+  useEffect(() => {
+    if (visible && statusMode === 'hasFunds') {
+      // ReactGA.modalview('product-purchase-modal');
+    }
+  }, [statusMode, visible]);
 
   const loggedInUser = useAppSelector((state) => state.session.user);
   const userBalance = useAppSelector(
@@ -143,7 +140,6 @@ const BuyNowModal = ({
         );
 
         // TODO: Check payment
-        console.log('res', result);
         if (result) {
           setStatusMode('processing');
           checkPendingStatus();

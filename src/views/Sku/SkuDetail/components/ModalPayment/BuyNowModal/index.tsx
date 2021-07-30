@@ -55,7 +55,9 @@ const SkuPageModal = ({
     _id: string;
     serialNumber: string;
   }>({ _id: '', serialNumber: '' });
-  const [productData, setProductData] = useState<ProductWithFunctions | null>(null);
+  const [productData, setProductData] = useState<ProductWithFunctions | null>(
+    null
+  );
   const dispatch = useAppDispatch();
   const history = useHistory();
   const userBalance = useAppSelector(
@@ -277,7 +279,7 @@ const SkuPageModal = ({
         {statusMode !== 'error' ? (
           <S.SkuInfo>
             <S.FlexRow>
-              <S.IssuerName>{product.issuerName}</S.IssuerName>
+              <S.IssuerName>{product?.issuerName}</S.IssuerName>
               <Rarity type={product.rarity} />
             </S.FlexRow>
             <S.SkuName>{product.name}</S.SkuName>

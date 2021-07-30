@@ -274,7 +274,7 @@ const FromCreatorBox = ({
         visible={isModalOpen}
         setModalPaymentVisible={setIsModalOpen}
         mode={modalMode}
-        sku={sku}
+        sku={sku as Sku}
         user={user}
         listing={listing as Listing}
         onProcessing={onProcessing}
@@ -399,6 +399,7 @@ const SkuButtonBlock = ({
             state="active"
             productId={product}
             type={saleType}
+            sku={sku}
           />
         );
       }
@@ -421,6 +422,7 @@ const SkuButtonBlock = ({
             owner={owner}
             productId={product}
             state="inactive"
+            sku={sku}
           />
         );
       }
@@ -523,6 +525,7 @@ const SkuButtonBlock = ({
     );
     const expiredListing = expiredListings[0];
     const skuPrice = expiredListing?.price;
+
     return (
       <>
         <FromCreatorBox
@@ -542,7 +545,6 @@ const SkuButtonBlock = ({
       </>
     );
   }
-
   return <></>;
 };
 
