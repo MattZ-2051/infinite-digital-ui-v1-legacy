@@ -108,7 +108,16 @@ export const getProductTransactionHistory = async (
     const res = await axiosInstance.request<ITransaction[]>({
       method: 'GET',
       url: `/products/${productId}/transactions`,
-      params: { page: page, per_page: perPage },
+      params: {
+        page: page,
+        per_page: perPage,
+        filter: JSON.stringify({
+          status: {
+            $exists: true,
+            $ne: 'error',
+          },
+        }),
+      },
     });
     const { data, headers } = res;
     const contentRange: string = headers['content-range'];
