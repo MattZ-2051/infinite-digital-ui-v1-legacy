@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../coreService';
 import { handleApiError } from 'utils/apiError';
 import { ITransaction } from 'entities/transaction';
+import { GiveawayMint } from './Interfaces';
 
 export const getListings = async (
   token: string
@@ -62,5 +63,23 @@ export const cancelListing = async (
     return res;
   } catch (e) {
     throw handleApiError(e);
+  }
+};
+
+export const claimGiveaway = async (
+  token: string,
+  id: string
+): Promise<AxiosResponse<GiveawayMint>> => {
+  try {
+    const response = await axiosInstance.post<GiveawayMint>(
+      `/listings/${id}/claim-giveaway`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response;
+  } catch (err) {
+    throw handleApiError(err);
   }
 };

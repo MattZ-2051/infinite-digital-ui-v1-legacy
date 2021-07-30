@@ -12,6 +12,8 @@ import SkuPageModal from '../../ModalPayment/BuyNowModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import { useMediaQuery } from '@material-ui/core';
+import { claimGiveaway } from 'services/api/listingService';
+import { ClipLoader } from 'react-spinners';
 
 interface IAuctionSale {
   startDate?: Date;
@@ -329,6 +331,167 @@ const FromCollectorsBox = ({
   }
 };
 
+interface IGiveawayBox {
+  giveawayState?: string;
+  startDate?: Date;
+  endDate?: Date;
+  serialNumber?: string;
+  issuer: User;
+  productId?: string;
+  supply?: number;
+  isOpenEdition?: boolean;
+  listing: Listing;
+}
+
+const GiveawayBox = ({
+  giveawayState,
+  startDate,
+  endDate,
+  issuer,
+  supply,
+  isOpenEdition,
+  listing,
+}: IGiveawayBox): JSX.Element => {
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
+  const isSkuOwner = issuer._id === loggedInUserId;
+  const history = useHistory();
+  const [minting, setMinting] = useState<boolean>(false);
+  const boxWidth =
+    giveawayState === 'upcoming' || giveawayState === 'active' ? '62%' : '52%';
+
+  const handleGiveawayClaim = async () => {
+    setMinting(true);
+    Toast.success(
+      <>
+        Wohoo we are minting your NFT! This page will refresh and visit your
+        collection when the NFT is ready
+      </>,
+      'processing'
+    );
+    try {
+      const claimRes = await claimGiveaway(
+        await getAccessTokenSilently(),
+        listing._id
+      );
+      if (claimRes.status === 201) {
+        Toast.dismiss('processing');
+        Toast.success(
+          <>
+            Your NFT is minted! You&apos;ll be taken to your collection to view
+            the NFT
+          </>
+        );
+        setTimeout(() => {
+          setMinting(false);
+          history.push(`/product/${claimRes.data._id}`);
+        }, 5000);
+      } else {
+        setMinting(false);
+        Toast.dismiss('processing');
+        Toast.error(
+          <>
+            Please try again, see the <a href="/help">Help page</a> to learn
+            more.
+          </>
+        );
+      }
+    } catch (error) {
+      setMinting(false);
+      if (error?.response?.status === 400) {
+        Toast.dismiss('processing');
+        Toast.error(<>{error.response.message}</>);
+      } else {
+        Toast.dismiss('processing');
+        Toast.error(
+          <>
+            Please try again, see the <a href="/help">Help page</a> to learn
+            more.
+          </>
+        );
+      }
+    }
+  };
+
+  const handleMintClick = () => {
+    if (isAuthenticated) {
+      if (isSkuOwner) {
+        Toast.error('Cannot claim your own SKU');
+      } else {
+        handleGiveawayClaim();
+      }
+    } else {
+      Toast.warning(
+        <>
+          You need to be{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            logged in
+          </a>{' '}
+          in order to claim
+        </>
+      );
+    }
+  };
+
+  return (
+    <S.Container>
+      <S.Detail width={boxWidth}>
+        {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+          <S.BoxColumn>
+            {giveawayState === 'upcoming' && (
+              <>
+                <S.BoxTitle>NFT Giveaway</S.BoxTitle>
+                <S.BoxSubtitle>
+                  Starts {startDate && formatDate(startDate)}
+                </S.BoxSubtitle>
+              </>
+            )}
+            {giveawayState === 'active' && (
+              <>
+                <S.BoxTitle>NFT Giveaway</S.BoxTitle>
+                <S.BoxSubtitle>
+                  Ends {endDate && formatDate(endDate)}
+                </S.BoxSubtitle>
+              </>
+            )}
+          </S.BoxColumn>
+        )}
+        {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+          <S.BoxColumn style={{ alignItems: 'center', flexBasis: '10ch' }}>
+            <S.Amount>{(isOpenEdition && <>&#8734;</>) || supply}</S.Amount>
+            <small style={{ fontSize: '15px' }}>
+              {isOpenEdition
+                ? 'Open Edition'
+                : (giveawayState === 'upcoming' && 'To be released') ||
+                  (giveawayState === 'active' && 'Remaining')}
+            </small>
+          </S.BoxColumn>
+        )}
+      </S.Detail>
+      {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+        <>
+          {giveawayState === 'upcoming' && (
+            <S.Button disabled={true}>Upcoming NFT</S.Button>
+          )}
+          {giveawayState === 'active' && (
+            <S.Button onClick={handleMintClick} disabled={minting}>
+              {minting ? (
+                <S.CenteredSpaced>
+                  <span>Minting</span>
+                  <ClipLoader size={20} color="currentColor" />
+                </S.CenteredSpaced>
+              ) : (
+                'Mint Your NFT'
+              )}
+            </S.Button>
+          )}
+        </>
+      )}
+    </S.Container>
+  );
+};
+
 interface ISkuButtonBlock {
   sku: Sku;
   user: User;
@@ -364,7 +527,41 @@ const SkuButtonBlock = ({
   );
 
   /**
-   * Single product auction or sale sku listing
+   * Giveaway sku Listing
+   */
+  if (activeListings[0]?.saleType === 'giveaway') {
+    const { status, startDate, endDate, supplyLeft } = activeListings[0];
+
+    return (
+      <GiveawayBox
+        giveawayState={status}
+        startDate={startDate}
+        endDate={endDate}
+        supply={supplyLeft}
+        isOpenEdition={sku.supplyType === 'variable'}
+        listing={activeListings[0]}
+        issuer={sku.issuer}
+      />
+    );
+  }
+
+  if (upcomingSkuListings[0]?.saleType === 'giveaway') {
+    const { status, startDate, endDate, supplyLeft } = upcomingSkuListings[0];
+    return (
+      <GiveawayBox
+        giveawayState={status}
+        startDate={startDate}
+        endDate={endDate}
+        supply={supplyLeft}
+        isOpenEdition={sku.supplyType === 'variable'}
+        listing={upcomingSkuListings[0]}
+        issuer={sku.issuer}
+      />
+    );
+  }
+
+  /**
+   * Upcoming Auction sku Listing
    */
   if (
     !upcomingSkuListings.length &&

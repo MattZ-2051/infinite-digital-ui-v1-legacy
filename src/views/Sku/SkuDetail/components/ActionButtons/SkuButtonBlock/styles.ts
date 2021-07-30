@@ -50,6 +50,9 @@ export const BoxColumn = styled.div<{ alignItems?: string }>`
   flex-direction: column;
   justify-content: center;
 
+  margin-left: 4px;
+  margin-right: 4px;
+
   align-items: ${(props) =>
     props.alignItems ? `${props.alignItems}` : 'flex-start'};
   text-align: center;
@@ -105,6 +108,13 @@ export const Price = styled.span`
   line-height: 35px;
 `;
 
+export const Amount = styled.span`
+  font-style: normal;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 35px;
+`;
+
 export const CountDownTime = styled.span`
   font-style: normal;
   font-weight: 500;
@@ -151,4 +161,13 @@ export const BoxSubtitle = styled.div`
   font-size: 15px;
   line-height: 19px;
   color: #7c7c7c;
+`;
+
+export const CenteredSpaced = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > * + * {
+    margin-left: 8px;
+  }
 `;
