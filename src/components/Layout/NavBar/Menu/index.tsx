@@ -68,7 +68,12 @@ const Menu = ({ login, isAuthenticated }: IProps) => {
           {!isAuthenticated && (
             <>
               <TextButton
-                onClick={() => login({ redirectUri: window.location.origin })}
+                onClick={() => {
+                  login({
+                    appState: { returnTo: window.location.pathname },
+                    redirectUri: window.location.origin,
+                  });
+                }}
                 color="grey"
                 size="medium"
               >
