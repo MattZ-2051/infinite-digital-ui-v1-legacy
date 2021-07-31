@@ -13,7 +13,6 @@ import { ITransaction } from 'entities/transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { getUserInfoThunk } from 'store/session/sessionThunks';
-
 const Product = ({}) => {
   const [product, setProduct] = useState<ProductType | null>(null);
   const { productId } = useParams<{ productId: string }>();

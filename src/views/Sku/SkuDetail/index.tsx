@@ -14,7 +14,6 @@ import { Sku } from 'entities/sku';
 import SkuTile from 'views/MarketPlace/components/SkuTile';
 import { getProductCollectors } from 'services/api/productService';
 import { createMessage } from './components/SkuCounter/SkuTextCalculator';
-import { useAuth0 } from '@auth0/auth0-react';
 import Rarity from 'components/Rarity';
 import PageLoader from 'components/PageLoader';
 import SkuDescription from './components/SkuDescription';
@@ -26,8 +25,12 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { getPrivateAssets } from 'services/api/productService';
 import Collapsible from './components/Collapsible';
-import { isUndefined } from 'util';
-import { ViewAgenda } from '@material-ui/icons';
+import { useAppDispatch } from 'store/hooks';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  getUserInfoThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 
 const SkuDetail = (): JSX.Element => {
   const loggedInUser = useAppSelector((state) => state.session.user);
@@ -45,7 +48,6 @@ const SkuDetail = (): JSX.Element => {
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
   const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
-  const { getAccessTokenSilently } = useAuth0(); // TODO: remove if not using
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
@@ -62,6 +64,17 @@ const SkuDetail = (): JSX.Element => {
   };
   const toggleOwnerAccess = () => {
     setOwnerAccessVisible(!ownerAccessVisible);
+  };
+
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const fetchUserInfo = async () => {
+    if (isAuthenticated) {
+      const userToken = await getAccessTokenSilently();
+      dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
+    }
   };
 
   const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
@@ -121,6 +134,10 @@ const SkuDetail = (): JSX.Element => {
     setSku(sku);
     return sku;
   }
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   const onProcessing = () => {
     return fetchSku();

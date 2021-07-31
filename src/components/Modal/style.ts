@@ -20,6 +20,7 @@ export const ModalBody = styled.div<{
   padding?: string;
   margin?: string;
   centered?: boolean;
+  borderRadius?: string;
 }>`
   margin: ${(props) => (props.margin ? `${props.margin}` : `0`)};
   top: ${(props) => (props.centered ? `50%` : `30px`)};
@@ -35,7 +36,8 @@ export const ModalBody = styled.div<{
   min-width: 280px;
   min-height: ${(props) => (props.height ? `${props.height}` : `400px`)};
   padding: ${(props) => (props.padding ? `${props.padding}` : `20px`)};
-  border-radius: 12px;
+  border-radius: ${(props) =>
+    props.borderRadius ? `${props.borderRadius}` : '12px'};
   outline: none;
   display: flex;
   flex-direction: column;
