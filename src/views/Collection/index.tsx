@@ -88,6 +88,11 @@ const Collection = (): JSX.Element => {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     fetchUser();
@@ -99,10 +104,6 @@ const Collection = (): JSX.Element => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
-  useEffect(() => {
-    fetchLoggedInUser();
-  }, []);
 
   return (
     <S.Container>
