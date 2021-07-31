@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { Link as LinkComponent } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -6,10 +7,10 @@ import { useTheme } from '@material-ui/core/styles';
 import Notification from 'components/Notification';
 import NavBar from 'components/Layout/NavBar';
 import Footer from 'components/Layout/Footer';
-import Beta from 'components/Beta';
-import Toast from 'components/Toast';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
+import PopUpModal from 'components/Modal/PopUpModal';
+import CookieBanner from 'components/CookieBanner';
 
 export interface IProps {
   children: JSX.Element;
@@ -18,6 +19,23 @@ export interface IProps {
 const AppLayout = ({ children }: IProps): JSX.Element => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
+  const [cookieBannerVisible, setIsCookieBannerVisible] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    const visited = localStorage['alreadyVisited'];
+    if (visited) {
+      setPopUpVisible(false);
+      setIsCookieBannerVisible(false);
+      //do not view Popup
+    } else {
+      //this is the first time
+      localStorage['alreadyVisited'] = true;
+      setPopUpVisible(true);
+      setIsCookieBannerVisible(true);
+    }
+  }, []);
 
   return (
     <>
@@ -32,12 +50,18 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
-
-      <Toast isVisible={false} status={'success'} setIsVisible={() => false}>
-        This is a simple error message. Can we help you to{' '}
-        <a style={{ color: 'black' }}>fix the problem?</a>
-      </Toast>
-      <ErrorBoundary>{children}</ErrorBoundary>
+      <PopUpModal
+        visible={popUpVisible}
+        setPopUpVisible={setPopUpVisible}
+        isCookieBannerOpen={cookieBannerVisible}
+      />
+      <ErrorBoundary>
+        <MainContainer>{children}</MainContainer>
+      </ErrorBoundary>
+      <CookieBanner
+        isVisible={cookieBannerVisible}
+        setIsVisible={setIsCookieBannerVisible}
+      />
       <Footer />
     </>
   );
@@ -46,6 +70,10 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
 const Header = styled.header`
   position: relative;
   background-color: black;
+`;
+
+const MainContainer = styled.div`
+  min-height: calc(100vh - 128px);
 `;
 
 const HeaderLeft = styled.div`
@@ -61,7 +89,6 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   margin: auto;
   padding: 0 80px 0 80px;
-
   @media screen and (max-width: 960px) {
     padding: 0 32px 0 32px;
   }
