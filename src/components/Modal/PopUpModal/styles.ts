@@ -1,13 +1,14 @@
 import styled from 'styled-components/macro';
 import { ReactComponent as RightArrow } from 'assets/svg/icons/landing-right-arrow.svg';
 
-export const Container = styled.div`
-  height: 550px;
+export const Container = styled.div<{ isCookieBannerOpen: boolean }>`
   display: grid;
   grid-template-columns: 606px 100%;
+  bottom: ${(props) => (props.isCookieBannerOpen ? '200px' : '0')};
   @media screen and (max-width: 1100px) {
     display: flex;
-    height: fit-content;
+    height: 83vh;
+    height: ${(props) => (props.isCookieBannerOpen ? '83vh' : '100vh')};
     flex-direction: column;
     width: 100%;
     overflow: auto;
@@ -16,12 +17,11 @@ export const Container = styled.div`
 `;
 
 export const LeftTextSection = styled.div`
-  padding: 40px 40px 0px 40px;
+  padding: 32px 40px 0px 40px;
   margin: 0;
-  height: 464px;
+  height: calc(100% - 86px);
   @media screen and (max-width: 1100px) {
-    height: 100%;
-    padding: 20px 20px 0px 20px;
+    padding: 20px 24px 0px 24px;
   }
 `;
 
@@ -111,7 +111,6 @@ export const Button = styled.button<{
     cursor: pointer;
   }
   background: ${(props) => `${props.background}`};
-
   @media screen and (max-width: 1100px) {
     width: 100%;
   }

@@ -15,6 +15,8 @@ export const Container = styled.div`
   @media screen and (max-width: 960px) {
     width: 100%;
     height: auto;
+    border-radius: 0px;
+    bottom: 0;
   }
 `;
 
@@ -27,7 +29,7 @@ export const Text = styled.p`
   text-align: left;
   width: 90%;
   @media screen and (max-width: 960px) {
-    padding: 8px 12px;
+    padding: 16px 24px;
     font-size: 14px;
   }
 `;
@@ -39,5 +41,6 @@ export const CloseButton = styled.div`
   right: 32px;
   @media screen and (max-width: 960px) {
     right: 12px;
+    top: 25%;
   }
 `;

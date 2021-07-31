@@ -74,6 +74,16 @@ const Collection = (): JSX.Element => {
     }
   };
 
+  const dispatch = useAppDispatch();
+
+  const fetchLoggedInUser = async () => {
+    if (isAuthenticated) {
+      const userToken = await getAccessTokenSilently();
+      dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
+    }
+  };
+
   async function fetchUser() {
     try {
       const data = await getUser(username, 1, 1);
@@ -102,6 +112,10 @@ const Collection = (): JSX.Element => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
 
   return (
     <S.Container>

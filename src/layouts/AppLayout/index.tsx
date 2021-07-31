@@ -50,7 +50,11 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
-      <PopUpModal visible={popUpVisible} setPopUpVisible={setPopUpVisible} />
+      <PopUpModal
+        visible={popUpVisible}
+        setPopUpVisible={setPopUpVisible}
+        isCookieBannerOpen={cookieBannerVisible}
+      />
       <ErrorBoundary>
         <MainContainer>{children}</MainContainer>
       </ErrorBoundary>
@@ -85,7 +89,6 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   margin: auto;
   padding: 0 80px 0 80px;
-
   @media screen and (max-width: 960px) {
     padding: 0 32px 0 32px;
   }

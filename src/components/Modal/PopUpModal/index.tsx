@@ -8,8 +8,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 interface IProps {
   visible: boolean;
   setPopUpVisible: (visible: boolean) => void;
+  isCookieBannerOpen: boolean;
 }
-const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
+const PopUpModal = ({
+  visible,
+  setPopUpVisible,
+  isCookieBannerOpen,
+}: IProps) => {
   const matchesMobile = useMediaQuery('(max-width: 1100px)');
   const history = useHistory();
   const { loginWithRedirect } = useAuth0();
@@ -24,7 +29,7 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
 
   const Body = () => {
     return (
-      <S.Container>
+      <S.Container isCookieBannerOpen={isCookieBannerOpen}>
         <S.CloseButton onClick={() => setPopUpVisible(false)}>
           <CloseModal style={{ cursor: 'pointer' }} />
         </S.CloseButton>
@@ -33,12 +38,13 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
         <div>
           <S.LeftTextSection>
             <S.Text
-              fontSize={matchesMobile ? '24px' : '40px'}
+              fontSize={matchesMobile ? '24px' : '38px'}
               padding="0 0 24px 0"
               fontColor="black"
               fontWeight={700}
             >
-              Create an account today for your chance to win an NFT!
+              Create an account today for your chance to{' '}
+              {matchesMobile && <br />}win an NFT!
             </S.Text>
             <S.Text
               fontSize="16px"
@@ -71,7 +77,7 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
             <S.FlexDiv
               justifyContent="none"
               alignItems="center"
-              padding="24px 0"
+              padding="28px 0"
               flexDirection={matchesMobile ? 'column' : 'row'}
             >
               <S.Button
@@ -90,9 +96,9 @@ const PopUpModal = ({ visible, setPopUpVisible }: IProps) => {
                 justifyContent="none"
                 alignItems="center"
                 flexDirection="row"
-                padding={matchesMobile ? '24px 0 36px 0' : ''}
                 onClick={redirectToSpencerProfile}
                 style={{ cursor: 'pointer' }}
+                padding={matchesMobile ? '24px 0 36px 0' : ''}
               >
                 <S.Text
                   fontWeight={600}
