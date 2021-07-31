@@ -46,8 +46,6 @@ const SkuDetail = (): JSX.Element => {
   const [sku, setSku] = useState<Sku>();
   const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
-  const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
@@ -74,17 +72,6 @@ const SkuDetail = (): JSX.Element => {
   };
   const toggleOwnerAccess = () => {
     setOwnerAccessVisible(!ownerAccessVisible);
-  };
-
-  const dispatch = useAppDispatch();
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  const fetchUserInfo = async () => {
-    if (isAuthenticated) {
-      const userToken = await getAccessTokenSilently();
-      dispatch(getUserCardsThunk({ token: userToken }));
-      dispatch(getUserInfoThunk({ token: userToken }));
-    }
   };
 
   const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
