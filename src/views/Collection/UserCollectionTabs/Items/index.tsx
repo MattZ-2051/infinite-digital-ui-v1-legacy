@@ -25,7 +25,8 @@ const NoItems = (isUserCollection: boolean) => {
     >
       <S.Message>
         {isUserCollection && 'You have no NFTs on your collection yet...'}
-        {!isUserCollection && 'There are no NFTs on this collection...'}
+        {!isUserCollection &&
+          "This user hasn't added any NFTs to their collection yet"}
       </S.Message>
       {isUserCollection && (
         <S.Button onClick={() => history.push('/marketplace')}>
