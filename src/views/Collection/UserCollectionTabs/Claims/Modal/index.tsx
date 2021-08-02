@@ -9,7 +9,7 @@ import loadingGif from 'assets/gif/loading2.gif';
 import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import * as SS from '../styles';
 
-const maxIssuerUsernameLength = 22;
+const maxIssuerUsernameLength = 12;
 
 interface IProps {
   sku: Sku;
@@ -44,9 +44,7 @@ const ClaimModal = ({
         <SS.RowFlex padding="10px 0">
           {isSmall ? (
             <SS.IssuerName>
-              {sku?.issuer?.username.length > maxIssuerUsernameLength
-                ? cropText(sku?.issuer?.username, maxIssuerUsernameLength)
-                : sku?.issuer?.username}
+              {cropText(sku?.issuer?.username, maxIssuerUsernameLength)}
             </SS.IssuerName>
           ) : (
             <SS.IssuerName>{sku?.issuer?.username}</SS.IssuerName>
@@ -96,16 +94,9 @@ const ClaimModal = ({
 
   const loadingBody = (
     <SS.ContentLoading>
-      <div
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          display: 'flex',
-          marginBottom: '10px',
-        }}
-      >
+      <SS.Loading>
         <img src={loadingGif} alt="loading" width="60px" />
-      </div>
+      </SS.Loading>
       <SS.ContentText>
         <SS.TextLoading>
           Processing your request. Do not close this window.
@@ -146,7 +137,7 @@ const ClaimModal = ({
       <SS.CloseButton onClick={() => setOpenModal(false)}>
         <CloseModal style={{ cursor: 'pointer' }} />
       </SS.CloseButton>
-      {loading ? loadingBody : apiError ? errorBody : errorBody}
+      {loading ? loadingBody : apiError ? errorBody : mainBody}
     </Modal>
   );
 };

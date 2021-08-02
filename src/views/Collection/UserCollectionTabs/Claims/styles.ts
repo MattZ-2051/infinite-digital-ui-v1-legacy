@@ -60,6 +60,13 @@ export const ContentLoading = styled.div`
   align-items: center;
 `;
 
+export const Loading = styled.div`
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+`
+
 export const ContentText = styled.div`
   width: 55%; 
   text-align: center;
@@ -84,6 +91,8 @@ export const Header = styled.p`
 
 export const SubHeaderContainer = styled.div`
   border-bottom: 1px solid #ebebeb;
+  min-width: 250px;
+  width:90%
 `;
 
 export const RowFlex = styled.div<{ padding: string }>`
@@ -163,13 +172,14 @@ export const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width:100%
 `;
 
 export const Button = styled.button`
   border: none;
   border-radius: 35px;
   background-color: black;
-  width: 330px;
+  width: 100%;
   height: 56px;
   font-size: 20px;
   color: white;
