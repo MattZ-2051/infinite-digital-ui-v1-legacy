@@ -103,10 +103,6 @@ const Collection = (): JSX.Element => {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
-    fetchLoggedInUser();
-  }, []);
-
   return (
     <S.Container>
       <ViewContainer>
