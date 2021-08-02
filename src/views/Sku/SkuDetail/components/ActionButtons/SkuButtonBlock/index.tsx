@@ -154,6 +154,7 @@ const AuctionSale = ({
 interface IUpcomingData {
   startDate?: Date;
   price: number;
+  sku: Sku;
 }
 
 const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
@@ -589,6 +590,7 @@ const SkuButtonBlock = ({
             state="upcoming"
             productId={product}
             type={saleType}
+            sku={sku}
           />
         );
       }
@@ -611,6 +613,7 @@ const SkuButtonBlock = ({
             owner={owner}
             serialNumber={serialNumber}
             productId={product}
+            sku={sku}
           />
         );
       }
@@ -637,6 +640,7 @@ const SkuButtonBlock = ({
             startDate={startDate}
             price={price}
             type={saleType}
+            sku={sku}
           />
         );
       }
@@ -670,7 +674,7 @@ const SkuButtonBlock = ({
     const price = upcomingSkuListing.price;
     const numItems = upcomingSkuListing.supply;
 
-    return <UpcomingData startDate={startDate} price={price} />;
+    return <UpcomingData startDate={startDate} price={price} sku={sku} />;
 
     // TODO: Will implement when auctions are available
     // const saleType = upcomingSkuListing.saleType;
