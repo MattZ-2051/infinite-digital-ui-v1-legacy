@@ -6,4 +6,5 @@ export interface Wallet {
   balance: Balance;
   kycPending: boolean;
   kycMaxLevel: number;
+  kycRequired: boolean;
 }

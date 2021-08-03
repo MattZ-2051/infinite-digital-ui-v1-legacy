@@ -18,7 +18,7 @@ import { config } from 'config';
 import { ApiLogicError } from '../../../../utils/apiError';
 import {Card, CVVVerificationStatus, VerificationStatusEnum} from "../../../../entities/card";
 
-const ccDepositLimit = parseInt(config.kycLimits.ccDepositLimit, 10);
+const ccDepositLimit = config.kycLimits.ccDepositLimit;
 const dailyDepositLimitMsgRe =
   /^You've deposited \$(?<depositByNow>\S+) USD in the past 24 hours\. This deposit would exceed the current allowable limit of \$(?<depositLimit>\S+) USD$/;
 const weeklyDepositLimitMsgRe =

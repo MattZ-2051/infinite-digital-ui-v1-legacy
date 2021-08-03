@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import AudioIcon from 'assets/img/icons/audio-icon.png';
 import { FileAsset } from 'entities/sku';
 import InfiniteLogo from 'assets/img/logos/iso-black-512.jpeg';
 import * as S from './styles';
-import { useEffect } from 'react';
 
 export interface ImageGalleryProps {
   nftPublicAsset: FileAsset[];

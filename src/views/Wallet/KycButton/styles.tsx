@@ -1,6 +1,4 @@
 import styled from 'styled-components/macro';
-import MuiVerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import MuiArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Button from 'components/Buttons';
 
 export const Container = styled.div`
@@ -43,27 +41,9 @@ export const InfoText = styled.span`
   color: #9e9e9e;
 `;
 
-export const VerifiedUserLvl1Icon = styled.img``;
-export const VerifiedUserLvl2Icon = styled.img``;
+export const VerifiedUserKycIcon = styled.img``;
 export const PendingVerification = styled.img``;
 export const ArrowRight = styled.img``;
-
-export const VerifiedUserIcon = styled(MuiVerifiedUserIcon)`
-  color: black;
-`;
-
-export const ArrowDropDownIcon = styled(MuiArrowDropDownIcon)`
-  transition: 0.2s;
-  position: absolute;
-  top: 21px;
-  color: black;
-`;
-
-export const LearnMore = styled.a`
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-`;
 
 export const VerifyButton = styled(Button)`
   padding: 10px 25px 10px 25px !important;

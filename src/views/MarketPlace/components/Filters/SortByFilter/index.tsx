@@ -1,6 +1,5 @@
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FilterArrow from './components/FilterArrow/filterArrow';
 import { FilterHamburguer } from './components/FilterHamburguer/filterHamburguer';
 import * as S from './styles';

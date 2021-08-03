@@ -19,6 +19,7 @@ interface AppConfig {
   };
   kyc: {
     templateLvl1: string;
+    templateLvl2: string;
     environmentType: string;
   };
   logging: {
@@ -40,7 +41,8 @@ interface AppConfig {
     };
   };
   kycLimits: {
-    ccDepositLimit: string;
+    ccDepositLimit: number;
+    dailyDepositLimit: number;
   };
   gtag: {
     id: string;
@@ -60,24 +62,19 @@ export const config: AppConfig = {
     apiEndpoint: getEnvVar('REACT_APP_API_ENDPOINT', true),
   },
   misc: {
-    coinbaseCheckoutId:
-      getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', false) ||
-      'd7589053-50e2-4560-b25c-5058274d6b0d',
+    coinbaseCheckoutId: getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', true)
   },
   blockchain: {
     chainId:
-      parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', false), 10) || 3,
+      parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', true), 10),
     apiKey:
-      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', false) ||
-      '1TBA6MAXS6YTBXRY4RCS9PQE2RBX23PA83',
+      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', true),
     usdcTokenContractAddress:
-      getEnvVar('REACT_APP_BLOCKCHAIN_ADDRESS_USDC_TOKEN_CONTRACT', false) ||
-      '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
+      getEnvVar('REACT_APP_BLOCKCHAIN_ADDRESS_USDC_TOKEN_CONTRACT', true),
   },
   kyc: {
-    templateLvl1:
-      getEnvVar('REACT_APP_PERSONA_TEMPLATE_LVL_1', false) ||
-      'tmpl_RdoVrNaCQZ2mNCm6Q9W7jg2z',
+    templateLvl1: getEnvVar('REACT_APP_PERSONA_TEMPLATE_LVL_1', true),
+    templateLvl2: getEnvVar('REACT_APP_PERSONA_TEMPLATE_LVL_2', true),
     environmentType:
       getEnvVar('REACT_APP_PERSONA_ENVIRONMENT_TYPE', false) || 'sandbox',
   },
@@ -106,7 +103,8 @@ export const config: AppConfig = {
   },
   kycLimits: {
     ccDepositLimit:
-      getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', false) || '2000',
+      parseInt(getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', true), 10),
+    dailyDepositLimit: parseInt(getEnvVar('REACT_APP_DAILY_DEPOSIT_LIMIT_USD', true), 10),
   },
   gtag: {
     id: getEnvVar('REACT_APP_GTAG_ID', false),

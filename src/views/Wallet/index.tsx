@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DepositModal from './DepositModal';
 import WhitdrawModal from './WithdrawModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -23,6 +22,7 @@ import withdrawIconBlack from 'assets/svg/icons/withdraw-funds-black.svg';
 import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndImage';
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
 import TabHeaderOptions from './Components/TabHeaderOptions/tabHeaderOptions';
+import {useKycClient} from "../../hooks/useKycClient";
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -38,6 +38,7 @@ const Wallet = (props) => {
   const dispatch = useAppDispatch();
   const [valueCurrentPage, setCurrentPage] = useState<number>(1);
   const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
+  const kycClient = useKycClient();
 
   const [sortByTransactions, setSortByTransactions] = useState<
     'newest' | 'oldest'
@@ -48,7 +49,7 @@ const Wallet = (props) => {
 
   const { username: username } = useAppSelector((state) => state.session.user);
 
-  const { kycPending, kycMaxLevel } = useAppSelector(
+  const { kycPending, kycMaxLevel, kycRequired } = useAppSelector(
     (state) => state.session.userCards
   );
   const PER_PAGE = 5;
@@ -101,6 +102,12 @@ const Wallet = (props) => {
       setIsModalOpen(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (kycRequired) {
+      kycClient?.open();
+    }
+  }, [kycRequired, kycClient]);
 
   useEffect(() => {
     if (selectedTab === 0) {
