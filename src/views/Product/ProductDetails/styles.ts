@@ -9,6 +9,9 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 export const Body = styled.div`
   color: black;
   padding: 34px;
+  @media screen and (max-width: 400px) {
+    padding: 18px;
+  }
 `;
 
 export const Container = styled.div`
@@ -148,4 +151,9 @@ export const TokenExplorerLink = styled.a``;
 export const TokenExplorerLinkPlain = styled.div`
   display: flex;
   align-items: flex-end;
+  @media screen and (max-width: 400px) {
+    display: flex;
+    margin-left: 7px;
+    align-items: center;
+  }
 `;
