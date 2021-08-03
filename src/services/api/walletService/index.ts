@@ -133,3 +133,25 @@ export const getHbarExplorerAddress = async (
     throw handleApiError(err);
   }
 };
+
+
+export const postWithdrawalAmount = async (
+  token: string,
+  usdcAddress: string,
+  amount: string
+): Promise<IWalletExplorerAddress> => {
+  try {
+    const response = await axiosInstance.post<IWalletExplorerAddress>(
+      `/wallet/crypto/payouts`,
+      {
+        usdcAddress,
+        amount
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
