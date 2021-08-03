@@ -70,19 +70,23 @@ const ProductDetails = ({
           )}
           {sku?.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">
-              {`${serialNumber} of ${totalSupply}`}
+              <S.ItemCountContainer>
+                {`${serialNumber} of ${totalSupply}`}
+              </S.ItemCountContainer>
             </S.SkuInfo>
           )}
 
           {sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
-              {`${circulatingSupply} Released `}
+              <S.ItemCountContainer>
+                {`${circulatingSupply} Released `}
+              </S.ItemCountContainer>
             </S.SkuInfo>
           )}
           {skuTokenId && (
             <S.TokenExplorerLinkPlain>
               {skuIsVariable && '/'}
-              {HederaIcon()}
+              <S.HederaIconContainer>{HederaIcon()}</S.HederaIconContainer>
               {explorerLink ? (
                 <S.TokenExplorerLink target="_blank" href={explorerLink}>
                   Token {skuTokenId}
