@@ -113,6 +113,7 @@ const History = ({
     selectedTab
   );
   const isActiveAuction = util.isActiveAuction();
+  const isPastAuction = util.isPastAuction();
   //effects.
 
   useEffect(() => {
@@ -133,6 +134,9 @@ const History = ({
     if (isActiveAuction) {
       util.fetchBids();
     }
+    if (isPastAuction) {
+      util.fetchPastBids();
+    }
   }, [auctionPage]);
 
   useEffect(() => {
@@ -141,6 +145,7 @@ const History = ({
 
   if (historyStatus === '' || !handlers) return <></>;
 
+  console.log('auction status', auctionStatus);
   return (
     <>
       <S.Container>
@@ -156,13 +161,26 @@ const History = ({
           setIsCancelModalOpen={setIsCancelModalOpen}
           auctionStatus={auctionStatus}
           setSelectedTab={setSelectedTab}
+          util={util}
         />
 
-        {util.isActiveAuction() &&
-          selectedTab === 'auction' &&
-          matchesMobile && (
-            <PP.AuctionCountDown product={product} countdown={countdown} />
-          )}
+        {isPastAuction && (
+          <PP.StatusBar
+            productState="processing-auction"
+            leftTextSubHeader={
+              new Date(
+                util.product?.expiredProductListings[
+                  util.product?.expiredProductListings.length - 1
+                ]?.endDate
+              )
+            }
+            price={util?.bids[0]?.bidAmt}
+          />
+        )}
+
+        {isActiveAuction && selectedTab === 'auction' && matchesMobile && (
+          <PP.AuctionCountDown product={product} countdown={countdown} />
+        )}
 
         <PP.TabBar
           util={util}

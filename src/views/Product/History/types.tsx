@@ -16,6 +16,7 @@ export type AuctionStatus =
   | 'upcoming-auction-user'
   | 'active-auction-bid-owner'
   | 'active-auction-bid-user'
+  | 'processing-auction'
   | '';
 
 export type tabSelect = 'history' | 'auction' | 'owner_access';

@@ -19,6 +19,7 @@ export const Auction = ({
 }) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
+  console.log('here', util.bids);
   return (
     <>
       <S.TransactionHistory>
@@ -104,7 +105,8 @@ export const Auction = ({
               </S.TextContainer>
             )}
           </>
-        ) : auctionStatus === 'active-auction-bid-owner' ? (
+        ) : auctionStatus === 'active-auction-bid-owner' ||
+          auctionStatus === 'processing-auction' ? (
           <S.BidsHistory>
             {util.bids instanceof Array &&
               util.bids.map((bid) => {
@@ -167,7 +169,7 @@ export const Auction = ({
               {!util?.bids ||
               util?.bids?.length === 0 ||
               !(util.bids instanceof Array) ? (
-                <p>No transactions</p>
+                <></>
               ) : (
                 util.bids.map((bid) => {
                   return <Transaction key={bid._id} bid={bid} />;

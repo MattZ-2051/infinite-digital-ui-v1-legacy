@@ -47,6 +47,7 @@ export const TabBar = ({
 }) => {
   const isAuctionOrWillBe = util.auctionOrWillBeAuction();
   const isActiveAuction = util.isActiveAuction();
+  const isPastAuction = util.isPastAuction();
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const parsedStartDate =
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
@@ -64,7 +65,7 @@ export const TabBar = ({
   }, [countdown]);
 
   useEffect(() => {
-    if (isActiveAuction || isAuctionOrWillBe) {
+    if (isActiveAuction || isAuctionOrWillBe || isPastAuction) {
       setSelectedTab('auction');
     }
   }, []);
@@ -72,7 +73,7 @@ export const TabBar = ({
   const DesktopLayout = () => {
     return (
       <>
-        {isAuctionOrWillBe && (
+        {(isAuctionOrWillBe || isPastAuction) && (
           <>
             <S.Tab
               themeStyle={'light'}
@@ -106,10 +107,7 @@ export const TabBar = ({
           </S.Tab>
         )}
 
-        <S.GrayLine
-          paddingBottom="38px"
-          marginRight={selectedTabIsAuction ? '' : '80px'}
-        />
+        <S.GrayLine paddingBottom="38px" marginRight="80px" />
       </>
     );
   };

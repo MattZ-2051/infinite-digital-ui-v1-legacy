@@ -56,6 +56,7 @@ const AuctionSale = ({
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
   const isSkuOwner = sku?.issuer._id === loggedInUserId;
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   const handleBuyNowClick = () => {
     if (isAuthenticated) {
@@ -83,11 +84,11 @@ const AuctionSale = ({
       <S.Container>
         <S.Detail width={boxWidth}>
           {(state === 'upcoming' || state === 'active') && (
-            <S.BoxColumn>
+            <S.BoxColumn alignItems="flex-start">
               {state === 'upcoming' && (
                 <>
                   <S.BoxTitle>Upcoming {typeName}</S.BoxTitle>
-                  <S.BoxSubtitle>
+                  <S.BoxSubtitle style={{ textAlign: 'left' }}>
                     Starts {startDate && formatDate(startDate)}
                   </S.BoxSubtitle>
                 </>
