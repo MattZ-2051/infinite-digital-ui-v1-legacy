@@ -96,7 +96,7 @@ const AuctionSale = ({
               {state === 'active' && (
                 <>
                   <S.BoxTitle>Active {typeName}</S.BoxTitle>
-                  <S.BoxSubtitle>
+                  <S.BoxSubtitle style={{ textAlign: 'start' }}>
                     {type === 'auction'
                       ? `Ends ${endDate && formatDate(endDate)}`
                       : `Started ${startDate && formatDate(startDate)}`}

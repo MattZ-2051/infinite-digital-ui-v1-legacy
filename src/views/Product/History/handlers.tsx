@@ -12,6 +12,7 @@ export class Handlers {
   setAuctionPage;
   setHistoryPage;
   selectedTab;
+  setIsCancelModalOpen;
 
   constructor(
     setIsModalOpen,
@@ -23,7 +24,8 @@ export class Handlers {
     setIsBidModalOpen,
     setAuctionPage,
     setHistoryPage,
-    selectedTab
+    selectedTab,
+    setIsCancelModalOpen
   ) {
     this.setIsModalOpen = setIsModalOpen;
     this.loginWithRedirect = loginWithRedirect;
@@ -35,6 +37,7 @@ export class Handlers {
     this.setAuctionPage = setAuctionPage;
     this.setHistoryPage = setHistoryPage;
     this.selectedTab = selectedTab;
+    this.setIsCancelModalOpen = setIsCancelModalOpen;
   }
 
   handleRedirectToOwnerPage = () => {
@@ -59,6 +62,13 @@ export class Handlers {
     this.setIsSaleModalOpen(true);
   };
 
+  handleCancelSale = () => {
+    if (this.util.productListingExists()) return TM.repeatedListingError();
+    if (!this.util.isAuthenticated)
+      return TM.needToSignUp(this.loginWithRedirect);
+    this.setIsCancelModalOpen(true);
+  };
+
   handleBid = () => {
     if (!this.util.product) return;
     if (!this.util.isAuthenticated)
@@ -70,8 +80,9 @@ export class Handlers {
     let parsedBidAmount = 0;
     if (this.util.bidAmount) parsedBidAmount = parseFloat(this.util.bidAmount);
 
-    if (parsedBidAmount < minPrice)
+    if (parsedBidAmount < minPrice) {
       return TM.higherBidNeeded(this.util.bidIncrement);
+    }
     if (this.userBalance < parsedBidAmount || this.userBalance < priceWithFee)
       return TM.insuficientFounds(
         this.userBalance,

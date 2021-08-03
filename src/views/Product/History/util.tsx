@@ -49,6 +49,7 @@ export class Util {
     this.setPrivateAssets = setPrivateAssets;
   }
 
+  //TODO (Matt 8/3/21): Refactor into one status for status bar
   getHistoryStatus = (): HistoryStatus => {
     const isAuction =
       this.product?.activeProductListings[0]?.saleType === 'auction' ||
@@ -56,6 +57,9 @@ export class Util {
     const activeListings = this.product?.activeProductListings?.length !== 0;
     const upcomingListings =
       this.product?.upcomingProductListings?.length !== 0;
+    const isUpcomingSale =
+      this.product?.upcomingProductListings?.length !== 0 &&
+      this.product?.upcomingProductListings?.saleType === 'fixed';
 
     if (isAuction && upcomingListings && !activeListings)
       return 'upcoming-auction';
@@ -72,7 +76,7 @@ export class Util {
     if (!activeListings && !upcomingListings && !isAuction)
       return 'not-for-sale';
     if (activeListings && !upcomingListings && !isAuction) return 'buy-now';
-    if (!activeListings && upcomingListings && !isAuction) return 'upcoming';
+    if (!activeListings && isUpcomingSale && !isAuction) return 'upcoming-sale';
     return '';
   };
 

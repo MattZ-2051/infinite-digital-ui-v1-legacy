@@ -1,35 +1,10 @@
 import * as S from '../styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import padlock from 'assets/svg/icons/padlock-icon.svg';
-import { formatDate } from 'utils/dates';
 import { useCountdown } from 'hooks/useCountdown';
 import { useEffect } from 'react';
 import MobileDropDown from '../components/mobileTabDropDown';
 import { Util } from '../util';
-
-interface ExpiresInCompProps {
-  util: Util;
-  countdown: string;
-}
-
-const ExpiresInText = ({ util, countdown }: ExpiresInCompProps) => {
-  return (
-    <S.TextContainer borderBottom={true}>
-      <S.Text color="#9e9e9e" size="18px" fontWeight={600} padding="0 5px">
-        Expires in
-      </S.Text>
-      <S.Text color="white" size="18px" fontWeight={600} padding="0 5px">
-        {util.product?.activeProductListings[0] && countdown}
-      </S.Text>{' '}
-      <S.Text color="#7c7c7c" size="14px" fontWeight={400} padding="0 5px">
-        {util.product?.activeProductListings[0] &&
-          `(${formatDate(
-            new Date(util.product?.activeProductListings[0].endDate)
-          )})`}
-      </S.Text>
-    </S.TextContainer>
-  );
-};
 
 const getTabOptionsArr = (isAuctionOrWillBe, arePrivateAssets) => {
   const options: ['History' | 'Auction' | 'Owner Access'] = ['History'];
@@ -52,7 +27,6 @@ export const TabBar = ({
   const parsedStartDate =
     util.product && new Date(util.product?.activeProductListings[0]?.endDate);
   const countdown = parsedStartDate && useCountdown(parsedStartDate);
-  const selectedTabIsAuction = selectedTab === 'auction';
 
   const arePrivateAssets = util?.privateAssets?.length > 0;
 
@@ -125,11 +99,6 @@ export const TabBar = ({
       ) : (
         <DesktopLayout />
       )}
-      {isActiveAuction &&
-        selectedTab === 'auction' &&
-        (matchesMobile ? null : (
-          <ExpiresInText util={util} countdown={countdown} />
-        ))}
     </S.TabBar>
   );
 };

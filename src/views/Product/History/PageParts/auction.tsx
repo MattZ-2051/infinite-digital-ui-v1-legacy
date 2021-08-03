@@ -13,13 +13,11 @@ export const Auction = ({
   util,
   handlers,
   auctionStatus,
-  setBidAmount,
   themeStyle,
   totalBids,
 }) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
-  console.log('here', util.bids);
   return (
     <>
       <S.TransactionHistory>
@@ -117,59 +115,10 @@ export const Auction = ({
           (auctionStatus === 'active-auction-bid-user' ||
             auctionStatus === 'active-auction-no-bid-user') && (
             <S.BidsHistory>
-              {matchesMobile ? (
-                <S.MobileContainer>
-                  <S.FlexDiv width="100%">
-                    <img src={BidIcon} alt="" />
-                    <S.AmountInput
-                      name="amount-input"
-                      placeholder={`Place a bid higher or equal to $${util.getMinBid()}`}
-                      decimalsLimit={2}
-                      onValueChange={(val) => setBidAmount(val)}
-                      defaultValue={0.0}
-                      maxLength={10}
-                      allowNegativeValue={false}
-                      value={util.bidAmount ? util.bidAmount : ''}
-                      step={10}
-                    />
-                  </S.FlexDiv>
-                  <S.PlaceBidButton
-                    active={!!util.bidAmount}
-                    onClick={handlers.handleBid}
-                    width="100%"
-                  >
-                    Place Bid
-                  </S.PlaceBidButton>
-                </S.MobileContainer>
-              ) : (
-                <S.PlaceBidsContainer>
-                  <S.FlexDiv width="65%">
-                    <img src={BidIcon} alt="" />
-                    <S.AmountInput
-                      name="amount-input"
-                      placeholder={`Place a bid higher or equal to $${util.getMinBid()}`}
-                      decimalsLimit={2}
-                      onValueChange={(val) => setBidAmount(val)}
-                      defaultValue={0.0}
-                      maxLength={10}
-                      allowNegativeValue={false}
-                      value={util.bidAmount ? util.bidAmount : ''}
-                      step={10}
-                    />
-                  </S.FlexDiv>
-                  <S.PlaceBidButton
-                    active={!!util.bidAmount}
-                    onClick={handlers.handleBid}
-                  >
-                    Place Bid
-                  </S.PlaceBidButton>
-                </S.PlaceBidsContainer>
-              )}
-
               {!util?.bids ||
               util?.bids?.length === 0 ||
               !(util.bids instanceof Array) ? (
-                <></>
+                <>No Transactions</>
               ) : (
                 util.bids.map((bid) => {
                   return <Transaction key={bid._id} bid={bid} />;

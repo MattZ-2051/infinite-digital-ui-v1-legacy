@@ -14,28 +14,28 @@ import Emoji from 'components/Emoji';
 import { ProductWithFunctions } from 'entities/product';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
+import { Modes } from '../../History/types';
 // import ReactGA from 'react-ga';
-
-type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing';
 
 interface IModalProps {
   visible: boolean;
   setModalPaymentVisible: any;
-  mode: Modes;
   product: ProductWithFunctions;
   serialNum?: string;
+  statusMode: Modes;
+  setStatusMode: (mode: Modes) => void;
 }
 
 const BuyNowModal = ({
   visible,
   setModalPaymentVisible,
-  mode,
   product,
   serialNum,
+  statusMode,
+  setStatusMode,
 }: IModalProps): JSX.Element => {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(false);
-  const [statusMode, setStatusMode] = useState<Modes>(mode);
   const [checkTerms, setCheckTerms] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
@@ -155,6 +155,11 @@ const BuyNowModal = ({
     }
   };
 
+  useEffect(() => {
+    if (product.listing.price > parseFloat(userBalance)) {
+      setStatusMode('noFunds');
+    }
+  }, []);
   useEffect(() => {
     checkPendingStatus();
   }, []);

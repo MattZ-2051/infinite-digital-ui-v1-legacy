@@ -175,8 +175,8 @@ export const BidAmount = styled.p`
 `;
 
 export const TransactionHistory = styled.div`
-  overflow: hidden;
-  height: 80%;
+  overflow: auto;
+  height: calc(100vh - 50vh);
   overflow-x: hidden;
   padding-right: 80px;
 
@@ -301,7 +301,7 @@ export const Button = styled.button<{
   width: ${(props) => (props.width ? props.width : '190px')};
   height: ${(props) => (props.height ? props.height : '40px')};
   border-radius: 28px;
-  background-color: #1c1c1c;
+  background-color: ${(props) => (props.hover ? 'black' : '#1c1c1c')};
   color: white;
   font-size: ${(props) => `${props.fontSize}`};
   font-weight: 600;

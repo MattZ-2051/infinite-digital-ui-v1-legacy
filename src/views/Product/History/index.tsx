@@ -17,7 +17,7 @@ import * as S from './styles';
 import OwnerAccess from 'views/Product/OwnerAccess';
 import { Util } from './util';
 import { Handlers } from './handlers';
-import { HistoryStatus, AuctionStatus, tabSelect } from './types';
+import { HistoryStatus, AuctionStatus, tabSelect, Modes } from './types';
 import * as PP from './PageParts';
 
 interface Props {
@@ -40,7 +40,7 @@ const History = ({
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
-  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const [statusMode, setStatusMode] = useState<Modes>('hasFunds');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
   const [historyStatus, setHistoryStatus] = useState<HistoryStatus>('');
@@ -54,7 +54,6 @@ const History = ({
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
-  // const [token, setToken] = useState<string>('');
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
@@ -70,16 +69,7 @@ const History = ({
       : product?.activeProductListings[0]?._id;
 
   const [auctionPage, setAuctionPage] = useState<number>(1);
-  const price = product?.listing?.price;
-  const modalMode = price && userBalance >= price ? 'hasFunds' : 'noFunds';
   const loggedInUser = useAppSelector((state) => state.session.user);
-  const parsedStartDate =
-    product &&
-    new Date(
-      product?.activeProductListings[0]?.endDate ||
-        product?.upcomingProductListings[0]?.startDate
-    );
-  const countdown = parsedStartDate && useCountdown(parsedStartDate);
   const marketPlaceUrl = '/marketplace';
 
   //clases
@@ -110,7 +100,8 @@ const History = ({
     setIsBidModalOpen,
     setAuctionPage,
     setHistoryPage,
-    selectedTab
+    selectedTab,
+    setIsCancelModalOpen
   );
   const isActiveAuction = util.isActiveAuction();
   const isPastAuction = util.isPastAuction();
@@ -145,7 +136,6 @@ const History = ({
 
   if (historyStatus === '' || !handlers) return <></>;
 
-  console.log('auction status', auctionStatus);
   return (
     <>
       <S.Container>
@@ -164,23 +154,14 @@ const History = ({
           util={util}
         />
 
-        {isPastAuction && (
-          <PP.StatusBar
-            productState="processing-auction"
-            leftTextSubHeader={
-              new Date(
-                util.product?.expiredProductListings[
-                  util.product?.expiredProductListings.length - 1
-                ]?.endDate
-              )
-            }
-            price={util?.bids[0]?.bidAmt}
-          />
-        )}
-
-        {isActiveAuction && selectedTab === 'auction' && matchesMobile && (
-          <PP.AuctionCountDown product={product} countdown={countdown} />
-        )}
+        <PP.StatusBar
+          util={util}
+          auctionStatus={auctionStatus}
+          historyStatus={historyStatus}
+          handlers={handlers}
+          listingStatus={statusMode}
+          setBidAmount={setBidAmount}
+        />
 
         <PP.TabBar
           util={util}
@@ -204,7 +185,6 @@ const History = ({
             util={util}
             handlers={handlers}
             auctionStatus={auctionStatus}
-            setBidAmount={setBidAmount}
             themeStyle={themeStyle}
             totalBids={totalBids}
           />
@@ -227,7 +207,8 @@ const History = ({
           product={product}
           serialNum={product.serialNumber}
           visible={isModalOpen}
-          mode={modalMode}
+          statusMode={statusMode}
+          setStatusMode={setStatusMode}
         />
       )}
       {product && historyStatus === 'active-sale' && (

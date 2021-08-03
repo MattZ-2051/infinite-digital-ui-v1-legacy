@@ -18,6 +18,7 @@ export const Container = styled.div`
   background-color: white;
   overflow: hidden;
   height: 100vh;
+  // margin: auto 0;
   :hover {
     cursor: pointer;
   }
