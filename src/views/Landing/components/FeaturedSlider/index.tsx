@@ -63,6 +63,11 @@ const Container = styled.section`
   color: white;
   background-color: black;
 
+  .slick-slider {
+    max-width: 1440px;
+    margin: auto;
+  }
+
   .slick-dots {
     @media screen and (max-width: 1280px) {
       padding: 0 32px 0 32px;

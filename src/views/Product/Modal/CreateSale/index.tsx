@@ -36,8 +36,8 @@ const CreateSale = ({
   const [loading, setLoading] = useState(false);
 
   const fee = product?.resale
-    ? product?.sku?.sellerTransactionFeePercentage
-    : product?.sku?.sellerTransactionFeePercentageSecondary;
+    ? product?.sku?.sellerTransactionFeePercentageSecondary
+    : product?.sku?.sellerTransactionFeePercentage;
 
   useEffect(() => {
     if (price) {

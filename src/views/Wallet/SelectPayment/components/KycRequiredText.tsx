@@ -1,4 +1,3 @@
-import Toast from 'utils/Toast';
 import { useKycClient } from 'hooks/useKycClient';
 
 interface IProps {

@@ -7,8 +7,8 @@ import Rarity from 'components/Rarity';
 import { getBids } from 'services/api/productService';
 import { Bid } from 'entities/bid';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import PageLoader from 'components/PageLoader';
 import { Sku } from 'entities/sku';
-import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable2.svg';
 
 interface IModalProps {
   visible: boolean;
@@ -33,8 +33,7 @@ const BidHistoryModal = ({
   const [totalBids, setTotalBids] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
-  const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchBids = async () => {
     setLoading(true);
@@ -47,6 +46,24 @@ const BidHistoryModal = ({
     }
   };
 
+  const winnerText = (bidAmt) => {
+    return (
+      <S.FlexDiv alignItems="center">
+        <S.RedeemIcon style={{ marginRight: '5px' }} />
+        <S.Text
+          color="black"
+          fontWeight={600}
+          padding="0"
+          fontSize="16px"
+          textAlign="center"
+        >
+          {' '}
+          Won with ${bidAmt}
+        </S.Text>
+      </S.FlexDiv>
+    );
+  };
+
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -54,10 +71,10 @@ const BidHistoryModal = ({
     setPage(value);
   };
 
-  console.log('sku', sku);
   useEffect(() => {
     fetchBids();
-  }, []);
+  }, [page]);
+
   const Body = () => {
     return (
       <S.Container>
@@ -81,7 +98,7 @@ const BidHistoryModal = ({
           padding="0 0 16px 0"
           textAlign="center"
         >
-          Won on {formatDate(endDate)}
+          Closed on {formatDate(endDate)}
         </S.Text>
         <S.GreyLine />
         <S.FlexDiv
@@ -113,16 +130,16 @@ const BidHistoryModal = ({
               {sku?.series?.name}
             </S.Text>
             {sku.redeemable && (
-              <>
-                {/* <S.Text
+              <S.FlexDiv alignItems="center">
+                <S.RedeemIcon />
+                <S.Text
                   color="#9E9E9E"
                   fontWeight={400}
                   padding="0 10px"
                   fontSize="16px"
                 >
                   /
-                </S.Text> */}
-                <RedeemIcon style={{ marginRight: '10px' }} />
+                </S.Text>
                 <S.Text
                   color="black"
                   fontWeight={600}
@@ -131,10 +148,10 @@ const BidHistoryModal = ({
                 >
                   Redeemable
                 </S.Text>
-              </>
+              </S.FlexDiv>
             )}
           </div>
-          <div style={{ display: 'flex', paddingLeft: '30px' }}>
+          <S.FlexDiv padding="30px">
             <S.Text
               color="#9E9E9E"
               fontWeight={400}
@@ -146,93 +163,65 @@ const BidHistoryModal = ({
             <S.Text color="black" fontWeight={400} padding="0" fontSize="16px">
               {serialNumber}
             </S.Text>
-          </div>
+          </S.FlexDiv>
         </S.FlexDiv>
         <S.GreyLine />
-        {bids.map((bid) => {
-          return bid.status === 'winner' ? (
-            <>
-              <S.FlexDiv
-                justifyContent="space-between"
-                alignItems="center"
-                padding="30px 0"
-                key={bid._id}
-              >
-                <S.Text
-                  color={bid.status === 'winner' ? 'black' : '#9E9E9E'}
-                  fontWeight={600}
-                  padding="0"
-                  fontSize="16px"
+        {loading ? (
+          <PageLoader size={12} />
+        ) : (
+          bids.map((bid) => {
+            return (
+              <>
+                <S.FlexDiv
+                  justifyContent="space-between"
+                  alignItems="center"
+                  padding="30px 0"
+                  key={bid._id}
                 >
-                  @{bid?.owner?.username}
-                </S.Text>
-                <div>
                   <S.Text
                     color={bid.status === 'winner' ? 'black' : '#9E9E9E'}
                     fontWeight={600}
                     padding="0"
                     fontSize="16px"
-                    textAlign="center"
                   >
-                    Won with ${bid.bidAmt}
+                    @{bid?.owner?.username}
                   </S.Text>
-                  <S.Text
-                    color="#9e9e9e"
-                    fontWeight={500}
-                    padding="0"
-                    fontSize="12px"
-                  >
-                    {formatDate(bid.createdAt)}
-                  </S.Text>
-                </div>
-              </S.FlexDiv>
-              <S.GreyLine />
-            </>
-          ) : (
-            <>
-              <S.FlexDiv
-                justifyContent="space-between"
-                alignItems="center"
-                padding="30px 0"
-                key={bid._id}
-              >
-                <S.Text
-                  color={bid.status === 'winner' ? 'black' : '#9E9E9E'}
-                  fontWeight={600}
-                  padding="0"
-                  fontSize="16px"
-                >
-                  @{bid?.owner?.username}
-                </S.Text>
-                <div>
-                  <S.Text
-                    color={bid.status === 'winner' ? 'black' : '#9E9E9E'}
-                    fontWeight={600}
-                    padding="0"
-                    fontSize="16px"
-                    textAlign="center"
-                  >
-                    <span style={{ color: '#9e9e9e' }}>Bid for</span> $
-                    {bid.bidAmt}
-                  </S.Text>
-                  <S.Text
-                    color="#9e9e9e"
-                    fontWeight={500}
-                    padding="0"
-                    fontSize="12px"
-                  >
-                    {formatDate(bid.createdAt)}
-                  </S.Text>
-                </div>
-              </S.FlexDiv>
-              <S.GreyLine />
-            </>
-          );
-        })}
-        {bids.length > 5 && (
+                  <div>
+                    <S.FlexDiv alignItems="center">
+                      {bid.status === 'winner' ? (
+                        <>{winnerText(bid.bidAmt)}</>
+                      ) : (
+                        <S.Text
+                          color={bid.status === 'winner' ? 'black' : '#9E9E9E'}
+                          fontWeight={600}
+                          padding="0"
+                          fontSize="16px"
+                          textAlign="center"
+                        >
+                          Bid for ${bid.bidAmt}
+                        </S.Text>
+                      )}
+                    </S.FlexDiv>
+
+                    <S.Text
+                      color="#9e9e9e"
+                      fontWeight={500}
+                      padding="0"
+                      fontSize="12px"
+                    >
+                      {formatDate(bid.createdAt)}
+                    </S.Text>
+                  </div>
+                </S.FlexDiv>
+                <S.GreyLine />
+              </>
+            );
+          })
+        )}
+        {totalBids > 5 && (
           <S.PaginationContainer>
             <S.StyledPagination
-              themeStyle={themeStyle}
+              themeStyle={'light'}
               count={Math.ceil(totalBids / perPage)}
               page={page}
               onChange={handlePagination}

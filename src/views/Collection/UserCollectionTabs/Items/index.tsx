@@ -1,29 +1,39 @@
-import styled, { css } from 'styled-components/macro';
 import ProductTile from '../../../MarketPlace/components/ProductTile';
 import { ProductWithFunctions } from 'entities/product';
+import { PageLoaderHelper } from './pageLoaderHelper';
+import * as S from './styles';
+import { useHistory } from 'react-router';
 
 interface Props {
   userItems: ProductWithFunctions[] | undefined;
   collection?: boolean;
   themeStyle?: 'light' | 'dark';
+  isLoading: boolean;
+  isUserCollection: boolean;
 }
 
-const NoItems = () => {
+const NoItems = (isUserCollection: boolean) => {
+  const history = useHistory();
   return (
-    <Container
+    <S.Container
       style={{
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         height: '40vh',
       }}
     >
-      <h3
-        style={{ fontWeight: 500, paddingBottom: '120px', textAlign: 'center' }}
-      >
-        Visit the marketplace to start your INFINITE NFT collection today!
-      </h3>
-    </Container>
+      <S.Message>
+        {isUserCollection && 'You have no NFTs on your collection yet...'}
+        {!isUserCollection &&
+          "This user hasn't added any NFTs to their collection yet"}
+      </S.Message>
+      {isUserCollection && (
+        <S.Button onClick={() => history.push('/marketplace')}>
+          Go to the Marketplace
+        </S.Button>
+      )}
+    </S.Container>
   );
 };
 
@@ -31,54 +41,33 @@ const Items = ({
   userItems,
   collection,
   themeStyle = 'light',
+  isLoading,
+  isUserCollection,
 }: Props): JSX.Element => {
   return (
-    <Container collection={collection || false}>
-      {userItems?.length === 0
-        ? NoItems()
-        : userItems &&
-          userItems.map((product: ProductWithFunctions, index) => {
-            if (product.sku === null) return;
-            return (
-              <TileContainer key={product._id} index={index}>
-                <ProductTile
-                  themeStyle={themeStyle}
-                  product={product}
-                  productSerialNumber={product.serialNumber}
-                  key={product._id}
-                />
-              </TileContainer>
-            );
-          })}
-    </Container>
+    <S.Container collection={collection || false}>
+      {isLoading ? (
+        <PageLoaderHelper userItems={userItems} />
+      ) : userItems?.length === 0 ? (
+        NoItems(isUserCollection)
+      ) : (
+        userItems &&
+        userItems.map((product: ProductWithFunctions, index) => {
+          if (product.sku === null) return;
+          return (
+            <S.TileContainer key={product._id} index={index}>
+              <ProductTile
+                themeStyle={themeStyle}
+                product={product}
+                productSerialNumber={product.serialNumber}
+                key={product._id}
+              />
+            </S.TileContainer>
+          );
+        })
+      )}
+    </S.Container>
   );
 };
-
-const TileContainer = styled.div<{ index: number }>`
-  padding: 0 12px;
-`;
-
-const hasCollection = css`
-  margin: auto;
-  :hover {
-    overflow: auto;
-  }
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  @media screen and (max-width: 840px) {
-    justify-content: center;
-  }
-`;
-
-const noCollection = css`
-  display: flex;
-  overflow: auto;
-  width: 100%;
-`;
-
-const Container = styled.div<{ collection?: boolean }>`
-  ${({ collection }) => (collection ? hasCollection : noCollection)}
-`;
 
 export default Items;

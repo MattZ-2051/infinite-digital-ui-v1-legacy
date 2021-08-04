@@ -4,25 +4,21 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    // {
-    //   // https://stackoverflow.com/questions/59814980/how-to-preserve-extensions-in-firefox-with-vscode-and-request-launch
-    //   "type": "firefox",
-    //   "request": "launch",
-    //   "name": "Debug FireFox React Run",
-    //   "url": "http://localhost:3000",
-    //   "webRoot": "${workspaceFolder}/src",
-    //   "profile": "default-release",
-    //   "reAttach": true,
-    //   "keepProfileChanges": true
-    // },
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Debug Chrome React Run",
+      "name": "Lunch Chrome React Run",
       "url": "http://localhost:3000",
       "port": 9222,
       "webRoot": "${workspaceFolder}/src",
       "userDataDir": false
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "webRoot": "${workspaceRoot}"
     }
   ]
 }

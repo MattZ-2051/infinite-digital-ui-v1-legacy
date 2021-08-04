@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
 import {
-  getUserInfoThunk,
   getUserCollectionThunk,
   getUserCardsThunk,
 } from 'store/session/sessionThunks';
@@ -31,7 +30,6 @@ const Landing = () => {
     const fetchData = async () => {
       if (user) {
         const userToken = await getAccessTokenSilently();
-        dispatch(getUserInfoThunk({ token: userToken }));
         if (loggedInUser) {
           dispatch(
             getUserCollectionThunk({ token: '', id: loggedInUser['id'] })

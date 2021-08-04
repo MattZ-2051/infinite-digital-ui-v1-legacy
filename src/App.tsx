@@ -1,4 +1,3 @@
-import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import GlobalStyle from 'styles/globalStyles';
 import AppLayout from './layouts/AppLayout';
@@ -18,7 +17,7 @@ const theme = createMuiTheme({
 
 const App = (): JSX.Element => {
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -33,7 +32,7 @@ const App = (): JSX.Element => {
           </>
         </AppLayout>
       </ThemeProvider>
-    </BrowserRouter>
+    </>
   );
 };
 

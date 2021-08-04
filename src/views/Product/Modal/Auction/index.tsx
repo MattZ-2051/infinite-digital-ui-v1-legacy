@@ -119,9 +119,9 @@ const AuctionModal = ({
           window.location.reload();
         }, 1200);
       }
-    } catch (e) {
+    } catch (err) {
       setLoading(false);
-      Toast.error(createAuction.error);
+      Toast.error(err.message);
     }
   };
 
@@ -306,7 +306,6 @@ const AuctionModal = ({
       onClose={() => setModalAuctionVisible(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      bodyStyle={{ 'overflow-y': 'scroll', height: '97vh' }}
       centered={true}
     >
       {content}

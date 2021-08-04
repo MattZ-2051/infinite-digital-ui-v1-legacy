@@ -8,7 +8,7 @@ export interface Listing {
   product?: string;
   issuer: User;
   price: number;
-  saleType: 'auction' | 'fixed';
+  saleType: 'auction' | 'fixed' | 'giveaway';
   supply: number;
   minBid: number;
   bids: Bid[];

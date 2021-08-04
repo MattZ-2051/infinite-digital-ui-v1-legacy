@@ -73,4 +73,10 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   sellerTransactionFeePercentageSecondary: 0,
   totalUpcomingSupply: 0,
   nftPublicAssets: [],
+  physicalProduct: {
+    image: '',
+    skuId: '123',
+    name: 'nike',
+    _id: '123444',
+  }
 });

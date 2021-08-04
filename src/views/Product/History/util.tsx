@@ -11,10 +11,12 @@ export class Util {
   auctionPage;
   perPage;
   setBids;
+  setPastBids;
   setTotalBids;
   transactionHistory;
   bidAmount;
   setPrivateAssets;
+  pastBids;
 
   constructor(
     product,
@@ -47,6 +49,7 @@ export class Util {
     this.setPrivateAssets = setPrivateAssets;
   }
 
+  //TODO (Matt 8/3/21): Refactor into one status for status bar
   getHistoryStatus = (): HistoryStatus => {
     const isAuction =
       this.product?.activeProductListings[0]?.saleType === 'auction' ||
@@ -54,6 +57,9 @@ export class Util {
     const activeListings = this.product?.activeProductListings?.length !== 0;
     const upcomingListings =
       this.product?.upcomingProductListings?.length !== 0;
+    const isUpcomingSale =
+      this.product?.upcomingProductListings?.length !== 0 &&
+      this.product?.upcomingProductListings?.saleType === 'fixed';
 
     if (isAuction && upcomingListings && !activeListings)
       return 'upcoming-auction';
@@ -70,7 +76,7 @@ export class Util {
     if (!activeListings && !upcomingListings && !isAuction)
       return 'not-for-sale';
     if (activeListings && !upcomingListings && !isAuction) return 'buy-now';
-    if (!activeListings && upcomingListings && !isAuction) return 'upcoming';
+    if (!activeListings && isUpcomingSale && !isAuction) return 'upcoming-sale';
     return '';
   };
 
@@ -80,9 +86,22 @@ export class Util {
     const activeListings = this.product?.activeProductListings?.length !== 0;
     const areBids = this.bids.length !== 0;
     const userIsOwner = this.product?.owner?._id === this.loggedInUser.id;
+    const expiredListing =
+      this.product?.expiredProductListings[
+        this.product.expiredProductListings.length - 1
+      ];
     const isAuction =
       this.product?.activeProductListings[0]?.saleType === 'auction' ||
       this.product?.upcomingProductListings[0]?.saleType === 'auction';
+    const isExpiredAuctionListingProcessing =
+      expiredListing &&
+      expiredListing?.auctionProcess !== 'closed' &&
+      expiredListing?.auctionProcess !== 'error' &&
+      new Date(
+        this.product?.expiredProductListings[
+          this.product?.expiredProductListings.length - 1
+        ].endDate
+      ).getTime() < new Date().getTime();
 
     if (userIsOwner) {
       if (!upcomingListings && activeListings && !areBids)
@@ -99,8 +118,9 @@ export class Util {
       return 'active-auction-bid-user';
     if (!upcomingListings && activeListings && !areBids)
       return 'active-auction-no-bid-user';
-
+    if (isExpiredAuctionListingProcessing) return 'processing-auction';
     return '';
+    // return 'processing-auction';
   };
 
   countDown = () => {
@@ -153,6 +173,21 @@ export class Util {
     }
   };
 
+  fetchPastBids = async () => {
+    const res = await getBids(
+      '',
+      this.product?.expiredProductListings[
+        this.product?.expiredProductListings.length - 1
+      ]?._id,
+      this.auctionPage,
+      this.perPage
+    );
+
+    if (res) {
+      this.setBids(res.data);
+      this.setTotalBids(res.data[0]?.listing?.bids?.length);
+    }
+  };
   fetchPrivateAssets = async () => {
     const res = await getPrivateAssets(this.product.sku._id);
     if (res) {
@@ -160,11 +195,31 @@ export class Util {
     }
   };
 
-  auctionOrWillBeAuction = () =>
-    (this.product?.activeProductListings.length !== 0 &&
-      this.product?.activeProductListings[0]?.saleType === 'auction') ||
-    (this.product?.upcomingProductListings.length !== 0 &&
-      this.product?.upcomingProductListings[0]?.saleType === 'auction');
+  auctionOrWillBeAuction = () => {
+    return (
+      (this.product?.activeProductListings.length !== 0 &&
+        this.product?.activeProductListings[0]?.saleType === 'auction') ||
+      (this.product?.upcomingProductListings.length !== 0 &&
+        this.product?.upcomingProductListings[0]?.saleType === 'auction')
+    );
+  };
+
+  isPastAuction = () => {
+    return (
+      this.product?.expiredProductListings.length !== 0 &&
+      this.product?.expiredProductListings[
+        this.product?.expiredProductListings.length - 1
+      ]?.auctionProcess !== 'closed' &&
+      this.product?.expiredProductListings[
+        this.product?.expiredProductListings.length - 1
+      ]?.auctionProcess !== 'error' &&
+      new Date(
+        this.product?.expiredProductListings[
+          this.product?.expiredProductListings.length - 1
+        ]?.endDate
+      ).getTime() < new Date().getTime()
+    );
+  };
 
   isActiveAuction = () =>
     this.product?.activeProductListings.length !== 0 &&

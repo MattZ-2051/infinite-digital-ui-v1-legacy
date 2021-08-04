@@ -1,8 +1,5 @@
 import styled from 'styled-components/macro';
-import MuiBlockIcon from '@material-ui/icons/Block';
-import MuiVerifiedUserOutlinedIcon from '@material-ui/icons/VerifiedUserOutlined';
-import MuiVerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import MuiArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Button from 'components/Buttons';
 
 export const Container = styled.div`
   color: #9e9e9e;
@@ -19,52 +16,52 @@ export const Container = styled.div`
   }
 `;
 
-export const BlockIcon = styled(MuiBlockIcon)`
-  transition: 0.2s;
+export const BlockIcon = styled.img`
   cursor: pointer;
-  margin-left: 10px;
-  &:hover {
-    color: black;
-  }
 `;
 
 export const LevelIndicator = styled.span`
-  font-weight: 400;
+  font-weight: 700;
   color: black;
   margin-left: 10px;
-  font-family: 'Circular';
   font-size: 16px;
-
-  padding-top: 4px;
 `;
 
 export const StatusText = styled.span`
-  margin-left: 10px;
-  padding-top: 4px;
-  font-family: 'Circular';
-  font-weight: 400;
+  margin-left: 7px;
+  font-weight: 700;
   font-size: 16px;
   color: #9e9e9e;
   font-style: Medium;
 `;
 
-export const VerifiedUserOutlinedIcon = styled(MuiVerifiedUserOutlinedIcon)`
-  color: black;
+export const InfoText = styled.span`
+  font-weight: 400;
+  font-size: 12px;
+  color: #9e9e9e;
 `;
 
-export const VerifiedUserIcon = styled(MuiVerifiedUserIcon)`
-  color: black;
+export const VerifiedUserKycIcon = styled.img``;
+export const PendingVerification = styled.img``;
+export const ArrowRight = styled.img``;
+
+export const VerifyButton = styled(Button)`
+  padding: 10px 25px 10px 25px !important;
+  margin-left: 20px;
+  font-weight: 700 !important;
+  font-size: 16px;
 `;
 
-export const ArrowDropDownIcon = styled(MuiArrowDropDownIcon)`
-  transition: 0.2s;
-  position: absolute;
-  top: 21px;
-  color: black;
+export const FlexCenter = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
-export const LearnMore = styled.a`
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
+export const Content = styled.div``;
+
+export const SecondaryContent = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin-bottom: 10px;
 `;

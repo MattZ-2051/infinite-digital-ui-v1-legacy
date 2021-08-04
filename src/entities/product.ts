@@ -10,6 +10,7 @@ export interface Product {
   listing: Listing;
   sku: Sku;
   serialNumber: string;
+  physicalTokenId?: string;
 }
 
 export interface ProductWithFunctions {

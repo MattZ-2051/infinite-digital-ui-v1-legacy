@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { ReactComponent as RedeemIcon } from 'assets/svg/icons/redeemable-white-background.svg';
 // Local
 import { useAppSelector } from 'store/hooks';
@@ -46,8 +46,6 @@ const SkuDetail = (): JSX.Element => {
   const [sku, setSku] = useState<Sku>();
   const [featuredProducts, setFeaturedProducts] = useState<Sku[]>();
   const [filteredFeaturedSku, setFilteredFeaturedSku] = useState<Sku[]>([]);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(false); // TODO: remove if not using
-  const modalMode = useRef<'hasFunds' | 'noFunds' | 'completed' | ''>(''); // TODO: remove if not using
   const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
@@ -59,13 +57,6 @@ const SkuDetail = (): JSX.Element => {
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const theme = useTheme();
   const isSmall: boolean = useMediaQuery(theme.breakpoints.down('sm'));
-  const toggleDescription = () => {
-    setDescriptionVisible(!descriptionVisible);
-  };
-  const toggleOwnerAccess = () => {
-    setOwnerAccessVisible(!ownerAccessVisible);
-  };
-
   const dispatch = useAppDispatch();
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -75,6 +66,12 @@ const SkuDetail = (): JSX.Element => {
       dispatch(getUserCardsThunk({ token: userToken }));
       dispatch(getUserInfoThunk({ token: userToken }));
     }
+  };
+  const toggleDescription = () => {
+    setDescriptionVisible(!descriptionVisible);
+  };
+  const toggleOwnerAccess = () => {
+    setOwnerAccessVisible(!ownerAccessVisible);
   };
 
   const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
@@ -91,6 +88,10 @@ const SkuDetail = (): JSX.Element => {
   useEffect(() => {
     getPrivateAssets(skuid).then((resp) => setPrivateAssets(resp));
   }, [skuid]);
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     const filtered = featuredProducts?.filter(
@@ -143,10 +144,6 @@ const SkuDetail = (): JSX.Element => {
     return fetchSku();
   };
 
-  const showModal = (): void => {
-    setModalPaymentVisible(true);
-  };
-
   if (!collectors || !featuredProducts || sku == undefined || loading) {
     return <PageLoader />;
   }
@@ -171,7 +168,6 @@ const SkuDetail = (): JSX.Element => {
   const tylesLimit = 4;
   const skuMessage = createMessage(sku);
 
-  console.log('here', sku.nftPublicAssets);
   return (
     <div>
       <S.HeaderContainer>
@@ -182,9 +178,9 @@ const SkuDetail = (): JSX.Element => {
           <S.HeaderRight>
             <S.ProductDetail>
               <S.Breadcrumbs>
-                <a href="/marketplace" style={{ color: 'white' }}>
+                <Link to="/marketplace" style={{ color: 'white' }}>
                   Marketplace
-                </a>
+                </Link>
                 <span style={{ color: '#7C7C7C' }}>{sku.name}</span>
               </S.Breadcrumbs>
 
@@ -278,7 +274,6 @@ const SkuDetail = (): JSX.Element => {
                 collectors={collectors.data}
                 sku={sku}
                 user={loggedInUser}
-                onBuyNow={showModal}
                 onProcessing={onProcessing}
               />
             </S.ButtonsContainer>
@@ -370,14 +365,14 @@ const SkuDetail = (): JSX.Element => {
                   body={<SkuDescription description={sku?.description || ''} />}
                   collectorsTotalNum={undefined}
                   borderTitle={true}
-                ></Collapsible>
+                />
                 {arePrivateAssets && (
                   <Collapsible
                     title="OwnerAccess"
                     body={ownerAccessInfo}
                     collectorsTotalNum={undefined}
                     borderTitle={true}
-                  ></Collapsible>
+                  />
                 )}
               </>
             )}

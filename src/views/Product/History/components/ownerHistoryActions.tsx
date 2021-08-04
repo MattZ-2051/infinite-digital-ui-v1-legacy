@@ -1,5 +1,5 @@
 import * as S from '../styles';
-import DropDown from '../DropDown';
+import DropDown from '../DropDown/ActionDropDown';
 
 export const OwnerHistoryActions = ({
   setVisible,
@@ -24,8 +24,8 @@ export const OwnerHistoryActions = ({
             redeemed={product?.redeemedStatus}
             setModalVisible={setIsRedeemModalOpen}
             openSaleModal={handlers.handleCreateSale}
-            setAuctionModalVisible={setIsAuctionModalOpen}
             redeemable={product?.sku?.redeemable}
+            setAuctionModalVisible={setIsAuctionModalOpen}
           />
         )}
       </div>

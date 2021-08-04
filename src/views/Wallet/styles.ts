@@ -203,9 +203,8 @@ export const GrayLine = styled.div`
 
 export const GreyBigText = styled.span`
   font-size: 16px;
-  font-family: 'Circular';
-  font-weight: 400;
-  color: #9e9e9e;
+  font-weight: 700;
+  color: #000000;
   padding-right: 8px;
 `;
 export const Icon = styled.img`

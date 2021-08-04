@@ -133,3 +133,7 @@ export const IssuerName = styled.p`
   color: #9e9e9e;
   margin: 0;
 `;
+
+export const EditionText = styled.span`
+  color: gray;
+`;

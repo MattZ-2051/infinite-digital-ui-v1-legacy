@@ -18,6 +18,11 @@ export const BodyContainer = styled.div`
     width: 100%;
   }
 `;
+export const ContainerBalance = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 
 export const DepositFormContainer = styled.div`
   display: flex;
@@ -55,6 +60,10 @@ export const BankImg = styled.img<{ backgroundColor: string }>`
 
 export const BodyContent = styled.div`
   padding: 0 40px 40px 40px;
+  flex: 1,
+  justify-content: space-between,
+  display: flex,
+  flex-direction: column,
   @media screen and (max-width: 550px) {
     padding: 0 10px;
   }
@@ -69,9 +78,17 @@ export const GrayLine = styled.div`
 export const Header = styled.span`
   font-size: 22px;
   font-weight: 600;
-  border-bottom: 2px solid black;
   padding-bottom: 14px;
+  display: flex;
+  flex:1;
+  margin-left:15px;
 `;
+
+export const ContainerHeader = styled.div`
+ display: flex;
+ flex: 1; 
+ border-bottom: 2px solid black;
+`
 
 export const Row = styled.div`
   display: grid;
@@ -116,11 +133,11 @@ export const AddAccountButton = styled.button`
   align-items: center;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ error?: string }>`
   min-height: 56px;
   width: 100%;
   border: none;
-  background-color: black;
+  background-color:${props => props.error ? '#DDDDDD' : '#000000'};
   font-size: 20px;
   font-weight: 600;
   border-radius: 35px;
@@ -186,32 +203,64 @@ export const NoButton = styled.button`
   }
 `;
 
-export const AmountContainer = styled.div`
+export const AmountContainer = styled.div<{ error?: string }>`
   width: 100%;
   padding: 17px 24px;
   border-radius: 35px;
   background-color: #f8f8f8;
-  margin-bottom: 32px;
+  margin-bottom: ${(props) => props.error ? '5px' : '32px'};
   margin-top: 16px;
 `;
 
-export const AmountInput = styled(CurrencyInput)`
+export const AmountInput = styled(CurrencyInput) <{ error?: string }>`
+  color: ${(props) => props.error ? '#DD2828' : '#000000'};
   width: 100%;
   border: none;
   border-radius: 35px;
   background-color: transparent;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   text-align: center;
   :focus {
     outline: none;
   }
+  :: placeholder { 
+    color: ${props => props.error ? '#DD2828' : '#888888'}
+  }
 `;
 
-export const DollarSign = styled.span`
-  color: #7d7d7d;
-  font-size: 16px;
-  padding-right: 10px;
-  font-weight: 600;
-  position: absolute;
+export const DollarSign = styled.span <{ error?: string }>`
+color: ${(props) => props.error ? '#DD2828' : '#7d7d7d'};
+font-size: 20px;
+padding-right: 10px;
+font-weight: 700;
+position: absolute;
+`;
+
+export const InputContainer = styled.div<{ error?: string }>`
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 15px auto 22px;
+margin: ${(props) => props.error ? '5px' : '15px auto 22px'};
+flex: 1;
+width: 100%;
+`;
+
+export const CustomTextField = styled.input<{ error?: string }>`
+width: 100%;
+height: 56px;
+background: #f8f8f8;
+border-radius: 35px;
+border: none;
+outline: none;
+font-family: Circular, sans - serif;
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+color: ${props => props.error ? '#DD2828' : '#000000'};
+  :: placeholder { 
+  color: ${props => props.error ? '#DD2828' : '#888888'}
+}
+text-align: center;
 `;

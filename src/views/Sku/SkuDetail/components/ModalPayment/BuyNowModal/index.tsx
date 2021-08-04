@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './styles';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
 import { Listing } from 'entities/listing';
 import { patchListingsPurchase } from 'services/api/listingService';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { purchase } from 'utils/messages';
 import Toast from 'utils/Toast';
@@ -14,9 +14,12 @@ import { ReactComponent as CloseModal } from 'assets/svg/icons/close-modal.svg';
 import Rarity from 'components/Rarity';
 import alertIcon from 'assets/img/icons/alert-icon.png';
 import Emoji from 'components/Emoji';
-import { getUserCardsThunk } from 'store/session/sessionThunks';
+import { getUserInfoThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
+import { getSingleProduct } from 'services/api/productService';
+import { ProductWithFunctions } from 'entities/product';
+// import ReactGA from "react-ga";
 
 type Modes =
   | 'completed'
@@ -32,8 +35,7 @@ interface IModalProps {
   mode: Modes;
   sku: Sku;
   user?: User;
-  listing?: Listing;
-  serialNum?: string;
+  listing: Listing;
   onProcessing?: () => void;
 }
 
@@ -42,7 +44,6 @@ const SkuPageModal = ({
   setModalPaymentVisible,
   mode,
   sku: product,
-  serialNum,
   listing,
   onProcessing,
 }: IModalProps): JSX.Element => {
@@ -54,18 +55,42 @@ const SkuPageModal = ({
     _id: string;
     serialNumber: string;
   }>({ _id: '', serialNumber: '' });
+  const [productData, setProductData] = useState<ProductWithFunctions | null>(
+    null
+  );
   const dispatch = useAppDispatch();
   const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+  useEffect(() => {
+    if (visible && statusMode === 'hasFunds') {
+      // ReactGA.modalview('sku-purchase-modal');
+    }
+  }, [statusMode, visible]);
+
   const initialBuyersFeePercentage = parseFloat(
     useAppSelector((state) => state.session.user.initialBuyersFeePercentage)
   );
 
-  const royaltyFee = Math.round(
-    (product?.activeSkuListings[0]?.price * product?.royaltyFeePercentage) / 100
-  );
+  const fetchProduct = async () => {
+    if (listing?.product) {
+      const productRes = await getSingleProduct(listing.product);
+      setProductData(productRes);
+    }
+  };
+
+  useEffect(() => {
+    if (listing?.type === 'product') {
+      setLoading(true);
+      fetchProduct();
+      setLoading(false);
+    }
+  }, [listing]);
+
+  const marketplaceFee = productData?.resale
+    ? productData?.resaleBuyersFeePercentage
+    : initialBuyersFeePercentage;
 
   const fetchTransactions = async () => {
     const res = await getMyTransactions(await getAccessTokenSilently(), 1, 5, {
@@ -111,8 +136,9 @@ const SkuPageModal = ({
         Toast.success(
           <>
             Congrats! Your NFT purchase was processed successfully! Click
-            <a href={`/product/${newPurchasedProduct._id}`}> here </a> to view
-            your product {product.name} #{newPurchasedProduct.serialNumber}.
+            <Link to={`/product/${newPurchasedProduct._id}`}> here </Link> to
+            view your product {product.name} #{newPurchasedProduct.serialNumber}
+            .
           </>
         );
       }
@@ -128,7 +154,7 @@ const SkuPageModal = ({
       Toast.error(
         <>
           There was an error processing your purchase. Please try again, see the{' '}
-          <a href="/help">Help page</a> to learn more.
+          <Link to="/help">Help page</Link> to learn more.
         </>
       );
     }
@@ -137,6 +163,7 @@ const SkuPageModal = ({
   const buyAction = async () => {
     if (!checkTerms) {
       Toast.error(purchase.termsError);
+      setStatusMode('error');
       return;
     }
     if (listing) {
@@ -146,14 +173,15 @@ const SkuPageModal = ({
       // TODO: Check payment
       if (response.status === 200) {
         setStatusMode('processing');
-        dispatch(getUserCardsThunk({ token: userToken }));
+        dispatch(getUserInfoThunk({ token: userToken }));
         setLoading(false);
         fetchTransactions();
       } else {
         setLoading(false);
+        setStatusMode('error');
         Toast.error(
           <>
-            Please try again, see the <a href="/help">Help page</a> to learn
+            Please try again, see the <Link to="/help">Help page</Link> to learn
             more.
           </>
         );
@@ -162,7 +190,7 @@ const SkuPageModal = ({
       Toast.error(
         <>
           There was an error processing your purchase. Please try again, see the{' '}
-          <a href="/help">Help page</a> to learn more.
+          <Link to="/help">Help page</Link> to learn more.
         </>
       );
     }
@@ -189,7 +217,7 @@ const SkuPageModal = ({
   };
 
   const handleTCRouteChange = () => {
-    window.open('/terms','_blank');
+    window.open('/terms', '_blank');
   };
 
   const content = (
@@ -251,7 +279,7 @@ const SkuPageModal = ({
         {statusMode !== 'error' ? (
           <S.SkuInfo>
             <S.FlexRow>
-              <S.IssuerName>{product.issuerName}</S.IssuerName>
+              <S.IssuerName>{product?.issuerName}</S.IssuerName>
               <Rarity type={product.rarity} />
             </S.FlexRow>
             <S.SkuName>{product.name}</S.SkuName>
@@ -275,23 +303,17 @@ const SkuPageModal = ({
             </S.Text>
           </S.Center>
         )}
-
         {statusMode !== 'success' && statusMode !== 'error' && (
           <>
             <S.SkuInfo>
               <S.FlexRow>
                 <S.PriceInfo>Seller Price:</S.PriceInfo>
-                <S.PriceInfo>
-                  ${product?.activeSkuListings[0]?.price.toFixed(2)}
-                </S.PriceInfo>
+                <S.PriceInfo>${listing?.price.toFixed(2)}</S.PriceInfo>
               </S.FlexRow>
               <S.FlexRow>
-                <S.PriceInfo>{`Marketplace Fee (${initialBuyersFeePercentage}%):`}</S.PriceInfo>
+                <S.PriceInfo>{`Marketplace Fee (${marketplaceFee}%):`}</S.PriceInfo>
                 <S.PriceInfo>
-                  $
-                  {(product?.activeSkuListings[0]?.price * (5 / 100)).toFixed(
-                    2
-                  )}
+                  ${(listing?.price * (marketplaceFee / 100)).toFixed(2)}
                 </S.PriceInfo>
               </S.FlexRow>
             </S.SkuInfo>
@@ -300,8 +322,8 @@ const SkuPageModal = ({
               <S.Total>
                 $
                 {(
-                  product?.activeSkuListings[0]?.price +
-                  product?.activeSkuListings[0]?.price * (5 / 100)
+                  listing?.price +
+                  listing?.price * (marketplaceFee / 100)
                 ).toFixed(2)}
               </S.Total>
             </S.FlexRow>

@@ -65,7 +65,7 @@ export const SerialNum = styled.p`
 
 export const Body = styled.div`
   padding: 20px;
-  width: 100%;
+  max-width: 400px;
 `;
 
 export const Flex = styled.div`

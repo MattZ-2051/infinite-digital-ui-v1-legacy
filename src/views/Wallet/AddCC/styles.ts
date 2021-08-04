@@ -121,7 +121,7 @@ S.Row = styled.div`
 S.HeaderText = styled.span`
   font-size: 22px;
   padding-left: 18px;
-  font-weigth: 600;
+  font-weight: 600;
 `;
 
 S.HeaderDiv = styled.div`
@@ -138,7 +138,7 @@ S.Button = styled.button`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }
@@ -159,7 +159,7 @@ S.SLoadingButton = styled(LoadingButton)`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import Modal from 'components/Modal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { ProductWithFunctions } from 'entities/product';
@@ -17,6 +17,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { postBid } from 'services/api/productService';
 import Loader from 'components/Loader';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
+// import ReactGA from "react-ga";
 
 interface Props {
   visible: boolean;
@@ -31,6 +32,14 @@ const BidModal = ({
   setModalBidVisible,
   bidAmount,
 }: Props) => {
+  useEffect(
+    () => {
+      if (visible) {
+        // ReactGA.modalview('place-bid-modal');
+      }
+    },
+    [visible]
+  );
   const history = useHistory();
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
@@ -64,7 +73,7 @@ const BidModal = ({
   function displayNoFundsError(userBalance) {
     Toast.error(
       <span>
-        Whoops, Insuficient funds! Your wallet balance ${userBalance.toFixed(2)}
+        Whoops, Insufficient funds! Your wallet balance ${userBalance.toFixed(2)}
         , would you like to{' '}
         <strong
           onClick={() => {

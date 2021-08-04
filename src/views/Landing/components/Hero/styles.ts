@@ -32,6 +32,8 @@ export const DropButtonContainer = styled.div<{
 
 export const DropArrow = styled(RightArrow)`
   margin-left: 10px;
+  fill: none;
+  stroke: #9da1a8;
   :hover {
     cursor: pointer;
     transform: scale(1.1);

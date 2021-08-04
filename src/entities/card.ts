@@ -1,4 +1,3 @@
-
 export enum VerificationStatusEnum {
   pending = 'pending',
   complete = 'complete',

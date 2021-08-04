@@ -24,12 +24,12 @@ export const IconContainer = styled.div`
   padding-left: 10px;
 `;
 
-export const Button = styled.div<{ hover: boolean }>`
+export const Button = styled.div<{ hover: boolean; width: string }>`
   padding: 9px;
   margin: 0;
   border-radius: 35px;
   height: 42px;
-  width: 200px;
+  width: ${(props) => `${props.width}`};
   display: flex;
   align-items: center;
   justify-content: space-between;

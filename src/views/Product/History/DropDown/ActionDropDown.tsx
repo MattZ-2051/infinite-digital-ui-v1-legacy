@@ -3,9 +3,9 @@ import Toast from 'utils/Toast';
 
 interface IProps {
   redeemed: 'NA' | 'pending' | 'redeemed' | undefined;
-  setModalVisible: (a: boolean) => void;
+  setModalVisible: (isModalVisible: boolean) => void;
+  setAuctionModalVisible: (isAuctionModalVisible: boolean) => void;
   openSaleModal: any;
-  setAuctionModalVisible: (value: boolean) => void;
   redeemable: boolean | undefined;
 }
 
@@ -34,7 +34,11 @@ const DropDown = ({
           {redeemable &&
             (redeemed === 'redeemed' ? (
               <>
-                <S.Button hover={false} onClick={handleToastError}>
+                <S.Button
+                  hover={false}
+                  onClick={handleToastError}
+                  width="200px"
+                >
                   <S.Label style={{ color: '#3a3a3a' }}>Redeemed</S.Label>
                   <S.IconContainer>
                     <S.IsRedeemedIcon className="icon_isRedeemed" />
@@ -43,7 +47,11 @@ const DropDown = ({
               </>
             ) : (
               <>
-                <S.Button hover={true} onClick={() => setModalVisible(true)}>
+                <S.Button
+                  hover={true}
+                  onClick={() => setModalVisible(true)}
+                  width="200px"
+                >
                   <S.Label>Redeem</S.Label>
                   <S.IconContainer>
                     <S.RedeemIcon className="icon_redeem" />
@@ -51,13 +59,17 @@ const DropDown = ({
                 </S.Button>
               </>
             ))}
-          {/* <S.Button hover={true} onClick={() => setAuctionModalVisible(true)}>
+          <S.Button
+            hover={true}
+            onClick={() => setAuctionModalVisible(true)}
+            width="200px"
+          >
             <S.Label>Start Auction</S.Label>
             <S.IconContainer>
               <S.AuctionIcon className="icon_auction" />
             </S.IconContainer>
-          </S.Button> */}
-          <S.Button hover={true} onClick={openSaleModal}>
+          </S.Button>
+          <S.Button hover={true} onClick={openSaleModal} width="200px">
             <S.Label>Sell Your NFT</S.Label>
             <S.IconContainer>
               <S.SellIcon className="icon_sell" />

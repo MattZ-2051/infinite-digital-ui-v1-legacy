@@ -59,6 +59,9 @@ export interface Sku {
   resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
   sellerTransactionFeePercentageSecondary: number;
+  digitalProductId?: string;
+  serialNumber?: string;
+  physicalProduct: PhysicalProduct
 }
 
 interface Category {
@@ -68,6 +71,12 @@ interface Category {
   updatedAt?: Date;
 }
 
+export interface PhysicalProduct {
+  image: string;
+  name: string;
+  skuId: string;
+  _id: string
+}
 export interface SkuWithTotal {
   data: Sku[];
   total: number;

@@ -45,7 +45,6 @@ const ProductTile = ({
     } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
 
-      console.log(product?.minPrice === 0);
       if (
         product?.activeProductListings[0]?.saleType === 'auction' &&
         product.minPrice === 0

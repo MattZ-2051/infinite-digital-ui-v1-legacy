@@ -13,6 +13,10 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import ReactGA from 'react-ga';
+import GA4React, { useGA4React } from 'ga-4-react';
+import Auth0ProviderWithHistory from 'utils/auth0Provider/auth0ProviderWithHistory';
+import { BrowserRouter } from 'react-router-dom';
 
 if (config.logging.sentryDsn) {
   Sentry.init({
@@ -27,54 +31,14 @@ if (config.logging.sentryDsn) {
   });
 }
 
-const history = createBrowserHistory();
-const onRedirectCallback = (appState) => {
-  history.push(
-    appState && appState.returnTo ? appState.returnTo : window.location.pathname
-  );
-};
-
 const persistor = persistStore(store);
-
-const providerConfig = {
-  domain: config.auth.auth0Domain,
-  clientId: config.auth.auth0ClientId,
-  audience: config.auth.auth0Audience,
-  redirectUri: window.location.origin,
-  onRedirectCallback,
-};
-
-declare global {
-  interface Window {
-    dataLayer: any;
-    gtag: any;
-  }
-}
-
-function addGtag() {
-  const tagId = 'googletagmanagerscript';
-  if (document.getElementById(tagId)) {
-    return;
-  }
-  const script = document.createElement("script");
-  script.id = tagId;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${config.gtag.id}`;
-  script.async = true;
-  document.body.appendChild(script);
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = (...args) => {
-    window.dataLayer.push(args);
-  }
-  window.gtag('js', new Date());
-  window.gtag('config', config.gtag.id);
-}
 
 function addHubspot(portalId: string) {
   const tagId = `hs-script-loader-${portalId}`;
   if (document.getElementById(tagId)) {
     return;
   }
-  const script = document.createElement("script");
+  const script = document.createElement('script');
   script.id = tagId;
   script.src = `//js.hs-scripts.com/${portalId}.js`;
   script.async = true;
@@ -83,26 +47,21 @@ function addHubspot(portalId: string) {
 }
 
 const Main = () => {
-  React.useEffect(
-    () => {
-      // addGtag();
-      addHubspot(config.hubspot.helpSection.portalId);
-      addHubspot(config.hubspot.mailSubscribingSection.portalId);
-    },
-    []
-  );
+  React.useEffect(() => {
+    // addGtag();
+    addHubspot(config.hubspot.helpSection.portalId);
+    addHubspot(config.hubspot.mailSubscribingSection.portalId);
+  }, []);
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <Auth0Provider
-              {...providerConfig}
-              useRefreshTokens={true}
-              cacheLocation="localstorage"
-            >
-              <App />
-            </Auth0Provider>
+            <BrowserRouter>
+              <Auth0ProviderWithHistory>
+                <App />
+              </Auth0ProviderWithHistory>
+            </BrowserRouter>
           </PersistGate>
         </Provider>
       </ThemeProvider>
@@ -110,9 +69,26 @@ const Main = () => {
   );
 };
 
-ReactDOM.render(
-  <Main />,
-  document.getElementById('root')
-);
+let ga4react: GA4React | null = null;
+if (config.gtag.id) {
+  // ReactGA.initialize(config.gtag.id);
+  // ReactGA.pageview(window.location.pathname + window.location.search);
+  try {
+    ga4react = new GA4React(config.gtag.id);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+(async () => {
+  if (ga4react) {
+    try {
+      await ga4react.initialize();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  ReactDOM.render(<Main />, document.getElementById('root'));
+})();
 
 reportWebVitals();

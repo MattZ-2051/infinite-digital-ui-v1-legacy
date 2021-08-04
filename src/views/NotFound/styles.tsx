@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 162px);
+  min-height: ${() => window.innerHeight - 128}px;
   background-color: #000;
   a {
     text-decoration: none;

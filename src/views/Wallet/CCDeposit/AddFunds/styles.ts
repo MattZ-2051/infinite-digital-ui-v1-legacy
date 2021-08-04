@@ -62,10 +62,6 @@ export const FeeReminderText = styled.div`
   color: #9e9e9e;
 `;
 
-export const FeeReminderIconContainer = styled.div`
-  margin: 10px auto;
-`;
-
 export const HeaderText = styled.span`
   font-size: 22px;
   padding-left: 18px;

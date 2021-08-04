@@ -115,11 +115,18 @@ export const FlexDiv = styled.div<{
   width: ${(props) => props.width};
 `;
 
-export const Row = styled.div<{ alignItems: string; flexDirection: string }>`
+export const Row = styled.div<{
+  alignItems: string;
+  flexDirection: string;
+  padding?: string;
+  justifyContent?: string;
+}>`
   display: flex;
   align-items: ${(props) => props.alignItems && `${props.alignItems}`};
   padding-right: 0;
+  padding: ${(props) => `${props.padding}`};
   flex-direction: ${(props) => props.flexDirection && `${props.flexDirection}`};
+  justify-content: ${(props) => `${props.justifyContent}`};
 `;
 
 export const TitleLink = styled(Link)`
@@ -168,8 +175,8 @@ export const BidAmount = styled.p`
 `;
 
 export const TransactionHistory = styled.div`
-  overflow: hidden;
-  height: 80%;
+  overflow: auto;
+  height: calc(100vh - 50vh);
   overflow-x: hidden;
   padding-right: 80px;
 
@@ -205,12 +212,15 @@ export const History = styled.span`
   padding-bottom: 16px;
 `;
 
-export const GrayLine = styled.div<{ width?: boolean; marginRight?: boolean }>`
+export const GrayLine = styled.div<{
+  marginRight?: string;
+  paddingBottom: string;
+}>`
   border-bottom: 2px solid #2e2e2e;
   color: #1a1a1a;
-  padding-bottom: 38px;
+  padding-bottom: ${(props) => `${props.paddingBottom}`};
   ${(props) => props.marginRight && `margin-right: 80px`};
-  ${(props) => props.width && `width: -webkit-fill-available`};
+  width: -webkit-fill-available;
 `;
 
 export const Padding = styled.div`
@@ -269,12 +279,13 @@ export const Text = styled.p<{
   fontWeight: number;
   textAlign?: string;
   width?: string;
+  padding: string;
 }>`
   margin: 0;
   color: ${(props) => `${props.color}`};
   font-size: ${(props) => `${props.size}`};
   font-weight: ${(props) => `${props.fontWeight}`};
-  padding: 0 5px;
+  padding: ${(props) => `${props.padding}`};
   text-align: ${(props) => `${props.textAlign}`};
   width: ${(props) => `${props.width}`};
   white-space: nowrap;
@@ -289,10 +300,10 @@ export const Button = styled.button<{
   border: none;
   width: ${(props) => (props.width ? props.width : '190px')};
   height: ${(props) => (props.height ? props.height : '40px')};
-  border-radius: 35px;
-  background-color: #2e2e2e;
+  border-radius: 28px;
+  background-color: ${(props) => (props.hover ? 'black' : '#1c1c1c')};
   color: white;
-  font-size: 16px;
+  font-size: ${(props) => `${props.fontSize}`};
   font-weight: 600;
   ${(props) =>
     props.hover
@@ -303,7 +314,7 @@ export const Button = styled.button<{
   }`
       : 'color: #9e9e9e;'}
   @media screen and (max-width: 1160px) {
-    width: 100%;
+    width: ${(props) => (props.width ? props.width : '100%')};
     max-width: 400px;
   }
 `;
