@@ -2,29 +2,29 @@ import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 import { Theme } from 'theme/theme';
 
-export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
+export const StyledPagination = styled(Pagination) <{ theme; themeStyle }>`
   .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
     background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.light.baseMain
-        : theme.palette.dark.baseMain};
+    themeStyle === 'dark'
+      ? theme.palette.light.baseMain
+      : theme.palette.dark.baseMain};
 
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark'
-        ? theme.palette.dark.baseMain
-        : theme.palette.light.baseMain};
+    themeStyle === 'dark'
+      ? theme.palette.dark.baseMain
+      : theme.palette.light.baseMain};
     &:hover {
     }
   }
   .MuiButtonBase-root.MuiPaginationItem-root {
     background-color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   .MuiPaginationItem-ellipsis {
     color: ${({ themeStyle, theme }) =>
-      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
 `;
 
@@ -112,8 +112,8 @@ export const Tab = styled.div<{
         ? theme.palette.dark.baseComplement
         : theme.palette.dark.greyText
       : selected
-      ? theme.palette.light.baseComplement
-      : theme.palette.light.greyText};
+        ? theme.palette.light.baseComplement
+        : theme.palette.light.greyText};
   border-bottom: ${({ themeStyle, theme, selected }) =>
     selected
       ? themeStyle === 'dark'

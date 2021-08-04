@@ -16,7 +16,7 @@ import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { Modes } from '../../History/types';
 import ReactGA from 'react-ga';
-import {config} from "config";
+import { config } from 'config';
 
 interface IModalProps {
   visible: boolean;

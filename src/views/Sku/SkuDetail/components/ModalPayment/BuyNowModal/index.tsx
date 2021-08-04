@@ -19,8 +19,8 @@ import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
 import { getSingleProduct } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
-import ReactGA from "react-ga";
-import {config} from "config";
+import ReactGA from 'react-ga';
+import { config } from 'config';
 
 type Modes =
   | 'completed'

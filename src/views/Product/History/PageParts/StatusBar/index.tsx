@@ -311,29 +311,29 @@ export const StatusBar = ({
           buttonActive={true}
         />
       )}
-      {auctionStatus === 'active-auction-bid-user' ||
-        (auctionStatus === 'active-auction-no-bid-user' && (
-          <>
-            <StatusInfo
-              leftText={'Ends in'}
-              date={countdownToActiveListingEndDate}
-              leftTextSubHeader={activeListing?.endDate}
-              price={
-                highestCurrentBid ? highestCurrentBid : activeListing?.minBid
-              }
-              priceSubHeader="Current Bid"
-              buttonText="Place Bid"
-              buttonActive={true}
-              PlaceBidButton={
-                <PlaceBidButton
-                  handlers={handlers}
-                  util={util}
-                  setBidAmount={setBidAmount}
-                />
-              }
-            />
-          </>
-        ))}
+      {(auctionStatus === 'active-auction-bid-user' ||
+        auctionStatus === 'active-auction-no-bid-user') && (
+        <>
+          <StatusInfo
+            leftText={'Ends in'}
+            date={countdownToActiveListingEndDate}
+            leftTextSubHeader={activeListing?.endDate}
+            price={
+              highestCurrentBid ? highestCurrentBid : activeListing?.minBid
+            }
+            priceSubHeader="Current Bid"
+            buttonText="Place Bid"
+            buttonActive={true}
+            PlaceBidButton={
+              <PlaceBidButton
+                handlers={handlers}
+                util={util}
+                setBidAmount={setBidAmount}
+              />
+            }
+          />
+        </>
+      )}
     </>
   );
 };

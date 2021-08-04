@@ -526,6 +526,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           }
           if (selectedTab === 'items') {
             total = totalProducts;
+          } else if (selectedTab === 'claims') {
+            total = userClaims?.total || 0;
           }
           if (selectedTab === 'claims') {
             total = userClaims?.total || 0;
