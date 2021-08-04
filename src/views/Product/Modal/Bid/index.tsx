@@ -17,7 +17,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { postBid } from 'services/api/productService';
 import Loader from 'components/Loader';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
-// import ReactGA from "react-ga";
+import ReactGA from "react-ga";
+import {config} from "config";
 
 interface Props {
   visible: boolean;
@@ -34,8 +35,8 @@ const BidModal = ({
 }: Props) => {
   useEffect(
     () => {
-      if (visible) {
-        // ReactGA.modalview('place-bid-modal');
+      if (visible && config.gtag.uaId) {
+        ReactGA.modalview('place-bid-modal');
       }
     },
     [visible]

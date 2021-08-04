@@ -15,7 +15,8 @@ import { ProductWithFunctions } from 'entities/product';
 import { getUserCardsThunk } from 'store/session/sessionThunks';
 import { getMyTransactions } from 'services/api/userService';
 import { Modes } from '../../History/types';
-// import ReactGA from 'react-ga';
+import ReactGA from 'react-ga';
+import {config} from "config";
 
 interface IModalProps {
   visible: boolean;
@@ -40,8 +41,8 @@ const BuyNowModal = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (visible && statusMode === 'hasFunds') {
-      // ReactGA.modalview('product-purchase-modal');
+    if (config.gtag.uaId && visible && statusMode === 'hasFunds') {
+      ReactGA.modalview('product-purchase-modal');
     }
   }, [statusMode, visible]);
 

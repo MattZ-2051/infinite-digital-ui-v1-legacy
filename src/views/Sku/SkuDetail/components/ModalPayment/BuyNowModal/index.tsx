@@ -19,7 +19,8 @@ import { getMyTransactions } from 'services/api/userService';
 import { ITransaction } from 'entities/transaction';
 import { getSingleProduct } from 'services/api/productService';
 import { ProductWithFunctions } from 'entities/product';
-// import ReactGA from "react-ga";
+import ReactGA from "react-ga";
+import {config} from "config";
 
 type Modes =
   | 'completed'
@@ -64,8 +65,8 @@ const SkuPageModal = ({
     (state) => state.session.user?.availableBalance
   );
   useEffect(() => {
-    if (visible && statusMode === 'hasFunds') {
-      // ReactGA.modalview('sku-purchase-modal');
+    if (config.gtag.uaId && visible && statusMode === 'hasFunds') {
+      ReactGA.modalview('sku-purchase-modal');
     }
   }, [statusMode, visible]);
 

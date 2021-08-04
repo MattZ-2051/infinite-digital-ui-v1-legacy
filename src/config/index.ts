@@ -45,7 +45,8 @@ interface AppConfig {
     dailyDepositLimit: number;
   };
   gtag: {
-    id: string;
+    id?: string;
+    uaId?: string;
   };
 }
 
@@ -108,5 +109,6 @@ export const config: AppConfig = {
   },
   gtag: {
     id: getEnvVar('REACT_APP_GTAG_ID', false),
+    uaId: getEnvVar('REACT_APP_GA_UA', false),
   },
 };
