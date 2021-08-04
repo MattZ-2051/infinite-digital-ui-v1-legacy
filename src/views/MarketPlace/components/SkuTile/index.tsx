@@ -37,7 +37,16 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   let skuUpcomingTime = '';
   let bottomRightText: string | number = '';
   let pillInfo: string | number = '';
-
+  const singleProductListingExist =
+    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
+  const isActiveAuction =
+    singleProductListingExist &&
+    sku?.activeProductListings[0]?.saleType === 'auction' &&
+    sku?.activeProductListings[0]?.status === 'active';
+  const price =
+    isActiveAuction && singleProductListingExist
+      ? sku?.activeProductListings[0].minBid
+      : minPrice;
   const checkStatus = () => {
     if (productListings?.length === 0 && skuListings.length === 0) {
       status = 'upcoming-sku';
@@ -61,15 +70,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     ) {
       status = 'active';
       bottomRightText = totalSupplyLeft;
-      if (
-        sku.activeProductListings &&
-        sku?.activeProductListings[0]?.saleType === 'auction' &&
-        minPrice === 0
-      ) {
-        pillInfo = sku?.maxBid;
-      } else {
-        pillInfo = minPrice;
-      }
+      pillInfo = price;
       return;
     } else if (totalSupplyLeft === 0 || sku.activeSkuListings?.length === 0) {
       status = 'no-sale';
@@ -88,6 +89,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       ? (nftPublicAssets[0] && nftPublicAssets[0].previewUrl) ||
         (nftPublicAssets[0] && nftPublicAssets[0].url)
       : sku.graphicUrl;
+
   return (
     <Tile
       sku={sku}
@@ -104,6 +106,8 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
       handleRedirect={handleRedirect}
       supplyType={supplyType}
       themeStyle={themeStyle}
+      isActiveAuction={isActiveAuction}
+      singleProductListingExist={singleProductListingExist}
     />
   );
 };

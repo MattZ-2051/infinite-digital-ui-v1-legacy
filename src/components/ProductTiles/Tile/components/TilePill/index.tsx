@@ -1,20 +1,9 @@
 import usePriceFormatter from 'hooks/usePriceFormatter';
 import * as S from './styles';
+import { TileStatus } from '../../index';
 export interface IProps {
   pillInfo: string | number;
-  status:
-    | 'unique'
-    /*SKU Tile Types*/
-    | 'upcoming-sku'
-    | 'upcoming-sku-time'
-    | 'active'
-    | 'active-auction'
-    | 'no-sale'
-    /*Product Tile Types */
-    | 'upcoming-product-time'
-    | 'active-listing'
-    | 'no-active-listing'
-    | '';
+  status: TileStatus;
   light?: true | false;
   isCurrentActiveAuction: boolean;
 }

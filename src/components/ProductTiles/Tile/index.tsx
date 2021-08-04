@@ -6,25 +6,28 @@ import TilePill from './components/TilePill';
 import { Media } from '../../Media/Media';
 import * as S from './styles';
 
-interface Props {
+export type TileStatus =
+  | 'unique'
+  /*SKU Tile Types*/
+  | 'upcoming-sku'
+  | 'upcoming-sku-time'
+  | 'active'
+  | 'no-sale'
+  | 'giveaway'
+  /*Product Tile Types */
+  | 'upcoming-product-time'
+  | 'active-listing'
+  | 'no-active-listing'
+  | '';
+
+interface IProps {
   sku: Sku;
   topLeft: string;
   skuRarity: string;
   middle: string;
   bottomLeft: string;
   bottomRight: string;
-  status:
-    | 'unique'
-    /*SKU Tile Types*/
-    | 'upcoming-sku'
-    | 'upcoming-sku-time'
-    | 'active'
-    | 'no-sale'
-    /*Product Tile Types */
-    | 'upcoming-product-time'
-    | 'active-listing'
-    | 'no-active-listing'
-    | '';
+  status: TileStatus;
   skuImg: string;
   redeemable: boolean;
   pillInfo: string;
@@ -32,6 +35,8 @@ interface Props {
   handleRedirect: () => void;
   supplyType: string;
   themeStyle: 'light' | 'dark';
+  singleProductListingExist: boolean;
+  isActiveAuction: boolean;
 }
 
 const Tile = ({
@@ -49,17 +54,12 @@ const Tile = ({
   themeStyle,
   handleRedirect,
   supplyType,
-}: Props): JSX.Element => {
+  singleProductListingExist,
+  isActiveAuction,
+}: IProps): JSX.Element => {
   const cropText = (text: string, limit: number) => {
     return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
   };
-  const singleProductListingExist =
-    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
-  const isActiveAuction =
-    singleProductListingExist &&
-    sku?.activeProductListings[0]?.saleType === 'auction' &&
-    sku?.activeProductListings[0]?.status === 'active';
-
   const maxIssuerNameLength = 15;
   const maxSkuNameLength = 34;
   return (
