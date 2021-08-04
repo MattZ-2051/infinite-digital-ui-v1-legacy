@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
   getUserCollectionThunk,
   getUserCardsThunk,
+  getUserInfoThunk,
 } from 'store/session/sessionThunks';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
@@ -34,6 +35,7 @@ const Landing = () => {
           dispatch(
             getUserCollectionThunk({ token: '', id: loggedInUser['id'] })
           );
+          dispatch(getUserInfoThunk({ token: userToken }));
           dispatch(getUserCardsThunk({ token: userToken }));
         }
       }

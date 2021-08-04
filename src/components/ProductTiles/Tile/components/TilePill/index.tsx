@@ -1,6 +1,7 @@
 import usePriceFormatter from 'hooks/usePriceFormatter';
 import * as S from './styles';
 import { TileStatus } from '../../index';
+
 export interface IProps {
   pillInfo: string | number;
   status: TileStatus;

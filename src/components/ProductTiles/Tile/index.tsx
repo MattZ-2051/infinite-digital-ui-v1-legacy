@@ -62,6 +62,17 @@ const Tile = ({
   };
   const maxIssuerNameLength = 15;
   const maxSkuNameLength = 34;
+  const isGiveAway =
+    sku?.activeSkuListings?.[0]?.saleType === 'giveaway' &&
+    sku?.activeSkuListings?.[0]?.status === 'active';
+  const generateBottomCardText = () => {
+    return sku.supplyType === 'variable' && sku.circulatingSupply >= 1
+      ? `${sku.totalSupply} Released`
+      : `${sku.totalSupply} of ${sku.totalSupply} ${
+          sku.activeSkuListings?.length == 0 ? '' : 'for sale'
+        }`;
+  };
+
   return (
     <S.CardContainer onClick={handleRedirect}>
       <StyledCard themeStyle={themeStyle}>
@@ -112,20 +123,18 @@ const Tile = ({
                 themeStyle={themeStyle}
                 style={{ color: '#9e9e9e' }}
               >
-                {supplyType === 'variable' && sku.circulatingSupply >= 1
+                {isGiveAway
+                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} available`
+                  : supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.circulatingSupply} Released`
                   : supplyType === 'fixed'
-                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} For Sale`
+                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} for Sale`
                   : null}
               </S.BottomCardText>
             )}
             {status === 'no-sale' && !unique && (
               <S.BottomCardText themeStyle={themeStyle}>
-                {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
-                  ? `${sku.totalSupply} Released`
-                  : `${sku.totalSupply} of ${sku.totalSupply} ${
-                      sku.activeSkuListings?.length == 0 ? '' : 'for sale'
-                    }`}
+                {generateBottomCardText}
               </S.BottomCardText>
             )}
             {/* TODO DRY */}

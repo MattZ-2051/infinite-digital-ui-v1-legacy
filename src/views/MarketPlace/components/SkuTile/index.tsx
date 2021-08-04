@@ -33,7 +33,12 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   const currentTime = new Date().getTime();
 
   let status: /*SKU Tile Types*/
-  'upcoming-sku' | 'active' | 'no-sale' | 'upcoming-sku-time' | '' = '';
+  | 'upcoming-sku'
+    | 'active'
+    | 'no-sale'
+    | 'upcoming-sku-time'
+    | 'giveaway'
+    | '' = '';
   let skuUpcomingTime = '';
   let bottomRightText: string | number = '';
   let pillInfo: string | number = '';
