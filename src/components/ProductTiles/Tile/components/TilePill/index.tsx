@@ -1,13 +1,14 @@
 import usePriceFormatter from 'hooks/usePriceFormatter';
 import * as S from './styles';
 export interface IProps {
-  pillInfo: string;
+  pillInfo: string | number;
   status:
     | 'unique'
     /*SKU Tile Types*/
     | 'upcoming-sku'
     | 'upcoming-sku-time'
     | 'active'
+    | 'active-auction'
     | 'no-sale'
     /*Product Tile Types */
     | 'upcoming-product-time'
@@ -15,12 +16,19 @@ export interface IProps {
     | 'no-active-listing'
     | '';
   light?: true | false;
+  isCurrentActiveAuction: boolean;
 }
 
-const TilePill = ({ status, pillInfo, light = false }) => {
+const TilePill = ({
+  status,
+  pillInfo,
+  light = false,
+  isCurrentActiveAuction,
+}: IProps) => {
   const formattedPrice = usePriceFormatter(
     status === 'active' || status === 'active-listing' ? pillInfo : 0
   );
+  const buttonTitle = isCurrentActiveAuction ? 'Current Bid' : 'Lowest Price';
 
   return (
     <S.Container>
@@ -39,7 +47,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
         >
           <S.PillText isLight={light}>Upcoming</S.PillText>
           <S.PillInfo isLight={light} style={{ fontSize: '15px' }}>
-            {pillInfo.replaceAll('-', '')}
+            {pillInfo.toString().replaceAll('-', '')}
           </S.PillInfo>
         </S.Pill>
       )}
@@ -57,7 +65,7 @@ const TilePill = ({ status, pillInfo, light = false }) => {
           isLight={light}
           style={{ backgroundColor: light ? 'white' : '#2d2d2d' }}
         >
-          <S.PillText isLight={light}> Lowest Price:</S.PillText>
+          <S.PillText isLight={light}> {buttonTitle}:</S.PillText>
           <S.PillInfo isLight={light}>${formattedPrice}</S.PillInfo>
         </S.Pill>
       )}

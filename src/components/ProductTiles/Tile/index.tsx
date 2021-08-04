@@ -53,6 +53,12 @@ const Tile = ({
   const cropText = (text: string, limit: number) => {
     return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
   };
+  const singleProductListingExist =
+    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
+  const isActiveAuction =
+    singleProductListingExist &&
+    sku?.activeProductListings[0]?.saleType === 'auction' &&
+    sku?.activeProductListings[0]?.status === 'active';
 
   const maxIssuerNameLength = 15;
   const maxSkuNameLength = 34;
@@ -159,7 +165,11 @@ const Tile = ({
           </Row>
         </S.StyledCardContent>
       </StyledCard>
-      <TilePill status={status} pillInfo={pillInfo} />
+      <TilePill
+        status={status}
+        pillInfo={pillInfo}
+        isCurrentActiveAuction={singleProductListingExist && isActiveAuction}
+      />
     </S.CardContainer>
   );
 };

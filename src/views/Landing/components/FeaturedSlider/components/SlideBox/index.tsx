@@ -41,6 +41,12 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
   const activeProductListingsExist = activeProductListings?.length !== 0;
   const activeSkuListingsExist = activeSkuListings?.length !== 0;
   const skuListingIsExpired = skuListings[0]?.status === 'expired';
+  const singleProductListingExist =
+    activeProductListings?.length === 1 && product?.maxSupply === 1;
+  const isActiveAuction =
+    singleProductListingExist &&
+    activeProductListings[0]?.saleType === 'auction' &&
+    activeProductListings[0]?.status === 'active';
 
   (() => {
     if (
@@ -51,6 +57,7 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
       status = 'upcoming-sku';
       return;
     }
+
     if (
       (skuStartDateTime > currentTime && upcomingSkuListings?.length !== 0) ||
       upcomingProductListings?.length !== 0
@@ -65,7 +72,6 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
       activeSkuListingsExist
     ) {
       status = 'active';
-      pillInfo = minPrice;
       return;
     } else if (!totalSupplyLeftIsNotZero || skuListingIsExpired) {
       status = 'no-sale';
@@ -96,7 +102,14 @@ const SlideBox = ({ product }: IProps): JSX.Element => {
           </S.ViewMore>
         </S.CreatedBy>
         <S.ViewDetails to={`/marketplace/${product._id}`}>
-          <TilePill pillInfo={pillInfo} status={status} light />
+          <TilePill
+            pillInfo={pillInfo}
+            status={status}
+            light
+            isCurrentActiveAuction={
+              isActiveAuction && singleProductListingExist
+            }
+          />
         </S.ViewDetails>
       </S.ProductDetails>
     </S.Container>
