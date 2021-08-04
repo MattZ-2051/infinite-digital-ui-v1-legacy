@@ -10,9 +10,10 @@ interface Props {
   themeStyle?: 'light' | 'dark';
   isLoading: boolean;
   isUserCollection: boolean;
+  isSearchResult: boolean;
 }
 
-const NoItems = (isUserCollection: boolean) => {
+const NoItems = (isUserCollection: boolean, isSearchResult: boolean) => {
   const history = useHistory();
   return (
     <S.Container
@@ -24,11 +25,15 @@ const NoItems = (isUserCollection: boolean) => {
       }}
     >
       <S.Message>
-        {isUserCollection && 'You have no NFTs on your collection yet...'}
-        {!isUserCollection &&
+        {isSearchResult && 'No NFTs found that match the search criteria'}
+        {!isSearchResult &&
+          isUserCollection &&
+          'You have no NFTs on your collection yet...'}
+        {!isSearchResult &&
+          !isUserCollection &&
           "This user hasn't added any NFTs to their collection yet"}
       </S.Message>
-      {isUserCollection && (
+      {isUserCollection && !isSearchResult && (
         <S.Button onClick={() => history.push('/marketplace')}>
           Go to the Marketplace
         </S.Button>
@@ -43,13 +48,14 @@ const Items = ({
   themeStyle = 'light',
   isLoading,
   isUserCollection,
+  isSearchResult,
 }: Props): JSX.Element => {
   return (
     <S.Container collection={collection || false}>
       {isLoading ? (
         <PageLoaderHelper userItems={userItems} />
       ) : userItems?.length === 0 ? (
-        NoItems(isUserCollection)
+        NoItems(isUserCollection, isSearchResult)
       ) : (
         userItems &&
         userItems.map((product: ProductWithFunctions, index) => {

@@ -2,29 +2,29 @@ import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 import { Theme } from 'theme/theme';
 
-export const StyledPagination = styled(Pagination) <{ theme; themeStyle }>`
+export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
   .MuiButtonBase-root.MuiPaginationItem-page.Mui-selected {
     background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.light.baseMain
-      : theme.palette.dark.baseMain};
+      themeStyle === 'dark'
+        ? theme.palette.light.baseMain
+        : theme.palette.dark.baseMain};
 
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark'
-      ? theme.palette.dark.baseMain
-      : theme.palette.light.baseMain};
+      themeStyle === 'dark'
+        ? theme.palette.dark.baseMain
+        : theme.palette.light.baseMain};
     &:hover {
     }
   }
   .MuiButtonBase-root.MuiPaginationItem-root {
     background-color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.dark.baseMain : 'inherit'};
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
   .MuiPaginationItem-ellipsis {
     color: ${({ themeStyle, theme }) =>
-    themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
+      themeStyle === 'dark' ? theme.palette.light.baseMain : 'inherit'};
   }
 `;
 
@@ -64,6 +64,7 @@ export const GrayLine = styled.div`
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
 `;
 
 export const ContainerForBigScreen = styled.div<{
@@ -76,6 +77,23 @@ export const ContainerForBigScreen = styled.div<{
     background-color: ${(props) => `${props.backgroundColor}`};
     display: flex;
     justify-content: center;
+  }
+`;
+
+export const SearchAndSortContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  @media screen and (max-width: 960px) {
+    align-items: center;
+    margin-left: 10px;
+  }
+`;
+
+export const TabSeparator = styled.span`
+  padding: 0 20px;
+  @media screen and (max-width: 600px) {
+    padding: 0 7px;
   }
 `;
 
@@ -94,8 +112,8 @@ export const Tab = styled.div<{
         ? theme.palette.dark.baseComplement
         : theme.palette.dark.greyText
       : selected
-        ? theme.palette.light.baseComplement
-        : theme.palette.light.greyText};
+      ? theme.palette.light.baseComplement
+      : theme.palette.light.greyText};
   border-bottom: ${({ themeStyle, theme, selected }) =>
     selected
       ? themeStyle === 'dark'
@@ -106,6 +124,9 @@ export const Tab = styled.div<{
   font-size: 22px;
   line-height: 27.83px;
   padding-bottom: 14px;
+  @media screen and (max-width: 960px) {
+    padding-bottom: 2px;
+  }
   border: none;
   position: relative;
   :hover {
