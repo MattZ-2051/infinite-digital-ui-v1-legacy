@@ -404,16 +404,10 @@ export const TransactionContainer = styled.div`
 `;
 
 export const BidsContainer = styled.div<{ padding: string }>`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  height: 88px;
   padding: ${(props) => props.padding};
-  text-align: center;
-  margin-top: 21px;
-  font-size: 18px;
-  color: white;
-  font-weight: 600;
-  background: #2e2e2e;
-  overflow: hidden;
 `;
 
 export const StyledPagination = styled(Pagination)<{

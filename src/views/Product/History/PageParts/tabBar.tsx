@@ -39,7 +39,7 @@ export const TabBar = ({
   }, [countdown]);
 
   useEffect(() => {
-    if (isActiveAuction || isAuctionOrWillBe || isPastAuction) {
+    if (isActiveAuction || isPastAuction) {
       setSelectedTab('auction');
     }
   }, []);
@@ -47,7 +47,7 @@ export const TabBar = ({
   const DesktopLayout = () => {
     return (
       <>
-        {(isAuctionOrWillBe || isPastAuction) && (
+        {(isActiveAuction || isPastAuction) && (
           <>
             <S.Tab
               themeStyle={'light'}

@@ -5,8 +5,10 @@ import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
 import { formatDate } from 'utils/dates';
 
 const GreyTextProps = {
-  color: '#9e9e9e',
+  color: '#9da1a8',
   size: '16px',
+  fontWeight: 400,
+  padding: '0',
 };
 
 export const Auction = ({
@@ -18,91 +20,27 @@ export const Auction = ({
 }) => {
   const matchesMobile = useMediaQuery('(max-width:1140px)');
 
+  const NoBidsPlacedLayout = () => {
+    return (
+      <S.BidsContainer padding="32px 0px">
+        <S.Text {...GreyTextProps}>No bids placed yet</S.Text>
+        <S.Text {...GreyTextProps}>
+          Started at ${util.product?.activeProductListings[0].minBid} on{' '}
+          {util.product?.activeProductListings[0].length !== 0 &&
+            `${formatDate(
+              new Date(util.product?.activeProductListings[0].startDate)
+            )}`}
+        </S.Text>
+      </S.BidsContainer>
+    );
+  };
+
   return (
     <>
       <S.TransactionHistory>
-        {util.product?.upcomingProductListings.length !== 0 ? (
-          <S.BidsContainer padding={'22px 0px'}>
-            <S.Text color="white" size="18px" fontWeight={600} padding="0 5px">
-              Starts at ${util.product?.upcomingProductListings[0].minBid} in{' '}
-              {util.countDown()}{' '}
-            </S.Text>
-            <S.Text
-              color="#7c7c7c"
-              size="14px"
-              fontWeight={400}
-              padding="0 5px"
-            >
-              (
-              {util.product?.upcomingProductListings[0].startDate &&
-                formatDate(
-                  new Date(util.product.upcomingProductListings[0].startDate)
-                )}
-              )
-            </S.Text>
-          </S.BidsContainer>
-        ) : util.bids.length === 0 &&
-          auctionStatus === 'active-auction-no-bid-owner' ? (
-          <>
-            <S.BidsContainer padding="32px 0px">
-              No bids placed yet
-            </S.BidsContainer>
-            {matchesMobile ? (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  paddingTop: '32px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
-                    Started at
-                  </S.Text>
-                  <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
-                    ${util.product?.activeProductListings[0].minBid}
-                  </S.Text>{' '}
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
-                    on
-                  </S.Text>
-                  <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
-                    {util.product?.activeProductListings[0].length !== 0 &&
-                      `${formatDate(
-                        new Date(
-                          util.product?.activeProductListings[0].startDate
-                        )
-                      )}`}
-                  </S.Text>
-                </div>
-              </div>
-            ) : (
-              <S.TextContainer paddingTop="32px">
-                <S.Text {...GreyTextProps} fontWeight={600} padding="0 5px">
-                  Started at
-                </S.Text>
-                <S.Text
-                  color="white"
-                  size="16px"
-                  fontWeight={600}
-                  padding="0 5px"
-                >
-                  ${util.product?.activeProductListings[0].minBid}
-                </S.Text>{' '}
-                <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
-                  on
-                </S.Text>
-                <S.Text {...GreyTextProps} fontWeight={500} padding="0 5px">
-                  {util.product?.activeProductListings[0].length !== 0 &&
-                    `${formatDate(
-                      new Date(util.product?.activeProductListings[0].startDate)
-                    )}`}
-                </S.Text>
-              </S.TextContainer>
-            )}
-          </>
+        {util.bids.length === 0 &&
+        auctionStatus === 'active-auction-no-bid-owner' ? (
+          <NoBidsPlacedLayout />
         ) : auctionStatus === 'active-auction-bid-owner' ||
           auctionStatus === 'processing-auction' ? (
           <S.BidsHistory>
@@ -118,7 +56,7 @@ export const Auction = ({
               {!util?.bids ||
               util?.bids?.length === 0 ||
               !(util.bids instanceof Array) ? (
-                <>No Transactions</>
+                <NoBidsPlacedLayout />
               ) : (
                 util.bids.map((bid) => {
                   return <Transaction key={bid._id} bid={bid} />;

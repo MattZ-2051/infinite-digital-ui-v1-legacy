@@ -161,6 +161,7 @@ const History = ({
           handlers={handlers}
           listingStatus={statusMode}
           setBidAmount={setBidAmount}
+          setAuctionStatus={setAuctionStatus}
         />
 
         <PP.TabBar
