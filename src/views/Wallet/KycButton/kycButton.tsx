@@ -14,8 +14,12 @@ import VerifiedLvl2Icon from 'assets/img/icons/lvl2.png';
 import PendingVerificationUserIcon from 'assets/img/icons/pendingVerificationUser.png';
 import ArrowRightIcon from 'assets/svg/icons/deposit-funds-black.svg';
 
-const kyc1AllowedInfoText = `You are eligible to deposit cryptocurrency and a cumulative balance > $${numeral(config.kycLimits.dailyDepositLimit).format('0a')}`;
-const kyc1NeededInfoText = `Account verification is required for users to deposit cryptocurrency or >$${numeral(config.kycLimits.dailyDepositLimit).format('0a')} from a credit card.`;
+const kyc1AllowedInfoText = `You are eligible to deposit cryptocurrency and a cumulative balance > $${numeral(
+  config.kycLimits.dailyDepositLimit
+).format('0a')}`;
+const kyc1NeededInfoText = `Account verification is required for users to deposit cryptocurrency or >$${numeral(
+  config.kycLimits.dailyDepositLimit
+).format('0a')} from a credit card.`;
 
 const KycButton = ({
   kycPending,
@@ -61,11 +65,7 @@ const KycButton = ({
                 <S.PendingVerification src={PendingVerificationUserIcon} />
                 <S.StatusText>Lvl {kycMaxLevel + 1} Pending...</S.StatusText>
               </S.FlexCenter>
-              <S.InfoText>
-                {
-                  kyc1AllowedInfoText
-                }
-              </S.InfoText>
+              <S.InfoText>{kyc1AllowedInfoText}</S.InfoText>
             </>
           )}
         </S.Content>
@@ -76,7 +76,8 @@ const KycButton = ({
       const res = await getPersonalToken(await getAccessTokenSilently());
       // setUserToken(res.token);
       const client: Client = new Persona.Client({
-        templateId: kycMaxLevel >= 1 ? config.kyc.templateLvl2 : config.kyc.templateLvl1,
+        templateId:
+          kycMaxLevel >= 1 ? config.kyc.templateLvl2 : config.kyc.templateLvl1,
         environment: config.kyc.environmentType,
         referenceId: res.token,
         onLoad: (error) => {
@@ -100,19 +101,18 @@ const KycButton = ({
                 marginBottom: '10px',
               }}
             >
-              <S.VerifiedUserKycIcon src={kycMaxLevel === 1 ? VerifiedLvl1Icon : VerifiedLvl2Icon} />
+              <S.VerifiedUserKycIcon
+                src={kycMaxLevel === 1 ? VerifiedLvl1Icon : VerifiedLvl2Icon}
+              />
               <S.LevelIndicator>Lvl {kycMaxLevel}</S.LevelIndicator>
+              {kycMaxLevel === 1 && (
+                <S.VerifyButton onClick={openClient} color="black">
+                  Upgrade
+                </S.VerifyButton>
+              )}
             </S.FlexCenter>
-            {kycMaxLevel === 1 && (
-              <S.VerifyButton onClick={openClient} color="black">
-                Verify
-              </S.VerifyButton>
-            )}
-            <S.InfoText>
-              {
-                kyc1AllowedInfoText
-              }
-            </S.InfoText>
+
+            <S.InfoText>{kyc1AllowedInfoText}</S.InfoText>
           </S.Content>
         </>
       );
@@ -129,11 +129,7 @@ const KycButton = ({
                 Verify
               </S.VerifyButton>
             </S.SecondaryContent>
-            <S.InfoText>
-              {
-                kyc1NeededInfoText
-              }
-            </S.InfoText>
+            <S.InfoText>{kyc1NeededInfoText}</S.InfoText>
           </S.Content>
         </>
       );
