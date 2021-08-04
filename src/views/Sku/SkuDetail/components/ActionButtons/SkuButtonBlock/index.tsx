@@ -274,15 +274,17 @@ const FromCreatorBox = ({
       <S.Button disabled={buttonDisabled} onClick={handleBuyNowClick}>
         {buttonLabel}
       </S.Button>
-      <SkuPageModal
-        visible={isModalOpen}
-        setModalPaymentVisible={setIsModalOpen}
-        mode={modalMode}
-        sku={sku as Sku}
-        user={user}
-        listing={listing as Listing}
-        onProcessing={onProcessing}
-      />
+      {listing?.price && (
+        <SkuPageModal
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          mode={modalMode}
+          sku={sku as Sku}
+          user={user}
+          listing={listing as Listing}
+          onProcessing={onProcessing}
+        />
+      )}
     </S.Container>
   );
 };

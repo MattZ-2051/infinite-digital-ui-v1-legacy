@@ -309,7 +309,7 @@ const SkuPageModal = ({
             <S.SkuInfo>
               <S.FlexRow>
                 <S.PriceInfo>Seller Price:</S.PriceInfo>
-                <S.PriceInfo>${listing?.price.toFixed(2)}</S.PriceInfo>
+                <S.PriceInfo>${listing?.price?.toFixed(2)}</S.PriceInfo>
               </S.FlexRow>
               <S.FlexRow>
                 <S.PriceInfo>{`Marketplace Fee (${marketplaceFee}%):`}</S.PriceInfo>
