@@ -45,7 +45,8 @@ interface AppConfig {
     dailyDepositLimit: number;
   };
   gtag: {
-    id: string;
+    id?: string;
+    uaId?: string;
   };
 }
 
@@ -62,15 +63,15 @@ export const config: AppConfig = {
     apiEndpoint: getEnvVar('REACT_APP_API_ENDPOINT', true),
   },
   misc: {
-    coinbaseCheckoutId: getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', true)
+    coinbaseCheckoutId: getEnvVar('REACT_APP_COINBASE_CHECKOUT_ID', true),
   },
   blockchain: {
-    chainId:
-      parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', true), 10),
-    apiKey:
-      getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', true),
-    usdcTokenContractAddress:
-      getEnvVar('REACT_APP_BLOCKCHAIN_ADDRESS_USDC_TOKEN_CONTRACT', true),
+    chainId: parseInt(getEnvVar('REACT_APP_BLOCKCHAIN_CHAIN_ID', true), 10),
+    apiKey: getEnvVar('REACT_APP_BLOCKCHAIN_API_KEY', true),
+    usdcTokenContractAddress: getEnvVar(
+      'REACT_APP_BLOCKCHAIN_ADDRESS_USDC_TOKEN_CONTRACT',
+      true
+    ),
   },
   kyc: {
     templateLvl1: getEnvVar('REACT_APP_PERSONA_TEMPLATE_LVL_1', true),
@@ -102,11 +103,17 @@ export const config: AppConfig = {
     },
   },
   kycLimits: {
-    ccDepositLimit:
-      parseInt(getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', true), 10),
-    dailyDepositLimit: parseInt(getEnvVar('REACT_APP_DAILY_DEPOSIT_LIMIT_USD', true), 10),
+    ccDepositLimit: parseInt(
+      getEnvVar('REACT_APP_CC_DEPOSIT_LIMIT_USD', true),
+      10
+    ),
+    dailyDepositLimit: parseInt(
+      getEnvVar('REACT_APP_DAILY_DEPOSIT_LIMIT_USD', true),
+      10
+    ),
   },
   gtag: {
     id: getEnvVar('REACT_APP_GTAG_ID', false),
+    uaId: getEnvVar('REACT_APP_GA_UA', false),
   },
 };

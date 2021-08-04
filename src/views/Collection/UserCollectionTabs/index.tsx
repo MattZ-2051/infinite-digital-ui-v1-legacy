@@ -5,7 +5,7 @@ import Items from './Items';
 import Releases from './Releases';
 import Claims from './Claims';
 import { User } from 'entities/user';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import {
   getProductsOwnedByUser,
   getReleasesOwnedByUser,
@@ -19,6 +19,8 @@ import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
 import { Username } from 'views/Product/History/Transaction/styles';
+import { SearchBar } from './SearchBar/searchBar';
+import { useWindowScroll } from 'react-use';
 
 interface IProps {
   user: User;
@@ -36,6 +38,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [userItems, setUserItems] = useState<
     ProductWithFunctions[] | undefined
   >();
+  const showFullSearchBar = useMediaQuery('(max-width:960px)', { noSsr: true });
 
   const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
   const [userClaims, setUserClaims] = useState<{
@@ -47,11 +50,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [totalReleases, setTotalReleases] = useState(1);
   const [totalProducts, setTotalProducts] = useState(1);
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const [totalItems, setTotalItems] = useState<number>(0);
   const perPage = matchesMobile ? 4 : 8;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [claimLoading, setIsClaimLoading] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
+  const [searchCriteria, setSearchCriteria] = useState<string>('');
 
   const [sortByItems, setSortByItems] = useState<'newest' | 'oldest'>('newest');
   const [sortByClaims, setSortByClaims] = useState<'newest' | 'oldest'>(
@@ -74,13 +79,26 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     }
   };
 
+  const handleSearch = (searchInput: string) => {
+    setIsLoadingPage(true);
+    setSearchCriteria(searchInput);
+    setPage(1);
+  };
+
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
   const queryParams = '?sortBy=startDate:1';
 
   async function fetchData() {
-    const itemsRes = await getProductsOwnedByUser(user._id, '', page, perPage);
-    setIsLoading(false);
-    setIsLoadingPage(false);
+    const itemsRes = await getProductsOwnedByUser(
+      user._id,
+      '',
+      page,
+      perPage,
+      undefined,
+      undefined,
+      searchCriteria
+    );
+
     if (itemsRes.data) {
       setUserItems(itemsRes.data);
       setTotalProducts(itemsRes.totalProducts);
@@ -101,6 +119,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
     } else {
       setThemeStyle('light');
     }
+
+    setIsLoadingPage(false);
     setIsLoading(false);
   }
 
@@ -110,7 +130,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
   useEffect(() => {
     fetchData();
-  }, [userName, page, user, sortByItems, sortByReleases]);
+  }, [userName, page, user, sortByItems, sortByReleases, searchCriteria]);
 
   useEffect(() => {
     if (selectedTab === 'claims') {
@@ -215,7 +235,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  <span style={{ padding: '0 20px' }}></span>
+                  <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
@@ -224,13 +244,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     My Claims
                   </S.Tab>
                 </S.TabBar>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    flex: 1,
-                  }}
-                >
+                <S.SearchAndSortContainer>
+                  {selectedTab === 'items' && (
+                    <SearchBar
+                      handleSearch={handleSearch}
+                      mobileView={showFullSearchBar}
+                    />
+                  )}
+
                   <SortByFilter
                     handleSort={(value) =>
                       selectedTab === 'claims'
@@ -246,7 +267,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     ]}
                     theme={themeStyle}
                   />
-                </div>
+                </S.SearchAndSortContainer>
               </div>
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
@@ -258,6 +279,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 collection={true}
                 isLoading={isLoadingPage}
                 isUserCollection={true}
+                isSearchResult={searchCriteria != ''}
               />
             )}
             {selectedTab === 'claims' && (
@@ -287,7 +309,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     Releases
                   </S.Tab>
-                  <span style={{ padding: '0 20px' }}></span>
+                  <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'items'}
                     themeStyle={themeStyle}
@@ -295,7 +317,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     {'NFTs'}
                   </S.Tab>
-                  <span style={{ padding: '0 20px' }}></span>
+                  <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
@@ -304,13 +326,15 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     My Claims
                   </S.Tab>
                 </S.TabBar>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    flex: 1,
-                  }}
-                >
+
+                <S.SearchAndSortContainer>
+                  {selectedTab === 'items' && (
+                    <SearchBar
+                      handleSearch={handleSearch}
+                      mobileView={showFullSearchBar}
+                    />
+                  )}
+
                   <SortByFilter
                     handleSort={(value) =>
                       selectedTab === 'claims'
@@ -332,7 +356,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     ]}
                     theme={themeStyle}
                   />
-                </div>
+                </S.SearchAndSortContainer>
               </div>
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
@@ -350,6 +374,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
                 isUserCollection={true}
+                isSearchResult={searchCriteria != ''}
               />
             )}
             {selectedTab === 'claims' && (
@@ -379,7 +404,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     Releases
                   </S.Tab>
-                  <span style={{ padding: '0 20px' }}></span>
+                  <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'items'}
                     themeStyle={themeStyle}
@@ -388,6 +413,30 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
                 </S.TabBar>
+                <S.SearchAndSortContainer>
+                  {selectedTab === 'items' && (
+                    <SearchBar
+                      handleSearch={handleSearch}
+                      mobileView={showFullSearchBar}
+                    />
+                  )}
+
+                  <SortByFilter
+                    handleSort={(value) =>
+                      selectedTab === 'claims'
+                        ? setSortByClaims(value)
+                        : setSortByItems(value)
+                    }
+                    activeSort={
+                      selectedTab === 'claims' ? sortByClaims : sortByItems
+                    }
+                    options={[
+                      { value: 'newest', name: 'Newest' },
+                      { value: 'oldest', name: 'Oldest' },
+                    ]}
+                    theme={themeStyle}
+                  />
+                </S.SearchAndSortContainer>
               </div>
 
               <S.GrayLine />
@@ -406,6 +455,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
                 isUserCollection={false}
+                isSearchResult={searchCriteria != ''}
               />
             )}
           </>
@@ -428,7 +478,31 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
                 </S.TabBar>
-                <span style={{ padding: '0 20px' }}></span>
+                <S.TabSeparator />
+                <S.SearchAndSortContainer>
+                  {selectedTab === 'items' && (
+                    <SearchBar
+                      handleSearch={handleSearch}
+                      mobileView={showFullSearchBar}
+                    />
+                  )}
+
+                  <SortByFilter
+                    handleSort={(value) =>
+                      selectedTab === 'claims'
+                        ? setSortByClaims(value)
+                        : setSortByItems(value)
+                    }
+                    activeSort={
+                      selectedTab === 'claims' ? sortByClaims : sortByItems
+                    }
+                    options={[
+                      { value: 'newest', name: 'Newest' },
+                      { value: 'oldest', name: 'Oldest' },
+                    ]}
+                    theme={themeStyle}
+                  />
+                </S.SearchAndSortContainer>
               </div>
 
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
@@ -440,6 +514,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 themeStyle={themeStyle}
                 isLoading={isLoadingPage}
                 isUserCollection={false}
+                isSearchResult={searchCriteria != ''}
               />
             )}
           </>
@@ -448,9 +523,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
           let total = 0;
           if (selectedTab === 'releases') {
             total = totalReleases;
-          } else if (selectedTab === 'items') {
+          }
+          if (selectedTab === 'items') {
             total = totalProducts;
           } else if (selectedTab === 'claims') {
+            total = userClaims?.total || 0;
+          }
+          if (selectedTab === 'claims') {
             total = userClaims?.total || 0;
           }
           if (total > perPage)

@@ -64,6 +64,7 @@ export const GrayLine = styled.div`
 export const TabBar = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
 `;
 
 export const ContainerForBigScreen = styled.div<{
@@ -76,6 +77,23 @@ export const ContainerForBigScreen = styled.div<{
     background-color: ${(props) => `${props.backgroundColor}`};
     display: flex;
     justify-content: center;
+  }
+`;
+
+export const SearchAndSortContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  @media screen and (max-width: 960px) {
+    align-items: center;
+    margin-left: 10px;
+  }
+`;
+
+export const TabSeparator = styled.span`
+  padding: 0 20px;
+  @media screen and (max-width: 600px) {
+    padding: 0 7px;
   }
 `;
 
@@ -106,6 +124,9 @@ export const Tab = styled.div<{
   font-size: 22px;
   line-height: 27.83px;
   padding-bottom: 14px;
+  @media screen and (max-width: 960px) {
+    padding-bottom: 2px;
+  }
   border: none;
   position: relative;
   :hover {

@@ -58,6 +58,7 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
   minCurrentBid: 0,
   circulatingSupply: 0,
   totalSupplyLeft: 0,
+  activeProductListings: [],
   maxBid: 0,
   minPrice: 0,
   issuerName: '',
@@ -78,5 +79,5 @@ export const skuFactory = Factory.Sync.makeFactory<Sku>({
     skuId: '123',
     name: 'nike',
     _id: '123444',
-  }
+  },
 });

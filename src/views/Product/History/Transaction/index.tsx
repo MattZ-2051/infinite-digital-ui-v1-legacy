@@ -3,12 +3,15 @@ import { ITransaction } from 'entities/transaction';
 import { Bid } from 'entities/bid';
 import { useHistory } from 'react-router-dom';
 import { formatDate } from 'utils/dates';
+import {
+  AuctionTx,
+  BidTx,
+  PurchaseTx,
+  RedeemTx,
+  GiveawayTx,
+} from './TxTypes/index';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BidHistoryModal from '../../Modal/BidHistoryModal';
-import AuctionTx from './TxTypes/AuctionTx';
-import BidTx from './TxTypes/BidTx';
-import PurchaseTx from './TxTypes/PurchaseTx';
-import RedeemTx from './TxTypes/RedeemTx';
 import * as S from './styles';
 
 export interface Props {
@@ -35,6 +38,7 @@ const Transaction = ({ transaction, bid }: Props) => {
   const isNftRedeemTx = transaction?.type === 'nft_redeem';
   const isNftMintTx = transaction?.type === 'nft_mint';
   const isNftTransferManualTx = transaction?.type === 'nft_transfer_manual';
+  const isGiveawayTx = transaction?.type === 'nft_claim_giveaway';
 
   const handleRedirectToCollections = () => {
     if (transaction) {
@@ -55,6 +59,13 @@ const Transaction = ({ transaction, bid }: Props) => {
           {!isNftRedeemTx && (
             <S.TransactionDetails alignItems="flex-start">
               {isPurchaseTx && <PurchaseTx transaction={transaction} />}
+              {isGiveawayTx && (
+                <GiveawayTx
+                  transaction={transaction}
+                  transferredFromUsername={transaction?.owner?.username}
+                  matchesMobile={matchesMobile}
+                />
+              )}
               {isNftMintTx && (
                 <S.FlexDiv>
                   <S.Text>NFT Minted</S.Text>
@@ -71,7 +82,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                   setShowBidModal={setShowBidModal}
                 />
               )}
-              {!isAuctionTx && (
+              {!isAuctionTx && !isGiveawayTx && (
                 <S.Date width={matchesMobile && isNftMintTx ? '90px' : ''}>
                   {transaction && formatDate(new Date(transaction?.updatedAt))}{' '}
                 </S.Date>
@@ -99,6 +110,13 @@ const Transaction = ({ transaction, bid }: Props) => {
                   <S.Text>NFT Minted</S.Text>
                 </S.FlexDiv>
               )}
+              {isGiveawayTx && (
+                <GiveawayTx
+                  transaction={transaction}
+                  transferredFromUsername={transaction?.owner?.username}
+                  matchesMobile={matchesMobile}
+                />
+              )}
               {isNftTransferManualTx && (
                 <S.FlexDiv>
                   <S.Text>Recieved Transfer</S.Text>
@@ -110,7 +128,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                   setShowBidModal={setShowBidModal}
                 />
               )}
-              {!isAuctionTx && (
+              {!isAuctionTx && !isGiveawayTx && (
                 <S.Date width={matchesMobile && isNftMintTx ? '90px' : ''}>
                   {transaction && formatDate(new Date(transaction?.updatedAt))}{' '}
                 </S.Date>
@@ -148,7 +166,7 @@ const Transaction = ({ transaction, bid }: Props) => {
                   </S.ToolTipText>
                 </div>
               )}
-              {matchesSmScreen && (
+              {matchesSmScreen && isAuctionTx && (
                 <S.AuctionIcon
                   className="icon_link"
                   onClick={() => setShowBidModal(true)}

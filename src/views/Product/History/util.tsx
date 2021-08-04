@@ -217,7 +217,8 @@ export class Util {
         this.product?.expiredProductListings[
           this.product?.expiredProductListings.length - 1
         ]?.endDate
-      ).getTime() < new Date().getTime()
+      ).getTime() < new Date().getTime() &&
+      this.bids.length > 0
     );
   };
 
@@ -228,6 +229,6 @@ export class Util {
 
   isUpcomingAuction = () =>
     this.product?.activeProductListings.length === 0 &&
-    this.product?.activeProductListings[0]?.saleType === 'auction' &&
+    this.product?.upcomingProductListings[0]?.saleType === 'auction' &&
     this.product?.upcomingProductListings.length !== 0;
 }

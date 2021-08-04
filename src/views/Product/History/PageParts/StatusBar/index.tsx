@@ -1,12 +1,13 @@
+import { useEffect } from 'react';
 import { ProductWithFunctions } from 'entities/product';
 import { useMediaQuery } from '@material-ui/core';
 import * as S2 from './styles';
 import * as S from '../../styles';
 import { Util } from '../../util';
-import { formatDate, formatCountdown } from 'utils/dates';
+import { formatDate } from 'utils/dates';
 import { showStatusBarWarningMessage } from '../../toastMessages';
 import { AuctionStatus, HistoryStatus, Modes } from '../../types';
-import BidIcon from 'assets/img/icons/bid-dollar-icon.png';
+import { useCountdown } from 'hooks/useCountdown';
 
 const statusBarWarningMessages = {
   processingAuctionWarning:
@@ -22,6 +23,7 @@ interface IProps {
   handlers: any;
   listingStatus: Modes;
   setBidAmount: (val?: any) => void;
+  setAuctionStatus: (status: AuctionStatus) => void;
 }
 
 interface StatusInfoProps {
@@ -59,7 +61,7 @@ const StatusInfo = ({
           justifyContent="center"
         >
           <S.Text fontWeight={600} color="#9DA1A8" size="18px" padding="0">
-            {leftText} <span style={{ color: 'white' }}>{date}</span>
+            {leftText} {date && <span style={{ color: 'white' }}>{date}</span>}
           </S.Text>
           <S.Text
             fontWeight={500}
@@ -167,8 +169,10 @@ export const StatusBar = ({
   handlers,
   listingStatus,
   setBidAmount,
+  setAuctionStatus,
 }: IProps) => {
   const isPastAuction = util.isPastAuction();
+  const isUpcomingAuction = util.isUpcomingAuction();
   const expiredListing =
     util.product?.expiredProductListings[
       util.product?.expiredProductListings.length - 1
@@ -177,20 +181,34 @@ export const StatusBar = ({
   const activeListing = util?.product?.activeProductListings[0];
   const upcomingListing = util?.product?.upcomingProductListings[0];
   const highestCurrentBid = util?.bids[0]?.bidAmt;
-  const countdownToActiveListingEndDate = formatCountdown(
+  const countdownToActiveListingEndDate = useCountdown(
     new Date(activeListing?.endDate)
   );
-  const countdownToUpcomingListingStartDate = formatCountdown(
+  const countdownToUpcomingListingStartDate = useCountdown(
     new Date(upcomingListing?.startDate)
   );
 
+  useEffect(() => {
+    if (isPastAuction && expiredListing && highestCurrentBid) {
+      showStatusBarWarningMessage(
+        statusBarWarningMessages.processingAuctionWarning
+      );
+    }
+    console.log('there', isUpcomingAuction);
+    if (isUpcomingAuction) {
+      console.log('here');
+      setAuctionStatus(util.getAuctionStatus());
+    }
+  }, []);
+
+  console.log('auctionstatus', auctionStatus);
   return (
     <>
-      {isPastAuction && expiredListing && (
+      {isPastAuction && expiredListing && highestCurrentBid && (
         <StatusInfo
           leftText="Auction Ended"
           leftTextSubHeader={expiredListing?.endDate}
-          price={util?.bids[0]?.bidAmt}
+          price={highestCurrentBid}
           priceSubHeader="Winning Bid"
           buttonText="Processing..."
           buttonActive={false}
@@ -278,7 +296,7 @@ export const StatusBar = ({
           leftTextSubHeader={upcomingListing?.startDate}
           price={upcomingListing?.price}
           priceSubHeader="Sale Price"
-          buttonText="Upcoming Auction"
+          buttonText="Upcoming Sale"
           date={countdownToUpcomingListingStartDate}
           buttonActive={false}
         />
@@ -293,7 +311,8 @@ export const StatusBar = ({
           buttonActive={true}
         />
       )}
-      {auctionStatus === 'active-auction-bid-user' && (
+      {(auctionStatus === 'active-auction-bid-user' ||
+        auctionStatus === 'active-auction-no-bid-user') && (
         <>
           <StatusInfo
             leftText={'Ends in'}

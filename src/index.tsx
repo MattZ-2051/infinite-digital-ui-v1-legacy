@@ -7,8 +7,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import store from './store';
-import { Auth0Provider } from '@auth0/auth0-react';
-import { createBrowserHistory } from 'history';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './theme/theme';
 import * as Sentry from '@sentry/react';
@@ -78,6 +76,11 @@ if (config.gtag.id) {
   } catch (e) {
     console.error(e);
   }
+}
+
+if (config.gtag.uaId) {
+  ReactGA.initialize(config.gtag.uaId);
+  ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
 (async () => {
