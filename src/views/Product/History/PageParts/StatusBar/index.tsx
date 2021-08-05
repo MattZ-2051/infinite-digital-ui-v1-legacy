@@ -189,11 +189,6 @@ export const StatusBar = ({
   );
 
   useEffect(() => {
-    if (isPastAuction && expiredListing && highestCurrentBid) {
-      showStatusBarWarningMessage(
-        statusBarWarningMessages.processingAuctionWarning
-      );
-    }
     if (isUpcomingAuction) {
       setAuctionStatus(util.getAuctionStatus());
     }
