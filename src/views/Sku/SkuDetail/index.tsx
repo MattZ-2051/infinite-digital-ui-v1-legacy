@@ -74,6 +74,17 @@ const SkuDetail = (): JSX.Element => {
     setOwnerAccessVisible(!ownerAccessVisible);
   };
 
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const fetchUserInfo = async () => {
+    if (isAuthenticated) {
+      const userToken = await getAccessTokenSilently();
+      dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserInfoThunk({ token: userToken }));
+    }
+  };
+
   const arePrivateAssets = privateAssets && privateAssets?.data?.length > 0;
 
   useEffect(() => {
