@@ -62,7 +62,7 @@ const History = ({
   );
 
   //Constants
-  const perPage = 5;
+  const perPage = 3;
   const listingId =
     product?.activeProductListings?.length === 0
       ? product.upcomingProductListings[0]?._id
