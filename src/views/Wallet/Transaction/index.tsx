@@ -228,7 +228,11 @@ const WithdrawalUSDCInfo = ({ tx }: { tx: ITransaction }) => (
         {tx.status === 'error' ? 'You tried to withdraw' : 'You withdrew'} USDC
         to wallet
       </span>&nbsp;
-      <a href={EtherscanService.formatWalletAddress(tx.transactionData.withdraw?.usdcAddress)}>
+      <a
+        href={EtherscanService.formatWalletAddress(tx.transactionData.withdraw?.usdcAddress)}
+        target="_blank"
+        rel="noreferrer"
+      >
         <span style={{ fontWeight: 800, color: 'black' }}>
           {tx.transactionData.withdraw?.usdcAddress}
         </span>
