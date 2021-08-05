@@ -5,6 +5,7 @@ import {
   getUserInfoThunk,
   getUserCollectionThunk,
   getUserCardsThunk,
+  getUserInfoThunk,
 } from 'store/session/sessionThunks';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
