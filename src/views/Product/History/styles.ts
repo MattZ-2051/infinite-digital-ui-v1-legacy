@@ -176,7 +176,6 @@ export const BidAmount = styled.p`
 
 export const TransactionHistory = styled.div`
   overflow: auto;
-  height: calc(100vh - 50vh);
   overflow-x: hidden;
   padding-right: 80px;
 
