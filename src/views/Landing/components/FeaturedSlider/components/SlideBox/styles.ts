@@ -24,20 +24,28 @@ export const MediaContainer = styled.div`
   height: 630px;
   background-repeat: no-repeat;
   background-position: center;
-  width: 80%;
+  width: 630px;
   background-size: contain;
   margin: auto;
+  margin-right: 24px;
 
   img {
     width: 100%;
+    height: auto;
   }
 
   @media screen and (max-width: 960px) {
     height: 80vw;
+    width: 80vw;
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 
   @media screen and (max-width: 660px) {
     margin: auto;
+    width: 100%;
   }
 `;
 

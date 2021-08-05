@@ -21,13 +21,20 @@ export const getProductsOwnedByUser = async (
   token: string,
   page?: number,
   perPage?: number,
-  includeFunctions = true
+  includeFunctions = true,
+  sortBy = 'newest',
+  searchText?: string
 ): Promise<IProductsOwnedByUser> => {
   const params = { owner: userId, includeFunctions };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
+  if (searchText && searchText != '') {
+    params['search'] = searchText;
+  }
+  params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
+
   const response = await axiosInstance.request<ProductWithFunctions[]>({
     method: 'GET',
     url: `/products`,
@@ -105,7 +112,16 @@ export const getProductTransactionHistory = async (
     const res = await axiosInstance.request<ITransaction[]>({
       method: 'GET',
       url: `/products/${productId}/transactions`,
-      params: { page: page, per_page: perPage },
+      params: {
+        page: page,
+        per_page: perPage,
+        filter: JSON.stringify({
+          status: {
+            $exists: true,
+            $ne: 'error',
+          },
+        }),
+      },
     });
     const { data, headers } = res;
     const contentRange: string = headers['content-range'];
@@ -121,17 +137,19 @@ export const getReleasesOwnedByUser = async (
   issuerId: string,
   page?: number,
   perPage?: number,
-  queryParams?: string
+  // queryParams?: string,
+  sortBy = 'newest'
 ): Promise<SkuReleasesOwnedByUser> => {
   const params = { issuerId };
   if (page) {
     params['page'] = page;
     params['per_page'] = perPage;
   }
+  params['sortBy'] = `createdAt:${sortBy === 'newest' ? 'desc' : 'asc'}`;
   try {
     const res = await axiosInstance.request<Sku[]>({
       method: 'GET',
-      url: `/skus/tiles/${queryParams || ''}`,
+      url: '/skus/tiles',
       params,
     });
     const { data, headers } = res;
@@ -253,8 +271,11 @@ export const downloadAssetFile = async (
   }
 };
 
-export const getPrivateAssets = async (skuId: string, page?: number,
-  perPage?: number): Promise<{ data: FileAsset[]; total: number }> => {
+export const getPrivateAssets = async (
+  skuId: string,
+  page?: number,
+  perPage?: number
+): Promise<{ data: FileAsset[]; total: number }> => {
   const params = {};
   try {
     if (page && perPage) {
@@ -262,9 +283,12 @@ export const getPrivateAssets = async (skuId: string, page?: number,
       params['per_page'] = perPage;
     }
 
-    const response = await axiosInstance.get<FileAsset[]>(`skus/${skuId}/private-assets`, {
-      params,
-    })
+    const response = await axiosInstance.get<FileAsset[]>(
+      `skus/${skuId}/private-assets`,
+      {
+        params,
+      }
+    );
     const { data, headers } = response;
     const contentRange: string = headers['content-range'];
     const rangeArray = contentRange.split('/');
@@ -274,4 +298,25 @@ export const getPrivateAssets = async (skuId: string, page?: number,
   } catch (error) {
     return error.response;
   }
-}
+};
+
+export const postCreatePhysicalClaim = async (
+  skuId: string,
+  physicalTokenId: string,
+  token: string
+): Promise<AxiosResponse<Product>> => {
+  try {
+    const params = {
+      sku: skuId,
+      physicalTokenId,
+    };
+    const response = await axiosInstance.post<Product>(
+      `/products/physical-claims`,
+      params,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response;
+  } catch (e) {
+    throw handleApiError(e);
+  }
+};

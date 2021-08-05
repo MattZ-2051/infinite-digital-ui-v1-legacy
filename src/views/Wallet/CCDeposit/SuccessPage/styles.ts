@@ -26,7 +26,7 @@ export const MarketPlaceButton = styled.button`
   color: white;
   border-radius: 35px;
   font-size: 20px;
-  font-weigth: 600;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }

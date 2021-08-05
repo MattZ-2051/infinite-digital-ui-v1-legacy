@@ -18,7 +18,8 @@ export type TransactionType =
   | 'nft_mint'
   | 'bid'
   | 'claim'
-  | 'nft_redeem';
+  | 'nft_redeem'
+  | 'nft_claim_giveaway';
 
 export type TransactionStatus = 'success' | 'error' | 'pending';
 export type DepositType = 'cc' | string;
@@ -37,6 +38,10 @@ interface Product {
   serialNumber: string;
   _id: string;
 }
+
+export type WithdrawTypeEnum =
+  | 'usdc'
+  | 'cc';
 
 export interface TransactionData {
   product: any;
@@ -74,10 +79,14 @@ export interface TransactionData {
     transactionHash: string | undefined;
   };
   withdraw?: {
+    type: WithdrawTypeEnum,
     amount: string;
-    institution_id: string;
-    institution_name: string;
-    ach_number: string;
+    payout: string;
+    transactionHash?: string;
+    usdcAddress?: string;
+    institution_id?: string;
+    institution_name?: string;
+    ach_number?: string;
   };
 }
 

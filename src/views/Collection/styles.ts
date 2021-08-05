@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   background-color: black;
+  min-height: ${window.innerHeight - 128}px;
   color: white;
   display: flex;
   flex-direction: column;
@@ -16,9 +17,10 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    min-height: ${() => window.innerHeight - 128}px;
   }
   @media screen and (min-height: 1920px) {
-    min-height: ${() => screen.height - 125}px;
+    min-height: ${() => window.innerHeight - 128}px;
   }
   /* NOTE: This is setting children to black. Might need a more elegant way */
   > * {

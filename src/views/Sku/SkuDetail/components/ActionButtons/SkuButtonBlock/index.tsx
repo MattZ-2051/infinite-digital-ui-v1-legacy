@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { formatCountdown, formatDate } from 'utils/dates';
+import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
 import { User } from 'entities/user';
@@ -8,74 +8,104 @@ import { Collector } from 'entities/collector';
 import { Listing } from 'entities/listing';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from 'hooks/useCountdown';
-import SkuPageModal from '../../ModalPayment/SkuPageModal/index';
+import SkuPageModal from '../../ModalPayment/BuyNowModal/index';
 import { useAppSelector } from 'store/hooks';
 import * as S from './styles';
 import { useMediaQuery } from '@material-ui/core';
+import { claimGiveaway } from 'services/api/listingService';
+import { ClipLoader } from 'react-spinners';
 
-const NotAvailable = (): JSX.Element => {
-  return (
-    <S.Container>
-      <h4>Not available</h4>
-    </S.Container>
-  );
-};
-const ComingSoon = (): JSX.Element => {
-  return (
-    <S.Container>
-      <h4>Coming soon...</h4>
-    </S.Container>
-  );
-};
-
-interface IUpcomingAuction {
+interface IAuctionSale {
   startDate?: Date;
   price?: number;
   serialNumber?: string;
   owner?: User;
   endDate?: Date;
-  auctionState: 'active' | 'upcoming' | 'sold';
+  state: 'active' | 'upcoming' | 'sold' | 'inactive';
   productId?: string;
+  type?: string;
+  sku?: Sku;
+  user?: User;
+  onProcessing?: () => void;
+  listing?: Listing;
 }
 
-const UpcomingAuction = ({
+const AuctionSale = ({
   startDate,
   price,
   serialNumber,
   owner,
   endDate,
-  auctionState,
+  state,
+  type,
   productId,
-}: IUpcomingAuction) => {
+  sku,
+  user,
+  onProcessing,
+  listing,
+}: IAuctionSale) => {
   const history = useHistory();
-  const boxWidth =
-    auctionState === 'upcoming' || auctionState === 'active' ? '62%' : '52%';
+  const boxWidth = state === 'upcoming' || state === 'active' ? '62%' : '52%';
+  const typeName = type === 'auction' ? 'Auction' : 'Sale';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const userBalance = useAppSelector(
+    (state) => state.session.user?.availableBalance
+  );
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
+  const hasFunds = price ? userBalance >= price : false;
+  const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
+  const isSkuOwner = sku?.issuer._id === loggedInUserId;
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
+
+  const handleBuyNowClick = () => {
+    if (isAuthenticated) {
+      if (isSkuOwner) {
+        Toast.error('Cannot purchase your own SKU');
+      } else {
+        setIsModalOpen(true);
+      }
+    } else {
+      Toast.warning(
+        <>
+          You need to be{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            logged in
+          </a>{' '}
+          in order to complete a purchase
+        </>
+      );
+    }
+  };
+
   return (
     <>
       {' '}
       <S.Container>
         <S.Detail width={boxWidth}>
-          {(auctionState === 'upcoming' || auctionState === 'active') && (
-            <S.BoxColumn>
-              {auctionState === 'upcoming' && (
+          {(state === 'upcoming' || state === 'active') && (
+            <S.BoxColumn alignItems="flex-start">
+              {state === 'upcoming' && (
                 <>
-                  <S.BoxTitle>Upcoming Auction</S.BoxTitle>
-                  <S.BoxSubtitle>
+                  <S.BoxTitle>Upcoming {typeName}</S.BoxTitle>
+                  <S.BoxSubtitle style={{ textAlign: 'left' }}>
                     Starts {startDate && formatDate(startDate)}
                   </S.BoxSubtitle>
                 </>
               )}
-              {auctionState === 'active' && (
+              {state === 'active' && (
                 <>
-                  <S.BoxTitle>Active Auction</S.BoxTitle>
-                  <S.BoxSubtitle>
-                    Ends {endDate && formatDate(endDate)}
+                  <S.BoxTitle>Active {typeName}</S.BoxTitle>
+                  <S.BoxSubtitle style={{ textAlign: 'start' }}>
+                    {type === 'auction'
+                      ? `Ends ${endDate && formatDate(endDate)}`
+                      : `Started ${startDate && formatDate(startDate)}`}
                   </S.BoxSubtitle>
                 </>
               )}
             </S.BoxColumn>
           )}
-          {auctionState === 'sold' && (
+          {(state === 'sold' || state === 'inactive') && (
             <S.SoldOutAuctionBox>
               <S.SerialNumber>#{serialNumber}</S.SerialNumber>
               <S.Slash>/</S.Slash>
@@ -89,19 +119,34 @@ const UpcomingAuction = ({
               </S.BoxColumn>
             </S.SoldOutAuctionBox>
           )}
-          {(auctionState === 'upcoming' || auctionState === 'active') && (
+          {(state === 'upcoming' || state === 'active') && (
             <S.BoxColumn style={{ textAlign: 'center' }}>
               <S.Price>{price && `$${price}`}</S.Price>
-              <small style={{ fontSize: '15px' }}>
-                {(auctionState === 'upcoming' && '(Starting at)') ||
-                  (auctionState === 'active' && '(Highest bid)')}
-              </small>
+              {type === 'auction' && (
+                <small style={{ fontSize: '15px' }}>
+                  {(state === 'upcoming' && '(Starting at)') ||
+                    (state === 'active' && '(Highest bid)')}
+                </small>
+              )}
             </S.BoxColumn>
           )}
         </S.Detail>
-        <S.Button onClick={() => history.push(`/product/${productId}`)}>
-          View NFT
-        </S.Button>
+        {type === 'fixed' && state === 'active' ? (
+          <S.Button onClick={() => handleBuyNowClick()}>Buy Now</S.Button>
+        ) : (
+          <S.Button onClick={() => history.push(`/product/${productId}`)}>
+            View NFT
+          </S.Button>
+        )}
+        <SkuPageModal
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          mode={modalMode}
+          sku={sku as Sku}
+          user={user}
+          listing={listing as Listing}
+          onProcessing={onProcessing}
+        />
       </S.Container>
     </>
   );
@@ -110,16 +155,10 @@ const UpcomingAuction = ({
 interface IUpcomingData {
   startDate?: Date;
   price: number;
-  items: number;
-  supplyType: string;
+  sku: Sku;
 }
 
-const UpcomingData = ({
-  startDate = new Date(),
-  price,
-  items,
-  supplyType,
-}: IUpcomingData) => {
+const UpcomingData = ({ startDate = new Date(), price }: IUpcomingData) => {
   const parsedStartDate = new Date(startDate);
   const countdown = useCountdown(parsedStartDate);
   const matchesMobile = useMediaQuery('(max-width: 960px)');
@@ -128,32 +167,39 @@ const UpcomingData = ({
     <>
       {' '}
       <S.Container>
-        <S.Detail style={{ alignItems: 'flex-start' }}>
-          <S.BoxColumn>
+        <S.DetailsContainer>
+          <S.BoxColumn alignItems={matchesMobile ? 'flex-start' : 'center'}>
             <S.BoxTitle>Upcoming</S.BoxTitle>
             <S.BoxSubtitle>{''}</S.BoxSubtitle>
             {matchesMobile && (
               <>
                 <S.CountDownTime>{countdown}</S.CountDownTime>
-                <S.StartDate>{formatDate(startDate)}</S.StartDate>
+                <S.StartDate style={{ justifyContent: 'flex-start' }}>
+                  <S.FormatedDateContainer>
+                    {formatDate(startDate).split('at')[0]}
+                  </S.FormatedDateContainer>
+                  <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
+                </S.StartDate>
               </>
             )}
           </S.BoxColumn>
-          <S.BoxColumn style={{ textAlign: 'center' }}>
+
+          {!matchesMobile && (
+            <S.BoxColumn alignItems="center">
+              <S.CountDownTime>{countdown}</S.CountDownTime>
+              <S.StartDate>
+                <S.FormatedDateContainer>
+                  {formatDate(startDate).split('at')[0]}
+                </S.FormatedDateContainer>
+                <div>{' at ' + formatDate(startDate).split('at')[1]}</div>
+              </S.StartDate>
+            </S.BoxColumn>
+          )}
+
+          <S.BoxColumn alignItems="center">
             <S.Price>${price}</S.Price>
-            {supplyType !== 'variable' && (
-              <small style={{ fontSize: '15px' }}>
-                {items && `(${items} NFTs)`}
-              </small>
-            )}
           </S.BoxColumn>
-        </S.Detail>
-        {!matchesMobile && (
-          <S.BoxColumn style={{ textAlign: 'right' }}>
-            <S.CountDownTime>{countdown}</S.CountDownTime>
-            <S.StartDate>{formatDate(startDate)}</S.StartDate>
-          </S.BoxColumn>
-        )}
+        </S.DetailsContainer>
       </S.Container>
     </>
   );
@@ -162,7 +208,6 @@ const UpcomingData = ({
 interface IFromCreatorBox {
   sku: Sku;
   listing?: Listing;
-  onBuyNow: () => void;
   price?: number;
   user: User;
   buttonDisabled: boolean;
@@ -173,7 +218,6 @@ interface IFromCreatorBox {
 const FromCreatorBox = ({
   sku,
   listing,
-  onBuyNow,
   price,
   user,
   buttonDisabled,
@@ -217,7 +261,7 @@ const FromCreatorBox = ({
           <S.BoxTitle>From Creator</S.BoxTitle>
           <S.BoxSubtitle>Initial Release</S.BoxSubtitle>
         </S.BoxColumn>
-        <S.BoxColumn style={{ textAlign: 'center' }}>
+        <S.BoxColumn alignItems="center">
           <S.Price>{price && `$${price}`}</S.Price>
           {sku.supplyType === 'fixed' && (
             <small style={{ fontSize: '15px' }}>
@@ -227,18 +271,20 @@ const FromCreatorBox = ({
           )}
         </S.BoxColumn>
       </S.Detail>
-      <S.Button disabled={buttonDisabled} onClick={() => handleBuyNowClick()}>
+      <S.Button disabled={buttonDisabled} onClick={handleBuyNowClick}>
         {buttonLabel}
       </S.Button>
-      <SkuPageModal
-        visible={isModalOpen}
-        setModalPaymentVisible={setIsModalOpen}
-        mode={modalMode}
-        sku={sku}
-        user={user}
-        listing={listing}
-        onProcessing={onProcessing}
-      />
+      {listing?.price && (
+        <SkuPageModal
+          visible={isModalOpen}
+          setModalPaymentVisible={setIsModalOpen}
+          mode={modalMode}
+          sku={sku as Sku}
+          user={user}
+          listing={listing as Listing}
+          onProcessing={onProcessing}
+        />
+      )}
     </S.Container>
   );
 };
@@ -289,10 +335,155 @@ const FromCollectorsBox = ({
   }
 };
 
+interface IGiveawayBox {
+  giveawayState?: string;
+  startDate?: Date;
+  endDate?: Date;
+  serialNumber?: string;
+  issuer: User;
+  productId?: string;
+  supply?: number;
+  isOpenEdition?: boolean;
+  listing: Listing;
+}
+
+const GiveawayBox = ({
+  giveawayState,
+  startDate,
+  endDate,
+  issuer,
+  supply,
+  isOpenEdition,
+  listing,
+}: IGiveawayBox): JSX.Element => {
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+  const loggedInUserId = useAppSelector((state) => state.session.user.id);
+  const isSkuOwner = issuer._id === loggedInUserId;
+  const history = useHistory();
+  const [minting, setMinting] = useState<boolean>(false);
+  const matchesMobile = useMediaQuery('(max-width: 960px)');
+  const boxWidth =
+    giveawayState === 'upcoming' || giveawayState === 'active' ? '62%' : '52%';
+
+  const handleGiveawayClaim = async () => {
+    setMinting(true);
+    try {
+      const claimRes = await claimGiveaway(
+        await getAccessTokenSilently(),
+        listing._id
+      );
+      if (claimRes.status === 201) {
+        Toast.dismiss('processing');
+        Toast.success(
+          <>Your NFT is minted! You&apos;ll be taken to view the NFT</>
+        );
+        setTimeout(() => {
+          setMinting(false);
+          history.push(`/product/${claimRes.data._id}`);
+        }, 5000);
+      }
+    } catch (error) {
+      setMinting(false);
+      if (error?.response?.status === 400) {
+        Toast.dismiss('processing');
+        Toast.error(<>{error.response.data.message}</>);
+      } else {
+        Toast.dismiss('processing');
+        Toast.error(
+          <>
+            Please try again, see the <a href="/help">Help page</a> to learn
+            more.
+          </>
+        );
+      }
+    }
+  };
+
+  const handleMintClick = () => {
+    if (isAuthenticated) {
+      if (isSkuOwner) {
+        Toast.error('Cannot claim your own SKU');
+      } else {
+        handleGiveawayClaim();
+      }
+    } else {
+      Toast.warning(
+        <>
+          You need to be{' '}
+          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
+            logged in
+          </a>{' '}
+          in order to claim
+        </>
+      );
+    }
+  };
+
+  return (
+    <S.Container>
+      <S.Detail width={boxWidth}>
+        {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+          <S.BoxColumn alignItems="flex-start">
+            {giveawayState === 'upcoming' && (
+              <>
+                <S.BoxTitle>NFT Giveaway</S.BoxTitle>
+                <S.BoxSubtitle>
+                  Starts {startDate && formatDate(startDate)}
+                </S.BoxSubtitle>
+              </>
+            )}
+            {giveawayState === 'active' && (
+              <>
+                <S.BoxTitle>NFT Giveaway</S.BoxTitle>
+                <S.BoxSubtitle style={{ textAlign: 'left' }}>
+                  Ends {endDate && formatDate(endDate)}
+                </S.BoxSubtitle>
+              </>
+            )}
+          </S.BoxColumn>
+        )}
+        {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+          <S.BoxColumn
+            alignItems={matchesMobile ? 'flex-end' : 'center'}
+            style={{ flexBasis: '10ch' }}
+          >
+            <S.Amount>{(isOpenEdition && <>&#8734;</>) || supply}</S.Amount>
+            <small style={{ fontSize: '15px' }}>
+              {isOpenEdition
+                ? 'Open Edition'
+                : (giveawayState === 'upcoming' && 'To be released') ||
+                  (giveawayState === 'active' && 'Remaining')}
+            </small>
+          </S.BoxColumn>
+        )}
+      </S.Detail>
+      {(giveawayState === 'upcoming' || giveawayState === 'active') && (
+        <>
+          {giveawayState === 'upcoming' && (
+            <S.Button disabled={true}>Upcoming NFT</S.Button>
+          )}
+          {giveawayState === 'active' && (
+            <S.Button onClick={handleMintClick} disabled={minting}>
+              {minting ? (
+                <S.CenteredSpaced>
+                  <span>Minting</span>
+                  <ClipLoader size={20} color="currentColor" />
+                </S.CenteredSpaced>
+              ) : (
+                'Mint Your NFT'
+              )}
+            </S.Button>
+          )}
+        </>
+      )}
+    </S.Container>
+  );
+};
+
 interface ISkuButtonBlock {
   sku: Sku;
   user: User;
-  onBuyNow: () => void;
   collectors: Collector[];
   onProcessing?: () => void;
 }
@@ -300,7 +491,6 @@ interface ISkuButtonBlock {
 const SkuButtonBlock = ({
   sku,
   user,
-  onBuyNow,
   onProcessing,
   collectors,
 }: ISkuButtonBlock): JSX.Element => {
@@ -311,9 +501,53 @@ const SkuButtonBlock = ({
   const upcomingSkuListings = sku.skuListings.filter(
     (skuListing) => skuListing.status === 'upcoming' && !skuListing.canceled
   );
-  const canceledSkuListings = sku.skuListings.filter(
-    (skuListing) => skuListing.canceled
+
+  const activeProductListings = sku.productListings?.filter(
+    (productListing) =>
+      productListing.type === 'product' &&
+      productListing.status === 'active' &&
+      !productListing.canceled
   );
+  const upcomingProductListings = sku.productListings?.filter(
+    (productListing) =>
+      productListing.type === 'product' &&
+      productListing.status === 'upcoming' &&
+      !productListing.canceled
+  );
+
+  /**
+   * Giveaway sku Listing
+   */
+  if (activeListings[0]?.saleType === 'giveaway') {
+    const { status, startDate, endDate, supplyLeft } = activeListings[0];
+
+    return (
+      <GiveawayBox
+        giveawayState={status}
+        startDate={startDate}
+        endDate={endDate}
+        supply={supplyLeft}
+        isOpenEdition={sku.supplyType === 'variable'}
+        listing={activeListings[0]}
+        issuer={sku.issuer}
+      />
+    );
+  }
+
+  if (upcomingSkuListings[0]?.saleType === 'giveaway') {
+    const { status, startDate, endDate, supplyLeft } = upcomingSkuListings[0];
+    return (
+      <GiveawayBox
+        giveawayState={status}
+        startDate={startDate}
+        endDate={endDate}
+        supply={supplyLeft}
+        isOpenEdition={sku.supplyType === 'variable'}
+        listing={upcomingSkuListings[0]}
+        issuer={sku.issuer}
+      />
+    );
+  }
 
   /**
    * Upcoming Auction sku Listing
@@ -323,43 +557,92 @@ const SkuButtonBlock = ({
     !activeListings.length &&
     sku.totalSupply === 1
   ) {
-    const listing = collectors[0]?.listing;
-    const startDate = listing?.startDate;
-    const endDate = listing?.endDate;
-    const price = sku?.minHighestBid;
-    const owner = collectors[0]?.owner;
-    const serialNumber = collectors[0]?.serialNumber;
-    const isAuction = listing?.saleType === 'auction';
-    const productId = collectors[0]?.listing?.product;
+    const {
+      owner,
+      serialNumber,
+      listing: { startDate, endDate, price, saleType, status, product } = {},
+      listing,
+    } = collectors[0];
+    const { minHighestBid } = sku;
 
-    if (isAuction) {
-      if (listing.status === 'upcoming') {
+    if (saleType === 'auction') {
+      if (status === 'upcoming') {
         return (
-          <UpcomingAuction
+          <AuctionSale
             startDate={startDate}
-            price={price}
-            auctionState="upcoming"
-            productId={productId}
+            price={minHighestBid}
+            state="upcoming"
+            productId={product}
+            type={saleType}
+            sku={sku}
           />
         );
       }
-      if (listing.status === 'active') {
+      if (status === 'active') {
         return (
-          <UpcomingAuction
+          <AuctionSale
             endDate={endDate}
-            price={price}
-            auctionState="active"
-            productId={productId}
+            price={minHighestBid}
+            state="active"
+            productId={product}
+            type={saleType}
+            sku={sku}
           />
         );
       }
-      if (listing.status === 'sold') {
+      if (status === 'sold') {
         return (
-          <UpcomingAuction
-            auctionState="sold"
+          <AuctionSale
+            state="sold"
             owner={owner}
             serialNumber={serialNumber}
-            productId={productId}
+            productId={product}
+            sku={sku}
+          />
+        );
+      }
+    }
+    if (saleType === 'fixed') {
+      if (!activeProductListings && !upcomingProductListings) {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state="inactive"
+            sku={sku}
+          />
+        );
+      }
+      if (status === 'upcoming') {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state={status}
+            startDate={startDate}
+            price={price}
+            type={saleType}
+            sku={sku}
+          />
+        );
+      }
+
+      if (status === 'active') {
+        return (
+          <AuctionSale
+            serialNumber={serialNumber}
+            owner={owner}
+            productId={product}
+            state={status}
+            startDate={startDate}
+            price={price}
+            type={saleType}
+            sku={sku}
+            user={user}
+            listing={listing}
+            onProcessing={onProcessing}
           />
         );
       }
@@ -375,14 +658,7 @@ const SkuButtonBlock = ({
     const price = upcomingSkuListing.price;
     const numItems = upcomingSkuListing.supply;
 
-    return (
-      <UpcomingData
-        startDate={startDate}
-        price={price}
-        items={numItems}
-        supplyType={sku.supplyType}
-      />
-    );
+    return <UpcomingData startDate={startDate} price={price} sku={sku} />;
 
     // TODO: Will implement when auctions are available
     // const saleType = upcomingSkuListing.saleType;
@@ -408,7 +684,6 @@ const SkuButtonBlock = ({
     const saleType = activeListing?.saleType;
     // TODO: When 'auction' saleType is implemented, the price should display bid price
     const displayPrice = saleType === 'fixed' ? skuPrice : skuPrice;
-
     return (
       <>
         <FromCreatorBox
@@ -416,7 +691,6 @@ const SkuButtonBlock = ({
           listing={activeListing}
           price={displayPrice}
           user={user}
-          onBuyNow={onBuyNow}
           buttonDisabled={false}
           buttonLabel="Buy Now"
           onProcessing={onProcessing}
@@ -440,6 +714,7 @@ const SkuButtonBlock = ({
     );
     const expiredListing = expiredListings[0];
     const skuPrice = expiredListing?.price;
+
     return (
       <>
         <FromCreatorBox
@@ -447,7 +722,6 @@ const SkuButtonBlock = ({
           listing={expiredListing}
           price={skuPrice}
           user={user}
-          onBuyNow={onBuyNow}
           buttonDisabled={true}
           buttonLabel="Sold Out"
         />
@@ -460,7 +734,6 @@ const SkuButtonBlock = ({
       </>
     );
   }
-
   return <></>;
 };
 

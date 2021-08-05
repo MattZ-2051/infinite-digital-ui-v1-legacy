@@ -70,23 +70,34 @@ const ProductDetails = ({
           )}
           {sku?.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">
-              {`${serialNumber} of ${totalSupply}`}
+              <S.ItemCountContainer>
+                {serialNumber
+                  ? `${serialNumber} of ${totalSupply}`
+                  : `Limited to ${totalSupply} edition${
+                      totalSupply > 1 && 's'
+                    }.`}
+              </S.ItemCountContainer>
             </S.SkuInfo>
           )}
 
           {sku?.supplyType === 'variable' && (
             <S.SkuInfo onClick={handleRedirectToSkuPage} hover={true}>
-              {`${circulatingSupply} Released `}
-              (See All)
+              <S.ItemCountContainer>
+                {`${circulatingSupply} Released `}
+              </S.ItemCountContainer>
             </S.SkuInfo>
           )}
-          {skuTokenId && explorerLink ? (
-            <S.TokenExplorerLink target="_blank" href={explorerLink}>
-              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
-            </S.TokenExplorerLink>
-          ) : (
+          {skuTokenId && (
             <S.TokenExplorerLinkPlain>
-              {skuIsVariable && '/'} {HederaIcon()} Token {skuTokenId}
+              {skuIsVariable && '/'}
+              <S.HederaIconContainer>{HederaIcon()}</S.HederaIconContainer>
+              {explorerLink ? (
+                <S.TokenExplorerLink target="_blank" href={explorerLink}>
+                  Token {skuTokenId}
+                </S.TokenExplorerLink>
+              ) : (
+                <>Token {skuTokenId}</>
+              )}
             </S.TokenExplorerLinkPlain>
           )}
         </S.Flex>

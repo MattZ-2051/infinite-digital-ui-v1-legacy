@@ -28,7 +28,8 @@ const SkuDescription = ({ description }: IProps): JSX.Element => {
         </S.DivContainer>
         <S.DivContainer>
           <a
-            href=" https://support.suku.world/infinite/hedera-hashgraph-hts"
+            href="https://support.suku.world/infinite/hedera-hashgraph-hts"
+            rel="noreferrer"
             target="_blank"
           >
             Learn more

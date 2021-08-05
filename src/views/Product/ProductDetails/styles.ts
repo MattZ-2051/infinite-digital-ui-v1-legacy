@@ -9,12 +9,16 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 export const Body = styled.div`
   color: black;
   padding: 34px;
+  @media screen and (max-width: 400px) {
+    padding: 18px;
+  }
 `;
 
 export const Container = styled.div`
   background-color: white;
   overflow: hidden;
   height: 100vh;
+  // margin: auto 0;
   :hover {
     cursor: pointer;
   }
@@ -78,6 +82,13 @@ export const Flex = styled.div<{
   display: flex;
   justify-content: ${(props) => props.justifyContent};
   align-items: ${(props) => props.alignItems};
+  @media screen and (max-width: 600px) {
+    flex-wrap: wrap;
+  }
+`;
+
+export const ItemCountContainer = styled.div`
+  margin-right: 9px;
 `;
 
 export const GreyLine = styled.div`
@@ -85,7 +96,11 @@ export const GreyLine = styled.div`
   width: 100%;
   padding-top: 16px;
 `;
-
+export const HederaIconContainer = styled.div`
+  height: 24px;
+  align-self: flex-start;
+  margin-left: -7px;
+`;
 export const DescriptionText = styled.p`
   padding-top: 24px;
   color: #9e9e9e;
@@ -132,14 +147,14 @@ export const BackArrow = styled(ArrowBackIosIcon)`
   margin-right: 10px;
 `;
 
-export const TokenExplorerLink = styled.a`
-  display: flex;
-  margin-left: 7px;
-  align-items: flex-end;
-`;
+export const TokenExplorerLink = styled.a``;
 
 export const TokenExplorerLinkPlain = styled.div`
   display: flex;
-  margin-left: 7px;
   align-items: flex-end;
+  @media screen and (max-width: 400px) {
+    display: flex;
+    margin-left: 7px;
+    align-items: center;
+  }
 `;

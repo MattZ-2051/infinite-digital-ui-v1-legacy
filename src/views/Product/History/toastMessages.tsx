@@ -60,3 +60,7 @@ export const needToSignUp = (loginWithRedirect) => {
     </>
   );
 };
+
+export const showStatusBarWarningMessage = (message) => {
+  return Toast.warning(message);
+};

@@ -3,6 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import DropImg from 'assets/img/backgrounds/spencer-hero.png';
 import { useHistory } from 'react-router';
 import HeroLoadingImg from 'assets/img/backgrounds/hero-loading.png';
+import { useEffect, useRef } from 'react';
 
 interface IProps {
   login: (options?: { screen_hint: string }) => void;
@@ -18,6 +19,13 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   const handleClick = () => {
     login({ screen_hint: 'signup' });
   };
+  const vidRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    vidRef.current?.play();
+    return () => {
+      vidRef.current?.pause();
+    };
+  }, []);
   return (
     <div style={{ backgroundColor: 'black' }}>
       <S.Container>
@@ -106,6 +114,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
         >
           <S.ImgContainer>
             <video
+              ref={vidRef}
               style={{
                 width: matchesMobile ? '265px' : '380px',
                 height: matchesMobile ? '265px' : '380px',

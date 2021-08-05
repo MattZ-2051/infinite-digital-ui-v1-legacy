@@ -3,7 +3,7 @@ export type HistoryStatus =
   | 'buy-now'
   | 'create-sale'
   | 'active-sale'
-  | 'upcoming'
+  | 'upcoming-sale'
   | 'upcoming-auction'
   | 'owner'
   | 'active-auction'
@@ -16,6 +16,9 @@ export type AuctionStatus =
   | 'upcoming-auction-user'
   | 'active-auction-bid-owner'
   | 'active-auction-bid-user'
+  | 'processing-auction'
   | '';
 
 export type tabSelect = 'history' | 'auction' | 'owner_access';
+
+export type Modes = 'completed' | 'hasFunds' | 'noFunds' | 'processing' | '';

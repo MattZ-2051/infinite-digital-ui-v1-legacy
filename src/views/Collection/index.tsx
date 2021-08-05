@@ -64,7 +64,6 @@ const Collection = (): JSX.Element => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const matchesMobile = useMediaQuery('(max-width: 960px)');
-
   const dispatch = useAppDispatch();
 
   const fetchLoggedInUser = async () => {
@@ -97,6 +96,10 @@ const Collection = (): JSX.Element => {
     setLoading(true);
     fetchUser();
   }, [username]);
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
 
   if (user._id === '0' || !user || loading)
     return <PageLoader backGroundColor="black" color="white" />;
@@ -205,8 +208,6 @@ const Collection = (): JSX.Element => {
           style={{
             display: 'flex',
             justifyContent: 'flex-start',
-            marginTop: matchesMobile ? '40px' : '156px',
-            marginBottom: matchesMobile ? '80px' : '120px',
             minHeight: '0px',
           }}
         >

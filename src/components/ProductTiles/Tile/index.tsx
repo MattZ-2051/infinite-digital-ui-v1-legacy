@@ -6,25 +6,28 @@ import TilePill from './components/TilePill';
 import { Media } from '../../Media/Media';
 import * as S from './styles';
 
-interface Props {
+export type TileStatus =
+  | 'unique'
+  /*SKU Tile Types*/
+  | 'upcoming-sku'
+  | 'upcoming-sku-time'
+  | 'active'
+  | 'no-sale'
+  | 'giveaway'
+  /*Product Tile Types */
+  | 'upcoming-product-time'
+  | 'active-listing'
+  | 'no-active-listing'
+  | '';
+
+interface IProps {
   sku: Sku;
   topLeft: string;
   skuRarity: string;
   middle: string;
   bottomLeft: string;
   bottomRight: string;
-  status:
-    | 'unique'
-    /*SKU Tile Types*/
-    | 'upcoming-sku'
-    | 'upcoming-sku-time'
-    | 'active'
-    | 'no-sale'
-    /*Product Tile Types */
-    | 'upcoming-product-time'
-    | 'active-listing'
-    | 'no-active-listing'
-    | '';
+  status: TileStatus;
   skuImg: string;
   redeemable: boolean;
   pillInfo: string;
@@ -32,6 +35,8 @@ interface Props {
   handleRedirect: () => void;
   supplyType: string;
   themeStyle: 'light' | 'dark';
+  singleProductListingExist: boolean;
+  isActiveAuction: boolean;
 }
 
 const Tile = ({
@@ -49,13 +54,25 @@ const Tile = ({
   themeStyle,
   handleRedirect,
   supplyType,
-}: Props): JSX.Element => {
+  singleProductListingExist,
+  isActiveAuction,
+}: IProps): JSX.Element => {
   const cropText = (text: string, limit: number) => {
     return text && text.slice(0, limit) + (text.length > limit ? '...' : '');
   };
-
   const maxIssuerNameLength = 15;
   const maxSkuNameLength = 34;
+  const isGiveAway =
+    sku?.activeSkuListings?.[0]?.saleType === 'giveaway' &&
+    sku?.activeSkuListings?.[0]?.status === 'active';
+  const generateBottomCardText = () => {
+    return sku.supplyType === 'variable' && sku.circulatingSupply >= 1
+      ? `${sku.totalSupply} Released`
+      : `${sku.totalSupply} of ${sku.totalSupply} ${
+          sku.activeSkuListings?.length == 0 ? '' : 'for sale'
+        }`;
+  };
+
   return (
     <S.CardContainer onClick={handleRedirect}>
       <StyledCard themeStyle={themeStyle}>
@@ -106,20 +123,18 @@ const Tile = ({
                 themeStyle={themeStyle}
                 style={{ color: '#9e9e9e' }}
               >
-                {supplyType === 'variable' && sku.circulatingSupply >= 1
+                {isGiveAway
+                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} available`
+                  : supplyType === 'variable' && sku.circulatingSupply >= 1
                   ? `${sku.circulatingSupply} Released`
                   : supplyType === 'fixed'
-                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} For Sale`
+                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} for Sale`
                   : null}
               </S.BottomCardText>
             )}
             {status === 'no-sale' && !unique && (
               <S.BottomCardText themeStyle={themeStyle}>
-                {sku.supplyType === 'variable' && sku.circulatingSupply >= 1
-                  ? `${sku.totalSupply} Released`
-                  : `${sku.totalSupply} of ${sku.totalSupply} ${
-                      sku.activeSkuListings?.length == 0 ? '' : 'for sale'
-                    }`}
+                {generateBottomCardText}
               </S.BottomCardText>
             )}
             {/* TODO DRY */}
@@ -159,7 +174,11 @@ const Tile = ({
           </Row>
         </S.StyledCardContent>
       </StyledCard>
-      <TilePill status={status} pillInfo={pillInfo} />
+      <TilePill
+        status={status}
+        pillInfo={pillInfo}
+        isCurrentActiveAuction={singleProductListingExist && isActiveAuction}
+      />
     </S.CardContainer>
   );
 };

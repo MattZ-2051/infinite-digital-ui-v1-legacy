@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import ModalComponent from 'components/Modal';
 import * as S from './styles';
-import AchAccountAdd from './AchAccountAdd';
-import AchAccountList from './AchAccountList';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import Toast from 'utils/Toast';
-import { withdraw } from 'utils/messages';
 import { useMediaQuery } from '@material-ui/core';
+import ListWithdrawal from './AvailableMethods/ListWithdrawal';
+import BankMethod from './AchAccountList/BankMethod';
+import WithdrawUSCD from './AvailableMethods/WithdrawUSCD';
 
 interface IWithdrawModal {
   isModalOpen?: boolean;
@@ -18,15 +17,32 @@ const WithdrawModal = ({
   handleClose,
 }: IWithdrawModal): JSX.Element => {
   const [valueIsAdding, setIsAdding] = useState<boolean>(false);
-  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const [status, setStatus] = useState(0);
+  const onClose = () => {
+    setStatus(0);
+    handleClose();
+  };
+
+  const content = {
+    0: <ListWithdrawal setStatus={setStatus} />,
+    1: (
+      <BankMethod
+        handleClose={onClose}
+        valueIsAdding={valueIsAdding}
+        setIsAdding={setIsAdding}
+      />
+    ),
+    2: <WithdrawUSCD goBack={() => setStatus(0)} handleClose={onClose} />,
+  }[status];
+
   return (
     <ModalComponent
       open={isModalOpen || false}
-      onClose={handleClose}
+      onClose={onClose}
       disableEnforceFocus={true}
       bodyStyle={{
         display: 'flex',
-        minHeight: valueIsAdding ? 750 : 551,
+        minHeight: valueIsAdding || status === 2 ? 750 : 551,
         maxWidth: 522,
         margin: 0,
         top: 'initial',
@@ -48,42 +64,11 @@ const WithdrawModal = ({
           <img
             src={exitIcon}
             alt="exitIcon"
-            onClick={handleClose}
+            onClick={onClose}
             className="icon__exit"
           />
         </S.ExitIcon>
-        <S.BodyContent
-          style={{
-            padding: matchesMobile ? '0px' : '0px 56px 20px 56px',
-            flex: 1,
-            justifyContent: 'space-between',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          {!valueIsAdding ? (
-            <AchAccountList
-              onError={(err) => {
-                Toast.error(withdraw.error);
-              }}
-              onAddNew={() => setIsAdding(true)}
-              onClose={handleClose}
-            />
-          ) : (
-            <AchAccountAdd
-              onError={(err) => {
-                Toast.error(withdraw.error);
-              }}
-              onSuccess={() => {
-                Toast.success(withdraw.achAdded);
-                setIsAdding(false);
-              }}
-              onCancel={() => {
-                setIsAdding(false);
-              }}
-            />
-          )}
-        </S.BodyContent>
+        {content}
       </S.BodyContainer>
     </ModalComponent>
   );

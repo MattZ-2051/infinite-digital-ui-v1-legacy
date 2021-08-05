@@ -17,7 +17,7 @@ import * as S from './styles';
 import OwnerAccess from 'views/Product/OwnerAccess';
 import { Util } from './util';
 import { Handlers } from './handlers';
-import { HistoryStatus, AuctionStatus, tabSelect } from './types';
+import { HistoryStatus, AuctionStatus, tabSelect, Modes } from './types';
 import * as PP from './PageParts';
 
 interface Props {
@@ -40,7 +40,7 @@ const History = ({
 
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
-  const matchesMobile = useMediaQuery('(max-width:1140px)');
+  const [statusMode, setStatusMode] = useState<Modes>('hasFunds');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [themeStyle, setThemeStyle] = useState<'light' | 'dark'>('dark');
   const [historyStatus, setHistoryStatus] = useState<HistoryStatus>('');
@@ -54,7 +54,6 @@ const History = ({
   const [privateAssets, setPrivateAssets] = useState<any>([]);
   const [bidAmount, setBidAmount] = useState<string | undefined>('');
   const [totalBids, setTotalBids] = useState<number>(1);
-  // const [token, setToken] = useState<string>('');
   const [activeSalePrice, setActiveSalePrice] = useState<number | undefined>(
     product?.activeProductListings[0]?.price
   );
@@ -63,29 +62,20 @@ const History = ({
   );
 
   //Constants
-  const perPage = 5;
+  const perPage = 3;
   const listingId =
     product?.activeProductListings?.length === 0
       ? product.upcomingProductListings[0]?._id
       : product?.activeProductListings[0]?._id;
 
   const [auctionPage, setAuctionPage] = useState<number>(1);
-  const price = product?.listing?.price;
-  const modalMode = price && userBalance >= price ? 'hasFunds' : 'noFunds';
   const loggedInUser = useAppSelector((state) => state.session.user);
-  const parsedStartDate =
-    product &&
-    new Date(
-      product?.activeProductListings[0]?.endDate ||
-        product?.upcomingProductListings[0]?.startDate
-    );
-  const countdown = parsedStartDate && useCountdown(parsedStartDate);
   const marketPlaceUrl = '/marketplace';
 
   //clases
-  const txHistory = transactionHistory.filter((el) => {
-    return el.status !== 'error';
-  });
+  // const txHistory = transactionHistory.filter((el) => {
+  //   return el.status !== 'error';
+  // });
   const util = new Util(
     product,
     isAuthenticated,
@@ -96,7 +86,7 @@ const History = ({
     perPage,
     setBids,
     setTotalBids,
-    txHistory,
+    transactionHistory,
     bidAmount,
     setPrivateAssets
   );
@@ -110,9 +100,11 @@ const History = ({
     setIsBidModalOpen,
     setAuctionPage,
     setHistoryPage,
-    selectedTab
+    selectedTab,
+    setIsCancelModalOpen
   );
   const isActiveAuction = util.isActiveAuction();
+  const isPastAuction = util.isPastAuction();
   //effects.
 
   useEffect(() => {
@@ -132,6 +124,9 @@ const History = ({
   useEffect(() => {
     if (isActiveAuction) {
       util.fetchBids();
+    }
+    if (isPastAuction) {
+      util.fetchPastBids();
     }
   }, [auctionPage]);
 
@@ -156,13 +151,18 @@ const History = ({
           setIsCancelModalOpen={setIsCancelModalOpen}
           auctionStatus={auctionStatus}
           setSelectedTab={setSelectedTab}
+          util={util}
         />
 
-        {util.isActiveAuction() &&
-          selectedTab === 'auction' &&
-          matchesMobile && (
-            <PP.AuctionCountDown product={product} countdown={countdown} />
-          )}
+        <PP.StatusBar
+          util={util}
+          auctionStatus={auctionStatus}
+          historyStatus={historyStatus}
+          handlers={handlers}
+          listingStatus={statusMode}
+          setBidAmount={setBidAmount}
+          setAuctionStatus={setAuctionStatus}
+        />
 
         <PP.TabBar
           util={util}
@@ -186,7 +186,6 @@ const History = ({
             util={util}
             handlers={handlers}
             auctionStatus={auctionStatus}
-            setBidAmount={setBidAmount}
             themeStyle={themeStyle}
             totalBids={totalBids}
           />
@@ -197,7 +196,7 @@ const History = ({
             <OwnerAccess
               productId={product._id}
               skuId={product.sku._id}
-              themeStyle={'dark'}
+              themeStyle={themeStyle}
               owner={loggedInUser && loggedInUser.id === product.owner?._id}
             />
           </>
@@ -209,8 +208,8 @@ const History = ({
           product={product}
           serialNum={product.serialNumber}
           visible={isModalOpen}
-          mode={modalMode}
-          setStatus={setHistoryStatus}
+          statusMode={statusMode}
+          setStatusMode={setStatusMode}
         />
       )}
       {product && historyStatus === 'active-sale' && (

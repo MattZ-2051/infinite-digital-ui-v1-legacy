@@ -1,9 +1,11 @@
+import {Wallet} from "entities/wallet";
+
 export interface UsersState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: null | any;
   user: any;
   userCollection: any;
-  userCards: any;
+  userCards: Wallet;
 }
 
 interface Values {

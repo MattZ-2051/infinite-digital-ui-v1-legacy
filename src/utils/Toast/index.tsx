@@ -1,3 +1,4 @@
+import { ReactText } from 'react';
 import { toast } from 'react-toastify';
 
 const success = (message, toastId?: string) =>
@@ -9,4 +10,6 @@ const dark = (message, toastId?: string) =>
 const warning = (message, toastId?: string) =>
   toast.warning(<>{message}</>, { toastId });
 
-export default { success, error, warning, dark };
+const dismiss = (toastId: 'string' | ReactText): void => toast.dismiss(toastId);
+
+export default { success, error, warning, dark, dismiss };

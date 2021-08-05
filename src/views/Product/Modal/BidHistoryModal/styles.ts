@@ -1,22 +1,25 @@
 import styled from 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
+import { ReactComponent as RedeemSvg } from 'assets/svg/icons/redeemable2.svg';
 
 export const Container = styled.div`
   padding: 20px;
   min-width: 400px;
-  @media screen and (max-width: 400px) {
-    width: 90%;
-    padding: 0 25%;
+  height: 85vh;
+  margin: 20px;
+  overflow: hidden;
+  :hover {
+    overflow-y: auto;
   }
-  @media screen and (max-width: 330px) {
-    width: 90%;
-    padding: 0 30%;
+  @media screen and (max-width: 600px) {
+    min-width: 100%;
   }
 `;
 
 export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 32px;
 `;
 
 export const StyledPagination = styled(Pagination)<{ theme; themeStyle }>`
@@ -51,6 +54,10 @@ export const CloseButton = styled.div`
   right: 15px;
 `;
 
+export const RedeemIcon = styled(RedeemSvg)`
+  width: 15px;
+`;
+
 export const GreyLine = styled.div`
   color: #ebebeb;
   border-bottom: 2px solid #ebebeb;
@@ -74,12 +81,14 @@ export const Text = styled.p<{
 `;
 
 export const FlexDiv = styled.div<{
-  justifyContent: string;
-  alignItems: string;
-  padding: string;
+  justifyContent?: string;
+  alignItems?: string;
+  padding?: string;
+  flexDirection?: string;
 }>`
   display: flex;
   justify-content: ${(props) => `${props.justifyContent}`};
   align-items: ${(props) => `${props.alignItems}`};
   padding: ${(props) => `${props.padding};`};
+  flex-direction: ${(props) => `${props.flexDirection}`};
 `;

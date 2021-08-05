@@ -1,12 +1,25 @@
-import { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import numeral from 'numeral';
 import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
 import Persona, { Client } from 'persona';
+// import ModalComponent from 'components/Modal';
+// import { Inquiry } from 'persona';
 import { getPersonalToken } from 'services/api/userService';
 import { useAuth0 } from '@auth0/auth0-react';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import ReactTooltip from 'react-tooltip';
 import * as S from './styles';
 import { config } from '../../../config';
+import UnverifiedUserIcon from 'assets/img/icons/unverifiedUser.png';
+import VerifiedLvl1Icon from 'assets/img/icons/lvl1.png';
+import VerifiedLvl2Icon from 'assets/img/icons/lvl2.png';
+import PendingVerificationUserIcon from 'assets/img/icons/pendingVerificationUser.png';
+import ArrowRightIcon from 'assets/svg/icons/deposit-funds-black.svg';
+
+const kyc1AllowedInfoText = `You are eligible to deposit cryptocurrency and a cumulative balance > $${numeral(
+  config.kycLimits.dailyDepositLimit
+).format('0a')}`;
+const kyc1NeededInfoText = `Account verification is required for users to deposit cryptocurrency or >$${numeral(
+  config.kycLimits.dailyDepositLimit
+).format('0a')} from a credit card.`;
 
 const KycButton = ({
   kycPending,
@@ -15,81 +28,136 @@ const KycButton = ({
   kycPending: boolean;
   kycMaxLevel: number;
 }): JSX.Element | null => {
-  const [userToken, setUserToken] = useState<string>();
+  // const [valueUserToken, setUserToken] = useState<string>('');
   const { getAccessTokenSilently } = useAuth0();
-
-  async function initializeToken() {
-    const res = await getPersonalToken(await getAccessTokenSilently());
-    setUserToken(res.token);
-  }
-
-  useEffect(() => {
-    initializeToken();
-  }, []);
-
-  const client: Client = new Persona.Client({
-    templateId: config.kyc.templateLvl1,
-    environment: config.kyc.environmentType,
-    referenceId: userToken,
-    onLoad: (error) => {
-      if (error) {
-        console.error(
-          `Failed with code: ${error.code} and message ${error.message}`
-        );
-      }
-      client.render();
-    },
-    onStart: (inquiryId) => {
-      console.log(`Started inquiry ${inquiryId}`);
-    },
-    onComplete: (inquiryId) => {
-      console.log(`Sending finished inquiry ${inquiryId} to backend`);
-      fetch(`/server-handler?inquiry-id=${inquiryId}`);
-    },
-    onEvent: (name, meta) => {
-      switch (name) {
-        case 'start':
-          console.log(`Received event: start`);
-          break;
-        default:
-          console.log(
-            `Received event: ${name} with meta: ${JSON.stringify(meta)}`
-          );
-      }
-    },
-  });
-
-  function openClient() {
-    client.open();
-  }
 
   let content;
   if (kycPending) {
     content = (
       <>
-        <AccessTimeIcon />
-        <S.StatusText>Pending...</S.StatusText>
-      </>
-    );
-  } else if (kycMaxLevel >= 1) {
-    content = (
-      <>
-        <S.VerifiedUserOutlinedIcon />
-        <S.LevelIndicator>lvl {kycMaxLevel}</S.LevelIndicator>
+        <S.Content>
+          {kycMaxLevel === 0 && (
+            <>
+              <S.FlexCenter
+                style={{
+                  marginBottom: '10px',
+                }}
+              >
+                <S.PendingVerification src={PendingVerificationUserIcon} />
+                <S.StatusText>Pending...</S.StatusText>
+              </S.FlexCenter>
+              <S.InfoText>Your account verification is in progress.</S.InfoText>
+            </>
+          )}
+          {kycMaxLevel === 1 && (
+            <>
+              <S.FlexCenter
+                style={{
+                  marginBottom: '10px',
+                }}
+              >
+                <S.VerifiedUserKycIcon src={VerifiedLvl1Icon} />
+                <S.LevelIndicator>Lvl {kycMaxLevel}</S.LevelIndicator>
+                <S.ArrowRight
+                  style={{ marginRight: '10px' }}
+                  src={ArrowRightIcon}
+                />
+                <S.PendingVerification src={PendingVerificationUserIcon} />
+                <S.StatusText>Lvl {kycMaxLevel + 1} Pending...</S.StatusText>
+              </S.FlexCenter>
+              <S.InfoText>{kyc1AllowedInfoText}</S.InfoText>
+            </>
+          )}
+        </S.Content>
       </>
     );
   } else {
-    content = (
-      <>
-        <ReactTooltip className="extraClass" delayHide={500} effect="solid">
-          <S.LearnMore href="#">Learn more</S.LearnMore>
-        </ReactTooltip>
-        <S.BlockIcon onClick={openClient} data-tip />
-        <S.StatusText>Unverified</S.StatusText>
-      </>
-    );
+    const openClient = async () => {
+      const res = await getPersonalToken(await getAccessTokenSilently());
+      // setUserToken(res.token);
+      const client: Client = new Persona.Client({
+        templateId:
+          kycMaxLevel >= 1 ? config.kyc.templateLvl2 : config.kyc.templateLvl1,
+        environment: config.kyc.environmentType,
+        referenceId: res.token,
+        onLoad: (error) => {
+          if (error) {
+            console.error(
+              `Failed with code: ${error.code} and message ${error.message}`
+            );
+          } else {
+            client.render();
+          }
+        },
+      });
+      client.open();
+    };
+    if (kycMaxLevel >= 1) {
+      content = (
+        <>
+          <S.Content>
+            <S.FlexCenter
+              style={{
+                marginBottom: '10px',
+              }}
+            >
+              <S.VerifiedUserKycIcon
+                src={kycMaxLevel === 1 ? VerifiedLvl1Icon : VerifiedLvl2Icon}
+              />
+              <S.LevelIndicator>Lvl {kycMaxLevel}</S.LevelIndicator>
+              {kycMaxLevel === 1 && (
+                <S.VerifyButton onClick={openClient} color="black">
+                  Upgrade
+                </S.VerifyButton>
+              )}
+            </S.FlexCenter>
+
+            <S.InfoText>{kyc1AllowedInfoText}</S.InfoText>
+          </S.Content>
+        </>
+      );
+    } else {
+      content = (
+        <>
+          <S.Content>
+            <S.SecondaryContent>
+              <S.FlexCenter>
+                <S.BlockIcon src={UnverifiedUserIcon} />
+                <S.StatusText>Unverified</S.StatusText>
+              </S.FlexCenter>
+              <S.VerifyButton onClick={openClient} color="black">
+                Verify
+              </S.VerifyButton>
+            </S.SecondaryContent>
+            <S.InfoText>{kyc1NeededInfoText}</S.InfoText>
+          </S.Content>
+        </>
+      );
+    }
   }
-  return <S.Container>{content}</S.Container>;
+  return (
+    <S.Container>
+      {/*<ModalComponent*/}
+      {/*  open={Boolean(valueUserToken)}*/}
+      {/*  centered={true}*/}
+      {/*  disableEnforceFocus={true}*/}
+      {/*  onClose={*/}
+      {/*    () => {*/}
+      {/*      setUserToken('');*/}
+      {/*    }*/}
+      {/*  }*/}
+      {/*>*/}
+      {/*  {valueUserToken && (*/}
+      {/*    <Inquiry*/}
+      {/*      templateId={config.kyc.templateLvl1}*/}
+      {/*      environment={config.kyc.environmentType}*/}
+      {/*      referenceId={valueUserToken}*/}
+      {/*    />*/}
+      {/*  )}*/}
+      {/*</ModalComponent>*/}
+      {content}
+    </S.Container>
+  );
 };
 
 export default KycButton;

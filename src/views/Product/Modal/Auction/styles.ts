@@ -30,7 +30,6 @@ export const Body = styled.div`
   width: 410px;
   @media screen and (max-width: 960px) {
     width: 100%;
-    height: 100vh;
     padding: 40px 0;
   }
 `;
@@ -196,6 +195,11 @@ export const ContainerTextDate = styled.div`
 `;
 
 export const CustomTimePicker = styled(TimePicker)`
+  & .rc-time-picker-panel-select {
+    overflow-y: auto;
+    overflow-x: clip;
+    scrollbar-width: none;
+  }
   & {
     .rc-time-picker-input {
       border: none;
@@ -207,5 +211,6 @@ export const CustomTimePicker = styled(TimePicker)`
       }
     }
   }
+
   margin-top: 20px;
 `;

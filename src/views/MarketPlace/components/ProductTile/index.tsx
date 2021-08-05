@@ -35,6 +35,13 @@ const ProductTile = ({
       : sku.nftPublicAssets[0].url
     : sku.graphicUrl;
 
+  const singleProductListingExist =
+    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
+  const isActiveAuction =
+    singleProductListingExist &&
+    sku?.activeProductListings[0]?.saleType === 'auction' &&
+    sku?.activeProductListings[0]?.status === 'active';
+
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
       status = 'upcoming-product-time';
@@ -45,7 +52,6 @@ const ProductTile = ({
     } else if (product?.activeProductListings.length !== 0) {
       status = 'active-listing';
 
-      console.log(product?.minPrice === 0);
       if (
         product?.activeProductListings[0]?.saleType === 'auction' &&
         product.minPrice === 0
@@ -81,6 +87,8 @@ const ProductTile = ({
       unique={sku.maxSupply === 1}
       handleRedirect={handleRedirect}
       supplyType={sku.supplyType}
+      isActiveAuction={isActiveAuction}
+      singleProductListingExist={singleProductListingExist}
     />
   );
 };

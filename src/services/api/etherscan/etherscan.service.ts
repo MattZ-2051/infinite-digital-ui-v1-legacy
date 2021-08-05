@@ -16,8 +16,24 @@ const apiUrl: {
   [Networks.MainNet]: 'https://api.etherscan.io/api',
   [Networks.Ropsten]: 'https://api-ropsten.etherscan.io/api',
 };
-class EtherscanService {
+
+const frontBaseUrl: {
+  [key: number]: string;
+} = {
+  [Networks.MainNet]: 'https://etherscan.io/',
+  [Networks.Ropsten]: 'https://ropsten.etherscan.io/',
+};
+
+export class EtherscanService {
   private apiKey = config.blockchain.apiKey;
+
+  public static formatWalletAddress(address) {
+    return `${frontBaseUrl[CHAIN_ID]}address/${address}`;
+  }
+
+  public static formatTxAddress(address) {
+    return `${frontBaseUrl[CHAIN_ID]}tx/${address}`;
+  }
 
   public async getCurrentBlock(): Promise<{ result: string }> {
     const res = await axios.get<{ result: string }>(

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useState, useRef } from 'react';
 import * as S from './styles';
 import { FileAsset } from 'entities/fileAsset';
 import { withStyles } from '@material-ui/core/styles';

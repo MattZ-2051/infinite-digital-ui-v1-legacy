@@ -15,6 +15,9 @@ export const Container = styled.section`
   @media screen and (max-width: 1024px) {
     height: 100%;
   }
+  @media screen and (min-height: 1920px) {
+    min-height: ${() => screen.height - 1500}px;
+  }
 `;
 
 export const ViewAll = styled(Link)`

@@ -18,9 +18,8 @@ export const Container = styled.div`
     color: white;
   }
   @media screen and (max-width: 400px) {
-    display: grid;
-    column-gap: 8px;
-    grid-template-columns: min-content 1fr;
+    display: flex;
+    justify-content: space-between;
     &.with-link {
       grid-template-columns: min-content 1fr 24px;
     }
@@ -72,7 +71,8 @@ export const AuctionToolTip = styled(SvgToolTip)`
   position: absolute;
   bottom: 30px;
   color: black;
-  right: -3.5em;
+  left: -4.5em;
+
   width: 160px;
   :hover {
     cursor: pointer;
@@ -92,10 +92,12 @@ export const AuctionToolTipText = styled.span`
   position: absolute;
   bottom: 3em;
   color: black;
+  font-weight: 500;
   width: 175px;
   overflow: hidden;
   font-size: 14px;
   left: -5.5em;
+  text-decoration: underline;
   text-align: center;
   :hover {
     text-decoration: underline;
@@ -187,6 +189,7 @@ export const TransactionInfo = styled.div<{ padding?: string }>`
   padding: ${(props) => props.padding && `${props.padding}`};
   @media screen and (max-width: 400px) {
     padding-left: 4px;
+    justify-content: flex-start;
   }
 `;
 
@@ -234,10 +237,11 @@ export const FlexDiv = styled.div<{ width?: string }>`
   }
 `;
 
-export const FlexColumn = styled.div`
+export const FlexColumn = styled.div<{ alignItems?: string }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: ${(props) =>
+    props.alignItems ? `${props.alignItems}` : `flex-end`};
 `;
 
 export const Text = styled.span`

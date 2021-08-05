@@ -24,9 +24,9 @@ const LatestTransactions = ({
       ) : (
         <>
           <S.ProductsGrid>
-            {transactions.data.map((tx, index) => {
-              return <Transaction tx={tx} key={index} />;
-            })}
+            {transactions.data.map((tx) => (
+              <Transaction tx={tx} key={tx._id} />
+            ))}
           </S.ProductsGrid>
           <S.PaginationContainer>
             <Pagination

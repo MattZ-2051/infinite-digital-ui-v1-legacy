@@ -20,6 +20,7 @@ export interface Sku {
   maxEndDate?: Date;
   minSkuPrice: number;
   maxBid: number; // The cheapest price a sku can be sold
+  minBid?: number;
   minPrice: number;
   minCurrentBid: number;
   minHighestBid?: number;
@@ -38,7 +39,7 @@ export interface Sku {
   expiredSkuListings?: Listing[];
   upcomingSkuListings?: Listing[];
   upcomingProductListings?: Listing[];
-  activeProductListings?: Listing[];
+  activeProductListings: Listing[];
   soldSkuListings?: Listing[];
   activeSkuListings?: any;
   nftPrivateAssets?: FileAsset[];
@@ -59,6 +60,9 @@ export interface Sku {
   resaleSellersFeePercentage: number;
   sellerTransactionFeePercentage: number;
   sellerTransactionFeePercentageSecondary: number;
+  digitalProductId?: string;
+  serialNumber?: string;
+  physicalProduct: PhysicalProduct;
 }
 
 interface Category {
@@ -68,6 +72,12 @@ interface Category {
   updatedAt?: Date;
 }
 
+export interface PhysicalProduct {
+  image: string;
+  name: string;
+  skuId: string;
+  _id: string;
+}
 export interface SkuWithTotal {
   data: Sku[];
   total: number;
