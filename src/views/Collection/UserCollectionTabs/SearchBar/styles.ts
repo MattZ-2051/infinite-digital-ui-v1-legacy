@@ -25,12 +25,13 @@ export const InputDiv = styled.div`
   }
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ theme: 'dark' | 'light' }>`
   border: none;
   outline: none;
   text-indent: 15px;
   height: 40px;
-  background-color: white;
+  background-color: initial;
+  color: ${(props) => (props.theme == 'light' ? 'black' : 'white')};
   width: inherit;
   margin-left: 7px;
 `;

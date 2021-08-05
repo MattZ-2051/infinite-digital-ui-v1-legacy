@@ -5,9 +5,10 @@ import * as S from './styles';
 export interface IProps {
   handleSearch: (searchCriteria: string) => void;
   mobileView: boolean;
+  themeStyle: 'light' | 'dark';
 }
 
-export const SearchBar = ({ handleSearch, mobileView }: IProps) => {
+export const SearchBar = ({ handleSearch, mobileView, themeStyle }: IProps) => {
   const activeFilterSearch = '';
   const [searchValue, setSearchValue] = useState(activeFilterSearch);
   const [searchMobile, setSearchMobile] = useState<string>('');
@@ -60,6 +61,7 @@ export const SearchBar = ({ handleSearch, mobileView }: IProps) => {
               value={searchValue}
               type="text"
               placeholder="*Select a product to view more details"
+              theme={themeStyle}
             />
           </>
         )}
