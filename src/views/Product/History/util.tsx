@@ -209,16 +209,10 @@ export class Util {
       this.product?.expiredProductListings.length !== 0 &&
       this.product?.expiredProductListings[
         this.product?.expiredProductListings.length - 1
-      ]?.auctionProcess !== 'closed' &&
+      ]?.auctionProcess === 'unset' &&
       this.product?.expiredProductListings[
         this.product?.expiredProductListings.length - 1
-      ]?.auctionProcess !== 'error' &&
-      new Date(
-        this.product?.expiredProductListings[
-          this.product?.expiredProductListings.length - 1
-        ]?.endDate
-      ).getTime() < new Date().getTime() &&
-      this.bids.length > 0
+      ]?.saleType === 'auction'
     );
   };
 
