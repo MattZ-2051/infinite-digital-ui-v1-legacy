@@ -12,6 +12,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ActionInfo from './actionInfo';
 import { useTheme } from '@material-ui/core/styles';
 import * as S from './styles';
+import {EtherscanService} from "../../../services/api/etherscan/etherscan.service";
 
 interface IProps {
   tx: ITransaction;
@@ -227,9 +228,11 @@ const WithdrawalUSDCInfo = ({ tx }: { tx: ITransaction }) => (
         {tx.status === 'error' ? 'You tried to withdraw' : 'You withdrew'} USDC
         to wallet
       </span>&nbsp;
-      <span style={{ fontWeight: 800, color: 'black' }}>
-        {tx.transactionData.withdraw?.usdcAddress}
-      </span>
+      <a href={EtherscanService.formatWalletAddress(tx.transactionData.withdraw?.usdcAddress)}>
+        <span style={{ fontWeight: 800, color: 'black' }}>
+          {tx.transactionData.withdraw?.usdcAddress}
+        </span>
+      </a>
     </span>
     <S.Bold style={{ color: tx.status === 'error' ? '#DA1010' : undefined }}>
       {tx.status === 'error'
@@ -396,14 +399,31 @@ const Transaction = ({ tx }: IProps) => {
             Boolean(tx.transactionData?.deposit?.hederaTransactionLink) && (
               <>
                 <br/>
-                Hedera transaction ID: <a
+                Hedera transaction ID:&nbsp;
+                <a
                   href={tx.transactionData.deposit?.hederaTransactionLink}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
-                </a><br/>
+                </a>
+                <br/>
                 Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
+              </>
+            )
+          }
+          {
+            Boolean(tx.transactionData?.withdraw?.transactionHash) && (
+              <>
+                <br/>
+                Ethereum transaction ID:&nbsp;
+                <a
+                  href={EtherscanService.formatTxAddress(tx.transactionData?.withdraw?.transactionHash)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <S.TxId>{tx.transactionData?.withdraw?.transactionHash}</S.TxId>
+                </a>
               </>
             )
           }

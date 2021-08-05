@@ -3,16 +3,14 @@ import { USDCAddress } from 'entities/usdcAddress';
 import React, { useState } from 'react';
 import { generateUSDCAddress } from 'services/api/userService';
 import etherscanService, {
+  EtherscanService,
   usdcAddress,
-  CHAIN_ID,
 } from 'services/api/etherscan/etherscan.service';
-import { S as StylesFromCreditCard } from '../AddCC/styles';
 import { ActionButton } from '../styles';
 import { PulseLoader } from 'react-spinners';
 import copy from 'copy-to-clipboard';
 import * as S from './styles';
 import usdcIcon from 'assets/img/icons/usdc-icon.png';
-import { StyledPagination } from 'views/Product/History/styles';
 
 interface IUSDCDepositProps {
   existingCard?: boolean;
@@ -150,13 +148,13 @@ export const USDCDeposit = ({
           {txLink && (
             <>
               <p>Success!</p>
-              {CHAIN_ID == 3 ? (
-                <a href={'https://ropsten.etherscan.io/tx/' + txLink}>
-                  {txLink}
-                </a>
-              ) : (
-                <a href={'https://etherscan.io/tx/' + txLink}>{txLink}</a>
-              )}
+              <a
+                href={EtherscanService.formatTxAddress(txLink)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {txLink}
+              </a>
               <p>
                 Your deposit has been received. It will take a moment for it to
                 show up in your transaction history.
