@@ -428,7 +428,7 @@ const GiveawayBox = ({
             {giveawayState === 'upcoming' && (
               <>
                 <S.BoxTitle>NFT Giveaway</S.BoxTitle>
-                <S.BoxSubtitle>
+                <S.BoxSubtitle style={{ textAlign: 'left' }}>
                   Starts {startDate && formatDate(startDate)}
                 </S.BoxSubtitle>
               </>
@@ -535,13 +535,13 @@ const SkuButtonBlock = ({
   }
 
   if (upcomingSkuListings[0]?.saleType === 'giveaway') {
-    const { status, startDate, endDate, supplyLeft } = upcomingSkuListings[0];
+    const { status, startDate, endDate, supply } = upcomingSkuListings[0];
     return (
       <GiveawayBox
         giveawayState={status}
         startDate={startDate}
         endDate={endDate}
-        supply={supplyLeft}
+        supply={supply}
         isOpenEdition={sku.supplyType === 'variable'}
         listing={upcomingSkuListings[0]}
         issuer={sku.issuer}
