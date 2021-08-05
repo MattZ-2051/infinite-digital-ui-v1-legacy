@@ -3,10 +3,11 @@ import { Props } from '../index';
 import { formatDate } from 'utils/dates';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as S from '../styles';
-import { useMedia } from 'react-use';
+import { ITransaction } from 'entities/transaction';
 
 interface AuctionTxProps extends Props {
   setShowBidModal: (a: boolean) => void;
+  transaction?: ITransaction;
 }
 
 const AuctionTx = ({ transaction, setShowBidModal }: AuctionTxProps) => {
