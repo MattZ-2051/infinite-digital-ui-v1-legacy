@@ -235,14 +235,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  {/* <S.TabSeparator /> */}
-                  {/* <S.Tab
+                  <S.TabSeparator />
+                  <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab> */}
+                  </S.Tab>
                 </S.TabBar>
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && !mobileSearchBar && (
@@ -326,14 +326,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     {'NFTs'}
                   </S.Tab>
-                  {/* <S.TabSeparator /> */}
-                  {/* <S.Tab
+                  <S.TabSeparator />
+                  <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab> */}
+                  </S.Tab>
                 </S.TabBar>
 
                 <S.SearchAndSortContainer>
