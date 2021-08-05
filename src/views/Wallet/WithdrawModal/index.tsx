@@ -17,7 +17,6 @@ const WithdrawModal = ({
   handleClose,
 }: IWithdrawModal): JSX.Element => {
   const [valueIsAdding, setIsAdding] = useState<boolean>(false);
-  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   const [status, setStatus] = useState(0);
   const onClose = () => {
     setStatus(0);
@@ -33,7 +32,7 @@ const WithdrawModal = ({
         setIsAdding={setIsAdding}
       />
     ),
-    2: <WithdrawUSCD setStatus={setStatus} handleClose={onClose} />,
+    2: <WithdrawUSCD goBack={() => setStatus(0)} handleClose={onClose} />,
   }[status];
 
   return (

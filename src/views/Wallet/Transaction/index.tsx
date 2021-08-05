@@ -196,7 +196,7 @@ const PurchaseBox = ({ tx }: { tx: ITransaction }) => (
   </S.Color>
 );
 
-const WithdrawalInfo = ({ tx }: { tx: ITransaction }) => (
+const WithdrawalAchInfo = ({ tx }: { tx: ITransaction }) => (
   <>
     <S.Icon src={withdrawIcon} />
     <span>
@@ -215,6 +215,28 @@ const WithdrawalInfo = ({ tx }: { tx: ITransaction }) => (
         : tx.status === 'pending'
         ? '(Pending)'
         : ''}
+    </S.Bold>
+  </>
+);
+
+const WithdrawalUSDCInfo = ({ tx }: { tx: ITransaction }) => (
+  <>
+    <S.Icon src={withdrawIcon} />
+    <span>
+      <span>
+        {tx.status === 'error' ? 'You tried to withdraw' : 'You withdrew'} USDC
+        to wallet
+      </span>
+      <span style={{ fontWeight: 800, color: 'black' }}>
+        {tx.transactionData.withdraw?.usdcAddress}
+      </span>
+    </span>
+    <S.Bold style={{ color: tx.status === 'error' ? '#DA1010' : undefined }}>
+      {tx.status === 'error'
+        ? '(Transaction Failed)'
+        : tx.status === 'pending'
+          ? '(Pending)'
+          : ''}
     </S.Bold>
   </>
 );
@@ -313,7 +335,8 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && <PurchaseInfo tx={tx} />}
         {tx.type === 'sale' && <SaleInfo tx={tx} />}
         {tx.type === 'royalty_fee' && <RoyaltyInfo tx={tx} />}
-        {tx.type === 'withdrawal' && <WithdrawalInfo tx={tx} />}
+        {tx.type === 'withdrawal' && tx.transactionData?.withdraw?.type === 'cc' && <WithdrawalAchInfo tx={tx} />}
+        {tx.type === 'withdrawal' && tx.transactionData?.withdraw?.type === 'usdc' && <WithdrawalUSDCInfo tx={tx} />}
         {tx.type === 'claim' && (
           <ActionInfo tx={tx} text="You claimed" icon={claimedIcon} />
         )}

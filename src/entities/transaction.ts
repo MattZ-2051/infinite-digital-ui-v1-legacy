@@ -39,6 +39,10 @@ interface Product {
   _id: string;
 }
 
+export type WithdrawTypeEnum =
+  | 'usdc'
+  | 'cc';
+
 export interface TransactionData {
   product: any;
   sku: Sku;
@@ -75,10 +79,14 @@ export interface TransactionData {
     transactionHash: string | undefined;
   };
   withdraw?: {
+    type: WithdrawTypeEnum,
     amount: string;
-    institution_id: string;
-    institution_name: string;
-    ach_number: string;
+    payout: string;
+    transactionHash?: string;
+    usdcAddress?: string;
+    institution_id?: string;
+    institution_name?: string;
+    ach_number?: string;
   };
 }
 
