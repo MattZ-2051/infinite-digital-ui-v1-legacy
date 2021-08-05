@@ -38,7 +38,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [userItems, setUserItems] = useState<
     ProductWithFunctions[] | undefined
   >();
-  const showFullSearchBar = useMediaQuery('(max-width:960px)', { noSsr: true });
+  const mobileSearchBar = useMediaQuery('(max-width:960px)', { noSsr: true });
 
   const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
   const [userClaims, setUserClaims] = useState<{
@@ -86,7 +86,6 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   };
 
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
-  const queryParams = '?sortBy=startDate:1';
 
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(
@@ -95,7 +94,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       page,
       perPage,
       undefined,
-      undefined,
+      sortByItems,
       searchCriteria
     );
 
@@ -246,10 +245,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   </S.Tab> */}
                 </S.TabBar>
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
@@ -271,6 +270,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
 
@@ -330,10 +336,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 </S.TabBar>
 
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
@@ -361,6 +367,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
             {selectedTab === 'releases' && (
@@ -419,10 +432,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   </S.Tab>
                 </S.TabBar>
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
@@ -444,7 +457,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
-
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine />
             </div>
             {selectedTab === 'releases' && (
@@ -488,10 +507,10 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 </S.TabBar>
                 <S.TabSeparator />
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
@@ -513,7 +532,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
-
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
             {selectedTab === 'items' && (
