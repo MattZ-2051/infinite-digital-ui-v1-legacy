@@ -39,6 +39,7 @@ const Transaction = ({ transaction, bid }: Props) => {
   const isNftMintTx = transaction?.type === 'nft_mint';
   const isNftTransferManualTx = transaction?.type === 'nft_transfer_manual';
   const isGiveawayTx = transaction?.type === 'nft_claim_giveaway';
+  const winningAmt = transaction?.transactionData?.cost?.totalCost;
 
   const handleRedirectToCollections = () => {
     if (transaction) {
@@ -191,6 +192,7 @@ const Transaction = ({ transaction, bid }: Props) => {
             endDate={transaction?.transactionData.endDate}
             serialNumber={transaction?.transactionData?.product?.serialNumber}
             sku={transaction?.transactionData?.sku}
+            winningAmt={winningAmt}
           />
         )}
       </>

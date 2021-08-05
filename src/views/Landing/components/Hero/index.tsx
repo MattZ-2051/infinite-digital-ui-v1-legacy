@@ -56,8 +56,14 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
             </S.Subtitle>
           </div>
           <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
-            Auction ends Thursday, Aug 5th, {matchesMobile && <br />}
-            12:00 PM (ET)
+            Auction ended. Congrats to the winner{' '}
+            {matchesMobile ? <br /> : '- '}
+            <p
+              style={{ margin: 0 }}
+              onClick={() => history.push('/product/60f9981d66f64e3a01c860e7')}
+            >
+              @nerooweb
+            </p>
           </S.Subtitle>
 
           {!matchesMobile ? (

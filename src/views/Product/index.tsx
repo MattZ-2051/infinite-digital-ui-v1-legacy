@@ -24,7 +24,7 @@ const Product = ({}) => {
   >(null);
   const [totalTransactions, setTotalTransactions] = useState<number>(1);
   const [historyPage, setHistoryPage] = useState<number>(1);
-  const perPage = 3;
+  const perPage = 5;
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useAppDispatch();
 

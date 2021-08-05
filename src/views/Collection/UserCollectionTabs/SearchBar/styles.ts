@@ -1,18 +1,6 @@
 import styled from 'styled-components';
+import ClearIcon from '@material-ui/icons/Clear';
 
-export const InputMobile = styled.input`
-  position: absolute;
-  top: 37px;
-  right: 40px;
-  border: solid 1px;
-  border-radius: 15px;
-  color: grey;
-  width: 200px;
-  text-indent: 15px;
-  height: 40px;
-  background-color: white;
-  margin-left: 7px;
-`;
 export const InputDiv = styled.div`
   padding-bottom: 2px;
   height: 30px;
@@ -21,17 +9,39 @@ export const InputDiv = styled.div`
   align-items: center;
   @media screen and (min-width: 960px) {
     margin-right: 32px;
-    width: 269px;
+    width: 280px;
+  }
+  @media screen and (max-width: 960px) {
+    height: 40px;
+    width: 100%;
+    background-color: #efefef;
+    border-radius: 30px;
   }
 `;
 
 export const Input = styled.input<{ theme: 'dark' | 'light' }>`
   border: none;
   outline: none;
-  text-indent: 15px;
   height: 40px;
+  text-indent: 15px;
   background-color: initial;
   color: ${(props) => (props.theme == 'light' ? 'black' : 'white')};
   width: inherit;
   margin-left: 7px;
+  @media screen and (max-width: 960px) {
+    height: 20px;
+    background-color: #efefef;
+    color: black;
+    border-radius: 30px;
+  }
+`;
+
+export const Clear = styled(ClearIcon)`
+  width: 20px;
+  margin-right: 20px;
+  color: #9da1a8;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
