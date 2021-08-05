@@ -7,6 +7,7 @@ import * as S from './styles';
 export interface ImageGalleryProps {
   nftPublicAsset: FileAsset[];
   height?: string;
+  width?: string;
 }
 
 const VideoView = ({ src }: { src: string }) => {
@@ -100,7 +101,7 @@ const MediaView = ({
   return <ImageView src={InfiniteLogo} />;
 };
 
-const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
+const ImageGallery = ({ nftPublicAsset, height, width }: ImageGalleryProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleImageChange = (imageNumber: number) => {
@@ -125,7 +126,7 @@ const ImageGallery = ({ nftPublicAsset, height }: ImageGalleryProps) => {
   }, []);
 
   return (
-    <S.Container height={height}>
+    <S.Container height={height} width={width}>
       <S.ImageContainer>
         <MediaView assets={nftPublicAsset} assetIndex={selectedImage} />
       </S.ImageContainer>

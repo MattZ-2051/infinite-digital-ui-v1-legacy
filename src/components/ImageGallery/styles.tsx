@@ -1,13 +1,13 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div<{ height?: string }>`
+export const Container = styled.div<{ height?: string; width?: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #fffff;
   height: ${(props) => (props.height ? `${props.height};` : `100%`)};
-  width: 100%;
+  width: ${(props) => (props.width ? `${props.width};` : `100%`)};
   max-width: 700px;
   max-height: 700px;
   overflow: hidden;

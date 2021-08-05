@@ -38,7 +38,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [userItems, setUserItems] = useState<
     ProductWithFunctions[] | undefined
   >();
-  const showFullSearchBar = useMediaQuery('(max-width:960px)', { noSsr: true });
+  const mobileSearchBar = useMediaQuery('(max-width:960px)', { noSsr: true });
 
   const [userReleases, setUserReleases] = useState<Sku[] | undefined>();
   const [userClaims, setUserClaims] = useState<{
@@ -86,7 +86,6 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   };
 
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
-  const queryParams = '?sortBy=startDate:1';
 
   async function fetchData() {
     const itemsRes = await getProductsOwnedByUser(
@@ -95,7 +94,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
       page,
       perPage,
       undefined,
-      undefined,
+      sortByItems,
       searchCriteria
     );
 
@@ -246,20 +245,21 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   </S.Tab> */}
                 </S.TabBar>
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
@@ -271,6 +271,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
 
@@ -330,22 +337,23 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 </S.TabBar>
 
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
                         : selectedTab === 'items'
                         ? setSortByItems(value)
-                        : setSortByReleases(value)
-                    }
+                        : setSortByReleases(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims'
                         ? sortByClaims
@@ -361,6 +369,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
             {selectedTab === 'releases' && (
@@ -419,20 +434,21 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   </S.Tab>
                 </S.TabBar>
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
@@ -444,7 +460,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
-
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine />
             </div>
             {selectedTab === 'releases' && (
@@ -488,20 +510,21 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 </S.TabBar>
                 <S.TabSeparator />
                 <S.SearchAndSortContainer>
-                  {selectedTab === 'items' && (
+                  {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
                       handleSearch={handleSearch}
-                      mobileView={showFullSearchBar}
+                      mobileView={mobileSearchBar}
                       themeStyle={backgroundTheme}
                     />
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
@@ -513,7 +536,13 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   />
                 </S.SearchAndSortContainer>
               </div>
-
+              {selectedTab === 'items' && mobileSearchBar && (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  mobileView={mobileSearchBar}
+                  themeStyle={backgroundTheme}
+                />
+              )}
               <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
             </div>
             {selectedTab === 'items' && (

@@ -52,8 +52,12 @@ const ProductDetails = ({
   };
 
   return (
-    <S.Container>
-      <ImageGallery nftPublicAsset={sku?.nftPublicAssets} height="50%" />
+    <S.Container style={{ height: 'auto' }}>
+      <ImageGallery
+        nftPublicAsset={sku?.nftPublicAssets}
+        width="479px"
+        height="473px"
+      />
       <S.Body>
         <S.Flex justifyContent="space-between" alignItems="center">
           <S.Issuer>{sku?.issuerName}</S.Issuer>
