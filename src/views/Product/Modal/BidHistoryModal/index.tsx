@@ -60,7 +60,7 @@ const BidHistoryModal = ({
           textAlign="center"
         >
           {' '}
-          Won with ${winningAmt}
+          Won with ${winningAmt?.toFixed(2)}
         </S.Text>
       </S.FlexDiv>
     );
