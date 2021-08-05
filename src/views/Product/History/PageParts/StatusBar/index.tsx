@@ -194,14 +194,11 @@ export const StatusBar = ({
         statusBarWarningMessages.processingAuctionWarning
       );
     }
-    console.log('there', isUpcomingAuction);
     if (isUpcomingAuction) {
-      console.log('here');
       setAuctionStatus(util.getAuctionStatus());
     }
   }, []);
 
-  console.log('auctionstatus', auctionStatus);
   return (
     <>
       {isPastAuction && expiredListing && highestCurrentBid && (
