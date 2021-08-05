@@ -87,6 +87,11 @@ const Collection = (): JSX.Element => {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     fetchUser();
