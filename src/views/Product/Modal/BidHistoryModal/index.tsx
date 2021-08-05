@@ -17,6 +17,7 @@ interface IModalProps {
   endDate: Date;
   serialNumber: string;
   sku: Sku;
+  winningAmt?: number;
 }
 
 const perPage = 5;
@@ -28,6 +29,7 @@ const BidHistoryModal = ({
   endDate,
   sku,
   serialNumber,
+  winningAmt,
 }: IModalProps) => {
   const [bids, setBids] = useState<Bid[]>([]);
   const [totalBids, setTotalBids] = useState<number>(0);
@@ -58,7 +60,7 @@ const BidHistoryModal = ({
           textAlign="center"
         >
           {' '}
-          Won with ${bidAmt}
+          Won with ${winningAmt}
         </S.Text>
       </S.FlexDiv>
     );
