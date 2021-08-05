@@ -22,7 +22,7 @@ import withdrawIconBlack from 'assets/svg/icons/withdraw-funds-black.svg';
 import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndImage';
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
 import TabHeaderOptions from './Components/TabHeaderOptions/tabHeaderOptions';
-import {useKycClient} from "../../hooks/useKycClient";
+import { useKycClient } from '../../hooks/useKycClient';
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);

@@ -71,7 +71,11 @@ const ProductDetails = ({
           {sku?.supplyType === 'fixed' && (
             <S.SkuInfo color="#7c7c7c">
               <S.ItemCountContainer>
-                {`${serialNumber} of ${totalSupply}`}
+                {serialNumber
+                  ? `${serialNumber} of ${totalSupply}`
+                  : `Limited to ${totalSupply} edition${
+                      totalSupply > 1 && 's'
+                    }.`}
               </S.ItemCountContainer>
             </S.SkuInfo>
           )}

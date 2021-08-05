@@ -368,13 +368,6 @@ const GiveawayBox = ({
 
   const handleGiveawayClaim = async () => {
     setMinting(true);
-    Toast.success(
-      <>
-        Wohoo we are minting your NFT! This page will refresh and visit your
-        collection when the NFT is ready
-      </>,
-      'processing'
-    );
     try {
       const claimRes = await claimGiveaway(
         await getAccessTokenSilently(),
@@ -392,21 +385,12 @@ const GiveawayBox = ({
           setMinting(false);
           history.push(`/product/${claimRes.data._id}`);
         }, 5000);
-      } else {
-        setMinting(false);
-        Toast.dismiss('processing');
-        Toast.error(
-          <>
-            Please try again, see the <a href="/help">Help page</a> to learn
-            more.
-          </>
-        );
       }
     } catch (error) {
       setMinting(false);
       if (error?.response?.status === 400) {
         Toast.dismiss('processing');
-        Toast.error(<>{error.response.message}</>);
+        Toast.error(<>{error.response.data.message}</>);
       } else {
         Toast.dismiss('processing');
         Toast.error(

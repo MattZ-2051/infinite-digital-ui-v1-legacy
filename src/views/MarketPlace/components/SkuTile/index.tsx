@@ -49,9 +49,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     sku?.activeProductListings[0]?.saleType === 'auction' &&
     sku?.activeProductListings[0]?.status === 'active';
   const price =
-    isActiveAuction && singleProductListingExist
-      ? sku?.activeProductListings[0].minBid
-      : minPrice;
+    isActiveAuction && singleProductListingExist ? sku?.maxBid : minPrice;
   const checkStatus = () => {
     if (productListings?.length === 0 && skuListings.length === 0) {
       status = 'upcoming-sku';

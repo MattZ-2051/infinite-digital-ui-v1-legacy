@@ -12,7 +12,10 @@ import PageLoader from 'components/PageLoader';
 import { ITransaction } from 'entities/transaction';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
-import { getUserInfoThunk } from 'store/session/sessionThunks';
+import {
+  getUserInfoThunk,
+  getUserCardsThunk,
+} from 'store/session/sessionThunks';
 const Product = ({}) => {
   const [product, setProduct] = useState<ProductType | null>(null);
   const { productId } = useParams<{ productId: string }>();
@@ -43,12 +46,13 @@ const Product = ({}) => {
   async function updateUserBalance() {
     if (isAuthenticated) {
       dispatch(getUserInfoThunk({ token: await getAccessTokenSilently() }));
+      dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
     }
   }
 
   useEffect(() => {
     updateUserBalance();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     fetchData();

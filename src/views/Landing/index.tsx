@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 // Local
 import {
+  getUserInfoThunk,
   getUserCollectionThunk,
   getUserCardsThunk,
-  getUserInfoThunk,
 } from 'store/session/sessionThunks';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getFeaturesThunk } from 'store/landing/landingThunks';
@@ -31,6 +31,7 @@ const Landing = () => {
     const fetchData = async () => {
       if (user) {
         const userToken = await getAccessTokenSilently();
+        dispatch(getUserInfoThunk({ token: userToken }));
         if (loggedInUser) {
           dispatch(
             getUserCollectionThunk({ token: '', id: loggedInUser['id'] })
