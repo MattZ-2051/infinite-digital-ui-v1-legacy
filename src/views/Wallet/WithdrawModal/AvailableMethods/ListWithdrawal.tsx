@@ -19,7 +19,6 @@ const ListWithdrawal = ({ setStatus }: IProps) => {
     {
       title: 'USDC',
       src: UsdcIcon,
-      subtext: 'Account verification in required.',
       action: () => setStatus(2),
     },
   ];

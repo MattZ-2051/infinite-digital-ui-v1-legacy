@@ -9,11 +9,11 @@ import UsdcIcon from 'assets/img/icons/usdc-icon.png';
 import * as S from '../styles';
 
 interface IProps {
-  setStatus: (value: number) => void;
+  goBack: () => void;
   handleClose: () => void;
 }
 
-const WithdrawUSCD = ({ setStatus, handleClose }: IProps) => {
+const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
   const [valueAmount, setAmount] = useState<string>('');
   const [valueAddress, setValueAddress] = useState<string>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -175,7 +175,7 @@ const WithdrawUSCD = ({ setStatus, handleClose }: IProps) => {
         >
           Submit Withdrawal Request
         </S.Button>
-        <S.SubButton type="button" onClick={() => setStatus(0)}>
+        <S.SubButton type="button" onClick={goBack}>
           Go Back
         </S.SubButton>
       </S.DepositFormContainer>
