@@ -376,10 +376,7 @@ const GiveawayBox = ({
       if (claimRes.status === 201) {
         Toast.dismiss('processing');
         Toast.success(
-          <>
-            Your NFT is minted! You&apos;ll be taken to your collection to view
-            the NFT
-          </>
+          <>Your NFT is minted! You&apos;ll be taken to view the NFT</>
         );
         setTimeout(() => {
           setMinting(false);
