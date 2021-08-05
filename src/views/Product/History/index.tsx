@@ -38,6 +38,7 @@ const History = ({
   //Hooks
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
+  const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [selectedTab, setSelectedTab] = useState<tabSelect>('history');
   const history = useHistory();
   const [statusMode, setStatusMode] = useState<Modes>('hasFunds');
@@ -62,7 +63,7 @@ const History = ({
   );
 
   //Constants
-  const perPage = 3;
+  const perPage = 5;
   const listingId =
     product?.activeProductListings?.length === 0
       ? product.upcomingProductListings[0]?._id
@@ -164,43 +165,45 @@ const History = ({
           setAuctionStatus={setAuctionStatus}
         />
 
-        <PP.TabBar
-          util={util}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          themeStyle={themeStyle}
-          auctionStatus={auctionStatus}
-        />
-
-        {selectedTab === 'history' && (
-          <PP.TransactionHistory
+        <div style={{ height: matchesMobile ? '' : '75vh' }}>
+          <PP.TabBar
+            util={util}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
             themeStyle={themeStyle}
-            historyPage={historyPage}
-            totalTransactions={totalTransactions}
-            handlers={handlers}
-            util={util}
-          />
-        )}
-        {selectedTab === 'auction' && (
-          <PP.Auction
-            util={util}
-            handlers={handlers}
             auctionStatus={auctionStatus}
-            themeStyle={themeStyle}
-            totalBids={totalBids}
           />
-        )}
 
-        {product && selectedTab === 'owner_access' && (
-          <>
-            <OwnerAccess
-              productId={product._id}
-              skuId={product.sku._id}
+          {selectedTab === 'history' && (
+            <PP.TransactionHistory
               themeStyle={themeStyle}
-              owner={loggedInUser && loggedInUser.id === product.owner?._id}
+              historyPage={historyPage}
+              totalTransactions={totalTransactions}
+              handlers={handlers}
+              util={util}
             />
-          </>
-        )}
+          )}
+          {selectedTab === 'auction' && (
+            <PP.Auction
+              util={util}
+              handlers={handlers}
+              auctionStatus={auctionStatus}
+              themeStyle={themeStyle}
+              totalBids={totalBids}
+            />
+          )}
+
+          {product && selectedTab === 'owner_access' && (
+            <>
+              <OwnerAccess
+                productId={product._id}
+                skuId={product.sku._id}
+                themeStyle={themeStyle}
+                owner={loggedInUser && loggedInUser.id === product.owner?._id}
+              />
+            </>
+          )}
+        </div>
       </S.Container>
       {product && historyStatus === 'buy-now' && (
         <BuyNowModal

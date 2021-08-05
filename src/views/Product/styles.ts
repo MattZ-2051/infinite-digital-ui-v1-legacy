@@ -17,7 +17,7 @@ export const Content = styled.div`
   display: grid;
   padding-left: 80px;
   grid-template-columns: 480px 1fr;
-  height: 100vh;
+  // height: 100vh;
 
   @media screen and (max-width: 1160px) {
     height: auto;
