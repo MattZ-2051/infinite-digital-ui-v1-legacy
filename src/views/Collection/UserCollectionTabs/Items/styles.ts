@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components/macro';
 
-export const Button = styled.button`
-  background-color: black;
-  color: white;
+export const Button = styled.button<{ theme: 'light' | 'dark' }>`
+  background-color: ${(props) => (props.theme == 'light' ? 'black' : 'white')};
+  color: ${(props) => (props.theme == 'light' ? 'white' : 'black')};
   border: 0;
   height: 56px;
   cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};

@@ -210,6 +210,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
     return width;
   };
+  const backgroundTheme = user.role === 'issuer' ? 'dark' : 'light';
 
   return (
     <S.ContainerForBigScreen
@@ -235,20 +236,21 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  <S.TabSeparator />
-                  <S.Tab
+                  {/* <S.TabSeparator /> */}
+                  {/* <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab>
+                  </S.Tab> */}
                 </S.TabBar>
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && (
                     <SearchBar
                       handleSearch={handleSearch}
                       mobileView={showFullSearchBar}
+                      themeStyle={backgroundTheme}
                     />
                   )}
 
@@ -274,7 +276,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
 
             {selectedTab === 'items' && (
               <Items
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
                 userItems={userItems}
                 collection={true}
                 isLoading={isLoadingPage}
@@ -317,14 +319,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     {'NFTs'}
                   </S.Tab>
-                  <S.TabSeparator />
-                  <S.Tab
+                  {/* <S.TabSeparator /> */}
+                  {/* <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab>
+                  </S.Tab> */}
                 </S.TabBar>
 
                 <S.SearchAndSortContainer>
@@ -332,6 +334,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     <SearchBar
                       handleSearch={handleSearch}
                       mobileView={showFullSearchBar}
+                      themeStyle={backgroundTheme}
                     />
                   )}
 
@@ -364,14 +367,16 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <Releases
                 userReleases={userReleases}
                 collection={true}
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
+                isUserCollection={true}
+                isSearchResult={searchCriteria != ''}
               />
             )}
             {selectedTab === 'items' && (
               <Items
                 userItems={userItems}
                 collection={true}
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
                 isLoading={isLoadingPage}
                 isUserCollection={true}
                 isSearchResult={searchCriteria != ''}
@@ -418,6 +423,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     <SearchBar
                       handleSearch={handleSearch}
                       mobileView={showFullSearchBar}
+                      themeStyle={backgroundTheme}
                     />
                   )}
 
@@ -445,14 +451,16 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <Releases
                 userReleases={userReleases}
                 collection={true}
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
+                isUserCollection={false}
+                isSearchResult={searchCriteria != ''}
               />
             )}
             {selectedTab === 'items' && (
               <Items
                 userItems={userItems}
                 collection={true}
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
                 isLoading={isLoadingPage}
                 isUserCollection={false}
                 isSearchResult={searchCriteria != ''}
@@ -484,6 +492,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     <SearchBar
                       handleSearch={handleSearch}
                       mobileView={showFullSearchBar}
+                      themeStyle={backgroundTheme}
                     />
                   )}
 
@@ -511,7 +520,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               <Items
                 userItems={userItems}
                 collection={true}
-                themeStyle={themeStyle}
+                themeStyle={backgroundTheme}
                 isLoading={isLoadingPage}
                 isUserCollection={false}
                 isSearchResult={searchCriteria != ''}

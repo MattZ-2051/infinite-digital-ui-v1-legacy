@@ -12,6 +12,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ActionInfo from './actionInfo';
 import { useTheme } from '@material-ui/core/styles';
 import * as S from './styles';
+import {EtherscanService} from "../../../services/api/etherscan/etherscan.service";
 
 interface IProps {
   tx: ITransaction;
@@ -196,7 +197,7 @@ const PurchaseBox = ({ tx }: { tx: ITransaction }) => (
   </S.Color>
 );
 
-const WithdrawalInfo = ({ tx }: { tx: ITransaction }) => (
+const WithdrawalAchInfo = ({ tx }: { tx: ITransaction }) => (
   <>
     <S.Icon src={withdrawIcon} />
     <span>
@@ -215,6 +216,34 @@ const WithdrawalInfo = ({ tx }: { tx: ITransaction }) => (
         : tx.status === 'pending'
         ? '(Pending)'
         : ''}
+    </S.Bold>
+  </>
+);
+
+const WithdrawalUSDCInfo = ({ tx }: { tx: ITransaction }) => (
+  <>
+    <S.Icon src={withdrawIcon} />
+    <span>
+      <span>
+        {tx.status === 'error' ? 'You tried to withdraw' : 'You withdrew'} USDC
+        to wallet
+      </span>&nbsp;
+      <a
+        href={EtherscanService.formatWalletAddress(tx.transactionData.withdraw?.usdcAddress)}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span style={{ fontWeight: 800, color: 'black' }}>
+          {tx.transactionData.withdraw?.usdcAddress}
+        </span>
+      </a>
+    </span>
+    <S.Bold style={{ color: tx.status === 'error' ? '#DA1010' : undefined }}>
+      {tx.status === 'error'
+        ? '(Transaction Failed)'
+        : tx.status === 'pending'
+          ? '(Pending)'
+          : ''}
     </S.Bold>
   </>
 );
@@ -313,7 +342,8 @@ const Transaction = ({ tx }: IProps) => {
         {tx.type === 'purchase' && <PurchaseInfo tx={tx} />}
         {tx.type === 'sale' && <SaleInfo tx={tx} />}
         {tx.type === 'royalty_fee' && <RoyaltyInfo tx={tx} />}
-        {tx.type === 'withdrawal' && <WithdrawalInfo tx={tx} />}
+        {tx.type === 'withdrawal' && tx.transactionData?.withdraw?.type === 'cc' && <WithdrawalAchInfo tx={tx} />}
+        {tx.type === 'withdrawal' && tx.transactionData?.withdraw?.type === 'usdc' && <WithdrawalUSDCInfo tx={tx} />}
         {tx.type === 'claim' && (
           <ActionInfo tx={tx} text="You claimed" icon={claimedIcon} />
         )}
@@ -373,14 +403,31 @@ const Transaction = ({ tx }: IProps) => {
             Boolean(tx.transactionData?.deposit?.hederaTransactionLink) && (
               <>
                 <br/>
-                Hedera transaction ID: <a
+                Hedera transaction ID:&nbsp;
+                <a
                   href={tx.transactionData.deposit?.hederaTransactionLink}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
-                </a><br/>
+                </a>
+                <br/>
                 Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
+              </>
+            )
+          }
+          {
+            Boolean(tx.transactionData?.withdraw?.transactionHash) && (
+              <>
+                <br/>
+                Ethereum transaction ID:&nbsp;
+                <a
+                  href={EtherscanService.formatTxAddress(tx.transactionData?.withdraw?.transactionHash)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <S.TxId>{tx.transactionData?.withdraw?.transactionHash}</S.TxId>
+                </a>
               </>
             )
           }
