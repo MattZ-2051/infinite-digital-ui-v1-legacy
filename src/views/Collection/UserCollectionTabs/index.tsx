@@ -254,11 +254,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
@@ -345,13 +346,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
                         : selectedTab === 'items'
                         ? setSortByItems(value)
-                        : setSortByReleases(value)
-                    }
+                        : setSortByReleases(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims'
                         ? sortByClaims
@@ -441,11 +443,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
@@ -516,11 +519,12 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   )}
 
                   <SortByFilter
-                    handleSort={(value) =>
+                    handleSort={(value) => {
+                      setIsLoadingPage(true);
                       selectedTab === 'claims'
                         ? setSortByClaims(value)
-                        : setSortByItems(value)
-                    }
+                        : setSortByItems(value);
+                    }}
                     activeSort={
                       selectedTab === 'claims' ? sortByClaims : sortByItems
                     }
