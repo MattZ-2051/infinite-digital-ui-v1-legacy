@@ -228,7 +228,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   alignItems: 'center',
                 }}
               >
-                <S.TabBar>
+                {/* <S.TabBar>
                   <S.Tab
                     themeStyle={themeStyle}
                     selected={selectedTab === 'items'}
@@ -245,7 +245,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     My Claims
                   </S.Tab>
-                </S.TabBar>
+                </S.TabBar> */}
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
@@ -293,7 +293,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 isSearchResult={searchCriteria != ''}
               />
             )}
-            {selectedTab === 'claims' && (
+            {/* {selectedTab === 'claims' && (
               <>
                 <Claims
                   userClaims={userClaims?.data}
@@ -305,7 +305,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   <HowItWorksCollapsible themeStyle={themeStyle} />
                 )}
               </>
-            )}
+            )} */}
           </>
         )}
         {userStatus === 'loggedInIssuer' && (
