@@ -515,19 +515,23 @@ const SkuButtonBlock = ({
       !productListing.canceled
   );
   const activeProductListing = sku.activeProductListings.map((listing) => {
-    let currentMinBid = 0;
-    let listingWithLowestBid = listing;
-    if (listing.minBid > currentMinBid) {
-      currentMinBid = listing?.minBid;
-      listingWithLowestBid = listing;
+    let currentMinPrice = 0;
+    let listingWithLowestPrice = listing;
+    if (listing.saleType === 'auction') {
+      if (listing.minBid < currentMinPrice) {
+        currentMinPrice = listing?.minBid;
+        listingWithLowestPrice = listing;
+      }
+    } else if (listing.saleType === 'fixed') {
+      if (listing.price < currentMinPrice) {
+        listingWithLowestPrice = listing;
+      }
     }
-
-    return listingWithLowestBid;
+    return listingWithLowestPrice;
   })[0];
-  const minPrice =
-    activeProductListing?.saleType === 'auction'
-      ? activeProductListing.minBid
-      : sku?.minPrice;
+  const minPrice = activeProductListing.minBid || activeProductListing.price;
+
+  console.log('activelisting', activeProductListing);
   /**
    * Giveaway sku Listing
    */
