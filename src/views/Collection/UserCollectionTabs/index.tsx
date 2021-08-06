@@ -228,7 +228,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   alignItems: 'center',
                 }}
               >
-                {/* <S.TabBar>
+                <S.TabBar>
                   <S.Tab
                     themeStyle={themeStyle}
                     selected={selectedTab === 'items'}
@@ -237,15 +237,15 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  <S.TabSeparator />
-                  <S.Tab
+                  {/* <S.TabSeparator /> */}
+                  {/* <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab>
-                </S.TabBar> */}
+                  </S.Tab> */}
+                </S.TabBar>
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && !mobileSearchBar && (
                     <SearchBar
