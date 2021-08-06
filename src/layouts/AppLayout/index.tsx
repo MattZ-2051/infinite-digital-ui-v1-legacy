@@ -50,11 +50,11 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
-      <PopUpModal
+      {/* <PopUpModal
         visible={popUpVisible}
         setPopUpVisible={setPopUpVisible}
         isCookieBannerOpen={cookieBannerVisible}
-      />
+      /> */}
       <ErrorBoundary>
         <MainContainer>{children}</MainContainer>
       </ErrorBoundary>
