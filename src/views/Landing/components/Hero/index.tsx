@@ -58,12 +58,12 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
           <S.Subtitle color="#ddf874" fontSize="16px" fontWeight={600}>
             Auction ended. Congrats to the winner{' '}
             {matchesMobile ? <br /> : '- '}
-            <p
+            <span
               style={{ margin: 0 }}
               onClick={() => history.push('/product/60f9981d66f64e3a01c860e7')}
             >
               @nerooweb
-            </p>
+            </span>
           </S.Subtitle>
 
           {!matchesMobile ? (

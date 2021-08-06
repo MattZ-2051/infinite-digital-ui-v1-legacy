@@ -60,7 +60,7 @@ const BidHistoryModal = ({
           textAlign="center"
         >
           {' '}
-          Won with ${winningAmt}
+          Won with ${winningAmt?.toFixed(2)}
         </S.Text>
       </S.FlexDiv>
     );
@@ -106,7 +106,7 @@ const BidHistoryModal = ({
         <S.FlexDiv
           justifyContent="space-between"
           alignItems="center"
-          padding="10px 0"
+          padding="16px 0"
         >
           <S.Text color="#9e9e9e" fontSize="16px" fontWeight={500} padding="0">
             {sku?.issuerName}
@@ -117,13 +117,13 @@ const BidHistoryModal = ({
           color="black"
           fontSize="20px"
           fontWeight={600}
-          padding="0"
+          padding="0 0 16px 0"
           textAlign="left"
         >
           {sku?.name}
         </S.Text>
         <S.FlexDiv
-          padding="10px 0 16px 0"
+          padding="0 0 16px 0"
           justifyContent="space-between"
           alignItems="center"
         >
@@ -132,7 +132,7 @@ const BidHistoryModal = ({
               {sku?.series?.name}
             </S.Text>
             {sku.redeemable && (
-              <S.FlexDiv alignItems="center">
+              <>
                 <S.RedeemIcon />
                 <S.Text
                   color="#9E9E9E"
@@ -150,22 +150,22 @@ const BidHistoryModal = ({
                 >
                   Redeemable
                 </S.Text>
-              </S.FlexDiv>
+              </>
             )}
           </div>
-          <S.FlexDiv padding="30px">
+          <div style={{ display: 'flex' }}>
             <S.Text
               color="#9E9E9E"
               fontWeight={400}
-              padding="0"
+              padding="0 10px 0 0"
               fontSize="16px"
             >
               Serial:
             </S.Text>
             <S.Text color="black" fontWeight={400} padding="0" fontSize="16px">
-              {serialNumber}
+              #{serialNumber}
             </S.Text>
-          </S.FlexDiv>
+          </div>
         </S.FlexDiv>
         <S.GreyLine />
         {loading ? (
