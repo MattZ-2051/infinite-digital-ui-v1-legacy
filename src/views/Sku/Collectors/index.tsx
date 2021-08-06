@@ -18,7 +18,7 @@ const CURRENT_PAGE = 1;
 const Collectors = () => {
   const [collectors, setCollectors] = useState<{
     data: Collector[];
-    total: number;
+    totalCollectors: number;
   } | null>(null);
   const { skuid } = useParams<{ skuid: string }>();
   const [sku, setSku] = useState<Sku>();
@@ -27,7 +27,6 @@ const Collectors = () => {
   const [sortBySerialAsc, setSortBySerialAsc] = useState<boolean>(true);
   const matchesMobile = useMediaQuery('(max-width:1140px)');
   const [valueCurrentPage, setCurrentPage] = useState<number>(CURRENT_PAGE);
-
   const changePageCallback = useCallback(
     (ev, page) => {
       setCurrentPage(page);
@@ -65,7 +64,7 @@ const Collectors = () => {
   useEffect(() => {
     const cPr = cancelablePromise(fetchCollectors());
     cPr.promise.then((resp) => {
-      setCollectors(resp as { data: Collector[]; total: number });
+      setCollectors(resp as { data: Collector[]; totalCollectors: number });
     });
     return () => {
       cPr && cPr.cancel();
@@ -87,10 +86,7 @@ const Collectors = () => {
       <S.Container>
         <S.Title>
           <div>
-            <S.TitleLink to="/marketplace">
-              Marketplace
-            </S.TitleLink>{' '}
-            /{' '}
+            <S.TitleLink to="/marketplace">Marketplace</S.TitleLink> /{' '}
             <S.TitleLink to={`/marketplace/${sku?._id}`}>
               {sku?.name}
             </S.TitleLink>{' '}
@@ -115,7 +111,7 @@ const Collectors = () => {
             />
             <S.PaginationContainer>
               <S.CustomPagination
-                count={Math.ceil(collectors?.total / PER_PAGE)}
+                count={Math.ceil(collectors?.totalCollectors / PER_PAGE)}
                 page={valueCurrentPage}
                 onChange={changePageCallback}
                 siblingCount={matchesMobile ? 0 : 1}
