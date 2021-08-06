@@ -313,7 +313,7 @@ const FromCollectorsBox = ({
             <S.BoxTitle>From Collectors</S.BoxTitle>
             <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
           </S.BoxColumn>
-          <S.BoxColumn style={{ textAlign: 'center' }}>
+          <S.BoxColumn style={{ textAlign: 'center' }} alignItems="center">
             <S.Price>
               {' '}
               {!!countProductListings ? `$${minimunPrice}` : '--'}
@@ -514,7 +514,20 @@ const SkuButtonBlock = ({
       productListing.status === 'upcoming' &&
       !productListing.canceled
   );
+  const activeProductListing = sku.activeProductListings.map((listing) => {
+    let currentMinBid = 0;
+    let listingWithLowestBid = listing;
+    if (listing.minBid > currentMinBid) {
+      currentMinBid = listing?.minBid;
+      listingWithLowestBid = listing;
+    }
 
+    return listingWithLowestBid;
+  })[0];
+  const minPrice =
+    activeProductListing?.saleType === 'auction'
+      ? activeProductListing.minBid
+      : sku?.minPrice;
   /**
    * Giveaway sku Listing
    */
@@ -656,7 +669,6 @@ const SkuButtonBlock = ({
     const upcomingSkuListing = upcomingSkuListings[0];
     const startDate = upcomingSkuListing.startDate;
     const price = upcomingSkuListing.price;
-    const numItems = upcomingSkuListing.supply;
 
     return <UpcomingData startDate={startDate} price={price} sku={sku} />;
 
@@ -677,13 +689,18 @@ const SkuButtonBlock = ({
 
   /**
    * Active sku listing
+   *
+   *
    */
+
   if (activeListings.length && sku.totalSkuListingSupplyLeft) {
     const activeListing = activeListings?.[0];
     const skuPrice = activeListing?.price;
     const saleType = activeListing?.saleType;
+
     // TODO: When 'auction' saleType is implemented, the price should display bid price
     const displayPrice = saleType === 'fixed' ? skuPrice : skuPrice;
+
     return (
       <>
         <FromCreatorBox
@@ -696,7 +713,7 @@ const SkuButtonBlock = ({
           onProcessing={onProcessing}
         />
         <FromCollectorsBox
-          minimunPrice={sku?.minPrice}
+          minimunPrice={minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
           circulatingSupply={sku?.circulatingSupply}
@@ -726,7 +743,7 @@ const SkuButtonBlock = ({
           buttonLabel="Sold Out"
         />
         <FromCollectorsBox
-          minimunPrice={sku?.minPrice}
+          minimunPrice={minPrice}
           countProductListings={sku.countProductListings}
           skuId={sku._id}
           circulatingSupply={sku?.circulatingSupply}
