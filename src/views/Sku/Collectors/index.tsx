@@ -109,15 +109,17 @@ const Collectors = () => {
               collectors={collectors.data}
               redeemable={sku?.redeemable}
             />
-            <S.PaginationContainer>
-              <S.CustomPagination
-                count={Math.ceil(collectors?.totalCollectors / PER_PAGE)}
-                page={valueCurrentPage}
-                onChange={changePageCallback}
-                siblingCount={matchesMobile ? 0 : 1}
-                style={{ color: 'white' }}
-              />
-            </S.PaginationContainer>
+            {collectors?.totalCollectors > PER_PAGE && (
+              <S.PaginationContainer>
+                <S.CustomPagination
+                  count={Math.ceil(collectors?.totalCollectors / PER_PAGE)}
+                  page={valueCurrentPage}
+                  onChange={changePageCallback}
+                  siblingCount={matchesMobile ? 0 : 1}
+                  style={{ color: 'white' }}
+                />
+              </S.PaginationContainer>
+            )}
           </S.ContentListPagination>
         )}
       </S.Container>
