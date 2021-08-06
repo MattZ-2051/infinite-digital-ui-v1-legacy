@@ -105,10 +105,8 @@ interface Cost {
 }
 
 export interface HederaTransaction {
-  rate: number;
   hash: string;
   id: string;
-  status: string;
 }
 
 export interface CircleReceipt {

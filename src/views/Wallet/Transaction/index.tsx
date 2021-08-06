@@ -412,7 +412,7 @@ const Transaction = ({ tx }: IProps) => {
                   <S.TxId>{tx.transactionData.deposit?.hederaTransaction?.id}</S.TxId>
                 </a>
                 <br/>
-                Conversion rate: 1 hbar = {tx.transactionData.deposit?.hederaTransaction?.rate} USD
+                Conversion rate: 1 hbar = {tx.transactionData.deposit?.amountRate} USD
               </>
             )
           }
