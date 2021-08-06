@@ -21,6 +21,8 @@ import PageLoader from 'components/PageLoader';
 import { Username } from 'views/Product/History/Transaction/styles';
 import { SearchBar } from './SearchBar/searchBar';
 import { useWindowScroll } from 'react-use';
+import { Grid } from '@material-ui/core';
+import { HowItWorksCollapsible } from './Claims/howItWorksCollapsible';
 
 interface IProps {
   user: User;
@@ -49,7 +51,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
   const [page, setPage] = useState(1);
   const [totalReleases, setTotalReleases] = useState(1);
   const [totalProducts, setTotalProducts] = useState(1);
-  const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
+  const matchesMobile = useMediaQuery('(max-width:960px)', { noSsr: true });
   const [totalItems, setTotalItems] = useState<number>(0);
   const perPage = matchesMobile ? 4 : 8;
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -292,12 +294,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               />
             )}
             {selectedTab === 'claims' && (
-              <Claims
-                userClaims={userClaims?.data}
-                onChangeClaim={onChangeClaim}
-                themeStyle={themeStyle}
-                loading={claimLoading}
-              />
+              <>
+                <Claims
+                  userClaims={userClaims?.data}
+                  onChangeClaim={onChangeClaim}
+                  themeStyle={themeStyle}
+                  loading={claimLoading}
+                />
+                {matchesMobile && (
+                  <HowItWorksCollapsible themeStyle={themeStyle} />
+                )}
+              </>
             )}
           </>
         )}
@@ -398,12 +405,17 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
               />
             )}
             {selectedTab === 'claims' && (
-              <Claims
-                userClaims={userClaims?.data}
-                onChangeClaim={onChangeClaim}
-                themeStyle={themeStyle}
-                loading={claimLoading}
-              />
+              <>
+                <Claims
+                  userClaims={userClaims?.data}
+                  onChangeClaim={onChangeClaim}
+                  themeStyle={themeStyle}
+                  loading={claimLoading}
+                />
+                {matchesMobile && (
+                  <HowItWorksCollapsible themeStyle={themeStyle} />
+                )}
+              </>
             )}
           </>
         )}

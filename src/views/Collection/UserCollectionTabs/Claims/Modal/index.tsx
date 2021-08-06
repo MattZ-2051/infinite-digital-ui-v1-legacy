@@ -110,7 +110,7 @@ const ClaimModal = ({
       <SS.HeaderContainer style={{ borderBottom: 'none' }}>
         <SS.Header>😬 Oops, something went wrong!</SS.Header>
       </SS.HeaderContainer>
-      <SS.ContentText style={{ width: '80%' }}>
+      <SS.ContentText>
         <SS.TextLoading>
           There was an error processing your request, please try again or
           contact support if the issue persists.
@@ -133,6 +133,8 @@ const ClaimModal = ({
       onClose={() => {
         setOpenModal(false);
       }}
+      style={{ maxWidth: '450px' }}
+      padding={'40px'}
     >
       <SS.CloseButton onClick={() => setOpenModal(false)}>
         <CloseModal style={{ cursor: 'pointer' }} />
