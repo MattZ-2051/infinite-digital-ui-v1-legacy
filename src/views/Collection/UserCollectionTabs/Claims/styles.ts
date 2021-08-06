@@ -68,7 +68,6 @@ export const Loading = styled.div`
 `
 
 export const ContentText = styled.div`
-  width: 55%; 
   text-align: center;
 `;
 
@@ -86,13 +85,12 @@ export const Header = styled.p`
   font-size: 22px;
   font-weight: 700;
   margin: 0;
-  padding-left: 10px;
 `;
 
 export const SubHeaderContainer = styled.div`
   border-bottom: 1px solid #ebebeb;
   min-width: 250px;
-  width:90%
+  width:100%
 `;
 
 export const RowFlex = styled.div<{ padding: string }>`
@@ -110,6 +108,7 @@ export const HeaderContainer = styled.div`
   padding-bottom: 24px;
   border-bottom: 1px solid #ebebeb;
   margin-top: 30px;
+  text-align: center;
   `;
 
 export const Slash = styled.span<{ padding: string }>`
@@ -179,7 +178,7 @@ export const Button = styled.button`
   border: none;
   border-radius: 35px;
   background-color: black;
-  width: 100%;
+  width: 330px;
   height: 56px;
   font-size: 20px;
   color: white;

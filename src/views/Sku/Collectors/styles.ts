@@ -155,14 +155,14 @@ export const CustomPagination = styled(Pagination)`
 `;
 
 export const ContentListPagination = styled.div`
-  height: 100%;
+  /* height: 100%;s */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 export const PaginationContainer = styled.div`
   /* margin-top: 40px; */
-  margin-bottom: 130px;
+  margin-top: 10px;
 
   @media screen and (max-width: 960px) {
     display: flex;

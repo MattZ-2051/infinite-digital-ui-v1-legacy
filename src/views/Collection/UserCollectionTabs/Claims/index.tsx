@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import { Sku } from 'entities/sku';
 import PageLoader from 'components/PageLoader';
 import * as S from './styles';
+import { HowItWorksCollapsible } from './howItWorksCollapsible';
+import { useMediaQuery } from '@material-ui/core';
 
 interface IProps {
   userClaims: Sku[] | undefined;
@@ -18,6 +20,7 @@ interface IProps {
 }
 
 const Claims = ({ themeStyle, userClaims, onChangeClaim, loading }: IProps) => {
+  const matchesMobile = useMediaQuery('(max-width:960px)', { noSsr: true });
   const history = useHistory();
   const collapsibleBody = (
     <div>
@@ -33,7 +36,7 @@ const Claims = ({ themeStyle, userClaims, onChangeClaim, loading }: IProps) => {
           <S.Li>
             Have your{' '}
             <S.Link themeStyle={themeStyle} href="https://getinfinite.io">
-              INFINITEiOSapp
+              INFINITE iOS app
             </S.Link>{' '}
             account linked to the same email as your marketplace account.
           </S.Li>
@@ -44,7 +47,10 @@ const Claims = ({ themeStyle, userClaims, onChangeClaim, loading }: IProps) => {
           <S.Link
             themeStyle={themeStyle}
             onClick={() => {
-              history.push('/help');
+              window.open(
+                'https://support.suku.world/infinite/claiming-a-product',
+                '_blank'
+              );
             }}
           >
             here
@@ -54,18 +60,22 @@ const Claims = ({ themeStyle, userClaims, onChangeClaim, loading }: IProps) => {
       </div>
     </div>
   );
-  return !loading ? (
+  if (loading)
+    return (
+      <PageLoader
+        color={themeStyle === 'dark' ? 'white' : 'black'}
+        backGroundColor={themeStyle === 'dark' ? 'black' : 'white'}
+      />
+    );
+
+  return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={3}>
-          <Collapsible
-            title="How it works?"
-            body={collapsibleBody}
-            breakPointSize="xs"
-            borderTitle={true}
-            themeStyle={themeStyle}
-          />
-        </Grid>
+        {!matchesMobile && (
+          <Grid item xs={12} sm={3}>
+            <HowItWorksCollapsible themeStyle={themeStyle} open={true} />
+          </Grid>
+        )}
         {userClaims && userClaims.length > 0 ? (
           <Grid item xs={12} sm={9}>
             <S.Container>
@@ -91,11 +101,6 @@ const Claims = ({ themeStyle, userClaims, onChangeClaim, loading }: IProps) => {
         )}
       </Grid>
     </div>
-  ) : (
-    <PageLoader
-      color={themeStyle === 'dark' ? 'white' : 'black'}
-      backGroundColor={themeStyle === 'dark' ? 'black' : 'white'}
-    />
   );
 };
 
