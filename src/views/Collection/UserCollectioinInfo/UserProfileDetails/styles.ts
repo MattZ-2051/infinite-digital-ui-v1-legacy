@@ -156,16 +156,16 @@ export const FlexSpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
-export const ButtonWithIcon = styled.button`
+export const ButtonWithIcon = styled.button<{ disabledStyle?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: unset;
   border: 0;
   margin: 0;
-  color: #7d7d7d;
+  color: ${({ disabledStyle }) => (disabledStyle ? '#aeaeae' : '#7d7d7d')};
   :hover {
-    color: #000;
+    color: ${({ disabledStyle }) => (disabledStyle ? '#aeaeae' : '#000')};
     cursor: pointer;
   }
 `;
@@ -200,11 +200,11 @@ export const EditIcon = styled(editSVG)`
   }
 `;
 
-export const ResetIcon = styled(resetSVG)`
+export const ResetIcon = styled(resetSVG)<{ disabled?: boolean }>`
   margin-right: 2px;
   width: 20px;
   height: 20px;
-  fill: #fff;
+  fill: ${({ disabled }) => (disabled ? '#aeaeae' : '#fff')};
   :hover {
     fill: #ebebeb;
     cursor: pointer;
