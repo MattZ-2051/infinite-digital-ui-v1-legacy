@@ -44,12 +44,25 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   let pillInfo: string | number = '';
   const singleProductListingExist =
     sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
-  const isActiveAuction =
+  const isSingleActiveAuction =
     singleProductListingExist &&
     sku?.activeProductListings[0]?.saleType === 'auction' &&
     sku?.activeProductListings[0]?.status === 'active';
-  const price =
-    isActiveAuction && singleProductListingExist ? sku?.maxBid : minPrice;
+  const isActiveAuction =
+    sku?.activeProductListings[0]?.saleType === 'auction' &&
+    sku?.activeProductListings[0]?.status === 'active';
+  const isGiveAway =
+    sku?.activeSkuListings?.[0]?.saleType === 'giveaway' &&
+    sku?.activeSkuListings?.[0]?.status === 'active';
+  const minBid = sku?.activeProductListings[0]?.minBid;
+  const price = isSingleActiveAuction
+    ? sku?.maxBid
+    : isGiveAway
+    ? 0
+    : isActiveAuction
+    ? minBid
+    : minPrice;
+
   const checkStatus = () => {
     if (productListings?.length === 0 && skuListings.length === 0) {
       status = 'upcoming-sku';

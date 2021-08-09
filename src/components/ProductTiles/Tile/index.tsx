@@ -65,12 +65,23 @@ const Tile = ({
   const isGiveAway =
     sku?.activeSkuListings?.[0]?.saleType === 'giveaway' &&
     sku?.activeSkuListings?.[0]?.status === 'active';
+
   const generateBottomCardText = () => {
     return sku.supplyType === 'variable' && sku.circulatingSupply >= 1
       ? `${sku.totalSupply} Released`
       : `${sku.totalSupply} of ${sku.totalSupply} ${
           sku.activeSkuListings?.length == 0 ? '' : 'for sale'
         }`;
+  };
+
+  const generateActiveListingText = () => {
+    return isGiveAway
+      ? `${sku.totalSupplyLeft} of ${sku.totalSupply} available`
+      : supplyType === 'variable' && sku.circulatingSupply >= 1
+      ? `${sku.circulatingSupply} Released`
+      : supplyType === 'fixed'
+      ? `${sku.totalSupplyLeft} of ${sku.totalSupply} for Sale`
+      : '';
   };
 
   return (
@@ -123,13 +134,7 @@ const Tile = ({
                 themeStyle={themeStyle}
                 style={{ color: '#9e9e9e' }}
               >
-                {isGiveAway
-                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} available`
-                  : supplyType === 'variable' && sku.circulatingSupply >= 1
-                  ? `${sku.circulatingSupply} Released`
-                  : supplyType === 'fixed'
-                  ? `${sku.totalSupplyLeft} of ${sku.totalSupply} for Sale`
-                  : null}
+                {generateActiveListingText}
               </S.BottomCardText>
             )}
             {status === 'no-sale' && !unique && (

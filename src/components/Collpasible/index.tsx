@@ -9,6 +9,7 @@ interface IProps {
   breakPointSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   themeStyle?: 'light' | 'dark';
   borderTitle?: boolean;
+  open?: boolean;
 }
 
 const Collapsible = ({
@@ -17,10 +18,11 @@ const Collapsible = ({
   breakPointSize,
   borderTitle,
   themeStyle,
+  open,
 }: IProps) => {
   const theme = useTheme();
   const size: boolean = useMediaQuery(theme.breakpoints.up(breakPointSize));
-  const [displayContent, setDisplayContent] = useState<boolean>(false);
+  const [displayContent, setDisplayContent] = useState<boolean>(open || false);
   const toggle = () => setDisplayContent(!displayContent);
   return (
     <>
