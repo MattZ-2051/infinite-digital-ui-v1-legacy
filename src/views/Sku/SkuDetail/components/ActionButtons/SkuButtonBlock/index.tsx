@@ -529,7 +529,7 @@ const SkuButtonBlock = ({
     }
     return listingWithLowestPrice;
   })[0];
-  const minPrice = activeProductListing.minBid || activeProductListing.price;
+  const minPrice = activeProductListing?.minBid || activeProductListing?.price;
 
   /**
    * Giveaway sku Listing
