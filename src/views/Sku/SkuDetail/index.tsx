@@ -382,6 +382,7 @@ const SkuDetail = (): JSX.Element => {
               collectors={collectors.data}
               hasProducts={collectors.data.length !== 0}
               skuId={sku._id}
+              sku={sku}
             />
           )}
         </S.Section>
