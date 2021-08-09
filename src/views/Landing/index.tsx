@@ -14,6 +14,8 @@ import FeaturedSlider from './components/FeaturedSlider';
 // import FeatureBoxes from './Featured/FeatureBoxes';
 import SkuTilesTab from './components/SkuTilesTab';
 import Subscribe from './components/Subscribe';
+import BuildWithUs from './components/BuildWithUs';
+import VerifiedAuthenticity from './components/VerifiedAuthenticity';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +51,8 @@ const Landing = () => {
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeaturedSlider />
       <SkuTilesTab />
+      <BuildWithUs />
+      <VerifiedAuthenticity />
       <Subscribe />
     </main>
   );
