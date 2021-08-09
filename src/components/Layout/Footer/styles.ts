@@ -14,10 +14,18 @@ export const StyledFooter = styled.footer<{
   padding: ${(props) => props.padding};
 `;
 
-export const HederaText = styled.div`
+export const HederaText = styled.div<{ footerTheme: string }>`
   @media screen and (max-width: 602px) {
     margin-left: 27px;
   }
+  ${(props) =>
+    props.footerTheme === 'green' &&
+    `  color: black;
+  opacity: 0.48;
+  :hover {
+    opacity: 1;
+    cursor: pointer;
+  }`};
 `;
 export const FooterContent = styled.div`
   display: flex;

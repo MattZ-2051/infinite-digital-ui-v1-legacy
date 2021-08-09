@@ -7,11 +7,11 @@ export const MainContainer = styled.div`
   padding-bottom: 300px;
   padding-top: 277px;
   font-family: 'PlusJakartaSans';
-  padding-left:20px;
-  padding-right:20px;
+  padding-left: 80px;
+  padding-right: 80px;
   @media screen and (max-width: 960px) {
-    padding-top=320px;
-    padding-bottom:320px;
+    padding-top: 320px;
+    padding-bottom: 320px;
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;

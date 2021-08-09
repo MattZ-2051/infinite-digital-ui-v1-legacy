@@ -52,13 +52,12 @@ const Landing = () => {
   return (
     <main>
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-      <FeaturedSlider />
       <SkuTilesTab />
       <InfiniteWorldSection />
-      <FAQSection />
-      <ReadAboutUs />
       <BuildWithUs />
+      <FAQSection />
       <VerifiedAuthenticity />
+      <ReadAboutUs />
       <Subscribe />
     </main>
   );

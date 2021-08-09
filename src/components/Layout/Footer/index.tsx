@@ -138,8 +138,14 @@ const Footer = ({ footerBackgroundTheme }) => {
               }}
             >
               <HederaButton color={getColor()} />
-              <S.HederaText>
-                <div style={{ marginLeft: '10px' }}>Hedera Hashgraph</div>
+              <S.HederaText footerTheme={footerBackgroundTheme}>
+                <div
+                  style={{
+                    marginLeft: '10px',
+                  }}
+                >
+                  Hedera Hashgraph
+                </div>
               </S.HederaText>
             </div>
           </Hidden>

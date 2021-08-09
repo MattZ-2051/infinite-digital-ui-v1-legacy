@@ -2,15 +2,13 @@ import styled from 'styled-components/macro';
 
 export const MainContainer = styled.div`
   background-color: #ddf874;
-  padding-top: 120px;
-  padding-bottom: 144px;
+  padding: 120px 80px 144px 80px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   @media screen and (max-width: 1250px) {
-    padding-top: 150px;
-    padding-bottom: 88px;
+    padding: 150px 0px 88px 0px;
   }
 `;
 
