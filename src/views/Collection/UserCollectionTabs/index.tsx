@@ -18,10 +18,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
-import { Username } from 'views/Product/History/Transaction/styles';
 import { SearchBar } from './SearchBar/searchBar';
-import { useWindowScroll } from 'react-use';
-import { Grid } from '@material-ui/core';
 import { HowItWorksCollapsible } from './Claims/howItWorksCollapsible';
 
 interface IProps {

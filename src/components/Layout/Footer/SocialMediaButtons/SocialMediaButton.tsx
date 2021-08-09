@@ -28,6 +28,7 @@ export enum Social {
 
 interface IProps {
   socialNetwork: Social;
+  footerTheme: string;
 }
 
 const url = {
@@ -44,8 +45,14 @@ const icon = {
   [Social.Twitter]: TwitterIcon,
 };
 
-export const SocialMediaButton = ({ socialNetwork }: IProps) => {
-  return <MediaButton url={url[socialNetwork]} icon={icon[socialNetwork]} />;
+export const SocialMediaButton = ({ socialNetwork, footerTheme }: IProps) => {
+  return (
+    <MediaButton
+      url={url[socialNetwork]}
+      icon={icon[socialNetwork]}
+      footerTheme={footerTheme}
+    />
+  );
 };
 
 export default SocialMediaButton;

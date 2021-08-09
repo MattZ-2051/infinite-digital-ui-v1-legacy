@@ -6,7 +6,7 @@ import * as S from './styles';
 
 const HederaIcon = () => <SvgIcon viewBox="0 0 15 16" component={hederaIcon} />;
 
-const HederaButton = () => {
+const HederaButton = ({ color }) => {
   const [showLink, setShowLink] = useState<boolean>(false);
   return (
     <S.ShowLinkDiv>
@@ -22,7 +22,7 @@ const HederaButton = () => {
         onMouseEnter={() => setShowLink(true)}
         onMouseLeave={() => setShowLink(false)}
         icon={HederaIcon}
-        color="grey"
+        color={color}
         radius={20}
         onClick={() =>
           window.open(

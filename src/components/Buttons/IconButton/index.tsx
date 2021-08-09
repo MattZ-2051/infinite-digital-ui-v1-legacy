@@ -4,7 +4,7 @@ import MuiIconButton from '@material-ui/core/IconButton';
 
 export interface IProps {
   children?: string;
-  color?: 'white' | 'black' | 'grey';
+  color?: 'white' | 'black' | 'grey' | 'lightgrey';
   radius?: number;
   icon?: any;
   label?: string;
@@ -54,6 +54,16 @@ const ButtonGrey = css`
   }
 `;
 
+const ButtonLightGrey = css`
+  background: black;
+  color: white;
+  opacity: 0.4;
+  :hover {
+    opacity: 1;
+    color: white;
+  }
+`;
+
 const IconButton = styled(({ radius, color, size, ...rest }) => (
   <MuiIconButton {...rest} />
 ))`
@@ -74,6 +84,8 @@ const IconButton = styled(({ radius, color, size, ...rest }) => (
           return ButtonWhite;
         case 'grey':
           return ButtonGrey;
+        case 'lightgrey':
+          return ButtonLightGrey;
         default:
           return ButtonBlack;
       }

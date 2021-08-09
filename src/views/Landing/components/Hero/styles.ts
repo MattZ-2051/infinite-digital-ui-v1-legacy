@@ -6,13 +6,13 @@ export const Container = styled.section`
   margin: auto;
   position: relative;
   display: flex;
-  padding: 80px;
+  padding: 80px 80px 0 80px;
   flex-direction: row;
   text-align: center;
   color: white;
   padding-bottom: 100px;
   max-width: 1440px;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1100px) {
     font-size: 0.9rem;
     padding: 24px;
     padding-bottom: 50px;
@@ -71,7 +71,7 @@ export const Button = styled.button<{ width: string }>`
 
 export const ImgContainer = styled.div`
   position: relative;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1100px) {
     margin-bottom: 50px;
   }
 `;
@@ -82,9 +82,9 @@ export const DropImg = styled.img`
   left: 44%;
   top: 78%;
   width: 305px;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1100px) {
     width: 235px;
-    left: 38%;
+    left: 48%;
   }
   @media screen and (max-width: 400px) {
     width: 230px;
@@ -112,7 +112,7 @@ export const Title = styled.h1<{ fontSize: string }>`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1100px) {
     margin: 44px 0 18px 0;
     font-size: 32px;
     text-align: center;
@@ -133,8 +133,7 @@ export const Subtitle = styled.h2<{
   line-height: 32px;
   text-align: left;
   margin: 0;
-  @media screen and (max-width: 600px) {
-    // margin-bottom: 12%;
+  @media screen and (max-width: 1100px) {
     text-align: center;
   }
 `;

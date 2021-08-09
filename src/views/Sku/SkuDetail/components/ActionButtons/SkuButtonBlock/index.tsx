@@ -531,7 +531,6 @@ const SkuButtonBlock = ({
   })[0];
   const minPrice = activeProductListing.minBid || activeProductListing.price;
 
-  console.log('activelisting', activeProductListing);
   /**
    * Giveaway sku Listing
    */

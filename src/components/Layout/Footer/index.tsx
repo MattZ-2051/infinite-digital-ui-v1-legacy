@@ -18,19 +18,44 @@ import {
 
 // Hedera button
 import HederaButton from './HederaButton/HederaButton';
-import { useWindowScroll } from 'react-use';
+import { CompassCalibrationOutlined } from '@material-ui/icons';
 
-const Footer = () => {
+const Footer = ({ footerBackgroundTheme }) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMobile = useMediaQuery('(max-width:600px)', { noSsr: true });
+  const getOpacity = () => {
+    if (footerBackgroundTheme === 'green') {
+      return 0.48;
+    } else {
+      return 1;
+    }
+  };
+  const getColor = () => {
+    if (footerBackgroundTheme === 'green') {
+      return 'lightgrey';
+    } else {
+      return 'grey';
+    }
+  };
+
+  const getBackgroundColor = () => {
+    if (footerBackgroundTheme === 'green') {
+      return '#ddf874';
+    } else {
+      return 'black';
+    }
+  };
   return (
-    <S.StyledFooter padding={isSmall ? '0' : '0 80px'}>
+    <S.StyledFooter
+      padding={isSmall ? '0' : '0 80px'}
+      backgroundColor={getBackgroundColor()}
+    >
       <S.FooterContent>
         <S.FooterBottom>
           <ScreenSelector matchesMobile={matchesMobile}>
             <TextButton
-              color="grey"
+              color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
               onClick={() => {
@@ -43,7 +68,7 @@ const Footer = () => {
             </TextButton>
             <TextButton
               to="/help"
-              color="grey"
+              color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
             >
@@ -52,7 +77,7 @@ const Footer = () => {
 
             <TextButton
               to="/privacy"
-              color="grey"
+              color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
             >
@@ -61,28 +86,47 @@ const Footer = () => {
 
             <TextButton
               to="/terms"
-              color="grey"
+              color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
             >
               Terms & Conditions
             </TextButton>
             <Hidden smDown>
-              <HederaButton />
+              <HederaButton color={getColor()} />
             </Hidden>
           </ScreenSelector>
 
           <Hidden smDown>
-            <div style={{ color: '#7c7c7c', fontSize: '14px', flex: 1 }}>
+            <div
+              style={{
+                color: footerBackgroundTheme === 'green' ? 'black' : '#7c7c7c',
+                fontSize: '14px',
+                flex: 1,
+                opacity: getOpacity(),
+              }}
+            >
               © 2021 Infinite Assets, Inc.
             </div>
           </Hidden>
 
           <Divider gap={16} tag="nav" styles={{ order: isSmall ? '-1' : '2' }}>
-            <SocialMediaButton socialNetwork={Social.Facebook} />
-            <SocialMediaButton socialNetwork={Social.Twitter} />
-            <SocialMediaButton socialNetwork={Social.Instagram} />
-            <SocialMediaButton socialNetwork={Social.TicTok} />
+            <SocialMediaButton
+              socialNetwork={Social.Facebook}
+              footerTheme={footerBackgroundTheme}
+            />
+            <SocialMediaButton
+              socialNetwork={Social.Twitter}
+              footerTheme={footerBackgroundTheme}
+            />
+            <SocialMediaButton
+              socialNetwork={Social.Instagram}
+              footerTheme={footerBackgroundTheme}
+            />
+            <SocialMediaButton
+              socialNetwork={Social.TicTok}
+              footerTheme={footerBackgroundTheme}
+            />
           </Divider>
           <Hidden mdUp>
             <div
@@ -93,7 +137,7 @@ const Footer = () => {
                 marginBottom: '20px',
               }}
             >
-              <HederaButton />
+              <HederaButton color={getColor()} />
               <S.HederaText>
                 <div style={{ marginLeft: '10px' }}>Hedera Hashgraph</div>
               </S.HederaText>
@@ -103,8 +147,12 @@ const Footer = () => {
             <div
               style={{
                 marginBottom: '24px',
-                color: 'var(--grey-40)',
+                color:
+                  footerBackgroundTheme === 'green'
+                    ? 'black'
+                    : 'var(--grey-40)',
                 textAlign: 'center',
+                opacity: getOpacity(),
               }}
             >
               INFINITE© 2021 All rights reserved.

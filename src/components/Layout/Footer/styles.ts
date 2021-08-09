@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
-export const StyledFooter = styled.footer<{ padding: string }>`
+export const StyledFooter = styled.footer<{
+  padding: string;
+  backgroundColor: string;
+}>`
   position: relative;
   bottom: 0;
   width: 100%;
-  background-color: black;
+  background-color: ${(props) => `${props.backgroundColor}`};
+  border-top: ${(props) =>
+    props.backgroundColor === '#ddf874' && '1px solid #3E4818'};
   padding: ${(props) => props.padding};
 `;
 
@@ -31,7 +36,7 @@ export const FooterContent = styled.div`
 `;
 
 export const FooterBottom = styled.div`
-  padding: 8px 0 8px 0;
+  padding: 24px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,7 +85,7 @@ export const ShowLinkDiv = styled.div`
 export const TextButtonContainer = styled.div<{ matchesMobile }>`
   ${(props) =>
     props.matchesMobile
-      ? ` 
+      ? `
           width:120%;
           margin-bottom:20px;
            display: flex;

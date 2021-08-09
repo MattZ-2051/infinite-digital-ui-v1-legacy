@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export interface IProps {
   children?: string;
-  color?: 'white' | 'black' | 'grey';
+  color?: 'white' | 'black' | 'grey' | 'lightgrey';
   to?: string | undefined;
   [rest: string]: any;
 }
@@ -36,6 +36,15 @@ const TextButtonBlack = css`
   color: black;
   &:hover {
     color: var(--grey-40);
+  }
+`;
+
+const TextButtonLightGrey = css`
+  color: black;
+  opacity: 0.48;
+  :hover {
+    opacity: 1;
+    cursor: pointer;
   }
 `;
 
@@ -84,6 +93,8 @@ const TextButton = styled(({ color, size, matchesMobile, ...rest }) => (
           return TextButtonWhite;
         case 'grey':
           return TextButtonGrey;
+        case 'lightgrey':
+          return TextButtonLightGrey;
         default:
           return TextButtonBlack;
       }

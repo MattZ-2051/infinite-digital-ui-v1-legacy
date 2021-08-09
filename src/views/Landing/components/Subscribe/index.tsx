@@ -5,21 +5,17 @@ import { useAppSelector } from 'store/hooks';
 import { config } from 'config';
 import { subscribeMail } from 'services/api/subscribe';
 import Toast from 'utils/Toast';
+import { useMediaQuery } from '@material-ui/core';
 
 const Subscribe = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [subscribed, setSubscribed] = useState<string>('');
-  const [header, setHeader] = useState<string>(
-    'Stay up to date on the latest updates!'
-  );
-  const [tagline, setTagline] = useState<string>(
-    "Want to know what's coming next?"
-  );
-  const [buttonText, setButtonText] = useState<string>(
-    'Join our mailing list!'
-  );
+  const [buttonText, setButtonText] = useState<string>('Join the waitlist');
+  const matchesSmallMobile = useMediaQuery('(max-width:460px)', {
+    noSsr: true,
+  });
   const buttonTextDone = 'Done';
   const onChange = (event) => {
     setEmail(event?.target?.value);
@@ -49,8 +45,6 @@ const Subscribe = (): JSX.Element => {
       Toast.success(
         'Thanks for signing up for the INFINITE newsletter! Stay tuned for more updates coming soon.'
       );
-      setHeader('Thanks for signing up!');
-      setTagline('Newsletter signup successful');
       setButtonText(buttonTextDone);
     } catch (error) {
       Toast.error('Whoops! Something went wrong, Please try again.');
@@ -66,34 +60,56 @@ const Subscribe = (): JSX.Element => {
     }
   }, [subscribed]);
   return (
-    <S.Container>
-      <S.Tagline>{tagline}</S.Tagline>
-      <S.Header>{header}</S.Header>
-      <>
-        <S.EmailInput
-          name="subscribe"
-          type="email"
-          id="standard-basic"
-          onChange={onChange}
-          value={email}
-          placeholder="Enter your email"
-          error={error}
-          helperText={error ? 'Email must be formatted correctly.' : ''}
-          isDisabled={buttonText == buttonTextDone}
-        />
-        <S.SubscribeButton
-          disabled={error || !email || buttonText == buttonTextDone}
-          color="gray"
-          style={{
-            height: '56px',
-            borderRadius: '25px',
-          }}
-          onClick={subscribe}
+    <S.BackgroundContainer>
+      <S.Container>
+        <S.SubHeader color="#3e4818" margin="240px 0 16px 0">
+          Our Vision
+        </S.SubHeader>
+        <S.Header>
+          The premier NFT Solution Provider for market leading brands and global
+          influencers
+        </S.Header>
+        <S.SubHeader
+          color="#3e4818"
+          margin={matchesSmallMobile ? '24px 0 12px 0' : '24px 0 8px 0'}
         >
-          {buttonText}
-        </S.SubscribeButton>{' '}
-      </>
-    </S.Container>
+          We provide the infrastructure for brands and creators to build
+          communitites in the Megaverse
+        </S.SubHeader>
+        <S.SubHeader
+          color="black"
+          margin="0 0 56px 0"
+          style={{ opacity: 1, fontWeight: 600 }}
+        >
+          Sign up for our mailing list to be {matchesSmallMobile && <br />}the
+          first to know!
+        </S.SubHeader>
+        <>
+          <S.EmailInput
+            name="subscribe"
+            type="email"
+            id="standard-basic"
+            onChange={onChange}
+            value={email}
+            placeholder="Enter your email"
+            error={error}
+            helperText={error ? 'Email must be formatted correctly.' : ''}
+            isDisabled={buttonText == buttonTextDone}
+          />
+          <S.SubscribeButton
+            disabled={error || !email || buttonText == buttonTextDone}
+            color="black"
+            style={{
+              height: '56px',
+              borderRadius: '25px',
+            }}
+            onClick={subscribe}
+          >
+            {buttonText}
+          </S.SubscribeButton>{' '}
+        </>
+      </S.Container>
+    </S.BackgroundContainer>
   );
 };
 
