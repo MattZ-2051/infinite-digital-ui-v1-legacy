@@ -237,8 +237,8 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  {/* <S.TabSeparator /> */}
-                  {/* <S.Tab
+                  {/* <S.TabSeparator />
+                  <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
@@ -404,7 +404,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 isSearchResult={searchCriteria != ''}
               />
             )}
-            {selectedTab === 'claims' && (
+            {/* {selectedTab === 'claims' && (
               <>
                 <Claims
                   userClaims={userClaims?.data}
@@ -416,7 +416,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   <HowItWorksCollapsible themeStyle={themeStyle} />
                 )}
               </>
-            )}
+            )} */}
           </>
         )}
         {userStatus === 'notCurrentUserProfileIssuer' && (
