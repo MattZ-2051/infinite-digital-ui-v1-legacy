@@ -14,6 +14,9 @@ import FeaturedSlider from './components/FeaturedSlider';
 // import FeatureBoxes from './Featured/FeatureBoxes';
 import SkuTilesTab from './components/SkuTilesTab';
 import Subscribe from './components/Subscribe';
+import InfiniteWorldSection from './components/WhatIsInfiniteWorldSection/infiniteWorldSection';
+import { FAQSection } from './components/FAQSection/FAQSection';
+import { ReadAboutUs } from './components/ReadAboutUs/ReadAboutUs';
 import BuildWithUs from './components/BuildWithUs';
 import VerifiedAuthenticity from './components/VerifiedAuthenticity';
 
@@ -51,6 +54,9 @@ const Landing = () => {
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <FeaturedSlider />
       <SkuTilesTab />
+      <InfiniteWorldSection />
+      <FAQSection />
+      <ReadAboutUs />
       <BuildWithUs />
       <VerifiedAuthenticity />
       <Subscribe />
