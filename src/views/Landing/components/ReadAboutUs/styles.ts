@@ -66,7 +66,7 @@ export const SubTitle = styled.div`
 export const RightColumn = styled.div`
   @media screen and (min-width: 961px) {
     margin-left: 10px;
+    width: 80%;
+    max-width: 764px;
   }
-  width: 80%;
-  max-width: 764px;
 `;

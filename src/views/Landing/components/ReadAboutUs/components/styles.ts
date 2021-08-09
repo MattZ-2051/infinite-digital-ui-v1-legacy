@@ -21,7 +21,6 @@ export const Title = styled.div`
 `;
 
 export const Text = styled.div`
-  width: max-content;
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
@@ -43,7 +42,9 @@ export const Row = styled.div<{ isWhite: boolean }>`
   }
 `;
 
-export const ReadMore = styled.div``;
+export const ReadMore = styled.div`
+  width: max-content;
+`;
 
 export const Button = styled.div`
   display: flex;
