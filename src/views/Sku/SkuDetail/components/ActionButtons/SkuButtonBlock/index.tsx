@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import {loginWarning, loginWarningClaim} from 'views/Product/History/toastMessages';
 import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
@@ -66,15 +67,7 @@ const AuctionSale = ({
         setIsModalOpen(true);
       }
     } else {
-      Toast.warning(
-        <>
-          You need to be{' '}
-          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-            logged in
-          </a>{' '}
-          in order to complete a purchase
-        </>
-      );
+      loginWarning(loginWithRedirect);
     }
   };
 
@@ -242,15 +235,7 @@ const FromCreatorBox = ({
         setIsModalOpen(true);
       }
     } else {
-      Toast.warning(
-        <>
-          You need to be{' '}
-          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-            logged in
-          </a>{' '}
-          in order to complete a purchase
-        </>
-      );
+      loginWarning(loginWithRedirect);
     }
   };
 
@@ -392,7 +377,7 @@ const GiveawayBox = ({
         Toast.dismiss('processing');
         Toast.error(
           <>
-            Please try again, see the <a href="/help">Help page</a> to learn
+            Please try again, see the <Link to="/help">Help page</Link> to learn
             more.
           </>
         );
@@ -408,15 +393,7 @@ const GiveawayBox = ({
         handleGiveawayClaim();
       }
     } else {
-      Toast.warning(
-        <>
-          You need to be{' '}
-          <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>
-            logged in
-          </a>{' '}
-          in order to claim
-        </>
-      );
+      loginWarningClaim(loginWithRedirect);
     }
   };
 

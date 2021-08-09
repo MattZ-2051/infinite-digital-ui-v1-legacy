@@ -3,14 +3,16 @@ import AuctionItem from './AuctionItem';
 import { Collector } from 'entities/collector';
 import * as S from './styles';
 import Collapsible from '../../components/Collapsible';
+import { Sku } from 'entities/sku';
 
 export interface Props {
   collectors: Collector[];
   hasProducts: boolean;
   skuId: string;
+  sku: Sku;
 }
 
-const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
+const AuctionListing = ({ collectors, hasProducts, skuId, sku }: Props) => {
   const body = hasProducts ? (
     <S.Items>
       {collectors &&
@@ -52,7 +54,7 @@ const AuctionListing = ({ collectors, hasProducts, skuId }: Props) => {
         title="Collectors"
         body={body}
         collectorsTotalNum={
-          collectors.length !== 0 ? collectors.length : undefined
+          sku.circulatingSupply > 0 ? sku.circulatingSupply : undefined
         }
         borderTitle={true}
       />

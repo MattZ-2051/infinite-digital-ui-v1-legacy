@@ -277,7 +277,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
 
             {selectedTab === 'items' && (
@@ -380,7 +380,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
             {selectedTab === 'releases' && (
               <Releases
@@ -552,7 +552,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
             {selectedTab === 'items' && (
               <Items
