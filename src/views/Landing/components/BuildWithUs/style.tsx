@@ -5,15 +5,18 @@ import { ReactComponent as ForbesLogo } from 'assets/svg/logos/forbes.svg';
 
 export const Container = styled.section`
   background-color: #000;
-  padding-top: 340px;
-  padding-bottom: 340px;
-  padding-left: 12vw;
-  padding-right: 12vw;
+  padding-top: 300px;
+  padding-bottom: 300px;
+  padding-left: 80px;
+  padding-right: 80px;
   overflow: hidden;
 
+  @media screen and (max-width: 1100px) {
+    padding: 200px 24px 200px 24px;
+  }
   h2 {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 32px;
     letter-spacing: -0.01em;
     color: #9da1a8;
@@ -21,7 +24,7 @@ export const Container = styled.section`
 
   h3 {
     font-size: 48px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 56px;
     letter-spacing: -0.03em;
     color: #fff;
@@ -196,7 +199,7 @@ export const ActionButton = styled.a`
   color: #fff;
   font-size: 16px;
   line-height: 100%;
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
   text-decoration: none;
 

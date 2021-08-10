@@ -18,7 +18,6 @@ import {
 
 // Hedera button
 import HederaButton from './HederaButton/HederaButton';
-import { CompassCalibrationOutlined } from '@material-ui/icons';
 
 const Footer = ({ footerBackgroundTheme }) => {
   const theme = useTheme();
@@ -67,6 +66,22 @@ const Footer = ({ footerBackgroundTheme }) => {
               FAQ
             </TextButton>
             <TextButton
+              to="https://martingarrido.notion.site/Join-the-INFINITE-by-SUKU-Team-bf1a0c96034a4ac6a07757bc8e96f3d8"
+              color={getColor()}
+              size="small"
+              matchesMobile={matchesMobile}
+            >
+              Careers
+            </TextButton>
+            <TextButton
+              to="https://www.suku.world/"
+              color={getColor()}
+              size="small"
+              matchesMobile={matchesMobile}
+            >
+              Suku
+            </TextButton>
+            <TextButton
               to="/help"
               color={getColor()}
               size="small"
@@ -97,20 +112,17 @@ const Footer = ({ footerBackgroundTheme }) => {
             </Hidden>
           </ScreenSelector>
 
-          <Hidden smDown>
-            <div
-              style={{
-                color: footerBackgroundTheme === 'green' ? 'black' : '#7c7c7c',
-                fontSize: '14px',
-                flex: 1,
-                opacity: getOpacity(),
-              }}
-            >
-              © 2021 Infinite Assets, Inc.
-            </div>
-          </Hidden>
-
           <Divider gap={16} tag="nav" styles={{ order: isSmall ? '-1' : '2' }}>
+            <Hidden smDown>
+              <S.CopyRightDiv
+                color={footerBackgroundTheme === 'green' ? 'black' : '#7c7c7c'}
+                style={{
+                  opacity: getOpacity(),
+                }}
+              >
+                © 2021 Infinite Assets, Inc.
+              </S.CopyRightDiv>
+            </Hidden>
             <SocialMediaButton
               socialNetwork={Social.Facebook}
               footerTheme={footerBackgroundTheme}
@@ -142,6 +154,7 @@ const Footer = ({ footerBackgroundTheme }) => {
                 <div
                   style={{
                     marginLeft: '10px',
+                    fontWeight: 600,
                   }}
                 >
                   Hedera Hashgraph
@@ -150,19 +163,16 @@ const Footer = ({ footerBackgroundTheme }) => {
             </div>
           </Hidden>
           <Hidden mdUp>
-            <div
+            <S.CopyRightDiv
+              color={footerBackgroundTheme === 'green' ? 'black' : '#7c7c7c'}
               style={{
                 marginBottom: '24px',
-                color:
-                  footerBackgroundTheme === 'green'
-                    ? 'black'
-                    : 'var(--grey-40)',
                 textAlign: 'center',
                 opacity: getOpacity(),
               }}
             >
               INFINITE© 2021 All rights reserved.
-            </div>
+            </S.CopyRightDiv>
           </Hidden>
         </S.FooterBottom>
       </S.FooterContent>

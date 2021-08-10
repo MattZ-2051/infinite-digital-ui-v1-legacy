@@ -3,14 +3,14 @@ export const MainContainer = styled.div`
   background-color: black;
   display: flex;
   justify-content: center;
-  padding-bottom: 266px;
-  padding-top: 160px;
+  padding-bottom: 300px;
+  padding-top: 300px;
   @media screen and (max-width: 960px) {
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;
-    padding-bottom: 342px;
-    padding-top: 316px;
+    padding-bottom: 200px;
+    padding-top: 200px;
   }
 `;
 
@@ -26,7 +26,7 @@ export const Title = styled.div`
   color: white;
   font-size: 48px;
   font-family: 'PlusJakartaSans';
-  font-weight: 700;
+  font-weight: 600;
   line-height: 56px;
   text-align: center;
   @media screen and (max-width: 960px) {
@@ -56,7 +56,7 @@ export const ButtonText = styled.div`
   color: white;
   font-size: 16px;
   font-family: 'PlusJakartaSans';
-  font-weight: 700;
+  font-weight: 600;
   line-height: 13px;
   text-align: center;
 `;

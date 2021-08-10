@@ -22,13 +22,15 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.span`
-  font-size: 64px;
+  font-size: 52px;
   font-style: normal;
   font-weight: 600;
+  line-height: 74px;
   color: black;
   text-align: center;
   @media screen and (max-width: 1100px) {
-    font-size: 32px;
+    font-size: 30px;
+    line-height: normal;
   }
 `;
 
@@ -40,7 +42,7 @@ export const ContainerHubspot = styled.div`
 
 export const SubHeader = styled.span<{ color: string; margin: string }>`
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   opacity: 0.72;
   color: ${(props) => `${props.color}`};

@@ -51,8 +51,8 @@ const Landing = () => {
   }, [user]);
   return (
     <main>
-      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <SkuTilesTab />
+      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <InfiniteWorldSection />
       <BuildWithUs />
       <FAQSection />
