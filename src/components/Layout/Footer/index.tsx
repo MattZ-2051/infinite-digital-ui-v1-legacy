@@ -45,6 +45,7 @@ const Footer = ({ footerBackgroundTheme }) => {
       return 'black';
     }
   };
+
   return (
     <S.StyledFooter
       padding={isSmall ? '0' : '0 80px'}
@@ -58,7 +59,7 @@ const Footer = ({ footerBackgroundTheme }) => {
               size="small"
               matchesMobile={matchesMobile}
               onClick={() => {
-                location.replace(
+                window.open(
                   'https://support.suku.world/infinite-powered-by-suku'
                 );
               }}
@@ -66,7 +67,11 @@ const Footer = ({ footerBackgroundTheme }) => {
               FAQ
             </TextButton>
             <TextButton
-              to="https://martingarrido.notion.site/Join-the-INFINITE-by-SUKU-Team-bf1a0c96034a4ac6a07757bc8e96f3d8"
+              onClick={() =>
+                window.open(
+                  'https://martingarrido.notion.site/Join-the-INFINITE-by-SUKU-Team-bf1a0c96034a4ac6a07757bc8e96f3d8'
+                )
+              }
               color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
@@ -74,7 +79,7 @@ const Footer = ({ footerBackgroundTheme }) => {
               Careers
             </TextButton>
             <TextButton
-              to="https://www.suku.world/"
+              onClick={() => window.open('https://www.suku.world/')}
               color={getColor()}
               size="small"
               matchesMobile={matchesMobile}
