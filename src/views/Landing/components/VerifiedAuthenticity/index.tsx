@@ -27,8 +27,8 @@ const VerifiedAuthenticity = (): React.ReactElement => {
             authentic with a discrete tamper-proof NFC sticker.
           </p>
           <h4>
-            Claim ownership of your items to curate your collection share them
-            on the Infinite World.
+            Claim ownership of your items to curate your collection and share
+            them on the Infinite World.
           </h4>
           <S.Stores className="block__store">
             <a
