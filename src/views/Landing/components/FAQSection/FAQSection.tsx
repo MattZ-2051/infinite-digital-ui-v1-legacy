@@ -4,7 +4,7 @@ import * as S from './styles';
 import { options } from './TextOptions/textOptions';
 export const FAQSection = () => {
   const handleRedirection = () => {
-    location.replace('https://support.suku.world/infinite-powered-by-suku');
+    window.open('https://support.suku.world/infinite-powered-by-suku');
   };
   return (
     <S.MainContainer>
