@@ -79,8 +79,8 @@ export const SubscribeButton = styled(Button)`
   &.MuiButton-root {
     min-width: 410px;
     :hover {
-      background: #ddf874;
-      color: black;
+      cursor: pointer;
+      background: black;
     }
     @media screen and (max-width: 700px) {
       min-width: 100%;

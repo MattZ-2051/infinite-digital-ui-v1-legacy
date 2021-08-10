@@ -17,6 +17,7 @@ const Subscribe = (): JSX.Element => {
   const matchesSmallMobile = useMediaQuery('(max-width:460px)', {
     noSsr: true,
   });
+
   const buttonTextDone = 'Done';
   const onChange = (event) => {
     setEmail(event?.target?.value);
@@ -29,6 +30,9 @@ const Subscribe = (): JSX.Element => {
       /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return regex.test(input);
   };
+
+  const isButtonDisable =
+    (error && submitted) || !email || buttonText == buttonTextDone;
 
   const { isAuthenticated } = useAuth0();
 
@@ -104,13 +108,14 @@ const Subscribe = (): JSX.Element => {
             isDisabled={buttonText == buttonTextDone}
           />
           <S.SubscribeButton
-            disabled={
-              (error && submitted) || !email || buttonText == buttonTextDone
-            }
-            color="black"
+            disabled={isButtonDisable}
             style={{
               height: '56px',
               borderRadius: '25px',
+              backgroundColor: isButtonDisable
+                ? 'rgba(0, 0, 0, 0.16)'
+                : 'black',
+              color: isButtonDisable ? 'black' : 'white',
             }}
             onClick={subscribe}
           >
