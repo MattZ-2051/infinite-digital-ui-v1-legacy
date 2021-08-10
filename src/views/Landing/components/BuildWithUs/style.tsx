@@ -15,7 +15,7 @@ export const Container = styled.section`
     font-size: 18px;
     font-weight: 700;
     line-height: 32px;
-    letter-spacing: -1%;
+    letter-spacing: -0.01em;
     color: #9da1a8;
   }
 
@@ -23,7 +23,7 @@ export const Container = styled.section`
     font-size: 48px;
     font-weight: 700;
     line-height: 56px;
-    letter-spacing: -3%;
+    letter-spacing: -0.03em;
     color: #fff;
   }
 
@@ -44,10 +44,12 @@ export const Container = styled.section`
 
 export const BlockGrid = styled.section`
   display: grid;
-  grid-template-columns: 1fr 520px;
+  grid-template-columns: minmax(auto, 710px) 520px;
   grid-template-rows: repeat(3, auto);
   column-gap: min(112px, 8%);
   row-gap: 24px;
+  margin-left: auto;
+  margin-right: auto;
 
   header,
   .block__action,
@@ -90,6 +92,7 @@ export const BlockGrid = styled.section`
 
 export const Header = styled.header`
   margin-top: auto;
+  max-width: 58ch;
   > * + * {
     margin-top: 16px;
   }
@@ -185,12 +188,12 @@ export const ImgFrame = styled.div`
 `;
 
 export const ActionButton = styled.a`
-  border: solid thin #ddf874;
-  background-color: #ddf874;
+  border: solid thin #3a3a3a;
+  background-color: #000;
   border-radius: 40px;
   padding: 18px 40px;
 
-  color: #000;
+  color: #fff;
   font-size: 16px;
   line-height: 100%;
   font-weight: 700;
@@ -204,10 +207,14 @@ export const ActionButton = styled.a`
 
   :hover,
   :focus {
-    transform: scale(1.05);
+    border: solid thin #ddf874;
+    background-color: #ddf874;
+    color: #000;
   }
   :active {
-    transform: scale(0.95);
+    border: solid thin #ddf874;
+    background-color: #ddf874;
+    color: #000;
   }
 `;
 

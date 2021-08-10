@@ -95,7 +95,7 @@ export const Action = styled.section`
     max-width: 52ch;
   }
   > * + * {
-    margin-top: 32px;
+    margin-top: 16px;
   }
 `;
 

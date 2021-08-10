@@ -20,7 +20,7 @@ const BuildWithUs = (): React.ReactElement => {
             bridge the gap between the digital and physical world.
           </p>
           <S.ActionButton href="https://goinfinite.io/help">
-            Create with us.
+            Create with us
           </S.ActionButton>
         </S.Action>
         <S.Featured className="block__features">
