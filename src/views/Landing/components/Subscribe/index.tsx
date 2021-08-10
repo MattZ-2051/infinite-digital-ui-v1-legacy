@@ -10,6 +10,7 @@ import { useMediaQuery } from '@material-ui/core';
 const Subscribe = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [subscribed, setSubscribed] = useState<string>('');
   const [buttonText, setButtonText] = useState<string>('Join the waitlist');
@@ -20,6 +21,7 @@ const Subscribe = (): JSX.Element => {
   const onChange = (event) => {
     setEmail(event?.target?.value);
     setError(!isValidEmail(event?.target?.value));
+    setSubmitted(false);
   };
 
   const isValidEmail = (input) => {
@@ -31,23 +33,26 @@ const Subscribe = (): JSX.Element => {
   const { isAuthenticated } = useAuth0();
 
   const subscribe = async () => {
-    const fields = [{ name: 'email', value: email }];
-    if (isAuthenticated) {
-      fields.push({ name: 'infinite_userid', value: loggedInUser.id });
-      fields.push({
-        name: 'infinite_username',
-        value: loggedInUser.username,
-      });
-    }
-    try {
-      const resp = await subscribeMail(fields);
-      setSubscribed(resp);
-      Toast.success(
-        'Thanks for signing up for the INFINITE newsletter! Stay tuned for more updates coming soon.'
-      );
-      setButtonText(buttonTextDone);
-    } catch (error) {
-      Toast.error('Whoops! Something went wrong, Please try again.');
+    setSubmitted(true);
+    if (!error) {
+      const fields = [{ name: 'email', value: email }];
+      if (isAuthenticated) {
+        fields.push({ name: 'infinite_userid', value: loggedInUser.id });
+        fields.push({
+          name: 'infinite_username',
+          value: loggedInUser.username,
+        });
+      }
+      try {
+        const resp = await subscribeMail(fields);
+        setSubscribed(resp);
+        Toast.success(
+          'Thanks for signing up for the INFINITE newsletter! Stay tuned for more updates coming soon.'
+        );
+        setButtonText(buttonTextDone);
+      } catch (error) {
+        Toast.error('Whoops! Something went wrong, Please try again.');
+      }
     }
   };
 
@@ -92,12 +97,16 @@ const Subscribe = (): JSX.Element => {
             onChange={onChange}
             value={email}
             placeholder="Enter your email"
-            error={error}
-            helperText={error ? 'Email must be formatted correctly.' : ''}
+            error={error && submitted}
+            helperText={
+              error && submitted ? 'Email must be formatted correctly.' : ''
+            }
             isDisabled={buttonText == buttonTextDone}
           />
           <S.SubscribeButton
-            disabled={error || !email || buttonText == buttonTextDone}
+            disabled={
+              (error && submitted) || !email || buttonText == buttonTextDone
+            }
             color="black"
             style={{
               height: '56px',

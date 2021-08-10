@@ -60,10 +60,10 @@ export const EmailInput = styled(TextField)<{
     text-align: center;
   }
   && .MuiInput-underline:not(.Mui-error)::before {
-    border-color: #4a4a4a;
+    border-color: gray;
   }
   && .MuiInput-underline:not(.Mui-error)::after {
-    border-color: #fff;
+    border-color: #000;
   }
 
   @media screen and (max-width: 700px) {
