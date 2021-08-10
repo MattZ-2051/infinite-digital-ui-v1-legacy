@@ -31,9 +31,8 @@ const InfiniteWorldSection = () => {
               Curate your collection of digital and physical goods
             </S.ColumnTitle>
             <S.ColumnText>
-              Our carbon negative NFT marketplace for exclusive digital ad
-              physical products connects communities, creators brands and
-              creators.
+              Our carbon negative NFT marketplace for exclusive digital and
+              physical products connects communities, creators, and brands.
             </S.ColumnText>
           </S.Column>
           <S.Column>
