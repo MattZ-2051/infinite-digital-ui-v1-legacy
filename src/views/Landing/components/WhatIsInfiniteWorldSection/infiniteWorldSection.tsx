@@ -1,3 +1,4 @@
+import { useWindowScroll } from 'react-use';
 import * as S from './styles';
 
 const InfiniteWorldSection = () => {
@@ -13,14 +14,19 @@ const InfiniteWorldSection = () => {
         </S.TitleContainer>
         <S.ColumnsContainer>
           <S.Column>
-            <S.ColumnTitle>Build your own NFT Megaverse</S.ColumnTitle>
+            <S.ColumnTitle
+              style={{ minWidth: window.innerWidth > 1250 ? '340px' : '0' }}
+            >
+              Build your own
+              {window.innerWidth > 1250 && <br />} NFT Megaverse
+            </S.ColumnTitle>
             <S.ColumnText>
               We create state of the art NFT worlds and marketplaces for brands
               and creators that enable them to achieve elevated consumer
-              experiences
+              experiences.
             </S.ColumnText>
           </S.Column>
-          <S.Column>
+          <S.Column style={{ margin: '0 10px 0 10px' }}>
             <S.ColumnTitle>
               Curate your collection of digital and physical goods
             </S.ColumnTitle>
@@ -32,7 +38,7 @@ const InfiniteWorldSection = () => {
           </S.Column>
           <S.Column>
             <S.ColumnTitle>
-              Experience utility of your NFTs like never before.
+              Experience utility of your NFTs like never before
             </S.ColumnTitle>
             <S.ColumnText>
               Welcome to the Megaverse. We leverage the best of blockchain and

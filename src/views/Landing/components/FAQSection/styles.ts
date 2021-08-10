@@ -51,6 +51,16 @@ export const CollapsibleContainer = styled.div`
   }
 `;
 
+export const ButtonText = styled.div`
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-family: 'PlusJakartaSans';
+  font-weight: 700;
+  line-height: 13px;
+  text-align: center;
+`;
+
 export const Button = styled.div`
   cursor: pointer;
   margin-top: 25px;
@@ -62,20 +72,17 @@ export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  :hover {
+    background-color: #ddf874;
+    border-color: #ddf874;
+  }
+  &:hover ${ButtonText} {
+    color: black;
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
     padding-left: 12px;
     padding-right: 12px;
     margin-top: 13px;
   }
-`;
-
-export const ButtonText = styled.div`
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
-  font-family: 'PlusJakartaSans';
-  font-weight: 700;
-  line-height: 13px;
-  text-align: center;
 `;

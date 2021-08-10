@@ -79,6 +79,9 @@ export const Column = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  @media screen and (max-width: 1250px) {
+    margin: 0;
+  }
 `;
 export const ColumnTitle = styled.div`
   font-size: 32px;
