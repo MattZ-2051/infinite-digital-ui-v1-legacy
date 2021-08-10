@@ -6,7 +6,7 @@ const InfiniteWorldSection = () => {
     <S.MainContainer>
       <S.Container>
         <S.TitleContainer>
-          <S.MainTitle>What is infinite World?</S.MainTitle>
+          <S.MainTitle>What is Infinite World?</S.MainTitle>
           <S.MainText style={{ marginBottom: '0px' }}>
             We provide the infrastructure for brands and creators to build
             communities in the metaverse
