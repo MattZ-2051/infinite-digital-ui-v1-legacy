@@ -3,13 +3,19 @@ import { ReactComponent as YFinanceLogo } from 'assets/svg/logos/yahoo-finance.s
 import { ReactComponent as CoindeskLogo } from 'assets/svg/logos/coindesk.svg';
 import { ReactComponent as ForbesLogo } from 'assets/svg/logos/forbes.svg';
 
-export const Container = styled.section`
+export const BackgroundContainer = styled.div`
+  width: 100%;
+  background: black;
+`;
+export const Container = styled.div`
   background-color: #000;
   padding-top: 300px;
   padding-bottom: 300px;
   padding-left: 80px;
   padding-right: 80px;
   overflow: hidden;
+  max-width: 1440px;
+  margin: auto;
 
   @media screen and (max-width: 1100px) {
     padding: 200px 24px 200px 24px;
