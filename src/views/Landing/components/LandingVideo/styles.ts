@@ -1,24 +1,45 @@
 import styled from 'styled-components/macro';
+import tswBack from 'assets/img/backgrounds/tsw-background.png';
 
 export const BackgroundContainer = styled.section`
   background-color: black;
   width: 100%;
+  position: relative;
+  z-index: -2;
 `;
 export const Container = styled.section`
   max-width: 1140px;
-  // background: -webkit-linear-gradient(#000000 0%);
-  // background: -webkit-linear-gradient(
-  //     270deg,
-  //     #000000 0%,
-  //     rgba(0, 0, 0, 0) 31.85%
-  //   ),
-  //   -webkit-linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%),
-  //   -webkit-linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 50%),
-  //   -webkit-linear-gradient(180deg, #000000 -3.32%, #677436 49.93%);
   margin: auto;
   padding: 96px 80px 0px 80px;
   @media screen and (max-width: 1100px) {
     padding: 96px 24px 0px 24px;
+  }
+`;
+
+export const BackdropWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  ::before {
+    content: '';
+    background-image: url(${tswBack});
+    background-size: 145vw 81vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vw;
+    z-index: -1;
+  }
+
+  @media screen and (min-width: 1100px) {
+    ::before {
+      background-size: 1427px 800px;
+    }
   }
 `;
 

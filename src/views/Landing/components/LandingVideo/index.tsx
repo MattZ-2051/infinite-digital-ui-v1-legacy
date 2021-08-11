@@ -40,7 +40,9 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
   return (
     <S.BackgroundContainer>
       <S.Container>
-        <VideoView src="https://infinite-digital-prod.s3.amazonaws.com/InfiniteWorld-CarsPromo_v1_August2021.mp4" />
+        <S.BackdropWrapper>
+          <VideoView src="https://infinite-digital-prod.s3.amazonaws.com/InfiniteWorld-CarsPromo_v1_August2021.mp4" />
+        </S.BackdropWrapper>
         <S.Header>
           Take your passion for the road
           {!matchesMobile && <br />} to the metaverse
