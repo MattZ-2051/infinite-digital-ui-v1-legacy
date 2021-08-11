@@ -13,7 +13,7 @@ const Subscribe = (): JSX.Element => {
   const [submitted, setSubmitted] = useState(false);
   const loggedInUser = useAppSelector((state) => state.session.user);
   const [subscribed, setSubscribed] = useState<string>('');
-  const [buttonText, setButtonText] = useState<string>('Join the waitlist');
+  const [buttonText, setButtonText] = useState<string>('Join the mailing list');
   const matchesSmallMobile = useMediaQuery('(max-width:460px)', {
     noSsr: true,
   });

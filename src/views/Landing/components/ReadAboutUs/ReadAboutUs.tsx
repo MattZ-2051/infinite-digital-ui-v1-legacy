@@ -6,10 +6,10 @@ export const ReadAboutUs = () => {
       <S.Container>
         <S.LeftColumn>
           <S.WhatsNew>{`What's new?`}</S.WhatsNew>
-          <S.Title>Read all about us.</S.Title>
+          <S.Title>Read all about us</S.Title>
           <S.SubTitle>
-            Infinite World is at the forefront of creating sustainable
-            ecosystems for NFTs and beyond.
+            Infinite is at the forefront of creating sustainable ecosystems for
+            NFTs and beyond.
           </S.SubTitle>
         </S.LeftColumn>
         <S.RightColumn>

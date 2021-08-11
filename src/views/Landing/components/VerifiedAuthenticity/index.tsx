@@ -17,7 +17,7 @@ const VerifiedAuthenticity = (): React.ReactElement => {
         </S.ImgBlock>
         <S.Header>
           <h2>Verified Authenticity</h2>
-          <h3>Authenticate your Collectables and Luxury Items.</h3>
+          <h3>Authenticate your Collectables and Luxury Items</h3>
         </S.Header>
         <S.Action className="block__action">
           <p>
@@ -28,7 +28,7 @@ const VerifiedAuthenticity = (): React.ReactElement => {
           </p>
           <h4>
             Claim ownership of your items to curate your collection and share
-            them on the Infinite World.
+            them on the Infinite.
           </h4>
           <S.Stores className="block__store">
             <a

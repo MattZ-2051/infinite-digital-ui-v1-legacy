@@ -10,7 +10,7 @@ export const FAQSection = () => {
     <S.MainContainer>
       <S.Container>
         <S.TitleContainer>
-          <S.Title> Frequently Asked questions </S.Title>
+          <S.Title> Frequently Asked Questions </S.Title>
         </S.TitleContainer>
         <S.CollapsibleContainer>
           {options.map((x, i) => (

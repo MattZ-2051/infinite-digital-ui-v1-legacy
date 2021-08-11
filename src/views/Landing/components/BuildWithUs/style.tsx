@@ -29,7 +29,7 @@ export const Container = styled.div`
   }
 
   h3 {
-    font-size: 48px;
+    font-size: 44px;
     font-weight: 600;
     line-height: 56px;
     letter-spacing: -0.03em;

@@ -6,7 +6,15 @@ export const BackgroundContainer = styled.section`
 `;
 export const Container = styled.section`
   max-width: 1140px;
-  background-color: black;
+  // background: -webkit-linear-gradient(#000000 0%);
+  // background: -webkit-linear-gradient(
+  //     270deg,
+  //     #000000 0%,
+  //     rgba(0, 0, 0, 0) 31.85%
+  //   ),
+  //   -webkit-linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%),
+  //   -webkit-linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 50%),
+  //   -webkit-linear-gradient(180deg, #000000 -3.32%, #677436 49.93%);
   margin: auto;
   padding: 96px 80px 0px 80px;
   @media screen and (max-width: 1100px) {

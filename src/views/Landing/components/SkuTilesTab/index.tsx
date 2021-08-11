@@ -10,11 +10,8 @@ const SkuTilesTab = (): JSX.Element => {
   const DeskTopView = ({ matchesMobile }) => {
     return (
       <S.Container>
-        <S.SubHeader>A curated marketplace for NFTs and beyond.</S.SubHeader>
-        <S.Header>
-          Welcome to the Megaverse <br />
-          Infinite World
-        </S.Header>
+        <S.SubHeader>A curated marketplace for NFTs and beyond</S.SubHeader>
+        <S.Header>Welcome to the Infinite Megaverse</S.Header>
         <LatestReleases matchesMobile={matchesMobile} />
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
@@ -34,7 +31,7 @@ const SkuTilesTab = (): JSX.Element => {
         </S.SubHeader>
         <S.Header>
           Welcome to the <br />
-          Megaverse <br /> to Infinite World
+          Infinite Megaverse
         </S.Header>
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
