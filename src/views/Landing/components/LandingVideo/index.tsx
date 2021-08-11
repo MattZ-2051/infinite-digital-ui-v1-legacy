@@ -17,8 +17,8 @@ const VideoView = ({ src }: { src: string }) => {
         width: '100%',
         height: '100%',
       }}
-      autoPlay={true}
       controls={true}
+      playsInline={true}
       loop={true}
       muted={true}
       src={src}
