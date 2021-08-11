@@ -87,7 +87,6 @@ const AddCC = () => {
       setFormError(true);
     } else {
       setFormError(false);
-      dispatch(getUserCardsThunk({ token: await getAccessTokenSilently() }));
       Toast.success('Card successfully added');
     }
   };

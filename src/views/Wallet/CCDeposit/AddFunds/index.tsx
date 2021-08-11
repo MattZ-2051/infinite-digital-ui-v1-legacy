@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+  getUserCardsThunk,
   removeUserCCThunk,
   addFundsThunk,
   getUserInfoThunk,
@@ -112,7 +113,7 @@ const AddFunds = (): JSX.Element | null => {
     );
 
     if (res.type.split('/').slice(-1)?.[0] !== 'rejected') {
-      // dispatch(getUserCardsThunk({ token: userToken }));
+      dispatch(getUserCardsThunk({ token: userToken }));
       dispatch(getUserInfoThunk({ token: userToken }));
       history.push(`/wallet/deposit/success`);
     } else {
