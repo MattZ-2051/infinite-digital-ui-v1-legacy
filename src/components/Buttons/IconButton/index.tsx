@@ -55,12 +55,12 @@ const ButtonGrey = css`
 `;
 
 const ButtonLightGrey = css`
-  background: black;
-  color: white;
-  opacity: 0.4;
+  background: #c7df67;
+  color: #677436;
   :hover {
     opacity: 1;
     color: white;
+    background: black;
   }
 `;
 

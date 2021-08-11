@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { IOption } from './IOption';
 import * as S from './styles';
+import { ReactComponent as PlusSign } from 'assets/svg/icons/plusplusSign.svg';
+import { ReactComponent as MinusSign } from 'assets/svg/icons/minusSign.svg';
 
 export const CollapsibleOption = ({ title, text }: IOption) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,7 +13,8 @@ export const CollapsibleOption = ({ title, text }: IOption) => {
     <S.Container isOpen={isOpen}>
       <S.MenuOptionTitle onClick={handleOpen} isOpen={isOpen}>
         <S.Title>{title}</S.Title>
-        <S.Sign>{isOpen ? '-' : '+'}</S.Sign>
+
+        <S.Sign>{isOpen ? <MinusSign /> : <PlusSign />}</S.Sign>
       </S.MenuOptionTitle>
       {isOpen && <S.Text>{text}</S.Text>}
     </S.Container>

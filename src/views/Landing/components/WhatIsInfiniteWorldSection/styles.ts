@@ -2,13 +2,13 @@ import styled from 'styled-components/macro';
 
 export const MainContainer = styled.div`
   background-color: #ddf874;
-  padding: 120px 80px 144px 80px;
+  padding: 300px 80px 300px 80px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   @media screen and (max-width: 1250px) {
-    padding: 150px 0px 88px 0px;
+    padding: 200px 0px 200px 0px;
   }
 `;
 
@@ -30,11 +30,11 @@ export const MainTitle = styled.div`
   font-size: 64px;
   text-align: center;
   font-family: 'PlusJakartaSans';
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 16px;
   line-height: 74px;
   @media screen and (max-width: 1250px) {
-    font-size: 34px;
+    font-size: 30px;
     line-height: 44px;
   }
 `;
@@ -79,10 +79,13 @@ export const Column = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  @media screen and (max-width: 1250px) {
+    margin: 0;
+  }
 `;
 export const ColumnTitle = styled.div`
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 600;
   max-width: 408px;
   text-align: center;
   border-bottom: solid 2px;

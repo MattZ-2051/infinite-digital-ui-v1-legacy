@@ -25,7 +25,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
 export const Title = styled.div`
   font-size: 24px;
   font-family: 'PlusJakartaSans';
-  font-weight: 700;
+  font-weight: 600;
   line-height: 30px;
 
   @media screen and (max-width: 960px) {
@@ -48,13 +48,5 @@ export const Text = styled.div`
 `;
 
 export const Sign = styled.div`
-  font-weight: 700;
-  fill: solid;
-  line-height: 30px;
-  radius: 99px;
-  font-size: 24px;
-  margin-left: 26px;
-  @media screen and (max-width: 960px) {
-    font-size: 20px;
-  }
+  display: flex;
 `;

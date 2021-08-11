@@ -21,14 +21,14 @@ const VerifiedAuthenticity = (): React.ReactElement => {
         </S.Header>
         <S.Action className="block__action">
           <p>
-            We provide a unique platform to manage your Physical Collectables
-            through a Digital closet of NFTs. Bringing confidence and
+            We provide a unique platform to manage your physical collectables
+            through a digital closet of NFTs. Bringing confidence and
             accessibility, collectables are permanently tracked and tagged as
             authentic with a discrete tamper-proof NFC sticker.
           </p>
           <h4>
-            Claim ownership of your items to curate your collection share them
-            on the Infinite World.
+            Claim ownership of your items to curate your collection and share
+            them on the Infinite World.
           </h4>
           <S.Stores className="block__store">
             <a

@@ -10,7 +10,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Footer from 'components/Layout/Footer';
 import { useState } from 'react';
-import { useTheme } from 'styled-components';
 
 const theme = createMuiTheme({
   typography: {

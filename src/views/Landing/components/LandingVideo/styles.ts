@@ -1,11 +1,16 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.section`
-  max-width: 1440px;
-  padding: 100px 80px 0px 80px;
+export const BackgroundContainer = styled.section`
   background-color: black;
-
-  h6 {
+  width: 100%;
+`;
+export const Container = styled.section`
+  max-width: 1140px;
+  background-color: black;
+  margin: auto;
+  padding: 96px 80px 0px 80px;
+  @media screen and (max-width: 1100px) {
+    padding: 96px 24px 0px 24px;
   }
 `;
 
@@ -14,14 +19,27 @@ export const Header = styled.h3`
   font-size: 64px;
   font-weight: 600;
   text-align: center;
+  padding-top: 56px;
+  @media screen and (max-width: 460px) {
+    font-size: 32px;
+  }
 `;
 
 export const SubHeader = styled.h6`
   color: #9da1a8;
   font-size: 16px;
-  text-align: center;
   font-weight: 400;
+  text-align: center;
+  line-height: 26px;
   padding-top: 32px;
+`;
+
+export const FlexDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 40px;
 `;
 
 export const Button = styled.button<{ width: string }>`

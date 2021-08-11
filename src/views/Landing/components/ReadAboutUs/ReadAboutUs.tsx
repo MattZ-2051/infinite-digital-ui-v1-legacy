@@ -21,7 +21,6 @@ export const ReadAboutUs = () => {
             link={
               'https://www.forbes.com/sites/sharonedelson/2021/05/19/sukus-infinite-nft-marketplace-bows-today-get-your-john-lennon-digital-collectibles/?sh=7b203a5c47ab'
             }
-            white={false}
           />
           <ReadMore
             title={'Decrypt'}
@@ -29,7 +28,6 @@ export const ReadAboutUs = () => {
             link={
               'https://decrypt.co/71453/suku-nft-environment-carbon-negative'
             }
-            white={true}
           />
           <ReadMore
             title={'Footwearnews'}
@@ -39,7 +37,6 @@ export const ReadAboutUs = () => {
             link={
               'https://footwearnews.com/2021/focus/athletic-outdoor/spencer-dinwiddie-k8iros-crypto-sneaker-nft-release-info-1203162082/'
             }
-            white={false}
           />
         </S.RightColumn>
       </S.Container>

@@ -1,9 +1,7 @@
 import styled from 'styled-components/macro';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.section`
-  padding: 300px 40px 400px 40px;
-  // height: 100vh;
+  padding: 300px 40px 300px 40px;
   margin: auto;
   background-color: black;
   @media screen and (min-height: 1920px) {
@@ -11,28 +9,31 @@ export const Container = styled.section`
   }
   @media screen and (max-width: 960px) {
     height: 100%;
-    padding: 240px 24px 324px 24px;
+    padding: 200px 24px 200px 24px;
   }
 
   @media screen and (max-width: 340px) {
-    padding: 240px 0 324px 0;
+    padding: 240px 0px 324px 0px;
   }
 `;
 
 export const Header = styled.p`
   margin: 0;
   color: white;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 48px;
   text-align: center;
   padding: 16px 0px 64px 0px;
+  @media screen and (max-width: 460px) {
+    font-size: 32px;
+  }
 `;
 
 export const SubHeader = styled.p`
   margin: 0;
   font-size: 18px;
   color: #9da1a8;
-  font-weight: 700;
+  font-weight: 600;
   padding-bottom: 16px;
   text-align: center;
 `;
@@ -52,7 +53,7 @@ export const MarketPlaceButton = styled.button`
   background-color: black;
   width: 272px;
   height: 48px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
   color: white;
   border-radius: 30px;
@@ -62,7 +63,7 @@ export const MarketPlaceButton = styled.button`
 
   :hover {
     cursor: pointer;
-    background: white;
+    background: #ddf874;
     color: black;
     border: 1px solid black;
   }

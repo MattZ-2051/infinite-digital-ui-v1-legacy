@@ -3,28 +3,40 @@ import { ReactComponent as YFinanceLogo } from 'assets/svg/logos/yahoo-finance.s
 import { ReactComponent as CoindeskLogo } from 'assets/svg/logos/coindesk.svg';
 import { ReactComponent as ForbesLogo } from 'assets/svg/logos/forbes.svg';
 
-export const Container = styled.section`
+export const BackgroundContainer = styled.div`
+  width: 100%;
+  background: black;
+`;
+export const Container = styled.div`
   background-color: #000;
-  padding-top: 340px;
-  padding-bottom: 340px;
-  padding-left: 12vw;
-  padding-right: 12vw;
+  padding-top: 300px;
+  padding-bottom: 300px;
+  padding-left: 80px;
+  padding-right: 80px;
   overflow: hidden;
+  max-width: 1440px;
+  margin: auto;
 
+  @media screen and (max-width: 1100px) {
+    padding: 200px 24px 200px 24px;
+  }
   h2 {
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 32px;
-    letter-spacing: -1%;
+    letter-spacing: -0.01em;
     color: #9da1a8;
   }
 
   h3 {
     font-size: 48px;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 56px;
-    letter-spacing: -3%;
+    letter-spacing: -0.03em;
     color: #fff;
+    @media screen and (max-width: 460px) {
+      font-size: 32px;
+    }
   }
 
   h4 {
@@ -44,10 +56,12 @@ export const Container = styled.section`
 
 export const BlockGrid = styled.section`
   display: grid;
-  grid-template-columns: 1fr 520px;
+  grid-template-columns: minmax(auto, 710px) 520px;
   grid-template-rows: repeat(3, auto);
   column-gap: min(112px, 8%);
   row-gap: 24px;
+  margin-left: auto;
+  margin-right: auto;
 
   header,
   .block__action,
@@ -90,6 +104,7 @@ export const BlockGrid = styled.section`
 
 export const Header = styled.header`
   margin-top: auto;
+  max-width: 58ch;
   > * + * {
     margin-top: 16px;
   }
@@ -185,15 +200,15 @@ export const ImgFrame = styled.div`
 `;
 
 export const ActionButton = styled.a`
-  border: solid thin #ddf874;
-  background-color: #ddf874;
+  border: solid thin #3a3a3a;
+  background-color: #000;
   border-radius: 40px;
   padding: 18px 40px;
 
-  color: #000;
+  color: #fff;
   font-size: 16px;
   line-height: 100%;
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
   text-decoration: none;
 
@@ -204,10 +219,14 @@ export const ActionButton = styled.a`
 
   :hover,
   :focus {
-    transform: scale(1.05);
+    border: solid thin #ddf874;
+    background-color: #ddf874;
+    color: #000;
   }
   :active {
-    transform: scale(0.95);
+    border: solid thin #ddf874;
+    background-color: #ddf874;
+    color: #000;
   }
 `;
 

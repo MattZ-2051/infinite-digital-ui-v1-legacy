@@ -19,6 +19,7 @@ import { FAQSection } from './components/FAQSection/FAQSection';
 import { ReadAboutUs } from './components/ReadAboutUs/ReadAboutUs';
 import BuildWithUs from './components/BuildWithUs';
 import VerifiedAuthenticity from './components/VerifiedAuthenticity';
+import LandingVideo from './components/LandingVideo';
 
 const Landing = () => {
   const dispatch = useAppDispatch();
@@ -51,8 +52,12 @@ const Landing = () => {
   }, [user]);
   return (
     <main>
-      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
+      <LandingVideo
+        isAuthenticated={isAuthenticated}
+        login={loginWithRedirect}
+      />
       <SkuTilesTab />
+      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
       <InfiniteWorldSection />
       <BuildWithUs />
       <FAQSection />

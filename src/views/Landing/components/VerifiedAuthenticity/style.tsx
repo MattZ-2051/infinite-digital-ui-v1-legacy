@@ -3,12 +3,20 @@ import { ReactComponent as AppStoreLogo } from 'assets/svg/logos/app-store.svg';
 
 export const Container = styled.section`
   background-color: #fff;
-  padding-top: 185px;
-  padding-bottom: 185px;
+  padding-top: 300px;
+  padding-bottom: 300px;
   padding-left: 12vw;
   padding-right: 12vw;
   overflow: hidden;
 
+  @media screen and (max-width: 1100px) {
+    padding: 200px 24px 200px 24px;
+  }
+
+  @media screen and (max-width: 340px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
   h2 {
     font-size: 18px;
     font-weight: 700;
@@ -23,6 +31,9 @@ export const Container = styled.section`
     line-height: 56px;
     letter-spacing: -3%;
     color: #000;
+    @media screen and (max-width: 460px) {
+      font-size: 32px;
+    }
   }
 
   h4 {
@@ -95,7 +106,7 @@ export const Action = styled.section`
     max-width: 52ch;
   }
   > * + * {
-    margin-top: 32px;
+    margin-top: 16px;
   }
 `;
 

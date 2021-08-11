@@ -53,6 +53,9 @@ export const Title = styled.div`
   font-size: 48px;
   line-height: 56px;
   margin-bottom: 24px;
+  @media screen and (max-width: 460px) {
+    font-size: 32px;
+  }
 `;
 
 export const SubTitle = styled.div`

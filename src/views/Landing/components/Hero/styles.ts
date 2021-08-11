@@ -6,16 +6,14 @@ export const Container = styled.section`
   margin: auto;
   position: relative;
   display: flex;
-  padding: 80px 80px 0 80px;
+  padding: 0px 80px 300px 80px;
   flex-direction: row;
   text-align: center;
   color: white;
-  padding-bottom: 100px;
   max-width: 1440px;
   @media screen and (max-width: 1100px) {
     font-size: 0.9rem;
-    padding: 24px;
-    padding-bottom: 50px;
+    padding: 0px 24px 200px 24px;
     flex-direction: column;
   }
 `;
@@ -43,7 +41,7 @@ export const DropArrow = styled(RightArrow)`
 export const DropButton = styled.span`
   font-size: 16px;
   color: #9da1a8;
-  font-weight: 700;
+  font-weight: 600;
   :hover {
     cursor: pointer;
   }
@@ -103,7 +101,7 @@ export const SubContainer = styled.div<{ order: number; padding?: string }>`
 
 export const Title = styled.h1<{ fontSize: string }>`
   font-size: ${(props) => `${props.fontSize}`};
-  font-weight: 700;
+  font-weight: 600;
   margin: 0;
   // margin: 50px 0 24px 0;
   text-align: left;

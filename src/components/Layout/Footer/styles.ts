@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
 export const StyledFooter = styled.footer<{
@@ -10,8 +10,17 @@ export const StyledFooter = styled.footer<{
   width: 100%;
   background-color: ${(props) => `${props.backgroundColor}`};
   border-top: ${(props) =>
-    props.backgroundColor === '#ddf874' && '1px solid #3E4818'};
+    props.backgroundColor === '#ddf874' && '1px solid #C7DF67'};
   padding: ${(props) => props.padding};
+`;
+
+export const CopyRightDiv = styled.div<{ color: string }>`
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex: 1;
+  color: ${(props) => `${props.color}`};
 `;
 
 export const HederaText = styled.div<{ footerTheme: string }>`
@@ -94,7 +103,7 @@ export const TextButtonContainer = styled.div<{ matchesMobile }>`
   ${(props) =>
     props.matchesMobile
       ? `
-          width:120%;
+          width:105%;
           margin-bottom:20px;
            display: flex;
           justify-content: space-between;
