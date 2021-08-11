@@ -24,6 +24,9 @@ export const Header = styled.p`
   font-size: 48px;
   text-align: center;
   padding: 16px 0px 64px 0px;
+  @media screen and (max-width: 460px) {
+    font-size: 32px;
+  }
 `;
 
 export const SubHeader = styled.p`

@@ -34,6 +34,9 @@ export const Container = styled.div`
     line-height: 56px;
     letter-spacing: -0.03em;
     color: #fff;
+    @media screen and (max-width: 460px) {
+      font-size: 32px;
+    }
   }
 
   h4 {

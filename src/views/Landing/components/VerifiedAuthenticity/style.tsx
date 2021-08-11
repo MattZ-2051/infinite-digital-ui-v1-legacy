@@ -31,6 +31,9 @@ export const Container = styled.section`
     line-height: 56px;
     letter-spacing: -3%;
     color: #000;
+    @media screen and (max-width: 460px) {
+      font-size: 32px;
+    }
   }
 
   h4 {

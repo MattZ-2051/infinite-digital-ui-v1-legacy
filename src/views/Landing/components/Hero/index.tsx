@@ -13,7 +13,7 @@ interface IProps {
 const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   const history = useHistory();
-  const handleClick = () => {
+  const handleSignUp = () => {
     login({ screen_hint: 'signup' });
   };
   const vidRef = useRef<HTMLVideoElement>(null);
@@ -72,7 +72,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
               }}
             >
               {!isAuthenticated && (
-                <S.Button width="179px" onClick={handleClick}>
+                <S.Button width="179px" onClick={handleSignUp}>
                   Sign Up Now
                 </S.Button>
               )}
@@ -96,7 +96,7 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
               }}
             >
               {!isAuthenticated && (
-                <S.Button width="100%" onClick={handleClick}>
+                <S.Button width="100%" onClick={handleSignUp}>
                   Sign Up Now
                 </S.Button>
               )}

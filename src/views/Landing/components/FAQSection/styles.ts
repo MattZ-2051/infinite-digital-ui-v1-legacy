@@ -30,7 +30,7 @@ export const Title = styled.div`
   line-height: 56px;
   text-align: center;
   @media screen and (max-width: 960px) {
-    font-size: 36px;
+    font-size: 32px;
     line-height: 44px;
   }
 `;
