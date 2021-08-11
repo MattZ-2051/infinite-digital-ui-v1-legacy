@@ -11,7 +11,10 @@ const SkuTilesTab = (): JSX.Element => {
     return (
       <S.Container>
         <S.SubHeader>A curated marketplace for NFTs and beyond.</S.SubHeader>
-        <S.Header>Welcome to the Megaverse, to Infinite World</S.Header>
+        <S.Header>
+          Welcome to the Megaverse <br />
+          Infinite World
+        </S.Header>
         <LatestReleases matchesMobile={matchesMobile} />
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
