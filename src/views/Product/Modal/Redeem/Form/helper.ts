@@ -87,6 +87,32 @@ export const validate = (info: RedeemInfo, setFieldError) => {
     }));
   }
 
+  if (info.district.name.length === 0 || info.district.stateCode.length === 0) {
+    setFieldError((prevState) => ({
+      ...prevState,
+      district: true,
+    }));
+    error = true;
+  } else {
+    setFieldError((prevState) => ({
+      ...prevState,
+      district: false,
+    }));
+  }
+
+  if (info.country.length === 0) {
+    setFieldError((prevState) => ({
+      ...prevState,
+      country: true,
+    }));
+    error = true;
+  } else {
+    setFieldError((prevState) => ({
+      ...prevState,
+      country: false,
+    }));
+  }
+
   return error;
 };
 
