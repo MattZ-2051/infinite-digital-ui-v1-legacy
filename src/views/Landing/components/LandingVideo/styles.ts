@@ -6,6 +6,7 @@ export const BackgroundContainer = styled.section`
   width: 100%;
   position: relative;
   z-index: -2;
+  overflow-y: hidden;
 `;
 export const Container = styled.section`
   max-width: 1140px;
