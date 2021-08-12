@@ -50,6 +50,7 @@ export const Header = styled.h3`
   font-weight: 600;
   text-align: center;
   padding-top: 56px;
+  line-height: 1.2;
   @media screen and (max-width: 460px) {
     font-size: 32px;
   }
