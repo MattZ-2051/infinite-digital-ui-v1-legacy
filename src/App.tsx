@@ -39,7 +39,11 @@ const App = (): JSX.Element => {
             />
 
             {!isLandingLoading && (
-              <Footer footerBackgroundTheme={footerBackground} />
+              <Footer
+                footerBackgroundTheme={
+                  isLandingLoading ? 'black' : footerBackground
+                }
+              />
             )}
           </>
         </AppLayout>
