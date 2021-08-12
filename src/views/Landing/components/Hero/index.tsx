@@ -6,7 +6,7 @@ import HeroLoadingImg from 'assets/img/backgrounds/hero-loading.png';
 import { useEffect, useRef } from 'react';
 
 interface IProps {
-  login: (options?: { screen_hint: string }) => void;
+  login: (object: any) => void;
   isAuthenticated: boolean;
 }
 
@@ -14,7 +14,10 @@ const Hero = ({ login, isAuthenticated }: IProps): JSX.Element => {
   const matchesMobile = useMediaQuery('(max-width:1140px)', { noSsr: true });
   const history = useHistory();
   const handleSignUp = () => {
-    login({ screen_hint: 'signup' });
+    login({
+      appState: { returnTo: '/collection/SDinwiddie25' },
+      redirectUri: window.location.origin,
+    });
   };
   const vidRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {

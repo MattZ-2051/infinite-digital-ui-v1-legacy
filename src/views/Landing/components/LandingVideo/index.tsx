@@ -28,7 +28,7 @@ const VideoView = ({ src }: { src: string }) => {
 };
 
 interface IProps {
-  login: (options?: { screen_hint: string }) => void;
+  login: (obj: any) => void;
   isAuthenticated: boolean;
 }
 
@@ -36,7 +36,10 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
   const matchesMobile = useMediaQuery('(max-width: 460px)');
 
   const handleSignUp = () => {
-    login({ screen_hint: 'signup' });
+    login({
+      screen_hint: 'signup',
+      redirectUri: window.location.origin,
+    });
   };
   return (
     <S.BackgroundContainer>
