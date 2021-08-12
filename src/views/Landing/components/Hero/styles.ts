@@ -56,6 +56,7 @@ export const Button = styled.button<{ width: string }>`
   background-color: black;
   border: 1px solid #3a3a3a;
   border-radius: 35px;
+  cursor: pointer;
   :focus {
     outline: none;
     border: none;
