@@ -21,6 +21,7 @@ import {
 
 // Types
 import { Country, District } from 'entities/country';
+import { FormHelperText } from '@material-ui/core';
 
 const link = (
   <>
@@ -211,6 +212,11 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
                 </MenuItem>
               ))}
             </S.DropDown>
+            {fieldError?.country && (
+              <FormHelperText style={{ color: 'red' }}>
+                Select a valid country
+              </FormHelperText>
+            )}
           </S.FormRow>
           <S.FormRow>
             <InputLabel id="district">District</InputLabel>
@@ -226,6 +232,11 @@ const Form = ({ setIsModalOpen }: Props): JSX.Element => {
                 </MenuItem>
               ))}
             </S.DropDown>
+            {fieldError?.district && (
+              <FormHelperText style={{ color: 'red' }}>
+                Select a valid district
+              </FormHelperText>
+            )}
           </S.FormRow>
 
           <S.FormRow>

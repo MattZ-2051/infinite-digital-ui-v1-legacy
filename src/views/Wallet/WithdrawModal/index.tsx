@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ModalComponent from 'components/Modal';
 import * as S from './styles';
 import exitIcon from 'assets/img/icons/exit-icon.png';
-import { useMediaQuery } from '@material-ui/core';
 import ListWithdrawal from './AvailableMethods/ListWithdrawal';
 import BankMethod from './AchAccountList/BankMethod';
 import WithdrawUSCD from './AvailableMethods/WithdrawUSCD';
@@ -42,7 +41,7 @@ const WithdrawModal = ({
       disableEnforceFocus={true}
       bodyStyle={{
         display: 'flex',
-        minHeight: valueIsAdding || status === 2 ? 750 : 551,
+        minHeight: valueIsAdding || status === 2 ? 770 : 551,
         maxWidth: 522,
         margin: 0,
         top: 'initial',

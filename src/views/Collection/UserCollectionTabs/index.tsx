@@ -18,10 +18,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import SortByFilter from 'views/MarketPlace/components/Filters/SortByFilter';
 import * as S from './styles';
 import PageLoader from 'components/PageLoader';
-import { Username } from 'views/Product/History/Transaction/styles';
 import { SearchBar } from './SearchBar/searchBar';
-import { useWindowScroll } from 'react-use';
-import { Grid } from '@material-ui/core';
 import { HowItWorksCollapsible } from './Claims/howItWorksCollapsible';
 
 interface IProps {
@@ -237,14 +234,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  {/* <S.TabSeparator />
+                  <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab> */}
+                  </S.Tab>
                 </S.TabBar>
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && !mobileSearchBar && (
@@ -280,7 +277,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
 
             {selectedTab === 'items' && (
@@ -383,7 +380,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
             {selectedTab === 'releases' && (
               <Releases
@@ -404,7 +401,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 isSearchResult={searchCriteria != ''}
               />
             )}
-            {/* {selectedTab === 'claims' && (
+            {selectedTab === 'claims' && (
               <>
                 <Claims
                   userClaims={userClaims?.data}
@@ -416,7 +413,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   <HowItWorksCollapsible themeStyle={themeStyle} />
                 )}
               </>
-            )} */}
+            )}
           </>
         )}
         {userStatus === 'notCurrentUserProfileIssuer' && (
@@ -555,7 +552,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}></S.GrayLine>
+              <S.GrayLine style={{ width: '100%' }}/>
             </div>
             {selectedTab === 'items' && (
               <Items

@@ -4,7 +4,7 @@ import { USDCAddress } from 'entities/usdcAddress';
 import { ExtendedBalanceInfo, User } from 'entities/user';
 import { Wallet } from 'entities/wallet';
 import { axiosInstance } from '../coreService';
-import { IUser, IPasswordResetResponse } from './Interfaces/index';
+import {IUser, IPasswordResetResponse, IAuth0UserInfoResponse} from './Interfaces/index';
 import { handleApiError } from 'utils/apiError';
 import { config } from 'config';
 import axios, { Method } from 'axios';
@@ -214,7 +214,7 @@ export const requestPasswordReset = async (
     method: 'POST' as Method,
     url: `https://${config.auth.auth0Domain}/dbconnections/change_password`,
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     data: {
@@ -227,6 +227,24 @@ export const requestPasswordReset = async (
     const response = await axios.request<string>(options);
     const { data, status, statusText } = response;
     return { data, status, statusText };
+  } catch (err) {
+    throw handleApiError(err);
+  }
+};
+
+export const auth0UserInfo = async (
+  token: string,
+) => {
+  try {
+    const response = await axios.request<IAuth0UserInfoResponse>({
+      method: 'GET' as Method,
+      url: `https://${config.auth.auth0Domain}/userinfo`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (err) {
     throw handleApiError(err);
   }

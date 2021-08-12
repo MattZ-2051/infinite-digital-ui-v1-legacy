@@ -3,7 +3,7 @@ import { mediaQueries } from 'theme/media';
 
 const GlobalStyle = createGlobalStyle`
 
-  /* 
+  /*
     Default breakpoints:
 
     xs, extra-small: 0px
@@ -55,6 +55,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'PlusJakartaSans', sans-serif;
     font-size: 1rem;
     background: white;
+    font-variant-ligatures: no-common-ligatures;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -90,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     font-weight: 600;
     color: black;
-    
+
     &:active {
       color: black;
     }

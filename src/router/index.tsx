@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import AddFunds from 'views/Wallet/CCDeposit/AddFunds';
 import SuccessPage from 'views/Wallet/CCDeposit/SuccessPage';
 import ErrorPage from 'views/Wallet/CCDeposit/ErrorPage';
@@ -19,9 +19,17 @@ import NotFound from 'views/NotFound';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
-const RouterComponent = (): JSX.Element => {
+const RouterComponent = ({ setFooterBackground }): JSX.Element => {
   const location: any = useLocation();
   const background = location.state && location.state.background;
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setFooterBackground('green');
+    } else {
+      setFooterBackground('black');
+    }
+  });
 
   return (
     <Switch location={background || location}>

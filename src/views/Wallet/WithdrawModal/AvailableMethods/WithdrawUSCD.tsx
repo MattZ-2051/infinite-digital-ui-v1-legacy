@@ -28,15 +28,17 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
   const isValidAddress = /^0x[0-9a-f]{40}$/.test(valueAddress.toLowerCase());
 
   const errorValueAmount =
-    (submitted && valueAmount === '') ||
+    valueAmount === '' ||
     parseFloat(withdrawableBalance) < parseFloat(valueAmount)
       ? 'The amount can’t be higher than the widthrawable balance.'
       : '';
 
-  const errorAddress =
-    submitted && !isValidAddress
-      ? 'Please enter a valid Etheruem mainnet address that accepts ERC20 deposits.'
-      : '';
+  const errorAddress = !isValidAddress
+    ? 'Please enter a valid Etheruem mainnet address that accepts ERC20 deposits.'
+    : '';
+
+  const showErrorAddress = submitted ? errorAddress : '';
+  const showErrorValueAmount = submitted ? errorValueAmount : '';
 
   const handleWithdrawalSubmit = async () => {
     try {
@@ -98,8 +100,8 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
         >
           Enter the amount you would like to withdraw
         </S.Text>
-        <S.AmountContainer error={errorValueAmount}>
-          <S.DollarSign error={errorValueAmount}>$</S.DollarSign>
+        <S.AmountContainer error={showErrorValueAmount}>
+          <S.DollarSign error={showErrorValueAmount}>$</S.DollarSign>
           <S.AmountInput
             placeholder="Enter Amount"
             decimalsLimit={2}
@@ -111,10 +113,10 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
             maxLength={10}
             step={10}
             allowNegativeValue={false}
-            error={errorValueAmount}
+            error={showErrorValueAmount}
           />
         </S.AmountContainer>
-        {errorValueAmount !== '' && (
+        {showErrorValueAmount !== '' && (
           <S.Text
             color="#DA1010"
             fontSize="14px"
@@ -122,7 +124,7 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
             textAlign="center"
             padding={'5px 0 15px 0'}
           >
-            {errorValueAmount}
+            {showErrorValueAmount}
           </S.Text>
         )}
 
@@ -136,17 +138,18 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
           Enter your wallet address
         </S.Text>
 
-        <S.InputContainer error={errorAddress}>
+        <S.InputContainer error={showErrorAddress}>
           <S.CustomTextField
             type="text"
             placeholder="Enter USDC Address"
             onChange={(ev) => setValueAddress(ev.target.value)}
             defaultValue={valueAddress}
             name={'address'}
-            error={errorAddress}
+            error={showErrorAddress}
+            maxLength={42}
           />
         </S.InputContainer>
-        {errorAddress !== '' && (
+        {showErrorAddress !== '' && (
           <S.Text
             color="#DA1010"
             fontSize="14px"
@@ -154,7 +157,7 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
             textAlign="center"
             padding={'5px 0 0 0'}
           >
-            {errorAddress}
+            {showErrorAddress}
           </S.Text>
         )}
         <S.Text
@@ -168,10 +171,9 @@ const WithdrawUSCD = ({ goBack, handleClose }: IProps) => {
           notification emal once is submitted.
         </S.Text>
         <S.Button
-          error={errorAddress || errorValueAmount}
+          error={showErrorAddress || showErrorValueAmount}
           type="button"
           onClick={handleWithdrawalSubmit}
-          disabled={errorAddress !== '' || errorValueAmount !== ''}
         >
           Submit Withdrawal Request
         </S.Button>

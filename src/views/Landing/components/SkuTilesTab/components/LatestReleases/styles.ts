@@ -12,9 +12,13 @@ export const ProductContainer = styled.div`
     display: grid;
     grid-gap: 26px;
     grid-template-columns: repeat(auto-fit, 300px);
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    max-width: 1440px;
+    margin: auto;
+    height: 100%;
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 960px) {
       justify-content: center;
       grid-template-columns: none;
     }

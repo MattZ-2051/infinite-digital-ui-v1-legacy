@@ -25,3 +25,14 @@ export const getFeaturesThunk = createAsyncThunk<
     } as IError);
   }
 });
+
+export const updateLandingLoading = createAsyncThunk<
+  string, // Return type of the payload creator
+  string, // First argument to the payload creator
+  {
+    // Types for ThunkAPI
+    rejectValue: IError;
+  }
+>('update/loading', async (payloadParams) => {
+  return payloadParams;
+});

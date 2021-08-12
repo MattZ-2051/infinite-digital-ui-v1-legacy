@@ -6,7 +6,6 @@ import { useTheme } from '@material-ui/core/styles';
 // Local
 import Notification from 'components/Notification';
 import NavBar from 'components/Layout/NavBar';
-import Footer from 'components/Layout/Footer';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
 import PopUpModal from 'components/Modal/PopUpModal';
@@ -62,7 +61,6 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
         isVisible={cookieBannerVisible}
         setIsVisible={setIsCookieBannerVisible}
       />
-      <Footer />
     </>
   );
 };

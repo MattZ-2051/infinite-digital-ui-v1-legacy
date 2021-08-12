@@ -71,9 +71,8 @@ const DropDown = ({
           </S.Button>
           <S.Button hover={true} onClick={openSaleModal} width="200px">
             <S.Label>Sell Your NFT</S.Label>
-            <S.IconContainer>
-              <S.SellIcon className="icon_sell" />
-            </S.IconContainer>
+            <S.IconContainer></S.IconContainer>
+            <S.SellIcon className="icon_sell" />
           </S.Button>
         </S.ButtonContainer>
       </S.Container>

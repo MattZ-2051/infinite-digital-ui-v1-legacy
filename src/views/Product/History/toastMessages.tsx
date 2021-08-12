@@ -1,5 +1,6 @@
 import Toast from 'utils/Toast';
 import { Link } from 'react-router-dom';
+import React from "react";
 
 export const insuficientFounds = (userBalance, priceWithFee, history) => {
   Toast.error(
@@ -35,8 +36,20 @@ export const loginWarning = (loginWithRedirect) => {
   return Toast.warning(
     <>
       You need to{' '}
-      <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>Log in</a>{' '}
+      <a onClick={() => loginWithRedirect()}>Log in</a>{' '}
       in order to complete the purchase
+    </>
+  );
+};
+
+export const loginWarningClaim = (loginWithRedirect) => {
+  return Toast.warning(
+    <>
+      You need to be{' '}
+      <a onClick={() => loginWithRedirect()}>
+        logged in
+      </a>{' '}
+      in order to claim
     </>
   );
 };
@@ -51,15 +64,7 @@ export const repeatedListingError = () => {
   );
 };
 
-export const needToSignUp = (loginWithRedirect) => {
-  return Toast.warning(
-    <>
-      You need to{' '}
-      <a onClick={() => loginWithRedirect({ screen_hint: 'signup' })}>Log in</a>{' '}
-      in order to complete the purchase
-    </>
-  );
-};
+export const needToSignUp = loginWarning;
 
 export const showStatusBarWarningMessage = (message) => {
   return Toast.warning(message);
