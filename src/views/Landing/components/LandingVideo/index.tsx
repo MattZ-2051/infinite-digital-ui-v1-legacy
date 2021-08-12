@@ -45,15 +45,10 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
           <VideoView src="https://infinite-digital-dev.s3.amazonaws.com/InfiniteWorld-Promo_v2_August2021.mp4" />
         </S.BackdropWrapper>
         <S.Header>
-          Next on Infinite take your passion for the road
-          {!matchesMobile && <br />} to the metaverse
+          Next on Infinite <br />
+          Take your passion for the road to the metaverse
         </S.Header>
-        <S.SubHeader>
-          We’re utilizing blockchain technology to connect the physical and
-          digital world to {!matchesMobile && <br />}
-          create interactive NFT experiences for the automotive industry. Stay
-          tuned for updates!
-        </S.SubHeader>
+        <S.SubHeader>Stay tuned for updates!</S.SubHeader>
         <S.FlexDiv>
           {!isAuthenticated && (
             <S.Button width="179px" onClick={handleSignUp}>
