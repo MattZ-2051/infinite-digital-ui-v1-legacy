@@ -17,9 +17,12 @@ export const BorderTop = styled.div`
   border-top: 1px solid #2e2e2e;
 `;
 
+export const BackgroundContainer = styled.div`
+  background-color: #1a1a1a;
+`
 export const MainContent = styled.div`
   margin: auto;
-  // max-width: 1440px;
+  max-width: 1440px;
   height: 100vh;
   background-color: #1a1a1a;
   color: white;

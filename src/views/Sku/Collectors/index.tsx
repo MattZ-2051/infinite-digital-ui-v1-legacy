@@ -74,6 +74,7 @@ const Collectors = () => {
   if (!sku) return <PageLoader />;
 
   return (
+    <S.BackgroundContainer>
     <S.MainContent>
       <ProductDetails
         sku={sku}
@@ -124,6 +125,7 @@ const Collectors = () => {
         )}
       </S.Container>
     </S.MainContent>
+    </S.BackgroundContainer>
   );
 };
 

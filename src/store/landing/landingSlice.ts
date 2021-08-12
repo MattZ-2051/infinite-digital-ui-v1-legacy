@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getFeaturesThunk } from './landingThunks';
+import { getFeaturesThunk, updateLandingLoading } from './landingThunks';
 import { checkStatePending, showErrorToast } from 'utils/storeUtil';
-import Toast from 'utils/Toast';
 
 export const listingSlice = createSlice({
   name: 'landing',
@@ -20,6 +19,9 @@ export const listingSlice = createSlice({
       checkStatePending(state);
       // If Thunk fails show Toast message with error
       showErrorToast(error.message);
+    });
+    builder.addCase(updateLandingLoading.fulfilled, (state, { payload }) => {
+      state.loading = payload;
     });
   },
 });

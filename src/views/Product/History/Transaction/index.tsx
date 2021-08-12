@@ -155,7 +155,7 @@ const Transaction = ({ transaction, bid }: Props) => {
             >
               {showLink && !matchesSmScreen && (
                 <div>
-                  <S.ToolTip></S.ToolTip>
+                  <S.ToolTip/>
                   <S.ToolTipText>
                     <a
                       href={transaction?.transactionData?.explorerLink}

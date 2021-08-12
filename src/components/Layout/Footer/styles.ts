@@ -1,18 +1,40 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { ReactComponent as ToolTip } from 'assets/svg/icons/tooltip-large.svg';
 
-export const StyledFooter = styled.footer<{ padding: string }>`
+export const StyledFooter = styled.footer<{
+  padding: string;
+  backgroundColor: string;
+}>`
   position: relative;
   bottom: 0;
   width: 100%;
-  background-color: black;
+  background-color: ${(props) => `${props.backgroundColor}`};
+  border-top: ${(props) =>
+    props.backgroundColor === '#ddf874' && '1px solid #C7DF67'};
   padding: ${(props) => props.padding};
 `;
 
-export const HederaText = styled.div`
+export const CopyRightDiv = styled.div<{ color: string }>`
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex: 1;
+  color: ${(props) => `${props.color}`};
+`;
+
+export const HederaText = styled.div<{ footerTheme: string }>`
   @media screen and (max-width: 602px) {
     margin-left: 27px;
   }
+  ${(props) =>
+    props.footerTheme === 'green' &&
+    `  color: black;
+  opacity: 0.48;
+  :hover {
+    opacity: 1;
+    cursor: pointer;
+  }`};
 `;
 export const FooterContent = styled.div`
   display: flex;
@@ -31,7 +53,7 @@ export const FooterContent = styled.div`
 `;
 
 export const FooterBottom = styled.div`
-  padding: 8px 0 8px 0;
+  padding: 24px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,8 +102,8 @@ export const ShowLinkDiv = styled.div`
 export const TextButtonContainer = styled.div<{ matchesMobile }>`
   ${(props) =>
     props.matchesMobile
-      ? ` 
-          width:120%;
+      ? `
+          width:105%;
           margin-bottom:20px;
            display: flex;
           justify-content: space-between;

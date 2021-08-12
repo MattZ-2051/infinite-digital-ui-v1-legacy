@@ -1,50 +1,52 @@
-import React from 'react';
-import Tab from 'components/Tab';
-import Tabs from 'components/TabsContainer';
 import LatestReleases from './components/LatestReleases';
-// import { MyCollection } from './components/MyCollection';
-// import Items from 'views/Collection/UserCollectionTabs/Items';
 import * as S from './styles';
+import { useHistory } from 'react-router';
+import { Sku } from 'entities/sku';
 
-const SkuTilesTab = (): JSX.Element => {
-  const [selectedTab, setSelectedTab] = React.useState(0);
+interface IProps {
+  tiles: Sku[];
+  matchesMobile: boolean;
+}
 
-  const handleChange = (event: React.ChangeEvent, newValue: number) => {
-    setSelectedTab(newValue);
+const SkuTilesTab = ({ tiles, matchesMobile }: IProps): JSX.Element => {
+  const history = useHistory();
+
+  const DeskTopView = () => {
+    return (
+      <S.Container>
+        <S.SubHeader>A curated marketplace for NFTs and beyond</S.SubHeader>
+        <S.Header>Welcome to the Infinite metaverse</S.Header>
+        <LatestReleases tiles={tiles} />
+        <S.FlexDiv>
+          <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
+            Explore The Marketplace
+          </S.MarketPlaceButton>
+        </S.FlexDiv>
+      </S.Container>
+    );
   };
-  return (
-    <S.Container>
-      <Tabs value={selectedTab} onChange={handleChange} centered>
-        {/* {isAuthenticated && (
-          <Tab
-            label="My Collection"
-            disableFocusRipple
-            disableRipple
-            data-testid="marketplaceTab"
-          />
-        )} */}
-        <Tab
-          label="Latest Releases"
-          disableFocusRipple
-          disableRipple
-          data-testid="myCollectionTab"
-        />
-        <S.ViewAll to="/marketplace">
-          See more
-        </S.ViewAll>
-      </Tabs>
 
-      {selectedTab === 0 && <LatestReleases />}
-      {/**
-       * TODO: Replace MyCollection component
-       * There is a very similar component (MyItems) in
-       * /views/Collection/UserCollectionTabs/MyItems/index.tsx
-       * MyItems is almost doing the same thing but the CSS does not look good with this view
-       * Those two components should be merged.
-       */}
-      {/* {selectedTab === 1 && <MyCollection />} */}
-    </S.Container>
-  );
+  const MobileView = () => {
+    return (
+      <S.Container>
+        <S.SubHeader>
+          A curated marketplace for NFTs
+          <br /> and beyond.
+        </S.SubHeader>
+        <S.Header>
+          Welcome to the <br />
+          Infinite metaverse
+        </S.Header>
+        <S.FlexDiv>
+          <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
+            Explore The Marketplace
+          </S.MarketPlaceButton>
+        </S.FlexDiv>
+        <LatestReleases tiles={tiles} />
+      </S.Container>
+    );
+  };
+  return <>{matchesMobile ? <MobileView /> : <DeskTopView />}</>;
 };
 
 export default SkuTilesTab;

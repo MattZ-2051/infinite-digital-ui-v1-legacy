@@ -91,7 +91,7 @@ const SkuDetail = (): JSX.Element => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const filtered = featuredProducts?.filter(

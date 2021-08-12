@@ -29,18 +29,18 @@ const ProductTile = ({
   const handleRedirect = () => {
     history.push(`/product/${product._id}`);
   };
-  const imageUrl = sku.nftPublicAssets
-    ? sku.nftPublicAssets[0].previewUrl
-      ? sku.nftPublicAssets[0].previewUrl
-      : sku.nftPublicAssets[0].url
-    : sku.graphicUrl;
+  const imageUrl = sku?.nftPublicAssets
+    ? sku.nftPublicAssets?.[0].previewUrl
+      ? sku.nftPublicAssets?.[0].previewUrl
+      : sku.nftPublicAssets?.[0].url
+    : sku?.graphicUrl;
 
   const singleProductListingExist =
-    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
+    sku?.activeProductListings?.length === 1 && sku?.maxSupply === 1;
   const isActiveAuction =
     singleProductListingExist &&
-    sku?.activeProductListings[0]?.saleType === 'auction' &&
-    sku?.activeProductListings[0]?.status === 'active';
+    sku?.activeProductListings?.[0]?.saleType === 'auction' &&
+    sku?.activeProductListings?.[0]?.status === 'active';
 
   const checkStatus = (product) => {
     if (product?.upcomingProductListings?.length !== 0) {
@@ -53,16 +53,16 @@ const ProductTile = ({
       status = 'active-listing';
 
       if (
-        product?.activeProductListings[0]?.saleType === 'auction' &&
+        product?.activeProductListings?.[0]?.saleType === 'auction' &&
         product.minPrice === 0
       ) {
-        pillInfo = product?.activeProductListings[0]?.minBid;
+        pillInfo = product?.activeProductListings?.[0]?.minBid;
       } else {
-        pillInfo = product?.activeProductListings[0].price;
+        pillInfo = product?.activeProductListings?.[0].price;
       }
       return status;
     } else if (
-      product?.activeProductListings.length === 0 &&
+      product?.activeProductListings?.length === 0 &&
       product?.upcomingProductListings?.length === 0
     ) {
       status = 'no-active-listing';
