@@ -18,7 +18,7 @@ const InfiniteWorldSection = () => {
               style={{ minWidth: window.innerWidth > 1250 ? '340px' : '0' }}
             >
               Build your own
-              {window.innerWidth > 1250 && <br />} NFT Megaverse
+              {window.innerWidth > 1250 && <br />} NFT metaverse
             </S.ColumnTitle>
             <S.ColumnText>
               We create state of the art NFT worlds and marketplaces for brands
@@ -40,7 +40,7 @@ const InfiniteWorldSection = () => {
               Experience utility of your NFTs like never before
             </S.ColumnTitle>
             <S.ColumnText>
-              Welcome to the Megaverse. We leverage the best of blockchain and
+              Welcome to the metaverse. We leverage the best of blockchain and
               digital capabilities to create a realm of consumer experience like
               never before.
             </S.ColumnText>

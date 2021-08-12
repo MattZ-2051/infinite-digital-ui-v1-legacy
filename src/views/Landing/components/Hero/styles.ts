@@ -6,14 +6,14 @@ export const Container = styled.section`
   margin: auto;
   position: relative;
   display: flex;
-  padding: 0px 80px 300px 80px;
+  padding: 0px 80px 0px 80px;
   flex-direction: row;
   text-align: center;
   color: white;
   max-width: 1440px;
   @media screen and (max-width: 1100px) {
     font-size: 0.9rem;
-    padding: 0px 24px 200px 24px;
+    padding: 0px 24px 0px 24px;
     flex-direction: column;
   }
 `;

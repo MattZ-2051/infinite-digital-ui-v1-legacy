@@ -1,18 +1,22 @@
 import LatestReleases from './components/LatestReleases';
 import * as S from './styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useHistory } from 'react-router';
+import { Sku } from 'entities/sku';
 
-const SkuTilesTab = (): JSX.Element => {
-  const matchesMobile = useMediaQuery('(max-width:960px)', { noSsr: true });
+interface IProps {
+  tiles: Sku[];
+  matchesMobile: boolean;
+}
+
+const SkuTilesTab = ({ tiles, matchesMobile }: IProps): JSX.Element => {
   const history = useHistory();
 
-  const DeskTopView = ({ matchesMobile }) => {
+  const DeskTopView = () => {
     return (
       <S.Container>
         <S.SubHeader>A curated marketplace for NFTs and beyond</S.SubHeader>
-        <S.Header>Welcome to the Infinite Megaverse</S.Header>
-        <LatestReleases matchesMobile={matchesMobile} />
+        <S.Header>Welcome to the Infinite metaverse</S.Header>
+        <LatestReleases tiles={tiles} />
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
             Explore The Marketplace
@@ -22,7 +26,7 @@ const SkuTilesTab = (): JSX.Element => {
     );
   };
 
-  const MobileView = ({ matchesMobile }) => {
+  const MobileView = () => {
     return (
       <S.Container>
         <S.SubHeader>
@@ -31,26 +35,18 @@ const SkuTilesTab = (): JSX.Element => {
         </S.SubHeader>
         <S.Header>
           Welcome to the <br />
-          Infinite Megaverse
+          Infinite metaverse
         </S.Header>
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
             Explore The Marketplace
           </S.MarketPlaceButton>
         </S.FlexDiv>
-        <LatestReleases matchesMobile={matchesMobile} />
+        <LatestReleases tiles={tiles} />
       </S.Container>
     );
   };
-  return (
-    <>
-      {matchesMobile ? (
-        <MobileView matchesMobile={matchesMobile} />
-      ) : (
-        <DeskTopView matchesMobile={matchesMobile} />
-      )}
-    </>
-  );
+  return <>{matchesMobile ? <MobileView /> : <DeskTopView />}</>;
 };
 
 export default SkuTilesTab;

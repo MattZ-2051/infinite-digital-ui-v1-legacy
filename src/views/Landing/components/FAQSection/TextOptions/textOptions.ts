@@ -1,6 +1,6 @@
 export const option1 = {
   title: 'How can I buy NFTs on the marketplace?',
-  text: 'There are two ways to buy NFTs on the INFINITE marketplace. Buying from original Creators or buying from collectors. Please refer to the More FAQs button for further information. ',
+  text: 'There are two ways to buy NFTs on the Infinite marketplace. Buying from original Creators or buying from collectors. Please refer to the More FAQs button for further information. ',
 };
 export const option2 = {
   title: 'What is the difference between a Creator and a Collector?',
@@ -19,7 +19,7 @@ export const option5 = {
   text: 'When viewing a product, click the Start Auction icon. You will be prompted with an auction screen. After filling out the requested information, click Start auction to create an auction for your items.',
 };
 export const option6 = {
-  title: 'Is there a seller fee to use INFINITE?',
+  title: 'Is there a seller fee to use Infinite?',
   text: 'Yes, the seller incurs a seller fee of the 15% at the time of sale. There is no fee to create a listing, but you do have to be a seller that is approved by us.',
 };
 

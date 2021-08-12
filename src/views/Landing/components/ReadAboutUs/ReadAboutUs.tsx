@@ -32,7 +32,7 @@ export const ReadAboutUs = () => {
           <ReadMore
             title={'Footwearnews'}
             text={
-              'NBA Star Spencer Dinwiddie Launches K8iros ‘Crypto Sneaker’ for a Good Cause'
+              'NBA Star Spencer Dinwiddie Launches K8IROS ‘Crypto Sneaker’ for a Good Cause'
             }
             link={
               'https://footwearnews.com/2021/focus/athletic-outdoor/spencer-dinwiddie-k8iros-crypto-sneaker-nft-release-info-1203162082/'

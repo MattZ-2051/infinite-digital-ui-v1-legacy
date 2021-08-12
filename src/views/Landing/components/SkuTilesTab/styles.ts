@@ -13,7 +13,7 @@ export const Container = styled.section`
   }
 
   @media screen and (max-width: 340px) {
-    padding: 240px 0px 324px 0px;
+    padding: 200px 0px 200px 0px;
   }
 `;
 

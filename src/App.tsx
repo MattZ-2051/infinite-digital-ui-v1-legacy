@@ -10,6 +10,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Footer from 'components/Layout/Footer';
 import { useState } from 'react';
+import { useAppSelector } from 'store/hooks';
 
 const theme = createMuiTheme({
   typography: {
@@ -21,6 +22,8 @@ const App = (): JSX.Element => {
   const [footerBackground, setFooterBackground] = useState<'green' | 'black'>(
     'black'
   );
+  const landingLoading = useAppSelector((state) => state.landing.loading);
+  const isLandingLoading = landingLoading === 'idle';
   return (
     <>
       <ScrollToTop />
@@ -34,7 +37,10 @@ const App = (): JSX.Element => {
               hideProgressBar={true}
               toastClassName="custom-notify"
             />
-            <Footer footerBackgroundTheme={footerBackground} />
+
+            {!isLandingLoading && (
+              <Footer footerBackgroundTheme={footerBackground} />
+            )}
           </>
         </AppLayout>
       </ThemeProvider>

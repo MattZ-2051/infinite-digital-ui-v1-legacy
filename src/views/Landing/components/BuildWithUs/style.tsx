@@ -10,7 +10,6 @@ export const BackgroundContainer = styled.div`
 export const Container = styled.div`
   background-color: #000;
   padding-top: 300px;
-  padding-bottom: 300px;
   padding-left: 80px;
   padding-right: 80px;
   overflow: hidden;
@@ -18,7 +17,7 @@ export const Container = styled.div`
   margin: auto;
 
   @media screen and (max-width: 1100px) {
-    padding: 200px 24px 200px 24px;
+    padding: 200px 24px 0px 24px;
   }
   h2 {
     font-size: 18px;

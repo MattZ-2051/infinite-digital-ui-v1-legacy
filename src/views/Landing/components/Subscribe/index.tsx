@@ -51,7 +51,7 @@ const Subscribe = (): JSX.Element => {
         const resp = await subscribeMail(fields);
         setSubscribed(resp);
         Toast.success(
-          'Thanks for signing up for the INFINITE newsletter! Stay tuned for more updates coming soon.'
+          'Thanks for signing up for the Infinite newsletter! Stay tuned for more updates coming soon.'
         );
         setButtonText(buttonTextDone);
       } catch (error) {
@@ -83,7 +83,7 @@ const Subscribe = (): JSX.Element => {
           margin={matchesSmallMobile ? '24px 0 12px 0' : '24px 0 8px 0'}
         >
           We provide the infrastructure for brands and creators to build
-          communitites in the Megaverse
+          communities in the metaverse
         </S.SubHeader>
         <S.SubHeader
           color="black"

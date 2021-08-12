@@ -11,9 +11,9 @@ export const BackgroundContainer = styled.section`
 export const Container = styled.section`
   max-width: 1140px;
   margin: auto;
-  padding: 96px 80px 0px 80px;
+  padding: 96px 80px 200px 80px;
   @media screen and (max-width: 1100px) {
-    padding: 96px 24px 0px 24px;
+    padding: 96px 24px 200px 24px;
   }
 `;
 

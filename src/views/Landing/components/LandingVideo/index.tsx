@@ -22,6 +22,7 @@ const VideoView = ({ src }: { src: string }) => {
       loop={true}
       muted={true}
       src={src}
+      controlsList="nodownload"
     ></video>
   );
 };
@@ -41,10 +42,10 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
     <S.BackgroundContainer>
       <S.Container>
         <S.BackdropWrapper>
-          <VideoView src="https://infinite-digital-prod.s3.amazonaws.com/InfiniteWorld-CarsPromo_v1_August2021.mp4" />
+          <VideoView src="https://infinite-digital-dev.s3.amazonaws.com/InfiniteWorld-Promo_v2_August2021.mp4" />
         </S.BackdropWrapper>
         <S.Header>
-          Take your passion for the road
+          Next on Infinite take your passion for the road
           {!matchesMobile && <br />} to the metaverse
         </S.Header>
         <S.SubHeader>
