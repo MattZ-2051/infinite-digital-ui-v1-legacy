@@ -45,7 +45,7 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
           <VideoView src="https://infinite-digital-dev.s3.amazonaws.com/InfiniteWorld-Promo_v2_August2021.mp4" />
         </S.BackdropWrapper>
         <S.Header>
-          Next on Infinite <br />
+          <span style={{ color: '#ddf874' }}>Next on Infinite</span> <br />
           Take your passion for the road to the metaverse
         </S.Header>
         <S.SubHeader>Stay tuned for updates!</S.SubHeader>

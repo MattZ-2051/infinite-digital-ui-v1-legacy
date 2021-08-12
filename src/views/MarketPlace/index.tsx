@@ -239,7 +239,7 @@ const MarketPlace = (): JSX.Element => {
     };
 
     fetchUserInfo();
-  }, []);
+  }, [isAuthenticated]);
 
   if (!skus) return <PageLoader />;
   return (

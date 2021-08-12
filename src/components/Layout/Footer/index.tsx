@@ -72,7 +72,7 @@ const Footer = ({ footerBackgroundTheme }) => {
               size="small"
               matchesMobile={matchesMobile}
             >
-              Suku
+              SUKU
             </TextButton>
             <TextButton
               to="/help"
