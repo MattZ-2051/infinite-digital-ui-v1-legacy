@@ -79,15 +79,8 @@ const Subscribe = (): JSX.Element => {
           influencers
         </S.Header>
         <S.SubHeader
-          color="#3e4818"
-          margin={matchesSmallMobile ? '24px 0 12px 0' : '24px 0 8px 0'}
-        >
-          We provide the infrastructure for brands and creators to build
-          communities in the metaverse
-        </S.SubHeader>
-        <S.SubHeader
           color="black"
-          margin="0 0 56px 0"
+          margin="56px 0 56px 0"
           style={{ opacity: 1, fontWeight: 600 }}
         >
           Sign up for our mailing list to be {matchesSmallMobile && <br />}the

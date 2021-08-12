@@ -67,18 +67,6 @@ const Footer = ({ footerBackgroundTheme }) => {
               FAQ
             </TextButton>
             <TextButton
-              onClick={() =>
-                window.open(
-                  'https://martingarrido.notion.site/Join-the-INFINITE-by-SUKU-Team-bf1a0c96034a4ac6a07757bc8e96f3d8'
-                )
-              }
-              color={getColor()}
-              size="small"
-              matchesMobile={matchesMobile}
-            >
-              Careers
-            </TextButton>
-            <TextButton
               onClick={() => window.open('https://www.suku.world/')}
               color={getColor()}
               size="small"
