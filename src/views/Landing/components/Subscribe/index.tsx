@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as S from './styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'store/hooks';
-import { config } from 'config';
 import { subscribeMail } from 'services/api/subscribe';
 import Toast from 'utils/Toast';
 import { useMediaQuery } from '@material-ui/core';

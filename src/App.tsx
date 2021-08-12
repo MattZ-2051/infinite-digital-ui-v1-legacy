@@ -11,6 +11,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Footer from 'components/Layout/Footer';
 import { useState } from 'react';
 import { useAppSelector } from 'store/hooks';
+import { useHistory } from 'react-router';
 
 const theme = createMuiTheme({
   typography: {
@@ -24,6 +25,8 @@ const App = (): JSX.Element => {
   );
   const landingLoading = useAppSelector((state) => state.landing.loading);
   const isLandingLoading = landingLoading === 'idle';
+  const history = useHistory();
+  const isLandingPage = history.location.pathname === '/';
   return (
     <>
       <ScrollToTop />
@@ -38,12 +41,11 @@ const App = (): JSX.Element => {
               toastClassName="custom-notify"
             />
 
-            {!isLandingLoading && (
-              <Footer
-                footerBackgroundTheme={
-                  isLandingLoading ? 'black' : footerBackground
-                }
-              />
+            {!isLandingLoading && isLandingPage && (
+              <Footer footerBackgroundTheme={footerBackground} />
+            )}
+            {!isLandingPage && (
+              <Footer footerBackgroundTheme={footerBackground} />
             )}
           </>
         </AppLayout>
