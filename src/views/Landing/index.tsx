@@ -138,7 +138,7 @@ const LandingPageLoader = styled.div`
 `;
 
 export const InfiniteImg = styled.img`
-  width: 20px;
+  width: 28px;
   margin-right: 20px;
 `;
 
