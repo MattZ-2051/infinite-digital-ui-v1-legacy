@@ -97,10 +97,12 @@ const AchAccountDepositForm = ({
           if (errorAmount) {
             return;
           }
-          return onWithdraw(item, parseFloat(valueAmount).toFixed(2)).catch(onError);
+          return onWithdraw(item, parseFloat(valueAmount).toFixed(2)).catch(
+            onError
+          );
         }}
       >
-        Deposit
+        Withdraw
       </S.Button>
       <S.SubButton type="button" onClick={onCancel}>
         Go Back

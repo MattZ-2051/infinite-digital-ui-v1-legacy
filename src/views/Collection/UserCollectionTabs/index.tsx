@@ -234,14 +234,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                     {'NFTs'}
                   </S.Tab>
 
-                  <S.TabSeparator />
+                  {/* <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab>
+                  </S.Tab> */}
                 </S.TabBar>
                 <S.SearchAndSortContainer>
                   {selectedTab === 'items' && !mobileSearchBar && (
@@ -277,7 +277,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}/>
+              <S.GrayLine style={{ width: '100%' }} />
             </div>
 
             {selectedTab === 'items' && (
@@ -290,7 +290,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                 isSearchResult={searchCriteria != ''}
               />
             )}
-            {selectedTab === 'claims' && (
+            {/* {selectedTab === 'claims' && (
               <>
                 <Claims
                   userClaims={userClaims?.data}
@@ -302,7 +302,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   <HowItWorksCollapsible themeStyle={themeStyle} />
                 )}
               </>
-            )}
+            )} */}
           </>
         )}
         {userStatus === 'loggedInIssuer' && (
@@ -330,14 +330,14 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   >
                     {'NFTs'}
                   </S.Tab>
-                  <S.TabSeparator />
+                  {/* <S.TabSeparator />
                   <S.Tab
                     selected={selectedTab === 'claims'}
                     themeStyle={themeStyle}
                     onClick={() => setSelectedTab('claims')}
                   >
                     My Claims
-                  </S.Tab>
+                  </S.Tab> */}
                 </S.TabBar>
 
                 <S.SearchAndSortContainer>
@@ -380,7 +380,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}/>
+              <S.GrayLine style={{ width: '100%' }} />
             </div>
             {selectedTab === 'releases' && (
               <Releases
@@ -552,7 +552,7 @@ const UserCollectionTabs = ({ user, isAuthenticated }: IProps): JSX.Element => {
                   themeStyle={backgroundTheme}
                 />
               )}
-              <S.GrayLine style={{ width: '100%' }}/>
+              <S.GrayLine style={{ width: '100%' }} />
             </div>
             {selectedTab === 'items' && (
               <Items

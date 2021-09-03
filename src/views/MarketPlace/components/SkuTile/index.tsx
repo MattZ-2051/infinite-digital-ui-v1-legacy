@@ -43,18 +43,18 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
   let bottomRightText: string | number = '';
   let pillInfo: string | number = '';
   const singleProductListingExist =
-    sku?.activeProductListings?.length === 1 && sku.maxSupply === 1;
+    sku?.activeProductListings?.length === 1 && sku?.maxSupply === 1;
   const isSingleActiveAuction =
     singleProductListingExist &&
-    sku?.activeProductListings[0]?.saleType === 'auction' &&
-    sku?.activeProductListings[0]?.status === 'active';
+    sku?.activeProductListings?.[0]?.saleType === 'auction' &&
+    sku?.activeProductListings?.[0]?.status === 'active';
   const isActiveAuction =
-    sku?.activeProductListings[0]?.saleType === 'auction' &&
-    sku?.activeProductListings[0]?.status === 'active';
+    sku?.activeProductListings?.[0]?.saleType === 'auction' &&
+    sku?.activeProductListings?.[0]?.status === 'active';
   const isGiveAway =
     sku?.activeSkuListings?.[0]?.saleType === 'giveaway' &&
     sku?.activeSkuListings?.[0]?.status === 'active';
-  const minBid = sku?.activeProductListings[0]?.minBid;
+  const minBid = sku?.activeProductListings?.[0]?.minBid;
   const price = isSingleActiveAuction
     ? sku?.maxBid
     : isGiveAway
@@ -64,7 +64,7 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
     : minPrice;
 
   const checkStatus = () => {
-    if (productListings?.length === 0 && skuListings.length === 0) {
+    if (productListings?.length === 0 && skuListings?.length === 0) {
       status = 'upcoming-sku';
       return;
     }
@@ -102,9 +102,9 @@ const SkuTile = ({ sku, themeStyle = 'light' }: SkuProps): JSX.Element => {
 
   const skuImage =
     nftPublicAssets && nftPublicAssets
-      ? (nftPublicAssets[0] && nftPublicAssets[0].previewUrl) ||
-        (nftPublicAssets[0] && nftPublicAssets[0].url)
-      : sku.graphicUrl;
+      ? (nftPublicAssets?.[0] && nftPublicAssets?.[0].previewUrl) ||
+        (nftPublicAssets?.[0] && nftPublicAssets?.[0].url)
+      : sku?.graphicUrl;
 
   return (
     <Tile

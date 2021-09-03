@@ -6,7 +6,6 @@ import { doWithdraw } from 'services/api/walletService';
 import { getAchAccounts, removeAch } from 'services/api/walletService';
 import AchAccountItem from './AchAccountItem';
 import AchAccountDepositForm from '../AchAccountDepositForm';
-import { Link } from 'react-router-dom';
 import * as S from '../../DepositModal/styles';
 import * as S2 from '../styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -142,7 +141,7 @@ const AchAccountList = ({
           fontWeight={800}
           color="black"
         >
-          {String.fromCodePoint(0x1f918)} Withdraw Initiated!
+          {String.fromCodePoint(0x1f918)} Withdrawal Initiated!
         </S2.Text>
         <div
           style={{
