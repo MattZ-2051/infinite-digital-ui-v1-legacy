@@ -25,29 +25,26 @@ const CancelSale = ({
 }: Props) => {
   const { getAccessTokenSilently } = useAuth0();
 
+  const helpPageLink = () =>
+    Toast.error(
+      <>
+        Whoops! Something went wrong. Please try again or{' '}
+        <Link to="/help">contact us</Link> if this issue continues.
+      </>
+    );
+
   const handleCancelListing = async () => {
     if (!listingId) {
-      Toast.error(
-        <>
-          Whoops! Something went wrong, please try again or go to the{' '}
-          <Link to="/help">help page</Link> to contact us.
-        </>
-      );
+      helpPageLink();
     } else {
       const userToken = await getAccessTokenSilently();
       if (!userToken) {
-        Toast.error(
-          <>
-            Whoops! Something went wrong, please try again or go to the{' '}
-            <Link to="/help">help page</Link> to contact us.
-          </>
-        );
+        helpPageLink();
       }
       try {
         const res = await cancelListing(userToken, listingId);
-
         if (res) {
-          Toast.success('Listing successfully cancelled.');
+          Toast.success('Your listing has successfully been canceled.');
           setModalPaymentVisible(false);
           setTimeout(() => {
             window.location.reload();

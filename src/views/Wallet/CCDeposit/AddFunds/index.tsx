@@ -23,6 +23,7 @@ import {
   VerificationStatusEnum,
 } from '../../../../entities/card';
 import Cards from 'react-credit-cards';
+import { Link } from 'react-router-dom';
 
 const ccDepositLimit = config.kycLimits.ccDepositLimit;
 const dailyDepositLimitMsgRe =
@@ -57,18 +58,26 @@ function ccStatusIsActive(obj: Card) {
   // !obj.riskEvaluation
 }
 
+const helpPageLink = () =>
+  Toast.error(
+    <>
+      Whoops! We were not able to subscribe you to our mailing list. Please try
+      again or <Link to="/help">contact support</Link> if this issue continues.
+    </>
+  );
+
 function showDepositToastMessage(depositErrMsg) {
   const matchDaily = dailyDepositLimitMsgRe.exec(depositErrMsg);
   if (matchDaily) {
     Toast.error(
-      `You\'ve deposited $${matchDaily?.groups?.depositByNow} USD in the past 24 hours. The deposit would exceed the current allowable limit of $${matchDaily?.groups?.depositLimit} USD`
+      `Whoops! You\'ve deposited $${matchDaily?.groups?.depositByNow} USD in the past 24 hours. The current allowable daily limit is $${matchDaily?.groups?.depositLimit} USD. Please try again when 24 hours have passed or deposit cryptocurrency.`
     );
     return;
   }
   const matchWeekly = weeklyDepositLimitMsgRe.exec(depositErrMsg);
   if (matchWeekly) {
     Toast.error(
-      `You\'ve deposited $${matchWeekly?.groups?.depositByNow} USD in the past seven days. The deposit would exceed the current allowable limit of $${matchWeekly?.groups?.depositLimit} USD`
+      `Whoops! You\'ve deposited $${matchWeekly?.groups?.depositByNow} USD in the past seven days. The deposit exceeds the current allowable limit of $${matchWeekly?.groups?.depositLimit} USD. Please try again in seven days or deposit cryptocurrency.`
     );
     return;
   }
@@ -95,7 +104,7 @@ const AddFunds = (): JSX.Element | null => {
     if (!activeButton) return;
     if (amount !== null && parsedAmount > ccDepositLimit) {
       Toast.error(
-        `You can only deposit up to $${ccDepositLimit} USD per credit card transaction`
+        `Whoops! You can only deposit up to $${ccDepositLimit} USD per Credit Card transaction`
       );
       return;
     }
@@ -141,10 +150,10 @@ const AddFunds = (): JSX.Element | null => {
     );
 
     if (res.type.split('/')[5] === 'rejected') {
-      Toast.error('An Error Occurred');
+      helpPageLink();
       return;
     } else {
-      Toast.success('Card Successfully Removed');
+      Toast.success('Credit Card successfully removed.');
     }
   };
 
