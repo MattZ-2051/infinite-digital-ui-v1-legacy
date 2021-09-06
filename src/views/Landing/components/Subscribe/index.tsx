@@ -5,6 +5,7 @@ import { useAppSelector } from 'store/hooks';
 import { subscribeMail } from 'services/api/subscribe';
 import Toast from 'utils/Toast';
 import { useMediaQuery } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const Subscribe = (): JSX.Element => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,15 @@ const Subscribe = (): JSX.Element => {
   const matchesSmallMobile = useMediaQuery('(max-width:460px)', {
     noSsr: true,
   });
+
+  const helpPageLink = () =>
+    Toast.error(
+      <>
+        Whoops! We were not able to subscribe you to our mailing list. Please
+        try again or <Link to="/help">contact support</Link> if this issue
+        continues.
+      </>
+    );
 
   const buttonTextDone = 'Done';
   const onChange = (event) => {
@@ -50,11 +60,11 @@ const Subscribe = (): JSX.Element => {
         const resp = await subscribeMail(fields);
         setSubscribed(resp);
         Toast.success(
-          'Thanks for signing up for the Infinite newsletter! Stay tuned for more updates coming soon.'
+          'Thanks for signing up for the newsletter! Stay tuned for more updates coming soon!'
         );
         setButtonText(buttonTextDone);
       } catch (error) {
-        Toast.error('Whoops! Something went wrong, Please try again.');
+        helpPageLink();
       }
     }
   };

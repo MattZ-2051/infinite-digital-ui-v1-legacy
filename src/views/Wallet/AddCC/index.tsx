@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import circleIcon from 'assets/img/icons/circle-icon-deposit.png';
 import exitIcon from 'assets/img/icons/exit-icon.png';
 import { PulseLoader } from 'react-spinners';
@@ -32,18 +32,17 @@ const AddCC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const lastUserCard = useAppSelector((state) => state.session.userCards.cards[0]);
-  useEffect(
-    () => {
-      if (lastUserCard) {
-        const tt = setTimeout(() => {
-          history.push(`/wallet/deposit/addfunds`);
-        }, 2000);
-        return () => clearTimeout(tt);
-      }
-    },
-    [lastUserCard?.id]
+  const lastUserCard = useAppSelector(
+    (state) => state.session.userCards.cards[0]
   );
+  useEffect(() => {
+    if (lastUserCard) {
+      const tt = setTimeout(() => {
+        history.push(`/wallet/deposit/addfunds`);
+      }, 2000);
+      return () => clearTimeout(tt);
+    }
+  }, [lastUserCard?.id]);
 
   const handleSubmit = async () => {
     if (cardInfo === undefined) return;
@@ -52,7 +51,7 @@ const AddCC = () => {
     setFieldError(fieldErrorsNew);
     if (checkErrors) {
       const { billingDetails } = fieldErrorsNew;
-      Toast.error('Please fill out required fields.');
+      Toast.error('Please fill out all required fields.');
       if (
         billingDetails.name === '' ||
         billingDetails.line1 ||
@@ -87,7 +86,7 @@ const AddCC = () => {
       setFormError(true);
     } else {
       setFormError(false);
-      Toast.success('Card successfully added');
+      Toast.success('Congrats! Your Credit Card was successfully added.');
     }
   };
 

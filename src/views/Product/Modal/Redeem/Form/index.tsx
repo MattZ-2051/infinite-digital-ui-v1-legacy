@@ -25,8 +25,9 @@ import { FormHelperText } from '@material-ui/core';
 
 const link = (
   <>
-    Item successfully redeemed, Learn more about redemption process{' '}
-    <a href="https://support.suku.world/infinite/can-i-redeem-an-item">here</a>.
+    You&apos;ve successfully redeemed this item. Learn more about the redemption
+    process{' '}
+    <a href="https://support.suku.world/infinite/can-i-redeem-an-item">here.</a>
   </>
 );
 

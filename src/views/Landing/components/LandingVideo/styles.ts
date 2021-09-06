@@ -5,11 +5,7 @@ export const BackgroundContainer = styled.section`
   background-color: black;
   width: 100%;
   position: relative;
-<<<<<<< HEAD
-  z-index: 10;
-=======
   z-index: -2;
->>>>>>> main
   overflow: hidden;
 `;
 export const Container = styled.section`
