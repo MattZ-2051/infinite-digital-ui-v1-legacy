@@ -1,6 +1,5 @@
 import Toast from 'utils/Toast';
 import { Link } from 'react-router-dom';
-import React from "react";
 
 export const insuficientFounds = (userBalance, priceWithFee, history) => {
   Toast.error(
@@ -23,21 +22,22 @@ export const insuficientFounds = (userBalance, priceWithFee, history) => {
 };
 
 export const bidIsEmpty = () => {
-  Toast.error(`Whoops, you forgot to write your bid!`);
+  Toast.error(
+    `Whoops! Please let us know how much you'd like to bid for this collectible. `
+  );
 };
 
 export const higherBidNeeded = (bidIncrement) => {
   Toast.error(
-    `Whoops, new bids must be at least $${bidIncrement} greater than the current highest bid.`
+    'Whoops! Your bid amount is lower than the current highest bid. Please place a higher bid to participate in this auction. '
   );
 };
 
 export const loginWarning = (loginWithRedirect) => {
   return Toast.warning(
     <>
-      You need to{' '}
-      <a onClick={() => loginWithRedirect()}>Log in</a>{' '}
-      in order to complete the purchase
+      Please <a onClick={() => loginWithRedirect()}>sign in</a> to complete your
+      purchase.
     </>
   );
 };
@@ -45,11 +45,8 @@ export const loginWarning = (loginWithRedirect) => {
 export const loginWarningClaim = (loginWithRedirect) => {
   return Toast.warning(
     <>
-      You need to be{' '}
-      <a onClick={() => loginWithRedirect()}>
-        logged in
-      </a>{' '}
-      in order to claim
+      You need to be <a onClick={() => loginWithRedirect()}>logged in</a> in
+      order to claim.
     </>
   );
 };
@@ -57,9 +54,9 @@ export const loginWarningClaim = (loginWithRedirect) => {
 export const repeatedListingError = () => {
   return Toast.error(
     <>
-      Another active or upcoming sale listing for this product already exists.
-      Please <Link to="/help">contact support</Link> if you believe this is an
-      error
+      Another active or upcoming sale listing for this collectible already
+      exists. Please <Link to="/help">contact support</Link> if you believe this
+      is an error.
     </>
   );
 };

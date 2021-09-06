@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import {loginWarning, loginWarningClaim} from 'views/Product/History/toastMessages';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  loginWarning,
+  loginWarningClaim,
+} from 'views/Product/History/toastMessages';
 import { formatDate } from 'utils/dates';
 import Toast from 'utils/Toast';
 import { Sku } from 'entities/sku';
@@ -57,12 +60,11 @@ const AuctionSale = ({
   const hasFunds = price ? userBalance >= price : false;
   const modalMode = hasFunds ? 'hasFunds' : 'noFunds';
   const isSkuOwner = sku?.issuer._id === loggedInUserId;
-  const matchesMobile = useMediaQuery('(max-width: 960px)');
 
   const handleBuyNowClick = () => {
     if (isAuthenticated) {
       if (isSkuOwner) {
-        Toast.error('Cannot purchase your own SKU');
+        Toast.error('Whoops! You cannot purchase your own SKU / NFT.');
       } else {
         setIsModalOpen(true);
       }
@@ -230,7 +232,7 @@ const FromCreatorBox = ({
   const handleBuyNowClick = () => {
     if (isAuthenticated) {
       if (isSkuOwner) {
-        Toast.error('Cannot purchase your own SKU');
+        Toast.error('Whoops! You cannot purchase your own SKU / NFT.');
       } else {
         setIsModalOpen(true);
       }
@@ -360,9 +362,7 @@ const GiveawayBox = ({
       );
       if (claimRes.status === 201) {
         Toast.dismiss('processing');
-        Toast.success(
-          <>Your NFT is minted! You&apos;ll be taken to view the NFT</>
-        );
+        Toast.success(<>Your NFT was successfully minted!</>);
         setTimeout(() => {
           setMinting(false);
           history.push(`/product/${claimRes.data._id}`);
@@ -377,8 +377,8 @@ const GiveawayBox = ({
         Toast.dismiss('processing');
         Toast.error(
           <>
-            Please try again, see the <Link to="/help">Help page</Link> to learn
-            more.
+            Whoops! Something went wrong. Please try again or{' '}
+            <Link to="/help">contact support</Link>.
           </>
         );
       }
@@ -388,7 +388,7 @@ const GiveawayBox = ({
   const handleMintClick = () => {
     if (isAuthenticated) {
       if (isSkuOwner) {
-        Toast.error('Cannot claim your own SKU');
+        Toast.error('Whoops! You cannot claim your own SKU / NFT.');
       } else {
         handleGiveawayClaim();
       }

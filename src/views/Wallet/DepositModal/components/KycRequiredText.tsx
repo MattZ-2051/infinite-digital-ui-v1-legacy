@@ -11,15 +11,9 @@ const KycRequiredText = ({ kycPending }: IProps) => {
     <>
       To deposit cryptocurrency, please{' '}
       {kycPending ? (
-        <>wait until we validate your identity</>
+        <>wait until we validate your identity.</>
       ) : (
-        <>
-          <a onClick={() => kycClient?.open()}>click here</a> complete the
-          required account validation steps.{' '}
-          <a href="https://support.suku.world/infinite/how-does-kyc-work">
-            Learn more.
-          </a>
-        </>
+        <>validate your identity.</>
       )}
     </>
   );

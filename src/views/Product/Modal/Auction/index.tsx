@@ -85,12 +85,14 @@ const AuctionModal = ({
     const resStartDate = composeDates(startDate, startTime);
     const resEndDate = composeDates(endDate, endTime);
     if (!compareDates(resStartDate, resEndDate)) {
-      Toast.error('The end date should be greather than start date');
+      Toast.error('The end date will always come after the start date.');
       return;
     }
 
     if (!(parseFloat(price) > 0)) {
-      Toast.error('Minimum bid should be more than 0.');
+      Toast.error(
+        "Whoops! Please let us know how much you'd like to bid for this collectible."
+      );
       return;
     }
     setLoading(true);

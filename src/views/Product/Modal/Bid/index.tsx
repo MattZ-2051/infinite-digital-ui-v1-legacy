@@ -71,8 +71,9 @@ const BidModal = ({
   function displayNoFundsError(userBalance) {
     Toast.error(
       <span>
-        Whoops, Insufficient funds! Your wallet balance $
-        {userBalance.toFixed(2)}, would you like to{' '}
+        Whoops, You don&apos;t have sufficient funds in your wallet to make this
+        purchase! Your available balance is {userBalance.toFixed(2)}, and you
+        need ${totalCost} to cover the bid and marketplace fee.
         <strong
           onClick={() => {
             history.push({
@@ -82,9 +83,9 @@ const BidModal = ({
           }}
           style={{ borderBottom: '1px solid black', cursor: 'pointer' }}
         >
-          add more funds?
+          Click here
         </strong>
-        ?
+        to deposit more funds.
       </span>
     );
   }
@@ -96,13 +97,13 @@ const BidModal = ({
   function displaySuccessBidMessage() {
     Toast.success(
       <span>
-        Your bid was successfully placed. Learn more about biding{' '}
+        You&apos;ve successfully placed your bid. Learn more about bidding{' '}
         <a
           target="_blank"
           href="https://support.suku.world/infinite-powered-by-suku"
           rel="noreferrer"
         >
-          here{' '}
+          here.{' '}
         </a>
       </span>
     );

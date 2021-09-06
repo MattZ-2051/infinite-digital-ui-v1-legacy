@@ -64,6 +64,15 @@ const SkuPageModal = ({
   const userBalance = useAppSelector(
     (state) => state.session.user?.availableBalance
   );
+
+  const helpPageLink = () =>
+    Toast.error(
+      <>
+        There was an error processing your purchase. Please try again or
+        <Link to="/help">contact support</Link> if this issue continues.
+      </>
+    );
+
   useEffect(() => {
     if (config.gtag.uaId && visible && statusMode === 'hasFunds') {
       ReactGA.modalview('sku-purchase-modal');
@@ -130,16 +139,17 @@ const SkuPageModal = ({
     } else if (tx[0].status === 'success' && tx[0].type === 'purchase') {
       setModalPaymentVisible(true);
       setStatusMode('success');
-      const newPurchasedProduct = res.data[0]?.transactionData?.product[0];
+      const newPurchasedProduct = res.data[0]?.transactionData?.product;
       const url = history.location.pathname.split('/');
+      console.log('new product', res);
       setNewProduct(newPurchasedProduct);
       if (url[2] !== product._id) {
         Toast.success(
           <>
             Congrats! Your NFT purchase was processed successfully! Click
             <Link to={`/product/${newPurchasedProduct._id}`}> here </Link> to
-            view your product {product.name} #{newPurchasedProduct.serialNumber}
-            .
+            view your new collectible: {product.name} #
+            {newPurchasedProduct.serialNumber}.
           </>
         );
       }
@@ -152,19 +162,13 @@ const SkuPageModal = ({
     } else if (tx[0].status === 'error' && tx[0].type === 'purchase') {
       setModalPaymentVisible(true);
       setStatusMode('error');
-      Toast.error(
-        <>
-          There was an error processing your purchase. Please try again, see the{' '}
-          <Link to="/help">Help page</Link> to learn more.
-        </>
-      );
+      helpPageLink();
     }
   };
 
   const buyAction = async () => {
     if (!checkTerms) {
       Toast.error(purchase.termsError);
-      setStatusMode('error');
       return;
     }
     if (listing) {
@@ -180,20 +184,10 @@ const SkuPageModal = ({
       } else {
         setLoading(false);
         setStatusMode('error');
-        Toast.error(
-          <>
-            Please try again, see the <Link to="/help">Help page</Link> to learn
-            more.
-          </>
-        );
+        helpPageLink();
       }
     } else {
-      Toast.error(
-        <>
-          There was an error processing your purchase. Please try again, see the{' '}
-          <Link to="/help">Help page</Link> to learn more.
-        </>
-      );
+      helpPageLink();
     }
   };
 
@@ -290,7 +284,7 @@ const SkuPageModal = ({
                 <S.Flex>
                   <S.SerialName>Serial:</S.SerialName>
                   <div style={{ paddingLeft: '5px' }}>
-                    <S.SeriesName>#{newProduct.serialNumber}</S.SeriesName>
+                    <S.SeriesName>#{newProduct?.serialNumber}</S.SeriesName>
                   </div>
                 </S.Flex>
               )}
@@ -418,6 +412,7 @@ const SkuPageModal = ({
     </>
   );
 
+  console.log('here', newProduct);
   return (
     <Modal
       open={visible}
