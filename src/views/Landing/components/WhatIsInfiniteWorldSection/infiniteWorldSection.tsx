@@ -6,7 +6,7 @@ const InfiniteWorldSection = () => {
     <S.MainContainer>
       <S.Container>
         <S.TitleContainer>
-          <S.MainTitle>What is Infinite?</S.MainTitle>
+          <S.MainTitle>What is InfiniteWorld?</S.MainTitle>
           <S.MainText style={{ marginBottom: '0px' }}>
             We provide the infrastructure for brands and creators to build
             communities in the metaverse
@@ -18,7 +18,7 @@ const InfiniteWorldSection = () => {
               style={{ minWidth: window.innerWidth > 1250 ? '340px' : '0' }}
             >
               Build your own
-              {window.innerWidth > 1250 && <br />} NFT metaverse
+              {window.innerWidth > 1250 && <br />} NFT Metaverse
             </S.ColumnTitle>
             <S.ColumnText>
               We create state of the art NFT worlds and marketplaces for brands

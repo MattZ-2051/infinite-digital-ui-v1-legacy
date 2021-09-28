@@ -27,9 +27,6 @@ export const Main = styled.main`
 
 export const Content = styled.section`
   width: 100%;
-  // @media screen and (max-width: 1440px) {
-  //   width: 638px;
-  // }
   @media screen and (max-width: 1140px) {
     width: 100%;
   }

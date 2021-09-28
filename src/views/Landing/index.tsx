@@ -24,6 +24,7 @@ import { Sku } from 'entities/sku';
 import { getSkuTiles } from 'services/api/sku';
 import InfiniteLogo from 'assets/img/logos/iso-white.png';
 import PageLoader from 'components/PageLoader';
+import Intro from './components/Intro';
 
 const LandingLoading = () => {
   return (
@@ -112,17 +113,18 @@ const Landing = () => {
     return <LandingLoading />;
   return (
     <main>
-      <LandingVideo
-        isAuthenticated={isAuthenticated}
-        login={loginWithRedirect}
-      />
+      <Intro />
       <InfiniteWorldSection />
       <BuildWithUs />
       <SkuTilesTab matchesMobile={matchesMobile} tiles={tiles} />
       <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-      <FAQSection />
       <VerifiedAuthenticity />
+      <FAQSection />
       <ReadAboutUs />
+      <LandingVideo
+        isAuthenticated={isAuthenticated}
+        login={loginWithRedirect}
+      />
       <Subscribe />
     </main>
   );

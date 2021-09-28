@@ -23,12 +23,12 @@ const VerifiedAuthenticity = (): React.ReactElement => {
           <p>
             We provide a unique platform to manage your physical collectables
             through a digital closet of NFTs. Bringing confidence and
-            accessibility, collectables are permanently tracked and tagged as
+            accessibility, collectibles are permanently tracked and tagged as
             authentic with a discrete tamper-proof NFC sticker.
           </p>
           <h4>
             Claim ownership of your items to curate your collection and share
-            them on Infinite.
+            them on InfiniteWorld.
           </h4>
           <S.Stores className="block__store">
             <a
