@@ -33,8 +33,6 @@ interface IProps {
 }
 
 const LandingVideo = ({ isAuthenticated, login }: IProps) => {
-  const matchesMobile = useMediaQuery('(max-width: 460px)');
-
   const handleSignUp = () => {
     login({
       screen_hint: 'signup',
@@ -48,8 +46,8 @@ const LandingVideo = ({ isAuthenticated, login }: IProps) => {
           <VideoView src="https://infinite-digital-dev.s3.amazonaws.com/InfiniteWorld-Promo_v2_August2021.mp4" />
         </S.BackdropWrapper>
         <S.Header>
-          <span style={{ color: '#ddf874' }}>Next on Infinite</span> <br />
-          Take your passion for the road to the metaverse
+          <span style={{ color: '#ddf874' }}>Next on InfiniteWorld</span> <br />
+          Take your passion for the road to the Metaverse
         </S.Header>
         <S.SubHeader>Stay tuned for updates!</S.SubHeader>
         <S.FlexDiv>

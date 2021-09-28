@@ -15,7 +15,7 @@ const SkuTilesTab = ({ tiles, matchesMobile }: IProps): JSX.Element => {
     return (
       <S.Container>
         <S.SubHeader>A curated marketplace for NFTs and beyond</S.SubHeader>
-        <S.Header>Welcome to the Infinite metaverse</S.Header>
+        <S.Header>Welcome to the InfiniteWorld Metaverse</S.Header>
         <LatestReleases tiles={tiles} />
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
@@ -35,7 +35,7 @@ const SkuTilesTab = ({ tiles, matchesMobile }: IProps): JSX.Element => {
         </S.SubHeader>
         <S.Header>
           Welcome to the <br />
-          Infinite metaverse
+          InfiniteWorld Metaverse
         </S.Header>
         <S.FlexDiv>
           <S.MarketPlaceButton onClick={() => history.push('/marketplace')}>
