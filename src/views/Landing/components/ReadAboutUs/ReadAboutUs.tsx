@@ -8,15 +8,15 @@ export const ReadAboutUs = () => {
           <S.WhatsNew>{`What's new?`}</S.WhatsNew>
           <S.Title>Read all about us</S.Title>
           <S.SubTitle>
-            Infinite is at the forefront of creating sustainable ecosystems for
-            NFTs and beyond.
+            InfiniteWorld is at the forefront of creating sustainable ecosystems
+            for NFTs and beyond.
           </S.SubTitle>
         </S.LeftColumn>
         <S.RightColumn>
           <ReadMore
             title={'Forbes'}
             text={
-              'Suku’s Infinite NFT Marketplace Bows Today, Get Your John Lennon Digital Collectibles'
+              'Suku’s InfiniteWorld NFT Marketplace Bows Today, Get Your John Lennon Digital Collectibles'
             }
             link={
               'https://www.forbes.com/sites/sharonedelson/2021/05/19/sukus-infinite-nft-marketplace-bows-today-get-your-john-lennon-digital-collectibles/?sh=7b203a5c47ab'

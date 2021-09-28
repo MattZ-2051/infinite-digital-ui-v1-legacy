@@ -5,7 +5,6 @@ export const MainContainer = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 300px;
-  padding-top: 277px;
   font-family: 'PlusJakartaSans';
   padding-left: 80px;
   padding-right: 80px;
