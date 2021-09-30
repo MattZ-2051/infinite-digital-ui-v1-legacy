@@ -4,7 +4,7 @@ const Intro = () => {
   return (
     <div style={{ background: 'black' }}>
       <S.Container>
-        <div>
+        <div style={{ height: '35%' }}>
           <S.Text color="#ddf874">
             We bring brands and creators into the Megaverse
           </S.Text>
