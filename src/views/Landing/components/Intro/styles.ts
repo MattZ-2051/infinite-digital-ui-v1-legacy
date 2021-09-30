@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   background: black;
-  padding: 0px 80px;
+  padding: 0px 80px 40px 80px;
   max-width: 1440px;
   margin: auto;
   height: 80vh;
