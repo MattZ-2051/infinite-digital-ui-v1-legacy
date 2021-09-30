@@ -109,7 +109,7 @@ const Landing = () => {
     fetchData();
   }, [user]);
 
-  if (tiles.length === 0 || !tiles || landingLoading === 'idle')
+  if (!tiles || landingLoading === 'idle')
     return <LandingLoading />;
   return (
     <main>
