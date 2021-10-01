@@ -16,8 +16,8 @@ const BuildWithUs = (): React.ReactElement => {
           </S.Header>
           <S.Action className="block__action">
             <p>
-              Whether on Infinite or through custom solutions, we can help you
-              engage with your audience through innovative NFT releases that
+              Whether on InfiniteWorld or through custom solutions, we can help
+              you engage with your audience through innovative NFT releases that
               bridge the gap between the digital and physical world.
             </p>
             <S.ActionButton href="https://goinfinite.io/help">
