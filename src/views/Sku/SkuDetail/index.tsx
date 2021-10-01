@@ -285,7 +285,7 @@ const SkuDetail = (): JSX.Element => {
           flexDirection="row"
           color="#9E9E9E"
           padding="55px 80px 0 80px"
-          height={filteredFeaturedSku.length === 0 ? '100vh' : ''}
+          height={filteredFeaturedSku.length === 0 ? '' : ''}
         >
           <S.ContainerSection>
             {!isSmall && (

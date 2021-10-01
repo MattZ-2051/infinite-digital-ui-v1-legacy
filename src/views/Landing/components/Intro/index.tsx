@@ -1,5 +1,5 @@
 import * as S from './styles';
-import Waves from "./Waves";
+import Waves from './Waves';
 
 const Intro = () => {
   return (
@@ -14,7 +14,7 @@ const Intro = () => {
           </S.Text>
         </div>
       </S.Container>
-      <Waves/>
+      <Waves />
     </div>
   );
 };
