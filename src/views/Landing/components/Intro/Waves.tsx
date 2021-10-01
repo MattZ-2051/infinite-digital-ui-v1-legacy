@@ -28,12 +28,14 @@ void main() {
   gl_Position = projectionMatrix * mvPosition;
 }
 `;
-const SEPARATION = 100;
+const SEPARATIONX = 70;
+const SEPARATIONY = 70;
 const AMOUNTX = 50;
 const AMOUNTY = 50;
-const ASPECT_RATIO = 0.2;
+// const ASPECT_RATIO = 0.2;
+const ASPECT_RATIO = 3;
 
-const Waves = () => {
+const Waves = (props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(
     () => {
@@ -53,9 +55,11 @@ const Waves = () => {
       let count = 0;
 
       function init() {
-        camera = new three.PerspectiveCamera(75, ASPECT_RATIO, 10, 10000);
-        camera.position.z = (SEPARATION * AMOUNTY / 2) * 1.2;
-        camera.position.x = (SEPARATION * AMOUNTX / 2) * 1.2;
+        camera = new three.PerspectiveCamera(25, ASPECT_RATIO, 10, 3000);
+        // camera.position.z = 1000;
+        camera.position.y = 500;
+        camera.position.z = (SEPARATIONY * AMOUNTY / 2) * 0.8;
+        camera.position.x = (SEPARATIONX * AMOUNTX / 2) * 0.8;
 
         scene = new three.Scene();
 
@@ -68,9 +72,9 @@ const Waves = () => {
 
         for (let ix = 0; ix < AMOUNTX; ix++) {
           for (let iy = 0; iy < AMOUNTY; iy++) {
-            positions[i] = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2); // x
+            positions[i] = ix * SEPARATIONX - ((AMOUNTX * SEPARATIONX) / 2); // x
             positions[i + 1] = 0; // y
-            positions[i + 2] = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2); // z
+            positions[i + 2] = iy * SEPARATIONY - ((AMOUNTY * SEPARATIONY) / 2); // z
             scales[j] = 1;
             i += 3;
             j++;
@@ -83,7 +87,7 @@ const Waves = () => {
 
         const material = new three.ShaderMaterial({
           uniforms: {
-            color: {value: new three.Color(0xffffff)},
+            color: {value: new three.Color(0x666666)},
           },
           vertexShader: VERTEX_SHADER,
           fragmentShader: FRAGMENT_SHADER,
@@ -94,7 +98,7 @@ const Waves = () => {
 
         renderer = new three.WebGLRenderer({antialias: true});
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerWidth * ASPECT_RATIO);
+        renderer.setSize(window.innerWidth, window.innerWidth / ASPECT_RATIO);
         container.appendChild(renderer.domElement);
         container.style.touchAction = 'none';
         window.addEventListener('resize', onWindowResize);
@@ -106,7 +110,7 @@ const Waves = () => {
 
       function onWindowResize() {
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerWidth * ASPECT_RATIO );
+        renderer.setSize( window.innerWidth, window.innerWidth / ASPECT_RATIO );
       }
 
       function animate() {
@@ -126,10 +130,10 @@ const Waves = () => {
 
         for ( let ix = 0; ix < AMOUNTX; ix ++ ) {
           for ( let iy = 0; iy < AMOUNTY; iy ++ ) {
-            positions[ i + 1 ] = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) +
-              ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
-            scales[ j ] = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 20 +
-              ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 20;
+            positions[ i + 1 ] = ( Math.sin( ( ix + count ) * 0.25 ) * 50 ) +
+              ( Math.cos( ( iy + count ) * 0.25 ) * 50 );
+            scales[ j ] = ( Math.sin( ( ix + count ) * 0.25 ) + 1 ) * 7 +
+              ( Math.cos( ( iy + count ) * 0.25 ) + 1 ) * 7;
             i += 3;
             j ++;
           }
@@ -146,7 +150,6 @@ const Waves = () => {
       animate();
 
       return () => {
-        // container.removeEventListener('pointermove', onPointerMove);
         window.removeEventListener('resize', onWindowResize);
         cleanup();
         renderer.dispose();
@@ -155,7 +158,7 @@ const Waves = () => {
     [],
   );
   return (
-    <div className="waves-container" ref={containerRef}/>
+    <div ref={containerRef} {...props}/>
   );
 };
 
