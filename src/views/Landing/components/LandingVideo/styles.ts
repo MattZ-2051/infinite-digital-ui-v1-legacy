@@ -5,13 +5,13 @@ export const BackgroundContainer = styled.section`
   background-color: black;
   width: 100%;
   position: relative;
-  z-index: -2;
   overflow: hidden;
 `;
 export const Container = styled.section`
   max-width: 1140px;
   margin: auto;
   padding: 96px 80px 200px 80px;
+  background: black;
   @media screen and (max-width: 1100px) {
     padding: 96px 24px 200px 24px;
   }
