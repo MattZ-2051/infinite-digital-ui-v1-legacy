@@ -25,6 +25,7 @@ import { getSkuTiles } from 'services/api/sku';
 import InfiniteLogo from 'assets/img/logos/iso-white.png';
 import PageLoader from 'components/PageLoader';
 import Intro from './components/Intro';
+import AboutInfinite from './components/AboutInfinite';
 import CollectSection from './components/VIP/CollectSection/collectSection';
 import GreenSection from './components/VIP/GreenSection/greenSection';
 import FeaturedOn from './components/VIP/FeaturedOn/featuredOn';
@@ -117,6 +118,7 @@ const Landing = () => {
     <main>
       <Intro />
       <CollectSection />
+      <AboutInfinite />
       <GreenSection />
       <FeaturedOn />
       <FAQSection />
