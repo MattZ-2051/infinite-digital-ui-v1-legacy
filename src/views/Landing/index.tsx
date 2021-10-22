@@ -25,6 +25,9 @@ import { getSkuTiles } from 'services/api/sku';
 import InfiniteLogo from 'assets/img/logos/iso-white.png';
 import PageLoader from 'components/PageLoader';
 import Intro from './components/Intro';
+import CollectSection from './components/VIP/CollectSection/collectSection';
+import GreenSection from './components/VIP/GreenSection/greenSection';
+import FeaturedOn from './components/VIP/FeaturedOn/featuredOn';
 
 const LandingLoading = () => {
   return (
@@ -109,23 +112,14 @@ const Landing = () => {
     fetchData();
   }, [user]);
 
-  if (!tiles || landingLoading === 'idle')
-    return <LandingLoading />;
+  if (!tiles || landingLoading === 'idle') return <LandingLoading />;
   return (
     <main>
       <Intro />
-      <InfiniteWorldSection />
-      <BuildWithUs />
-      <SkuTilesTab matchesMobile={matchesMobile} tiles={tiles} />
-      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-      <VerifiedAuthenticity />
+      <CollectSection />
+      <GreenSection />
+      <FeaturedOn />
       <FAQSection />
-      <ReadAboutUs />
-      <LandingVideo
-        isAuthenticated={isAuthenticated}
-        login={loginWithRedirect}
-      />
-      <Subscribe />
     </main>
   );
 };
