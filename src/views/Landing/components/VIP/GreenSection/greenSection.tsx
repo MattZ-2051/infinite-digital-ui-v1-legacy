@@ -7,8 +7,8 @@ const GreenSection = () => {
         <S.Title>How do brands gain from the InfiniteWorld Megaverse?</S.Title>
         <S.BoxRow>
           <S.Box>
-            Increase Fan Engagement by opening brand-new opportunities for their
-            Community
+            Increase Fan Engagement by opening <br /> brand-new opportunities
+            for their Community
           </S.Box>
           <S.Box>
             Create new revenue sources through sales and resales of virtual and
