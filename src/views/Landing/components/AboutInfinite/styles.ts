@@ -7,8 +7,8 @@ export const BackgroundContainer = styled.div`
 export const Container = styled.div`
   max-width: 1440px;
   margin: auto;
-  padding-top: 17.5rem;
-  padding-bottom: 5.5rem;
+  padding-top: 8.75rem;
+  padding-bottom: 0rem;
   @media screen and (max-width: 1140px) {
     padding-left: 1.25rem;
     padding-right: 1.25rem;

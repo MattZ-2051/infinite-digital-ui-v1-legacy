@@ -1,4 +1,3 @@
-import { useWindowScroll } from 'react-use';
 import * as S from './styles';
 
 const InfiniteWorldSection = () => {
