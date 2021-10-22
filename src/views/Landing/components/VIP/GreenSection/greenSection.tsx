@@ -9,8 +9,8 @@ const GreenSection = () => {
           <S.Box>
             Increase Fan Engagement by opening brand-new opportunities for their
             Community
-          <S.Box>
           </S.Box>
+          <S.Box>
             Create new revenue sources through sales and resales of virtual and
             physical assets combined
           </S.Box>
