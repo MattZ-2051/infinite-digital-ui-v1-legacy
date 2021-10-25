@@ -26,7 +26,7 @@ export const Title = styled.div`
   color: white;
   font-size: 48px;
   font-family: 'PlusJakartaSans';
-  font-weight: 600;
+  font-weight: 400;
   line-height: 56px;
   text-align: center;
   @media screen and (max-width: 960px) {

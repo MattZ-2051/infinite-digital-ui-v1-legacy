@@ -45,10 +45,10 @@ export const Title = styled.div`
   text-align: center;
   color: #7c7c7c;
   line-height: 1.6rem;
-  margin-bottom: 3.25rem;
+  margin-bottom: 0.625rem;
 
   @media (max-width: 542px) {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.625rem;
   }
 `;
 

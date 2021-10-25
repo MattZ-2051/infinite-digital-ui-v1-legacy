@@ -27,18 +27,6 @@ const Intro = ({
       <S.BgContainer>
         <S.BgImage />
       </S.BgContainer>
-      <S.Header>
-        <S.HeaderContent>
-          <S.HeaderLeft>
-            <S.Link to="/">
-              <S.Infinite />
-            </S.Link>
-          </S.HeaderLeft>
-          <S.Link to="/marketplace">
-            <NavBar isSmall={isSmall} />
-          </S.Link>
-        </S.HeaderContent>
-      </S.Header>
       <S.BodyContainer>
         <S.OnTop>
           <S.Title>Become an early member of InfiniteWorld</S.Title>

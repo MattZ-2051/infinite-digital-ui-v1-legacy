@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import { Link as LinkComponent } from 'react-router-dom';
-import { ReactComponent as InfiniteLogo } from '../../../../../assets/svg/logos/infinite-logo-by-suku.svg';
-import { ReactComponent as Lines } from '../../../../../assets/VIPLanding/lines.svg';
+import { ReactComponent as InfiniteLogo } from 'assets/svg/logos/infinite-logo-by-suku.svg';
+import { ReactComponent as Lines } from 'assets/VIPLanding/lines.svg';
 import GlassyCard from './Assets/glassy-card.png';
 
 export const SignSection = styled.div`
@@ -172,6 +172,7 @@ export const Button1 = styled.button`
   border-radius: 99px;
   border: 1px solid #3a3a3a;
   min-width: max-content;
+  font-weight: 700;
   :hover {
     background-color: #ddf874;
     color: black;
@@ -187,6 +188,7 @@ export const Button2 = styled.button`
   color: white;
   background-color: transparent;
   border-radius: 99px;
+  font-weight: 700;
   border: 1px solid #3a3a3a;
   :hover {
     background-color: #ddf874;
@@ -227,7 +229,6 @@ export const HeaderContent = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: auto;
-  margin-top: 10px;
   padding: 0 3rem 0 3rem;
   @media screen and (max-width: 960px) {
     padding: 0 1.5rem 0 1.5rem;
