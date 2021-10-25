@@ -16,11 +16,12 @@ import { Sku } from 'entities/sku';
 import { getSkuTiles } from 'services/api/sku';
 import InfiniteLogo from 'assets/img/logos/iso-white.png';
 import PageLoader from 'components/PageLoader';
-import AboutInfinite from './components/AboutInfinite';
+import AboutInfinite from './components/VIP/AboutInfinite';
 import Intro from './components/VIP/Intro/intro';
 import CollectSection from './components/VIP/CollectSection/collectSection';
 import GreenSection from './components/VIP/GreenSection/greenSection';
 import FeaturedOn from './components/VIP/FeaturedOn/featuredOn';
+import VipModal from './components/VIP/VipModal';
 
 const LandingLoading = () => {
   return (
@@ -49,6 +50,7 @@ const Landing = () => {
   const landingLoading = useAppSelector((state) => state.landing.loading);
   const matchesMobile = useMediaQuery('(max-width:960px)', { noSsr: true });
   const [tiles, setTiles] = useState<Sku[] | []>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // This call was for featured slider, removing for now since comp was removed
 
@@ -82,6 +84,12 @@ const Landing = () => {
   }
 
   useEffect(() => {
+    if (isAuthenticated) {
+      setIsModalOpen(true);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     dispatch(updateLandingLoading('idle'));
   }, []);
   useEffect(() => {
@@ -108,12 +116,13 @@ const Landing = () => {
   if (!tiles || landingLoading === 'idle') return <LandingLoading />;
   return (
     <main>
-      <Intro authenticated={isAuthenticated} login={loginWithRedirect}/>
+      <Intro authenticated={isAuthenticated} login={loginWithRedirect} />
       <CollectSection />
       <AboutInfinite />
       <GreenSection />
       <FeaturedOn />
       <FAQSection />
+      <VipModal setIsVisible={setIsModalOpen} visible={isModalOpen} />
     </main>
   );
 };
