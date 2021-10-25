@@ -13,7 +13,7 @@ const Intro = ({
   login: any;
 }) => {
   const video = useRef<HTMLVideoElement>(null);
-  const theme = useTheme();  
+  const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   useEffect(() => {
     video.current?.play();
@@ -35,7 +35,7 @@ const Intro = ({
             </S.Link>
           </S.HeaderLeft>
           <S.Link to="/marketplace">
-          <NavBar isSmall={isSmall} />
+            <NavBar isSmall={isSmall} />
           </S.Link>
         </S.HeaderContent>
       </S.Header>
@@ -66,9 +66,9 @@ const Intro = ({
               features as they release.{' '}
             </S.LastText>
 
-            {!authenticated ? (
+            {authenticated ? (
               <S.Link to="/marketplace/617047d7ae96a50793a11561">
-                <S.Button2> Sign up</S.Button2>
+                <S.Button2> Redeem your free NFT now</S.Button2>
               </S.Link>
             ) : (
               <S.Button2
@@ -76,11 +76,12 @@ const Intro = ({
                   login({
                     appState: { returnTo: window.location.pathname },
                     redirectUri: window.location.origin,
+                    screen_hint: 'signup',
                   });
                 }}
               >
                 {' '}
-                Redeem your free NFT now
+                Sign up
               </S.Button2>
             )}
           </S.SignSection>
