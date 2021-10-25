@@ -108,7 +108,7 @@ const Landing = () => {
   if (!tiles || landingLoading === 'idle') return <LandingLoading />;
   return (
     <main>
-      <Intro />
+      <Intro authenticated={isAuthenticated} login={loginWithRedirect}/>
       <CollectSection />
       <AboutInfinite />
       <GreenSection />
