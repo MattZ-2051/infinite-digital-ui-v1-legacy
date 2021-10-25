@@ -134,7 +134,7 @@ export const Title = styled.div`
   @media (max-width: 750px) {
     font-size: 2.5rem;
     line-height: 3rem;
-    margin-top:2.5rem;
+    margin-top: 2.5rem;
   }
 `;
 export const SubTitle = styled.div`
@@ -194,7 +194,7 @@ export const Button2 = styled.button`
     cursor: pointer;
   }
   @media (max-width: 750px) {
-    width: 90%;
+    width: 100%;
   }
 `;
 
