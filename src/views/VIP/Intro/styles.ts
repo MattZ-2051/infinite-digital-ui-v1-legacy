@@ -164,6 +164,12 @@ export const BgImage = styled(Lines)`
   position: absolute;
   width: 100%;
   z-index: 1;
+  @media (max-width:750px){
+    top:-11rem;
+  }
+  @media (max-width:400px){
+    top:-13rem;
+  }
 `;
 export const Button1 = styled.button`
   padding: 0.6rem 2rem 0.6rem 2rem;
@@ -198,6 +204,7 @@ export const Button2 = styled.button`
   }
   @media (max-width: 750px) {
     width: 100%;
+    font-size:1.15rem;
   }
 `;
 
