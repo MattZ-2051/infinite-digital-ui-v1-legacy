@@ -189,6 +189,7 @@ export const Button2 = styled.button`
   background-color: transparent;
   border-radius: 99px;
   font-weight: 700;
+  font-size: 16px;
   border: 1px solid #3a3a3a;
   :hover {
     background-color: #ddf874;

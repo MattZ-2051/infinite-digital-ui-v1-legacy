@@ -32,7 +32,13 @@ const Intro = ({
           <S.Title>Become an early member of InfiniteWorld</S.Title>
           <S.SubTitle>We{`'`}re creating the Megaverse!</S.SubTitle>
           <S.ScreenBG>
-            <S.VideoScreen autoPlay={true} loop={true} ref={video} controls>
+            <S.VideoScreen
+              autoPlay={true}
+              loop={true}
+              ref={video}
+              controls
+              muted={true}
+            >
               <source
                 src="https://infinite-digital-prod.s3.amazonaws.com/vip-landing/InfiniteWorld-NYCVIP_VF_F.mp4"
                 type="video/mp4"
@@ -67,6 +73,7 @@ const Intro = ({
                     screen_hint: 'signup',
                   });
                 }}
+                style={{ width: '250px' }}
               >
                 {' '}
                 Sign up

@@ -8,12 +8,18 @@ export const Container = styled.div`
   align-items: center;
   height: 350px;
   width: 100%;
+  @media screen and (max-width: 600px) {
+    padding: 0;
+  }
 `;
 
 export const Title = styled.p`
   font-size: 24px;
   margin: 0;
   font-weight: 600;
+  @media screen and (max-width: 600px) {
+    font-size: 22px;
+  }
 `;
 
 export const CloseButton = styled.div`
