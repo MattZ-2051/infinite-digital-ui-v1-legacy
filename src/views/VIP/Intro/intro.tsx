@@ -24,9 +24,7 @@ const Intro = ({
 
   return (
     <S.Background>
-      <S.BgContainer>
-        <S.BgImage />
-      </S.BgContainer>
+      <S.BgContainer>{!isSmall && <S.BgImage />}</S.BgContainer>
       <S.BodyContainer>
         <S.OnTop>
           <S.Title>Become an early member of InfiniteWorld</S.Title>

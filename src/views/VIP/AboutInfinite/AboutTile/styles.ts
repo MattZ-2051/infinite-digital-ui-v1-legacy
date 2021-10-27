@@ -9,6 +9,9 @@ export const Container = styled.div`
 
 export const ImgContainer = styled.div`
   position: relative;
+  @media screen and (max-width: 640px) {
+    padding-top: 1.5rem;
+  }
 `;
 
 export const ShoImg = styled.img`

@@ -64,5 +64,6 @@ export const AboutTileContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 0;
   }
 `;

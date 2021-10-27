@@ -37,12 +37,15 @@ const TileImg = ({ category }) => {
 };
 
 const AboutTile = ({ title, description, category }: AboutTileProps) => {
+  const matchesMobile = useMediaQuery('(max-width:640px)', { noSsr: true });
+
   return (
     <S.Container>
-      <TileImg category={category} />
+      {!matchesMobile && <TileImg category={category} />}
       <S.Category>{category}</S.Category>
       <S.Title>{title}</S.Title>
       <S.Description>{description}</S.Description>
+      {matchesMobile && <TileImg category={category} />}
     </S.Container>
   );
 };

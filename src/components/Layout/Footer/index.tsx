@@ -83,27 +83,62 @@ const Footer = ({ footerBackgroundTheme }) => {
               Help
             </TextButton>
 
-            <TextButton
-              to="/privacy"
-              color={getColor()}
-              size="small"
-              matchesMobile={matchesMobile}
-            >
-              Privacy Policy
-            </TextButton>
+            {!matchesMobile && (
+              <>
+                <TextButton
+                  to="/privacy"
+                  color={getColor()}
+                  size="small"
+                  matchesMobile={matchesMobile}
+                >
+                  Privacy Policy
+                </TextButton>
 
-            <TextButton
-              to="/terms"
-              color={getColor()}
-              size="small"
-              matchesMobile={matchesMobile}
-            >
-              Terms & Conditions
-            </TextButton>
+                <TextButton
+                  to="/terms"
+                  color={getColor()}
+                  size="small"
+                  matchesMobile={matchesMobile}
+                >
+                  Terms & Conditions
+                </TextButton>
+              </>
+            )}
+
             <Hidden smDown>
               <HederaButton color={getColor()} />
             </Hidden>
           </ScreenSelector>
+          {matchesMobile && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+                paddingBottom: '1.5rem',
+              }}
+            >
+              <TextButton
+                to="/privacy"
+                color={getColor()}
+                size="small"
+                matchesMobile={matchesMobile}
+                style={{ width: '100%' }}
+              >
+                Privacy Policy
+              </TextButton>
+
+              <TextButton
+                to="/terms"
+                color={getColor()}
+                size="small"
+                matchesMobile={matchesMobile}
+                style={{ width: '100%', textAlign: 'center' }}
+              >
+                Terms & Conditions
+              </TextButton>
+            </div>
+          )}
 
           <Divider gap={16} tag="nav" styles={{ order: isSmall ? '-1' : '2' }}>
             <Hidden smDown>

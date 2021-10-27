@@ -10,7 +10,7 @@ export interface AboutTileProps {
 
 const AboutTileInfo: AboutTileProps[] = [
   {
-    title: 'Physical to Digital Products',
+    title: `Physical to Digital Products`,
     category: 'Products',
     description:
       ' We will bring the virtual and physical worlds together by connecting virtual to real world branded merch.',
