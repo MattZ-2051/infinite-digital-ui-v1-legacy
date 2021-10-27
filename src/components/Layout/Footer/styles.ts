@@ -103,10 +103,11 @@ export const TextButtonContainer = styled.div<{ matchesMobile }>`
   ${(props) =>
     props.matchesMobile
       ? `
-          width:105%;
+          width:100%;
           margin-bottom:20px;
            display: flex;
           justify-content: space-between;
+          align-items: flex-start;
           `
       : ''};
 `;

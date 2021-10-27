@@ -110,34 +110,15 @@ const Footer = ({ footerBackgroundTheme }) => {
             </Hidden>
           </ScreenSelector>
           {matchesMobile && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-                paddingBottom: '1.5rem',
-              }}
-            >
-              <TextButton
-                to="/privacy"
-                color={getColor()}
-                size="small"
-                matchesMobile={matchesMobile}
-                style={{ width: '100%' }}
-              >
+            <S.TextButtonContainer matchesMobile={matchesMobile}>
+              <TextButton to="/privacy" color={getColor()} size="small">
                 Privacy Policy
               </TextButton>
 
-              <TextButton
-                to="/terms"
-                color={getColor()}
-                size="small"
-                matchesMobile={matchesMobile}
-                style={{ width: '100%', textAlign: 'center' }}
-              >
+              <TextButton to="/terms" color={getColor()} size="small">
                 Terms & Conditions
               </TextButton>
-            </div>
+            </S.TextButtonContainer>
           )}
 
           <Divider gap={16} tag="nav" styles={{ order: isSmall ? '-1' : '2' }}>
