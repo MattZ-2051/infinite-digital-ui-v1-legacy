@@ -154,6 +154,7 @@ export const BoxTitle = styled.span`
   font-weight: 700;
   line-height: 30px;
   color: #8e8e8e;
+  text-align: left;
 `;
 
 export const BoxSubtitle = styled.div`
@@ -161,6 +162,7 @@ export const BoxSubtitle = styled.div`
   font-size: 15px;
   line-height: 19px;
   color: #7c7c7c;
+  text-align: left;
 `;
 
 export const CenteredSpaced = styled.div`
