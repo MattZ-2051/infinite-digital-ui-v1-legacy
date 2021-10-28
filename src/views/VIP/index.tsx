@@ -11,41 +11,18 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { updateLandingLoading } from 'store/landing/landingThunks';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 // Components
-import Hero from './components/Hero';
-import SkuTilesTab from './components/SkuTilesTab';
-import Subscribe from './components/Subscribe';
-import InfiniteWorldSection from './components/WhatIsInfiniteWorldSection/infiniteWorldSection';
-import { FAQSection } from './components/FAQSection/FAQSection';
-import { ReadAboutUs } from './components/ReadAboutUs/ReadAboutUs';
-import BuildWithUs from './components/BuildWithUs';
-import VerifiedAuthenticity from './components/VerifiedAuthenticity';
-import LandingVideo from './components/LandingVideo';
+import { FAQSection } from '../Landing/components/FAQSection/FAQSection';
 import { Sku } from 'entities/sku';
 import { getSkuTiles } from 'services/api/sku';
-import InfiniteLogo from 'assets/img/logos/iso-white.png';
+import AboutInfinite from './AboutInfinite';
+import Intro from './Intro/intro';
+import CollectSection from './CollectSection/collectSection';
+import GreenSection from './GreenSection/greenSection';
+import FeaturedOn from './FeaturedOn/featuredOn';
+import VipModal from './VipModal';
 import PageLoader from 'components/PageLoader';
-import Intro from './components/Intro';
 
-const LandingLoading = () => {
-  return (
-    <LandingPageLoader>
-      <div style={{ display: 'flex' }}>
-        <InfiniteImg src={InfiniteLogo} />
-        <LoadingText> INFINITE</LoadingText>
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <PageLoader
-          size={12}
-          color="white"
-          backGroundColor="black"
-          height="30px"
-        />
-      </div>
-    </LandingPageLoader>
-  );
-};
-
-const Landing = () => {
+const Vip = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, loginWithRedirect, user, getAccessTokenSilently } =
     useAuth0();
@@ -53,6 +30,7 @@ const Landing = () => {
   const landingLoading = useAppSelector((state) => state.landing.loading);
   const matchesMobile = useMediaQuery('(max-width:960px)', { noSsr: true });
   const [tiles, setTiles] = useState<Sku[] | []>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // This call was for featured slider, removing for now since comp was removed
 
@@ -86,6 +64,12 @@ const Landing = () => {
   }
 
   useEffect(() => {
+    if (isAuthenticated) {
+      setIsModalOpen(true);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     dispatch(updateLandingLoading('idle'));
   }, []);
   useEffect(() => {
@@ -109,44 +93,18 @@ const Landing = () => {
     fetchData();
   }, [user]);
 
-  if (!tiles || landingLoading === 'idle') return <LandingLoading />;
+  if (!tiles || landingLoading === 'idle') return <PageLoader size={40} />;
   return (
     <main>
-      <Intro />
-      <InfiniteWorldSection />
-      <BuildWithUs />
-      <SkuTilesTab matchesMobile={matchesMobile} tiles={tiles} />
-      <Hero isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-      <VerifiedAuthenticity />
+      <Intro authenticated={isAuthenticated} login={loginWithRedirect} />
+      <CollectSection />
+      <AboutInfinite />
+      <GreenSection />
+      <FeaturedOn />
       <FAQSection />
-      <ReadAboutUs />
-      <LandingVideo
-        isAuthenticated={isAuthenticated}
-        login={loginWithRedirect}
-      />
-      <Subscribe />
+      <VipModal setIsVisible={setIsModalOpen} visible={isModalOpen} />
     </main>
   );
 };
 
-const LandingPageLoader = styled.div`
-  height: 100vh;
-  background: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const InfiniteImg = styled.img`
-  width: 28px;
-  margin-right: 20px;
-`;
-
-export const LoadingText = styled.p`
-  color: white;
-  font-size: 32px;
-  margin: 0;
-  letter-spacing: 15px;
-`;
-export default Landing;
+export default Vip;

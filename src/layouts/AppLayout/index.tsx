@@ -8,7 +8,6 @@ import Notification from 'components/Notification';
 import NavBar from 'components/Layout/NavBar';
 import { ReactComponent as InfiniteLogo } from '../../assets/svg/logos/infinite-logo-by-suku.svg';
 import ErrorBoundary from 'components/ErrorBoundary';
-import PopUpModal from 'components/Modal/PopUpModal';
 import CookieBanner from 'components/CookieBanner';
 
 export interface IProps {
@@ -18,20 +17,17 @@ export interface IProps {
 const AppLayout = ({ children }: IProps): JSX.Element => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
   const [cookieBannerVisible, setIsCookieBannerVisible] =
     useState<boolean>(false);
 
   useEffect(() => {
     const visited = localStorage['alreadyVisited'];
     if (visited) {
-      setPopUpVisible(false);
       setIsCookieBannerVisible(false);
       //do not view Popup
     } else {
       //this is the first time
       localStorage['alreadyVisited'] = true;
-      setPopUpVisible(true);
       setIsCookieBannerVisible(true);
     }
   }, []);
@@ -49,11 +45,6 @@ const AppLayout = ({ children }: IProps): JSX.Element => {
           <NavBar isSmall={isSmall} />
         </HeaderContent>
       </Header>
-      {/* <PopUpModal
-        visible={popUpVisible}
-        setPopUpVisible={setPopUpVisible}
-        isCookieBannerOpen={cookieBannerVisible}
-      /> */}
       <ErrorBoundary>
         <MainContainer>{children}</MainContainer>
       </ErrorBoundary>

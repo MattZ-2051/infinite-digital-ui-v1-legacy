@@ -244,7 +244,7 @@ const FromCreatorBox = ({
   return (
     <S.Container>
       <S.Detail>
-        <S.BoxColumn>
+        <S.BoxColumn alignItems="flex-start">
           <S.BoxTitle>From Creator</S.BoxTitle>
           <S.BoxSubtitle>Initial Release</S.BoxSubtitle>
         </S.BoxColumn>
@@ -296,7 +296,7 @@ const FromCollectorsBox = ({
     return (
       <S.Container>
         <S.Detail>
-          <S.BoxColumn>
+          <S.BoxColumn alignItems="flex-start">
             <S.BoxTitle>From Collectors</S.BoxTitle>
             <S.BoxSubtitle>Lowest Listing Price</S.BoxSubtitle>
           </S.BoxColumn>
