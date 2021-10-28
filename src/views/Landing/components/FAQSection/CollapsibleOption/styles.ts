@@ -25,7 +25,7 @@ export const Container = styled.div<{ isOpen: boolean }>`
 export const Title = styled.div`
   font-size: 24px;
   font-family: 'PlusJakartaSans';
-  font-weight: 600;
+  font-weight: 400;
   line-height: 30px;
 
   @media screen and (max-width: 960px) {

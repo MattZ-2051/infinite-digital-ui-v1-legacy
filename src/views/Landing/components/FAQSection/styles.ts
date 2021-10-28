@@ -3,14 +3,14 @@ export const MainContainer = styled.div`
   background-color: black;
   display: flex;
   justify-content: center;
-  padding-bottom: 300px;
-  padding-top: 300px;
+  padding-bottom: 20rem;
+  padding-top: 6rem;
   @media screen and (max-width: 960px) {
     width: 100%;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 200px;
-    padding-top: 200px;
+    padding-left: 1.63rem;
+    padding-right: 1.63rem;
+    padding-bottom: 3.25rem;
+    padding-top: 3rem;
   }
 `;
 
@@ -26,7 +26,7 @@ export const Title = styled.div`
   color: white;
   font-size: 48px;
   font-family: 'PlusJakartaSans';
-  font-weight: 600;
+  font-weight: 400;
   line-height: 56px;
   text-align: center;
   @media screen and (max-width: 960px) {

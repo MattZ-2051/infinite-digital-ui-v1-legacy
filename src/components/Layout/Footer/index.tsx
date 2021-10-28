@@ -83,27 +83,43 @@ const Footer = ({ footerBackgroundTheme }) => {
               Help
             </TextButton>
 
-            <TextButton
-              to="/privacy"
-              color={getColor()}
-              size="small"
-              matchesMobile={matchesMobile}
-            >
-              Privacy Policy
-            </TextButton>
+            {!matchesMobile && (
+              <>
+                <TextButton
+                  to="/privacy"
+                  color={getColor()}
+                  size="small"
+                  matchesMobile={matchesMobile}
+                >
+                  Privacy Policy
+                </TextButton>
 
-            <TextButton
-              to="/terms"
-              color={getColor()}
-              size="small"
-              matchesMobile={matchesMobile}
-            >
-              Terms & Conditions
-            </TextButton>
+                <TextButton
+                  to="/terms"
+                  color={getColor()}
+                  size="small"
+                  matchesMobile={matchesMobile}
+                >
+                  Terms & Conditions
+                </TextButton>
+              </>
+            )}
+
             <Hidden smDown>
               <HederaButton color={getColor()} />
             </Hidden>
           </ScreenSelector>
+          {matchesMobile && (
+            <S.TextButtonContainer matchesMobile={matchesMobile}>
+              <TextButton to="/privacy" color={getColor()} size="small">
+                Privacy Policy
+              </TextButton>
+
+              <TextButton to="/terms" color={getColor()} size="small">
+                Terms & Conditions
+              </TextButton>
+            </S.TextButtonContainer>
+          )}
 
           <Divider gap={16} tag="nav" styles={{ order: isSmall ? '-1' : '2' }}>
             <Hidden smDown>

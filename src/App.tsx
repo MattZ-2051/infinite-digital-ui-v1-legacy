@@ -42,7 +42,7 @@ const App = (): JSX.Element => {
             />
 
             {!isLandingLoading && isLandingPage && (
-              <Footer footerBackgroundTheme={footerBackground} />
+              <Footer footerBackgroundTheme={'black'} />
             )}
             {!isLandingPage && (
               <Footer footerBackgroundTheme={footerBackground} />
