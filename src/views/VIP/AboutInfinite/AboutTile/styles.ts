@@ -44,5 +44,5 @@ export const Category = styled.p`
   color: #9da1a8;
   font-weight: 700;
   margin: 0;
-  padding: 1rem 0;
+  padding: 1rem 0 0 0;
 `;
