@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const VipModal = ({ visible, setIsVisible }: IProps) => {
-  console.log('isVisible', visible);
   const history = useHistory();
   const Body = () => {
     return (
@@ -22,7 +21,7 @@ const VipModal = ({ visible, setIsVisible }: IProps) => {
           <S.Title>Redeem your free NFT now!</S.Title>
           <S.Button
             onClick={() =>
-              history.push('/marketplace/617047d7ae96a50793a11561')
+              history.push('/marketplace/617960ae1abc4e19d0a432c1')
             }
           >
             Go to Marketplace

@@ -141,7 +141,6 @@ const SkuPageModal = ({
       setStatusMode('success');
       const newPurchasedProduct = res.data[0]?.transactionData?.product;
       const url = history.location.pathname.split('/');
-      console.log('new product', res);
       setNewProduct(newPurchasedProduct);
       if (url[2] !== product._id) {
         Toast.success(
@@ -412,7 +411,6 @@ const SkuPageModal = ({
     </>
   );
 
-  console.log('here', newProduct);
   return (
     <Modal
       open={visible}
