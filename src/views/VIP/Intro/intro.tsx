@@ -60,7 +60,7 @@ const Intro = ({
 
             {authenticated ? (
               <S.Link to="/marketplace/617047d7ae96a50793a11561">
-                <S.Button2> Redeem your free NFT now</S.Button2>
+                <S.Button2>Join our Megaverse community!</S.Button2>
               </S.Link>
             ) : (
               <S.Button2
