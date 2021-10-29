@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import arrowIcon from '../../../../assets/svg/icons/landing-arrow.svg';
+import metaverseIcon from '../../../../assets/svg/icons/metaverse-icon.svg';
 import * as S from './styles';
 
 const Intro = () => {
@@ -12,14 +14,23 @@ const Intro = () => {
   return (
     <S.Wrapper>
       <S.Container>
-        <div>
-          <S.Text color="#ddf874">
-            We bring brands and creators into the Megaverse
-          </S.Text>
-          <S.Text color="white">
-            the virtual and physical worlds combined
-          </S.Text>
-        </div>
+        <S.TextContainer>
+          <S.FirstRowContainer>
+            <S.TextFirstRow>We bring</S.TextFirstRow>
+            <S.ArrowIcon src={arrowIcon} />
+          </S.FirstRowContainer>
+          <S.MiddleRowContainer>
+            <S.TextMiddleRow>brands and creators</S.TextMiddleRow>
+          </S.MiddleRowContainer>
+          <S.LastRowContainer>
+            <S.Pill>into</S.Pill>
+            <S.TextLastRow>The Megaverse</S.TextLastRow>
+            {/* <img src={metaverseIcon} /> */}
+          </S.LastRowContainer>
+        </S.TextContainer>
+        <S.SubText color="white">
+          The virtual and physical worlds combined.
+        </S.SubText>
       </S.Container>
       <S.StyledBackgroundVideo
         ref={vidRef}
