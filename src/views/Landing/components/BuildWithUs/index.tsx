@@ -12,7 +12,7 @@ const BuildWithUs = (): React.ReactElement => {
         <S.BlockGrid>
           <S.Header>
             <h2>Build your own marketplace</h2>
-            <h3>We provide 360º NFT Solutions for creators and brands</h3>
+            <h3 style={{ fontWeight: 500 }}>We provide 360º NFT Solutions for creators and brands</h3>
           </S.Header>
           <S.Action className="block__action">
             <p>

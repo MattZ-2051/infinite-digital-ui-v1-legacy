@@ -20,7 +20,7 @@ export const Container = styled.section`
 export const Header = styled.p`
   margin: 0;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 48px;
   text-align: center;
   padding: 16px 0px 64px 0px;

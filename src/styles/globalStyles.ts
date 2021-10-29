@@ -63,7 +63,7 @@ const GlobalStyle = createGlobalStyle`
   }
   h1 { font-size: 4em; font-weight: 200; } // Extra-light
   h2 { font-size: 3em; font-weight: 700; } // Bold
-  h3 { font-size: 2em; font-weight: 700; }
+  h3 { font-size: 2em; font-weight: 600; }
   h4 { font-size: 1.5em; font-weight: 600; } // Semi-bold
   h5 { font-size: 1.25em; font-weight: 600; }
 
