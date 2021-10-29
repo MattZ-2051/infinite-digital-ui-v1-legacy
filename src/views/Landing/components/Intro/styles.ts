@@ -112,6 +112,15 @@ export const LastRowContainer = styled.div`
   }
 `;
 
+export const MetaverseIcon = styled.img`
+  transform: translateY(10px);
+  margin-left: 5px;
+  @media screen and (max-width: 640px) {
+    transform: translateY(5px);
+    height: 32px;
+  }
+`;
+
 export const Pill = styled.span`
   font-size: 32px;
   font-weight: 400;

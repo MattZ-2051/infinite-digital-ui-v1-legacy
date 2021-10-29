@@ -50,7 +50,7 @@ const BuildWithUs = (): React.ReactElement => {
           </S.Featured>
           <S.ImgBlock className="block__img">
             <S.ImgFrame className="img__landing__frame">
-              <img width="407" height="534" src={landingImg} />
+              <img width="407" height="534" src={landingImg} style={{ transform: 'translateZ(7px)' }} />
             </S.ImgFrame>
 
             <img

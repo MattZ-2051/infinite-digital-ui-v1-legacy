@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import arrowIcon from '../../../../assets/svg/icons/landing-arrow.svg';
-import metaverseIcon from '../../../../assets/svg/icons/metaverse-icon.svg';
+import metaverseIcon from '../../../../assets/img/icons/metaverse-icon.png';
 import * as S from './styles';
 
 const Intro = () => {
@@ -25,7 +25,7 @@ const Intro = () => {
           <S.LastRowContainer>
             <S.Pill>into</S.Pill>
             <S.TextLastRow>The Megaverse</S.TextLastRow>
-            {/* <img src={metaverseIcon} /> */}
+            <S.MetaverseIcon src={metaverseIcon} />
           </S.LastRowContainer>
         </S.TextContainer>
         <S.SubText color="white">
