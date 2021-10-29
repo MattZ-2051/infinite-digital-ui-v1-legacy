@@ -1,31 +1,33 @@
 import styled from 'styled-components/macro';
-import Waves from "./Waves";
+
+export const Wrapper = styled.div`
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-color: black;
+`;
 
 export const Container = styled.div`
-  background: black;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
   padding: 0px 80px 0px 80px;
-  max-width: 1440px;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60vh;
-  @media screen and (max-width: 768px) {
-    height: 80vh;
-  }
 `;
 
-export const StyledWaves = styled(Waves)`
-  height: 20vh;
-  overflow: hidden;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-  position: relative;
-  canvas {
-    position: absolute;
-    top: -10vh; 
-  }
+export const StyledBackgroundVideo = styled.video`
+  position: absolute;
+  opacity: 50%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 `;
 
 export const Text = styled.p<{ color: string }>`

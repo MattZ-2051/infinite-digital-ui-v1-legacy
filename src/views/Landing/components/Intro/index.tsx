@@ -1,10 +1,18 @@
+import { useEffect, useRef } from 'react';
 import * as S from './styles';
 
 const Intro = () => {
+  const vidRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    vidRef.current?.play();
+    return () => {
+      vidRef.current?.pause();
+    };
+  }, []);
   return (
-    <div style={{ background: 'black' }}>
+    <S.Wrapper>
       <S.Container>
-        <div style={{ height: '35%' }}>
+        <div>
           <S.Text color="#ddf874">
             We bring brands and creators into the Megaverse
           </S.Text>
@@ -13,8 +21,16 @@ const Intro = () => {
           </S.Text>
         </div>
       </S.Container>
-      <S.StyledWaves />
-    </div>
+      <S.StyledBackgroundVideo
+        ref={vidRef}
+        autoPlay={true}
+        preload="metadata"
+        loop={true}
+        muted={true}
+        controls={false}
+        src="https://infinite-digital-prod.s3.amazonaws.com/WaveAnimation.mp4"
+      />
+    </S.Wrapper>
   );
 };
 

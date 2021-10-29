@@ -57,6 +57,7 @@ export const MarketPlaceButton = styled.button`
   font-size: 16px;
   color: white;
   border-radius: 30px;
+  transition: 0.3s;
   :focus {
     outline: none;
   }
@@ -66,5 +67,6 @@ export const MarketPlaceButton = styled.button`
     background: #ddf874;
     color: black;
     border: 1px solid black;
+ 
   }
 `;

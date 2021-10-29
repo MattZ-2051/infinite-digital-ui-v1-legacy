@@ -13,7 +13,7 @@ export const Container = styled.section`
   max-width: 1440px;
   @media screen and (max-width: 1100px) {
     font-size: 0.9rem;
-    padding: 0px 24px 0px 24px;
+    padding: 0px 24px 30px 24px;
     flex-direction: column;
   }
 `;

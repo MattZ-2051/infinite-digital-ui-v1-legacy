@@ -1,7 +1,8 @@
 import styled from 'styled-components/macro';
 
 export const MainContainer = styled.div`
-  background-color: #ddf874;
+  background-color: black;
+
   padding: 160px 80px 160px 80px;
   display: flex;
   flex-direction: column;
@@ -28,9 +29,10 @@ export const Container = styled.div`
 
 export const MainTitle = styled.div`
   font-size: 64px;
+  color: white;
   text-align: center;
   font-family: 'PlusJakartaSans';
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 16px;
   line-height: 74px;
   @media screen and (max-width: 1250px) {
@@ -40,6 +42,7 @@ export const MainTitle = styled.div`
 `;
 
 export const MainText = styled.div`
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'PlusJakartaSans';
   font-weight: 400;
   font-size: 16px;
@@ -84,14 +87,15 @@ export const Column = styled.div`
   }
 `;
 export const ColumnTitle = styled.div`
+  color: #ddf874;
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   max-width: 408px;
   text-align: center;
-  border-bottom: solid 2px;
+  /* border-bottom: solid 2px; */
   padding-bottom: 16px;
   margin-bottom: 24px;
-  line-height: 40px;
+  line-height: 142%;
   @media screen and (max-width: 1250px) {
     line-height: 32px;
     margin-bottom: 16px;
@@ -106,6 +110,7 @@ export const ColumnTitle = styled.div`
   }
 `;
 export const ColumnText = styled.div`
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'PlusJakartaSans';
   line-height: 26px;
   font-weight: 400;
