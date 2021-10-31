@@ -72,6 +72,7 @@ export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.3s;
   :hover {
     background-color: #ddf874;
     border-color: #ddf874;

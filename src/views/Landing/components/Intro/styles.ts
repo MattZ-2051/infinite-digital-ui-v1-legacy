@@ -16,7 +16,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   z-index: 2;
-  padding: 0px 80px;
+  padding: 0px 0px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -55,6 +55,10 @@ export const ArrowIcon = styled.img`
   @media screen and (max-width: 640px) {
     height: 20px;
   }
+  @media screen and (max-width: 360px) {
+    transform: translateY(2px);
+    height: 15px;
+  }
 `;
 
 export const FirstRowContainer = styled.div`
@@ -65,8 +69,14 @@ export const FirstRowContainer = styled.div`
   top: 0;
   left: 0;
   transform: translateY(-70px) translateX(-90px);
+  @media screen and (max-width: 1240px) {
+    transform: translateY(-50px) translateX(-30px);
+  }
   @media screen and (max-width: 640px) {
-    transform: translateY(-40px) translateX(-20px);
+    transform: translateY(-42px) translateX(-20px);
+  }
+  @media screen and (max-width: 360px) {
+    transform: translateY(-25px) translateX(-5px);
   }
 `;
 
@@ -77,8 +87,14 @@ export const TextFirstRow = styled.span`
   font-style: italic;
   margin-right: 10px;
   white-space: nowrap;
+  @media screen and (max-width: 1240px) {
+    font-size: 50px;
+  }
   @media screen and (max-width: 640px) {
     font-size: 36px;
+  }
+  @media screen and (max-width: 360px) {
+    font-size: 24px;
   }
 `;
 
@@ -94,8 +110,14 @@ export const TextMiddleRow = styled.span`
   font-weight: 800;
   text-transform: uppercase;
   white-space: nowrap;
+  @media screen and (max-width: 1240px) {
+    font-size: 50px;
+  }
   @media screen and (max-width: 640px) {
     font-size: 26px;
+  }
+  @media screen and (max-width: 360px) {
+    font-size: 24px;
   }
 `;
 
@@ -107,17 +129,31 @@ export const LastRowContainer = styled.div`
   bottom: 0;
   right: 0;
   transform: translateY(90px) translateX(120px);
+  @media screen and (max-width: 1240px) {
+    transform: translateY(60px) translateX(20px);
+  }
   @media screen and (max-width: 640px) {
-    transform: translateY(45px) translateX(0px);
+    transform: translateY(42px) translateX(0px);
+  }
+  @media screen and (max-width: 360px) {
+    transform: translateY(35px) translateX(0px);
   }
 `;
 
 export const MetaverseIcon = styled.img`
   transform: translateY(10px);
   margin-left: 5px;
+  @media screen and (max-width: 1240px) {
+    transform: translateY(6px);
+    height: 40px;
+  }
   @media screen and (max-width: 640px) {
     transform: translateY(5px);
     height: 32px;
+  }
+  @media screen and (max-width: 360px) {
+    transform: translateY(3px);
+    height: 24px;
   }
 `;
 
@@ -129,10 +165,20 @@ export const Pill = styled.span`
   border: solid white 1px;
   border-radius: 999px;
   margin-right: 10px;
+  @media screen and (max-width: 1240px) {
+    margin-right: 7px;
+    padding: 4px 14px;
+    font-size: 22px;
+  }
   @media screen and (max-width: 640px) {
     margin-right: 5px;
     padding: 2.5px 10px;
     font-size: 16px;
+  }
+  @media screen and (max-width: 360px) {
+    margin-right: 5px;
+    padding: 2px 10px;
+    font-size: 14px;
   }
 `;
 
@@ -142,8 +188,14 @@ export const TextLastRow = styled.span`
   font-weight: 200;
   font-style: italic;
   white-space: nowrap;
+  @media screen and (max-width: 1240px) {
+    font-size: 55px;
+  }
   @media screen and (max-width: 640px) {
     font-size: 36px;
+  }
+  @media screen and (max-width: 360px) {
+    font-size: 28px;
   }
 `;
 

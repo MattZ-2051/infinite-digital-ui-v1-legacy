@@ -219,7 +219,7 @@ export const ActionButton = styled.a`
   justify-content: center;
   align-items: center;
   width: fit-content;
-
+  transition: 0.3s;
   :hover,
   :focus {
     border: solid thin #ddf874;
