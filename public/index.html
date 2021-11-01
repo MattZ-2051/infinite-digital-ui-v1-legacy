@@ -1,98 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Infinite" />
 
-    <!--  SOCIAL META Tags -->
-    <meta property="og:title" content="INFINITE by SUKU | NFT Marketplace" />
-    <meta
-      property="og:description"
-      content="Start your INFINITE NFT collection today!"
-    />
-    <meta
-      property="og:image"
-      content="https://infinite-digital-dev.s3.amazonaws.com/infinite-meta-social.png"
-    />
-    <meta property="og:url" content="https://goinfinite.io" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="og:site_name" content="goinfinite.io" />
-    <meta
-      name="twitter:image:alt"
-      content="INFINITE by SUKU | NFT Marketplace"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo512.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Infinite</title>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Infinite" />
 
-    <style type="text/css">
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-ExtraLight.woff2');
-        font-style: normal;
-        font-weight: 200;
-      }
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        font-style: normal;
-        font-weight: 300;
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Light.woff2');
-      }
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        font-style: normal;
-        font-weight: 400;
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Medium.woff2');
-      }
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        font-style: normal;
-        font-weight: 500;
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Medium.woff2');
-      }
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        font-style: normal;
-        font-weight: 600;
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Bold.woff2');
-      }
-      @font-face {
-        font-family: 'PlusJakartaSans';
-        font-style: normal;
-        font-weight: 700;
-        src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-ExtraBold.woff2');
-      }
-      @font-face {
-        font-family: 'Circular';
-        src: url('%PUBLIC_URL%/fonts/Circular/CircularStd-Medium.otf');
-      }
-      #hubspot-messages-iframe-container.widget-align-right {
-        display: initial !important;
-        z-index: 2147483647;
-        position: fixed !important;
-        bottom: 74px !important;
-      }
-    </style>
+  <!--  SOCIAL META Tags -->
+  <meta property="og:title" content="INFINITE by SUKU | NFT Marketplace" />
+  <meta property="og:description" content="Start your INFINITE NFT collection today!" />
+  <meta property="og:image" content="https://infinite-digital-dev.s3.amazonaws.com/infinite-meta-social.png" />
+  <meta property="og:url" content="https://goinfinite.io" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:site_name" content="goinfinite.io" />
+  <meta name="twitter:image:alt" content="INFINITE by SUKU | NFT Marketplace" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo512.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Infinite</title>
 
-    <!--    &lt;!&ndash; Global site tag (gtag.js) - Google Analytics &ndash;&gt;-->
-    <!--    <script-->
-    <!--      async-->
-    <!--      src="https://www.googletagmanager.com/gtag/js?id=G-KH8PDB7NVR"-->
-    <!--    ></script>-->
-    <!--    <script>-->
-    <!--      window.dataLayer = window.dataLayer || [];-->
-    <!--      function gtag() {-->
-    <!--        dataLayer.push(arguments);-->
-    <!--      }-->
-    <!--      gtag('js', new Date());-->
-    <!--      gtag('config', 'G-KH8PDB7NVR');-->
-    <!--    </script>-->
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+  <style type="text/css">
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-Thin.otf');
+      font-style: normal;
+      font-weight: 300;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-ThinItalic.otf');
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-Light.otf');
+      font-style: normal;
+      font-weight: 300;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-LightItalic.otf');
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-Regular.otf');
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-RegularItalic.otf');
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-Medium.otf');
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-MediumItalic.otf');
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-Bold.otf');
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    @font-face {
+      font-family: 'Addington';
+      src: url('%PUBLIC_URL%/fonts/Addington/AddingtonCF-BoldItalic.otf');
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-ExtraLight.woff2');
+      font-style: normal;
+      font-weight: 200;
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      font-style: normal;
+      font-weight: 300;
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Light.woff2');
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      font-style: normal;
+      font-weight: 400;
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Medium.woff2');
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      font-style: normal;
+      font-weight: 500;
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Medium.woff2');
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      font-style: normal;
+      font-weight: 600;
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-Bold.woff2');
+    }
+
+    @font-face {
+      font-family: 'PlusJakartaSans';
+      font-style: normal;
+      font-weight: 700;
+      src: url('%PUBLIC_URL%/fonts/PlusJakarta_Sans/webfonts/PlusJakartaSans-ExtraBold.woff2');
+    }
+
+    @font-face {
+      font-family: 'Circular';
+      src: url('%PUBLIC_URL%/fonts/Circular/CircularStd-Medium.otf');
+    }
+
+    #hubspot-messages-iframe-container.widget-align-right {
+      display: initial !important;
+      z-index: 2147483647;
+      position: fixed !important;
+      bottom: 74px !important;
+    }
+  </style>
+
+  <!--    &lt;!&ndash; Global site tag (gtag.js) - Google Analytics &ndash;&gt;-->
+  <!--    <script-->
+  <!--      async-->
+  <!--      src="https://www.googletagmanager.com/gtag/js?id=G-KH8PDB7NVR"-->
+  <!--    ></script>-->
+  <!--    <script>-->
+  <!--      window.dataLayer = window.dataLayer || [];-->
+  <!--      function gtag() {-->
+  <!--        dataLayer.push(arguments);-->
+  <!--      }-->
+  <!--      gtag('js', new Date());-->
+  <!--      gtag('config', 'G-KH8PDB7NVR');-->
+  <!--    </script>-->
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+</body>
+
 </html>

@@ -47,10 +47,10 @@ export const BackdropWrapper = styled.div`
 export const Header = styled.h3`
   color: white;
   font-size: 64px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
   padding-top: 56px;
-  line-height: 1.2;
+  line-height: 1.1;
   @media screen and (max-width: 460px) {
     font-size: 32px;
   }
@@ -82,6 +82,7 @@ export const Button = styled.button<{ width: string }>`
   background-color: black;
   border: 1px solid #3a3a3a;
   border-radius: 35px;
+  transition: 0.3s;
   :focus {
     outline: none;
     border: none;

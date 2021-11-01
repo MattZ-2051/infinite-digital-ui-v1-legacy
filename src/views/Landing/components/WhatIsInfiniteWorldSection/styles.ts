@@ -1,14 +1,14 @@
 import styled from 'styled-components/macro';
 
 export const MainContainer = styled.div`
-  background-color: #ddf874;
-  padding: 160px 80px 160px 80px;
+  background-color: black;
+  padding: 110px 80px 160px 80px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   @media screen and (max-width: 1250px) {
-    padding: 160px 0px 160px 0px;
+    padding: 110px 0px 160px 0px;
   }
 `;
 
@@ -28,9 +28,10 @@ export const Container = styled.div`
 
 export const MainTitle = styled.div`
   font-size: 64px;
+  color: white;
   text-align: center;
   font-family: 'PlusJakartaSans';
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 16px;
   line-height: 74px;
   @media screen and (max-width: 1250px) {
@@ -40,6 +41,7 @@ export const MainTitle = styled.div`
 `;
 
 export const MainText = styled.div`
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'PlusJakartaSans';
   font-weight: 400;
   font-size: 16px;
@@ -84,28 +86,30 @@ export const Column = styled.div`
   }
 `;
 export const ColumnTitle = styled.div`
+  color: #ddf874;
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 500;
   max-width: 408px;
   text-align: center;
-  border-bottom: solid 2px;
+  /* border-bottom: solid 2px; */
   padding-bottom: 16px;
-  margin-bottom: 24px;
-  line-height: 40px;
+  margin-bottom: 8px;
+  line-height: 142%;
   @media screen and (max-width: 1250px) {
     line-height: 32px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     font-size: 22px;
     width: 366px;
   }
   @media screen and (max-width: 600px) {
     line-height: 32px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     font-size: 22px;
     width: 100%;
   }
 `;
 export const ColumnText = styled.div`
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'PlusJakartaSans';
   line-height: 26px;
   font-weight: 400;

@@ -133,8 +133,9 @@ export const ImgBlock = styled.div`
   > img {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(0px);
     position: absolute;
+    transform-origin: 0 50%;
   }
 
   > .img__landing__frame {
@@ -143,29 +144,32 @@ export const ImgBlock = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+    transform: translateZ(0px);
   }
 
   > .img__shoot {
     top: unset;
     bottom: 0;
-    transform: translate(-162%, 18px);
+    transform-origin: 0;
+    transform: translate(-162%, 18px) translateZ(5px);
   }
 
   > .img__shoes {
-    transform: translate(5%, -40%);
+    transform: translate(5%, -40%) translateZ(2px);
+    transform-origin: 0;
   }
 
   @media screen and (max-width: 700px) {
     > .img__shoot {
       top: unset;
       bottom: 0;
-      transform: translate(-162%, 18px);
+      transform: translate(-162%, 18px) translateZ(5px);
       height: 100%;
       width: auto;
     }
 
     > .img__shoes {
-      transform: translate(5%, -40%);
+      transform: translate(5%, -40%) translateZ(2px);
       height: 50%;
       width: auto;
     }
@@ -215,7 +219,7 @@ export const ActionButton = styled.a`
   justify-content: center;
   align-items: center;
   width: fit-content;
-
+  transition: 0.3s;
   :hover,
   :focus {
     border: solid thin #ddf874;
