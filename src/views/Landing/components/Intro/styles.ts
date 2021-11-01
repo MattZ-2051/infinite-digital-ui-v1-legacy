@@ -2,11 +2,11 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   position: relative;
-  height: 65vh;
+  height: calc(100vh - 80px);
   width: 100%;
   background-color: black;
   @media screen and (max-width: 640px) {
-    height: 40vh;
+    height: 60vh;
   }
 `;
 
@@ -35,7 +35,7 @@ export const StyledBackgroundVideo = styled.video`
   min-height: fit-content;
   padding: 20px 0;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
   z-index: 1;
   @media screen and (max-width: 1240px) {
     padding: 100px 0;
@@ -44,7 +44,7 @@ export const StyledBackgroundVideo = styled.video`
     padding: 60px 0;
   }
   @media screen and (max-width: 360px) {
-    padding: 40px 0;
+    padding: 40px 0; 
   }
 `;
 
