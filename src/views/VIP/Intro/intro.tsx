@@ -59,7 +59,7 @@ const Intro = ({
             </S.LastText>
 
             {authenticated ? (
-              <S.Link to="/marketplace/617047d7ae96a50793a11561">
+              <S.Link to="/marketplace/617960ae1abc4e19d0a432c1">
                 <S.Button2>Join our Megaverse community!</S.Button2>
               </S.Link>
             ) : (
