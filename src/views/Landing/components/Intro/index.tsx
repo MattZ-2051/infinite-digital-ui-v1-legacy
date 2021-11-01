@@ -35,6 +35,7 @@ const Intro = () => {
       <S.StyledBackgroundVideo
         ref={vidRef}
         autoPlay={true}
+        playsInline={true}
         preload="metadata"
         loop={true}
         muted={true}
