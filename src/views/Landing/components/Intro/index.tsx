@@ -40,7 +40,7 @@ const Intro = () => {
         loop={true}
         muted={true}
         controls={false}
-        src="https://infinite-digital-prod.s3.amazonaws.com/WaveAnimation.mp4"
+        src="https://infinite-digital-prod.s3.amazonaws.com/WaveAnimation2.mp4"
       />
     </S.Wrapper>
   );

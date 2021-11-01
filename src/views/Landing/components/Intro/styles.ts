@@ -2,12 +2,12 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   position: relative;
-  height: 100vh;
+  height: 65vh;
   width: 100%;
   background-color: black;
   overflow: hidden;
   @media screen and (max-width: 640px) {
-    height: 50vh;
+    height: 40vh;
   }
 `;
 
@@ -34,7 +34,7 @@ export const StyledBackgroundVideo = styled.video`
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   z-index: 1;
 `;
 
