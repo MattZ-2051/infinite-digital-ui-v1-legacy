@@ -24,7 +24,7 @@ const Intro = () => {
           </S.MiddleRowContainer>
           <S.LastRowContainer>
             <S.Pill>into</S.Pill>
-            <S.TextLastRow>The Megaverse</S.TextLastRow>
+            <S.TextLastRow>The Metaverse</S.TextLastRow>
             <S.MetaverseIcon src={metaverseIcon} />
           </S.LastRowContainer>
         </S.TextContainer>
