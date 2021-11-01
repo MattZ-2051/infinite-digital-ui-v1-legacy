@@ -5,14 +5,13 @@ export const Wrapper = styled.div`
   height: 65vh;
   width: 100%;
   background-color: black;
-  overflow: hidden;
   @media screen and (max-width: 640px) {
     height: 40vh;
   }
 `;
 
 export const Container = styled.div`
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   z-index: 2;
@@ -33,9 +32,20 @@ export const StyledBackgroundVideo = styled.video`
   top: 0;
   left: 0;
   width: 100%;
+  min-height: fit-content;
+  padding: 20px 0;
   height: 100%;
   object-fit: fill;
   z-index: 1;
+  @media screen and (max-width: 1240px) {
+    padding: 100px 0;
+  }
+  @media screen and (max-width: 640px) {
+    padding: 60px 0;
+  }
+  @media screen and (max-width: 360px) {
+    padding: 40px 0;
+  }
 `;
 
 export const TextContainer = styled.div`
