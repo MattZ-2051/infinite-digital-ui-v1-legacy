@@ -21,7 +21,7 @@ const VerifiedAuthenticity = (): React.ReactElement => {
         </S.Header>
         <S.Action className="block__action">
           <p>
-            We provide a unique platform to manage your physical collectables
+            We provide a unique platform to manage your physical collectibles
             through a digital closet of NFTs. Bringing confidence and
             accessibility, collectibles are permanently tracked and tagged as
             authentic with a discrete tamper-proof NFC sticker.
