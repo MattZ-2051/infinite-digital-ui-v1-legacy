@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const VipModal = ({ visible, setIsVisible }: IProps) => {
-  console.log('isVisible', visible);
   const history = useHistory();
   const Body = () => {
     return (
