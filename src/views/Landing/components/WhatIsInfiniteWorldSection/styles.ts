@@ -2,14 +2,13 @@ import styled from 'styled-components/macro';
 
 export const MainContainer = styled.div`
   background-color: black;
-
-  padding: 160px 80px 160px 80px;
+  padding: 110px 80px 160px 80px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   @media screen and (max-width: 1250px) {
-    padding: 160px 0px 160px 0px;
+    padding: 110px 0px 160px 0px;
   }
 `;
 
@@ -94,17 +93,17 @@ export const ColumnTitle = styled.div`
   text-align: center;
   /* border-bottom: solid 2px; */
   padding-bottom: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   line-height: 142%;
   @media screen and (max-width: 1250px) {
     line-height: 32px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     font-size: 22px;
     width: 366px;
   }
   @media screen and (max-width: 600px) {
     line-height: 32px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     font-size: 22px;
     width: 100%;
   }

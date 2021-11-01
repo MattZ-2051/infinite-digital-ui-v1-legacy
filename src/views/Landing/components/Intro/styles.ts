@@ -202,7 +202,7 @@ export const TextLastRow = styled.span`
 export const SubText = styled.p`
   margin: 0;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 24px;
   line-height: 30px;
   color: ${(props) => `${props.color}`};

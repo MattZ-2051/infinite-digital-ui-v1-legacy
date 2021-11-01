@@ -15,7 +15,11 @@ export const Container = styled.div`
   min-height: 460px;
   background: #ddf874;
   max-width: 1140px;
+  height: calc(100vh - 81px);
   margin: auto;
+  @media screen and (max-width: 960px) {
+    height: auto;
+  }
   @media screen and (max-width: 1100px) {
     padding: 0 24px;
   }
