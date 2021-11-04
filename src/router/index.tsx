@@ -18,10 +18,7 @@ import Help from 'views/Legal/help';
 import NotFound from 'views/NotFound';
 import Vip from 'views/VIP';
 import Maintenance from 'views/Maintenance';
-<<<<<<< HEAD
 import { config } from 'config';
-=======
->>>>>>> main
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
