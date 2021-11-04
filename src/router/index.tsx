@@ -17,6 +17,7 @@ import Privacy from 'views/Legal/privacy';
 import Help from 'views/Legal/help';
 import NotFound from 'views/NotFound';
 import Vip from 'views/VIP';
+import Maintenance from 'views/Maintenance';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -35,6 +36,7 @@ const RouterComponent = ({ setFooterBackground }): JSX.Element => {
   return (
     <Switch location={background || location}>
       <Route exact path="/" component={Landing} />
+      <Route exact path="/maintenance" component={Maintenance} />
 
       {/* VIP Page */}
       <Route exact path="/vip" component={Vip} />
