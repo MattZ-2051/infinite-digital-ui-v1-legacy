@@ -48,6 +48,7 @@ interface AppConfig {
     id?: string;
     uaId?: string;
   };
+  maintenance: string;
 }
 
 export const config: AppConfig = {
@@ -116,4 +117,5 @@ export const config: AppConfig = {
     id: getEnvVar('REACT_APP_GTAG_ID', false),
     uaId: getEnvVar('REACT_APP_GA_UA', false),
   },
+  maintenance: getEnvVar('REACT_APP_MAINTENANCE', true),
 };
