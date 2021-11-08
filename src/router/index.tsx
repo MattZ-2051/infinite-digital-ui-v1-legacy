@@ -35,7 +35,8 @@ const RouterComponent = ({ setFooterBackground }): JSX.Element => {
   return (
     <Switch location={background || location}>
       <Route exact path="/" component={Landing} />
-
+      {/* VIP Page */}
+      <Route exact path="/vip" component={Vip} />
       {/* MarketPlace */}
       <Route exact path="/marketplace" component={MarketPlace} />
       {/* Product */}
