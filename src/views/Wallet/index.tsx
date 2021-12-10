@@ -196,7 +196,7 @@ const Wallet = (props) => {
               }
             />
             <ButtonTextAndImage
-              disabled={true}
+              disabled={(kycMaxLevel || 0) < 1}
               text={'Withdrawal'}
               handlerOnClick={handleOpenWithdraw}
               hoverIcon={withdrawIconBlack}
