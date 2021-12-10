@@ -23,7 +23,6 @@ import ButtonTextAndImage from './Components/ButtonTextAndImage/buttonTextAndIma
 import TextAndAmount from './Components/TextAndAmount/textAndAmount';
 import TabHeaderOptions from './Components/TabHeaderOptions/tabHeaderOptions';
 import { useKycClient } from '../../hooks/useKycClient';
-import Toast from 'utils/Toast';
 
 const Wallet = (props) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -135,8 +134,7 @@ const Wallet = (props) => {
   };
 
   const handleOpenWithdraw = () => {
-    Toast.warning('Withdrawals are temporarily disabled.');
-    // setIsWithdrawModalOpen(true);
+    setIsWithdrawModalOpen(true);
   };
 
   if (!user) return <PageLoader />;
@@ -196,7 +194,7 @@ const Wallet = (props) => {
               }
             />
             <ButtonTextAndImage
-              disabled={true}
+              disabled={(kycMaxLevel || 0) < 1}
               text={'Withdrawal'}
               handlerOnClick={handleOpenWithdraw}
               hoverIcon={withdrawIconBlack}

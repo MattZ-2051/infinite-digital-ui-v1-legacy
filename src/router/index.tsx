@@ -17,8 +17,6 @@ import Privacy from 'views/Legal/privacy';
 import Help from 'views/Legal/help';
 import NotFound from 'views/NotFound';
 import Vip from 'views/VIP';
-import Maintenance from 'views/Maintenance';
-import { config } from 'config';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
@@ -36,52 +34,41 @@ const RouterComponent = ({ setFooterBackground }): JSX.Element => {
 
   return (
     <Switch location={background || location}>
-      {config.maintenance === 'true' && (
-        <Route path="/*" component={Maintenance} />
-      )}
-      {config.maintenance !== 'true' && (
-        <>
-          <Route exact path="/" component={Landing} />
-          {/* VIP Page */}
-          <Route exact path="/vip" component={Vip} />
-          {/* MarketPlace */}
-          <Route exact path="/marketplace" component={MarketPlace} />
-          {/* Product */}
-          <Route exact path="/product/:productId" component={Product} />
-          {/* Sku */}
-          <Route exact path="/marketplace/:skuid" component={SkuDetail} />
-          <Route path="/:skuid/collectors" component={Collectors} />
+      <Route exact path="/" component={Landing} />
+      {/* VIP Page */}
+      <Route exact path="/vip" component={Vip} />
+      {/* MarketPlace */}
+      <Route exact path="/marketplace" component={MarketPlace} />
+      {/* Product */}
+      <Route exact path="/product/:productId" component={Product} />
+      {/* Sku */}
+      <Route exact path="/marketplace/:skuid" component={SkuDetail} />
+      <Route path="/:skuid/collectors" component={Collectors} />
 
-          {/* User */}
-          <PrivateRoute exact path="/wallet" component={Wallet} />
-          <PrivateRoute
-            exact
-            path="/wallet/deposit/addfunds"
-            component={AddFunds}
-          />
-          <PrivateRoute
-            exact
-            path="/wallet/deposit/success"
-            component={SuccessPage}
-          />
-          <PrivateRoute exact path="/wallet/addcreditcard" component={AddCC} />
-          <PrivateRoute
-            exact
-            path="/wallet/deposit/error"
-            component={ErrorPage}
-          />
+      {/* User */}
+      <PrivateRoute exact path="/wallet" component={Wallet} />
+      <PrivateRoute
+        exact
+        path="/wallet/deposit/addfunds"
+        component={AddFunds}
+      />
+      <PrivateRoute
+        exact
+        path="/wallet/deposit/success"
+        component={SuccessPage}
+      />
+      <PrivateRoute exact path="/wallet/addcreditcard" component={AddCC} />
+      <PrivateRoute exact path="/wallet/deposit/error" component={ErrorPage} />
 
-          <Route path="/collection/:username" component={Collection} />
+      <Route path="/collection/:username" component={Collection} />
 
-          {/* Legal */}
-          <Route path="/terms" component={TC} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/help" component={Help} />
-          {/* All */}
-          <Route path="/example" component={UnderConstruction} />
-          <Route component={NotFound} />
-        </>
-      )}
+      {/* Legal */}
+      <Route path="/terms" component={TC} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/help" component={Help} />
+      {/* All */}
+      <Route path="/example" component={UnderConstruction} />
+      <Route component={NotFound} />
     </Switch>
   );
 };
