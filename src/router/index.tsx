@@ -17,6 +17,8 @@ import Privacy from 'views/Legal/privacy';
 import Help from 'views/Legal/help';
 import NotFound from 'views/NotFound';
 import Vip from 'views/VIP';
+import Maintenance from 'views/Maintenance';
+import { config } from 'config';
 
 const UnderConstruction = () => <h1>Under construction :)</h1>;
 
