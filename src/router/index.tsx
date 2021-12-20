@@ -37,7 +37,7 @@ const RouterComponent = ({ setFooterBackground }): JSX.Element => {
   return (
     <Switch location={background || location}>
       {config.maintenance === 'true' && (
-        <Route exact path="/maintenance" component={Maintenance} />
+        <Route path="/" component={Maintenance} />
       )}
       {config.maintenance !== 'true' && (
         <>
